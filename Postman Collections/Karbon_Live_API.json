@@ -55,12 +55,12 @@
         "disableBodyPruning": true
       },
       "request": {
-        "method": "GET",
+        "method": "POST",
         "header": [
           {
             "key": "TenantAccessKey",
-            "value": "{{TenantAccessKey}}",
-            "type": "text"
+            "type": "text",
+            "value": "{{TenantAccessKey}}"
           }
         ],
         "url": "https://apibeta.karbonhq.com/v1/contacts"
@@ -285,13 +285,13 @@
   ],
   "variable": [
     {
-      "id": "92e96710-7ec6-49de-b430-fb8eee3b0b32",
+      "id": "07730318-2daf-438a-9da5-66d746f4ec3d",
       "key": "Authorization",
       "value": "",
       "type": "string"
     },
     {
-      "id": "644ca540-34f2-4333-b1d0-ef95a8f80c32",
+      "id": "6a1cf4d7-4aa8-409e-9e89-cf6649d51f08",
       "key": "TenantAccessKey",
       "value": "",
       "type": "string"
