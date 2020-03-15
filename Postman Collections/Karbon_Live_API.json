@@ -49,6 +49,25 @@
       "response": []
     },
     {
+      "name": "Get Contacts Copy",
+      "_postman_id": "954608f4-3d64-42e3-ba10-df8cb101ba66",
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      },
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "TenantAccessKey",
+            "value": "{{TenantAccessKey}}",
+            "type": "text"
+          }
+        ],
+        "url": "https://apibeta.karbonhq.com/v1/contacts"
+      },
+      "response": []
+    },
+    {
       "name": "Get Client Groups",
       "_postman_id": "7513ab80-45df-4d1e-85fe-abc7e42a744c",
       "protocolProfileBehavior": {
@@ -266,13 +285,13 @@
   ],
   "variable": [
     {
-      "id": "770a7303-7bfd-4d0f-ab98-a06337134add",
+      "id": "3f8ec1b8-20ce-4718-8656-307b7b962698",
       "key": "Authorization",
       "value": "",
       "type": "string"
     },
     {
-      "id": "039508c5-b3ce-439c-ba46-2e76a8fd0d42",
+      "id": "927263bc-4f6a-4884-8d41-436f46c3f9d9",
       "key": "TenantAccessKey",
       "value": "",
       "type": "string"
