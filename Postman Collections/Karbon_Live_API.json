@@ -285,13 +285,13 @@
   ],
   "variable": [
     {
-      "id": "07730318-2daf-438a-9da5-66d746f4ec3d",
+      "id": "7e48bee7-2b8f-4130-92aa-7c5b388f7927",
       "key": "Authorization",
       "value": "",
       "type": "string"
     },
     {
-      "id": "6a1cf4d7-4aa8-409e-9e89-cf6649d51f08",
+      "id": "f09ceb36-8e6b-4fc3-992e-894fb1fc3196",
       "key": "TenantAccessKey",
       "value": "",
       "type": "string"
