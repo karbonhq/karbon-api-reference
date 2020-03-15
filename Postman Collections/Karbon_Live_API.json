@@ -49,25 +49,6 @@
       "response": []
     },
     {
-      "name": "Get Contacts Copy",
-      "_postman_id": "954608f4-3d64-42e3-ba10-df8cb101ba66",
-      "protocolProfileBehavior": {
-        "disableBodyPruning": true
-      },
-      "request": {
-        "method": "GET",
-        "header": [
-          {
-            "key": "TenantAccessKey",
-            "value": "{{TenantAccessKey}}",
-            "type": "text"
-          }
-        ],
-        "url": "https://apibeta.karbonhq.com/v1/contacts"
-      },
-      "response": []
-    },
-    {
       "name": "Get Client Groups",
       "_postman_id": "7513ab80-45df-4d1e-85fe-abc7e42a744c",
       "protocolProfileBehavior": {
@@ -253,6 +234,25 @@
         "url": "https://apibeta.karbonhq.com/v1/files"
       },
       "response": []
+    },
+    {
+      "name": "Get Contacts Copy",
+      "_postman_id": "954608f4-3d64-42e3-ba10-df8cb101ba66",
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      },
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "TenantAccessKey",
+            "value": "{{TenantAccessKey}}",
+            "type": "text"
+          }
+        ],
+        "url": "https://apibeta.karbonhq.com/v1/contacts"
+      },
+      "response": []
     }
   ],
   "auth": {
@@ -285,13 +285,13 @@
   ],
   "variable": [
     {
-      "id": "3f8ec1b8-20ce-4718-8656-307b7b962698",
+      "id": "21be1b2a-4599-4bf3-9eb1-544a4514c2bf",
       "key": "Authorization",
       "value": "",
       "type": "string"
     },
     {
-      "id": "927263bc-4f6a-4884-8d41-436f46c3f9d9",
+      "id": "3093894b-59b3-436c-9141-9ef87d4fa346",
       "key": "TenantAccessKey",
       "value": "",
       "type": "string"
