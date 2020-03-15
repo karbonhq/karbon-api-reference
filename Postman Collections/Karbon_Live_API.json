@@ -106,7 +106,7 @@
             "type": "text"
           }
         ],
-        "url": "https://apibeta.karbonhq.com/v1/organizations"
+        "url": "https://api.karbonhq.com/v1/organizations"
       },
       "response": []
     },
@@ -285,13 +285,13 @@
   ],
   "variable": [
     {
-      "id": "9e75f87d-d41c-46ca-87d7-5261aa63ce22",
+      "id": "7532261c-ac8b-4285-a183-2ff1623246a9",
       "key": "Authorization",
       "value": "",
       "type": "string"
     },
     {
-      "id": "2cf1b73f-137a-4cea-b7a2-f290b1924156",
+      "id": "92de8a2a-8842-45ca-8893-f645c25aa7aa",
       "key": "TenantAccessKey",
       "value": "",
       "type": "string"
