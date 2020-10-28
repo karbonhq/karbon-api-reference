@@ -1,0 +1,2537 @@
+openapi: 3.0.0
+info:
+  version: v3
+  title: Karbon API 3.0
+  description: Karbon HQ API Description here
+  termsOfService: Shareware
+  contact:
+    name: Developer Support
+    email: api_help@karbonhq.com
+  license:
+    name: MIT
+    url: https://opensource.org/licenses/MIT
+paths:
+  /v3/ClientGroups:
+    get:
+      tags:
+        - ClientGroups
+      summary: Get and/or Filter a Paged List of Client Groups
+      operationId: ClientGroups_Get
+      parameters:
+        - name: $select
+          in: query
+          description: Limits the properties returned in the result.
+          required: false
+          schema:
+            type: string
+        - name: $filter
+          in: query
+          description: "Restricts the set of items returned. The maximum number of
+            expressions is 100. The allowed functions are: startswith,
+            alldatetimefunctions."
+          required: false
+          schema:
+            type: string
+        - name: $orderby
+          in: query
+          description: Specifies the order in which items are returned. The maximum number
+            of expressions is 5.
+          required: false
+          schema:
+            type: string
+        - name: $top
+          in: query
+          description: Limits the number of items returned from a collection.
+          required: false
+          schema:
+            type: integer
+            format: int32
+        - name: $skip
+          in: query
+          description: Excludes the specified number of items of the queried collection
+            from the result.
+          required: false
+          schema:
+            type: integer
+            format: int32
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Microsoft.AspNet.OData.PageResult_Karbo\
+                  n.Api.Contacts.V2.ClientGroupSummaryDTO_"
+              examples:
+                response:
+                  value:
+                    Items:
+                      - FullName: Karbon Sales Team
+                        PhoneNumber: "03212345678"
+                        Website: https://www.karbonhq.com
+                        LastModifiedDateTime: 2020-08-04T03:33:26.734954Z
+                        ClientGroupKey: ZGNmtYyLm4z
+                      - FullName: Acme Management Team
+                        PhoneNumber: "0478371927"
+                        Website: https://www.acme.com
+                        LastModifiedDateTime: 2020-08-11T03:33:26.734954Z
+                        ClientGroupKey: ZGNmtYyLm4z
+                    NextPageLink: https://karbonapi.com/ClientGroups?$skip=100
+                    Count: 123
+            application/xml:
+              schema:
+                $ref: "#/components/schemas/Microsoft.AspNet.OData.PageResult_Karbo\
+                  n.Api.Contacts.V2.ClientGroupSummaryDTO_"
+    post:
+      tags:
+        - ClientGroups
+      summary: Create a Client Group
+      operationId: ClientGroups_Post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Karbon.Api.Contacts.V2.ClientGroupDTO"
+          application/xml:
+            schema:
+              $ref: "#/components/schemas/Karbon.Api.Contacts.V2.ClientGroupDTO"
+        description: The new Client Group to Create
+        required: true
+      responses:
+        "201":
+          description: Client Group successfully created
+          headers:
+            Location:
+              description: Location of the newly created Resource
+              schema:
+                type: string
+          content:
+            application/json:
+              examples:
+                response:
+                  value:
+                    FullName: Karbon Sales Team
+                    BusinessCard:
+                      BusinessCardKey: 2xfLMq5PFqb7
+                      IsPrimaryCard: false
+                      Addresses:
+                        - AddressKey: e0391fa3-f4a4-40ae-a8c4-5a24dfecc2ee
+                          AddressLines: 2400 Bridgeway, Ste 280
+                          City: Sausalito
+                          StateProvinceCounty: CA
+                          ZipCode: "94965"
+                          CountryCode: US
+                          Label: Work
+                        - AddressKey: e0391fa3-f4a4-40ae-a8c4-5a24dfecc2ee
+                          AddressLines: 2400 Bridgeway, Ste 280
+                          City: Sausalito
+                          StateProvinceCounty: CA
+                          ZipCode: "94965"
+                          CountryCode: US
+                          Label: Work
+                      PhoneNumbers:
+                        - PhoneNumberKey: 01a257b1-36ed-442e-9cd7-487c544bfc2f
+                          Number: "+61212345678"
+                          CountryCode: US
+                          Label: Work
+                        - PhoneNumberKey: 01a257b1-36ed-442e-9cd7-487c544bfc2f
+                          Number: "+61212345678"
+                          CountryCode: US
+                          Label: Work
+                      WebSites:
+                        - https://www.karbonhq.com
+                      EmailAddresses:
+                        - enquiries@karbonhq.com
+                      OrganizationKey: ZGNmtYyLm4z
+                      RoleOrTitle: CEO
+                    ClientOwner: myowner@karbonhq.com
+                    ClientManager: mymanager@karbonhq.com
+                    ContactType: Supplier
+                    UserDefinedIdentifier: abc123
+                    Members: null
+                    LastModifiedDateTime: 2020-08-04T03:33:26.8039927Z
+                    ClientGroupKey: ZGNmtYyLm4z
+        "400":
+          description: Incoming Model is invalid
+        "500":
+          description: Error processing Request
+  "/v3/ClientGroups/{key}":
+    get:
+      tags:
+        - ClientGroups
+      summary: Gets a single Client Group by supplied Key
+      operationId: GetClientGroupByKey
+      parameters:
+        - name: key
+          in: path
+          description: The Client Group Key
+          required: true
+          schema:
+            type: string
+        - name: $select
+          in: query
+          description: Limits the properties returned in the result.
+          required: false
+          schema:
+            type: string
+        - name: $expand
+          in: query
+          description: Indicates the related entities to be represented inline. The maximum
+            depth is 2.
+          required: false
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              examples:
+                response:
+                  value:
+                    FullName: Karbon Sales Team
+                    BusinessCard:
+                      BusinessCardKey: 2xfLMq5PFqb7
+                      IsPrimaryCard: false
+                      Addresses:
+                        - AddressKey: 3b5e60d0-8bbd-4fd7-b31a-14328d00a534
+                          AddressLines: 2400 Bridgeway, Ste 280
+                          City: Sausalito
+                          StateProvinceCounty: CA
+                          ZipCode: "94965"
+                          CountryCode: US
+                          Label: Work
+                        - AddressKey: 3b5e60d0-8bbd-4fd7-b31a-14328d00a534
+                          AddressLines: 2400 Bridgeway, Ste 280
+                          City: Sausalito
+                          StateProvinceCounty: CA
+                          ZipCode: "94965"
+                          CountryCode: US
+                          Label: Work
+                      PhoneNumbers:
+                        - PhoneNumberKey: 14da8d26-6698-4f03-af7c-5c7bc545a6de
+                          Number: "+61212345678"
+                          CountryCode: US
+                          Label: Work
+                        - PhoneNumberKey: 14da8d26-6698-4f03-af7c-5c7bc545a6de
+                          Number: "+61212345678"
+                          CountryCode: US
+                          Label: Work
+                      WebSites:
+                        - https://www.karbonhq.com
+                      EmailAddresses:
+                        - enquiries@karbonhq.com
+                      OrganizationKey: ZGNmtYyLm4z
+                      RoleOrTitle: CEO
+                    ClientOwner: myowner@karbonhq.com
+                    ClientManager: mymanager@karbonhq.com
+                    ContactType: Supplier
+                    UserDefinedIdentifier: abc123
+                    Members: null
+                    LastModifiedDateTime: 2020-08-04T03:33:26.8189943Z
+                    ClientGroupKey: ZGNmtYyLm4z
+        "404":
+          description: No Client Group found for provided key
+    put:
+      tags:
+        - ClientGroups
+      summary: Perform a full update of a Client Group
+      operationId: ClientGroups_Put
+      parameters:
+        - name: key
+          in: path
+          description: Key of the Client Group to update
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Karbon.Api.Contacts.V2.ClientGroupDTO"
+          application/xml:
+            schema:
+              $ref: "#/components/schemas/Karbon.Api.Contacts.V2.ClientGroupDTO"
+        description: The new (full) details of the Client Group to update with.
+        required: true
+      responses:
+        "204":
+          description: Client Group successfully updated
+        "400":
+          description: Incoming Model is invalid
+        "500":
+          description: Error processing Request
+    patch:
+      tags:
+        - ClientGroups
+      summary: Perform a Partial update of a Client Group
+      operationId: ClientGroups_Patch
+      parameters:
+        - name: key
+          in: path
+          description: Key of the Client Group to update
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Karbon.Api.Contacts.V2.ClientGroupDTO"
+          application/xml:
+            schema:
+              $ref: "#/components/schemas/Karbon.Api.Contacts.V2.ClientGroupDTO"
+        description: The new details of the Client Group to update. NOTE only the
+          properties to be updated need to be provided
+        required: true
+      responses:
+        "204":
+          description: Client Group successfully updated
+        "400":
+          description: Invalid property to update
+        "500":
+          description: Error processing Request
+  "/v3/ClientGroups/GetByUserDefinedIdentifier(userDefinedIdentifier='{userDefinedIdentifier}')":
+    get:
+      tags:
+        - ClientGroups
+      summary: Get a Client Group from the supplied User Defined Identifier
+      operationId: ClientGroups_GetByUserDefinedIdentifier
+      parameters:
+        - name: userDefinedIdentifier
+          in: path
+          description: The UserDefinedIdentifier
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              examples:
+                response:
+                  value:
+                    FullName: Karbon Sales Team
+                    BusinessCard:
+                      BusinessCardKey: 2xfLMq5PFqb7
+                      IsPrimaryCard: false
+                      Addresses:
+                        - AddressKey: 17c4eca8-69b3-42ce-9651-d267a7b848b2
+                          AddressLines: 2400 Bridgeway, Ste 280
+                          City: Sausalito
+                          StateProvinceCounty: CA
+                          ZipCode: "94965"
+                          CountryCode: US
+                          Label: Work
+                        - AddressKey: 17c4eca8-69b3-42ce-9651-d267a7b848b2
+                          AddressLines: 2400 Bridgeway, Ste 280
+                          City: Sausalito
+                          StateProvinceCounty: CA
+                          ZipCode: "94965"
+                          CountryCode: US
+                          Label: Work
+                      PhoneNumbers:
+                        - PhoneNumberKey: 6439a686-7f49-4567-af91-8a61840aaf2d
+                          Number: "+61212345678"
+                          CountryCode: US
+                          Label: Work
+                        - PhoneNumberKey: 6439a686-7f49-4567-af91-8a61840aaf2d
+                          Number: "+61212345678"
+                          CountryCode: US
+                          Label: Work
+                      WebSites:
+                        - https://www.karbonhq.com
+                      EmailAddresses:
+                        - enquiries@karbonhq.com
+                      OrganizationKey: ZGNmtYyLm4z
+                      RoleOrTitle: CEO
+                    ClientOwner: myowner@karbonhq.com
+                    ClientManager: mymanager@karbonhq.com
+                    ContactType: Supplier
+                    UserDefinedIdentifier: abc123
+                    Members: null
+                    LastModifiedDateTime: 2020-08-04T03:33:26.8200002Z
+                    ClientGroupKey: ZGNmtYyLm4z
+        "400":
+          description: UserDefinedIdentifier is missing or empty
+        "404":
+          description: No Client Group found for provided UserDefinedIdentifer
+  /v3/Contacts:
+    get:
+      tags:
+        - Contacts
+      summary: Get and/or Filter a Paged List of Contacts
+      operationId: Contacts_Get
+      parameters:
+        - name: $select
+          in: query
+          description: Limits the properties returned in the result.
+          required: false
+          schema:
+            type: string
+        - name: $filter
+          in: query
+          description: "Restricts the set of items returned. The maximum number of
+            expressions is 100. The allowed functions are: startswith,
+            alldatetimefunctions. The allowed properties are: FullName,
+            EmailAddress, PhoneNumber."
+          required: false
+          schema:
+            type: string
+        - name: $orderby
+          in: query
+          description: "Specifies the order in which items are returned. The maximum number
+            of expressions is 5. The allowed properties are: FullName,
+            LastModifiedDateTime."
+          required: false
+          schema:
+            type: string
+        - name: $top
+          in: query
+          description: Limits the number of items returned from a collection. The maximum
+            value is 100.
+          required: false
+          schema:
+            type: integer
+            format: int32
+        - name: $skip
+          in: query
+          description: Excludes the specified number of items of the queried collection
+            from the result.
+          required: false
+          schema:
+            type: integer
+            format: int32
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Microsoft.AspNet.OData.PageResult_Karbo\
+                  n.Api.Contacts.V2.ContactSummaryDTO_"
+              examples:
+                response:
+                  value:
+                    Items:
+                      - FullName: Adams, Douglas Noel
+                        PreferredName: Doug
+                        Salutation: Mr
+                        ClientOwner: myowner@megadodopublications.com
+                        ClientManager: mymanager@megadodopublications.com
+                        Address: 42 Galaxy Way, London
+                        EmailAddress: DNA@megadodopublications.net
+                        PhoneNumber: "+61212345678"
+                        RoleOrTitle: CEO
+                        UserDefinedIdentifier: "42"
+                        LastModifiedDateTime: 2020-08-04T03:33:26.8250027Z
+                        ContactKey: 2BtTSg4xM7Dt
+                      - FullName: Asimov, Isaac
+                        PreferredName: Zac
+                        Salutation: Mr
+                        ClientOwner: myowner@bostonuniversity.edu
+                        ClientManager: mymanager@bostonuniversity.edu
+                        Address: 1920 Foundation Boulevard, Petrovichi, Russia
+                        EmailAddress: asimo@bostonuniversity.edu
+                        PhoneNumber: "069283779143"
+                        RoleOrTitle: Writer
+                        UserDefinedIdentifier: "5020"
+                        LastModifiedDateTime: 2020-08-16T03:33:26.8250027Z
+                        ContactKey: 23WWskXjR4wX
+                    NextPageLink: https://karbonapi.com/Contacts?$skip=100
+                    Count: 123
+            application/xml:
+              schema:
+                $ref: "#/components/schemas/Microsoft.AspNet.OData.PageResult_Karbo\
+                  n.Api.Contacts.V2.ContactSummaryDTO_"
+    post:
+      tags:
+        - Contacts
+      summary: Create a Contact
+      operationId: Contacts_Post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Karbon.Api.Contacts.V2.ContactDTO"
+          application/xml:
+            schema:
+              $ref: "#/components/schemas/Karbon.Api.Contacts.V2.ContactDTO"
+        description: The new Contact to Create
+        required: true
+      responses:
+        "201":
+          description: Contact successfully created
+          headers:
+            Location:
+              description: Location of the newly created Resource
+              schema:
+                type: string
+          content:
+            application/json:
+              examples:
+                response:
+                  value:
+                    FirstName: Douglas
+                    MiddleName: Noel
+                    LastName: Adams
+                    PreferredName: Doug
+                    Salutation: Mr
+                    BusinessCards:
+                      - BusinessCardKey: 2xfLMq5PFqb7
+                        IsPrimaryCard: false
+                        Addresses:
+                          - AddressKey: 23a8d967-151a-439b-8118-e4c1327a87c7
+                            AddressLines: 2400 Bridgeway, Ste 280
+                            City: Sausalito
+                            StateProvinceCounty: CA
+                            ZipCode: "94965"
+                            CountryCode: US
+                            Label: Work
+                          - AddressKey: 23a8d967-151a-439b-8118-e4c1327a87c7
+                            AddressLines: 2400 Bridgeway, Ste 280
+                            City: Sausalito
+                            StateProvinceCounty: CA
+                            ZipCode: "94965"
+                            CountryCode: US
+                            Label: Work
+                        PhoneNumbers:
+                          - PhoneNumberKey: bef9bdb5-786b-4876-930d-5b3268ccfdc2
+                            Number: "+61212345678"
+                            CountryCode: US
+                            Label: Work
+                          - PhoneNumberKey: bef9bdb5-786b-4876-930d-5b3268ccfdc2
+                            Number: "+61212345678"
+                            CountryCode: US
+                            Label: Work
+                        WebSites:
+                          - https://www.karbonhq.com
+                        EmailAddresses:
+                          - enquiries@karbonhq.com
+                        OrganizationKey: ZGNmtYyLm4z
+                        RoleOrTitle: CEO
+                      - BusinessCardKey: 2xfLMq5PFqb7
+                        IsPrimaryCard: false
+                        Addresses:
+                          - AddressKey: 42dedf34-c1ee-4680-bb3f-c6a59c6822b4
+                            AddressLines: 2400 Bridgeway, Ste 280
+                            City: Sausalito
+                            StateProvinceCounty: CA
+                            ZipCode: "94965"
+                            CountryCode: US
+                            Label: Work
+                          - AddressKey: 42dedf34-c1ee-4680-bb3f-c6a59c6822b4
+                            AddressLines: 2400 Bridgeway, Ste 280
+                            City: Sausalito
+                            StateProvinceCounty: CA
+                            ZipCode: "94965"
+                            CountryCode: US
+                            Label: Work
+                        PhoneNumbers:
+                          - PhoneNumberKey: 64ce63c4-2c09-414b-93ed-6b0153cca4e9
+                            Number: "+61212345678"
+                            CountryCode: US
+                            Label: Work
+                          - PhoneNumberKey: 64ce63c4-2c09-414b-93ed-6b0153cca4e9
+                            Number: "+61212345678"
+                            CountryCode: US
+                            Label: Work
+                        WebSites:
+                          - https://www.karbonhq.com
+                        EmailAddresses:
+                          - enquiries@karbonhq.com
+                        OrganizationKey: ZGNmtYyLm4z
+                        RoleOrTitle: CEO
+                    ClientOwner: myowner@karbonhq.com
+                    ClientManager: mymanager@karbonhq.com
+                    ContactType: Supplier
+                    UserDefinedIdentifier: "42"
+                    LastModifiedDateTime: 2020-08-04T03:33:26.8339623Z
+                    ContactKey: ZGNmtYyLm4z
+        "400":
+          description: Incoming Model is invalid
+        "500":
+          description: Error processing Request
+  "/v3/Contacts/{key}":
+    get:
+      tags:
+        - Contacts
+      summary: Gets a single Contact by supplied Key
+      operationId: GetContactByKey
+      parameters:
+        - name: key
+          in: path
+          description: The Contact Key
+          required: true
+          schema:
+            type: string
+        - name: $select
+          in: query
+          description: Limits the properties returned in the result.
+          required: false
+          schema:
+            type: string
+        - name: $expand
+          in: query
+          description: Indicates the related entities to be represented inline. The maximum
+            depth is 2.
+          required: false
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              examples:
+                response:
+                  value:
+                    FirstName: Douglas
+                    MiddleName: Noel
+                    LastName: Adams
+                    PreferredName: Doug
+                    Salutation: Mr
+                    BusinessCards:
+                      - BusinessCardKey: 2xfLMq5PFqb7
+                        IsPrimaryCard: false
+                        Addresses:
+                          - AddressKey: 653b2986-a715-4e73-941d-08a8d92313f3
+                            AddressLines: 2400 Bridgeway, Ste 280
+                            City: Sausalito
+                            StateProvinceCounty: CA
+                            ZipCode: "94965"
+                            CountryCode: US
+                            Label: Work
+                          - AddressKey: 653b2986-a715-4e73-941d-08a8d92313f3
+                            AddressLines: 2400 Bridgeway, Ste 280
+                            City: Sausalito
+                            StateProvinceCounty: CA
+                            ZipCode: "94965"
+                            CountryCode: US
+                            Label: Work
+                        PhoneNumbers:
+                          - PhoneNumberKey: 1aefb445-3825-405b-ada5-e7749c832a74
+                            Number: "+61212345678"
+                            CountryCode: US
+                            Label: Work
+                          - PhoneNumberKey: 1aefb445-3825-405b-ada5-e7749c832a74
+                            Number: "+61212345678"
+                            CountryCode: US
+                            Label: Work
+                        WebSites:
+                          - https://www.karbonhq.com
+                        EmailAddresses:
+                          - enquiries@karbonhq.com
+                        OrganizationKey: ZGNmtYyLm4z
+                        RoleOrTitle: CEO
+                      - BusinessCardKey: 2xfLMq5PFqb7
+                        IsPrimaryCard: false
+                        Addresses:
+                          - AddressKey: 481c8f80-05c9-4641-8d49-1dc69b40d26f
+                            AddressLines: 2400 Bridgeway, Ste 280
+                            City: Sausalito
+                            StateProvinceCounty: CA
+                            ZipCode: "94965"
+                            CountryCode: US
+                            Label: Work
+                          - AddressKey: 481c8f80-05c9-4641-8d49-1dc69b40d26f
+                            AddressLines: 2400 Bridgeway, Ste 280
+                            City: Sausalito
+                            StateProvinceCounty: CA
+                            ZipCode: "94965"
+                            CountryCode: US
+                            Label: Work
+                        PhoneNumbers:
+                          - PhoneNumberKey: 40371e8d-79b4-4df4-8878-8dd3a9f02486
+                            Number: "+61212345678"
+                            CountryCode: US
+                            Label: Work
+                          - PhoneNumberKey: 40371e8d-79b4-4df4-8878-8dd3a9f02486
+                            Number: "+61212345678"
+                            CountryCode: US
+                            Label: Work
+                        WebSites:
+                          - https://www.karbonhq.com
+                        EmailAddresses:
+                          - enquiries@karbonhq.com
+                        OrganizationKey: ZGNmtYyLm4z
+                        RoleOrTitle: CEO
+                    ClientOwner: myowner@karbonhq.com
+                    ClientManager: mymanager@karbonhq.com
+                    ContactType: Supplier
+                    UserDefinedIdentifier: "42"
+                    LastModifiedDateTime: 2020-08-04T03:33:26.8389537Z
+                    ContactKey: ZGNmtYyLm4z
+        "404":
+          description: No Contact found for provided key
+    put:
+      tags:
+        - Contacts
+      summary: Perform a full update of a Contact
+      operationId: Contacts_Put
+      parameters:
+        - name: key
+          in: path
+          description: Key of the Contact to update
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Karbon.Api.Contacts.V2.ContactDTO"
+          application/xml:
+            schema:
+              $ref: "#/components/schemas/Karbon.Api.Contacts.V2.ContactDTO"
+        description: The new (full) details of the Contact to update with.
+        required: true
+      responses:
+        "204":
+          description: Contact successfully updated
+        "400":
+          description: Incoming Model is invalid
+        "500":
+          description: Error processing Request
+    patch:
+      tags:
+        - Contacts
+      summary: Perform a Partial update of a Contact
+      operationId: Contacts_Patch
+      parameters:
+        - name: key
+          in: path
+          description: Key of the Contact to update
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Karbon.Api.Contacts.V2.ContactDTO"
+          application/xml:
+            schema:
+              $ref: "#/components/schemas/Karbon.Api.Contacts.V2.ContactDTO"
+        description: The new details of the Contact to update. NOTE only the properties to
+          be updated need to be provided
+        required: true
+      responses:
+        "204":
+          description: Contact successfully updated
+        "400":
+          description: Invalid property to update
+        "500":
+          description: Error processing Request
+  "/v3/Contacts/GetByUserDefinedIdentifier(userDefinedIdentifier='{userDefinedIdentifier}')":
+    get:
+      tags:
+        - Contacts
+      summary: Get a contact from the supplied User Defined Identifier
+      operationId: Contacts_GetByUserDefinedIdentifier
+      parameters:
+        - name: userDefinedIdentifier
+          in: path
+          description: The UserDefinedIdentifier
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              examples:
+                response:
+                  value:
+                    FirstName: Douglas
+                    MiddleName: Noel
+                    LastName: Adams
+                    PreferredName: Doug
+                    Salutation: Mr
+                    BusinessCards:
+                      - BusinessCardKey: 2xfLMq5PFqb7
+                        IsPrimaryCard: false
+                        Addresses:
+                          - AddressKey: 2e9c1fb6-9133-40e2-9412-cb4860799b3a
+                            AddressLines: 2400 Bridgeway, Ste 280
+                            City: Sausalito
+                            StateProvinceCounty: CA
+                            ZipCode: "94965"
+                            CountryCode: US
+                            Label: Work
+                          - AddressKey: 2e9c1fb6-9133-40e2-9412-cb4860799b3a
+                            AddressLines: 2400 Bridgeway, Ste 280
+                            City: Sausalito
+                            StateProvinceCounty: CA
+                            ZipCode: "94965"
+                            CountryCode: US
+                            Label: Work
+                        PhoneNumbers:
+                          - PhoneNumberKey: ebcd82f6-7080-4709-b899-f9720c3f2eb6
+                            Number: "+61212345678"
+                            CountryCode: US
+                            Label: Work
+                          - PhoneNumberKey: ebcd82f6-7080-4709-b899-f9720c3f2eb6
+                            Number: "+61212345678"
+                            CountryCode: US
+                            Label: Work
+                        WebSites:
+                          - https://www.karbonhq.com
+                        EmailAddresses:
+                          - enquiries@karbonhq.com
+                        OrganizationKey: ZGNmtYyLm4z
+                        RoleOrTitle: CEO
+                      - BusinessCardKey: 2xfLMq5PFqb7
+                        IsPrimaryCard: false
+                        Addresses:
+                          - AddressKey: 066c52ab-bb44-49cb-8818-8f3ca98ac83c
+                            AddressLines: 2400 Bridgeway, Ste 280
+                            City: Sausalito
+                            StateProvinceCounty: CA
+                            ZipCode: "94965"
+                            CountryCode: US
+                            Label: Work
+                          - AddressKey: 066c52ab-bb44-49cb-8818-8f3ca98ac83c
+                            AddressLines: 2400 Bridgeway, Ste 280
+                            City: Sausalito
+                            StateProvinceCounty: CA
+                            ZipCode: "94965"
+                            CountryCode: US
+                            Label: Work
+                        PhoneNumbers:
+                          - PhoneNumberKey: e394fc5d-3aa4-4027-bb4d-6a920515bc88
+                            Number: "+61212345678"
+                            CountryCode: US
+                            Label: Work
+                          - PhoneNumberKey: e394fc5d-3aa4-4027-bb4d-6a920515bc88
+                            Number: "+61212345678"
+                            CountryCode: US
+                            Label: Work
+                        WebSites:
+                          - https://www.karbonhq.com
+                        EmailAddresses:
+                          - enquiries@karbonhq.com
+                        OrganizationKey: ZGNmtYyLm4z
+                        RoleOrTitle: CEO
+                    ClientOwner: myowner@karbonhq.com
+                    ClientManager: mymanager@karbonhq.com
+                    ContactType: Supplier
+                    UserDefinedIdentifier: "42"
+                    LastModifiedDateTime: 2020-08-04T03:33:26.8389537Z
+                    ContactKey: ZGNmtYyLm4z
+        "400":
+          description: UserDefinedIdentifier is missing or empty
+        "404":
+          description: No Contact found for provided UserDefinedIdentifer
+  /v3/Files:
+    post:
+      tags:
+        - Files
+      summary: Creates and Links a File
+      operationId: Files_Post
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                FileName:
+                  description: Name of the file
+                  type: string
+                MimeType:
+                  description: Specifies the kind of document being uploaded. Must be a
+                    valid MIME type as per RFC 6838, note this is not the file
+                    extension.
+                  type: string
+                contact_keys:
+                  description: Comma seperated list of Contact keys to link this file to.
+                  type: array
+                  items:
+                    type: string
+                organization_keys:
+                  description: Comma seperated list of Organization keys to link this file
+                    to.
+                  type: array
+                  items:
+                    type: string
+                client_group_keys:
+                  description: Comma seperated list of Client Group keys to link this file
+                    to.
+                  type: array
+                  items:
+                    type: string
+                workitem_keys:
+                  description: Comma seperated list of Work Item keys to link this file to.
+                  type: array
+                  items:
+                    type: string
+                file:
+                  description: File to upload.
+                  type: string
+                  format: binary
+              required:
+                - FileName
+                - MimeType
+                - file
+      responses:
+        "201":
+          description: File created and linked successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Karbon.Api.Files.FileDTO"
+              examples:
+                response:
+                  value:
+                    Id: 2xfLMq5PFqb7
+                    Name: TaxQuestionaire
+                    MimeType: application/pdf
+                    Size: 1024
+            application/xml:
+              schema:
+                $ref: "#/components/schemas/Karbon.Api.Files.FileDTO"
+        "500":
+          description: Error processing Request
+  /v3/Notes:
+    post:
+      tags:
+        - Notes
+      summary: Create a Note
+      operationId: Notes_Post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Karbon.Api.ContentItems.NoteDTO"
+          application/xml:
+            schema:
+              $ref: "#/components/schemas/Karbon.Api.ContentItems.NoteDTO"
+        description: The new Note to Create
+        required: true
+      responses:
+        "201":
+          description: Note successfully created
+          headers:
+            Location:
+              description: Location of the newly created Resource
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Karbon.Api.ContentItems.NoteDTO"
+              examples:
+                response:
+                  value:
+                    Id: 2xfLMq5PFqb7
+                    Subject: This is the note subject
+                    Body: This is the note body
+                    AuthorEmailAddress: author@karbonhq.com
+                    AssigneeEmailAddress: assignee@karbonhq.com
+                    DueDate: 2020-08-25T03:33:26.8459933Z
+                    TodoDate: 2020-08-19T03:33:26.8459933Z
+            application/xml:
+              schema:
+                $ref: "#/components/schemas/Karbon.Api.ContentItems.NoteDTO"
+        "400":
+          description: Incoming Model is invalid
+        "500":
+          description: Error processing Request
+  /v3/Organizations:
+    get:
+      tags:
+        - Organizations
+      summary: Get and/or Filter a Paged List of Organizations
+      operationId: Organizations_Get
+      parameters:
+        - name: $select
+          in: query
+          description: Limits the properties returned in the result.
+          required: false
+          schema:
+            type: string
+        - name: $filter
+          in: query
+          description: "Restricts the set of items returned. The maximum number of
+            expressions is 100. The allowed functions are: startswith,
+            alldatetimefunctions. The allowed properties are: FullName."
+          required: false
+          schema:
+            type: string
+        - name: $orderby
+          in: query
+          description: "Specifies the order in which items are returned. The maximum number
+            of expressions is 5. The allowed properties are: FullName,
+            LastModifiedDateTime."
+          required: false
+          schema:
+            type: string
+        - name: $top
+          in: query
+          description: Limits the number of items returned from a collection. The maximum
+            value is 100.
+          required: false
+          schema:
+            type: integer
+            format: int32
+        - name: $skip
+          in: query
+          description: Excludes the specified number of items of the queried collection
+            from the result.
+          required: false
+          schema:
+            type: integer
+            format: int32
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              examples:
+                response:
+                  value:
+                    Items:
+                      - FullName: Acme Inventions
+                        PhoneNumber: "98764331"
+                        Website: https://www.acme.com
+                        LastModifiedDateTime: 2020-08-04T03:33:26.8509988Z
+                        OrganizationKey: ZGNmtYyLm4z
+                      - FullName: Tailspin Toys
+                        PhoneNumber: "12345678"
+                        Website: https://www.tailsping.org
+                        LastModifiedDateTime: 2020-08-11T03:33:26.8509988Z
+                        OrganizationKey: 24Hv2zPkLXXn
+                    NextPageLink: https://karbonapi.com/Organizations?$skip=100
+                    Count: 123
+    post:
+      tags:
+        - Organizations
+      summary: Create an Organization
+      operationId: Organizations_Post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Karbon.Api.Contacts.V2.OrganizationDTO"
+          application/xml:
+            schema:
+              $ref: "#/components/schemas/Karbon.Api.Contacts.V2.OrganizationDTO"
+        description: The new Organization to Create
+        required: true
+      responses:
+        "201":
+          description: Organization successfully created
+          headers:
+            Location:
+              description: Location of the newly created Resource
+              schema:
+                type: string
+          content:
+            application/json:
+              examples:
+                response:
+                  value:
+                    FullName: Acme Corporation
+                    BusinessCards:
+                      - BusinessCardKey: 2xfLMq5PFqb7
+                        IsPrimaryCard: false
+                        Addresses:
+                          - AddressKey: a3beb9a6-630f-4e68-b26a-c382231d02d8
+                            AddressLines: 2400 Bridgeway, Ste 280
+                            City: Sausalito
+                            StateProvinceCounty: CA
+                            ZipCode: "94965"
+                            CountryCode: US
+                            Label: Work
+                          - AddressKey: a3beb9a6-630f-4e68-b26a-c382231d02d8
+                            AddressLines: 2400 Bridgeway, Ste 280
+                            City: Sausalito
+                            StateProvinceCounty: CA
+                            ZipCode: "94965"
+                            CountryCode: US
+                            Label: Work
+                        PhoneNumbers:
+                          - PhoneNumberKey: d5269d0d-66c8-4579-89c7-8edb01ebaefc
+                            Number: "+61212345678"
+                            CountryCode: US
+                            Label: Work
+                          - PhoneNumberKey: d5269d0d-66c8-4579-89c7-8edb01ebaefc
+                            Number: "+61212345678"
+                            CountryCode: US
+                            Label: Work
+                        WebSites:
+                          - https://www.karbonhq.com
+                        EmailAddresses:
+                          - enquiries@karbonhq.com
+                        OrganizationKey: ZGNmtYyLm4z
+                        RoleOrTitle: CEO
+                      - BusinessCardKey: 2xfLMq5PFqb7
+                        IsPrimaryCard: false
+                        Addresses:
+                          - AddressKey: bfc36c06-ff5a-48b1-971f-803b48858ddd
+                            AddressLines: 2400 Bridgeway, Ste 280
+                            City: Sausalito
+                            StateProvinceCounty: CA
+                            ZipCode: "94965"
+                            CountryCode: US
+                            Label: Work
+                          - AddressKey: bfc36c06-ff5a-48b1-971f-803b48858ddd
+                            AddressLines: 2400 Bridgeway, Ste 280
+                            City: Sausalito
+                            StateProvinceCounty: CA
+                            ZipCode: "94965"
+                            CountryCode: US
+                            Label: Work
+                        PhoneNumbers:
+                          - PhoneNumberKey: d4feab51-04f1-4026-bb52-0dfddef11408
+                            Number: "+61212345678"
+                            CountryCode: US
+                            Label: Work
+                          - PhoneNumberKey: d4feab51-04f1-4026-bb52-0dfddef11408
+                            Number: "+61212345678"
+                            CountryCode: US
+                            Label: Work
+                        WebSites:
+                          - https://www.karbonhq.com
+                        EmailAddresses:
+                          - enquiries@karbonhq.com
+                        OrganizationKey: ZGNmtYyLm4z
+                        RoleOrTitle: CEO
+                    ClientOwner: owner@acme.net
+                    ClientManager: manager@acme.net
+                    ContactType: Supplier
+                    UserDefinedIdentifier: ABC123
+                    LastModifiedDateTime: 2020-08-04T03:33:26.8570031Z
+                    OrganizationKey: ZGNmtYyLm4z
+        "400":
+          description: Incoming Model is invalid
+        "500":
+          description: Error processing Request
+  "/v3/Organizations/{key}":
+    get:
+      tags:
+        - Organizations
+      summary: Gets a single organization by supplied Key
+      operationId: GetOrganizationByKey
+      parameters:
+        - name: key
+          in: path
+          description: The Organization Key
+          required: true
+          schema:
+            type: string
+        - name: $select
+          in: query
+          description: Limits the properties returned in the result.
+          required: false
+          schema:
+            type: string
+        - name: $expand
+          in: query
+          description: Indicates the related entities to be represented inline. The maximum
+            depth is 2.
+          required: false
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              examples:
+                response:
+                  value:
+                    FullName: Acme Corporation
+                    BusinessCards:
+                      - BusinessCardKey: 2xfLMq5PFqb7
+                        IsPrimaryCard: false
+                        Addresses:
+                          - AddressKey: 8b1a8f2e-8bb3-4ccb-b177-438c4a16388a
+                            AddressLines: 2400 Bridgeway, Ste 280
+                            City: Sausalito
+                            StateProvinceCounty: CA
+                            ZipCode: "94965"
+                            CountryCode: US
+                            Label: Work
+                          - AddressKey: 8b1a8f2e-8bb3-4ccb-b177-438c4a16388a
+                            AddressLines: 2400 Bridgeway, Ste 280
+                            City: Sausalito
+                            StateProvinceCounty: CA
+                            ZipCode: "94965"
+                            CountryCode: US
+                            Label: Work
+                        PhoneNumbers:
+                          - PhoneNumberKey: b63687fc-9f47-4679-b263-7de649fc716a
+                            Number: "+61212345678"
+                            CountryCode: US
+                            Label: Work
+                          - PhoneNumberKey: b63687fc-9f47-4679-b263-7de649fc716a
+                            Number: "+61212345678"
+                            CountryCode: US
+                            Label: Work
+                        WebSites:
+                          - https://www.karbonhq.com
+                        EmailAddresses:
+                          - enquiries@karbonhq.com
+                        OrganizationKey: ZGNmtYyLm4z
+                        RoleOrTitle: CEO
+                      - BusinessCardKey: 2xfLMq5PFqb7
+                        IsPrimaryCard: false
+                        Addresses:
+                          - AddressKey: 346eaa6d-9634-45d7-9e45-0ffa66bff40c
+                            AddressLines: 2400 Bridgeway, Ste 280
+                            City: Sausalito
+                            StateProvinceCounty: CA
+                            ZipCode: "94965"
+                            CountryCode: US
+                            Label: Work
+                          - AddressKey: 346eaa6d-9634-45d7-9e45-0ffa66bff40c
+                            AddressLines: 2400 Bridgeway, Ste 280
+                            City: Sausalito
+                            StateProvinceCounty: CA
+                            ZipCode: "94965"
+                            CountryCode: US
+                            Label: Work
+                        PhoneNumbers:
+                          - PhoneNumberKey: fb18c12e-7edf-4084-bbba-c6b34e4af266
+                            Number: "+61212345678"
+                            CountryCode: US
+                            Label: Work
+                          - PhoneNumberKey: fb18c12e-7edf-4084-bbba-c6b34e4af266
+                            Number: "+61212345678"
+                            CountryCode: US
+                            Label: Work
+                        WebSites:
+                          - https://www.karbonhq.com
+                        EmailAddresses:
+                          - enquiries@karbonhq.com
+                        OrganizationKey: ZGNmtYyLm4z
+                        RoleOrTitle: CEO
+                    ClientOwner: owner@acme.net
+                    ClientManager: manager@acme.net
+                    ContactType: Supplier
+                    UserDefinedIdentifier: ABC123
+                    LastModifiedDateTime: 2020-08-04T03:33:26.8599616Z
+                    OrganizationKey: ZGNmtYyLm4z
+        "404":
+          description: No Organization found for provided key
+    put:
+      tags:
+        - Organizations
+      summary: Perform a full update of an Organization
+      operationId: Organizations_Put
+      parameters:
+        - name: key
+          in: path
+          description: Key of the Organization to update
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Karbon.Api.Contacts.V2.OrganizationDTO"
+          application/xml:
+            schema:
+              $ref: "#/components/schemas/Karbon.Api.Contacts.V2.OrganizationDTO"
+        description: The new (full) details of the Organization to update with.
+        required: true
+      responses:
+        "204":
+          description: Organization successfully updated
+        "400":
+          description: Incoming Model is invalid
+        "500":
+          description: Error processing Request
+    patch:
+      tags:
+        - Organizations
+      summary: Perform a Partial update of an Organization
+      operationId: Organizations_Patch
+      parameters:
+        - name: key
+          in: path
+          description: Key of the Organization to update
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Karbon.Api.Contacts.V2.OrganizationDTO"
+          application/xml:
+            schema:
+              $ref: "#/components/schemas/Karbon.Api.Contacts.V2.OrganizationDTO"
+        description: The new details of the Organization to update. NOTE only the
+          properties to be updated need to be provided
+        required: true
+      responses:
+        "204":
+          description: Organization successfully updated
+        "400":
+          description: Invalid property to update
+        "500":
+          description: Error processing Request
+  "/v3/Organizations/GetByUserDefinedIdentifier(userDefinedIdentifier='{userDefinedIdentifier}')":
+    get:
+      tags:
+        - Organizations
+      summary: Get an organization from the supplied User Defined Identifier
+      operationId: Organizations_GetByUserDefinedIdentifier
+      parameters:
+        - name: userDefinedIdentifier
+          in: path
+          description: ""
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              examples:
+                response:
+                  value:
+                    FullName: Acme Corporation
+                    BusinessCards:
+                      - BusinessCardKey: 2xfLMq5PFqb7
+                        IsPrimaryCard: false
+                        Addresses:
+                          - AddressKey: dfa535c3-a2bb-44c6-9d52-59b446454287
+                            AddressLines: 2400 Bridgeway, Ste 280
+                            City: Sausalito
+                            StateProvinceCounty: CA
+                            ZipCode: "94965"
+                            CountryCode: US
+                            Label: Work
+                          - AddressKey: dfa535c3-a2bb-44c6-9d52-59b446454287
+                            AddressLines: 2400 Bridgeway, Ste 280
+                            City: Sausalito
+                            StateProvinceCounty: CA
+                            ZipCode: "94965"
+                            CountryCode: US
+                            Label: Work
+                        PhoneNumbers:
+                          - PhoneNumberKey: 777c6434-2e65-482e-82b1-f579db36e477
+                            Number: "+61212345678"
+                            CountryCode: US
+                            Label: Work
+                          - PhoneNumberKey: 777c6434-2e65-482e-82b1-f579db36e477
+                            Number: "+61212345678"
+                            CountryCode: US
+                            Label: Work
+                        WebSites:
+                          - https://www.karbonhq.com
+                        EmailAddresses:
+                          - enquiries@karbonhq.com
+                        OrganizationKey: ZGNmtYyLm4z
+                        RoleOrTitle: CEO
+                      - BusinessCardKey: 2xfLMq5PFqb7
+                        IsPrimaryCard: false
+                        Addresses:
+                          - AddressKey: cd89914a-9137-4ada-87b5-8eeaf8c5d821
+                            AddressLines: 2400 Bridgeway, Ste 280
+                            City: Sausalito
+                            StateProvinceCounty: CA
+                            ZipCode: "94965"
+                            CountryCode: US
+                            Label: Work
+                          - AddressKey: cd89914a-9137-4ada-87b5-8eeaf8c5d821
+                            AddressLines: 2400 Bridgeway, Ste 280
+                            City: Sausalito
+                            StateProvinceCounty: CA
+                            ZipCode: "94965"
+                            CountryCode: US
+                            Label: Work
+                        PhoneNumbers:
+                          - PhoneNumberKey: 9a5d3656-a795-4e62-8a72-03d1e446ed8b
+                            Number: "+61212345678"
+                            CountryCode: US
+                            Label: Work
+                          - PhoneNumberKey: 9a5d3656-a795-4e62-8a72-03d1e446ed8b
+                            Number: "+61212345678"
+                            CountryCode: US
+                            Label: Work
+                        WebSites:
+                          - https://www.karbonhq.com
+                        EmailAddresses:
+                          - enquiries@karbonhq.com
+                        OrganizationKey: ZGNmtYyLm4z
+                        RoleOrTitle: CEO
+                    ClientOwner: owner@acme.net
+                    ClientManager: manager@acme.net
+                    ContactType: Supplier
+                    UserDefinedIdentifier: ABC123
+                    LastModifiedDateTime: 2020-08-04T03:33:26.8609537Z
+                    OrganizationKey: ZGNmtYyLm4z
+        "400":
+          description: UserDefinedIdentifier is missing or empty
+        "404":
+          description: No Organization found for provided UserDefinedIdentifer
+  /v3/Users:
+    get:
+      tags:
+        - Users
+      summary: List of Users
+      operationId: Users_Get
+      parameters:
+        - name: $select
+          in: query
+          description: Limits the properties returned in the result.
+          required: false
+          schema:
+            type: string
+        - name: $top
+          in: query
+          description: Limits the number of items returned from a collection.
+          required: false
+          schema:
+            type: integer
+            format: int32
+        - name: $skip
+          in: query
+          description: Excludes the specified number of items of the queried collection
+            from the result.
+          required: false
+          schema:
+            type: integer
+            format: int32
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Karbon.Api.Tenant.UserDTO"
+            application/xml:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Karbon.Api.Tenant.UserDTO"
+    post:
+      tags:
+        - Users
+      summary: Create a User
+      operationId: Users_Post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Karbon.Api.Tenant.UserDTO"
+          application/xml:
+            schema:
+              $ref: "#/components/schemas/Karbon.Api.Tenant.UserDTO"
+        description: The new User to Create
+        required: true
+      responses:
+        "201":
+          description: User successfully created
+          headers:
+            Location:
+              description: Location of the newly created Resource
+              schema:
+                type: string
+          content:
+            application/json:
+              examples:
+                response:
+                  value:
+                    Id: 2xfLMq5PFqb7
+                    Name: John Anderson
+                    EmailAddress: john@karbonhq.com
+        "400":
+          description: Incoming Model is invalid
+        "500":
+          description: Error processing Request
+  /v3/WorkItems:
+    get:
+      tags:
+        - WorkItems
+      summary: Get and/or Filter a Paged List of Work
+      operationId: WorkItems_Get
+      parameters:
+        - name: $select
+          in: query
+          description: Limits the properties returned in the result.
+          required: false
+          schema:
+            type: string
+        - name: $filter
+          in: query
+          description: "Restricts the set of items returned. The maximum number of
+            expressions is 100. The allowed functions are: startswith,
+            alldatetimefunctions. The allowed properties are: Title, ClientKey,
+            ClientName, ClientGroupKey, ClientGroupName, AssigneeName,
+            AssigneeEmailAddress, WorkType, WorkStatus, StartDate, ToDoPeriod,
+            WorkTemplateKey, WorkScheduleKey."
+          required: false
+          schema:
+            type: string
+        - name: $orderby
+          in: query
+          description: "Specifies the order in which items are returned. The maximum number
+            of expressions is 5. The allowed properties are: StartDate."
+          required: false
+          schema:
+            type: string
+        - name: $top
+          in: query
+          description: Limits the number of items returned from a collection. The maximum
+            value is 100.
+          required: false
+          schema:
+            type: integer
+            format: int32
+        - name: $skip
+          in: query
+          description: Excludes the specified number of items of the queried collection
+            from the result.
+          required: false
+          schema:
+            type: integer
+            format: int32
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              examples:
+                response:
+                  value:
+                    Items:
+                      - ClientName: Acme Corporation
+                        AssigneeName: John Freeman
+                        ClientGroupName: Client Group Name
+                        WorkTemplateTile: Onboarding Template
+                        WorkScheduleKey: XYNmtYyLm3z
+                        WorkItemKey: 2xfLMq5PFqb7
+                        Title: Tax Return
+                        Description: A brief description here
+                        ClientKey: hRCd5JnYDlp
+                        ClientType: Contact
+                        ClientGroupKey: 9lkvPNvXjnS
+                        AssigneeEmailAddress: john@karbonhq.com
+                        StartDate: 2020-08-25T03:33:26.8729527Z
+                        DueDate: 2020-09-18T03:33:26.8729527Z
+                        WorkType: Accounting
+                        WorkStatus: Ready To Start
+                        ToDoPeriod: 2021-01-18T00:00:00Z
+                        EstimatedBudget: 3500
+                        WorkTemplateKey: ZGNmtYyLm4z
+                      - ClientName: Acme Corporation
+                        AssigneeName: John Freeman
+                        ClientGroupName: Client Group Name
+                        WorkTemplateTile: Onboarding Template
+                        WorkScheduleKey: XYNmtYyLm3z
+                        WorkItemKey: 2xfLMq5PFqb7
+                        Title: Tax Return
+                        Description: A brief description here
+                        ClientKey: hRCd5JnYDlp
+                        ClientType: Contact
+                        ClientGroupKey: 9lkvPNvXjnS
+                        AssigneeEmailAddress: john@karbonhq.com
+                        StartDate: 2020-08-25T03:33:26.8729527Z
+                        DueDate: 2020-09-18T03:33:26.8729527Z
+                        WorkType: Accounting
+                        WorkStatus: Ready To Start
+                        ToDoPeriod: 2021-01-18T00:00:00Z
+                        EstimatedBudget: 3500
+                        WorkTemplateKey: ZGNmtYyLm4z
+                    NextPageLink: https://karbonapi.com/WorkItems?$skip=100
+                    Count: 123
+    post:
+      tags:
+        - WorkItems
+      summary: Create a WorkItem
+      operationId: WorkItems_Post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Karbon.Api.Work.V3.WorkItemDTO"
+          application/xml:
+            schema:
+              $ref: "#/components/schemas/Karbon.Api.Work.V3.WorkItemDTO"
+        description: The new Work Item to Create
+        required: true
+      responses:
+        "201":
+          description: WorkItem successfully created
+          content:
+            application/json:
+              examples:
+                response:
+                  value:
+                    WorkItemKey: 2xfLMq5PFqb7
+                    Title: Tax Return
+                    Description: A brief description here
+                    ClientKey: hRCd5JnYDlp
+                    ClientType: Contact
+                    ClientGroupKey: 9lkvPNvXjnS
+                    AssigneeEmailAddress: john@karbonhq.com
+                    StartDate: 2020-08-25T03:33:26.8839543Z
+                    DueDate: 2020-09-18T03:33:26.8839543Z
+                    WorkType: Accounting
+                    WorkStatus: Ready To Start
+                    ToDoPeriod: 2021-06-18T00:00:00Z
+                    EstimatedBudget: 3500
+                    WorkTemplateKey: ZGNmtYyLm4z
+        "400":
+          description: Incoming Model is invalid
+        "500":
+          description: Error processing Request
+  "/v3/WorkItems/{key}":
+    get:
+      tags:
+        - WorkItems
+      summary: Gets a single Work Item by supplied Key
+      operationId: GetWorkItemByKey
+      parameters:
+        - name: key
+          in: path
+          description: The Work Key
+          required: true
+          schema:
+            type: string
+        - name: $select
+          in: query
+          description: Limits the properties returned in the result.
+          required: false
+          schema:
+            type: string
+        - name: $expand
+          in: query
+          description: Indicates the related entities to be represented inline. The maximum
+            depth is 2.
+          required: false
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              examples:
+                response:
+                  value:
+                    ClientName: Acme Corporation
+                    AssigneeName: John Freeman
+                    ClientGroupName: Client Group Name
+                    WorkTemplateTile: Onboarding Template
+                    WorkScheduleKey: XYNmtYyLm3z
+                    WorkItemKey: 2xfLMq5PFqb7
+                    Title: Tax Return
+                    Description: A brief description here
+                    ClientKey: hRCd5JnYDlp
+                    ClientType: Contact
+                    ClientGroupKey: 9lkvPNvXjnS
+                    AssigneeEmailAddress: john@karbonhq.com
+                    StartDate: 2020-08-25T03:33:26.8889524Z
+                    DueDate: 2020-09-18T03:33:26.8889524Z
+                    WorkType: Accounting
+                    WorkStatus: Ready To Start
+                    ToDoPeriod: 2021-01-18T00:00:00Z
+                    EstimatedBudget: 3500
+                    WorkTemplateKey: ZGNmtYyLm4z
+        "404":
+          description: No Work Item found for provided key
+    put:
+      tags:
+        - WorkItems
+      summary: Perform a full update of a WorkItem
+      operationId: WorkItems_Put
+      parameters:
+        - name: key
+          in: path
+          description: Key of the Work Item to update
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Karbon.Api.Work.V3.WorkItemDTO"
+          application/xml:
+            schema:
+              $ref: "#/components/schemas/Karbon.Api.Work.V3.WorkItemDTO"
+        description: The new (full) details of the WorkItem to update with.
+        required: true
+      responses:
+        "204":
+          description: Work Item successfully updated
+        "400":
+          description: Incoming Model is invalid
+        "500":
+          description: Error processing Request
+    patch:
+      tags:
+        - WorkItems
+      summary: Perform a Partial update of a Work Item
+      operationId: WorkItems_Patch
+      parameters:
+        - name: key
+          in: path
+          description: Key of the Work Item to update
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Karbon.Api.Work.V3.WorkItemDTO"
+          application/xml:
+            schema:
+              $ref: "#/components/schemas/Karbon.Api.Work.V3.WorkItemDTO"
+        description: The new details of the Work Item to update. NOTE only the properties
+          to be updated need to be provided
+        required: true
+      responses:
+        "204":
+          description: WorkItem successfully updated
+        "400":
+          description: Invalid property to update
+        "500":
+          description: Error processing Request
+  "/v3/WorkSchedules/{key}":
+    get:
+      tags:
+        - WorkSchedules
+      summary: Gets a single Work Schedule by supplied Key
+      operationId: GetWorkScheduleByKey
+      parameters:
+        - name: key
+          in: path
+          description: The Work Schedule Key
+          required: true
+          schema:
+            type: string
+        - name: $select
+          in: query
+          description: Limits the properties returned in the result.
+          required: false
+          schema:
+            type: string
+        - name: $expand
+          in: query
+          description: Indicates the related entities to be represented inline. The maximum
+            depth is 2.
+          required: false
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Karbon.Api.Work.V3.WorkScheduleDTO"
+              examples:
+                response:
+                  value:
+                    WorkScheduleKey: 3rBnC2rmp5qS
+                    ClientKey: 4fPQ2s1lBjJs
+                    ClientType: Organization|Contact|ClientGroup|UserProfile
+                    AssigneeUserKey: 3Lr8H1bsnkdQ
+                    WorkItemTitleDisplayText: Payroll  {Previous Repeat Period (DD MMM, YYYY - DD MMM,
+                      YYYY)}
+                    WorkItemDescription: This is Karbon's best practice process for onboarding
+                      clients into the firm. This process is spawned on
+                      completion of the related sales process.
+                    FrequencyDescription: Every month
+                    CustomFrequencyUnits: Days|Weeks|Months|Years
+                    CustomFrequencyMultiple: 2
+                    ScheduleStartDate: 2020-05-18T03:33:26.8929532Z
+                    ScheduleEndDate: 2021-08-18T03:33:26.8929532Z
+            application/xml:
+              schema:
+                $ref: "#/components/schemas/Karbon.Api.Work.V3.WorkScheduleDTO"
+        "404":
+          description: No Work Schedule found for provided key
+  /v3/WorkTemplates:
+    get:
+      tags:
+        - WorkTemplates
+      summary: Get and/or Filter a Paged List of Work Templates
+      operationId: WorkTemplates_Get
+      parameters:
+        - name: $select
+          in: query
+          description: Limits the properties returned in the result.
+          required: false
+          schema:
+            type: string
+        - name: $filter
+          in: query
+          description: "Restricts the set of items returned. The maximum number of
+            expressions is 100. The allowed functions are: startswith,
+            alldatetimefunctions. The allowed properties are: Title,
+            WorkTypeKey, HasScheduledClientTaskGroups, EstimatedBudget,
+            EstimatedTime, DraftHasChanges, PublishedDate,
+            NumberOfWorkItemsCreated, DateLastWorkItemCreated, DateModified."
+          required: false
+          schema:
+            type: string
+        - name: $orderby
+          in: query
+          description: "Specifies the order in which items are returned. The maximum number
+            of expressions is 5. The allowed properties are: WorkTypeKey,
+            EstimatedBudget, EstimatedTime, PublishedDate,
+            NumberOfWorkItemsCreated, DateLastWorkItemCreated, DateModified."
+          required: false
+          schema:
+            type: string
+        - name: $top
+          in: query
+          description: Limits the number of items returned from a collection. The maximum
+            value is 10.
+          required: false
+          schema:
+            type: integer
+            format: int32
+        - name: $skip
+          in: query
+          description: Excludes the specified number of items of the queried collection
+            from the result.
+          required: false
+          schema:
+            type: integer
+            format: int32
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Microsoft.AspNet.OData.PageResult_Karbo\
+                  n.Api.Work.V3.WorkTemplateDTO_"
+              examples:
+                response:
+                  value:
+                    Items:
+                      - WorkTemplateKey: 3Df1gM5FSz6S
+                        Title: Month-end close
+                        Description: Karbon best practice process for month-end close.
+                        WorkTypeKey: 2Y9L9y2xWb3N
+                        HasScheduledClientTaskGroups: true
+                        EstimatedBudget: 500
+                        EstimatedTime: 480
+                        DraftHasChanges: false
+                        PublishedDate: 2020-05-18T03:33:26.9019615Z
+                        NumberOfWorkItemsCreated: 5
+                        DateLastWorkItemCreated: 2020-07-18T03:33:26.9019615Z
+                        DateModified: 2020-08-11T03:33:26.9019615Z
+                      - WorkTemplateKey: 3Df1gM5FSz6S
+                        Title: Month-end close
+                        Description: Karbon best practice process for month-end close.
+                        WorkTypeKey: 2Y9L9y2xWb3N
+                        HasScheduledClientTaskGroups: true
+                        EstimatedBudget: 500
+                        EstimatedTime: 480
+                        DraftHasChanges: false
+                        PublishedDate: 2020-05-18T03:33:26.9019615Z
+                        NumberOfWorkItemsCreated: 5
+                        DateLastWorkItemCreated: 2020-07-18T03:33:26.9019615Z
+                        DateModified: 2020-08-11T03:33:26.9019615Z
+                    NextPageLink: https://karbonapi.com/WorkTemplates?$skip=100
+                    Count: 123
+            application/xml:
+              schema:
+                $ref: "#/components/schemas/Microsoft.AspNet.OData.PageResult_Karbo\
+                  n.Api.Work.V3.WorkTemplateDTO_"
+  "/v3/WorkTemplates/{key}":
+    get:
+      tags:
+        - WorkTemplates
+      summary: Gets a single Work Template by supplied Key
+      operationId: GetWorkTemplateByKey
+      parameters:
+        - name: key
+          in: path
+          description: The Work Template Key
+          required: true
+          schema:
+            type: string
+        - name: $select
+          in: query
+          description: Limits the properties returned in the result.
+          required: false
+          schema:
+            type: string
+        - name: $expand
+          in: query
+          description: Indicates the related entities to be represented inline. The maximum
+            depth is 2.
+          required: false
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Karbon.Api.Work.V3.WorkTemplateDTO"
+              examples:
+                response:
+                  value:
+                    WorkTemplateKey: 3Df1gM5FSz6S
+                    Title: Month-end close
+                    Description: Karbon best practice process for month-end close.
+                    WorkTypeKey: 2Y9L9y2xWb3N
+                    HasScheduledClientTaskGroups: true
+                    EstimatedBudget: 500
+                    EstimatedTime: 480
+                    DraftHasChanges: false
+                    PublishedDate: 2020-05-18T03:33:26.9089524Z
+                    NumberOfWorkItemsCreated: 5
+                    DateLastWorkItemCreated: 2020-07-18T03:33:26.9089524Z
+                    DateModified: 2020-08-11T03:33:26.9089524Z
+            application/xml:
+              schema:
+                $ref: "#/components/schemas/Karbon.Api.Work.V3.WorkTemplateDTO"
+        "404":
+          description: No Work Template found for provided key
+servers:
+  - url: http://apiv3.dev.az.karbonhq.com:85
+components:
+  schemas:
+    Karbon.Api.Contacts.V2.ClientGroupSummaryDTO:
+      type: object
+      properties:
+        FullName:
+          type: string
+          example: abc123
+        PhoneNumber:
+          type: string
+          example: abc123
+        Website:
+          type: string
+          example: abc123
+        LastModifiedDateTime:
+          format: date-time
+          type: string
+          example: abc123
+        ClientGroupKey:
+          type: string
+          readOnly: true
+          example: abc123
+    Karbon.Api.Contacts.V2.ClientGroupDTO:
+      type: object
+      properties:
+        FullName:
+          type: string
+          example: abc123
+        ClientOwner:
+          type: string
+          example: abc123
+        ClientManager:
+          type: string
+          example: abc123
+        ContactType:
+          type: string
+          example: abc123
+        UserDefinedIdentifier:
+          type: string
+          example: abc123
+        Members:
+          type: array
+          items:
+            $ref: "#/components/schemas/Karbon.Api.Contacts.V2.ClientGroupMemberDTO"
+          readOnly: true
+        LastModifiedDateTime:
+          format: date-time
+          type: string
+          readOnly: true
+          example: abc123
+        ClientGroupKey:
+          type: string
+          readOnly: true
+          example: abc123
+        BusinessCard:
+          allOf:
+            - $ref: "#/components/schemas/Karbon.Api.Contacts.V2.BusinessCardDTO"
+          readOnly: true
+    Karbon.Api.Contacts.V2.ClientGroupMemberDTO:
+      type: object
+      properties:
+        ContactKey:
+          type: string
+          example: abc123
+        OrganizationKey:
+          type: string
+          example: abc123
+    Karbon.Api.Contacts.V2.BusinessCardDTO:
+      type: object
+      properties:
+        BusinessCardKey:
+          type: string
+          readOnly: true
+          example: abc123
+        IsPrimaryCard:
+          type: boolean
+          readOnly: true
+        Addresses:
+          type: array
+          items:
+            $ref: "#/components/schemas/Karbon.Api.Contacts.V2.AddressDTO"
+          readOnly: true
+        PhoneNumbers:
+          type: array
+          items:
+            $ref: "#/components/schemas/Karbon.Api.Contacts.V2.PhoneNumberDTO"
+          readOnly: true
+        WebSites:
+          type: array
+          items:
+            type: string
+          readOnly: true
+        EmailAddresses:
+          type: array
+          items:
+            type: string
+          readOnly: true
+        OrganizationKey:
+          type: string
+          example: abc123
+        RoleOrTitle:
+          type: string
+          example: abc123
+    Karbon.Api.Contacts.V2.AddressDTO:
+      type: object
+      properties:
+        AddressKey:
+          format: uuid
+          type: string
+          readOnly: true
+          example: 00000000-0000-0000-0000-000000000000
+        AddressLines:
+          type: string
+          example: abc123
+        City:
+          type: string
+          example: abc123
+        StateProvinceCounty:
+          type: string
+          example: abc123
+        ZipCode:
+          type: string
+          example: abc123
+        CountryCode:
+          type: string
+          example: abc123
+        Label:
+          type: string
+          example: abc123
+    Karbon.Api.Contacts.V2.PhoneNumberDTO:
+      type: object
+      properties:
+        PhoneNumberKey:
+          format: uuid
+          type: string
+          readOnly: true
+          example: 00000000-0000-0000-0000-000000000000
+        Number:
+          type: string
+          example: abc123
+        CountryCode:
+          type: string
+          example: abc123
+        Label:
+          type: string
+          example: abc123
+    Karbon.Api.Contacts.V2.ContactSummaryDTO:
+      type: object
+      properties:
+        FullName:
+          type: string
+          example: abc123
+        PreferredName:
+          type: string
+          example: abc123
+        Salutation:
+          type: string
+          example: abc123
+        ClientOwner:
+          type: string
+          example: abc123
+        ClientManager:
+          type: string
+          example: abc123
+        Address:
+          type: string
+          example: abc123
+        EmailAddress:
+          type: string
+          example: abc123
+        PhoneNumber:
+          type: string
+          example: abc123
+        RoleOrTitle:
+          type: string
+          example: abc123
+        UserDefinedIdentifier:
+          type: string
+          example: abc123
+        LastModifiedDateTime:
+          format: date-time
+          type: string
+          example: abc123
+        ContactKey:
+          type: string
+          readOnly: true
+          example: abc123
+    Karbon.Api.Contacts.V2.ContactDTO:
+      type: object
+      properties:
+        FirstName:
+          type: string
+          example: abc123
+        MiddleName:
+          type: string
+          example: abc123
+        LastName:
+          type: string
+          example: abc123
+        PreferredName:
+          type: string
+          example: abc123
+        Salutation:
+          type: string
+          example: abc123
+        ClientOwner:
+          type: string
+          example: abc123
+        ClientManager:
+          type: string
+          example: abc123
+        ContactType:
+          type: string
+          example: abc123
+        UserDefinedIdentifier:
+          type: string
+          example: abc123
+        LastModifiedDateTime:
+          format: date-time
+          type: string
+          readOnly: true
+          example: abc123
+        ContactKey:
+          type: string
+          readOnly: true
+          example: abc123
+        BusinessCards:
+          type: array
+          items:
+            $ref: "#/components/schemas/Karbon.Api.Contacts.V2.BusinessCardDTO"
+          readOnly: true
+    Karbon.Api.Files.FileDTO:
+      type: object
+      properties:
+        Id:
+          type: string
+          example: abc123
+        Name:
+          type: string
+          example: abc123
+        MimeType:
+          type: string
+          example: abc123
+        Size:
+          format: int64
+          type: integer
+    Karbon.Api.ContentItems.NoteDTO:
+      type: object
+      properties:
+        Id:
+          type: string
+          example: abc123
+        Subject:
+          type: string
+          example: abc123
+        Body:
+          type: string
+          example: abc123
+        AuthorEmailAddress:
+          type: string
+          example: abc123
+        AssigneeEmailAddress:
+          type: string
+          example: abc123
+        DueDate:
+          format: date-time
+          type: string
+          example: abc123
+        TodoDate:
+          format: date-time
+          type: string
+          example: abc123
+    Karbon.Api.Contacts.V2.OrganizationSummaryDTO:
+      type: object
+      properties:
+        FullName:
+          type: string
+          example: abc123
+        PhoneNumber:
+          type: string
+          example: abc123
+        Website:
+          type: string
+          example: abc123
+        LastModifiedDateTime:
+          format: date-time
+          type: string
+          example: abc123
+        OrganizationKey:
+          type: string
+          readOnly: true
+          example: abc123
+    Karbon.Api.Contacts.V2.OrganizationDTO:
+      type: object
+      properties:
+        FullName:
+          type: string
+          example: abc123
+        BusinessCards:
+          type: array
+          items:
+            $ref: "#/components/schemas/Karbon.Api.Contacts.V2.BusinessCardDTO"
+          readOnly: true
+        ClientOwner:
+          type: string
+          example: abc123
+        ClientManager:
+          type: string
+          example: abc123
+        ContactType:
+          type: string
+          example: abc123
+        UserDefinedIdentifier:
+          type: string
+          example: abc123
+        LastModifiedDateTime:
+          format: date-time
+          type: string
+          readOnly: true
+          example: abc123
+        OrganizationKey:
+          type: string
+          readOnly: true
+          example: abc123
+    Karbon.Api.Tenant.UserDTO:
+      type: object
+      properties:
+        Id:
+          type: string
+          example: abc123
+        Name:
+          type: string
+          example: abc123
+        EmailAddress:
+          type: string
+          example: abc123
+    Karbon.Api.Work.V3.WorkSummaryDTO:
+      required:
+        - ClientKey
+        - ClientType
+        - AssigneeEmailAddress
+        - StartDate
+      type: object
+      properties:
+        ClientName:
+          type: string
+          example: abc123
+        AssigneeName:
+          type: string
+          example: abc123
+        ClientGroupName:
+          type: string
+          example: abc123
+        WorkTemplateTile:
+          type: string
+          example: abc123
+        WorkScheduleKey:
+          type: string
+          example: abc123
+        WorkItemKey:
+          maxLength: 12
+          minLength: 0
+          type: string
+          readOnly: true
+          example: abc123
+        Title:
+          maxLength: 200
+          minLength: 0
+          type: string
+          example: abc123
+        Description:
+          type: string
+          example: abc123
+        ClientKey:
+          maxLength: 12
+          minLength: 0
+          type: string
+          example: abc123
+        ClientType:
+          pattern: ^([Cc]ontact|[Oo]rganization|[Cc]lient[Gg]roup)$
+          type: string
+          example: abc123
+        ClientGroupKey:
+          maxLength: 12
+          minLength: 0
+          type: string
+          example: abc123
+        AssigneeEmailAddress:
+          maxLength: 254
+          minLength: 0
+          type: string
+          example: abc123
+        StartDate:
+          format: date-time
+          type: string
+          example: abc123
+        DueDate:
+          format: date-time
+          type: string
+          example: abc123
+        WorkType:
+          type: string
+          example: abc123
+        WorkStatus:
+          type: string
+          example: abc123
+        ToDoPeriod:
+          format: date-time
+          type: string
+          example: abc123
+        EstimatedBudget:
+          format: double
+          maximum: 2147483647
+          minimum: 0
+          type: number
+        WorkTemplateKey:
+          maxLength: 12
+          minLength: 0
+          type: string
+          example: abc123
+    Karbon.Api.Work.V3.WorkItemDTO:
+      required:
+        - ClientKey
+        - ClientType
+        - AssigneeEmailAddress
+        - StartDate
+      type: object
+      properties:
+        WorkItemKey:
+          maxLength: 12
+          minLength: 0
+          type: string
+          readOnly: true
+          example: abc123
+        Title:
+          maxLength: 200
+          minLength: 0
+          type: string
+          example: abc123
+        Description:
+          type: string
+          example: abc123
+        ClientKey:
+          maxLength: 12
+          minLength: 0
+          type: string
+          example: abc123
+        ClientType:
+          pattern: ^([Cc]ontact|[Oo]rganization|[Cc]lient[Gg]roup)$
+          type: string
+          example: abc123
+        ClientGroupKey:
+          maxLength: 12
+          minLength: 0
+          type: string
+          example: abc123
+        AssigneeEmailAddress:
+          maxLength: 254
+          minLength: 0
+          type: string
+          example: abc123
+        StartDate:
+          format: date-time
+          type: string
+          example: abc123
+        DueDate:
+          format: date-time
+          type: string
+          example: abc123
+        WorkType:
+          type: string
+          example: abc123
+        WorkStatus:
+          type: string
+          example: abc123
+        ToDoPeriod:
+          format: date-time
+          type: string
+          example: abc123
+        EstimatedBudget:
+          format: double
+          maximum: 2147483647
+          minimum: 0
+          type: number
+        WorkTemplateKey:
+          maxLength: 12
+          minLength: 0
+          type: string
+          example: abc123
+    Karbon.Api.Work.V3.WorkScheduleDTO:
+      type: object
+      properties:
+        WorkScheduleKey:
+          type: string
+          example: abc123
+        ClientKey:
+          type: string
+          example: abc123
+        ClientType:
+          type: string
+          example: abc123
+        AssigneeUserKey:
+          type: string
+          example: abc123
+        WorkItemTitleDisplayText:
+          type: string
+          example: abc123
+        WorkItemDescription:
+          type: string
+          example: abc123
+        FrequencyDescription:
+          type: string
+          example: abc123
+        CustomFrequencyUnits:
+          type: string
+          example: abc123
+        CustomFrequencyMultiple:
+          format: int32
+          type: integer
+        ScheduleStartDate:
+          format: date-time
+          type: string
+          example: abc123
+        ScheduleEndDate:
+          format: date-time
+          type: string
+          example: abc123
+    Karbon.Api.Work.V3.WorkTemplateDTO:
+      type: object
+      properties:
+        WorkTemplateKey:
+          type: string
+          example: abc123
+        Title:
+          type: string
+          example: abc123
+        Description:
+          type: string
+          example: abc123
+        WorkTypeKey:
+          type: string
+          example: abc123
+        HasScheduledClientTaskGroups:
+          type: boolean
+        EstimatedBudget:
+          format: double
+          type: number
+        EstimatedTime:
+          format: int32
+          type: integer
+        DraftHasChanges:
+          type: boolean
+        PublishedDate:
+          format: date-time
+          type: string
+          example: abc123
+        NumberOfWorkItemsCreated:
+          format: int32
+          type: integer
+        DateLastWorkItemCreated:
+          format: date-time
+          type: string
+          example: abc123
+        DateModified:
+          format: date-time
+          type: string
+          example: abc123
+    Microsoft.AspNet.OData.PageResult_Karbon.Api.Contacts.V2.ClientGroupSummaryDTO_:
+      type: object
+      properties:
+        Items:
+          type: array
+          items:
+            $ref: "#/components/schemas/Karbon.Api.Contacts.V2.ClientGroupSummaryDTO"
+        NextPageLink:
+          type: string
+          example: abc123
+        Count:
+          format: int64
+          type: integer
+    Microsoft.AspNet.OData.PageResult_Karbon.Api.Contacts.V2.ContactSummaryDTO_:
+      type: object
+      properties:
+        Items:
+          type: array
+          items:
+            $ref: "#/components/schemas/Karbon.Api.Contacts.V2.ContactSummaryDTO"
+        NextPageLink:
+          type: string
+          example: abc123
+        Count:
+          format: int64
+          type: integer
+    Microsoft.AspNet.OData.PageResult_Karbon.Api.Contacts.V2.OrganizationSummaryDTO_:
+      type: object
+      properties:
+        Items:
+          type: array
+          items:
+            $ref: "#/components/schemas/Karbon.Api.Contacts.V2.OrganizationSummaryD\
+              TO"
+        NextPageLink:
+          type: string
+          example: abc123
+        Count:
+          format: int64
+          type: integer
+    Microsoft.AspNet.OData.PageResult_Karbon.Api.Work.V3.WorkSummaryDTO_:
+      type: object
+      properties:
+        Items:
+          type: array
+          items:
+            $ref: "#/components/schemas/Karbon.Api.Work.V3.WorkSummaryDTO"
+        NextPageLink:
+          type: string
+          example: abc123
+        Count:
+          format: int64
+          type: integer
+    Microsoft.AspNet.OData.PageResult_Karbon.Api.Work.V3.WorkTemplateDTO_:
+      type: object
+      properties:
+        Items:
+          type: array
+          items:
+            $ref: "#/components/schemas/Karbon.Api.Work.V3.WorkTemplateDTO"
+        NextPageLink:
+          type: string
+          example: abc123
+        Count:
+          format: int64
+          type: integer
