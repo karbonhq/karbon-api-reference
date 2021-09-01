@@ -4875,7 +4875,7 @@
                         "type": "text"
                       }
                     ],
-                    "url": "{{public.api.baseurl}}/v3/WorkSchedules/{{public.api.workitemschedule_permakey}}"
+                    "url": "{{public.api.baseurl}}/v3/WorkSchedules/2H4LpGTLsfHB"
                   },
                   "response": []
                 }
