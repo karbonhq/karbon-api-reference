@@ -4839,6 +4839,45 @@
                     "url": "{{public.api.baseurl}}/v3/WorkSchedules/{{public.api.workitemschedule_permakey}}"
                   },
                   "response": []
+                },
+                {
+                  "name": "#5170 Get WorkSchedule by Permakey Copy",
+                  "event": [
+                    {
+                      "listen": "test",
+                      "script": {
+                        "id": "fec02417-e3fb-48ce-bdda-d70821a50002",
+                        "exec": [
+                          "pm.test(\"Status code is 200\", function () {\r",
+                          "    pm.response.to.have.status(200);\r",
+                          "});\r",
+                          ""
+                        ],
+                        "type": "text/javascript"
+                      }
+                    }
+                  ],
+                  "id": "325fc9c9-abcd-48ee-9b12-47b7cb191bd2",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Authorization",
+                        "value": "{{publicapi.authorization}}",
+                        "type": "text"
+                      },
+                      {
+                        "key": "AccessKey",
+                        "value": "{{publicapi.accesskey}}",
+                        "type": "text"
+                      }
+                    ],
+                    "url": "{{public.api.baseurl}}/v3/WorkSchedules/{{public.api.workitemschedule_permakey}}"
+                  },
+                  "response": []
                 }
               ],
               "id": "08583412-188e-4ada-a41e-65d86c4e7770"
