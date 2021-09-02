@@ -1718,6 +1718,7 @@
                     {
                       "listen": "test",
                       "script": {
+                        "id": "0315d2fc-9d9e-4dc2-abb3-dd6d2916fe72",
                         "exec": [
                           "pm.test(\"Status code is 400\", function () {\r",
                           "    pm.response.to.have.status(400);\r",
@@ -1726,8 +1727,7 @@
                           "    pm.expect(pm.response.text()).to.include(\"Logical operator 'NotEqual' is not allowed\");\r",
                           "});"
                         ],
-                        "type": "text/javascript",
-                        "id": "0315d2fc-9d9e-4dc2-abb3-dd6d2916fe72"
+                        "type": "text/javascript"
                       }
                     }
                   ],
@@ -1750,7 +1750,7 @@
                       }
                     ],
                     "url": {
-                      "raw": "{{public.api.baseurl}}/v3/Contacts?$filter=PhoneNumber ne '10'",
+                      "raw": "{{public.api.baseurl}}/v3/Contacts?$filter=FullName eq 'Steve Ballmer'",
                       "host": [
                         "{{public.api.baseurl}}"
                       ],
@@ -1761,7 +1761,7 @@
                       "query": [
                         {
                           "key": "$filter",
-                          "value": "PhoneNumber ne '10'"
+                          "value": "FullName eq 'Steve Ballmer'"
                         }
                       ]
                     }
