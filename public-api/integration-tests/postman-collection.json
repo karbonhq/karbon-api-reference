@@ -1720,12 +1720,7 @@
                       "script": {
                         "id": "0315d2fc-9d9e-4dc2-abb3-dd6d2916fe72",
                         "exec": [
-                          "pm.test(\"Status code is 400\", function () {\r",
-                          "    pm.response.to.have.status(400);\r",
-                          "});\r",
-                          "pm.test(\"Body matches contains Logical operator not allowed\", function () {\r",
-                          "    pm.expect(pm.response.text()).to.include(\"Logical operator 'NotEqual' is not allowed\");\r",
-                          "});"
+                          ""
                         ],
                         "type": "text/javascript"
                       }
