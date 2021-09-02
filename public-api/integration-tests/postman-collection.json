@@ -1670,6 +1670,47 @@
                     }
                   },
                   "response": []
+                },
+                {
+                  "name": "Search parameterless Copy",
+                  "event": [
+                    {
+                      "listen": "test",
+                      "script": {
+                        "exec": [
+                          "pm.test(\"Status code is 400\", function () {\r",
+                          "    pm.response.to.have.status(400);\r",
+                          "});\r",
+                          "pm.test(\"Body matches contains Select not allowed\", function () {\r",
+                          "    pm.expect(pm.response.text()).to.include(\"Query option 'Select' is not allowed\");\r",
+                          "});"
+                        ],
+                        "type": "text/javascript",
+                        "id": "f2ab378f-d585-4598-a1e4-573b2708429b"
+                      }
+                    }
+                  ],
+                  "id": "11064c52-24f5-4ec2-8686-c8303f2def59",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Authorization",
+                        "value": "{{publicapi.authorization}}",
+                        "type": "text"
+                      },
+                      {
+                        "key": "AccessKey",
+                        "value": "{{publicapi.accesskey}}",
+                        "type": "text"
+                      }
+                    ],
+                    "url": "{{public.api.baseurl}}/v3/Contacts"
+                  },
+                  "response": []
                 }
               ],
               "id": "57cbf28c-9afc-46d2-b755-9a600247486d"
