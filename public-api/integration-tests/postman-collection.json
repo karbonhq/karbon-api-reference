@@ -1711,6 +1711,62 @@
                     }
                   },
                   "response": []
+                },
+                {
+                  "name": "Search with Greater than odata attribute Copy",
+                  "event": [
+                    {
+                      "listen": "test",
+                      "script": {
+                        "exec": [
+                          "pm.test(\"Status code is 400\", function () {\r",
+                          "    pm.response.to.have.status(400);\r",
+                          "});\r",
+                          "pm.test(\"Body matches contains Logical operator not allowed\", function () {\r",
+                          "    pm.expect(pm.response.text()).to.include(\"Logical operator 'NotEqual' is not allowed\");\r",
+                          "});"
+                        ],
+                        "type": "text/javascript",
+                        "id": "0315d2fc-9d9e-4dc2-abb3-dd6d2916fe72"
+                      }
+                    }
+                  ],
+                  "id": "2fda4c15-28f0-481a-a4cf-af6ae7a4f193",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Authorization",
+                        "value": "{{publicapi.authorization}}",
+                        "type": "text"
+                      },
+                      {
+                        "key": "AccessKey",
+                        "value": "{{publicapi.accesskey}}",
+                        "type": "text"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{public.api.baseurl}}/v3/Contacts?$filter=PhoneNumber ne '10'",
+                      "host": [
+                        "{{public.api.baseurl}}"
+                      ],
+                      "path": [
+                        "v3",
+                        "Contacts"
+                      ],
+                      "query": [
+                        {
+                          "key": "$filter",
+                          "value": "PhoneNumber ne '10'"
+                        }
+                      ]
+                    }
+                  },
+                  "response": []
                 }
               ],
               "id": "57cbf28c-9afc-46d2-b755-9a600247486d"
