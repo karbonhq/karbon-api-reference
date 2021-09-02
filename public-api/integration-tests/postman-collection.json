@@ -1713,7 +1713,7 @@
                   "response": []
                 },
                 {
-                  "name": "Search with Greater than odata attribute Copy",
+                  "name": "Search contacts by FullName",
                   "event": [
                     {
                       "listen": "test",
