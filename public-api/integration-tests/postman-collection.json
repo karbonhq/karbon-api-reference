@@ -115,9 +115,10 @@
                           "    pm.response.to.have.status(201);\r",
                           "});\r",
                           "\r",
-                          "pm.test(\"Set clientgroup permakey\", function () {\r",
+                          "pm.test(\"Set clientgroup properties for future tests\", function () {\r",
                           "    var jsonData = pm.response.json();\r",
                           "    pm.environment.set(\"public.api.clientgroup_permakey\", jsonData.ClientGroupKey);\r",
+                          "    pm.environment.set(\"public.api.clientgroup_userdefinedidentifier\", jsonData.UserDefinedIdentifier);\r",
                           "});"
                         ],
                         "type": "text/javascript"
@@ -253,14 +254,14 @@
                       }
                     ],
                     "url": {
-                      "raw": "{{public.api.baseurl}}/v3/ClientGroups/36VlHdWThT1w?$expand=BusinessCard",
+                      "raw": "{{public.api.baseurl}}/v3/ClientGroups/{{public.api.clientgroup_permakey}}?$expand=BusinessCard",
                       "host": [
                         "{{public.api.baseurl}}"
                       ],
                       "path": [
                         "v3",
                         "ClientGroups",
-                        "36VlHdWThT1w"
+                        "{{public.api.clientgroup_permakey}}"
                       ],
                       "query": [
                         {
@@ -390,7 +391,7 @@
                         "type": "text"
                       }
                     ],
-                    "url": "{{public.api.baseurl}}/v3/ClientGroups/KarbonService.GetClientGroupByUserDefinedIdentifier(UserDefinedIdentifier='aaaaaaaa')"
+                    "url": "{{public.api.baseurl}}/v3/ClientGroups/KarbonService.GetClientGroupByUserDefinedIdentifier(UserDefinedIdentifier='{{public.api.clientgroup_userdefinedidentifier}}')"
                   },
                   "response": []
                 },
@@ -404,6 +405,15 @@
                         "exec": [
                           "pm.test(\"Status code is 200\", function () {\r",
                           "    pm.response.to.have.status(200);\r",
+                          "});\r",
+                          "\r",
+                          "pm.test(\"Assert correct client group\", function () {\r",
+                          "    var jsonData = pm.response.json();\r",
+                          "    var existingClientGroupKey = pm.environment.get(\"public.api.clientgroup_permakey\");\r",
+                          "\r",
+                          "    if (existingClientGroupKey){\r",
+                          "        pm.expect(jsonData.ClientGroupKey).to.eql(existingClientGroupKey);\r",
+                          "    }\r",
                           "});\r",
                           "\r",
                           "pm.test(\"Business are loaded with expand\", function () {\r",
@@ -434,14 +444,14 @@
                       }
                     ],
                     "url": {
-                      "raw": "{{public.api.baseurl}}/v3/ClientGroups/KarbonService.GetClientGroupByUserDefinedIdentifier(UserDefinedIdentifier='aaaaaaaa')?$expand=BusinessCard",
+                      "raw": "{{public.api.baseurl}}/v3/ClientGroups/KarbonService.GetClientGroupByUserDefinedIdentifier(UserDefinedIdentifier='{{public.api.clientgroup_userdefinedidentifier}}')?$expand=BusinessCard",
                       "host": [
                         "{{public.api.baseurl}}"
                       ],
                       "path": [
                         "v3",
                         "ClientGroups",
-                        "KarbonService.GetClientGroupByUserDefinedIdentifier(UserDefinedIdentifier='aaaaaaaa')"
+                        "KarbonService.GetClientGroupByUserDefinedIdentifier(UserDefinedIdentifier='{{public.api.clientgroup_userdefinedidentifier}}')"
                       ],
                       "query": [
                         {
