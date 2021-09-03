@@ -550,12 +550,12 @@
                     "header": [
                       {
                         "key": "Authorization",
-                        "value": "bearer e401a988-4b4a-4861-a3cf-a8b3f7aeb05c",
+                        "value": "{{publicapi.authorization}}",
                         "type": "text"
                       },
                       {
                         "key": "AccessKey",
-                        "value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJLYXJib25IUSIsInJlZyI6ImRldjIiLCJ0YWsiOiJDODIzRjcyQS04MEM0LTQwQzktOUU5MC1ERkFDOTFGNUQ1QTcifQ.SxS4AW5wtUxKdOt7OKnY1iPSs3HCO2bZtibL-TKRfD8",
+                        "value": "{{publicapi.accesskey}}",
                         "type": "text"
                       }
                     ],
@@ -822,6 +822,7 @@
                           "pm.test(\"Set contact permakey\", function () {\r",
                           "    var jsonData = pm.response.json();\r",
                           "    pm.environment.set(\"public.api.contact_permakey\", jsonData.ContactKey);\r",
+                          "    pm.environment.set(\"public.api.contact_userdefinedidentifier\", jsonData.UserDefinedIdentifier);\r",
                           "});"
                         ],
                         "type": "text/javascript"
@@ -882,11 +883,7 @@
                           "pm.test(\"Status code is Created (201)\", function () {\r",
                           "    pm.response.to.have.status(201);\r",
                           "});\r",
-                          "\r",
-                          "pm.test(\"Set contact permakey\", function () {\r",
-                          "    var jsonData = pm.response.json();\r",
-                          "    pm.environment.set(\"public.api.contact_permakey\", jsonData.ContactKey);\r",
-                          "});"
+                          ""
                         ],
                         "type": "text/javascript"
                       }
@@ -967,14 +964,14 @@
                       }
                     ],
                     "url": {
-                      "raw": "{{public.api.baseurl}}/v3/Contacts/Vmm2N4sTrwz?$select=FullName",
+                      "raw": "{{public.api.baseurl}}/v3/Contacts/{{public.api.contact_permakey}}?$select=FullName",
                       "host": [
                         "{{public.api.baseurl}}"
                       ],
                       "path": [
                         "v3",
                         "Contacts",
-                        "Vmm2N4sTrwz"
+                        "{{public.api.contact_permakey}}"
                       ],
                       "query": [
                         {
@@ -992,16 +989,21 @@
                     {
                       "listen": "test",
                       "script": {
+                        "id": "067d410b-4001-463d-be50-470336f95e02",
                         "exec": [
-                          "pm.test(\"Status code is 400\", function () {\r",
-                          "    pm.response.to.have.status(400);\r",
+                          "pm.test(\"Status code is 200\", function () {\r",
+                          "    pm.response.to.have.status(200);\r",
                           "});\r",
-                          "pm.test(\"Body matches contains select function not allowed\", function () {\r",
-                          "    pm.expect(pm.response.text()).to.include(\"Query option 'Select' is not allowed\");\r",
+                          "pm.test(\"Business Cards are expanded\", function () {\r",
+                          "    const responseJson = pm.response.json();\r",
+                          "    var businessCards = responseJson.BusinessCards;\r",
+                          "    pm.expect(businessCards.length).to.be.greaterThan(0);\r",
+                          "\r",
+                          "    // Get First business card and ensure a key exists.\r",
+                          "    pm.expect(businessCards[0].BusinessCardKey).to.be.not.empty;\r",
                           "});"
                         ],
-                        "type": "text/javascript",
-                        "id": "067d410b-4001-463d-be50-470336f95e02"
+                        "type": "text/javascript"
                       }
                     }
                   ],
@@ -1024,14 +1026,14 @@
                       }
                     ],
                     "url": {
-                      "raw": "{{public.api.baseurl}}/v3/Contacts/2x74sVRc2rTN?$expand=BusinessCards",
+                      "raw": "{{public.api.baseurl}}/v3/Contacts/{{public.api.contact_permakey}}?$expand=BusinessCards",
                       "host": [
                         "{{public.api.baseurl}}"
                       ],
                       "path": [
                         "v3",
                         "Contacts",
-                        "2x74sVRc2rTN"
+                        "{{public.api.contact_permakey}}"
                       ],
                       "query": [
                         {
@@ -1163,6 +1165,16 @@
                         ],
                         "type": "text/javascript"
                       }
+                    },
+                    {
+                      "listen": "prerequest",
+                      "script": {
+                        "id": "42434556-16d9-466b-9fb9-c401128f8c2f",
+                        "exec": [
+                          ""
+                        ],
+                        "type": "text/javascript"
+                      }
                     }
                   ],
                   "id": "143b3126-3723-462e-b178-b112db142459",
@@ -1183,7 +1195,7 @@
                         "type": "text"
                       }
                     ],
-                    "url": "{{public.api.baseurl}}/v3/Contacts/KarbonService.GetContactByUserDefinedIdentifier(UserDefinedIdentifier='zxcvzxcv')"
+                    "url": "{{public.api.baseurl}}/v3/Contacts/KarbonService.GetContactByUserDefinedIdentifier(UserDefinedIdentifier='{{public.api.contact_userdefinedidentifier}}')"
                   },
                   "response": [
                     {
@@ -1291,14 +1303,14 @@
                       }
                     ],
                     "url": {
-                      "raw": "{{public.api.baseurl}}/v3/Contacts/KarbonService.GetContactByUserDefinedIdentifier(UserDefinedIdentifier='zxcvzxcv')?$expand=BusinessCards",
+                      "raw": "{{public.api.baseurl}}/v3/Contacts/KarbonService.GetContactByUserDefinedIdentifier(UserDefinedIdentifier='{{public.api.contact_userdefinedidentifier}}')?$expand=BusinessCards",
                       "host": [
                         "{{public.api.baseurl}}"
                       ],
                       "path": [
                         "v3",
                         "Contacts",
-                        "KarbonService.GetContactByUserDefinedIdentifier(UserDefinedIdentifier='zxcvzxcv')"
+                        "KarbonService.GetContactByUserDefinedIdentifier(UserDefinedIdentifier='{{public.api.contact_userdefinedidentifier}}')"
                       ],
                       "query": [
                         {
@@ -1386,61 +1398,28 @@
                     {
                       "listen": "test",
                       "script": {
+                        "id": "3c85b03e-2695-4e94-a629-f4e41de69ffe",
                         "exec": [
-                          "pm.test(\"Status code is 400\", function () {\r",
-                          "    pm.response.to.have.status(400);\r",
+                          "pm.test(\"Status code is 200\", function () {\r",
+                          "    pm.response.to.have.status(200);\r",
                           "});\r",
-                          "pm.test(\"Body matches contains Select not allowed\", function () {\r",
-                          "    pm.expect(pm.response.text()).to.include(\"Query option 'Select' is not allowed\");\r",
+                          "pm.test(\"Parameterless Query Returns at most 100 Contacts\", function () {\r",
+                          "    const responseJson = pm.response.json();    \r",
+                          "    pm.expect(responseJson.value.length).to.be.lessThan(101);\r",
+                          "});\r",
+                          "\r",
+                          "pm.test(\"Grabbing two Full Names to use in future tests\", function () {\r",
+                          "    const responseJson = pm.response.json();    \r",
+                          "    pm.expect(responseJson.value.length).to.be.greaterThan(1);\r",
+                          "    pm.environment.set(\"public.api.search_test_contact1_fullname\", responseJson.value[0].FullName);\r",
+                          "    pm.environment.set(\"public.api.search_test_contact2_fullname\", responseJson.value[1].FullName);\r",
                           "});"
                         ],
-                        "type": "text/javascript",
-                        "id": "3c85b03e-2695-4e94-a629-f4e41de69ffe"
+                        "type": "text/javascript"
                       }
                     }
                   ],
                   "id": "a975f37d-5b61-4458-8bbd-1319df5df2d9",
-                  "protocolProfileBehavior": {
-                    "disableBodyPruning": true
-                  },
-                  "request": {
-                    "method": "GET",
-                    "header": [
-                      {
-                        "key": "Authorization",
-                        "value": "{{publicapi.authorization}}",
-                        "type": "text"
-                      },
-                      {
-                        "key": "AccessKey",
-                        "value": "{{publicapi.accesskey}}",
-                        "type": "text"
-                      }
-                    ],
-                    "url": "{{public.api.baseurl}}/v3/Contacts"
-                  },
-                  "response": []
-                },
-                {
-                  "name": "Search parameterless Copy",
-                  "event": [
-                    {
-                      "listen": "test",
-                      "script": {
-                        "exec": [
-                          "pm.test(\"Status code is 400\", function () {\r",
-                          "    pm.response.to.have.status(400);\r",
-                          "});\r",
-                          "pm.test(\"Body matches contains Select not allowed\", function () {\r",
-                          "    pm.expect(pm.response.text()).to.include(\"Query option 'Select' is not allowed\");\r",
-                          "});"
-                        ],
-                        "type": "text/javascript",
-                        "id": "f2ab378f-d585-4598-a1e4-573b2708429b"
-                      }
-                    }
-                  ],
-                  "id": "11064c52-24f5-4ec2-8686-c8303f2def59",
                   "protocolProfileBehavior": {
                     "disableBodyPruning": true
                   },
@@ -1730,7 +1709,14 @@
                       "script": {
                         "id": "0315d2fc-9d9e-4dc2-abb3-dd6d2916fe72",
                         "exec": [
-                          ""
+                          "pm.test(\"Status code is OK (200)\", function () {\r",
+                          "    pm.response.to.have.status(200);\r",
+                          "});\r",
+                          "\r",
+                          "pm.test(\"Set contact permakey\", function () {\r",
+                          "    var jsonData = pm.response.json();\r",
+                          "    pm.expect(jsonData.value.length).to.be.greaterThan(0);\r",
+                          "});"
                         ],
                         "type": "text/javascript"
                       }
@@ -1755,7 +1741,7 @@
                       }
                     ],
                     "url": {
-                      "raw": "{{public.api.baseurl}}/v3/Contacts?$filter=FullName eq 'Steve Ballmer'",
+                      "raw": "{{public.api.baseurl}}/v3/Contacts?$filter=FullName eq '{{public.api.search_test_contact1_fullname}}'",
                       "host": [
                         "{{public.api.baseurl}}"
                       ],
@@ -1766,7 +1752,7 @@
                       "query": [
                         {
                           "key": "$filter",
-                          "value": "FullName eq 'Steve Ballmer'"
+                          "value": "FullName eq '{{public.api.search_test_contact1_fullname}}'"
                         }
                       ]
                     }
@@ -1787,7 +1773,9 @@
                       "script": {
                         "id": "b86cb0a4-9236-4c22-ab13-d297fae2441e",
                         "exec": [
-                          ""
+                          "var uuid = require('uuid');\r",
+                          "var generatedUUID = uuid.v4(); \r",
+                          "pm.environment.set(\"public.api.contact_uniqueidentifier\", generatedUUID);"
                         ],
                         "type": "text/javascript"
                       }
@@ -1825,7 +1813,7 @@
                     ],
                     "body": {
                       "mode": "raw",
-                      "raw": "{\r\n    \"FirstName\": \"First update\",\r\n    \"MiddleName\": \"Second update\",\r\n    \"LastName\": \"Last update\",\r\n    \"PreferredName\": \"Preferrred update\",\r\n    \"Salutation\": \"Dr\",\r\n    \"Suffix\": \"Of the Test update\",\r\n    \"RestrictionLevel\": \"Public\",\r\n    \"UserDefinedIdentifier\": \"{{public.api.contact_uniqueidentifier}}}}\",\r\n    \"BusinessCards\": [\r\n        {\r\n            \"IsPrimaryCard\": true,\r\n            \"Addresses\": [\r\n                {\r\n                    \"AddressLines\": \"address line test update\",\r\n                    \"City\": \"city test update\",\r\n                    \"StateProvinceCounty\": \"NSW update\",\r\n                    \"ZipCode\": \"2120 update\",\r\n                    \"CountryCode\": \"AU\",\r\n                    \"Label\": \"Test label update\"\r\n                }\r\n            ],\r\n            \"PhoneNumbers\": [\r\n                {\r\n                    \"Number\": \"12345678\",\r\n                    \"CountryCode\": \"+61\",\r\n                    \"Label\": \"Work update\"\r\n                }\r\n            ],\r\n            \"WebSites\": [\r\n                \"web.coolupdate\",\r\n                \"website.twoupdate\"\r\n            ],\r\n            \"EmailAddresses\": [\r\n                \"{{public.api.contact_uniqueidentifier}}@karbonhq.com\"\r\n            ],\r\n            \"RoleOrTitle\": \"CIO\",\r\n            \"FacebookLink\": \"facebook.com/testupdate\",\r\n            \"LinkedInLink\": \"LinkedIn.com/testupdate\",\r\n            \"TwitterLink\": \"Twitter.com/testupdate\",\r\n            \"SkypeLink\": \"Skype.com/testupdate\"\r\n        }\r\n    ],\r\n    \"EntityDescription\": {\r\n        \"Text\": \"test description update\"\r\n    },\r\n    \"AccountingDetail\": {\r\n        \"ContactPermaKey\": \"{{public.api.contact_permakey}}\",\r\n        \"BirthDate\": \"2001-05-16\",\r\n        \"DeathDate\": \"2021-05-16\",\r\n        \"Salutation\": \"The Dishonorable update\",\r\n        \"Sex\": \"M\",\r\n        \"FinancialYearEndDay\": \"11\",\r\n        \"FinancialYearEndMonth\": \"0\",\r\n        \"LegalName\": \"League of Heels update\",\r\n        \"TaxCountryCode\": \"AU\",\r\n        \"IncomeTaxInstallmentPeriod\": \"Monthly\",\r\n        \"RegistrationNumbers\": [\r\n            {\r\n                \"RegistrationNumber\": \"123 321 3445\",\r\n                \"Type\": \"Tax File Number (TFN)\"\r\n            },\r\n            {\r\n                \"RegistrationNumber\": \"444 333 222\",\r\n                \"Type\": \"Australian Business Number (ABN)\"\r\n            }\r\n        ],\r\n        \"Notes\": [\r\n            {\r\n                \"Body\": \"Notes basic body update\",\r\n                \"Type\": \"Basic\"\r\n            },\r\n            {\r\n                \"Body\": \"Notes tax body update\",\r\n                \"Type\": \"Tax\"\r\n            },\r\n            {\r\n                \"Body\": \"Notes system body update\",\r\n                \"Type\": \"System\"\r\n            },\r\n            {\r\n                \"Body\": \"Notes related people body update\",\r\n                \"Type\": \"Related People\"\r\n            }\r\n        ]\r\n    }\r\n}",
+                      "raw": "{\r\n    \"FirstName\": \"First update\",\r\n    \"MiddleName\": \"Second update\",\r\n    \"LastName\": \"Last update\",\r\n    \"PreferredName\": \"Preferrred update\",\r\n    \"Salutation\": \"Dr\",\r\n    \"Suffix\": \"Of the Test update\",\r\n    \"RestrictionLevel\": \"Public\",\r\n    \"UserDefinedIdentifier\": \"{{public.api.contact_uniqueidentifier}}\",\r\n    \"BusinessCards\": [\r\n        {\r\n            \"IsPrimaryCard\": true,\r\n            \"Addresses\": [\r\n                {\r\n                    \"AddressLines\": \"address line test update\",\r\n                    \"City\": \"city test update\",\r\n                    \"StateProvinceCounty\": \"NSW update\",\r\n                    \"ZipCode\": \"2120 update\",\r\n                    \"CountryCode\": \"AU\",\r\n                    \"Label\": \"Test label update\"\r\n                }\r\n            ],\r\n            \"PhoneNumbers\": [\r\n                {\r\n                    \"Number\": \"12345678\",\r\n                    \"CountryCode\": \"+61\",\r\n                    \"Label\": \"Work update\"\r\n                }\r\n            ],\r\n            \"WebSites\": [\r\n                \"web.coolupdate\",\r\n                \"website.twoupdate\"\r\n            ],\r\n            \"EmailAddresses\": [\r\n                \"{{public.api.contact_uniqueidentifier}}@karbonhq.com\"\r\n            ],\r\n            \"RoleOrTitle\": \"CIO\",\r\n            \"FacebookLink\": \"facebook.com/testupdate\",\r\n            \"LinkedInLink\": \"LinkedIn.com/testupdate\",\r\n            \"TwitterLink\": \"Twitter.com/testupdate\",\r\n            \"SkypeLink\": \"Skype.com/testupdate\"\r\n        }\r\n    ],\r\n    \"EntityDescription\": {\r\n        \"Text\": \"test description update\"\r\n    },\r\n    \"AccountingDetail\": {\r\n        \"ContactPermaKey\": \"{{public.api.contact_permakey}}\",\r\n        \"BirthDate\": \"2001-05-16\",\r\n        \"DeathDate\": \"2021-05-16\",\r\n        \"Salutation\": \"The Dishonorable update\",\r\n        \"Sex\": \"M\",\r\n        \"FinancialYearEndDay\": \"11\",\r\n        \"FinancialYearEndMonth\": \"0\",\r\n        \"LegalName\": \"League of Heels update\",\r\n        \"TaxCountryCode\": \"AU\",\r\n        \"IncomeTaxInstallmentPeriod\": \"Monthly\",\r\n        \"RegistrationNumbers\": [\r\n            {\r\n                \"RegistrationNumber\": \"123 321 3445\",\r\n                \"Type\": \"Tax File Number (TFN)\"\r\n            },\r\n            {\r\n                \"RegistrationNumber\": \"444 333 222\",\r\n                \"Type\": \"Australian Business Number (ABN)\"\r\n            }\r\n        ],\r\n        \"Notes\": [\r\n            {\r\n                \"Body\": \"Notes basic body update\",\r\n                \"Type\": \"Basic\"\r\n            },\r\n            {\r\n                \"Body\": \"Notes tax body update\",\r\n                \"Type\": \"Tax\"\r\n            },\r\n            {\r\n                \"Body\": \"Notes system body update\",\r\n                \"Type\": \"System\"\r\n            },\r\n            {\r\n                \"Body\": \"Notes related people body update\",\r\n                \"Type\": \"Related People\"\r\n            }\r\n        ]\r\n    }\r\n}",
                       "options": {
                         "raw": {
                           "language": "json"
@@ -1882,6 +1870,21 @@
               "item": [
                 {
                   "name": "Create Note",
+                  "event": [
+                    {
+                      "listen": "test",
+                      "script": {
+                        "id": "c0b157e4-e10e-4953-9315-22bd5ef22780",
+                        "exec": [
+                          "pm.test(\"Status code is Created (201)\", function () {\r",
+                          "    pm.response.to.have.status(201);\r",
+                          "});\r",
+                          ""
+                        ],
+                        "type": "text/javascript"
+                      }
+                    }
+                  ],
                   "id": "40221808-de29-4aba-b998-6b4b298ec00c",
                   "protocolProfileBehavior": {
                     "disableBodyPruning": true
@@ -2005,6 +2008,7 @@
                           "pm.test(\"Set organization permakey\", function () {\r",
                           "    var jsonData = pm.response.json();\r",
                           "    pm.environment.set(\"public.api.organization_permakey\", jsonData.OrganizationKey);\r",
+                          "    pm.environment.set(\"public.api.test_organization_userdefinedidentifier\", jsonData.UserDefinedIdentifier);\r",
                           "});"
                         ],
                         "type": "text/javascript"
@@ -2086,13 +2090,14 @@
                       }
                     ],
                     "url": {
-                      "raw": "{{public.api.baseurl}}/v3/Organizations?$select=FullName",
+                      "raw": "{{public.api.baseurl}}/v3/Organizations/{{public.api.organization_permakey}}?$select=FullName",
                       "host": [
                         "{{public.api.baseurl}}"
                       ],
                       "path": [
                         "v3",
-                        "Organizations"
+                        "Organizations",
+                        "{{public.api.organization_permakey}}"
                       ],
                       "query": [
                         {
@@ -2110,16 +2115,18 @@
                     {
                       "listen": "test",
                       "script": {
+                        "id": "70420c20-f6dc-4ad1-b819-39372cf1f7f9",
                         "exec": [
-                          "pm.test(\"Status code is 400\", function () {\r",
-                          "    pm.response.to.have.status(400);\r",
+                          "pm.test(\"Status code is 200\", function () {\r",
+                          "    pm.response.to.have.status(200);\r",
                           "});\r",
-                          "pm.test(\"Body matches contains select function not allowed\", function () {\r",
-                          "    pm.expect(pm.response.text()).to.include(\"Query option 'Select' is not allowed\");\r",
+                          "\r",
+                          "pm.test(\"Assert correct organization is returned\", function () {\r",
+                          "    var jsonData = pm.response.json();\r",
+                          "    pm.expect(jsonData.OrganizationKey).to.be.eql(pm.environment.get(\"public.api.organization_permakey\"));\r",
                           "});"
                         ],
-                        "type": "text/javascript",
-                        "id": "70420c20-f6dc-4ad1-b819-39372cf1f7f9"
+                        "type": "text/javascript"
                       }
                     }
                   ],
@@ -2141,23 +2148,7 @@
                         "type": "text"
                       }
                     ],
-                    "url": {
-                      "raw": "{{public.api.baseurl}}/v3/Organizations/21NpVnGprLNr?$expand=BusinessCards",
-                      "host": [
-                        "{{public.api.baseurl}}"
-                      ],
-                      "path": [
-                        "v3",
-                        "Organizations",
-                        "21NpVnGprLNr"
-                      ],
-                      "query": [
-                        {
-                          "key": "$expand",
-                          "value": "BusinessCards"
-                        }
-                      ]
-                    }
+                    "url": "{{public.api.baseurl}}/v3/Organizations/{{public.api.organization_permakey}}"
                   },
                   "response": []
                 },
@@ -2279,7 +2270,7 @@
                         "type": "text"
                       }
                     ],
-                    "url": "{{public.api.baseurl}}/v3/Organizations/KarbonService.GetOrganizationByUserDefinedIdentifier(UserDefinedIdentifier='oooooooo')"
+                    "url": "{{public.api.baseurl}}/v3/Organizations/KarbonService.GetOrganizationByUserDefinedIdentifier(UserDefinedIdentifier='{{public.api.test_organization_userdefinedidentifier}}')"
                   },
                   "response": []
                 },
@@ -2323,14 +2314,14 @@
                       }
                     ],
                     "url": {
-                      "raw": "{{public.api.baseurl}}/v3/Organizations/KarbonService.GetOrganizationByUserDefinedIdentifier(UserDefinedIdentifier='oooooooo')?$expand=BusinessCards",
+                      "raw": "{{public.api.baseurl}}/v3/Organizations/KarbonService.GetOrganizationByUserDefinedIdentifier(UserDefinedIdentifier='{{public.api.test_organization_userdefinedidentifier}}')?$expand=BusinessCards",
                       "host": [
                         "{{public.api.baseurl}}"
                       ],
                       "path": [
                         "v3",
                         "Organizations",
-                        "KarbonService.GetOrganizationByUserDefinedIdentifier(UserDefinedIdentifier='oooooooo')"
+                        "KarbonService.GetOrganizationByUserDefinedIdentifier(UserDefinedIdentifier='{{public.api.test_organization_userdefinedidentifier}}')"
                       ],
                       "query": [
                         {
@@ -2663,7 +2654,10 @@
                       "script": {
                         "id": "4345faa4-39ca-46e9-bcd0-2b26cc04be86",
                         "exec": [
-                          ""
+                          "var uuid = require('uuid');\r",
+                          "var generatedUUID = uuid.v4(); \r",
+                          "pm.environment.set(\"public.api.organization_uniqueidentifier\", generatedUUID);\r",
+                          "console.log(generatedUUID);"
                         ],
                         "type": "text/javascript"
                       }
@@ -2701,14 +2695,14 @@
                     ],
                     "body": {
                       "mode": "raw",
-                      "raw": "{\r\n    \"FullName\": \"Full Name Test update\",\r\n    \"RestrictionLevel\": \"Public\",\r\n    \"ContactType\": \"Prospect\",\r\n    \"UserDefinedIdentifier\": \"{{public.api.organization_uniqueidentifier}}\",\r\n    \"BusinessCards\": [\r\n        {\r\n            \"IsPrimaryCard\": true,\r\n            \"Addresses\": [\r\n                {\r\n                    \"AddressLines\": \"address line test update\",\r\n                    \"City\": \"city test update\",\r\n                    \"StateProvinceCounty\": \"NSW update\",\r\n                    \"ZipCode\": \"2120 update\",\r\n                    \"CountryCode\": \"AU\",\r\n                    \"Label\": \"Test label update\"\r\n                }\r\n            ],\r\n            \"PhoneNumbers\": [\r\n                {\r\n                    \"Number\": \"12345678\",\r\n                    \"CountryCode\": \"+61\",\r\n                    \"Label\": \"Work update\"\r\n                }\r\n            ],\r\n            \"WebSites\": [\r\n                \"web.coolupdate\",\r\n                \"website.twoupdate\"\r\n            ],\r\n            \"EmailAddresses\": [\r\n                \"{{public.api.organization_uniqueidentifier}}@karbonhq.comupdate\"\r\n            ],\r\n            \"RoleOrTitle\": \"CIO\",\r\n            \"FacebookLink\": \"facebook.com/testupdate\",\r\n            \"LinkedInLink\": \"LinkedIn.com/testupdate\",\r\n            \"TwitterLink\": \"Twitter.com/testupdate\",\r\n            \"SkypeLink\": \"Skype.com/testupdate\"\r\n        }\r\n    ],\r\n    \"EntityDescription\": {\r\n        \"Text\": \"test description update\"\r\n    },\r\n\"AccountingDetail\": {\r\n        \"LegalName\": \"Oranization Details update\",\r\n        \"TaxCountryCode\": \"AU\",\r\n        \"EntityType\": \"Partnership\",\r\n        \"IncorporationDate\": \"2021-05-16\",\r\n        \"LineOfBusiness\": \"Fast moving socks update\",\r\n        \"AnnualRevenue\": 60000.50,\r\n        \"OrganizationValuation\": 120000.50,\r\n        \"Sells\": \"Products\",\r\n        \"RevenueModel\": \"Markup\",\r\n        \"FinancialYearEndMonth\": 2,\r\n        \"FinancialYearEndDay\": 11,\r\n        \"GstPeriod\": \"Monthly\",\r\n        \"IncomeTaxInstallmentPeriod\": \"Quarterly\",\r\n        \"GstBasis\": \"Invoice\",\r\n        \"RegistrationNumbers\": [\r\n            {\r\n                \"RegistrationNumber\": \"123 321 3445\",\r\n                \"Type\": \"Tax File Number (TFN)\"\r\n            },\r\n            {\r\n                \"RegistrationNumber\": \"444 333 222\",\r\n                \"Type\": \"Australian Company Number (ACN)\"\r\n            },\r\n            {\r\n                \"RegistrationNumber\": \"444 333 222\",\r\n                \"Type\": \"Australian Business Number (ABN)\"\r\n            }\r\n        ],\r\n        \"Notes\": [\r\n            {\r\n                \"Body\": \"Notes basic body update\",\r\n                \"Type\": \"Basic\"\r\n            },\r\n            {\r\n                \"Body\": \"Notes tax body update\",\r\n                \"Type\": \"Tax\"\r\n            },\r\n            {\r\n                \"Body\": \"Notes system body  update\",\r\n                \"Type\": \"System\"\r\n            },\r\n            {\r\n                \"Body\": \"Notes Owner body update\",\r\n                \"Type\": \"Owner\"\r\n            },\r\n            {\r\n                \"Body\": \"Notes Officer body update\",\r\n                \"Type\": \"Officer\"\r\n            }\r\n        ]\r\n    }\r\n}",
+                      "raw": "{\r\n    \"FullName\": \"Full Name Test update\",\r\n    \"RestrictionLevel\": \"Public\",\r\n    \"ContactType\": \"Prospect\",\r\n    \"UserDefinedIdentifier\": \"{{public.api.organization_permakey}}\",\r\n    \"EntityDescription\": {\r\n        \"Text\": \"test description update\"\r\n    }\r\n}",
                       "options": {
                         "raw": {
                           "language": "json"
                         }
                       }
                     },
-                    "url": "{{public.api.baseurl}}/v3/Organizations"
+                    "url": "{{public.api.baseurl}}/v3/Organizations/{{public.api.organization_permakey}}"
                   },
                   "response": []
                 }
@@ -2752,7 +2746,7 @@
               "request": {
                 "method": "GET",
                 "header": [],
-                "url": "{{public.api.baseurl}}/api/ping"
+                "url": "{{public.api.v3baseurl}}/api/ping"
               },
               "response": []
             },
@@ -2783,7 +2777,7 @@
               "request": {
                 "method": "GET",
                 "header": [],
-                "url": "{{public.api.baseurl}}/api/apistatus"
+                "url": "{{public.api.v3baseurl}}/api/apistatus"
               },
               "response": []
             }
@@ -3037,47 +3031,6 @@
                     }
                   },
                   "response": []
-                },
-                {
-                  "name": "Search User List",
-                  "event": [
-                    {
-                      "listen": "test",
-                      "script": {
-                        "id": "9d063f34-11bb-4425-99b0-e26243a4e5ab",
-                        "exec": [
-                          "pm.test(\"Status code is 400\", function () {\r",
-                          "    pm.response.to.have.status(400);\r",
-                          "});\r",
-                          "pm.test(\"Body matches contains Select not allowed\", function () {\r",
-                          "    pm.expect(pm.response.text()).to.include(\"Query option 'Select' is not allowed\");\r",
-                          "});"
-                        ],
-                        "type": "text/javascript"
-                      }
-                    }
-                  ],
-                  "id": "56fcb738-d8ec-4471-880e-ae4ad62e4178",
-                  "protocolProfileBehavior": {
-                    "disableBodyPruning": true
-                  },
-                  "request": {
-                    "method": "GET",
-                    "header": [
-                      {
-                        "key": "Authorization",
-                        "value": "{{publicapi.authorization}}",
-                        "type": "text"
-                      },
-                      {
-                        "key": "AccessKey",
-                        "value": "{{publicapi.accesskey}}",
-                        "type": "text"
-                      }
-                    ],
-                    "url": "{{public.api.baseurl}}/v3/Users"
-                  },
-                  "response": []
                 }
               ],
               "id": "b6106690-d142-493f-ae0d-d36018b4b510"
@@ -3087,6 +3040,39 @@
               "item": [
                 {
                   "name": "Create User V3",
+                  "event": [
+                    {
+                      "listen": "prerequest",
+                      "script": {
+                        "id": "44a1efc4-a8bf-49fd-a910-246e483f4016",
+                        "exec": [
+                          "var uuid = require('uuid');\r",
+                          "var generatedEmail = uuid.v4() + \"@gmail.com\"; \r",
+                          "var generatedName = uuid.v4(); \r",
+                          "\r",
+                          "pm.environment.set(\"public.api.contact_test_user_generatedemail\", generatedEmail);\r",
+                          "pm.environment.set(\"public.api.contact_test_user_generatedname\", generatedName);\r",
+                          "\r",
+                          "console.log(generatedEmail);\r",
+                          "console.log(generatedName);"
+                        ],
+                        "type": "text/javascript"
+                      }
+                    },
+                    {
+                      "listen": "test",
+                      "script": {
+                        "id": "6466f10a-bb64-43d4-8943-e4525118e0f2",
+                        "exec": [
+                          "pm.test(\"Status code is Created (201)\", function () {\r",
+                          "    pm.response.to.have.status(201);\r",
+                          "});\r",
+                          ""
+                        ],
+                        "type": "text/javascript"
+                      }
+                    }
+                  ],
                   "id": "5fa0b3e2-bbf0-4454-bc2e-ef3d26f9bcaf",
                   "protocolProfileBehavior": {
                     "disableBodyPruning": true
@@ -3107,7 +3093,7 @@
                     ],
                     "body": {
                       "mode": "raw",
-                      "raw": "{\r\n    \"Name\": \"JamesTest8\",\r\n    \"EmailAddress\": \"james.speller8@gmail.com\"\r\n}",
+                      "raw": "{\r\n    \"Name\": \"{{public.api.contact_test_user_generatedemail}}\",\r\n    \"EmailAddress\": \"{{public.api.contact_test_user_generatedname}}\"\r\n}",
                       "options": {
                         "raw": {
                           "language": "json"
@@ -3132,6 +3118,25 @@
               "item": [
                 {
                   "name": "SetTargetUrl",
+                  "event": [
+                    {
+                      "listen": "test",
+                      "script": {
+                        "id": "adab9176-e2aa-4af6-b1a4-7a8defeb3379",
+                        "exec": [
+                          "pm.test(\"Status code is 201\", function () {\r",
+                          "    pm.response.to.have.status(201);\r",
+                          "});\r",
+                          "\r",
+                          "pm.test(\"Target Url is set\", function () {\r",
+                          "    const responseJson = pm.response.json();\r",
+                          "    pm.expect(responseJson.TargetUrl).to.be.not.empty;\r",
+                          "});"
+                        ],
+                        "type": "text/javascript"
+                      }
+                    }
+                  ],
                   "id": "9ea29b2f-8ca4-40f9-9f4e-bf798f2b4566",
                   "protocolProfileBehavior": {
                     "disableBodyPruning": true
@@ -3224,6 +3229,21 @@
               "item": [
                 {
                   "name": "GetWebhookSubscription",
+                  "event": [
+                    {
+                      "listen": "test",
+                      "script": {
+                        "id": "615d5a97-d782-4b60-ad16-2f2982f26336",
+                        "exec": [
+                          "pm.test(\"Status code is 200\", function () {\r",
+                          "    pm.response.to.have.status(200);\r",
+                          "});\r",
+                          ""
+                        ],
+                        "type": "text/javascript"
+                      }
+                    }
+                  ],
                   "id": "b4efcf17-a529-4a3a-b809-e95bb6cc90ad",
                   "protocolProfileBehavior": {
                     "disableBodyPruning": true
@@ -3298,83 +3318,6 @@
                       "body": "{\n \"Items\": [\n  {\n   \"FullName\": \"Adams, Douglas Noel\",\n   \"PreferredName\": \"Doug\",\n   \"Salutation\": \"Mr\",\n   \"ClientOwner\": \"myowner@megadodopublications.com\",\n   \"ClientManager\": \"mymanager@megadodopublications.com\",\n   \"Address\": \"42 Galaxy Way, London\",\n   \"EmailAddress\": \"DNA@megadodopublications.net\",\n   \"PhoneNumber\": \"+61212345678\",\n   \"RoleOrTitle\": \"CEO\",\n   \"UserDefinedIdentifier\": \"42\",\n   \"LastModifiedDateTime\": \"2021-01-22T03:00:14.8634476Z\",\n   \"ContactKey\": \"2BtTSg4xM7Dt\"\n  },\n  {\n   \"FullName\": \"Asimov, Isaac\",\n   \"PreferredName\": \"Zac\",\n   \"Salutation\": \"Mr\",\n   \"ClientOwner\": \"myowner@bostonuniversity.edu\",\n   \"ClientManager\": \"mymanager@bostonuniversity.edu\",\n   \"Address\": \"1920 Foundation Boulevard, Petrovichi, Russia\",\n   \"EmailAddress\": \"asimo@bostonuniversity.edu\",\n   \"PhoneNumber\": \"069283779143\",\n   \"RoleOrTitle\": \"Writer\",\n   \"UserDefinedIdentifier\": \"5020\",\n   \"LastModifiedDateTime\": \"2021-02-03T03:00:14.8634476Z\",\n   \"ContactKey\": \"23WWskXjR4wX\"\n  }\n ],\n \"NextPageLink\": \"https://api.karbonhq.com/v3/Contacts?$skip=100\",\n \"Count\": 123\n}"
                     }
                   ]
-                },
-                {
-                  "name": "GetWebhookSubscription Copy",
-                  "id": "44cf93cc-aa62-48e0-8b15-117c26b72f0f",
-                  "protocolProfileBehavior": {
-                    "disableBodyPruning": true
-                  },
-                  "request": {
-                    "method": "GET",
-                    "header": [
-                      {
-                        "key": "Authorization",
-                        "value": "{{publicapi.authorization}}",
-                        "type": "text"
-                      },
-                      {
-                        "key": "AccessKey",
-                        "value": "{{publicapi.accesskey}}",
-                        "type": "text"
-                      }
-                    ],
-                    "url": "{{public.api.baseurl}}/v3/WebhookSubscriptions"
-                  },
-                  "response": [
-                    {
-                      "id": "1bfc91a7-0ae9-4c60-9fc1-f222bb3fda49",
-                      "name": "OK",
-                      "originalRequest": {
-                        "method": "GET",
-                        "header": [],
-                        "url": {
-                          "raw": "{{baseUrl}}/v3/Contacts?$select=<string>&$filter=<string>&$orderby=<string>&$top=<integer>&$skip=<integer>",
-                          "host": [
-                            "{{baseUrl}}"
-                          ],
-                          "path": [
-                            "v3",
-                            "Contacts"
-                          ],
-                          "query": [
-                            {
-                              "key": "$select",
-                              "value": "<string>"
-                            },
-                            {
-                              "key": "$filter",
-                              "value": "<string>"
-                            },
-                            {
-                              "key": "$orderby",
-                              "value": "<string>"
-                            },
-                            {
-                              "key": "$top",
-                              "value": "<integer>"
-                            },
-                            {
-                              "key": "$skip",
-                              "value": "<integer>"
-                            }
-                          ]
-                        }
-                      },
-                      "status": "OK",
-                      "code": 200,
-                      "_postman_previewlanguage": "json",
-                      "header": [
-                        {
-                          "key": "Content-Type",
-                          "value": "application/json"
-                        }
-                      ],
-                      "cookie": [],
-                      "responseTime": null,
-                      "body": "{\n \"Items\": [\n  {\n   \"FullName\": \"Adams, Douglas Noel\",\n   \"PreferredName\": \"Doug\",\n   \"Salutation\": \"Mr\",\n   \"ClientOwner\": \"myowner@megadodopublications.com\",\n   \"ClientManager\": \"mymanager@megadodopublications.com\",\n   \"Address\": \"42 Galaxy Way, London\",\n   \"EmailAddress\": \"DNA@megadodopublications.net\",\n   \"PhoneNumber\": \"+61212345678\",\n   \"RoleOrTitle\": \"CEO\",\n   \"UserDefinedIdentifier\": \"42\",\n   \"LastModifiedDateTime\": \"2021-01-22T03:00:14.8634476Z\",\n   \"ContactKey\": \"2BtTSg4xM7Dt\"\n  },\n  {\n   \"FullName\": \"Asimov, Isaac\",\n   \"PreferredName\": \"Zac\",\n   \"Salutation\": \"Mr\",\n   \"ClientOwner\": \"myowner@bostonuniversity.edu\",\n   \"ClientManager\": \"mymanager@bostonuniversity.edu\",\n   \"Address\": \"1920 Foundation Boulevard, Petrovichi, Russia\",\n   \"EmailAddress\": \"asimo@bostonuniversity.edu\",\n   \"PhoneNumber\": \"069283779143\",\n   \"RoleOrTitle\": \"Writer\",\n   \"UserDefinedIdentifier\": \"5020\",\n   \"LastModifiedDateTime\": \"2021-02-03T03:00:14.8634476Z\",\n   \"ContactKey\": \"23WWskXjR4wX\"\n  }\n ],\n \"NextPageLink\": \"https://api.karbonhq.com/v3/Contacts?$skip=100\",\n \"Count\": 123\n}"
-                    }
-                  ]
                 }
               ],
               "id": "85028589-628e-46d6-a494-523984038f9a"
@@ -3384,6 +3327,21 @@
               "item": [
                 {
                   "name": "Delete WebhookSubscription",
+                  "event": [
+                    {
+                      "listen": "test",
+                      "script": {
+                        "id": "3752b00c-1e69-4a90-bc16-ecc242b85fd6",
+                        "exec": [
+                          "pm.test(\"Status code is 204\", function () {\r",
+                          "    pm.response.to.have.status(204);\r",
+                          "});\r",
+                          ""
+                        ],
+                        "type": "text/javascript"
+                      }
+                    }
+                  ],
                   "id": "a5015f87-04a6-42b6-b0fd-ab5d0913d6b8",
                   "protocolProfileBehavior": {
                     "disableBodyPruning": true
@@ -5170,14 +5128,6 @@
                           "    pm.response.to.have.status(200);\r",
                           "});\r",
                           "\r",
-                          "pm.test(\"Your test name\", function () {\r",
-                          "    var jsonData = pm.response.json();\r",
-                          "    pm.expect(jsonData.ActorRoles.length).to.eql(4);\r",
-                          "    pm.environment.set(\"public.api.worktemplate_actor1\", jsonData.ActorRoles[0].ActorKey);\r",
-                          "    pm.environment.set(\"public.api.worktemplate_actor2\", jsonData.ActorRoles[1].ActorKey);\r",
-                          "    pm.environment.set(\"public.api.worktemplate_actor3\", jsonData.ActorRoles[2].ActorKey);\r",
-                          "    pm.environment.set(\"public.api.worktemplate_actor4\", jsonData.ActorRoles[3].ActorKey);\r",
-                          "});\r",
                           "\r",
                           ""
                         ],
