@@ -66,7 +66,8 @@
                       "script": {
                         "id": "5d2b321b-a9cb-40ac-8926-d00dab92ad46",
                         "exec": [
-                          "console.log('APIKey is ' + pm.environment.get('publicapi.authorization'));"
+                          "console.log('Authorization key is ' + pm.environment.get('publicapi.authorization'));\r",
+                          "console.log('AccessKey is ' + pm.environment.get('publicapi.accesskey'));"
                         ],
                         "type": "text/javascript"
                       }
