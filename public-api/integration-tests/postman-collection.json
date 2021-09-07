@@ -60,6 +60,18 @@
               "item": [
                 {
                   "name": "Create Client Group",
+                  "event": [
+                    {
+                      "listen": "test",
+                      "script": {
+                        "id": "5d2b321b-a9cb-40ac-8926-d00dab92ad46",
+                        "exec": [
+                          "console.log('APIKey is ' + pm.environment.get('publicapi.authorization'));"
+                        ],
+                        "type": "text/javascript"
+                      }
+                    }
+                  ],
                   "id": "909c6678-b2bf-4b95-8f6b-d5d9c9702df9",
                   "protocolProfileBehavior": {
                     "disableBodyPruning": true
