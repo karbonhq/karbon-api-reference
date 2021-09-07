@@ -124,6 +124,9 @@
                       "script": {
                         "id": "f30b2f14-8330-46f8-9f81-516bfab1e942",
                         "exec": [
+                          "console.log('Authorization key is ' + pm.environment.get('publicapi.authorization'));\r",
+                          "console.log('AccessKey is ' + pm.environment.get('publicapi.accesskey'));\r",
+                          "\r",
                           "pm.test(\"Status code is Created (201)\", function () {\r",
                           "    pm.response.to.have.status(201);\r",
                           "});\r",
