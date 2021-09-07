@@ -3695,7 +3695,115 @@
               "name": "Get by PermaKey",
               "item": [
                 {
-                  "name": "Get WorkItem by PermaKey Should 404",
+                  "name": "#5170 Get by PermaKey with basic work fields Expand",
+                  "event": [
+                    {
+                      "listen": "test",
+                      "script": {
+                        "id": "79eda62c-9da2-42f2-88ab-2d4b9bccf167",
+                        "exec": [
+                          "pm.test(\"Status code is 200\", function () {\r",
+                          "    pm.response.to.have.status(200);\r",
+                          "});"
+                        ],
+                        "type": "text/javascript"
+                      }
+                    }
+                  ],
+                  "id": "cfdee4fa-5f07-4148-b03e-ee27cb7fb0c2",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Authorization",
+                        "value": "{{publicapi.authorization}}",
+                        "type": "text"
+                      },
+                      {
+                        "key": "AccessKey",
+                        "value": "{{publicapi.accesskey}}",
+                        "type": "text"
+                      }
+                    ],
+                    "url": "{{public.api.baseurl}}/v3/WorkItems/{{public.api.workitem_permakey}}"
+                  },
+                  "response": []
+                },
+                {
+                  "name": "Get by PermaKey with select odata attribute should fail",
+                  "event": [
+                    {
+                      "listen": "test",
+                      "script": {
+                        "exec": [
+                          "pm.test(\"Status code is 400\", function () {\r",
+                          "    pm.response.to.have.status(400);\r",
+                          "});\r",
+                          "pm.test(\"Body matches contains select function not allowed\", function () {\r",
+                          "    pm.expect(pm.response.text()).to.include(\"Query option 'Select' is not allowed\");\r",
+                          "});"
+                        ],
+                        "type": "text/javascript",
+                        "id": "c10e1359-d4d0-4757-a0b9-df12791feddb"
+                      }
+                    }
+                  ],
+                  "id": "524b31d3-5f2d-494a-b55b-994409b05319",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Authorization",
+                        "value": "{{publicapi.authorization}}",
+                        "type": "text"
+                      },
+                      {
+                        "key": "AccessKey",
+                        "value": "{{publicapi.accesskey}}",
+                        "type": "text"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{public.api.baseurl}}/v3/WorkItems?$select=AssigneeEmailAddress",
+                      "host": [
+                        "{{public.api.baseurl}}"
+                      ],
+                      "path": [
+                        "v3",
+                        "WorkItems"
+                      ],
+                      "query": [
+                        {
+                          "key": "$select",
+                          "value": "AssigneeEmailAddress"
+                        }
+                      ]
+                    }
+                  },
+                  "response": []
+                },
+                {
+                  "name": "Get WorkItem by wrong PermaKey Should 404",
+                  "event": [
+                    {
+                      "listen": "test",
+                      "script": {
+                        "id": "3fd9b4fa-78fe-4b75-96ec-8823dfa0fa95",
+                        "exec": [
+                          "pm.test(\"Status code is 400\", function () {\r",
+                          "    pm.response.to.have.status(404);\r",
+                          "});"
+                        ],
+                        "type": "text/javascript"
+                      }
+                    }
+                  ],
                   "id": "2e59d031-92c2-477c-97e1-4852b4d8a032",
                   "protocolProfileBehavior": {
                     "disableBodyPruning": true
@@ -3770,177 +3878,6 @@
                       "body": "{\n \"Items\": [\n  {\n   \"FullName\": \"Adams, Douglas Noel\",\n   \"PreferredName\": \"Doug\",\n   \"Salutation\": \"Mr\",\n   \"ClientOwner\": \"myowner@megadodopublications.com\",\n   \"ClientManager\": \"mymanager@megadodopublications.com\",\n   \"Address\": \"42 Galaxy Way, London\",\n   \"EmailAddress\": \"DNA@megadodopublications.net\",\n   \"PhoneNumber\": \"+61212345678\",\n   \"RoleOrTitle\": \"CEO\",\n   \"UserDefinedIdentifier\": \"42\",\n   \"LastModifiedDateTime\": \"2021-01-22T03:00:14.8634476Z\",\n   \"ContactKey\": \"2BtTSg4xM7Dt\"\n  },\n  {\n   \"FullName\": \"Asimov, Isaac\",\n   \"PreferredName\": \"Zac\",\n   \"Salutation\": \"Mr\",\n   \"ClientOwner\": \"myowner@bostonuniversity.edu\",\n   \"ClientManager\": \"mymanager@bostonuniversity.edu\",\n   \"Address\": \"1920 Foundation Boulevard, Petrovichi, Russia\",\n   \"EmailAddress\": \"asimo@bostonuniversity.edu\",\n   \"PhoneNumber\": \"069283779143\",\n   \"RoleOrTitle\": \"Writer\",\n   \"UserDefinedIdentifier\": \"5020\",\n   \"LastModifiedDateTime\": \"2021-02-03T03:00:14.8634476Z\",\n   \"ContactKey\": \"23WWskXjR4wX\"\n  }\n ],\n \"NextPageLink\": \"https://api.karbonhq.com/v3/Contacts?$skip=100\",\n \"Count\": 123\n}"
                     }
                   ]
-                },
-                {
-                  "name": "Get WorkItem by PermaKey working",
-                  "id": "e4865da3-b3c5-41fe-aa33-513f36cd0a09",
-                  "protocolProfileBehavior": {
-                    "disableBodyPruning": true
-                  },
-                  "request": {
-                    "method": "GET",
-                    "header": [
-                      {
-                        "key": "Authorization",
-                        "type": "text",
-                        "value": "{{publicapi.authorization}}"
-                      },
-                      {
-                        "key": "AccessKey",
-                        "type": "text",
-                        "value": "{{publicapi.accesskey}}"
-                      }
-                    ],
-                    "url": "{{public.api.baseurl}}/v3/WorkItems/2GSZWn2G2RS9"
-                  },
-                  "response": [
-                    {
-                      "id": "9d10732c-18d0-42a4-8d5e-83fb2784e4df",
-                      "name": "OK",
-                      "originalRequest": {
-                        "method": "GET",
-                        "header": [],
-                        "url": {
-                          "raw": "{{baseUrl}}/v3/Contacts?$select=<string>&$filter=<string>&$orderby=<string>&$top=<integer>&$skip=<integer>",
-                          "host": [
-                            "{{baseUrl}}"
-                          ],
-                          "path": [
-                            "v3",
-                            "Contacts"
-                          ],
-                          "query": [
-                            {
-                              "key": "$select",
-                              "value": "<string>"
-                            },
-                            {
-                              "key": "$filter",
-                              "value": "<string>"
-                            },
-                            {
-                              "key": "$orderby",
-                              "value": "<string>"
-                            },
-                            {
-                              "key": "$top",
-                              "value": "<integer>"
-                            },
-                            {
-                              "key": "$skip",
-                              "value": "<integer>"
-                            }
-                          ]
-                        }
-                      },
-                      "status": "OK",
-                      "code": 200,
-                      "_postman_previewlanguage": "json",
-                      "header": [
-                        {
-                          "key": "Content-Type",
-                          "value": "application/json"
-                        }
-                      ],
-                      "cookie": [],
-                      "responseTime": null,
-                      "body": "{\n \"Items\": [\n  {\n   \"FullName\": \"Adams, Douglas Noel\",\n   \"PreferredName\": \"Doug\",\n   \"Salutation\": \"Mr\",\n   \"ClientOwner\": \"myowner@megadodopublications.com\",\n   \"ClientManager\": \"mymanager@megadodopublications.com\",\n   \"Address\": \"42 Galaxy Way, London\",\n   \"EmailAddress\": \"DNA@megadodopublications.net\",\n   \"PhoneNumber\": \"+61212345678\",\n   \"RoleOrTitle\": \"CEO\",\n   \"UserDefinedIdentifier\": \"42\",\n   \"LastModifiedDateTime\": \"2021-01-22T03:00:14.8634476Z\",\n   \"ContactKey\": \"2BtTSg4xM7Dt\"\n  },\n  {\n   \"FullName\": \"Asimov, Isaac\",\n   \"PreferredName\": \"Zac\",\n   \"Salutation\": \"Mr\",\n   \"ClientOwner\": \"myowner@bostonuniversity.edu\",\n   \"ClientManager\": \"mymanager@bostonuniversity.edu\",\n   \"Address\": \"1920 Foundation Boulevard, Petrovichi, Russia\",\n   \"EmailAddress\": \"asimo@bostonuniversity.edu\",\n   \"PhoneNumber\": \"069283779143\",\n   \"RoleOrTitle\": \"Writer\",\n   \"UserDefinedIdentifier\": \"5020\",\n   \"LastModifiedDateTime\": \"2021-02-03T03:00:14.8634476Z\",\n   \"ContactKey\": \"23WWskXjR4wX\"\n  }\n ],\n \"NextPageLink\": \"https://api.karbonhq.com/v3/Contacts?$skip=100\",\n \"Count\": 123\n}"
-                    }
-                  ]
-                },
-                {
-                  "name": "Get by PermaKey with select odata attribute",
-                  "event": [
-                    {
-                      "listen": "test",
-                      "script": {
-                        "exec": [
-                          "pm.test(\"Status code is 400\", function () {\r",
-                          "    pm.response.to.have.status(400);\r",
-                          "});\r",
-                          "pm.test(\"Body matches contains select function not allowed\", function () {\r",
-                          "    pm.expect(pm.response.text()).to.include(\"Query option 'Select' is not allowed\");\r",
-                          "});"
-                        ],
-                        "type": "text/javascript",
-                        "id": "c10e1359-d4d0-4757-a0b9-df12791feddb"
-                      }
-                    }
-                  ],
-                  "id": "524b31d3-5f2d-494a-b55b-994409b05319",
-                  "protocolProfileBehavior": {
-                    "disableBodyPruning": true
-                  },
-                  "request": {
-                    "method": "GET",
-                    "header": [
-                      {
-                        "key": "Authorization",
-                        "value": "{{publicapi.authorization}}",
-                        "type": "text"
-                      },
-                      {
-                        "key": "AccessKey",
-                        "value": "{{publicapi.accesskey}}",
-                        "type": "text"
-                      }
-                    ],
-                    "url": {
-                      "raw": "{{public.api.baseurl}}/v3/WorkItems?$select=AssigneeEmailAddress",
-                      "host": [
-                        "{{public.api.baseurl}}"
-                      ],
-                      "path": [
-                        "v3",
-                        "WorkItems"
-                      ],
-                      "query": [
-                        {
-                          "key": "$select",
-                          "value": "AssigneeEmailAddress"
-                        }
-                      ]
-                    }
-                  },
-                  "response": []
-                },
-                {
-                  "name": "#5170 Get by PermaKey with basic work fields Expand",
-                  "event": [
-                    {
-                      "listen": "test",
-                      "script": {
-                        "id": "79eda62c-9da2-42f2-88ab-2d4b9bccf167",
-                        "exec": [
-                          "pm.test(\"Status code is 200\", function () {\r",
-                          "    pm.response.to.have.status(200);\r",
-                          "});"
-                        ],
-                        "type": "text/javascript"
-                      }
-                    }
-                  ],
-                  "id": "cfdee4fa-5f07-4148-b03e-ee27cb7fb0c2",
-                  "protocolProfileBehavior": {
-                    "disableBodyPruning": true
-                  },
-                  "request": {
-                    "method": "GET",
-                    "header": [
-                      {
-                        "key": "Authorization",
-                        "value": "{{publicapi.authorization}}",
-                        "type": "text"
-                      },
-                      {
-                        "key": "AccessKey",
-                        "value": "{{publicapi.accesskey}}",
-                        "type": "text"
-                      }
-                    ],
-                    "url": "{{public.api.baseurl}}/v3/WorkItems/{{public.api.workitem_permakey}}"
-                  },
-                  "response": []
                 }
               ],
               "id": "6fa79f32-8a93-4d4e-95f3-fcca62ea1035"
@@ -3950,6 +3887,25 @@
               "item": [
                 {
                   "name": "Search WorkItems",
+                  "event": [
+                    {
+                      "listen": "test",
+                      "script": {
+                        "id": "157c6232-7220-45b6-b6af-98a45dbf01ac",
+                        "exec": [
+                          "pm.test(\"Status code is 201\", function () {\r",
+                          "    pm.response.to.have.status(200);\r",
+                          "});\r",
+                          "\r",
+                          "pm.test(\"Check work items were found\", function () {\r",
+                          "    var jsonData = pm.response.json();\r",
+                          "    pm.expect(jsonData.value.length).to.gte(0);    \r",
+                          "});"
+                        ],
+                        "type": "text/javascript"
+                      }
+                    }
+                  ],
                   "id": "9749fa45-70db-4dcb-9591-dc7bd88f67c8",
                   "protocolProfileBehavior": {
                     "disableBodyPruning": true
@@ -3969,7 +3925,7 @@
                       }
                     ],
                     "url": {
-                      "raw": "{{public.api.baseurl}}/v3/WorkItems?$filter=AssigneeEmailAddress eq 'james%40karbonhq.com' and ClientKey eq '2rl7PgtL7373'",
+                      "raw": "{{public.api.baseurl}}/v3/WorkItems?$filter=AssigneeEmailAddress eq '{{public.api.workitem_useremail}}' and ClientKey eq '{{public.api.workitem_clientkey}}'",
                       "host": [
                         "{{public.api.baseurl}}"
                       ],
@@ -3980,7 +3936,7 @@
                       "query": [
                         {
                           "key": "$filter",
-                          "value": "AssigneeEmailAddress eq 'james%40karbonhq.com' and ClientKey eq '2rl7PgtL7373'"
+                          "value": "AssigneeEmailAddress eq '{{public.api.workitem_useremail}}' and ClientKey eq '{{public.api.workitem_clientkey}}'"
                         }
                       ]
                     }
@@ -4042,6 +3998,25 @@
                 },
                 {
                   "name": "Search WorkItems without filters",
+                  "event": [
+                    {
+                      "listen": "test",
+                      "script": {
+                        "id": "c11d3072-be73-4168-a239-0fe0597f7c50",
+                        "exec": [
+                          "pm.test(\"Status code is 200\", function () {\r",
+                          "    pm.response.to.have.status(200);\r",
+                          "});\r",
+                          "\r",
+                          "pm.test(\"Check work items were found\", function () {\r",
+                          "    var jsonData = pm.response.json();\r",
+                          "    pm.expect(jsonData.value.length).to.gte(0);    \r",
+                          "});"
+                        ],
+                        "type": "text/javascript"
+                      }
+                    }
+                  ],
                   "id": "34be2486-cf88-45d0-9e46-3132fdfe2abe",
                   "protocolProfileBehavior": {
                     "disableBodyPruning": true
@@ -4116,45 +4091,6 @@
                       "body": "{\n \"Items\": [\n  {\n   \"FullName\": \"Adams, Douglas Noel\",\n   \"PreferredName\": \"Doug\",\n   \"Salutation\": \"Mr\",\n   \"ClientOwner\": \"myowner@megadodopublications.com\",\n   \"ClientManager\": \"mymanager@megadodopublications.com\",\n   \"Address\": \"42 Galaxy Way, London\",\n   \"EmailAddress\": \"DNA@megadodopublications.net\",\n   \"PhoneNumber\": \"+61212345678\",\n   \"RoleOrTitle\": \"CEO\",\n   \"UserDefinedIdentifier\": \"42\",\n   \"LastModifiedDateTime\": \"2021-01-22T03:00:14.8634476Z\",\n   \"ContactKey\": \"2BtTSg4xM7Dt\"\n  },\n  {\n   \"FullName\": \"Asimov, Isaac\",\n   \"PreferredName\": \"Zac\",\n   \"Salutation\": \"Mr\",\n   \"ClientOwner\": \"myowner@bostonuniversity.edu\",\n   \"ClientManager\": \"mymanager@bostonuniversity.edu\",\n   \"Address\": \"1920 Foundation Boulevard, Petrovichi, Russia\",\n   \"EmailAddress\": \"asimo@bostonuniversity.edu\",\n   \"PhoneNumber\": \"069283779143\",\n   \"RoleOrTitle\": \"Writer\",\n   \"UserDefinedIdentifier\": \"5020\",\n   \"LastModifiedDateTime\": \"2021-02-03T03:00:14.8634476Z\",\n   \"ContactKey\": \"23WWskXjR4wX\"\n  }\n ],\n \"NextPageLink\": \"https://api.karbonhq.com/v3/Contacts?$skip=100\",\n \"Count\": 123\n}"
                     }
                   ]
-                },
-                {
-                  "name": "Example WorkItems search request",
-                  "id": "76338f88-78a7-4a6f-9405-614740e296a2",
-                  "protocolProfileBehavior": {
-                    "disableBodyPruning": true
-                  },
-                  "request": {
-                    "method": "GET",
-                    "header": [
-                      {
-                        "key": "Authorization",
-                        "value": "{{publicapi.authorization}}",
-                        "type": "text"
-                      },
-                      {
-                        "key": "AccessKey",
-                        "value": "{{publicapi.accesskey}}",
-                        "type": "text"
-                      }
-                    ],
-                    "url": {
-                      "raw": "{{public.api.baseurl}}/v3/WorkItems?$filter=ClientKey eq 'abc123'",
-                      "host": [
-                        "{{public.api.baseurl}}"
-                      ],
-                      "path": [
-                        "v3",
-                        "WorkItems"
-                      ],
-                      "query": [
-                        {
-                          "key": "$filter",
-                          "value": "ClientKey eq 'abc123'"
-                        }
-                      ]
-                    }
-                  },
-                  "response": []
                 },
                 {
                   "name": "Search with select odata attribute",
@@ -4334,6 +4270,11 @@
                         "exec": [
                           "pm.test(\"Status code is 200\", function () {\r",
                           "    pm.response.to.have.status(200);\r",
+                          "});\r",
+                          "\r",
+                          "pm.test(\"Check work items were found\", function () {\r",
+                          "    var jsonData = pm.response.json();\r",
+                          "    pm.expect(jsonData.value.length).to.gte(0);\r",
                           "});"
                         ],
                         "type": "text/javascript"
@@ -4359,7 +4300,7 @@
                       }
                     ],
                     "url": {
-                      "raw": "{{public.api.baseurl}}/v3/WorkItems?$filter=ClientKey eq '{{public.api.workitem_clientkey}}' and StartDate ge 2020-06-30 and StartDate le 2021-06-30",
+                      "raw": "{{public.api.baseurl}}/v3/WorkItems?$filter=ClientKey eq '{{public.api.workitem_clientkey}}' and StartDate ge 2020-06-30 and StartDate le 2050-06-30",
                       "host": [
                         "{{public.api.baseurl}}"
                       ],
@@ -4370,7 +4311,7 @@
                       "query": [
                         {
                           "key": "$filter",
-                          "value": "ClientKey eq '{{public.api.workitem_clientkey}}' and StartDate ge 2020-06-30 and StartDate le 2021-06-30"
+                          "value": "ClientKey eq '{{public.api.workitem_clientkey}}' and StartDate ge 2020-06-30 and StartDate le 2050-06-30"
                         }
                       ]
                     }
@@ -4387,6 +4328,11 @@
                         "exec": [
                           "pm.test(\"Status code is 200\", function () {\r",
                           "    pm.response.to.have.status(200);\r",
+                          "});\r",
+                          "\r",
+                          "pm.test(\"Check work items were found\", function () {\r",
+                          "    var jsonData = pm.response.json();\r",
+                          "    pm.expect(jsonData.value.length).to.gte(0);   \r",
                           "});"
                         ],
                         "type": "text/javascript"
@@ -4436,92 +4382,6 @@
             {
               "name": "Update (Put)",
               "item": [
-                {
-                  "name": "Update WorkItem Copy",
-                  "id": "7932ed89-5c71-4a74-a4bc-1d17cb98c43a",
-                  "protocolProfileBehavior": {
-                    "disableBodyPruning": true
-                  },
-                  "request": {
-                    "method": "PUT",
-                    "header": [
-                      {
-                        "key": "Authorization",
-                        "type": "text",
-                        "value": "{{publicapi.authorization}}"
-                      },
-                      {
-                        "key": "AccessKey",
-                        "type": "text",
-                        "value": "{{publicapi.accesskey}}"
-                      }
-                    ],
-                    "body": {
-                      "mode": "raw",
-                      "raw": "{\r\n    \"Title\": \"Payroll: Payroll processing  1 - 15 May 2021\",\r\n    \"Description\": \"Update Description\",\r\n    \"ClientKey\": \"2rl7PgtL7373\",\r\n    \"ClientType\": \"Organization\",\r\n    \"ClientGroupKey\": null,\r\n    \"AssigneeEmailAddress\": \"james@karbonhq.com\",\r\n    \"StartDate\": \"2021-05-14T00:00:00+10:00\",\r\n    \"DueDate\": \"2021-05-21T00:00:00+10:00\",\r\n    \"WorkType\": \"Payroll\",\r\n    \"WorkStatus\": \"Planned\",\r\n    \"ToDoPeriod\": \"2021-05-14T00:00:00+10:00\",\r\n    \"EstimatedBudget\": null,\r\n    \"WorkTemplateKey\": \"HNC7QDx4kdT\",\r\n    \"ClientName\": \"Acme Corporation\",\r\n    \"AssigneeName\": \"James Speller\",\r\n    \"ClientGroupName\": null,\r\n    \"WorkTemplateTile\": \"Payroll: Payroll processing\",\r\n    \"WorkScheduleKey\": \"2Tlgtl5sjmNL\"\r\n}",
-                      "options": {
-                        "raw": {
-                          "language": "json"
-                        }
-                      }
-                    },
-                    "url": "{{public.api.baseurl}}/v3/WorkItems/2GSZWn2G2RS9"
-                  },
-                  "response": [
-                    {
-                      "id": "d6e37343-27e7-42d1-b27f-85052d1de9e6",
-                      "name": "OK",
-                      "originalRequest": {
-                        "method": "GET",
-                        "header": [],
-                        "url": {
-                          "raw": "{{baseUrl}}/v3/Contacts?$select=<string>&$filter=<string>&$orderby=<string>&$top=<integer>&$skip=<integer>",
-                          "host": [
-                            "{{baseUrl}}"
-                          ],
-                          "path": [
-                            "v3",
-                            "Contacts"
-                          ],
-                          "query": [
-                            {
-                              "key": "$select",
-                              "value": "<string>"
-                            },
-                            {
-                              "key": "$filter",
-                              "value": "<string>"
-                            },
-                            {
-                              "key": "$orderby",
-                              "value": "<string>"
-                            },
-                            {
-                              "key": "$top",
-                              "value": "<integer>"
-                            },
-                            {
-                              "key": "$skip",
-                              "value": "<integer>"
-                            }
-                          ]
-                        }
-                      },
-                      "status": "OK",
-                      "code": 200,
-                      "_postman_previewlanguage": "json",
-                      "header": [
-                        {
-                          "key": "Content-Type",
-                          "value": "application/json"
-                        }
-                      ],
-                      "cookie": [],
-                      "responseTime": null,
-                      "body": "{\n \"Items\": [\n  {\n   \"FullName\": \"Adams, Douglas Noel\",\n   \"PreferredName\": \"Doug\",\n   \"Salutation\": \"Mr\",\n   \"ClientOwner\": \"myowner@megadodopublications.com\",\n   \"ClientManager\": \"mymanager@megadodopublications.com\",\n   \"Address\": \"42 Galaxy Way, London\",\n   \"EmailAddress\": \"DNA@megadodopublications.net\",\n   \"PhoneNumber\": \"+61212345678\",\n   \"RoleOrTitle\": \"CEO\",\n   \"UserDefinedIdentifier\": \"42\",\n   \"LastModifiedDateTime\": \"2021-01-22T03:00:14.8634476Z\",\n   \"ContactKey\": \"2BtTSg4xM7Dt\"\n  },\n  {\n   \"FullName\": \"Asimov, Isaac\",\n   \"PreferredName\": \"Zac\",\n   \"Salutation\": \"Mr\",\n   \"ClientOwner\": \"myowner@bostonuniversity.edu\",\n   \"ClientManager\": \"mymanager@bostonuniversity.edu\",\n   \"Address\": \"1920 Foundation Boulevard, Petrovichi, Russia\",\n   \"EmailAddress\": \"asimo@bostonuniversity.edu\",\n   \"PhoneNumber\": \"069283779143\",\n   \"RoleOrTitle\": \"Writer\",\n   \"UserDefinedIdentifier\": \"5020\",\n   \"LastModifiedDateTime\": \"2021-02-03T03:00:14.8634476Z\",\n   \"ContactKey\": \"23WWskXjR4wX\"\n  }\n ],\n \"NextPageLink\": \"https://api.karbonhq.com/v3/Contacts?$skip=100\",\n \"Count\": 123\n}"
-                    }
-                  ]
-                },
                 {
                   "name": "#5170 Update WorkItem",
                   "event": [
@@ -4660,57 +4520,6 @@
                     }
                   ],
                   "id": "273fd4de-25de-4b36-9644-85be7d745383",
-                  "protocolProfileBehavior": {
-                    "disableBodyPruning": true
-                  },
-                  "request": {
-                    "method": "POST",
-                    "header": [
-                      {
-                        "key": "Authorization",
-                        "value": "{{publicapi.authorization}}",
-                        "type": "text"
-                      },
-                      {
-                        "key": "AccessKey",
-                        "value": "{{publicapi.accesskey}}",
-                        "type": "text"
-                      }
-                    ],
-                    "body": {
-                      "mode": "raw",
-                      "raw": "{\r\n    \"CreatedFromWorkItemKey\": \"{{public.api.workitem_permakey}}\",\r\n    \"RecurrenceFrequency\": \"Quarter\",\r\n    \"CustomFrequencyUnits\": \"Days\",\r\n    \"CustomFrequencyMultiple\": 1,\r\n    \"ScheduleStartDate\": \"2021-07-01\",\r\n    \"ScheduleEndDate\": \"2021-09-01\",\r\n    \"ScheduleDueDateMethod\": \"DaysFromStartDate\",\r\n    \"ScheduleDueDateDays\": 7,\r\n    \"ScheduleDueDateMonthMultiple\": null,\r\n    \"PreventStartEndOnWeekend\": true,\r\n    \"InitializeBeforeStartDateUnits\": \"Days\",\r\n    \"InitializeBeforeStartDateMultiple\": 3,\r\n    \"InitializeTasksBeforeStartDateUnits\": \"Days\",\r\n    \"InitializeTasksBeforeStartDateMultiple\": 2,\r\n    \"WorkItemTitleDefinition\": \"[{\\\"Text\\\":\\\"Test for Public API\\\",\\\"Variable\\\":null,\\\"Format\\\":null,\\\"Offset\\\":0}]\"\r\n}",
-                      "options": {
-                        "raw": {
-                          "language": "json"
-                        }
-                      }
-                    },
-                    "url": "{{public.api.baseurl}}/v3/WorkSchedules"
-                  },
-                  "response": []
-                },
-                {
-                  "name": "#5170 Create WorkSchedule from work item Copy",
-                  "event": [
-                    {
-                      "listen": "test",
-                      "script": {
-                        "id": "2dd1e944-fb9f-43b2-81b6-f91afa23b2bc",
-                        "exec": [
-                          "pm.test(\"Status code is 201\", function () {\r",
-                          "    pm.response.to.have.status(201);\r",
-                          "});\r",
-                          "pm.test(\"Set workitemschedule PermaKey\", function () {\r",
-                          "    var jsonData = pm.response.json();\r",
-                          "    pm.environment.set(\"public.api.workitemschedule_permakey\", jsonData.WorkScheduleKey);\r",
-                          "});"
-                        ],
-                        "type": "text/javascript"
-                      }
-                    }
-                  ],
-                  "id": "f120f7f9-8d39-40e1-abf1-ef3628be2d96",
                   "protocolProfileBehavior": {
                     "disableBodyPruning": true
                   },
@@ -4899,45 +4708,6 @@
                     "url": "{{public.api.baseurl}}/v3/WorkSchedules/{{public.api.workitemschedule_permakey}}"
                   },
                   "response": []
-                },
-                {
-                  "name": "#5170 Get WorkSchedule by Permakey Copy",
-                  "event": [
-                    {
-                      "listen": "test",
-                      "script": {
-                        "id": "fec02417-e3fb-48ce-bdda-d70821a50002",
-                        "exec": [
-                          "pm.test(\"Status code is 200\", function () {\r",
-                          "    pm.response.to.have.status(200);\r",
-                          "});\r",
-                          ""
-                        ],
-                        "type": "text/javascript"
-                      }
-                    }
-                  ],
-                  "id": "325fc9c9-abcd-48ee-9b12-47b7cb191bd2",
-                  "protocolProfileBehavior": {
-                    "disableBodyPruning": true
-                  },
-                  "request": {
-                    "method": "GET",
-                    "header": [
-                      {
-                        "key": "Authorization",
-                        "value": "{{publicapi.authorization}}",
-                        "type": "text"
-                      },
-                      {
-                        "key": "AccessKey",
-                        "value": "0E6F83B2-B037-42BF-97BC-FCC9BB38E577",
-                        "type": "text"
-                      }
-                    ],
-                    "url": "https://apiv3.stage.az.karbonhq.com/v3/WorkSchedules/2H4LpGTLsfHB"
-                  },
-                  "response": []
                 }
               ],
               "id": "08583412-188e-4ada-a41e-65d86c4e7770"
@@ -5004,6 +4774,47 @@
             {
               "name": "Get by PermaKey",
               "item": [
+                {
+                  "name": "Get By Permakey",
+                  "event": [
+                    {
+                      "listen": "test",
+                      "script": {
+                        "id": "66380a5d-83d7-4908-84c2-550813117df4",
+                        "exec": [
+                          "pm.test(\"Status code is 200\", function () {\r",
+                          "    pm.response.to.have.status(200);\r",
+                          "});\r",
+                          "\r",
+                          "\r",
+                          ""
+                        ],
+                        "type": "text/javascript"
+                      }
+                    }
+                  ],
+                  "id": "ae9ba1d6-835c-4241-a6de-cb67fb3f1325",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Authorization",
+                        "value": "{{publicapi.authorization}}",
+                        "type": "text"
+                      },
+                      {
+                        "key": "AccessKey",
+                        "value": "{{publicapi.accesskey}}",
+                        "type": "text"
+                      }
+                    ],
+                    "url": "{{public.api.baseurl}}/v3/WorkTemplates/{{public.api.worktemplatekey}}"
+                  },
+                  "response": []
+                },
                 {
                   "name": "Search with select odata attribute",
                   "event": [
@@ -5115,47 +4926,6 @@
                     }
                   },
                   "response": []
-                },
-                {
-                  "name": "Get By Permakey",
-                  "event": [
-                    {
-                      "listen": "test",
-                      "script": {
-                        "id": "66380a5d-83d7-4908-84c2-550813117df4",
-                        "exec": [
-                          "pm.test(\"Status code is 200\", function () {\r",
-                          "    pm.response.to.have.status(200);\r",
-                          "});\r",
-                          "\r",
-                          "\r",
-                          ""
-                        ],
-                        "type": "text/javascript"
-                      }
-                    }
-                  ],
-                  "id": "ae9ba1d6-835c-4241-a6de-cb67fb3f1325",
-                  "protocolProfileBehavior": {
-                    "disableBodyPruning": true
-                  },
-                  "request": {
-                    "method": "GET",
-                    "header": [
-                      {
-                        "key": "Authorization",
-                        "value": "{{publicapi.authorization}}",
-                        "type": "text"
-                      },
-                      {
-                        "key": "AccessKey",
-                        "value": "{{publicapi.accesskey}}",
-                        "type": "text"
-                      }
-                    ],
-                    "url": "{{public.api.baseurl}}/v3/WorkTemplates/{{public.api.worktemplatekey}}"
-                  },
-                  "response": []
                 }
               ],
               "id": "cf78fd91-40b1-4193-ac78-b1a54e1a632a"
@@ -5165,6 +4935,25 @@
               "item": [
                 {
                   "name": "Search WorkTemplates",
+                  "event": [
+                    {
+                      "listen": "test",
+                      "script": {
+                        "id": "69bbba1c-b97b-4362-bf03-57dcf2c727ec",
+                        "exec": [
+                          "pm.test(\"Status code is 200\", function () {\r",
+                          "    pm.response.to.have.status(200);\r",
+                          "});\r",
+                          "\r",
+                          "pm.test(\"Check work items were found\", function () {\r",
+                          "    var jsonData = pm.response.json();\r",
+                          "    pm.expect(jsonData.value.length).to.gte(0);\r",
+                          "});"
+                        ],
+                        "type": "text/javascript"
+                      }
+                    }
+                  ],
                   "id": "d6f2e602-1f24-4f06-b79d-1e31d097eba7",
                   "protocolProfileBehavior": {
                     "disableBodyPruning": true
@@ -5184,7 +4973,7 @@
                       }
                     ],
                     "url": {
-                      "raw": "{{public.api.baseurl}}/v3/WorkTemplates?$filter=startswith(Title, 'IRS')",
+                      "raw": "{{public.api.baseurl}}/v3/WorkTemplates?$filter=startswith(Title, 'Payroll')",
                       "host": [
                         "{{public.api.baseurl}}"
                       ],
@@ -5195,7 +4984,7 @@
                       "query": [
                         {
                           "key": "$filter",
-                          "value": "startswith(Title, 'IRS')"
+                          "value": "startswith(Title, 'Payroll')"
                         }
                       ]
                     }
