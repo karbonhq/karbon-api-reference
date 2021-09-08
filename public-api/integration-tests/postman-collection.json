@@ -66,8 +66,9 @@
                       "script": {
                         "id": "5d2b321b-a9cb-40ac-8926-d00dab92ad46",
                         "exec": [
-                          "console.log('Authorization key is ' + pm.environment.get('publicapi.authorization'));\r",
-                          "console.log('AccessKey is ' + pm.environment.get('publicapi.accesskey'));"
+                          "pm.test(\"Status code is Created (201)\", function () {\r",
+                          "    pm.response.to.have.status(201);\r",
+                          "});"
                         ],
                         "type": "text/javascript"
                       }
@@ -93,7 +94,7 @@
                     ],
                     "body": {
                       "mode": "raw",
-                      "raw": "{\r\n    \"ClientManager\": \"client manager\",\r\n    \"ClientOwner\": \"client owner\",\r\n    \"ContactType\": \"contact type\",\r\n    \"FullName\": \"client group full name\",\r\n    \"UserDefinedIdentifier\": \"08F5A570-476D-45DD-8C00-164D05B1BAD3\"\r\n}",
+                      "raw": "{\r\n    \"ClientManager\": \"client manager\",\r\n    \"ClientOwner\": \"client owner\",\r\n    \"ContactType\": \"contact type\",\r\n    \"FullName\": \"client group full name\",\r\n    \"UserDefinedIdentifier\": \"{{$guid}}\"\r\n}",
                       "options": {
                         "raw": {
                           "language": "json"
