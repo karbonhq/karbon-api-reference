@@ -1527,6 +1527,24 @@
                 },
                 {
                   "name": "Search with startswith odata attribute not supported",
+                  "event": [
+                    {
+                      "listen": "test",
+                      "script": {
+                        "id": "63ef35a6-45ee-4da3-bc11-d94b470e1e41",
+                        "exec": [
+                          "pm.test(\"Status code is 400\", function () {\r",
+                          "    pm.response.to.have.status(400);\r",
+                          "});\r",
+                          "\r",
+                          "pm.test(\"Check error message contents\", function () {\r",
+                          "    pm.expect(pm.response.text()).to.include(\"Function 'startswith' is not allowed\");\r",
+                          "});"
+                        ],
+                        "type": "text/javascript"
+                      }
+                    }
+                  ],
                   "id": "bf1b038c-9858-42d9-9f20-4a92bdfa3d65",
                   "protocolProfileBehavior": {
                     "disableBodyPruning": true
