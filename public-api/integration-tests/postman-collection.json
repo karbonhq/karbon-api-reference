@@ -2399,7 +2399,7 @@
                           "\r",
                           "pm.test(\"Check work items were found\", function () {\r",
                           "    var jsonData = pm.response.json();\r",
-                          "    pm.expect(jsonData.value.length).to.gte(0);    \r",
+                          "    pm.expect(jsonData.value.length).to.gte(0);\r",
                           "});"
                         ],
                         "type": "text/javascript"
