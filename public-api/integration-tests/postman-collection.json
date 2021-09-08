@@ -1526,7 +1526,7 @@
                   "response": []
                 },
                 {
-                  "name": "Search with startswith odata attribute",
+                  "name": "Search with startswith odata attribute not supported",
                   "id": "bf1b038c-9858-42d9-9f20-4a92bdfa3d65",
                   "protocolProfileBehavior": {
                     "disableBodyPruning": true
