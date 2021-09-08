@@ -766,6 +766,20 @@
               "item": [
                 {
                   "name": "Partial Update Client Group",
+                  "event": [
+                    {
+                      "listen": "test",
+                      "script": {
+                        "id": "424c8309-72c9-4ce3-a079-51f610746604",
+                        "exec": [
+                          "pm.test(\"Status code is 204\", function () {\r",
+                          "    pm.response.to.have.status(204);\r",
+                          "});"
+                        ],
+                        "type": "text/javascript"
+                      }
+                    }
+                  ],
                   "id": "4efaef7f-9dbd-458b-952d-b3ad45d8a2ec",
                   "protocolProfileBehavior": {
                     "disableBodyPruning": true
@@ -793,7 +807,7 @@
                         }
                       }
                     },
-                    "url": "{{public.api.baseurl}}/v3/ClientGroups/2h6l6pH488J6"
+                    "url": "{{public.api.baseurl}}/v3/ClientGroups/{{public.api.clientgroup_permakey}}"
                   },
                   "response": []
                 }
