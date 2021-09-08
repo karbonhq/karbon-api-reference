@@ -2387,6 +2387,25 @@
               "item": [
                 {
                   "name": "Search Organizations",
+                  "event": [
+                    {
+                      "listen": "test",
+                      "script": {
+                        "id": "03260ab7-b10b-4e46-a4c3-b82e9efbceab",
+                        "exec": [
+                          "pm.test(\"Status code is 200\", function () {\r",
+                          "    pm.response.to.have.status(200);\r",
+                          "});\r",
+                          "\r",
+                          "pm.test(\"Check work items were found\", function () {\r",
+                          "    var jsonData = pm.response.json();\r",
+                          "    pm.expect(jsonData.value.length).to.gte(0);    \r",
+                          "});"
+                        ],
+                        "type": "text/javascript"
+                      }
+                    }
+                  ],
                   "id": "81e89edf-ec04-4b8b-a7c7-d8cd55edcc33",
                   "protocolProfileBehavior": {
                     "disableBodyPruning": true
