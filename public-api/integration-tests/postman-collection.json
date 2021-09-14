@@ -5279,6 +5279,182 @@
             }
           ],
           "id": "8cdbc087-94a9-4539-b16b-07b0a4fb29db"
+        },
+        {
+          "name": "ClientApp",
+          "item": [
+            {
+              "name": "ClientRequestRecipients",
+              "item": [
+                {
+                  "name": "GET ClientRequestRecipients by Email Address (Invalid)",
+                  "event": [
+                    {
+                      "listen": "test",
+                      "script": {
+                        "id": "b58c13cf-e462-4c6b-9d62-db187b0161b3",
+                        "exec": [
+                          "// Test should only run on Dev2 and return 404 elsewhere. You can add the name of your local environment here to run the test.\r",
+                          "pm.test(\"Status code is 400 for Dev2, 404 otherwise\", function () {\r",
+                          "    console.log()\r",
+                          "    if (pm.environment.name == 'Dev2' || pm.environment.name == '<local-environment-name>'){ \r",
+                          "        pm.response.to.have.status(400);\r",
+                          "    } else {\r",
+                          "        pm.response.to.have.status(404);\r",
+                          "    }\r",
+                          "});"
+                        ],
+                        "type": "text/javascript"
+                      }
+                    }
+                  ],
+                  "id": "335bfe22-5114-4202-b7e6-ce60dc8cf8b0",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "AccessKey",
+                        "value": "{{publicapi.accesskey}}",
+                        "type": "text"
+                      },
+                      {
+                        "key": "Authorization",
+                        "value": "{{publicapi.authorization}}",
+                        "type": "text"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{public.api.baseurl}}/v3/ClientRequestRecipients?emailAddress=barryt.7877",
+                      "host": [
+                        "{{public.api.baseurl}}"
+                      ],
+                      "path": [
+                        "v3",
+                        "ClientRequestRecipients"
+                      ],
+                      "query": [
+                        {
+                          "key": "emailAddress",
+                          "value": "barryt.7877"
+                        }
+                      ]
+                    }
+                  },
+                  "response": []
+                },
+                {
+                  "name": "GET ClientRequestRecipients by Email Address VALID",
+                  "event": [
+                    {
+                      "listen": "test",
+                      "script": {
+                        "id": "5cb42b8a-fe5d-43d8-a77b-01f855a45648",
+                        "exec": [
+                          "// Test should only run on Dev2 and return 404 elsewhere. You can add the name of your local environment here to run the test.\r",
+                          "pm.test(\"Status code is 200 for Dev2, 404 otherwise\", function () {\r",
+                          "    console.log()\r",
+                          "    if (pm.environment.name == 'Dev2' || pm.environment.name == '<local-environment-name>'){ \r",
+                          "        pm.response.to.have.status(200);\r",
+                          "    } else {\r",
+                          "        pm.response.to.have.status(404);\r",
+                          "    }\r",
+                          "});"
+                        ],
+                        "type": "text/javascript"
+                      }
+                    }
+                  ],
+                  "id": "5142870d-0e58-4a38-8ffa-a0f4e811d0f5",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "AccessKey",
+                        "value": "{{publicapi.accesskey}}",
+                        "type": "text"
+                      },
+                      {
+                        "key": "Authorization",
+                        "value": "{{publicapi.authorization}}",
+                        "type": "text"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{public.api.baseurl}}/v3/ClientRequestRecipients?emailAddress={{public.api.clientreques_test_emailaddress}}",
+                      "host": [
+                        "{{public.api.baseurl}}"
+                      ],
+                      "path": [
+                        "v3",
+                        "ClientRequestRecipients"
+                      ],
+                      "query": [
+                        {
+                          "key": "emailAddress",
+                          "value": "{{public.api.clientreques_test_emailaddress}}"
+                        }
+                      ]
+                    }
+                  },
+                  "response": []
+                }
+              ],
+              "id": "52845d10-c6a0-4f07-aa34-8be8753a065f"
+            },
+            {
+              "name": "ClientRequests",
+              "item": [
+                {
+                  "name": "GetRequests by PermaKey",
+                  "id": "123c78a1-196f-4015-8830-2ac529622841",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "AccessKey",
+                        "value": "{{publicapi.accesskey}}",
+                        "type": "text"
+                      },
+                      {
+                        "key": "Authorization",
+                        "value": "{{publicapi.authorization}}",
+                        "type": "text"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{public.api.baseurl}}/v3/ClientRequests/ww7T8rfmlgV?$expand=Recipient",
+                      "host": [
+                        "{{public.api.baseurl}}"
+                      ],
+                      "path": [
+                        "v3",
+                        "ClientRequests",
+                        "ww7T8rfmlgV"
+                      ],
+                      "query": [
+                        {
+                          "key": "$expand",
+                          "value": "Recipient"
+                        }
+                      ]
+                    }
+                  },
+                  "response": []
+                }
+              ],
+              "id": "cb3881ea-ddbc-4a2c-9434-607e4815795b"
+            }
+          ],
+          "id": "4d931b1e-5742-4043-aaf0-ae6ceedbde03"
         }
       ],
       "id": "ae7faa85-66ea-4f17-901c-7798cc3be613"
