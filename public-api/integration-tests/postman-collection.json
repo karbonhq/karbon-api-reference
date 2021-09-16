@@ -5386,7 +5386,7 @@
                       }
                     ],
                     "url": {
-                      "raw": "{{public.api.baseurl}}/v3/ClientRequestRecipients?emailAddress={{public.api.clientreques_test_emailaddress}}",
+                      "raw": "{{public.api.baseurl}}/v3/ClientRequestRecipients?emailAddress={{public.api.clientrequest_test_emailaddress}}",
                       "host": [
                         "{{public.api.baseurl}}"
                       ],
@@ -5397,7 +5397,7 @@
                       "query": [
                         {
                           "key": "emailAddress",
-                          "value": "{{public.api.clientreques_test_emailaddress}}"
+                          "value": "{{public.api.clientrequest_test_emailaddress}}"
                         }
                       ]
                     }
@@ -5412,6 +5412,26 @@
               "item": [
                 {
                   "name": "GetRequests by PermaKey",
+                  "event": [
+                    {
+                      "listen": "test",
+                      "script": {
+                        "id": "1c0e502d-b659-4e8f-9e12-11f200ef7315",
+                        "exec": [
+                          "// Test should only run on Dev2 and return 404 elsewhere. You can add the name of your local environment here to run the test.\r",
+                          "pm.test(\"Status code is 200 for Dev2, 404 otherwise\", function () {\r",
+                          "    console.log()\r",
+                          "    if (pm.environment.name == 'Dev2' || pm.environment.name == '<local-environment-name>'){ \r",
+                          "        pm.response.to.have.status(200);\r",
+                          "    } else {\r",
+                          "        pm.response.to.have.status(404);\r",
+                          "    }\r",
+                          "});"
+                        ],
+                        "type": "text/javascript"
+                      }
+                    }
+                  ],
                   "id": "123c78a1-196f-4015-8830-2ac529622841",
                   "protocolProfileBehavior": {
                     "disableBodyPruning": true
@@ -5431,14 +5451,14 @@
                       }
                     ],
                     "url": {
-                      "raw": "{{public.api.baseurl}}/v3/ClientRequests/ww7T8rfmlgV?$expand=Recipient",
+                      "raw": "{{public.api.baseurl}}/v3/ClientRequests/{{public.api.clientrequest_test_permakey}}?$expand=Recipient",
                       "host": [
                         "{{public.api.baseurl}}"
                       ],
                       "path": [
                         "v3",
                         "ClientRequests",
-                        "ww7T8rfmlgV"
+                        "{{public.api.clientrequest_test_permakey}}"
                       ],
                       "query": [
                         {
