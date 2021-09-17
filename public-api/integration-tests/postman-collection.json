@@ -46,7 +46,21 @@
     },
     {
       "name": "v2",
-      "item": [],
+      "item": [
+        {
+          "name": "v2 list contacts",
+          "id": "87efd1fd-bf8f-480c-a3ec-e471bcfcf766",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": ""
+          },
+          "response": []
+        }
+      ],
       "id": "f9473439-ce63-4d64-87fc-d7416a4ffff2"
     },
     {
