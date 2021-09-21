@@ -10,6 +10,21 @@
       "item": [
         {
           "name": "Create User V1",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "id": "bbf82120-6fb3-40bc-9c0d-a616057f3c7b",
+                "exec": [
+                  "pm.test(\"Status code is 422\", function () {\r",
+                  "    pm.response.to.have.status(422);\r",
+                  "    pm.expect(pm.response.text()).to.include(\"User Profile with this Email Address already exists\");\r",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
           "id": "b1452072-f970-48b6-b3e2-2db1074c318a",
           "protocolProfileBehavior": {
             "disableBodyPruning": true
@@ -46,21 +61,7 @@
     },
     {
       "name": "v2",
-      "item": [
-        {
-          "name": "v2 list contacts",
-          "id": "87efd1fd-bf8f-480c-a3ec-e471bcfcf766",
-          "protocolProfileBehavior": {
-            "disableBodyPruning": true
-          },
-          "request": {
-            "method": "GET",
-            "header": [],
-            "url": ""
-          },
-          "response": []
-        }
-      ],
+      "item": [],
       "id": "f9473439-ce63-4d64-87fc-d7416a4ffff2"
     },
     {
