@@ -5312,7 +5312,7 @@
                           "// Test should only run on Dev2 and return 404 elsewhere. You can add the name of your local environment here to run the test.\r",
                           "pm.test(\"Status code is 400 for Dev/Stage, 404 otherwise\", function () {\r",
                           "    console.log()\r",
-                          "    if (pm.environment.name == 'Dev2' || pm.environment.name == 'Stage>'){ \r",
+                          "    if (pm.environment.name == 'Dev2' || pm.environment.name == 'Stage'){ \r",
                           "        pm.response.to.have.status(400);\r",
                           "    } else {\r",
                           "        pm.response.to.have.status(404);\r",
