@@ -5369,9 +5369,9 @@
                         "id": "5cb42b8a-fe5d-43d8-a77b-01f855a45648",
                         "exec": [
                           "// Test should only run on Dev2 and return 404 elsewhere. You can add the name of your local environment here to run the test.\r",
-                          "pm.test(\"Status code is 200 for Dev2, 404 otherwise\", function () {\r",
+                          "pm.test(\"Status code is 200 for Dev2/Stage, 404 otherwise\", function () {\r",
                           "    console.log()\r",
-                          "    if (pm.environment.name == 'Dev2' || pm.environment.name == '<local-environment-name>'){ \r",
+                          "    if (pm.environment.name == 'Dev2' || pm.environment.name == 'Stage'){ \r",
                           "        pm.response.to.have.status(200);\r",
                           "    } else {\r",
                           "        pm.response.to.have.status(404);\r",
