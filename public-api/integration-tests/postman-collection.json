@@ -254,13 +254,23 @@
                     {
                       "listen": "test",
                       "script": {
+                        "id": "c3aa173d-3855-4002-83a6-9d331cec644a",
                         "exec": [
                           "pm.test(\"Status code is 200\", function () {\r",
                           "    pm.response.to.have.status(200);\r",
-                          "});"
+                          "});\r",
+                          "\r",
+                          "pm.test(\"Should not include business card\", function () {\r",
+                          "    pm.expect(pm.response.json().BusinessCard).to.eql(undefined);\r",
+                          "});\r",
+                          "\r",
+                          "pm.test(\"ClientGroupKey should match request\", function () {\r",
+                          "    pm.expect(pm.response.json().ClientGroupKey).to.eql(pm.environment.get(\"public.api.clientgroup_permakey\"));\r",
+                          "})\r",
+                          "\r",
+                          ""
                         ],
-                        "type": "text/javascript",
-                        "id": "c3aa173d-3855-4002-83a6-9d331cec644a"
+                        "type": "text/javascript"
                       }
                     }
                   ],
@@ -282,23 +292,47 @@
                         "type": "text"
                       }
                     ],
-                    "url": {
-                      "raw": "{{public.api.baseurl}}/v3/ClientGroups/{{public.api.clientgroup_permakey}}?$expand=BusinessCard",
-                      "host": [
-                        "{{public.api.baseurl}}"
-                      ],
-                      "path": [
-                        "v3",
-                        "ClientGroups",
-                        "{{public.api.clientgroup_permakey}}"
-                      ],
-                      "query": [
-                        {
-                          "key": "$expand",
-                          "value": "BusinessCard"
-                        }
-                      ]
+                    "url": "{{public.api.baseurl}}/v3/ClientGroups/{{public.api.clientgroup_permakey}}"
+                  },
+                  "response": []
+                },
+                {
+                  "name": "Get by PermaKey that doesn't exist",
+                  "event": [
+                    {
+                      "listen": "test",
+                      "script": {
+                        "id": "f4a722be-d78c-477f-a1f8-85b07e0b45de",
+                        "exec": [
+                          "pm.test(\"Status code is 404\", function () {\r",
+                          "    pm.response.to.have.status(404);\r",
+                          "});\r",
+                          "\r",
+                          ""
+                        ],
+                        "type": "text/javascript"
+                      }
                     }
+                  ],
+                  "id": "df020d87-46f4-496f-9757-1c12bd38c8b3",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Authorization",
+                        "value": "{{publicapi.authorization}}",
+                        "type": "text"
+                      },
+                      {
+                        "key": "AccessKey",
+                        "value": "{{publicapi.accesskey}}",
+                        "type": "text"
+                      }
+                    ],
+                    "url": "{{public.api.baseurl}}/v3/ClientGroups/HDJHSDJHDSEWE"
                   },
                   "response": []
                 },
@@ -564,6 +598,12 @@
                         "exec": [
                           "pm.test(\"Status code is 200\", function () {\r",
                           "    pm.response.to.have.status(200);\r",
+                          "});\r",
+                          "\r",
+                          "pm.test(\"Check items were found\", function () {\r",
+                          "    var jsonData = pm.response.json();\r",
+                          "    pm.expect(jsonData[\"@odata.count\"]).to.gte(0);\r",
+                          "    pm.expect(jsonData.value.length).to.gte(0);\r",
                           "});"
                         ],
                         "type": "text/javascript"
@@ -589,6 +629,187 @@
                       }
                     ],
                     "url": "{{public.api.baseurl}}/v3/ClientGroups"
+                  },
+                  "response": []
+                },
+                {
+                  "name": "Search with parameters",
+                  "event": [
+                    {
+                      "listen": "test",
+                      "script": {
+                        "id": "0cc89354-b2bd-4f24-ba96-0fc7b2f7b759",
+                        "exec": [
+                          "pm.test(\"Status code is 200\", function () {\r",
+                          "    pm.response.to.have.status(200);\r",
+                          "});\r",
+                          "\r",
+                          "pm.test(\"Check items were found\", function () {\r",
+                          "    var jsonData = pm.response.json();\r",
+                          "    pm.expect(jsonData[\"@odata.count\"]).to.gte(0);\r",
+                          "    pm.expect(jsonData.value.length).to.gte(0);\r",
+                          "});"
+                        ],
+                        "type": "text/javascript"
+                      }
+                    }
+                  ],
+                  "id": "a124612a-01b9-447d-b1ee-2fba809fdc47",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Authorization",
+                        "value": "{{publicapi.authorization}}",
+                        "type": "text"
+                      },
+                      {
+                        "key": "AccessKey",
+                        "value": "{{publicapi.accesskey}}",
+                        "type": "text"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{public.api.baseurl}}/v3/ClientGroups?$filter=FullName eq 'client group full name'",
+                      "host": [
+                        "{{public.api.baseurl}}"
+                      ],
+                      "path": [
+                        "v3",
+                        "ClientGroups"
+                      ],
+                      "query": [
+                        {
+                          "key": "$filter",
+                          "value": "FullName eq 'client group full name'"
+                        }
+                      ]
+                    }
+                  },
+                  "response": []
+                },
+                {
+                  "name": "Search orderby FullName",
+                  "event": [
+                    {
+                      "listen": "test",
+                      "script": {
+                        "id": "927023fa-2290-4d83-bb55-98ee87fe4b87",
+                        "exec": [
+                          "pm.test(\"Status code is 200\", function () {\r",
+                          "    pm.response.to.have.status(200);\r",
+                          "});\r",
+                          "\r",
+                          "pm.test(\"Check items were found\", function () {\r",
+                          "    var jsonData = pm.response.json();\r",
+                          "    pm.expect(jsonData[\"@odata.count\"]).to.gte(5);\r",
+                          "    pm.expect(jsonData.value.length).to.eq(5);\r",
+                          "});"
+                        ],
+                        "type": "text/javascript"
+                      }
+                    }
+                  ],
+                  "id": "0d166a20-df76-46bd-a70a-5b3c81d144bd",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Authorization",
+                        "value": "{{publicapi.authorization}}",
+                        "type": "text"
+                      },
+                      {
+                        "key": "AccessKey",
+                        "value": "{{publicapi.accesskey}}",
+                        "type": "text"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{public.api.baseurl}}/v3/ClientGroups?$top=5&$orderby=FullName",
+                      "host": [
+                        "{{public.api.baseurl}}"
+                      ],
+                      "path": [
+                        "v3",
+                        "ClientGroups"
+                      ],
+                      "query": [
+                        {
+                          "key": "$top",
+                          "value": "5"
+                        },
+                        {
+                          "key": "$orderby",
+                          "value": "FullName"
+                        }
+                      ]
+                    }
+                  },
+                  "response": []
+                },
+                {
+                  "name": "Search with parameters no results found",
+                  "event": [
+                    {
+                      "listen": "test",
+                      "script": {
+                        "id": "4360651d-3240-4111-87d8-529c7ac3154b",
+                        "exec": [
+                          "pm.test(\"Status code is 200\", function () {\r",
+                          "    pm.response.to.have.status(200);\r",
+                          "});\r",
+                          "\r",
+                          "pm.test(\"Check items were found\", function () {\r",
+                          "    var jsonData = pm.response.json();\r",
+                          "    pm.expect(jsonData.value.length).to.eq(0);\r",
+                          "    pm.expect(jsonData[\"@odata.count\"]).to.eq(0);\r",
+                          "});"
+                        ],
+                        "type": "text/javascript"
+                      }
+                    }
+                  ],
+                  "id": "3539a911-2450-4773-a248-5184bf7fbf05",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Authorization",
+                        "value": "{{publicapi.authorization}}",
+                        "type": "text"
+                      },
+                      {
+                        "key": "AccessKey",
+                        "value": "{{publicapi.accesskey}}",
+                        "type": "text"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{public.api.baseurl}}/v3/ClientGroups?$filter=FullName eq 'XYZ A NAME THAT doesnt existZZZ'",
+                      "host": [
+                        "{{public.api.baseurl}}"
+                      ],
+                      "path": [
+                        "v3",
+                        "ClientGroups"
+                      ],
+                      "query": [
+                        {
+                          "key": "$filter",
+                          "value": "FullName eq 'XYZ A NAME THAT doesnt existZZZ'"
+                        }
+                      ]
+                    }
                   },
                   "response": []
                 },
@@ -1485,6 +1706,129 @@
                   "response": []
                 },
                 {
+                  "name": "Search orderby FullName",
+                  "event": [
+                    {
+                      "listen": "test",
+                      "script": {
+                        "id": "5a61688f-76c9-473a-9041-f06975e7078a",
+                        "exec": [
+                          "pm.test(\"Status code is 200\", function () {\r",
+                          "    pm.response.to.have.status(200);\r",
+                          "});\r",
+                          "\r",
+                          "pm.test(\"Check items were found\", function () {\r",
+                          "    var jsonData = pm.response.json();\r",
+                          "    pm.expect(jsonData[\"@odata.count\"]).to.gte(5);\r",
+                          "    pm.expect(jsonData.value.length).to.eq(5);\r",
+                          "});\r",
+                          ""
+                        ],
+                        "type": "text/javascript"
+                      }
+                    }
+                  ],
+                  "id": "5847f103-912f-4d9d-b0e1-17b6aeeb91d9",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Authorization",
+                        "value": "{{publicapi.authorization}}",
+                        "type": "text"
+                      },
+                      {
+                        "key": "AccessKey",
+                        "value": "{{publicapi.accesskey}}",
+                        "type": "text"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{public.api.baseurl}}/v3/Contacts?$top=5&$orderby=FullName",
+                      "host": [
+                        "{{public.api.baseurl}}"
+                      ],
+                      "path": [
+                        "v3",
+                        "Contacts"
+                      ],
+                      "query": [
+                        {
+                          "key": "$top",
+                          "value": "5"
+                        },
+                        {
+                          "key": "$orderby",
+                          "value": "FullName"
+                        }
+                      ]
+                    }
+                  },
+                  "response": []
+                },
+                {
+                  "name": "Search orderby LastModifiedDateTime",
+                  "event": [
+                    {
+                      "listen": "test",
+                      "script": {
+                        "id": "e8ba1d71-f679-43db-bef4-3b3ac115b9fe",
+                        "exec": [
+                          "pm.test(\"#7779 Ordering contacts by LastModifiedDate is broken\", function () {\r",
+                          "    // Change this when #7779 is fixed. This test should start failing.\r",
+                          "    pm.response.to.have.status(500);\r",
+                          "});\r",
+                          ""
+                        ],
+                        "type": "text/javascript"
+                      }
+                    }
+                  ],
+                  "id": "7a0342d2-72ee-42c5-8108-335f362d78d1",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Authorization",
+                        "value": "{{publicapi.authorization}}",
+                        "type": "text"
+                      },
+                      {
+                        "key": "AccessKey",
+                        "value": "{{publicapi.accesskey}}",
+                        "type": "text"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{public.api.baseurl}}/v3/Contacts?$top=5&$orderby=LastModifiedDateTime",
+                      "host": [
+                        "{{public.api.baseurl}}"
+                      ],
+                      "path": [
+                        "v3",
+                        "Contacts"
+                      ],
+                      "query": [
+                        {
+                          "key": "$top",
+                          "value": "5"
+                        },
+                        {
+                          "key": "$orderby",
+                          "value": "LastModifiedDateTime"
+                        }
+                      ]
+                    }
+                  },
+                  "response": []
+                },
+                {
                   "name": "Search with select odata attribute",
                   "event": [
                     {
@@ -1774,7 +2118,7 @@
                           "    pm.response.to.have.status(200);\r",
                           "});\r",
                           "\r",
-                          "pm.test(\"Set contact permakey\", function () {\r",
+                          "pm.test(\"Test some results were found\", function () {\r",
                           "    var jsonData = pm.response.json();\r",
                           "    pm.expect(jsonData.value.length).to.be.greaterThan(0);\r",
                           "});"
@@ -1814,6 +2158,122 @@
                         {
                           "key": "$filter",
                           "value": "FullName eq '{{public.api.search_test_contact1_fullname}}'"
+                        }
+                      ]
+                    }
+                  },
+                  "response": []
+                },
+                {
+                  "name": "Search contacts by EmailAddress",
+                  "event": [
+                    {
+                      "listen": "test",
+                      "script": {
+                        "id": "af8b51c3-c739-4a5b-93f3-52011572104b",
+                        "exec": [
+                          "pm.test(\"Status code is OK (200)\", function () {\r",
+                          "    pm.response.to.have.status(200);\r",
+                          "});\r",
+                          "\r",
+                          "pm.test(\"Test matching item was found\", function () {\r",
+                          "    var jsonData = pm.response.json();\r",
+                          "    pm.expect(jsonData.value.length).to.be.greaterThan(0);\r",
+                          "});"
+                        ],
+                        "type": "text/javascript"
+                      }
+                    }
+                  ],
+                  "id": "b5889873-85a3-4b2a-8613-d0b0b9017b8b",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Authorization",
+                        "value": "{{publicapi.authorization}}",
+                        "type": "text"
+                      },
+                      {
+                        "key": "AccessKey",
+                        "value": "{{publicapi.accesskey}}",
+                        "type": "text"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{public.api.baseurl}}/v3/Contacts?$filter=EmailAddress eq '{{public.api.contact_uniqueidentifier}}@karbonhq.com'",
+                      "host": [
+                        "{{public.api.baseurl}}"
+                      ],
+                      "path": [
+                        "v3",
+                        "Contacts"
+                      ],
+                      "query": [
+                        {
+                          "key": "$filter",
+                          "value": "EmailAddress eq '{{public.api.contact_uniqueidentifier}}@karbonhq.com'"
+                        }
+                      ]
+                    }
+                  },
+                  "response": []
+                },
+                {
+                  "name": "Search contacts by PhoneNumber",
+                  "event": [
+                    {
+                      "listen": "test",
+                      "script": {
+                        "id": "7a0a739c-2cd5-4dbc-b0e2-46f3a9445838",
+                        "exec": [
+                          "pm.test(\"Status code is OK (200)\", function () {\r",
+                          "    pm.response.to.have.status(200);\r",
+                          "});\r",
+                          "\r",
+                          "pm.test(\"Test matching item was found\", function () {\r",
+                          "    var jsonData = pm.response.json();\r",
+                          "    pm.expect(jsonData.value.length).to.be.greaterThan(0);\r",
+                          "});"
+                        ],
+                        "type": "text/javascript"
+                      }
+                    }
+                  ],
+                  "id": "da41aa92-a9f7-4c69-8c4b-6a8e197fe006",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Authorization",
+                        "value": "{{publicapi.authorization}}",
+                        "type": "text"
+                      },
+                      {
+                        "key": "AccessKey",
+                        "value": "{{publicapi.accesskey}}",
+                        "type": "text"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{public.api.baseurl}}/v3/Contacts?$filter=PhoneNumber eq '12345678'",
+                      "host": [
+                        "{{public.api.baseurl}}"
+                      ],
+                      "path": [
+                        "v3",
+                        "Contacts"
+                      ],
+                      "query": [
+                        {
+                          "key": "$filter",
+                          "value": "PhoneNumber eq '12345678'"
                         }
                       ]
                     }
@@ -1917,7 +2377,75 @@
           "item": [
             {
               "name": "Create",
-              "item": [],
+              "item": [
+                {
+                  "name": "Create File",
+                  "event": [
+                    {
+                      "listen": "test",
+                      "script": {
+                        "id": "36cfedae-5966-4702-a8c8-173bed731c17",
+                        "exec": [
+                          "// Note: cannot do file uploads using Monitor.\r",
+                          "// https://github.com/postmanlabs/postman-app-support/issues/5147\r",
+                          "// We could possibly do it using Newman\r",
+                          "\r",
+                          "// pm.test(\"Status code is Created (201)\", function () {\r",
+                          "//     pm.response.to.have.status(201);\r",
+                          "// });"
+                        ],
+                        "type": "text/javascript"
+                      }
+                    }
+                  ],
+                  "id": "ddfbe332-3403-42e4-93b7-e99c25907030",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Authorization",
+                        "value": "{{publicapi.authorization}}",
+                        "type": "text"
+                      },
+                      {
+                        "key": "AccessKey",
+                        "value": "{{publicapi.accesskey}}",
+                        "type": "text"
+                      }
+                    ],
+                    "body": {
+                      "mode": "formdata",
+                      "formdata": [
+                        {
+                          "key": "file",
+                          "type": "file",
+                          "value": null
+                        },
+                        {
+                          "key": "FileName",
+                          "value": "test.txt",
+                          "type": "text"
+                        },
+                        {
+                          "key": "MimeType",
+                          "value": "text/plain",
+                          "type": "text"
+                        },
+                        {
+                          "key": "contact_keys",
+                          "value": "{{public.api.contact_permakey}}",
+                          "type": "text"
+                        }
+                      ]
+                    },
+                    "url": "{{public.api.baseurl}}/v3/Files"
+                  },
+                  "response": []
+                }
+              ],
               "id": "9775015b-d1cc-4a50-9e67-f660cdc25159"
             }
           ],
@@ -2444,6 +2972,350 @@
                   "response": [
                     {
                       "id": "e05db5fa-3863-4c9b-8406-0293c2c30b91",
+                      "name": "OK",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                          "raw": "{{baseUrl}}/v3/Contacts?$select=<string>&$filter=<string>&$orderby=<string>&$top=<integer>&$skip=<integer>",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "v3",
+                            "Contacts"
+                          ],
+                          "query": [
+                            {
+                              "key": "$select",
+                              "value": "<string>"
+                            },
+                            {
+                              "key": "$filter",
+                              "value": "<string>"
+                            },
+                            {
+                              "key": "$orderby",
+                              "value": "<string>"
+                            },
+                            {
+                              "key": "$top",
+                              "value": "<integer>"
+                            },
+                            {
+                              "key": "$skip",
+                              "value": "<integer>"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "OK",
+                      "code": 200,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n \"Items\": [\n  {\n   \"FullName\": \"Adams, Douglas Noel\",\n   \"PreferredName\": \"Doug\",\n   \"Salutation\": \"Mr\",\n   \"ClientOwner\": \"myowner@megadodopublications.com\",\n   \"ClientManager\": \"mymanager@megadodopublications.com\",\n   \"Address\": \"42 Galaxy Way, London\",\n   \"EmailAddress\": \"DNA@megadodopublications.net\",\n   \"PhoneNumber\": \"+61212345678\",\n   \"RoleOrTitle\": \"CEO\",\n   \"UserDefinedIdentifier\": \"42\",\n   \"LastModifiedDateTime\": \"2021-01-22T03:00:14.8634476Z\",\n   \"ContactKey\": \"2BtTSg4xM7Dt\"\n  },\n  {\n   \"FullName\": \"Asimov, Isaac\",\n   \"PreferredName\": \"Zac\",\n   \"Salutation\": \"Mr\",\n   \"ClientOwner\": \"myowner@bostonuniversity.edu\",\n   \"ClientManager\": \"mymanager@bostonuniversity.edu\",\n   \"Address\": \"1920 Foundation Boulevard, Petrovichi, Russia\",\n   \"EmailAddress\": \"asimo@bostonuniversity.edu\",\n   \"PhoneNumber\": \"069283779143\",\n   \"RoleOrTitle\": \"Writer\",\n   \"UserDefinedIdentifier\": \"5020\",\n   \"LastModifiedDateTime\": \"2021-02-03T03:00:14.8634476Z\",\n   \"ContactKey\": \"23WWskXjR4wX\"\n  }\n ],\n \"NextPageLink\": \"https://api.karbonhq.com/v3/Contacts?$skip=100\",\n \"Count\": 123\n}"
+                    }
+                  ]
+                },
+                {
+                  "name": "Search Organizations with Parameters",
+                  "event": [
+                    {
+                      "listen": "test",
+                      "script": {
+                        "id": "755a6457-3769-4d6c-91e8-9fb0a8339130",
+                        "exec": [
+                          "pm.test(\"Status code is 200\", function () {\r",
+                          "    pm.response.to.have.status(200);\r",
+                          "});\r",
+                          "\r",
+                          "pm.test(\"Check items were found\", function () {\r",
+                          "    var jsonData = pm.response.json();\r",
+                          "    pm.expect(jsonData[\"@odata.count\"]).to.gte(0);\r",
+                          "    pm.expect(jsonData.value.length).to.gte(0);\r",
+                          "});"
+                        ],
+                        "type": "text/javascript"
+                      }
+                    }
+                  ],
+                  "id": "84686c36-e367-463e-ad6a-1a5e7c884336",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Authorization",
+                        "value": "{{publicapi.authorization}}",
+                        "type": "text"
+                      },
+                      {
+                        "key": "AccessKey",
+                        "value": "{{publicapi.accesskey}}",
+                        "type": "text"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{public.api.baseurl}}/v3/Organizations?$filter=FullName eq 'Full Name Test'",
+                      "host": [
+                        "{{public.api.baseurl}}"
+                      ],
+                      "path": [
+                        "v3",
+                        "Organizations"
+                      ],
+                      "query": [
+                        {
+                          "key": "$filter",
+                          "value": "FullName eq 'Full Name Test'"
+                        }
+                      ]
+                    }
+                  },
+                  "response": [
+                    {
+                      "id": "de827fc1-a9a4-4887-8968-f8abda62e744",
+                      "name": "OK",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                          "raw": "{{baseUrl}}/v3/Contacts?$select=<string>&$filter=<string>&$orderby=<string>&$top=<integer>&$skip=<integer>",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "v3",
+                            "Contacts"
+                          ],
+                          "query": [
+                            {
+                              "key": "$select",
+                              "value": "<string>"
+                            },
+                            {
+                              "key": "$filter",
+                              "value": "<string>"
+                            },
+                            {
+                              "key": "$orderby",
+                              "value": "<string>"
+                            },
+                            {
+                              "key": "$top",
+                              "value": "<integer>"
+                            },
+                            {
+                              "key": "$skip",
+                              "value": "<integer>"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "OK",
+                      "code": 200,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n \"Items\": [\n  {\n   \"FullName\": \"Adams, Douglas Noel\",\n   \"PreferredName\": \"Doug\",\n   \"Salutation\": \"Mr\",\n   \"ClientOwner\": \"myowner@megadodopublications.com\",\n   \"ClientManager\": \"mymanager@megadodopublications.com\",\n   \"Address\": \"42 Galaxy Way, London\",\n   \"EmailAddress\": \"DNA@megadodopublications.net\",\n   \"PhoneNumber\": \"+61212345678\",\n   \"RoleOrTitle\": \"CEO\",\n   \"UserDefinedIdentifier\": \"42\",\n   \"LastModifiedDateTime\": \"2021-01-22T03:00:14.8634476Z\",\n   \"ContactKey\": \"2BtTSg4xM7Dt\"\n  },\n  {\n   \"FullName\": \"Asimov, Isaac\",\n   \"PreferredName\": \"Zac\",\n   \"Salutation\": \"Mr\",\n   \"ClientOwner\": \"myowner@bostonuniversity.edu\",\n   \"ClientManager\": \"mymanager@bostonuniversity.edu\",\n   \"Address\": \"1920 Foundation Boulevard, Petrovichi, Russia\",\n   \"EmailAddress\": \"asimo@bostonuniversity.edu\",\n   \"PhoneNumber\": \"069283779143\",\n   \"RoleOrTitle\": \"Writer\",\n   \"UserDefinedIdentifier\": \"5020\",\n   \"LastModifiedDateTime\": \"2021-02-03T03:00:14.8634476Z\",\n   \"ContactKey\": \"23WWskXjR4wX\"\n  }\n ],\n \"NextPageLink\": \"https://api.karbonhq.com/v3/Contacts?$skip=100\",\n \"Count\": 123\n}"
+                    }
+                  ]
+                },
+                {
+                  "name": "Search Organizations orderby FullName",
+                  "event": [
+                    {
+                      "listen": "test",
+                      "script": {
+                        "id": "40992e2a-4882-478e-8823-019a53a4b7e1",
+                        "exec": [
+                          "pm.test(\"Status code is 200\", function () {\r",
+                          "    pm.response.to.have.status(200);\r",
+                          "});\r",
+                          "\r",
+                          "pm.test(\"Check items were found\", function () {\r",
+                          "    var jsonData = pm.response.json();\r",
+                          "    pm.expect(jsonData[\"@odata.count\"]).to.gte(1);\r",
+                          "    pm.expect(jsonData.value.length).to.eq(5);\r",
+                          "});"
+                        ],
+                        "type": "text/javascript"
+                      }
+                    }
+                  ],
+                  "id": "fa1d0254-182c-4c15-87f3-ccf814a767b4",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Authorization",
+                        "value": "{{publicapi.authorization}}",
+                        "type": "text"
+                      },
+                      {
+                        "key": "AccessKey",
+                        "value": "{{publicapi.accesskey}}",
+                        "type": "text"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{public.api.baseurl}}/v3/Organizations?$top=5&$orderby=FullName",
+                      "host": [
+                        "{{public.api.baseurl}}"
+                      ],
+                      "path": [
+                        "v3",
+                        "Organizations"
+                      ],
+                      "query": [
+                        {
+                          "key": "$top",
+                          "value": "5"
+                        },
+                        {
+                          "key": "$orderby",
+                          "value": "FullName"
+                        }
+                      ]
+                    }
+                  },
+                  "response": [
+                    {
+                      "id": "67d0033d-bced-4616-ab16-2ba75328eeca",
+                      "name": "OK",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                          "raw": "{{baseUrl}}/v3/Contacts?$select=<string>&$filter=<string>&$orderby=<string>&$top=<integer>&$skip=<integer>",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "v3",
+                            "Contacts"
+                          ],
+                          "query": [
+                            {
+                              "key": "$select",
+                              "value": "<string>"
+                            },
+                            {
+                              "key": "$filter",
+                              "value": "<string>"
+                            },
+                            {
+                              "key": "$orderby",
+                              "value": "<string>"
+                            },
+                            {
+                              "key": "$top",
+                              "value": "<integer>"
+                            },
+                            {
+                              "key": "$skip",
+                              "value": "<integer>"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "OK",
+                      "code": 200,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n \"Items\": [\n  {\n   \"FullName\": \"Adams, Douglas Noel\",\n   \"PreferredName\": \"Doug\",\n   \"Salutation\": \"Mr\",\n   \"ClientOwner\": \"myowner@megadodopublications.com\",\n   \"ClientManager\": \"mymanager@megadodopublications.com\",\n   \"Address\": \"42 Galaxy Way, London\",\n   \"EmailAddress\": \"DNA@megadodopublications.net\",\n   \"PhoneNumber\": \"+61212345678\",\n   \"RoleOrTitle\": \"CEO\",\n   \"UserDefinedIdentifier\": \"42\",\n   \"LastModifiedDateTime\": \"2021-01-22T03:00:14.8634476Z\",\n   \"ContactKey\": \"2BtTSg4xM7Dt\"\n  },\n  {\n   \"FullName\": \"Asimov, Isaac\",\n   \"PreferredName\": \"Zac\",\n   \"Salutation\": \"Mr\",\n   \"ClientOwner\": \"myowner@bostonuniversity.edu\",\n   \"ClientManager\": \"mymanager@bostonuniversity.edu\",\n   \"Address\": \"1920 Foundation Boulevard, Petrovichi, Russia\",\n   \"EmailAddress\": \"asimo@bostonuniversity.edu\",\n   \"PhoneNumber\": \"069283779143\",\n   \"RoleOrTitle\": \"Writer\",\n   \"UserDefinedIdentifier\": \"5020\",\n   \"LastModifiedDateTime\": \"2021-02-03T03:00:14.8634476Z\",\n   \"ContactKey\": \"23WWskXjR4wX\"\n  }\n ],\n \"NextPageLink\": \"https://api.karbonhq.com/v3/Contacts?$skip=100\",\n \"Count\": 123\n}"
+                    }
+                  ]
+                },
+                {
+                  "name": "Search Organizations orderby LastModifiedDateTime",
+                  "event": [
+                    {
+                      "listen": "test",
+                      "script": {
+                        "id": "ed8fb21e-2d5f-4867-8f1f-806f03e9a608",
+                        "exec": [
+                          "pm.test(\"#7779 Ordering Contacts and Organizations by LastModifiedDateTime is broken\", function () {\r",
+                          "    pm.response.to.have.status(500);\r",
+                          "});\r",
+                          "\r",
+                          "// pm.test(\"Check items were found\", function () {\r",
+                          "//     var jsonData = pm.response.json();\r",
+                          "//     pm.expect(jsonData[\"@odata.count\"]).to.gte(1);\r",
+                          "//     pm.expect(jsonData.value.length).to.eq(5);\r",
+                          "// });"
+                        ],
+                        "type": "text/javascript"
+                      }
+                    }
+                  ],
+                  "id": "f3596a8e-7872-4a29-beaa-e97f80f56b9b",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Authorization",
+                        "value": "{{publicapi.authorization}}",
+                        "type": "text"
+                      },
+                      {
+                        "key": "AccessKey",
+                        "value": "{{publicapi.accesskey}}",
+                        "type": "text"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{public.api.baseurl}}/v3/Organizations?$top=5&$orderby=LastModifiedDateTime",
+                      "host": [
+                        "{{public.api.baseurl}}"
+                      ],
+                      "path": [
+                        "v3",
+                        "Organizations"
+                      ],
+                      "query": [
+                        {
+                          "key": "$top",
+                          "value": "5"
+                        },
+                        {
+                          "key": "$orderby",
+                          "value": "LastModifiedDateTime"
+                        }
+                      ]
+                    }
+                  },
+                  "response": [
+                    {
+                      "id": "db60c783-5929-4f02-b39b-0c777d73c9b9",
                       "name": "OK",
                       "originalRequest": {
                         "method": "GET",
@@ -3057,21 +3929,125 @@
               "name": "List",
               "item": [
                 {
+                  "name": "Search all Users",
+                  "event": [
+                    {
+                      "listen": "test",
+                      "script": {
+                        "id": "d7492c0b-7ac7-4185-ab56-3bca5ef1604d",
+                        "exec": [
+                          "pm.test(\"Status code is 400\", function () {\r",
+                          "    pm.response.to.have.status(200);\r",
+                          "});\r",
+                          "\r",
+                          "pm.test(\"Check items were found\", function () {\r",
+                          "    var jsonData = pm.response.json();\r",
+                          "    pm.expect(jsonData[\"@odata.count\"]).to.gte(1);\r",
+                          "    pm.expect(jsonData.value.length).to.gte(1);\r",
+                          "});"
+                        ],
+                        "type": "text/javascript"
+                      }
+                    }
+                  ],
+                  "id": "3733935d-4d21-4269-b18e-7ac779d2e999",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Authorization",
+                        "value": "{{publicapi.authorization}}",
+                        "type": "text"
+                      },
+                      {
+                        "key": "AccessKey",
+                        "value": "{{publicapi.accesskey}}",
+                        "type": "text"
+                      }
+                    ],
+                    "url": "{{public.api.baseurl}}/v3/Users"
+                  },
+                  "response": []
+                },
+                {
+                  "name": "Search some Users",
+                  "event": [
+                    {
+                      "listen": "test",
+                      "script": {
+                        "id": "0188d15c-1727-4310-90d8-1d011930b30d",
+                        "exec": [
+                          "pm.test(\"Status code is 200\", function () {\r",
+                          "    pm.response.to.have.status(200);\r",
+                          "});\r",
+                          "\r",
+                          "pm.test(\"Check correct number of items were found\", function () {\r",
+                          "    var jsonData = pm.response.json();\r",
+                          "    pm.expect(jsonData[\"@odata.count\"]).to.gte(1);\r",
+                          "    pm.expect(jsonData.value.length).to.equal(5);\r",
+                          "});"
+                        ],
+                        "type": "text/javascript"
+                      }
+                    }
+                  ],
+                  "id": "a05b736a-5bbc-474b-9659-8d674402765f",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Authorization",
+                        "value": "{{publicapi.authorization}}",
+                        "type": "text"
+                      },
+                      {
+                        "key": "AccessKey",
+                        "value": "{{publicapi.accesskey}}",
+                        "type": "text"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{public.api.baseurl}}/v3/Users?$top=5",
+                      "host": [
+                        "{{public.api.baseurl}}"
+                      ],
+                      "path": [
+                        "v3",
+                        "Users"
+                      ],
+                      "query": [
+                        {
+                          "key": "$top",
+                          "value": "5"
+                        }
+                      ]
+                    }
+                  },
+                  "response": []
+                },
+                {
                   "name": "Search with select odata attribute",
                   "event": [
                     {
                       "listen": "test",
                       "script": {
+                        "id": "deb562af-48a8-4015-8091-370726a16279",
                         "exec": [
                           "pm.test(\"Status code is 400\", function () {\r",
                           "    pm.response.to.have.status(400);\r",
                           "});\r",
+                          "\r",
                           "pm.test(\"Body matches contains Select not allowed\", function () {\r",
                           "    pm.expect(pm.response.text()).to.include(\"Query option 'Select' is not allowed\");\r",
                           "});"
                         ],
-                        "type": "text/javascript",
-                        "id": "deb562af-48a8-4015-8091-370726a16279"
+                        "type": "text/javascript"
                       }
                     }
                   ],
@@ -3428,6 +4404,45 @@
                   },
                   "request": {
                     "method": "DELETE",
+                    "header": [
+                      {
+                        "key": "Authorization",
+                        "value": "{{publicapi.authorization}}",
+                        "type": "text"
+                      },
+                      {
+                        "key": "AccessKey",
+                        "value": "{{publicapi.accesskey}}",
+                        "type": "text"
+                      }
+                    ],
+                    "url": "{{public.api.baseurl}}/v3/WebhookSubscriptions"
+                  },
+                  "response": []
+                },
+                {
+                  "name": "GetWebhookSubscription 404 after Deletion",
+                  "event": [
+                    {
+                      "listen": "test",
+                      "script": {
+                        "id": "02ba2957-0a83-4012-b90c-e99df6d86ee0",
+                        "exec": [
+                          "pm.test(\"Status code is 404 if Deleted\", function () {\r",
+                          "    pm.response.to.have.status(404);\r",
+                          "});\r",
+                          ""
+                        ],
+                        "type": "text/javascript"
+                      }
+                    }
+                  ],
+                  "id": "e5c325bd-b4b2-4800-8b82-c8da66beab0f",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "method": "GET",
                     "header": [
                       {
                         "key": "Authorization",
