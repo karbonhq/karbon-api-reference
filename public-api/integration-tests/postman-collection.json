@@ -3877,7 +3877,7 @@
                           "});\r",
                           "pm.test(\"Body matches Timesheet\", function () {\r",
                           "    var jsonData = pm.response.json();\r",
-                          "    pm.expect(jsonData.TimesheetKey).to.eql(pm.environment.get(\"Timesheet_Key\"));\r",
+                          "    pm.expect(jsonData.TimesheetKey).to.eql(pm.environment.get(\"public.api.Timesheet_Key\"));\r",
                           "});"
                         ],
                         "type": "text/javascript"
@@ -3902,7 +3902,7 @@
                         "type": "text"
                       }
                     ],
-                    "url": "{{public.api.baseurl}}/v3/Timesheets/{{Timesheet_Key}}"
+                    "url": "{{public.api.baseurl}}/v3/Timesheets/{{public.api.Timesheet_Key}}"
                   },
                   "response": []
                 },
