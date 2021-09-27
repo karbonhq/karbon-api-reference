@@ -3805,6 +3805,403 @@
               "name": "Search",
               "item": [
                 {
+                  "name": "Get All Timesheet Entries",
+                  "event": [
+                    {
+                      "listen": "test",
+                      "script": {
+                        "id": "f74af2b0-3fcf-44ce-82b4-a44a4af48cc3",
+                        "exec": [
+                          "pm.test(\"Status code is 200\", function () {\r",
+                          "    pm.response.to.have.status(200);\r",
+                          "});\r",
+                          "pm.test(\"Body contains more than 1 timesheet \", function () {\r",
+                          "    var jsonData = pm.response.json();\r",
+                          "    pm.expect(jsonData[\"@odata.count\"]).to.gte(1)\r",
+                          "    pm.expect(jsonData.value.length).to.gte(1);    \r",
+                          "    pm.environment.set(\"public.api.Timesheet_Key\", jsonData.value[0].TimesheetKey);\r",
+                          "});"
+                        ],
+                        "type": "text/javascript"
+                      }
+                    }
+                  ],
+                  "id": "cab868bb-f28b-4e39-b841-7a0d770e0e31",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Authorization",
+                        "value": "{{publicapi.authorization}}",
+                        "type": "text"
+                      },
+                      {
+                        "key": "AccessKey",
+                        "value": "{{publicapi.accesskey}}",
+                        "type": "text"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{public.api.baseurl}}/v3/Timesheets",
+                      "host": [
+                        "{{public.api.baseurl}}"
+                      ],
+                      "path": [
+                        "v3",
+                        "Timesheets"
+                      ],
+                      "query": [
+                        {
+                          "key": "$expand",
+                          "value": "TimeEntries",
+                          "disabled": true
+                        }
+                      ]
+                    }
+                  },
+                  "response": []
+                },
+                {
+                  "name": "Search By Timesheet Key",
+                  "event": [
+                    {
+                      "listen": "test",
+                      "script": {
+                        "id": "b605f269-0f4a-48a9-8338-df521aa77f49",
+                        "exec": [
+                          "pm.test(\"Status code is 200\", function () {\r",
+                          "    pm.response.to.have.status(200);\r",
+                          "});\r",
+                          "pm.test(\"Body matches Timesheet\", function () {\r",
+                          "    var jsonData = pm.response.json();\r",
+                          "    pm.expect(jsonData.TimesheetKey).to.eql(pm.environment.get(\"Timesheet_Key\"));\r",
+                          "});"
+                        ],
+                        "type": "text/javascript"
+                      }
+                    }
+                  ],
+                  "id": "445e4e36-1ba6-40db-af52-424f7a8fba00",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Authorization",
+                        "value": "{{publicapi.authorization}}",
+                        "type": "text"
+                      },
+                      {
+                        "key": "AccessKey",
+                        "value": "{{publicapi.accesskey}}",
+                        "type": "text"
+                      }
+                    ],
+                    "url": "{{public.api.baseurl}}/v3/Timesheets/{{Timesheet_Key}}"
+                  },
+                  "response": []
+                },
+                {
+                  "name": "Search orderby StartDate",
+                  "event": [
+                    {
+                      "listen": "test",
+                      "script": {
+                        "id": "96ed9174-2d8d-4570-96e1-ce1e0ff214d7",
+                        "exec": [
+                          "pm.test(\"Status code is 200\", function () {\r",
+                          "    pm.response.to.have.status(200);\r",
+                          "});\r",
+                          "pm.test(\"Check items were found\", function () {\r",
+                          "    var jsonData = pm.response.json();\r",
+                          "    pm.expect(jsonData[\"@odata.count\"]).to.gte(5);\r",
+                          "    pm.expect(jsonData.value.length).to.eq(5);\r",
+                          "});"
+                        ],
+                        "type": "text/javascript"
+                      }
+                    }
+                  ],
+                  "id": "de2c9788-e0b1-4867-b624-542c79995bea",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Authorization",
+                        "value": "{{publicapi.authorization}}",
+                        "type": "text"
+                      },
+                      {
+                        "key": "AccessKey",
+                        "value": "{{publicapi.accesskey}}",
+                        "type": "text"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{public.api.baseurl}}/v3/Timesheets/?$top=5&$orderby=StartDate",
+                      "host": [
+                        "{{public.api.baseurl}}"
+                      ],
+                      "path": [
+                        "v3",
+                        "Timesheets",
+                        ""
+                      ],
+                      "query": [
+                        {
+                          "key": "$top",
+                          "value": "5",
+                          "type": "text"
+                        },
+                        {
+                          "key": "$orderby",
+                          "value": "StartDate",
+                          "type": "text"
+                        }
+                      ]
+                    }
+                  },
+                  "response": []
+                },
+                {
+                  "name": "Search orderby EndDate",
+                  "event": [
+                    {
+                      "listen": "test",
+                      "script": {
+                        "id": "8078c2ec-18a8-4a60-80cb-3eadecf19caa",
+                        "exec": [
+                          "pm.test(\"Status code is 200\", function () {\r",
+                          "    pm.response.to.have.status(200);\r",
+                          "});\r",
+                          "pm.test(\"Check items were found\", function () {\r",
+                          "    var jsonData = pm.response.json();\r",
+                          "    pm.expect(jsonData[\"@odata.count\"]).to.gte(5);\r",
+                          "    pm.expect(jsonData.value.length).to.eq(5);\r",
+                          "});"
+                        ],
+                        "type": "text/javascript"
+                      }
+                    }
+                  ],
+                  "id": "e879e6af-17e6-40e3-981c-18bb818f4571",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Authorization",
+                        "value": "{{publicapi.authorization}}",
+                        "type": "text"
+                      },
+                      {
+                        "key": "AccessKey",
+                        "value": "{{publicapi.accesskey}}",
+                        "type": "text"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{public.api.baseurl}}/v3/Timesheets/?$top=5&$orderby=EndDate",
+                      "host": [
+                        "{{public.api.baseurl}}"
+                      ],
+                      "path": [
+                        "v3",
+                        "Timesheets",
+                        ""
+                      ],
+                      "query": [
+                        {
+                          "key": "$top",
+                          "value": "5"
+                        },
+                        {
+                          "key": "$orderby",
+                          "value": "EndDate"
+                        }
+                      ]
+                    }
+                  },
+                  "response": []
+                },
+                {
+                  "name": "Search expand by TimeEntries",
+                  "event": [
+                    {
+                      "listen": "test",
+                      "script": {
+                        "id": "4c588e2b-9113-4c2f-8059-65d1412c9955",
+                        "exec": [
+                          "pm.test(\"#7780 Timesheet expand by TimeEntries is throwing 500\", function () {\r",
+                          "    // Change this when #7780 is fixed. This test should start failing.\r",
+                          "    pm.response.to.have.status(500);\r",
+                          "});\r",
+                          ""
+                        ],
+                        "type": "text/javascript"
+                      }
+                    }
+                  ],
+                  "id": "c620f73a-705a-4436-bdcc-d0a3491a7200",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Authorization",
+                        "value": "{{publicapi.authorization}}",
+                        "type": "text"
+                      },
+                      {
+                        "key": "AccessKey",
+                        "value": "{{publicapi.accesskey}}",
+                        "type": "text"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{public.api.baseurl}}/v3/Timesheets?$expand=TimeEntries",
+                      "host": [
+                        "{{public.api.baseurl}}"
+                      ],
+                      "path": [
+                        "v3",
+                        "Timesheets"
+                      ],
+                      "query": [
+                        {
+                          "key": "$expand",
+                          "value": "TimeEntries"
+                        }
+                      ]
+                    }
+                  },
+                  "response": []
+                },
+                {
+                  "name": "Search filter by UserKey",
+                  "event": [
+                    {
+                      "listen": "test",
+                      "script": {
+                        "id": "86ed9503-59f5-486a-9b50-0092c5169669",
+                        "exec": [
+                          "pm.test(\"Status code is 200\", function () {\r",
+                          "    pm.response.to.have.status(200);\r",
+                          "});\r",
+                          "pm.test(\"Body contains more than 1 timesheet \", function () {\r",
+                          "    var jsonData = pm.response.json();\r",
+                          "    pm.expect(jsonData.value.length).to.lte(101);    \r",
+                          "    //pm.environment.set(\"public.api.Timesheet_Key\", jsonData.value[0].TimesheetKey);\r",
+                          "});"
+                        ],
+                        "type": "text/javascript"
+                      }
+                    }
+                  ],
+                  "id": "c7cadc83-a719-48a8-86fd-3b047abd590a",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Authorization",
+                        "value": "{{publicapi.authorization}}",
+                        "type": "text"
+                      },
+                      {
+                        "key": "AccessKey",
+                        "value": "{{publicapi.accesskey}}",
+                        "type": "text"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{public.api.baseurl}}/v3/Timesheets?$filter=UserKey eq '{{public.api.user_permakey}}'",
+                      "host": [
+                        "{{public.api.baseurl}}"
+                      ],
+                      "path": [
+                        "v3",
+                        "Timesheets"
+                      ],
+                      "query": [
+                        {
+                          "key": "$filter",
+                          "value": "UserKey eq '{{public.api.user_permakey}}'"
+                        }
+                      ]
+                    }
+                  },
+                  "response": []
+                },
+                {
+                  "name": "Search filter by Status",
+                  "event": [
+                    {
+                      "listen": "test",
+                      "script": {
+                        "id": "ccc202a2-da57-459b-bffc-7dc4f25485ff",
+                        "exec": [
+                          "pm.test(\"#7781 Timesheet filter by Status is throwing 500 response\", function () {\r",
+                          "    // Change this when #7781 is fixed. This test should start failing.\r",
+                          "    pm.response.to.have.status(500);\r",
+                          "});"
+                        ],
+                        "type": "text/javascript"
+                      }
+                    }
+                  ],
+                  "id": "71f633ae-335a-4cb9-be67-2ac6975fea0b",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Authorization",
+                        "value": "{{publicapi.authorization}}",
+                        "type": "text"
+                      },
+                      {
+                        "key": "AccessKey",
+                        "value": "{{publicapi.accesskey}}",
+                        "type": "text"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{public.api.baseurl}}/v3/Timesheets?$filter=Status eq 'Draft'",
+                      "host": [
+                        "{{public.api.baseurl}}"
+                      ],
+                      "path": [
+                        "v3",
+                        "Timesheets"
+                      ],
+                      "query": [
+                        {
+                          "key": "$filter",
+                          "value": "Status eq 'Draft'"
+                        }
+                      ]
+                    }
+                  },
+                  "response": []
+                },
+                {
                   "name": "Search with select odata attribute",
                   "event": [
                     {
@@ -5188,6 +5585,68 @@
                   ]
                 },
                 {
+                  "name": "Search orderby StartDate",
+                  "event": [
+                    {
+                      "listen": "test",
+                      "script": {
+                        "id": "c2519782-0959-4333-a97d-4164fa1de6c4",
+                        "exec": [
+                          "pm.test(\"Status code is 200\", function () {\r",
+                          "    pm.response.to.have.status(200);\r",
+                          "});\r",
+                          "\r",
+                          "pm.test(\"Check work items were found\", function () {\r",
+                          "    var jsonData = pm.response.json();\r",
+                          "    pm.expect(jsonData.value.length).to.gte(0);    \r",
+                          "});"
+                        ],
+                        "type": "text/javascript"
+                      }
+                    }
+                  ],
+                  "id": "6f25de96-f27d-4ce7-bd41-f274ba1f7315",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Authorization",
+                        "value": "{{publicapi.authorization}}",
+                        "type": "text"
+                      },
+                      {
+                        "key": "AccessKey",
+                        "value": "{{publicapi.accesskey}}",
+                        "type": "text"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{public.api.baseurl}}/v3/WorkItems?$top=5&$orderby=StartDate",
+                      "host": [
+                        "{{public.api.baseurl}}"
+                      ],
+                      "path": [
+                        "v3",
+                        "WorkItems"
+                      ],
+                      "query": [
+                        {
+                          "key": "$top",
+                          "value": "5"
+                        },
+                        {
+                          "key": "$orderby",
+                          "value": "StartDate"
+                        }
+                      ]
+                    }
+                  },
+                  "response": []
+                },
+                {
                   "name": "Search with select odata attribute",
                   "event": [
                     {
@@ -5803,6 +6262,45 @@
                     "url": "{{public.api.baseurl}}/v3/WorkSchedules/{{public.api.workitemschedule_permakey}}"
                   },
                   "response": []
+                },
+                {
+                  "name": "Get WorkSchedule by Wrong Permakey",
+                  "event": [
+                    {
+                      "listen": "test",
+                      "script": {
+                        "id": "3a3b4d7f-42d2-41cc-9a33-8e9498afdba3",
+                        "exec": [
+                          "pm.test(\"Status code is 404\", function () {\r",
+                          "    pm.response.to.have.status(404);\r",
+                          "});\r",
+                          ""
+                        ],
+                        "type": "text/javascript"
+                      }
+                    }
+                  ],
+                  "id": "c16af655-b371-4004-90fd-9496bad0854a",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Authorization",
+                        "value": "{{publicapi.authorization}}",
+                        "type": "text"
+                      },
+                      {
+                        "key": "AccessKey",
+                        "value": "{{publicapi.accesskey}}",
+                        "type": "text"
+                      }
+                    ],
+                    "url": "{{public.api.baseurl}}/v3/WorkSchedules/WRONGID"
+                  },
+                  "response": []
                 }
               ],
               "id": "08583412-188e-4ada-a41e-65d86c4e7770"
@@ -6138,6 +6636,476 @@
                       "body": "{\n \"Items\": [\n  {\n   \"FullName\": \"Adams, Douglas Noel\",\n   \"PreferredName\": \"Doug\",\n   \"Salutation\": \"Mr\",\n   \"ClientOwner\": \"myowner@megadodopublications.com\",\n   \"ClientManager\": \"mymanager@megadodopublications.com\",\n   \"Address\": \"42 Galaxy Way, London\",\n   \"EmailAddress\": \"DNA@megadodopublications.net\",\n   \"PhoneNumber\": \"+61212345678\",\n   \"RoleOrTitle\": \"CEO\",\n   \"UserDefinedIdentifier\": \"42\",\n   \"LastModifiedDateTime\": \"2021-01-22T03:00:14.8634476Z\",\n   \"ContactKey\": \"2BtTSg4xM7Dt\"\n  },\n  {\n   \"FullName\": \"Asimov, Isaac\",\n   \"PreferredName\": \"Zac\",\n   \"Salutation\": \"Mr\",\n   \"ClientOwner\": \"myowner@bostonuniversity.edu\",\n   \"ClientManager\": \"mymanager@bostonuniversity.edu\",\n   \"Address\": \"1920 Foundation Boulevard, Petrovichi, Russia\",\n   \"EmailAddress\": \"asimo@bostonuniversity.edu\",\n   \"PhoneNumber\": \"069283779143\",\n   \"RoleOrTitle\": \"Writer\",\n   \"UserDefinedIdentifier\": \"5020\",\n   \"LastModifiedDateTime\": \"2021-02-03T03:00:14.8634476Z\",\n   \"ContactKey\": \"23WWskXjR4wX\"\n  }\n ],\n \"NextPageLink\": \"https://api.karbonhq.com/v3/Contacts?$skip=100\",\n \"Count\": 123\n}"
                     }
                   ]
+                },
+                {
+                  "name": "Search Parameterless",
+                  "event": [
+                    {
+                      "listen": "test",
+                      "script": {
+                        "id": "6cbba890-37af-4f24-999e-f2e8da04dbbb",
+                        "exec": [
+                          "pm.test(\"Status code is 200\", function () {\r",
+                          "    pm.response.to.have.status(200);\r",
+                          "});\r",
+                          "\r",
+                          "pm.test(\"Check work items were found\", function () {\r",
+                          "    var jsonData = pm.response.json();\r",
+                          "    pm.expect(jsonData.value.length).to.gte(0);\r",
+                          "});"
+                        ],
+                        "type": "text/javascript"
+                      }
+                    }
+                  ],
+                  "id": "46a69b88-8a19-406d-a5f5-88eb2cc2ee6f",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Authorization",
+                        "value": "{{publicapi.authorization}}",
+                        "type": "text"
+                      },
+                      {
+                        "key": "AccessKey",
+                        "value": "{{publicapi.accesskey}}",
+                        "type": "text"
+                      }
+                    ],
+                    "url": "{{public.api.baseurl}}/v3/WorkTemplates"
+                  },
+                  "response": []
+                },
+                {
+                  "name": "Search orderby WorkTypeKey",
+                  "event": [
+                    {
+                      "listen": "test",
+                      "script": {
+                        "id": "c1c40992-1712-4fe7-9a89-55a06cff7a56",
+                        "exec": [
+                          "pm.test(\"Status code is 200\", function () {\r",
+                          "    pm.response.to.have.status(200);\r",
+                          "});\r",
+                          "\r",
+                          "pm.test(\"Check work items were found\", function () {\r",
+                          "    var jsonData = pm.response.json();\r",
+                          "    pm.expect(jsonData.value.length).to.gte(1);    \r",
+                          "    pm.expect(jsonData.value.length).to.lte(10);\r",
+                          "});"
+                        ],
+                        "type": "text/javascript"
+                      }
+                    }
+                  ],
+                  "id": "dcb87d1a-2db4-42e7-970f-df1aa9afdadb",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Authorization",
+                        "value": "{{publicapi.authorization}}",
+                        "type": "text"
+                      },
+                      {
+                        "key": "AccessKey",
+                        "value": "{{publicapi.accesskey}}",
+                        "type": "text"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{public.api.baseurl}}/v3/WorkTemplates?$orderby=WorkTypeKey&$top=10",
+                      "host": [
+                        "{{public.api.baseurl}}"
+                      ],
+                      "path": [
+                        "v3",
+                        "WorkTemplates"
+                      ],
+                      "query": [
+                        {
+                          "key": "$orderby",
+                          "value": "WorkTypeKey"
+                        },
+                        {
+                          "key": "$top",
+                          "value": "10"
+                        }
+                      ]
+                    }
+                  },
+                  "response": []
+                },
+                {
+                  "name": "Search orderby PublishedDate",
+                  "event": [
+                    {
+                      "listen": "test",
+                      "script": {
+                        "id": "3bfb6f42-6a85-4a2e-9ee8-abfd6a42118b",
+                        "exec": [
+                          "pm.test(\"Status code is 200\", function () {\r",
+                          "    pm.response.to.have.status(200);\r",
+                          "});\r",
+                          "\r",
+                          "pm.test(\"Check work items were found\", function () {\r",
+                          "    var jsonData = pm.response.json();\r",
+                          "    pm.expect(jsonData.value.length).to.eq(10);\r",
+                          "});"
+                        ],
+                        "type": "text/javascript"
+                      }
+                    }
+                  ],
+                  "id": "2da37321-4e5e-42d2-83eb-f0166c9510a5",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Authorization",
+                        "value": "{{publicapi.authorization}}",
+                        "type": "text"
+                      },
+                      {
+                        "key": "AccessKey",
+                        "value": "{{publicapi.accesskey}}",
+                        "type": "text"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{public.api.baseurl}}/v3/WorkTemplates?$orderby=PublishedDate&$top=10",
+                      "host": [
+                        "{{public.api.baseurl}}"
+                      ],
+                      "path": [
+                        "v3",
+                        "WorkTemplates"
+                      ],
+                      "query": [
+                        {
+                          "key": "$orderby",
+                          "value": "PublishedDate"
+                        },
+                        {
+                          "key": "$top",
+                          "value": "10"
+                        }
+                      ]
+                    }
+                  },
+                  "response": []
+                },
+                {
+                  "name": "Search orderby NumberOfWorkItemsCreated",
+                  "event": [
+                    {
+                      "listen": "test",
+                      "script": {
+                        "id": "d5dbeec0-3762-478b-99a7-d304a45d3557",
+                        "exec": [
+                          "pm.test(\"Status code is 200\", function () {\r",
+                          "    pm.response.to.have.status(200);\r",
+                          "});\r",
+                          "\r",
+                          "pm.test(\"Check work items were found\", function () {\r",
+                          "    var jsonData = pm.response.json();\r",
+                          "    pm.expect(jsonData.value.length).to.eq(10);\r",
+                          "});"
+                        ],
+                        "type": "text/javascript"
+                      }
+                    }
+                  ],
+                  "id": "12c5e3d5-1e9e-497b-98ae-b1fdafb15cb8",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Authorization",
+                        "value": "{{publicapi.authorization}}",
+                        "type": "text"
+                      },
+                      {
+                        "key": "AccessKey",
+                        "value": "{{publicapi.accesskey}}",
+                        "type": "text"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{public.api.baseurl}}/v3/WorkTemplates?$orderby=NumberOfWorkItemsCreated&$top=10",
+                      "host": [
+                        "{{public.api.baseurl}}"
+                      ],
+                      "path": [
+                        "v3",
+                        "WorkTemplates"
+                      ],
+                      "query": [
+                        {
+                          "key": "$orderby",
+                          "value": "NumberOfWorkItemsCreated"
+                        },
+                        {
+                          "key": "$top",
+                          "value": "10"
+                        }
+                      ]
+                    }
+                  },
+                  "response": []
+                },
+                {
+                  "name": "Search orderby DateLastWorkItemCreated",
+                  "event": [
+                    {
+                      "listen": "test",
+                      "script": {
+                        "id": "0d9313ed-9ea3-44f9-aaea-f7c25fc03c59",
+                        "exec": [
+                          "pm.test(\"Status code is 200\", function () {\r",
+                          "    pm.response.to.have.status(200);\r",
+                          "});\r",
+                          "\r",
+                          "pm.test(\"Check work items were found\", function () {\r",
+                          "    var jsonData = pm.response.json();\r",
+                          "    pm.expect(jsonData.value.length).to.eq(10);\r",
+                          "});"
+                        ],
+                        "type": "text/javascript"
+                      }
+                    }
+                  ],
+                  "id": "15f48fad-a81b-4f44-87b6-dc7451431b23",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Authorization",
+                        "value": "{{publicapi.authorization}}",
+                        "type": "text"
+                      },
+                      {
+                        "key": "AccessKey",
+                        "value": "{{publicapi.accesskey}}",
+                        "type": "text"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{public.api.baseurl}}/v3/WorkTemplates?$orderby=DateLastWorkItemCreated&$top=10",
+                      "host": [
+                        "{{public.api.baseurl}}"
+                      ],
+                      "path": [
+                        "v3",
+                        "WorkTemplates"
+                      ],
+                      "query": [
+                        {
+                          "key": "$orderby",
+                          "value": "DateLastWorkItemCreated"
+                        },
+                        {
+                          "key": "$top",
+                          "value": "10"
+                        }
+                      ]
+                    }
+                  },
+                  "response": []
+                },
+                {
+                  "name": "Search orderby DateModified",
+                  "event": [
+                    {
+                      "listen": "test",
+                      "script": {
+                        "id": "11bc1b6f-54aa-48a5-9887-93ede6ae23fc",
+                        "exec": [
+                          "pm.test(\"Status code is 200\", function () {\r",
+                          "    pm.response.to.have.status(200);\r",
+                          "});\r",
+                          "\r",
+                          "pm.test(\"Check work items were found\", function () {\r",
+                          "    var jsonData = pm.response.json();\r",
+                          "    pm.expect(jsonData.value.length).to.eq(10);\r",
+                          "});"
+                        ],
+                        "type": "text/javascript"
+                      }
+                    }
+                  ],
+                  "id": "f47d603c-b654-42f4-9587-5b5e31cb0a7c",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Authorization",
+                        "value": "{{publicapi.authorization}}",
+                        "type": "text"
+                      },
+                      {
+                        "key": "AccessKey",
+                        "value": "{{publicapi.accesskey}}",
+                        "type": "text"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{public.api.baseurl}}/v3/WorkTemplates?$orderby=DateModified&$top=10",
+                      "host": [
+                        "{{public.api.baseurl}}"
+                      ],
+                      "path": [
+                        "v3",
+                        "WorkTemplates"
+                      ],
+                      "query": [
+                        {
+                          "key": "$orderby",
+                          "value": "DateModified"
+                        },
+                        {
+                          "key": "$top",
+                          "value": "10"
+                        }
+                      ]
+                    }
+                  },
+                  "response": []
+                },
+                {
+                  "name": "Search orderby EstimatedBudget",
+                  "event": [
+                    {
+                      "listen": "test",
+                      "script": {
+                        "id": "c80afb90-2a65-47f3-a1c6-ebfe375fe69b",
+                        "exec": [
+                          "pm.test(\"#7791 Timesheet filter by Status is throwing 500 response\", function () {\r",
+                          "    // Change this when #7791 is fixed. This test should start failing.\r",
+                          "    pm.response.to.have.status(500);\r",
+                          "});"
+                        ],
+                        "type": "text/javascript"
+                      }
+                    }
+                  ],
+                  "id": "99f24466-ec0c-45a7-8029-5797b227aa1c",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Authorization",
+                        "value": "{{publicapi.authorization}}",
+                        "type": "text"
+                      },
+                      {
+                        "key": "AccessKey",
+                        "value": "{{publicapi.accesskey}}",
+                        "type": "text"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{public.api.baseurl}}/v3/WorkTemplates?$orderby=EstimatedBudget&$top=10",
+                      "host": [
+                        "{{public.api.baseurl}}"
+                      ],
+                      "path": [
+                        "v3",
+                        "WorkTemplates"
+                      ],
+                      "query": [
+                        {
+                          "key": "$orderby",
+                          "value": "EstimatedBudget"
+                        },
+                        {
+                          "key": "$top",
+                          "value": "10"
+                        }
+                      ]
+                    }
+                  },
+                  "response": []
+                },
+                {
+                  "name": "Search orderby EstimatedTime",
+                  "event": [
+                    {
+                      "listen": "test",
+                      "script": {
+                        "id": "3521fa26-8c28-4076-821a-3da1e9af9159",
+                        "exec": [
+                          "pm.test(\"#7791 Timesheet filter by Status is throwing 500 response\", function () {\r",
+                          "    // Change this when #7791 is fixed. This test should start failing.\r",
+                          "    pm.response.to.have.status(500);\r",
+                          "});"
+                        ],
+                        "type": "text/javascript"
+                      }
+                    }
+                  ],
+                  "id": "c922f2a2-e99e-482b-8dd8-0d9ccf5beae3",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Authorization",
+                        "value": "{{publicapi.authorization}}",
+                        "type": "text"
+                      },
+                      {
+                        "key": "AccessKey",
+                        "value": "{{publicapi.accesskey}}",
+                        "type": "text"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{public.api.baseurl}}/v3/WorkTemplates?$orderby=EstimatedTime&$top=10",
+                      "host": [
+                        "{{public.api.baseurl}}"
+                      ],
+                      "path": [
+                        "v3",
+                        "WorkTemplates"
+                      ],
+                      "query": [
+                        {
+                          "key": "$orderby",
+                          "value": "EstimatedTime"
+                        },
+                        {
+                          "key": "$top",
+                          "value": "10"
+                        }
+                      ]
+                    }
+                  },
+                  "response": []
                 },
                 {
                   "name": "Search with select odata attribute",
