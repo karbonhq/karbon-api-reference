@@ -3665,7 +3665,7 @@
               "name": "Update (Patch)",
               "item": [
                 {
-                  "name": "New Request",
+                  "name": "Patch Organization",
                   "id": "8ec94d6d-7b47-4bbd-88eb-b21e1679479c",
                   "protocolProfileBehavior": {
                     "disableBodyPruning": true
