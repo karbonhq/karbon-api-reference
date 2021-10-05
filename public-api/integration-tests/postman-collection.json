@@ -7426,7 +7426,7 @@
               "name": "ClientRequests",
               "item": [
                 {
-                  "name": "GetRequests by PermaKey",
+                  "name": "GetRequests by PermaKey: No Expands",
                   "event": [
                     {
                       "listen": "test",
@@ -7436,8 +7436,11 @@
                           "// Test should only run on Dev2 and return 404 elsewhere. You can add the name of your local environment here to run the test.\r",
                           "pm.test(\"Status code is 200 for Dev2, 404 otherwise\", function () {\r",
                           "    console.log()\r",
-                          "    if (pm.environment.name == 'Dev2' || pm.environment.name == 'Stage'){ \r",
+                          "    if (pm.environment.name == 'Dev2' || pm.environment.name == 'Stage'){\r",
+                          "        var jsonData = pm.response.json(); \r",
                           "        pm.response.to.have.status(200);\r",
+                          "        pm.expect(jsonData).to.not.have.property('Recipient');\r",
+                          "        pm.expect(jsonData).to.not.have.property('ClientTaskSummaries');\r",
                           "    } else {\r",
                           "        pm.response.to.have.status(404);\r",
                           "    }\r",
@@ -7448,6 +7451,53 @@
                     }
                   ],
                   "id": "7d52b1aa-db74-44e8-9843-8c3af084fec7",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "AccessKey",
+                        "value": "{{publicapi.accesskey}}",
+                        "type": "text"
+                      },
+                      {
+                        "key": "Authorization",
+                        "value": "{{publicapi.authorization}}",
+                        "type": "text"
+                      }
+                    ],
+                    "url": "{{public.api.baseurl}}/v3/ClientRequests/{{public.api.clientrequest_test_permakey}}"
+                  },
+                  "response": []
+                },
+                {
+                  "name": "GetRequests by PermaKey: Expand Recipient ONLY",
+                  "event": [
+                    {
+                      "listen": "test",
+                      "script": {
+                        "id": "161d618e-488f-40eb-9264-407c3b0e2305",
+                        "exec": [
+                          "// Test should only run on Dev2 and return 404 elsewhere. You can add the name of your local environment here to run the test.\r",
+                          "pm.test(\"Status code is 200 for Dev2, 404 otherwise\", function () {\r",
+                          "    console.log()\r",
+                          "    if (pm.environment.name == 'Dev2' || pm.environment.name == 'Stage'){ \r",
+                          "        pm.response.to.have.status(200);\r",
+                          "        var jsonData = pm.response.json();\r",
+                          "        pm.expect(jsonData).to.have.property('Recipient');\r",
+                          "        pm.expect(jsonData).to.not.have.property('ClientTaskSummaries');\r",
+                          "    } else {\r",
+                          "        pm.response.to.have.status(404);\r",
+                          "    }\r",
+                          "});"
+                        ],
+                        "type": "text/javascript"
+                      }
+                    }
+                  ],
+                  "id": "2f6531ef-00ac-43a7-abfd-d57ed25d2fe8",
                   "protocolProfileBehavior": {
                     "disableBodyPruning": true
                   },
@@ -7486,6 +7536,135 @@
                   "response": []
                 },
                 {
+                  "name": "GetRequests by PermaKey: Expand Recipients AND TaskSummary ONLY",
+                  "event": [
+                    {
+                      "listen": "test",
+                      "script": {
+                        "id": "36c48748-66bb-4ae3-b9cb-98ac2d53afdf",
+                        "exec": [
+                          "// Test should only run on Dev2 and return 404 elsewhere. You can add the name of your local environment here to run the test.\r",
+                          "pm.test(\"Status code is 200 for Dev2, 404 otherwise\", function () {\r",
+                          "    console.log()\r",
+                          "    if (pm.environment.name == 'Dev2' || pm.environment.name == 'Stage'){ \r",
+                          "        pm.response.to.have.status(200);\r",
+                          "        var jsonData = pm.response.json();\r",
+                          "        pm.expect(jsonData).to.have.property('Recipient');\r",
+                          "        pm.expect(jsonData).to.have.property('ClientTaskSummaries');\r",
+                          "        jsonData.ClientTaskSummaries.forEach(task => pm.expect(task).to.not.have.property('LastExternalCommentItem'));\r",
+                          "        pm.environment.set(\"public.api.clienttask_test_permakey\", jsonData.ClientTaskSummaries[0].ClientTaskKey);\r",
+                          "    } else {\r",
+                          "        pm.response.to.have.status(404);\r",
+                          "    }\r",
+                          "});"
+                        ],
+                        "type": "text/javascript"
+                      }
+                    }
+                  ],
+                  "id": "7757c7ee-7564-4ae6-ab63-27293e1f4aa7",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "AccessKey",
+                        "value": "{{publicapi.accesskey}}",
+                        "type": "text"
+                      },
+                      {
+                        "key": "Authorization",
+                        "value": "{{publicapi.authorization}}",
+                        "type": "text"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{public.api.baseurl}}/v3/ClientRequests/{{public.api.clientrequest_test_permakey}}?$expand=Recipient, ClientTaskSummaries",
+                      "host": [
+                        "{{public.api.baseurl}}"
+                      ],
+                      "path": [
+                        "v3",
+                        "ClientRequests",
+                        "{{public.api.clientrequest_test_permakey}}"
+                      ],
+                      "query": [
+                        {
+                          "key": "$expand",
+                          "value": "Recipient, ClientTaskSummaries"
+                        }
+                      ]
+                    }
+                  },
+                  "response": []
+                },
+                {
+                  "name": "GetRequests by PermaKey: Expand Everything: Including LastCommentItem",
+                  "event": [
+                    {
+                      "listen": "test",
+                      "script": {
+                        "id": "b3775e27-fd89-454e-ae2a-716821081105",
+                        "exec": [
+                          "// Test should only run on Dev2 and return 404 elsewhere. You can add the name of your local environment here to run the test.\r",
+                          "pm.test(\"Status code is 200 for Dev2, 404 otherwise\", function () {\r",
+                          "    console.log()\r",
+                          "    if (pm.environment.name == 'Dev2' || pm.environment.name == 'Stage'){ \r",
+                          "        pm.response.to.have.status(200);\r",
+                          "        var jsonData = pm.response.json();\r",
+                          "        pm.expect(jsonData).to.have.property('Recipient');\r",
+                          "        pm.expect(jsonData).to.have.property('ClientTaskSummaries');\r",
+                          "        jsonData.ClientTaskSummaries.forEach(task => pm.expect(task).to.have.property('LastCommentItem'));\r",
+                          "    } else {\r",
+                          "        pm.response.to.have.status(404);\r",
+                          "    }\r",
+                          "});"
+                        ],
+                        "type": "text/javascript"
+                      }
+                    }
+                  ],
+                  "id": "d263a4e9-9447-41b7-9dd4-bf5ef77fae5c",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "AccessKey",
+                        "value": "{{publicapi.accesskey}}",
+                        "type": "text"
+                      },
+                      {
+                        "key": "Authorization",
+                        "value": "{{publicapi.authorization}}",
+                        "type": "text"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{public.api.baseurl}}/v3/ClientRequests/{{public.api.clientrequest_test_permakey}}?$expand=Recipient, ClientTaskSummaries($expand=LastCommentItem)",
+                      "host": [
+                        "{{public.api.baseurl}}"
+                      ],
+                      "path": [
+                        "v3",
+                        "ClientRequests",
+                        "{{public.api.clientrequest_test_permakey}}"
+                      ],
+                      "query": [
+                        {
+                          "key": "$expand",
+                          "value": "Recipient, ClientTaskSummaries($expand=LastCommentItem)"
+                        }
+                      ]
+                    }
+                  },
+                  "response": []
+                },
+                {
                   "name": "Search ClientRequest (Parameterless)",
                   "event": [
                     {
@@ -7498,15 +7677,14 @@
                           "    console.log()\r",
                           "    if (pm.environment.name == 'Dev2' || pm.environment.name == 'Stage'){ \r",
                           "        pm.response.to.have.status(200);\r",
+                          "        pm.test(\"Check client requests are returned\", function () {\r",
+                          "            var jsonData = pm.response.json();\r",
+                          "            pm.expect(jsonData.value.length).to.gte(1);    \r",
+                          "            pm.expect(jsonData.value.length).to.lte(100);\r",
+                          "        });\r",
                           "    } else {\r",
                           "        pm.response.to.have.status(404);\r",
                           "    }\r",
-                          "});\r",
-                          "\r",
-                          "pm.test(\"Check client requests are returned\", function () {\r",
-                          "    var jsonData = pm.response.json();\r",
-                          "    pm.expect(jsonData.value.length).to.gte(1);    \r",
-                          "    pm.expect(jsonData.value.length).to.lte(100);\r",
                           "});"
                         ],
                         "type": "text/javascript"
@@ -7549,7 +7727,6 @@
                           "        pm.response.to.have.status(200);\r",
                           "        pm.test(\"Check client requests are returned with correct search results\", function () {\r",
                           "            var jsonData = pm.response.json();\r",
-                          "            console.log(jsonData.value.length);\r",
                           "            if (jsonData.value.length > 0){\r",
                           "                pm.environment.set('public.api.clientrequest_test_workitemkey', jsonData.value[0].WorkItemKey);\r",
                           "                var recipientKey = pm.environment.get('public.api.clientrequest_test_recipientkey');\r",
@@ -7618,7 +7795,6 @@
                           "        pm.response.to.have.status(200);\r",
                           "        pm.test(\"Check client requests are returned with correct search results\", function () {\r",
                           "            var jsonData = pm.response.json();\r",
-                          "            console.log(jsonData.value.length);\r",
                           "            if (jsonData.value.length > 0){\r",
                           "                var recipientKey = pm.environment.get('public.api.clientrequest_test_recipientkey');\r",
                           "                var workItemKey = pm.environment.get('public.api.clientrequest_test_workitemkey');\r",
@@ -7688,7 +7864,6 @@
                           "        pm.response.to.have.status(200);\r",
                           "        pm.test(\"Check client requests are returned with correct search results\", function () {\r",
                           "            var jsonData = pm.response.json();\r",
-                          "            console.log(jsonData.value.length);\r",
                           "            if (jsonData.value.length > 0){\r",
                           "                pm.expect(jsonData.value.length).to.lte(100);\r",
                           "                jsonData.value.forEach(element => \r",
@@ -7766,7 +7941,6 @@
                           "        pm.response.to.have.status(200);\r",
                           "        pm.test(\"Check client requests are returned with correct search results\", function () {\r",
                           "            var jsonData = pm.response.json();\r",
-                          "            console.log(jsonData.value.length);\r",
                           "            if (jsonData.value.length > 0){\r",
                           "                pm.expect(jsonData.value.length).to.lte(100);\r",
                           "                jsonData.value.forEach(element => \r",
@@ -7834,7 +8008,6 @@
                           "        pm.response.to.have.status(200);\r",
                           "        pm.test(\"Check client requests are returned with correct search results\", function () {\r",
                           "            var jsonData = pm.response.json();\r",
-                          "            console.log(jsonData.value.length);\r",
                           "            if (jsonData.value.length > 0){\r",
                           "                pm.expect(jsonData.value.length).to.lte(100);\r",
                           "                var recipientKey = pm.environment.get('public.api.clientrequest_test_recipientkey');\r",
@@ -7907,14 +8080,14 @@
                         "exec": [
                           "// Test should only run on Dev2 and return 404 elsewhere. You can add the name of your local environment here to run the test.\r",
                           "// Endpoint in development - tests coming soon.\r",
-                          "/*pm.test(\"Status code is 200 for Dev2, 404 otherwise\", function () {\r",
+                          "pm.test(\"Status code is 200 for Dev2, 404 otherwise\", function () {\r",
                           "    console.log()\r",
                           "    if (pm.environment.name == 'Dev2' || pm.environment.name == 'Stage'){ \r",
                           "        pm.response.to.have.status(200);\r",
                           "    } else {\r",
                           "        pm.response.to.have.status(404);\r",
                           "    }\r",
-                          "});*/"
+                          "});"
                         ],
                         "type": "text/javascript"
                       }
@@ -7952,14 +8125,14 @@
                         "exec": [
                           "// Test should only run on Dev2 and return 404 elsewhere. You can add the name of your local environment here to run the test.\r",
                           "// Endpoint in development - tests coming soon.\r",
-                          "/*pm.test(\"Status code is 200 for Dev2, 404 otherwise\", function () {\r",
+                          "pm.test(\"Status code is 204 for Dev2, 404 otherwise\", function () {\r",
                           "    console.log()\r",
                           "    if (pm.environment.name == 'Dev2' || pm.environment.name == 'Stage'){ \r",
-                          "        pm.response.to.have.status(200);\r",
+                          "        pm.response.to.have.status(204);\r",
                           "    } else {\r",
                           "        pm.response.to.have.status(404);\r",
                           "    }\r",
-                          "});*/"
+                          "});"
                         ],
                         "type": "text/javascript"
                       }
@@ -8006,14 +8179,14 @@
                         "exec": [
                           "// Test should only run on Dev2 and return 404 elsewhere. You can add the name of your local environment here to run the test.\r",
                           "// Endpoint in development - tests coming soon.\r",
-                          "/*pm.test(\"Status code is 200 for Dev2, 404 otherwise\", function () {\r",
+                          "pm.test(\"Status code is 204 for Dev2, 404 otherwise\", function () {\r",
                           "    console.log()\r",
                           "    if (pm.environment.name == 'Dev2' || pm.environment.name == 'Stage'){ \r",
-                          "        pm.response.to.have.status(200);\r",
+                          "        pm.response.to.have.status(204);\r",
                           "    } else {\r",
                           "        pm.response.to.have.status(404);\r",
                           "    }\r",
-                          "});*/"
+                          "});"
                         ],
                         "type": "text/javascript"
                       }
@@ -8060,14 +8233,14 @@
                         "exec": [
                           "// Test should only run on Dev2 and return 404 elsewhere. You can add the name of your local environment here to run the test.\r",
                           "// Endpoint in development - tests coming soon.\r",
-                          "/*pm.test(\"Status code is 200 for Dev2, 404 otherwise\", function () {\r",
+                          "pm.test(\"Status code is 400 for Dev2, 404 otherwise\", function () {\r",
                           "    console.log()\r",
                           "    if (pm.environment.name == 'Dev2' || pm.environment.name == 'Stage'){ \r",
-                          "        pm.response.to.have.status(200);\r",
+                          "        pm.response.to.have.status(400);\r",
                           "    } else {\r",
                           "        pm.response.to.have.status(404);\r",
                           "    }\r",
-                          "});*/"
+                          "});"
                         ],
                         "type": "text/javascript"
                       }
@@ -8106,6 +8279,57 @@
                 }
               ],
               "id": "87646536-e458-44fb-95ce-85a94ea0cf70"
+            },
+            {
+              "name": "ClientTaskComments",
+              "item": [
+                {
+                  "name": "Get ClientTaskComments LIST by ClientTaskKey",
+                  "event": [
+                    {
+                      "listen": "test",
+                      "script": {
+                        "id": "ab51ff02-a615-4902-ae9c-e3bbecc517da",
+                        "exec": [
+                          "// Test should only run on Dev2 and return 404 elsewhere. You can add the name of your local environment here to run the test.\r",
+                          "// Endpoint in development - tests coming soon.\r",
+                          "/*pm.test(\"Status code is 200 for Dev2, 404 otherwise\", function () {\r",
+                          "    console.log()\r",
+                          "    if (pm.environment.name == 'Dev2' || pm.environment.name == 'Stage'){ \r",
+                          "        pm.response.to.have.status(200);\r",
+                          "    } else {\r",
+                          "        pm.response.to.have.status(404);\r",
+                          "    }\r",
+                          "});*/"
+                        ],
+                        "type": "text/javascript"
+                      }
+                    }
+                  ],
+                  "id": "800cdc73-fb94-46b7-bd20-16e7031de3bf",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "AccessKey",
+                        "value": "{{publicapi.accesskey}}",
+                        "type": "text"
+                      },
+                      {
+                        "key": "Authorization",
+                        "value": "{{publicapi.authorization}}",
+                        "type": "text"
+                      }
+                    ],
+                    "url": "{{public.api.baseurl}}/v3/ClientTaskComments/{{public.api.clienttask_test_permakey}}"
+                  },
+                  "response": []
+                }
+              ],
+              "id": "0bf5abf0-3f33-45e0-86f1-84d48bff8729"
             }
           ],
           "id": "4d931b1e-5742-4043-aaf0-ae6ceedbde03"
