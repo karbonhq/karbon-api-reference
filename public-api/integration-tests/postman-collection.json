@@ -3663,21 +3663,7 @@
             },
             {
               "name": "Update (Patch)",
-              "item": [
-                {
-                  "name": "Patch Organization",
-                  "id": "8ec94d6d-7b47-4bbd-88eb-b21e1679479c",
-                  "protocolProfileBehavior": {
-                    "disableBodyPruning": true
-                  },
-                  "request": {
-                    "method": "GET",
-                    "header": [],
-                    "url": null
-                  },
-                  "response": []
-                }
-              ],
+              "item": [],
               "id": "6a7cc275-dd44-4649-9fba-a59f6e06647a"
             }
           ],
