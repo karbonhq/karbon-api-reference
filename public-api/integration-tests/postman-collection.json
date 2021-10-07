@@ -7143,7 +7143,7 @@
                       }
                     ],
                     "url": {
-                      "raw": "{{public.api.baseurl}}/v3/WorkTemplates?$orderby=EstimatedTime&$top=10",
+                      "raw": "{{public.api.baseurl}}/v3/WorkTemplates?$filter=Title eq 'Mr'",
                       "host": [
                         "{{public.api.baseurl}}"
                       ],
@@ -7153,12 +7153,8 @@
                       ],
                       "query": [
                         {
-                          "key": "$orderby",
-                          "value": "EstimatedTime"
-                        },
-                        {
-                          "key": "$top",
-                          "value": "10"
+                          "key": "$filter",
+                          "value": "Title eq 'Mr'"
                         }
                       ]
                     }
