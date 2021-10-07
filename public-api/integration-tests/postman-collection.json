@@ -7108,6 +7108,64 @@
                   "response": []
                 },
                 {
+                  "name": "Search orderby EstimatedTime Copy",
+                  "event": [
+                    {
+                      "listen": "test",
+                      "script": {
+                        "id": "b6e0f143-6c9f-4016-a2f9-c0dd0b016367",
+                        "exec": [
+                          "pm.test(\"#7791 Timesheet filter by Status is throwing 500 response\", function () {\r",
+                          "    // Change this when #7791 is fixed. This test should start failing.\r",
+                          "    pm.response.to.have.status(500);\r",
+                          "});"
+                        ],
+                        "type": "text/javascript"
+                      }
+                    }
+                  ],
+                  "id": "e73df5d2-0e33-483a-9dce-ba815b22615f",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Authorization",
+                        "value": "{{publicapi.authorization}}",
+                        "type": "text"
+                      },
+                      {
+                        "key": "AccessKey",
+                        "value": "{{publicapi.accesskey}}",
+                        "type": "text"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{public.api.baseurl}}/v3/WorkTemplates?$orderby=EstimatedTime&$top=10",
+                      "host": [
+                        "{{public.api.baseurl}}"
+                      ],
+                      "path": [
+                        "v3",
+                        "WorkTemplates"
+                      ],
+                      "query": [
+                        {
+                          "key": "$orderby",
+                          "value": "EstimatedTime"
+                        },
+                        {
+                          "key": "$top",
+                          "value": "10"
+                        }
+                      ]
+                    }
+                  },
+                  "response": []
+                },
+                {
                   "name": "Search with select odata attribute",
                   "event": [
                     {
@@ -7266,64 +7324,6 @@
                         {
                           "key": "$filter",
                           "value": "startswith(Title,'test')"
-                        }
-                      ]
-                    }
-                  },
-                  "response": []
-                },
-                {
-                  "name": "Search orderby EstimatedTime Copy",
-                  "event": [
-                    {
-                      "listen": "test",
-                      "script": {
-                        "id": "b6e0f143-6c9f-4016-a2f9-c0dd0b016367",
-                        "exec": [
-                          "pm.test(\"#7791 Timesheet filter by Status is throwing 500 response\", function () {\r",
-                          "    // Change this when #7791 is fixed. This test should start failing.\r",
-                          "    pm.response.to.have.status(500);\r",
-                          "});"
-                        ],
-                        "type": "text/javascript"
-                      }
-                    }
-                  ],
-                  "id": "e73df5d2-0e33-483a-9dce-ba815b22615f",
-                  "protocolProfileBehavior": {
-                    "disableBodyPruning": true
-                  },
-                  "request": {
-                    "method": "GET",
-                    "header": [
-                      {
-                        "key": "Authorization",
-                        "value": "{{publicapi.authorization}}",
-                        "type": "text"
-                      },
-                      {
-                        "key": "AccessKey",
-                        "value": "{{publicapi.accesskey}}",
-                        "type": "text"
-                      }
-                    ],
-                    "url": {
-                      "raw": "{{public.api.baseurl}}/v3/WorkTemplates?$orderby=EstimatedTime&$top=10",
-                      "host": [
-                        "{{public.api.baseurl}}"
-                      ],
-                      "path": [
-                        "v3",
-                        "WorkTemplates"
-                      ],
-                      "query": [
-                        {
-                          "key": "$orderby",
-                          "value": "EstimatedTime"
-                        },
-                        {
-                          "key": "$top",
-                          "value": "10"
                         }
                       ]
                     }
