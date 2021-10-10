@@ -7115,9 +7115,18 @@
                       "script": {
                         "id": "b6e0f143-6c9f-4016-a2f9-c0dd0b016367",
                         "exec": [
-                          "pm.test(\"#7791 Timesheet filter by Status is throwing 500 response\", function () {\r",
+                          "/*pm.test(\"#7791 Timesheet filter by Status is throwing 500 response\", function () {\r",
                           "    // Change this when #7791 is fixed. This test should start failing.\r",
                           "    pm.response.to.have.status(500);\r",
+                          "});*/\r",
+                          "\r",
+                          "pm.test(\"Status code is 200\", function () {\r",
+                          "    pm.response.to.have.status(200);\r",
+                          "});\r",
+                          "\r",
+                          "pm.test(\"Check work templates were found\", function () {\r",
+                          "    var jsonData = pm.response.json();\r",
+                          "    pm.expect(jsonData.value.length).to.gte(1);\r",
                           "});"
                         ],
                         "type": "text/javascript"
@@ -7143,7 +7152,7 @@
                       }
                     ],
                     "url": {
-                      "raw": "{{public.api.baseurl}}/v3/WorkTemplates?$filter=Title eq 'Mr'",
+                      "raw": "{{public.api.baseurl}}/v3/WorkTemplates?$filter=Title eq 'Accounting: Month-end close'",
                       "host": [
                         "{{public.api.baseurl}}"
                       ],
@@ -7154,7 +7163,7 @@
                       "query": [
                         {
                           "key": "$filter",
-                          "value": "Title eq 'Mr'"
+                          "value": "Title eq 'Accounting: Month-end close'"
                         }
                       ]
                     }
