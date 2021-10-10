@@ -8163,8 +8163,6 @@
                       "script": {
                         "id": "d0dbcf75-6d1e-4a1f-aa11-a44e7cdc29eb",
                         "exec": [
-                          "// Test should only run on Dev2 and return 404 elsewhere. You can add the name of your local environment here to run the test.\r",
-                          "// Endpoint in development - tests coming soon.\r",
                           "pm.test(\"Status code is 204 for Dev2, 404 otherwise\", function () {\r",
                           "    console.log()\r",
                           "    if (pm.environment.name == 'Dev2' || pm.environment.name == 'Stage'){ \r",
@@ -8271,8 +8269,6 @@
                       "script": {
                         "id": "8f6c6476-5301-4ed4-a7ec-c04ee53396ec",
                         "exec": [
-                          "// Test should only run on Dev2 and return 404 elsewhere. You can add the name of your local environment here to run the test.\r",
-                          "// Endpoint in development - tests coming soon.\r",
                           "pm.test(\"Status code is 400 for Dev2, 404 otherwise\", function () {\r",
                           "    console.log()\r",
                           "    if (pm.environment.name == 'Dev2' || pm.environment.name == 'Stage'){ \r",
@@ -8324,49 +8320,541 @@
               "name": "ClientTaskComments",
               "item": [
                 {
-                  "name": "Get ClientTaskComments LIST by ClientTaskKey",
-                  "event": [
+                  "name": "GET",
+                  "item": [
                     {
-                      "listen": "test",
-                      "script": {
-                        "id": "ab51ff02-a615-4902-ae9c-e3bbecc517da",
-                        "exec": [
-                          "// Test should only run on Dev2 and return 404 elsewhere. You can add the name of your local environment here to run the test.\r",
-                          "// Endpoint in development - tests coming soon.\r",
-                          "/*pm.test(\"Status code is 200 for Dev2, 404 otherwise\", function () {\r",
-                          "    console.log()\r",
-                          "    if (pm.environment.name == 'Dev2' || pm.environment.name == 'Stage'){ \r",
-                          "        pm.response.to.have.status(200);\r",
-                          "    } else {\r",
-                          "        pm.response.to.have.status(404);\r",
-                          "    }\r",
-                          "});*/"
+                      "name": "Get ClientTaskComments LIST by ClientTaskKey",
+                      "event": [
+                        {
+                          "listen": "test",
+                          "script": {
+                            "id": "b50b86a4-6fbd-4c25-a6d4-0fc0bfbd48a3",
+                            "exec": [
+                              "pm.test(\"Status code is 204 for Dev2, 404 otherwise\", function () {\r",
+                              "    console.log()\r",
+                              "    if (pm.environment.name == 'Dev2' || pm.environment.name == 'Stage' ||  pm.environment.name == 'Pulkit'){ \r",
+                              "        pm.response.to.have.status(200);\r",
+                              "        pm.test(\"Check object is returned with correct data.\", function () {\r",
+                              "            var jsonData = pm.response.json();\r",
+                              "            if (jsonData.value.length > 0){\r",
+                              "                pm.environment.set('public.api.clientcomment_test_authorkey', jsonData.value[0].AuthorKey)\r",
+                              "                var clientTaskKey = pm.environment.get('public.api.clienttask_test_permakey');\r",
+                              "                jsonData.value.forEach(element => \r",
+                              "                    pm.expect(element.ClientTaskKey).to.eq(clientTaskKey));\r",
+                              "            }\r",
+                              "        });\r",
+                              "    } else {\r",
+                              "        pm.response.to.have.status(404);\r",
+                              "    }\r",
+                              "});"
+                            ],
+                            "type": "text/javascript"
+                          }
+                        }
+                      ],
+                      "id": "ef3f5be5-cd66-4ab6-9447-24485eb043b5",
+                      "protocolProfileBehavior": {
+                        "disableBodyPruning": true
+                      },
+                      "request": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "AccessKey",
+                            "value": "{{publicapi.accesskey}}",
+                            "type": "text"
+                          },
+                          {
+                            "key": "Authorization",
+                            "value": "{{publicapi.authorization}}",
+                            "type": "text"
+                          }
                         ],
-                        "type": "text/javascript"
-                      }
+                        "url": "{{public.api.baseurl}}/v3/ClientTaskComments/{{public.api.clienttask_test_permakey}}"
+                      },
+                      "response": []
                     }
                   ],
-                  "id": "800cdc73-fb94-46b7-bd20-16e7031de3bf",
-                  "protocolProfileBehavior": {
-                    "disableBodyPruning": true
-                  },
-                  "request": {
-                    "method": "GET",
-                    "header": [
-                      {
-                        "key": "AccessKey",
-                        "value": "{{publicapi.accesskey}}",
-                        "type": "text"
+                  "id": "acea2dd4-58ea-47df-aaa0-c3eac4dced6a"
+                },
+                {
+                  "name": "POST",
+                  "item": [
+                    {
+                      "name": "Create ClientTaskComment Valid",
+                      "event": [
+                        {
+                          "listen": "test",
+                          "script": {
+                            "id": "b3125875-e9cc-40ff-a0d0-03009c3611a0",
+                            "exec": [
+                              "// Test should only run on Dev2 and return 404 elsewhere. You can add the name of your local environment here to run the test.\r",
+                              "// Endpoint in development - tests coming soon.\r",
+                              "pm.test(\"Status code is 201 for Dev2, 404 otherwise\", function () {\r",
+                              "    if (pm.environment.name == 'Dev2' || pm.environment.name == 'Stage' || pm.environment.name == 'Pulkit'){ \r",
+                              "        pm.response.to.have.status(201);\r",
+                              "        pm.test(\"Check object is created with correct data.\", function () {\r",
+                              "            var jsonData = pm.response.json();\r",
+                              "            var requestData = JSON.parse(pm.request.body.raw);\r",
+                              "            pm.expect(jsonData.ClientTaskKey).to.eq(requestData.ClientTaskKey);\r",
+                              "            pm.expect(jsonData.Message).to.eq(requestData.Message);\r",
+                              "            pm.expect(jsonData.AuthorKey).to.eq(requestData.AuthorKey);\r",
+                              "            pm.environment.set('public.api.clienttask_test_commentkey', jsonData.CommentItemKey);\r",
+                              "        });\r",
+                              "    } else {\r",
+                              "        pm.response.to.have.status(404);\r",
+                              "    }\r",
+                              "});"
+                            ],
+                            "type": "text/javascript"
+                          }
+                        },
+                        {
+                          "listen": "prerequest",
+                          "script": {
+                            "id": "8f286d16-3934-4b64-899a-1d3e73c4dce7",
+                            "exec": [
+                              "var data = JSON.parse(pm.request.body.raw);\r",
+                              "data.Message = \"Message via Public API, posted at \"+ new Date().toISOString();\r",
+                              "\r",
+                              "let body = {\r",
+                              "    mode: 'raw',\r",
+                              "    raw: JSON.stringify(data),\r",
+                              "    options: {\r",
+                              "        raw: {\r",
+                              "            language: 'json'\r",
+                              "        }\r",
+                              "    }\r",
+                              "}\r",
+                              "\r",
+                              "pm.request.body.update(body);"
+                            ],
+                            "type": "text/javascript"
+                          }
+                        }
+                      ],
+                      "id": "48c1d0c0-c704-40e4-a7ed-6e15051a1328",
+                      "protocolProfileBehavior": {
+                        "disableBodyPruning": true
                       },
-                      {
-                        "key": "Authorization",
-                        "value": "{{publicapi.authorization}}",
-                        "type": "text"
-                      }
-                    ],
-                    "url": "{{public.api.baseurl}}/v3/ClientTaskComments/{{public.api.clienttask_test_permakey}}"
-                  },
-                  "response": []
+                      "request": {
+                        "method": "POST",
+                        "header": [
+                          {
+                            "key": "AccessKey",
+                            "value": "{{publicapi.accesskey}}",
+                            "type": "text"
+                          },
+                          {
+                            "key": "Authorization",
+                            "value": "{{publicapi.authorization}}",
+                            "type": "text"
+                          }
+                        ],
+                        "body": {
+                          "mode": "raw",
+                          "raw": "{\r\n    \"ClientTaskKey\": \"{{public.api.clienttask_test_permakey}}\",\r\n    \"PostDateTime\": \"2021-05-28T00:49:03+12:00\",\r\n    \"AuthorKey\": \"{{public.api.clientcomment_test_authorkey}}\",\r\n    \"AuthorType\": \"Contact\",\r\n    \"AuthorAvatarUrl\": null,\r\n    \"AvatarIndex\": 4,\r\n    \"IsEdited\": false,\r\n    \"DateModified\": null\r\n}",
+                          "options": {
+                            "raw": {
+                              "language": "json"
+                            }
+                          }
+                        },
+                        "url": "{{public.api.baseurl}}/v3/ClientTaskComments/"
+                      },
+                      "response": []
+                    },
+                    {
+                      "name": "Create ClientTaskComment INVALID - Wrong ClientTaskKey",
+                      "event": [
+                        {
+                          "listen": "test",
+                          "script": {
+                            "id": "a58ad07d-0e68-4b3a-8094-930469476fbc",
+                            "exec": [
+                              "pm.test(\"Status code is 400 for Dev2, 404 otherwise\", function () {\r",
+                              "    console.log()\r",
+                              "    if (pm.environment.name == 'Dev2' || pm.environment.name == 'Stage' || pm.environment.name == 'Pulkit'){ \r",
+                              "        pm.response.to.have.status(400);\r",
+                              "    } else {\r",
+                              "        pm.response.to.have.status(404);\r",
+                              "    }\r",
+                              "});"
+                            ],
+                            "type": "text/javascript"
+                          }
+                        },
+                        {
+                          "listen": "prerequest",
+                          "script": {
+                            "id": "cf93a1d3-3087-4802-a160-5d589df3fe93",
+                            "exec": [
+                              ""
+                            ],
+                            "type": "text/javascript"
+                          }
+                        }
+                      ],
+                      "id": "500ab711-597d-488c-b4a1-970800f09767",
+                      "protocolProfileBehavior": {
+                        "disableBodyPruning": true
+                      },
+                      "request": {
+                        "method": "POST",
+                        "header": [
+                          {
+                            "key": "AccessKey",
+                            "value": "{{publicapi.accesskey}}",
+                            "type": "text"
+                          },
+                          {
+                            "key": "Authorization",
+                            "value": "{{publicapi.authorization}}",
+                            "type": "text"
+                          }
+                        ],
+                        "body": {
+                          "mode": "raw",
+                          "raw": "{\r\n    \"ClientTaskKey\": \"{{public.api.clienttask_test_permakey}}\",\r\n    \"Message\": \"test bad\",\r\n    \"PostDateTime\": \"2021-05-28T00:49:03+12:00\",\r\n    \"AuthorKey\": \"3JM1sQXc3zJ4\",\r\n    \"AuthorType\": \"Contact\",\r\n    \"AuthorFullName\": \"Acme Test User\"\r\n}",
+                          "options": {
+                            "raw": {
+                              "language": "json"
+                            }
+                          }
+                        },
+                        "url": "{{public.api.baseurl}}/v3/ClientTaskComments/"
+                      },
+                      "response": []
+                    },
+                    {
+                      "name": "Create ClientTaskComment INVALID - Missing Author field",
+                      "event": [
+                        {
+                          "listen": "test",
+                          "script": {
+                            "id": "e8b528ec-b154-4fed-9dc9-9148a345b8b0",
+                            "exec": [
+                              "pm.test(\"Status code is 400 for Dev2, 404 otherwise\", function () {\r",
+                              "    console.log()\r",
+                              "    if (pm.environment.name == 'Dev2' || pm.environment.name == 'Stage' || pm.environment.name == 'Pulkit'){ \r",
+                              "        pm.response.to.have.status(400);\r",
+                              "    } else {\r",
+                              "        pm.response.to.have.status(404);\r",
+                              "    }\r",
+                              "});"
+                            ],
+                            "type": "text/javascript"
+                          }
+                        },
+                        {
+                          "listen": "prerequest",
+                          "script": {
+                            "id": "e9f360e7-9f30-401c-b327-f44073a6ac8b",
+                            "exec": [
+                              ""
+                            ],
+                            "type": "text/javascript"
+                          }
+                        }
+                      ],
+                      "id": "35e3e382-62d2-4e9c-a68f-156b2d8e5ce2",
+                      "protocolProfileBehavior": {
+                        "disableBodyPruning": true
+                      },
+                      "request": {
+                        "method": "POST",
+                        "header": [
+                          {
+                            "key": "AccessKey",
+                            "value": "{{publicapi.accesskey}}",
+                            "type": "text"
+                          },
+                          {
+                            "key": "Authorization",
+                            "value": "{{publicapi.authorization}}",
+                            "type": "text"
+                          }
+                        ],
+                        "body": {
+                          "mode": "raw",
+                          "raw": "{\r\n    \"ClientTaskKey\": \"{{public.api.clienttask_test_permakey}}\",\r\n    \"Message\": \"test bad\",\r\n    \"AuthorType\": \"Contact\",\r\n    \"AuthorFullName\": \"Acme Test User\"\r\n}",
+                          "options": {
+                            "raw": {
+                              "language": "json"
+                            }
+                          }
+                        },
+                        "url": "{{public.api.baseurl}}/v3/ClientTaskComments/"
+                      },
+                      "response": []
+                    },
+                    {
+                      "name": "Create ClientTaskComment INVALID - Missing client task key",
+                      "event": [
+                        {
+                          "listen": "test",
+                          "script": {
+                            "id": "4d29aa24-5bfa-453f-b665-41ca389ed2ce",
+                            "exec": [
+                              "pm.test(\"Status code is 400 for Dev2, 404 otherwise\", function () {\r",
+                              "    console.log()\r",
+                              "    if (pm.environment.name == 'Dev2' || pm.environment.name == 'Stage' || pm.environment.name == 'Pulkit'){ \r",
+                              "        pm.response.to.have.status(400);\r",
+                              "    } else {\r",
+                              "        pm.response.to.have.status(404);\r",
+                              "    }\r",
+                              "});"
+                            ],
+                            "type": "text/javascript"
+                          }
+                        },
+                        {
+                          "listen": "prerequest",
+                          "script": {
+                            "id": "2e7a2c70-e19e-45fd-af57-07b5fff2086e",
+                            "exec": [
+                              ""
+                            ],
+                            "type": "text/javascript"
+                          }
+                        }
+                      ],
+                      "id": "ae710e37-916e-4821-80df-0699f2859d47",
+                      "protocolProfileBehavior": {
+                        "disableBodyPruning": true
+                      },
+                      "request": {
+                        "method": "POST",
+                        "header": [
+                          {
+                            "key": "AccessKey",
+                            "value": "{{publicapi.accesskey}}",
+                            "type": "text"
+                          },
+                          {
+                            "key": "Authorization",
+                            "value": "{{publicapi.authorization}}",
+                            "type": "text"
+                          }
+                        ],
+                        "body": {
+                          "mode": "raw",
+                          "raw": "{\r\n    \"Message\": \"test bad\",\r\n    \"AuthorType\": \"Contact\",\r\n    \"AuthorFullName\": \"Acme Test User\"\r\n}",
+                          "options": {
+                            "raw": {
+                              "language": "json"
+                            }
+                          }
+                        },
+                        "url": "{{public.api.baseurl}}/v3/ClientTaskComments/"
+                      },
+                      "response": []
+                    }
+                  ],
+                  "id": "7db18120-1713-4487-b5ff-daa0e46346ad"
+                },
+                {
+                  "name": "PATCH",
+                  "item": [
+                    {
+                      "name": "Patch Comment Message (Valid)",
+                      "event": [
+                        {
+                          "listen": "test",
+                          "script": {
+                            "id": "daf42f29-801e-490b-92f5-4a8e13b331ed",
+                            "exec": [
+                              "pm.test(\"Status code is 204 for Dev2, 404 otherwise\", function () {\r",
+                              "    console.log()\r",
+                              "    if (pm.environment.name == 'Dev2' || pm.environment.name == 'Stage' || pm.environment.name == 'Pulkit'){ \r",
+                              "        pm.response.to.have.status(204);\r",
+                              "    } else {\r",
+                              "        pm.response.to.have.status(404);\r",
+                              "    }\r",
+                              "});"
+                            ],
+                            "type": "text/javascript"
+                          }
+                        }
+                      ],
+                      "id": "3ca736d7-5432-496c-aef6-2b4ee660985d",
+                      "protocolProfileBehavior": {
+                        "disableBodyPruning": true
+                      },
+                      "request": {
+                        "method": "PATCH",
+                        "header": [
+                          {
+                            "key": "AccessKey",
+                            "value": "{{publicapi.accesskey}}",
+                            "type": "text"
+                          },
+                          {
+                            "key": "Authorization",
+                            "value": "{{publicapi.authorization}}",
+                            "type": "text"
+                          }
+                        ],
+                        "body": {
+                          "mode": "raw",
+                          "raw": "{\r\n    \"Message\": \"Patched by the Public API!\"\r\n}",
+                          "options": {
+                            "raw": {
+                              "language": "json"
+                            }
+                          }
+                        },
+                        "url": "{{public.api.baseurl}}/v3/ClientTaskComments/{{public.api.clienttask_test_commentkey}}"
+                      },
+                      "response": []
+                    },
+                    {
+                      "name": "Patch Comment Message Invalid",
+                      "event": [
+                        {
+                          "listen": "test",
+                          "script": {
+                            "id": "31691275-4baa-4408-a314-141de703e4f6",
+                            "exec": [
+                              "pm.test(\"Status code is 400 for Dev2, 404 otherwise\", function () {\r",
+                              "    console.log()\r",
+                              "    if (pm.environment.name == 'Dev2' || pm.environment.name == 'Stage' || pm.environment.name == 'Pulkit'){ \r",
+                              "        pm.response.to.have.status(400);\r",
+                              "    } else {\r",
+                              "        pm.response.to.have.status(404);\r",
+                              "    }\r",
+                              "});"
+                            ],
+                            "type": "text/javascript"
+                          }
+                        }
+                      ],
+                      "id": "ab832431-8ddf-4f48-826e-12aa2d43c272",
+                      "protocolProfileBehavior": {
+                        "disableBodyPruning": true
+                      },
+                      "request": {
+                        "method": "PATCH",
+                        "header": [
+                          {
+                            "key": "AccessKey",
+                            "value": "{{publicapi.accesskey}}",
+                            "type": "text"
+                          },
+                          {
+                            "key": "Authorization",
+                            "value": "{{publicapi.authorization}}",
+                            "type": "text"
+                          }
+                        ],
+                        "body": {
+                          "mode": "raw",
+                          "raw": "{\r\n    \"Message\": \"A patched message via Public API!\",\r\n    \"AuthorKey\": \"ABadActor\"\r\n}",
+                          "options": {
+                            "raw": {
+                              "language": "json"
+                            }
+                          }
+                        },
+                        "url": "{{public.api.baseurl}}/v3/ClientTaskComments/{{public.api.clienttask_test_commentkey}}"
+                      },
+                      "response": []
+                    }
+                  ],
+                  "id": "616c57a8-cc63-46ab-b786-4e05315b615d"
+                },
+                {
+                  "name": "DELETE",
+                  "item": [
+                    {
+                      "name": "Delete ClientTaskComment Invalid",
+                      "event": [
+                        {
+                          "listen": "test",
+                          "script": {
+                            "id": "b5148572-7b35-4f8e-a2f4-1bb8fead3d76",
+                            "exec": [
+                              "pm.test(\"Status code is 204 for Dev2, 404 otherwise\", function () {\r",
+                              "    console.log()\r",
+                              "    if (pm.environment.name == 'Dev2' || pm.environment.name == 'Stage' ||  pm.environment.name == 'Pulkit'){ \r",
+                              "        pm.response.to.have.status(400);\r",
+                              "        pm.expect(pm.response.json().error.message).to.contain(\"No comment found\");\r",
+                              "    } else {\r",
+                              "        pm.response.to.have.status(404);\r",
+                              "    }\r",
+                              "});"
+                            ],
+                            "type": "text/javascript"
+                          }
+                        }
+                      ],
+                      "id": "6707d04d-a21e-4e52-b5d1-420b5a2c00f0",
+                      "protocolProfileBehavior": {
+                        "disableBodyPruning": true
+                      },
+                      "request": {
+                        "method": "DELETE",
+                        "header": [
+                          {
+                            "key": "AccessKey",
+                            "value": "{{publicapi.accesskey}}",
+                            "type": "text"
+                          },
+                          {
+                            "key": "Authorization",
+                            "value": "{{publicapi.authorization}}",
+                            "type": "text"
+                          }
+                        ],
+                        "url": "{{public.api.baseurl}}/v3/ClientTaskComments/RANDOMKEYHERE"
+                      },
+                      "response": []
+                    },
+                    {
+                      "name": "Delete ClientTaskComment Valid",
+                      "event": [
+                        {
+                          "listen": "test",
+                          "script": {
+                            "id": "ab51ff02-a615-4902-ae9c-e3bbecc517da",
+                            "exec": [
+                              "pm.test(\"Status code is 204 for Dev2, 404 otherwise\", function () {\r",
+                              "    console.log()\r",
+                              "    if (pm.environment.name == 'Dev2' || pm.environment.name == 'Stage' ||  pm.environment.name == 'Pulkit'){ \r",
+                              "        pm.response.to.have.status(204);\r",
+                              "    } else {\r",
+                              "        pm.response.to.have.status(404);\r",
+                              "    }\r",
+                              "});"
+                            ],
+                            "type": "text/javascript"
+                          }
+                        }
+                      ],
+                      "id": "800cdc73-fb94-46b7-bd20-16e7031de3bf",
+                      "protocolProfileBehavior": {
+                        "disableBodyPruning": true
+                      },
+                      "request": {
+                        "method": "DELETE",
+                        "header": [
+                          {
+                            "key": "AccessKey",
+                            "value": "{{publicapi.accesskey}}",
+                            "type": "text"
+                          },
+                          {
+                            "key": "Authorization",
+                            "value": "{{publicapi.authorization}}",
+                            "type": "text"
+                          }
+                        ],
+                        "url": "{{public.api.baseurl}}/v3/ClientTaskComments/{{public.api.clienttask_test_commentkey}}"
+                      },
+                      "response": []
+                    }
+                  ],
+                  "id": "8c97e1fb-c956-46fa-a233-b1ac70b92984"
                 }
               ],
               "id": "0bf5abf0-3f33-45e0-86f1-84d48bff8729"
