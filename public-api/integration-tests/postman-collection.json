@@ -1777,9 +1777,18 @@
                       "script": {
                         "id": "e8ba1d71-f679-43db-bef4-3b3ac115b9fe",
                         "exec": [
-                          "pm.test(\"#7779 Ordering contacts by LastModifiedDate is broken\", function () {\r",
+                          "/*pm.test(\"#7779 Ordering contacts by LastModifiedDate is broken\", function () {\r",
                           "    // Change this when #7779 is fixed. This test should start failing.\r",
                           "    pm.response.to.have.status(500);\r",
+                          "});*/\r",
+                          "\r",
+                          "pm.test(\"Status code is 200\", function () {\r",
+                          "    pm.response.to.have.status(200);\r",
+                          "});\r",
+                          "\r",
+                          "pm.test(\"Check contacts were found\", function () {\r",
+                          "    var jsonData = pm.response.json();\r",
+                          "    pm.expect(jsonData.value.length).to.gte(1);\r",
                           "});\r",
                           ""
                         ],
