@@ -4060,9 +4060,18 @@
                       "script": {
                         "id": "4c588e2b-9113-4c2f-8059-65d1412c9955",
                         "exec": [
-                          "pm.test(\"#7780 Timesheet expand by TimeEntries is throwing 500\", function () {\r",
+                          "/*pm.test(\"#7780 Timesheet expand by TimeEntries is throwing 500\", function () {\r",
                           "    // Change this when #7780 is fixed. This test should start failing.\r",
                           "    pm.response.to.have.status(500);\r",
+                          "});*/\r",
+                          "\r",
+                          "pm.test(\"Status code is 200\", function () {\r",
+                          "    pm.response.to.have.status(200);\r",
+                          "});\r",
+                          "\r",
+                          "pm.test(\"Check work templates were found\", function () {\r",
+                          "    var jsonData = pm.response.json();\r",
+                          "    pm.expect(jsonData.value.length).to.gte(1);\r",
                           "});\r",
                           ""
                         ],
