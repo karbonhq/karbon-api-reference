@@ -3269,15 +3269,24 @@
                       "script": {
                         "id": "ed8fb21e-2d5f-4867-8f1f-806f03e9a608",
                         "exec": [
-                          "pm.test(\"#7779 Ordering Contacts and Organizations by LastModifiedDateTime is broken\", function () {\r",
+                          "/*pm.test(\"#7779 Ordering Contacts and Organizations by LastModifiedDateTime is broken\", function () {\r",
                           "    pm.response.to.have.status(500);\r",
-                          "});\r",
+                          "});*/\r",
                           "\r",
                           "// pm.test(\"Check items were found\", function () {\r",
                           "//     var jsonData = pm.response.json();\r",
                           "//     pm.expect(jsonData[\"@odata.count\"]).to.gte(1);\r",
                           "//     pm.expect(jsonData.value.length).to.eq(5);\r",
-                          "// });"
+                          "// });\r",
+                          "\r",
+                          "pm.test(\"Status code is 200\", function () {\r",
+                          "    pm.response.to.have.status(200);\r",
+                          "});\r",
+                          "\r",
+                          "pm.test(\"Check work templates were found\", function () {\r",
+                          "    var jsonData = pm.response.json();\r",
+                          "    pm.expect(jsonData.value.length).to.gte(1);\r",
+                          "});"
                         ],
                         "type": "text/javascript"
                       }
