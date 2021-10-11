@@ -7084,9 +7084,9 @@
                       "script": {
                         "id": "3521fa26-8c28-4076-821a-3da1e9af9159",
                         "exec": [
-                          "pm.test(\"#7791 Timesheet filter by Status is throwing 500 response\", function () {\r",
+                          "pm.test(\"#7791 Timesheet filter by Status is throwing 400 response\", function () {\r",
                           "    // Change this when #7791 is fixed. This test should start failing.\r",
-                          "    pm.response.to.have.status(500);\r",
+                          "    pm.response.to.have.status(400);\r",
                           "});"
                         ],
                         "type": "text/javascript"
