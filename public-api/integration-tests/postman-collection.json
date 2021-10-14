@@ -4914,6 +4914,17 @@
                         ],
                         "type": "text/javascript"
                       }
+                    },
+                    {
+                      "listen": "prerequest",
+                      "script": {
+                        "id": "fdfc4d03-bcfc-4d27-b736-dccb44765295",
+                        "exec": [
+                          "console.log(\"Loggin request body\");\r",
+                          "console.log(pm.request.body);"
+                        ],
+                        "type": "text/javascript"
+                      }
                     }
                   ],
                   "id": "851ac187-56a4-4f98-be60-59067c31fb7f",
