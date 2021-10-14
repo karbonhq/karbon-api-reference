@@ -4586,19 +4586,6 @@
                 }
               ],
               "id": "335fd32d-c4a8-44c1-aaf3-5e8a6dbc52fe"
-            },
-            {
-              "name": "TestTenants",
-              "id": "79c29cf1-b474-4b4a-93f5-2cb4e7a5f353",
-              "protocolProfileBehavior": {
-                "disableBodyPruning": true
-              },
-              "request": {
-                "method": "GET",
-                "header": [],
-                "url": null
-              },
-              "response": []
             }
           ],
           "id": "15c92b1c-e17a-4405-91bd-65023748dc31"
