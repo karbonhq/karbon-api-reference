@@ -4903,6 +4903,9 @@
                       "script": {
                         "id": "dfaca174-da31-4366-8eac-f73503ab0630",
                         "exec": [
+                          "console.log(\"Logging request body\");\r",
+                          "console.log(pm.request.body);\r",
+                          "\r",
                           "pm.test(\"Status code is 201\", function () {\r",
                           "    pm.response.to.have.status(201);\r",
                           "});\r",
@@ -4920,8 +4923,7 @@
                       "script": {
                         "id": "fdfc4d03-bcfc-4d27-b736-dccb44765295",
                         "exec": [
-                          "console.log(\"Loggin request body\");\r",
-                          "console.log(pm.request.body);"
+                          ""
                         ],
                         "type": "text/javascript"
                       }
