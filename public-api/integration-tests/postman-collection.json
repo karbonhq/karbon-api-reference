@@ -4588,7 +4588,7 @@
               "id": "335fd32d-c4a8-44c1-aaf3-5e8a6dbc52fe"
             },
             {
-              "name": "New Request",
+              "name": "{{baseUrl}}/api/customers/31158/tenants",
               "id": "79c29cf1-b474-4b4a-93f5-2cb4e7a5f353",
               "protocolProfileBehavior": {
                 "disableBodyPruning": true
