@@ -5219,6 +5219,71 @@
                     "url": "{{public.api.baseurl}}/v3/WorkItems"
                   },
                   "response": []
+                },
+                {
+                  "name": "#5170 Create WorkItem with Basic work fields Copy",
+                  "event": [
+                    {
+                      "listen": "test",
+                      "script": {
+                        "id": "21c35040-95c8-4431-97a0-3a5663abf2ab",
+                        "exec": [
+                          "console.log(\"Logging request body\");\r",
+                          "console.log(pm.request.body);\r",
+                          "\r",
+                          "pm.test(\"Status code is 201\", function () {\r",
+                          "    pm.response.to.have.status(201);\r",
+                          "});\r",
+                          "pm.test(\"Set workitem PermaKey\", function () {\r",
+                          "    var jsonData = pm.response.json();\r",
+                          "    pm.environment.set(\"public.api.workitem_permakey\", jsonData.WorkItemKey);\r",
+                          "});\r",
+                          ""
+                        ],
+                        "type": "text/javascript"
+                      }
+                    },
+                    {
+                      "listen": "prerequest",
+                      "script": {
+                        "id": "fb932379-c9e7-474d-ba5e-12b005969ead",
+                        "exec": [
+                          ""
+                        ],
+                        "type": "text/javascript"
+                      }
+                    }
+                  ],
+                  "id": "54bb5e69-6350-4ba0-b56b-106353d32aa1",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Authorization",
+                        "value": "{{publicapi.authorization}}",
+                        "type": "text"
+                      },
+                      {
+                        "key": "AccessKey",
+                        "value": "{{publicapi.accesskey}}",
+                        "type": "text"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\r\n    \"AssigneeEmailAddress\": \"{{public.api.workitem_useremail}}\",\r\n    \"Title\": \"Test Template Work Item\",\r\n    \"ClientKey\": \"{{public.api.workitem_clientkey}}\",\r\n    \"ClientType\": \"Contact\",\r\n    \"RelatedClientGroupKey\": \"{{public.api.workitem_relatedclientgroupkey}}\",\r\n    \"StartDate\": \"2021-07-11\",\r\n    \"DueDate\": \"2021-07-18\",\r\n    \"WorkType\": \"Payroll\",\r\n    \"Description\": \"Test description\"\r\n}",
+                      "options": {
+                        "raw": {
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": "{{public.api.baseurl}}/v3/WorkItems"
+                  },
+                  "response": []
                 }
               ],
               "id": "5694298d-0d43-44b8-ae29-ad4b13a47fa4"
