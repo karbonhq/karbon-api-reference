@@ -7754,6 +7754,70 @@
                   "response": []
                 },
                 {
+                  "name": "GetRequests by PermaKey: Expand Everything: Including LastCommentItem Copy",
+                  "event": [
+                    {
+                      "listen": "test",
+                      "script": {
+                        "id": "d96be31e-f159-438b-b3da-f72090ada9f0",
+                        "exec": [
+                          "// Test should only run on Dev2 and return 404 elsewhere. You can add the name of your local environment here to run the test.\r",
+                          "pm.test(\"Status code is 200 for Dev2, 404 otherwise\", function () {\r",
+                          "    console.log()\r",
+                          "    if (pm.environment.name == 'Dev2' || pm.environment.name == 'Stage'){ \r",
+                          "        pm.response.to.have.status(200);\r",
+                          "        var jsonData = pm.response.json();\r",
+                          "        pm.expect(jsonData).to.have.property('Recipient');\r",
+                          "        pm.expect(jsonData).to.have.property('ClientTaskSummaries');\r",
+                          "        jsonData.ClientTaskSummaries.forEach(task => pm.expect(task).to.have.property('LastCommentItem'));\r",
+                          "    } else {\r",
+                          "        pm.response.to.have.status(404);\r",
+                          "    }\r",
+                          "});"
+                        ],
+                        "type": "text/javascript"
+                      }
+                    }
+                  ],
+                  "id": "6fe94066-c1c4-4e42-932b-553b68715cc3",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "AccessKey",
+                        "value": "{{publicapi.accesskey}}",
+                        "type": "text"
+                      },
+                      {
+                        "key": "Authorization",
+                        "value": "{{publicapi.authorization}}",
+                        "type": "text"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{public.api.baseurl}}/v3/ClientRequests/{{public.api.clientrequest_test_permakey}}?$expand=Recipient, ClientTaskSummaries($expand=LastCommentItem)",
+                      "host": [
+                        "{{public.api.baseurl}}"
+                      ],
+                      "path": [
+                        "v3",
+                        "ClientRequests",
+                        "{{public.api.clientrequest_test_permakey}}"
+                      ],
+                      "query": [
+                        {
+                          "key": "$expand",
+                          "value": "Recipient, ClientTaskSummaries($expand=LastCommentItem)"
+                        }
+                      ]
+                    }
+                  },
+                  "response": []
+                },
+                {
                   "name": "Search ClientRequest (Parameterless)",
                   "event": [
                     {
