@@ -8956,19 +8956,23 @@
                       }
                     ],
                     "url": {
-                      "raw": "{{public.api.baseurl}}/v3/ClientRequests/{{public.api.clientrequest_test_permakey}}?$expand=Recipient, ClientTaskSummaries($expand=LastCommentItem)",
+                      "raw": "{{public.api.baseurl}}/v3/ClientRequests/{{public.api.magiclink_linkid}}?$expand=Recipient, ClientTaskSummaries($expand=LastCommentItem)&deviceId=2981ab6907cc4f97b5b448011b5cb23f",
                       "host": [
                         "{{public.api.baseurl}}"
                       ],
                       "path": [
                         "v3",
                         "ClientRequests",
-                        "{{public.api.clientrequest_test_permakey}}"
+                        "{{public.api.magiclink_linkid}}"
                       ],
                       "query": [
                         {
                           "key": "$expand",
                           "value": "Recipient, ClientTaskSummaries($expand=LastCommentItem)"
+                        },
+                        {
+                          "key": "deviceId",
+                          "value": "2981ab6907cc4f97b5b448011b5cb23f"
                         }
                       ]
                     }
