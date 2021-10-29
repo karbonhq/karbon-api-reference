@@ -1009,8 +1009,12 @@
                         "id": "424c8309-72c9-4ce3-a079-51f610746604",
                         "exec": [
                           "pm.test(\"Status code is 204\", function () {\r",
-                          "    pm.response.to.have.status(204);\r",
-                          "});"
+                          "    pm.response.to.have.status(200);\r",
+                          "});\r",
+                          "\r",
+                          "pm.test(\"Patch has been applied\", function () {\r",
+                          "    pm.expect(pm.response.json().FullName).to.eq(\"Partial updated client group full name\");\r",
+                          "})"
                         ],
                         "type": "text/javascript"
                       }
@@ -1032,11 +1036,72 @@
                         "key": "AccessKey",
                         "value": "{{publicapi.accesskey}}",
                         "type": "text"
+                      },
+                      {
+                        "key": "Prefer",
+                        "value": "return=representation",
+                        "type": "text"
                       }
                     ],
                     "body": {
                       "mode": "raw",
                       "raw": "{\r\n    \"FullName\": \"Partial updated client group full name\"\r\n}",
+                      "options": {
+                        "raw": {
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": "{{public.api.baseurl}}/v3/ClientGroups/{{public.api.clientgroup_permakey}}"
+                  },
+                  "response": []
+                },
+                {
+                  "name": "Partial Update Client Group - Unsupported property",
+                  "event": [
+                    {
+                      "listen": "test",
+                      "script": {
+                        "id": "778ceb3f-0758-4047-aa30-84ba8678c440",
+                        "exec": [
+                          "pm.test(\"Status code is 400\", function () {\r",
+                          "    pm.response.to.have.status(400);\r",
+                          "});\r",
+                          "\r",
+                          "pm.test(\"Patch has not been applied and error message is correct\", function () {\r",
+                          "    pm.expect(pm.response.text()).to.include(\"Invalid property to update. Only FullName can be patched.\");\r",
+                          "})"
+                        ],
+                        "type": "text/javascript"
+                      }
+                    }
+                  ],
+                  "id": "3300474c-5eec-4cdb-8487-37eeb6e808f0",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "method": "PATCH",
+                    "header": [
+                      {
+                        "key": "Authorization",
+                        "value": "{{publicapi.authorization}}",
+                        "type": "text"
+                      },
+                      {
+                        "key": "AccessKey",
+                        "value": "{{publicapi.accesskey}}",
+                        "type": "text"
+                      },
+                      {
+                        "key": "Prefer",
+                        "value": "return=representation",
+                        "type": "text"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\r\n    \"ContactType\": \"Organisation\"\r\n}",
                       "options": {
                         "raw": {
                           "language": "json"
@@ -2375,7 +2440,154 @@
             },
             {
               "name": "Update (Patch)",
-              "item": [],
+              "item": [
+                {
+                  "name": "Partial Update Contact",
+                  "event": [
+                    {
+                      "listen": "prerequest",
+                      "script": {
+                        "id": "3a416766-90d7-4baa-a90b-dd6cdf753261",
+                        "exec": [
+                          "var uuid = require('uuid');\r",
+                          "var generatedUUID = uuid.v4(); \r",
+                          "pm.environment.set(\"public.api.contact_uniqueidentifier\", generatedUUID);"
+                        ],
+                        "type": "text/javascript"
+                      }
+                    },
+                    {
+                      "listen": "test",
+                      "script": {
+                        "id": "a27a792c-9ea7-442c-bc50-05885edbb3d4",
+                        "exec": [
+                          "pm.test(\"Status code is 200\", function () {\r",
+                          "    pm.response.to.have.status(200);\r",
+                          "});\r",
+                          "\r",
+                          "pm.test(\"Fields have been patched correctly\", function () {\r",
+                          "    json = pm.response.json();\r",
+                          "    pm.expect(json.FirstName).to.eq(\"Partial First Name\");\r",
+                          "    pm.expect(json.MiddleName).to.eq(\"Partial Middle Name\");\r",
+                          "    pm.expect(json.LastName).to.eq(\"Partial Last Name\");\r",
+                          "    pm.expect(json.PreferredName).to.eq(\"Partial Preferred Name\");\r",
+                          "    pm.expect(json.Salutation).to.eq(\"Ms\");\r",
+                          "    pm.expect(json.Suffix).to.eq(\"Partial Suffix\");\r",
+                          "});\r",
+                          "\r",
+                          ""
+                        ],
+                        "type": "text/javascript"
+                      }
+                    }
+                  ],
+                  "id": "e62a1782-4b50-47ad-a2bd-62cf1cae63f1",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "method": "PATCH",
+                    "header": [
+                      {
+                        "key": "Authorization",
+                        "value": "{{publicapi.authorization}}",
+                        "type": "text"
+                      },
+                      {
+                        "key": "AccessKey",
+                        "value": "{{publicapi.accesskey}}",
+                        "type": "text"
+                      },
+                      {
+                        "key": "Prefer",
+                        "value": "return=representation",
+                        "type": "text"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\r\n    \"FirstName\": \"Partial First Name\",\r\n    \"MiddleName\": \"Partial Middle Name\",\r\n    \"LastName\": \"Partial Last Name\",\r\n    \"PreferredName\": \"Partial Preferred Name\",\r\n    \"Salutation\": \"Ms\",\r\n    \"Suffix\": \"Partial Suffix\"    \r\n}",
+                      "options": {
+                        "raw": {
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": "{{public.api.baseurl}}/v3/Contacts/{{public.api.contact_permakey}}"
+                  },
+                  "response": []
+                },
+                {
+                  "name": "Partial Update Contact - Unsupported property",
+                  "event": [
+                    {
+                      "listen": "prerequest",
+                      "script": {
+                        "id": "56b1097b-7142-495c-b5b2-09a9e1943905",
+                        "exec": [
+                          "var uuid = require('uuid');\r",
+                          "var generatedUUID = uuid.v4(); \r",
+                          "pm.environment.set(\"public.api.contact_uniqueidentifier\", generatedUUID);"
+                        ],
+                        "type": "text/javascript"
+                      }
+                    },
+                    {
+                      "listen": "test",
+                      "script": {
+                        "id": "2c8ec812-d6da-4719-b829-6dfbd6b03a83",
+                        "exec": [
+                          "pm.test(\"Status code is 400\", function () {\r",
+                          "    pm.response.to.have.status(400);\r",
+                          "});\r",
+                          "\r",
+                          "pm.test(\"Patch has not been applied and error message is correct\", function () {\r",
+                          "    pm.expect(pm.response.text()).to.include(\"Invalid property to update. Only FirstName,MiddleName,LastName,PreferredName,Salutation,Suffix can be patched.\");\r",
+                          "})\r",
+                          "\r",
+                          ""
+                        ],
+                        "type": "text/javascript"
+                      }
+                    }
+                  ],
+                  "id": "1ec32232-46c1-4a19-90ff-f6be2a199975",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "method": "PATCH",
+                    "header": [
+                      {
+                        "key": "Authorization",
+                        "value": "{{publicapi.authorization}}",
+                        "type": "text"
+                      },
+                      {
+                        "key": "AccessKey",
+                        "value": "{{publicapi.accesskey}}",
+                        "type": "text"
+                      },
+                      {
+                        "key": "Prefer",
+                        "value": "return=representation",
+                        "type": "text"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\r\n    \"UserDefinedIdentifier\": \"Whatever\"\r\n}",
+                      "options": {
+                        "raw": {
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": "{{public.api.baseurl}}/v3/Contacts/{{public.api.contact_permakey}}"
+                  },
+                  "response": []
+                }
+              ],
               "id": "97627977-40f3-4a4f-a1ef-8aa37a61fb54"
             }
           ],
@@ -3622,7 +3834,7 @@
                     {
                       "listen": "prerequest",
                       "script": {
-                        "id": "4345faa4-39ca-46e9-bcd0-2b26cc04be86",
+                        "id": "a094c8b7-e57a-4850-85a8-82b00fe16ffd",
                         "exec": [
                           "var uuid = require('uuid');\r",
                           "var generatedUUID = uuid.v4(); \r",
@@ -3635,7 +3847,7 @@
                     {
                       "listen": "test",
                       "script": {
-                        "id": "ebb4c896-ea10-4a3d-9562-81dff4bd0786",
+                        "id": "3fefea4a-dec5-4851-a2ff-970032b50292",
                         "exec": [
                           "pm.test(\"Status code is 204\", function () {\r",
                           "    pm.response.to.have.status(204);\r",
@@ -3645,7 +3857,7 @@
                       }
                     }
                   ],
-                  "id": "fa6788b0-cf5d-40bb-a1e3-da360ebad44a",
+                  "id": "90281b26-7695-4efd-ad6e-0a6631a8b281",
                   "protocolProfileBehavior": {
                     "disableBodyPruning": true
                   },
@@ -3681,7 +3893,146 @@
             },
             {
               "name": "Update (Patch)",
-              "item": [],
+              "item": [
+                {
+                  "name": "Partial Update Organization  - Unsupported property",
+                  "event": [
+                    {
+                      "listen": "prerequest",
+                      "script": {
+                        "id": "d929d963-6925-482a-aef9-6e9fe9f8316e",
+                        "exec": [
+                          "var uuid = require('uuid');\r",
+                          "var generatedUUID = uuid.v4(); \r",
+                          "pm.environment.set(\"public.api.organization_uniqueidentifier\", generatedUUID);\r",
+                          "console.log(generatedUUID);"
+                        ],
+                        "type": "text/javascript"
+                      }
+                    },
+                    {
+                      "listen": "test",
+                      "script": {
+                        "id": "6c14febc-7da2-4479-8b9e-1b8fe26ac107",
+                        "exec": [
+                          "pm.test(\"Status code is 400\", function () {\r",
+                          "    pm.response.to.have.status(400);\r",
+                          "});\r",
+                          "\r",
+                          "pm.test(\"Patch has not been applied and error message is correct\", function () {\r",
+                          "    pm.expect(pm.response.text()).to.include(\"Invalid property to update. Only FullName can be patched.\");\r",
+                          "})"
+                        ],
+                        "type": "text/javascript"
+                      }
+                    }
+                  ],
+                  "id": "db5f4a09-5d41-4bba-9741-2362772248b9",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "method": "PATCH",
+                    "header": [
+                      {
+                        "key": "Authorization",
+                        "value": "{{publicapi.authorization}}",
+                        "type": "text"
+                      },
+                      {
+                        "key": "AccessKey",
+                        "value": "{{publicapi.accesskey}}",
+                        "type": "text"
+                      },
+                      {
+                        "key": "Prefer",
+                        "value": "return=representation",
+                        "type": "text"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\r\n    \"UserDefinedIdentifier\": \"Whatever\"\r\n}",
+                      "options": {
+                        "raw": {
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": "{{public.api.baseurl}}/v3/Organizations/{{public.api.organization_permakey}}"
+                  },
+                  "response": []
+                },
+                {
+                  "name": "Partial Update Organization",
+                  "event": [
+                    {
+                      "listen": "prerequest",
+                      "script": {
+                        "id": "4345faa4-39ca-46e9-bcd0-2b26cc04be86",
+                        "exec": [
+                          "var uuid = require('uuid');\r",
+                          "var generatedUUID = uuid.v4(); \r",
+                          "pm.environment.set(\"public.api.organization_uniqueidentifier\", generatedUUID);\r",
+                          "console.log(generatedUUID);"
+                        ],
+                        "type": "text/javascript"
+                      }
+                    },
+                    {
+                      "listen": "test",
+                      "script": {
+                        "id": "ebb4c896-ea10-4a3d-9562-81dff4bd0786",
+                        "exec": [
+                          "pm.test(\"Status code is 200\", function () {\r",
+                          "    pm.response.to.have.status(200);\r",
+                          "});\r",
+                          "\r",
+                          "pm.test(\"Patch has been applied\", function () {\r",
+                          "    pm.expect(pm.response.json().FullName).to.eq(\"Partial Updated Organisation Name\");\r",
+                          "})"
+                        ],
+                        "type": "text/javascript"
+                      }
+                    }
+                  ],
+                  "id": "fa6788b0-cf5d-40bb-a1e3-da360ebad44a",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "method": "PATCH",
+                    "header": [
+                      {
+                        "key": "Authorization",
+                        "value": "{{publicapi.authorization}}",
+                        "type": "text"
+                      },
+                      {
+                        "key": "AccessKey",
+                        "value": "{{publicapi.accesskey}}",
+                        "type": "text"
+                      },
+                      {
+                        "key": "Prefer",
+                        "value": "return=representation",
+                        "type": "text"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\r\n    \"FullName\": \"Partial Updated Organisation Name\"\r\n}",
+                      "options": {
+                        "raw": {
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": "{{public.api.baseurl}}/v3/Organizations/{{public.api.organization_permakey}}"
+                  },
+                  "response": []
+                }
+              ],
               "id": "6a7cc275-dd44-4649-9fba-a59f6e06647a"
             }
           ],
@@ -6143,7 +6494,226 @@
             },
             {
               "name": "Update (Patch)",
-              "item": [],
+              "item": [
+                {
+                  "name": "Partial Update WorkItem",
+                  "event": [
+                    {
+                      "listen": "test",
+                      "script": {
+                        "id": "64e7c11a-4037-4dda-89b9-0451d13f34b1",
+                        "exec": [
+                          "pm.test(\"Status code is 200\", function () {\r",
+                          "    pm.response.to.have.status(200);\r",
+                          "});\r",
+                          "\r",
+                          "pm.test(\"Patch has been applied\", function () {\r",
+                          "    pm.expect(pm.response.json().Description).to.eq(\"Test Partial Update Description\");\r",
+                          "})"
+                        ],
+                        "type": "text/javascript"
+                      }
+                    }
+                  ],
+                  "id": "5ad5f54f-fe1d-4dea-88a3-57fc0b557665",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "method": "PATCH",
+                    "header": [
+                      {
+                        "key": "Authorization",
+                        "type": "text",
+                        "value": "{{publicapi.authorization}}"
+                      },
+                      {
+                        "key": "AccessKey",
+                        "type": "text",
+                        "value": "{{publicapi.accesskey}}"
+                      },
+                      {
+                        "key": "Prefer",
+                        "value": "return=representation",
+                        "type": "text"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\r\n    \"Description\": \"Test Partial Update Description\"\r\n}",
+                      "options": {
+                        "raw": {
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": "{{public.api.baseurl}}/v3/WorkItems/{{public.api.workitem_permakey}}"
+                  },
+                  "response": [
+                    {
+                      "id": "4514f495-e47f-497a-908a-2e2014ccd938",
+                      "name": "OK",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                          "raw": "{{baseUrl}}/v3/Contacts?$select=<string>&$filter=<string>&$orderby=<string>&$top=<integer>&$skip=<integer>",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "v3",
+                            "Contacts"
+                          ],
+                          "query": [
+                            {
+                              "key": "$select",
+                              "value": "<string>"
+                            },
+                            {
+                              "key": "$filter",
+                              "value": "<string>"
+                            },
+                            {
+                              "key": "$orderby",
+                              "value": "<string>"
+                            },
+                            {
+                              "key": "$top",
+                              "value": "<integer>"
+                            },
+                            {
+                              "key": "$skip",
+                              "value": "<integer>"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "OK",
+                      "code": 200,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n \"Items\": [\n  {\n   \"FullName\": \"Adams, Douglas Noel\",\n   \"PreferredName\": \"Doug\",\n   \"Salutation\": \"Mr\",\n   \"ClientOwner\": \"myowner@megadodopublications.com\",\n   \"ClientManager\": \"mymanager@megadodopublications.com\",\n   \"Address\": \"42 Galaxy Way, London\",\n   \"EmailAddress\": \"DNA@megadodopublications.net\",\n   \"PhoneNumber\": \"+61212345678\",\n   \"RoleOrTitle\": \"CEO\",\n   \"UserDefinedIdentifier\": \"42\",\n   \"LastModifiedDateTime\": \"2021-01-22T03:00:14.8634476Z\",\n   \"ContactKey\": \"2BtTSg4xM7Dt\"\n  },\n  {\n   \"FullName\": \"Asimov, Isaac\",\n   \"PreferredName\": \"Zac\",\n   \"Salutation\": \"Mr\",\n   \"ClientOwner\": \"myowner@bostonuniversity.edu\",\n   \"ClientManager\": \"mymanager@bostonuniversity.edu\",\n   \"Address\": \"1920 Foundation Boulevard, Petrovichi, Russia\",\n   \"EmailAddress\": \"asimo@bostonuniversity.edu\",\n   \"PhoneNumber\": \"069283779143\",\n   \"RoleOrTitle\": \"Writer\",\n   \"UserDefinedIdentifier\": \"5020\",\n   \"LastModifiedDateTime\": \"2021-02-03T03:00:14.8634476Z\",\n   \"ContactKey\": \"23WWskXjR4wX\"\n  }\n ],\n \"NextPageLink\": \"https://api.karbonhq.com/v3/Contacts?$skip=100\",\n \"Count\": 123\n}"
+                    }
+                  ]
+                },
+                {
+                  "name": "Partial Update WorkItem - Unsupported Property",
+                  "event": [
+                    {
+                      "listen": "test",
+                      "script": {
+                        "id": "08fec39d-434b-4a43-b8a6-d81b147ddc05",
+                        "exec": [
+                          "pm.test(\"Status code is 400\", function () {\r",
+                          "    pm.response.to.have.status(400);\r",
+                          "});\r",
+                          "\r",
+                          "pm.test(\"Patch has not been applied and error message is correct\", function () {\r",
+                          "    pm.expect(pm.response.text()).to.include(\"Invalid property to update. Only Description can be patched.\");\r",
+                          "})"
+                        ],
+                        "type": "text/javascript"
+                      }
+                    }
+                  ],
+                  "id": "69f7c7b7-7cfa-4b61-809a-ee44ada210c6",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "method": "PATCH",
+                    "header": [
+                      {
+                        "key": "Authorization",
+                        "type": "text",
+                        "value": "{{publicapi.authorization}}"
+                      },
+                      {
+                        "key": "AccessKey",
+                        "type": "text",
+                        "value": "{{publicapi.accesskey}}"
+                      },
+                      {
+                        "key": "Prefer",
+                        "value": "return=representation",
+                        "type": "text"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\r\n    \"WorkType\": \"Payroll\"\r\n}",
+                      "options": {
+                        "raw": {
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": "{{public.api.baseurl}}/v3/WorkItems/{{public.api.workitem_permakey}}"
+                  },
+                  "response": [
+                    {
+                      "id": "5d3436c3-0ea0-47d8-a75e-c6bc66df20ca",
+                      "name": "OK",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                          "raw": "{{baseUrl}}/v3/Contacts?$select=<string>&$filter=<string>&$orderby=<string>&$top=<integer>&$skip=<integer>",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "v3",
+                            "Contacts"
+                          ],
+                          "query": [
+                            {
+                              "key": "$select",
+                              "value": "<string>"
+                            },
+                            {
+                              "key": "$filter",
+                              "value": "<string>"
+                            },
+                            {
+                              "key": "$orderby",
+                              "value": "<string>"
+                            },
+                            {
+                              "key": "$top",
+                              "value": "<integer>"
+                            },
+                            {
+                              "key": "$skip",
+                              "value": "<integer>"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "OK",
+                      "code": 200,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n \"Items\": [\n  {\n   \"FullName\": \"Adams, Douglas Noel\",\n   \"PreferredName\": \"Doug\",\n   \"Salutation\": \"Mr\",\n   \"ClientOwner\": \"myowner@megadodopublications.com\",\n   \"ClientManager\": \"mymanager@megadodopublications.com\",\n   \"Address\": \"42 Galaxy Way, London\",\n   \"EmailAddress\": \"DNA@megadodopublications.net\",\n   \"PhoneNumber\": \"+61212345678\",\n   \"RoleOrTitle\": \"CEO\",\n   \"UserDefinedIdentifier\": \"42\",\n   \"LastModifiedDateTime\": \"2021-01-22T03:00:14.8634476Z\",\n   \"ContactKey\": \"2BtTSg4xM7Dt\"\n  },\n  {\n   \"FullName\": \"Asimov, Isaac\",\n   \"PreferredName\": \"Zac\",\n   \"Salutation\": \"Mr\",\n   \"ClientOwner\": \"myowner@bostonuniversity.edu\",\n   \"ClientManager\": \"mymanager@bostonuniversity.edu\",\n   \"Address\": \"1920 Foundation Boulevard, Petrovichi, Russia\",\n   \"EmailAddress\": \"asimo@bostonuniversity.edu\",\n   \"PhoneNumber\": \"069283779143\",\n   \"RoleOrTitle\": \"Writer\",\n   \"UserDefinedIdentifier\": \"5020\",\n   \"LastModifiedDateTime\": \"2021-02-03T03:00:14.8634476Z\",\n   \"ContactKey\": \"23WWskXjR4wX\"\n  }\n ],\n \"NextPageLink\": \"https://api.karbonhq.com/v3/Contacts?$skip=100\",\n \"Count\": 123\n}"
+                    }
+                  ]
+                }
+              ],
               "id": "cd547bc6-7802-4e67-9446-45aedea4f4d7"
             }
           ],
