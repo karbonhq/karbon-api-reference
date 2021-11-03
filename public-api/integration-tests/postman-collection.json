@@ -1333,7 +1333,7 @@
                           "});\r",
                           "\r",
                           "pm.test(\"User Defined Identifier is returned\", function() {\r",
-                          "    pm.expect(pm.response.json().UserDefinedIdentifier).to.eq(pm.environment.get(public.api.contact_userdefinedidentifier));\r",
+                          "    pm.expect(pm.response.json().UserDefinedIdentifier).to.eq(pm.environment.get(\"public.api.contact_userdefinedidentifier\"));\r",
                           "})"
                         ],
                         "type": "text/javascript"
