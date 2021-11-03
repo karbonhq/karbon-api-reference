@@ -2257,6 +2257,9 @@
                           "pm.test(\"Test matching item was found\", function () {\r",
                           "    var jsonData = pm.response.json();\r",
                           "    pm.expect(jsonData.value.length).to.be.greaterThan(0);\r",
+                          "    var contactData = jsonData.value[0].json();\r",
+                          "\r",
+                          "    pm.expect(contactData.UserDefinedIdentifier).to.eq(pm.environment.get(\"public.api.contact_userdefinedidentifier\"));\r",
                           "});"
                         ],
                         "type": "text/javascript"
