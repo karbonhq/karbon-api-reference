@@ -1330,7 +1330,11 @@
                           "\r",
                           "    // Get First business card and ensure a key exists.\r",
                           "    pm.expect(businessCards[0].BusinessCardKey).to.be.not.empty;\r",
-                          "});"
+                          "});\r",
+                          "\r",
+                          "pm.test(\"User Defined Identifier is returned\", function() {\r",
+                          "    pm.expect(pm.response.json().UserDefinedIdentifier).to.eq(pm.environment.get(public.api.contact_userdefinedidentifier));\r",
+                          "})"
                         ],
                         "type": "text/javascript"
                       }
