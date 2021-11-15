@@ -9454,6 +9454,49 @@
                   "name": "DELETE",
                   "item": [
                     {
+                      "name": "Delete ClientTaskComment Valid",
+                      "event": [
+                        {
+                          "listen": "test",
+                          "script": {
+                            "id": "ab51ff02-a615-4902-ae9c-e3bbecc517da",
+                            "exec": [
+                              "pm.test(\"Status code is 204 for Dev2, 404 otherwise\", function () {\r",
+                              "    console.log()\r",
+                              "    if (pm.environment.name == 'Dev2' || pm.environment.name == 'Stage' ||  pm.environment.name == 'Pulkit'){ \r",
+                              "        pm.response.to.have.status(204);\r",
+                              "    } else {\r",
+                              "        pm.response.to.have.status(404);\r",
+                              "    }\r",
+                              "});"
+                            ],
+                            "type": "text/javascript"
+                          }
+                        }
+                      ],
+                      "id": "800cdc73-fb94-46b7-bd20-16e7031de3bf",
+                      "protocolProfileBehavior": {
+                        "disableBodyPruning": true
+                      },
+                      "request": {
+                        "method": "DELETE",
+                        "header": [
+                          {
+                            "key": "AccessKey",
+                            "value": "{{publicapi.accesskey}}",
+                            "type": "text"
+                          },
+                          {
+                            "key": "Authorization",
+                            "value": "{{publicapi.authorization}}",
+                            "type": "text"
+                          }
+                        ],
+                        "url": "{{public.api.baseurl}}/v3/ClientTaskComments/{{public.api.clienttask_test_commentkey}}"
+                      },
+                      "response": []
+                    },
+                    {
                       "name": "Delete ClientTaskComment Invalid",
                       "event": [
                         {
@@ -9494,49 +9537,6 @@
                           }
                         ],
                         "url": "{{public.api.baseurl}}/v3/ClientTaskComments/RANDOMKEYHERE"
-                      },
-                      "response": []
-                    },
-                    {
-                      "name": "Delete ClientTaskComment Valid",
-                      "event": [
-                        {
-                          "listen": "test",
-                          "script": {
-                            "id": "ab51ff02-a615-4902-ae9c-e3bbecc517da",
-                            "exec": [
-                              "pm.test(\"Status code is 204 for Dev2, 404 otherwise\", function () {\r",
-                              "    console.log()\r",
-                              "    if (pm.environment.name == 'Dev2' || pm.environment.name == 'Stage' ||  pm.environment.name == 'Pulkit'){ \r",
-                              "        pm.response.to.have.status(204);\r",
-                              "    } else {\r",
-                              "        pm.response.to.have.status(404);\r",
-                              "    }\r",
-                              "});"
-                            ],
-                            "type": "text/javascript"
-                          }
-                        }
-                      ],
-                      "id": "800cdc73-fb94-46b7-bd20-16e7031de3bf",
-                      "protocolProfileBehavior": {
-                        "disableBodyPruning": true
-                      },
-                      "request": {
-                        "method": "DELETE",
-                        "header": [
-                          {
-                            "key": "AccessKey",
-                            "value": "{{publicapi.accesskey}}",
-                            "type": "text"
-                          },
-                          {
-                            "key": "Authorization",
-                            "value": "{{publicapi.authorization}}",
-                            "type": "text"
-                          }
-                        ],
-                        "url": "{{public.api.baseurl}}/v3/ClientTaskComments/{{public.api.clienttask_test_commentkey}}"
                       },
                       "response": []
                     }
