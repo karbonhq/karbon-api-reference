@@ -9606,6 +9606,64 @@
                     }
                   },
                   "response": []
+                },
+                {
+                  "name": "[MagicLink] GetRequests by PermaKey: Expand Everything: Including LastCommentItem Copy",
+                  "event": [
+                    {
+                      "listen": "test",
+                      "script": {
+                        "id": "499036b4-c21a-42c4-a841-c2898bb0f7dd",
+                        "exec": [
+                          "/*\r",
+                          "This is only a dummy request for now and the test is not yet ready to be run.\r",
+                          "*/"
+                        ],
+                        "type": "text/javascript"
+                      }
+                    }
+                  ],
+                  "id": "d4a33299-d236-450d-a468-b287f009d22d",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "AccessKey",
+                        "value": "{{publicapi.accesskey}}",
+                        "type": "text"
+                      },
+                      {
+                        "key": "Authorization",
+                        "value": "{{publicapi.authorization}}",
+                        "type": "text"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{public.api.baseurl}}/v3/ClientRequests/{{public.api.magiclink_linkid}}?$expand=Recipient, ClientTaskSummaries($expand=LastCommentItem)&deviceId=2981ab6907cc4f97b5b448011b5cb23f",
+                      "host": [
+                        "{{public.api.baseurl}}"
+                      ],
+                      "path": [
+                        "v3",
+                        "ClientRequests",
+                        "{{public.api.magiclink_linkid}}"
+                      ],
+                      "query": [
+                        {
+                          "key": "$expand",
+                          "value": "Recipient, ClientTaskSummaries($expand=LastCommentItem)"
+                        },
+                        {
+                          "key": "deviceId",
+                          "value": "2981ab6907cc4f97b5b448011b5cb23f"
+                        }
+                      ]
+                    }
+                  },
+                  "response": []
                 }
               ],
               "id": "fe426abd-a56a-400e-a985-a3599de824d3"
