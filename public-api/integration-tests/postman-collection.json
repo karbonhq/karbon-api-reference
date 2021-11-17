@@ -9632,24 +9632,24 @@
                     "header": [
                       {
                         "key": "AccessKey",
-                        "value": "{{publicapi.accesskey}}",
+                        "value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJLYXJib25IUSIsInJlZyI6ImRldjIiLCJ0YWsiOiJENjQ1RDUyRi00RUIxLTQxQkQtOTM3RC1DQjdBODhDMkE0OEEiLCJpYXQiOjE2MzY0MDI3MDguMH0.ZtfEc-csHzRZhCWJn-gdG-zkOuZHNd0S5QW6QrWHXh4",
                         "type": "text"
                       },
                       {
                         "key": "Authorization",
-                        "value": "{{publicapi.authorization}}",
+                        "value": "bearer 3D69A93D-4095-4CB9-B644-8A62EAF1AD83",
                         "type": "text"
                       }
                     ],
                     "url": {
-                      "raw": "{{public.api.baseurl}}/v3/ClientRequests/{{public.api.magiclink_linkid}}?$expand=Recipient, ClientTaskSummaries($expand=LastCommentItem)&deviceId=2981ab6907cc4f97b5b448011b5cb23f",
+                      "raw": "{{public.api.baseurl}}/v3/MagicLinkClientRequests/bab06155-9538-40c4-8e11-d9bb807b3ff4?$expand=Recipient, ClientTaskSummaries($expand=LastCommentItem)&deviceId=2869ab8c-f7cc-4dad-bb88-060c647819dc",
                       "host": [
                         "{{public.api.baseurl}}"
                       ],
                       "path": [
                         "v3",
-                        "ClientRequests",
-                        "{{public.api.magiclink_linkid}}"
+                        "MagicLinkClientRequests",
+                        "bab06155-9538-40c4-8e11-d9bb807b3ff4"
                       ],
                       "query": [
                         {
@@ -9658,7 +9658,7 @@
                         },
                         {
                           "key": "deviceId",
-                          "value": "2981ab6907cc4f97b5b448011b5cb23f"
+                          "value": "2869ab8c-f7cc-4dad-bb88-060c647819dc"
                         }
                       ]
                     }
