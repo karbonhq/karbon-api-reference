@@ -9150,6 +9150,29 @@
                             ],
                             "type": "text/javascript"
                           }
+                        },
+                        {
+                          "listen": "prerequest",
+                          "script": {
+                            "id": "1b346687-4c73-4177-a75b-9cbd5def636c",
+                            "exec": [
+                              "var data = pm.request.body.raw;\r",
+                              "data = \"{\\\"DateCompleted\\\": \" + \"'\" + new Date().toISOString() + \"'}\";\r",
+                              "//data = \"{\\\"DateCompleted\\\": \"  + \"null\" + \"}\";\r",
+                              "let body = {\r",
+                              "    mode: 'raw',\r",
+                              "    raw: data,\r",
+                              "    options: {\r",
+                              "        raw: {\r",
+                              "            language: 'json'\r",
+                              "        }\r",
+                              "    }\r",
+                              "}\r",
+                              "\r",
+                              "pm.request.body.update(body);"
+                            ],
+                            "type": "text/javascript"
+                          }
                         }
                       ],
                       "id": "ef3f5be5-cd66-4ab6-9447-24485eb043b5",
@@ -9157,34 +9180,45 @@
                         "disableBodyPruning": true
                       },
                       "request": {
-                        "method": "GET",
+                        "method": "PUT",
                         "header": [
                           {
                             "key": "AccessKey",
                             "value": "{{publicapi.accesskey}}",
-                            "type": "text"
+                            "type": "text",
+                            "disabled": true
                           },
                           {
                             "key": "Authorization",
                             "value": "{{publicapi.authorization}}",
-                            "type": "text"
+                            "type": "text",
+                            "disabled": true
                           }
                         ],
+                        "body": {
+                          "mode": "raw",
+                          "raw": "",
+                          "options": {
+                            "raw": {
+                              "language": "json"
+                            }
+                          }
+                        },
                         "url": {
-                          "raw": "{{public.api.baseurl}}/v3/ClientTaskComments/{{public.api.clienttask_test_permakey}}",
+                          "raw": "https://localhost:5001/api/ClientTaskComments?clientTaskId={{public.api.clienttask_test_permakey}}",
+                          "protocol": "https",
                           "host": [
-                            "{{public.api.baseurl}}"
+                            "localhost"
                           ],
+                          "port": "5001",
                           "path": [
-                            "v3",
-                            "ClientTaskComments",
-                            "{{public.api.clienttask_test_permakey}}"
+                            "api",
+                            "ClientTaskComments"
                           ],
                           "query": [
                             {
-                              "key": "linkId",
-                              "value": "287DF211-BD8D-4F91-B7A4-ADE7608F9544",
-                              "disabled": true
+                              "key": "clientTaskId",
+                              "value": "{{public.api.clienttask_test_permakey}}"
                             }
                           ]
                         }
