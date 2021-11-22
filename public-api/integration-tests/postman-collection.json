@@ -9150,29 +9150,6 @@
                             ],
                             "type": "text/javascript"
                           }
-                        },
-                        {
-                          "listen": "prerequest",
-                          "script": {
-                            "id": "1b346687-4c73-4177-a75b-9cbd5def636c",
-                            "exec": [
-                              "var data = pm.request.body.raw;\r",
-                              "data = \"{\\\"DateCompleted\\\": \" + \"'\" + new Date().toISOString() + \"'}\";\r",
-                              "//data = \"{\\\"DateCompleted\\\": \"  + \"null\" + \"}\";\r",
-                              "let body = {\r",
-                              "    mode: 'raw',\r",
-                              "    raw: data,\r",
-                              "    options: {\r",
-                              "        raw: {\r",
-                              "            language: 'json'\r",
-                              "        }\r",
-                              "    }\r",
-                              "}\r",
-                              "\r",
-                              "pm.request.body.update(body);"
-                            ],
-                            "type": "text/javascript"
-                          }
                         }
                       ],
                       "id": "ef3f5be5-cd66-4ab6-9447-24485eb043b5",
@@ -9180,7 +9157,7 @@
                         "disableBodyPruning": true
                       },
                       "request": {
-                        "method": "PUT",
+                        "method": "GET",
                         "header": [
                           {
                             "key": "AccessKey",
@@ -9195,17 +9172,8 @@
                             "disabled": true
                           }
                         ],
-                        "body": {
-                          "mode": "raw",
-                          "raw": "",
-                          "options": {
-                            "raw": {
-                              "language": "json"
-                            }
-                          }
-                        },
                         "url": {
-                          "raw": "https://localhost:5001/api/ClientTaskComments?clientTaskId={{public.api.clienttask_test_permakey}}",
+                          "raw": "https://localhost:5001/api/ClientTaskComments",
                           "protocol": "https",
                           "host": [
                             "localhost"
@@ -9218,7 +9186,8 @@
                           "query": [
                             {
                               "key": "clientTaskId",
-                              "value": "{{public.api.clienttask_test_permakey}}"
+                              "value": "{{public.api.clienttask_test_permakey}}",
+                              "disabled": true
                             }
                           ]
                         }
