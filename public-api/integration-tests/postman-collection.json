@@ -9739,14 +9739,7 @@
                       "script": {
                         "id": "25abd56e-b46d-46a5-ab8e-38080e29d64b",
                         "exec": [
-                          "pm.test(\"Status code is 200 for Dev2, 404 otherwise\", function () {\r",
-                          "    console.log()\r",
-                          "    if (pm.environment.name == 'Dev2' || pm.environment.name == 'Stage' ||  pm.environment.name == 'Pulkit'){ \r",
-                          "        pm.response.to.have.status(200);\r",
-                          "    } else {\r",
-                          "        pm.response.to.have.status(404);\r",
-                          "    }\r",
-                          "});"
+                          "// cannot be tested at this point"
                         ],
                         "type": "text/javascript"
                       }
