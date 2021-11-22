@@ -2672,6 +2672,79 @@
                     "url": "{{public.api.baseurl}}/v3/Files"
                   },
                   "response": []
+                },
+                {
+                  "name": "Create File Clientapp",
+                  "event": [
+                    {
+                      "listen": "test",
+                      "script": {
+                        "id": "2ae1d9e0-09f5-4d3f-b33a-753f72468908",
+                        "exec": [
+                          "// Note: cannot do file uploads using Monitor.\r",
+                          "// https://github.com/postmanlabs/postman-app-support/issues/5147\r",
+                          "// We could possibly do it using Newman\r",
+                          "\r",
+                          "// pm.test(\"Status code is Created (201)\", function () {\r",
+                          "//     pm.response.to.have.status(201);\r",
+                          "// });"
+                        ],
+                        "type": "text/javascript"
+                      }
+                    }
+                  ],
+                  "id": "d83c2ec7-5656-43d3-90c3-fca8d0fcc3c6",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Authorization",
+                        "value": "{{publicapi.authorization}}",
+                        "type": "text"
+                      },
+                      {
+                        "key": "AccessKey",
+                        "value": "{{publicapi.accesskey}}",
+                        "type": "text"
+                      }
+                    ],
+                    "body": {
+                      "mode": "formdata",
+                      "formdata": [
+                        {
+                          "key": "file",
+                          "type": "file",
+                          "value": null
+                        },
+                        {
+                          "key": "FileName",
+                          "value": "",
+                          "type": "text"
+                        },
+                        {
+                          "key": "MimeType",
+                          "value": "text/plain",
+                          "type": "text"
+                        },
+                        {
+                          "key": "contact_keys",
+                          "value": "3DSWH2LDmNLD",
+                          "type": "text",
+                          "disabled": true
+                        },
+                        {
+                          "key": "topicitem_key",
+                          "value": "4FkmFWfPJz6t",
+                          "type": "text"
+                        }
+                      ]
+                    },
+                    "url": "{{public.api.baseurl}}/v3/Files"
+                  },
+                  "response": []
                 }
               ],
               "id": "9775015b-d1cc-4a50-9e67-f660cdc25159"
@@ -7786,69 +7859,6 @@
                   "response": []
                 },
                 {
-                  "name": "Search filterby Title",
-                  "event": [
-                    {
-                      "listen": "test",
-                      "script": {
-                        "id": "b6e0f143-6c9f-4016-a2f9-c0dd0b016367",
-                        "exec": [
-                          "/*pm.test(\"#7791 Timesheet filter by Status is throwing 500 response\", function () {\r",
-                          "    // Change this when #7791 is fixed. This test should start failing.\r",
-                          "    pm.response.to.have.status(500);\r",
-                          "});*/\r",
-                          "\r",
-                          "pm.test(\"Status code is 200\", function () {\r",
-                          "    pm.response.to.have.status(200);\r",
-                          "});\r",
-                          "\r",
-                          "pm.test(\"Check work templates were found\", function () {\r",
-                          "    var jsonData = pm.response.json();\r",
-                          "    pm.expect(jsonData.value.length).to.gte(1);\r",
-                          "});"
-                        ],
-                        "type": "text/javascript"
-                      }
-                    }
-                  ],
-                  "id": "e73df5d2-0e33-483a-9dce-ba815b22615f",
-                  "protocolProfileBehavior": {
-                    "disableBodyPruning": true
-                  },
-                  "request": {
-                    "method": "GET",
-                    "header": [
-                      {
-                        "key": "Authorization",
-                        "value": "{{publicapi.authorization}}",
-                        "type": "text"
-                      },
-                      {
-                        "key": "AccessKey",
-                        "value": "{{publicapi.accesskey}}",
-                        "type": "text"
-                      }
-                    ],
-                    "url": {
-                      "raw": "{{public.api.baseurl}}/v3/WorkTemplates?$filter=Title eq 'Accounting: Month-end close'",
-                      "host": [
-                        "{{public.api.baseurl}}"
-                      ],
-                      "path": [
-                        "v3",
-                        "WorkTemplates"
-                      ],
-                      "query": [
-                        {
-                          "key": "$filter",
-                          "value": "Title eq 'Accounting: Month-end close'"
-                        }
-                      ]
-                    }
-                  },
-                  "response": []
-                },
-                {
                   "name": "Search with select odata attribute",
                   "event": [
                     {
@@ -8007,6 +8017,69 @@
                         {
                           "key": "$filter",
                           "value": "startswith(Title,'test')"
+                        }
+                      ]
+                    }
+                  },
+                  "response": []
+                },
+                {
+                  "name": "Search filterby Title",
+                  "event": [
+                    {
+                      "listen": "test",
+                      "script": {
+                        "id": "b6e0f143-6c9f-4016-a2f9-c0dd0b016367",
+                        "exec": [
+                          "/*pm.test(\"#7791 Timesheet filter by Status is throwing 500 response\", function () {\r",
+                          "    // Change this when #7791 is fixed. This test should start failing.\r",
+                          "    pm.response.to.have.status(500);\r",
+                          "});*/\r",
+                          "\r",
+                          "pm.test(\"Status code is 200\", function () {\r",
+                          "    pm.response.to.have.status(200);\r",
+                          "});\r",
+                          "\r",
+                          "pm.test(\"Check work templates were found\", function () {\r",
+                          "    var jsonData = pm.response.json();\r",
+                          "    pm.expect(jsonData.value.length).to.gte(1);\r",
+                          "});"
+                        ],
+                        "type": "text/javascript"
+                      }
+                    }
+                  ],
+                  "id": "e73df5d2-0e33-483a-9dce-ba815b22615f",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Authorization",
+                        "value": "{{publicapi.authorization}}",
+                        "type": "text"
+                      },
+                      {
+                        "key": "AccessKey",
+                        "value": "{{publicapi.accesskey}}",
+                        "type": "text"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{public.api.baseurl}}/v3/WorkTemplates?$filter=Title eq 'Accounting: Month-end close'",
+                      "host": [
+                        "{{public.api.baseurl}}"
+                      ],
+                      "path": [
+                        "v3",
+                        "WorkTemplates"
+                      ],
+                      "query": [
+                        {
+                          "key": "$filter",
+                          "value": "Title eq 'Accounting: Month-end close'"
                         }
                       ]
                     }
@@ -8838,7 +8911,24 @@
                         "type": "text"
                       }
                     ],
-                    "url": "{{public.api.baseurl}}/v3/ClientTasks/{{public.api.clienttask_test_permakey}}"
+                    "url": {
+                      "raw": "{{public.api.baseurl}}/v3/ClientTasks/{{public.api.clienttask_test_permakey}}",
+                      "host": [
+                        "{{public.api.baseurl}}"
+                      ],
+                      "path": [
+                        "v3",
+                        "ClientTasks",
+                        "{{public.api.clienttask_test_permakey}}"
+                      ],
+                      "query": [
+                        {
+                          "key": "linkId",
+                          "value": "287DF211-BD8D-4F91-B7A4-ADE7608F9544",
+                          "disabled": true
+                        }
+                      ]
+                    }
                   },
                   "response": []
                 },
@@ -8858,6 +8948,29 @@
                           "        pm.response.to.have.status(404);\r",
                           "    }\r",
                           "});"
+                        ],
+                        "type": "text/javascript"
+                      }
+                    },
+                    {
+                      "listen": "prerequest",
+                      "script": {
+                        "id": "d0a94919-0d07-463a-b53d-006c4495cf11",
+                        "exec": [
+                          "var data = pm.request.body.raw;\r",
+                          "data = \"{\\\"DateCompleted\\\": \" + \"'\" + new Date().toISOString() + \"'}\";\r",
+                          "//data = \"{\\\"DateCompleted\\\": \"  + \"null\" + \"}\";\r",
+                          "let body = {\r",
+                          "    mode: 'raw',\r",
+                          "    raw: data,\r",
+                          "    options: {\r",
+                          "        raw: {\r",
+                          "            language: 'json'\r",
+                          "        }\r",
+                          "    }\r",
+                          "}\r",
+                          "\r",
+                          "pm.request.body.update(body);"
                         ],
                         "type": "text/javascript"
                       }
@@ -8883,7 +8996,7 @@
                     ],
                     "body": {
                       "mode": "raw",
-                      "raw": "{\r\n    \"DateCompleted\": '2021-09-22T06:14:27.560Z'\r\n}",
+                      "raw": "",
                       "options": {
                         "raw": {
                           "language": "json"
@@ -9057,7 +9170,24 @@
                             "type": "text"
                           }
                         ],
-                        "url": "{{public.api.baseurl}}/v3/ClientTaskComments/{{public.api.clienttask_test_permakey}}"
+                        "url": {
+                          "raw": "{{public.api.baseurl}}/v3/ClientTaskComments/{{public.api.clienttask_test_permakey}}",
+                          "host": [
+                            "{{public.api.baseurl}}"
+                          ],
+                          "path": [
+                            "v3",
+                            "ClientTaskComments",
+                            "{{public.api.clienttask_test_permakey}}"
+                          ],
+                          "query": [
+                            {
+                              "key": "linkId",
+                              "value": "287DF211-BD8D-4F91-B7A4-ADE7608F9544",
+                              "disabled": true
+                            }
+                          ]
+                        }
                       },
                       "response": []
                     }
@@ -9147,7 +9277,24 @@
                             }
                           }
                         },
-                        "url": "{{public.api.baseurl}}/v3/ClientTaskComments/"
+                        "url": {
+                          "raw": "{{public.api.baseurl}}/v3/ClientTaskComments/",
+                          "host": [
+                            "{{public.api.baseurl}}"
+                          ],
+                          "path": [
+                            "v3",
+                            "ClientTaskComments",
+                            ""
+                          ],
+                          "query": [
+                            {
+                              "key": "linkId",
+                              "value": "287DF211-BD8D-4F91-B7A4-ADE7608F9544",
+                              "disabled": true
+                            }
+                          ]
+                        }
                       },
                       "response": []
                     },
@@ -9391,7 +9538,24 @@
                             }
                           }
                         },
-                        "url": "{{public.api.baseurl}}/v3/ClientTaskComments/{{public.api.clienttask_test_commentkey}}"
+                        "url": {
+                          "raw": "{{public.api.baseurl}}/v3/ClientTaskComments/{{public.api.clienttask_test_commentkey}}",
+                          "host": [
+                            "{{public.api.baseurl}}"
+                          ],
+                          "path": [
+                            "v3",
+                            "ClientTaskComments",
+                            "{{public.api.clienttask_test_commentkey}}"
+                          ],
+                          "query": [
+                            {
+                              "key": "linkId",
+                              "value": "287DF211-BD8D-4F91-B7A4-ADE7608F9544",
+                              "disabled": true
+                            }
+                          ]
+                        }
                       },
                       "response": []
                     },
@@ -9492,7 +9656,25 @@
                             "type": "text"
                           }
                         ],
-                        "url": "{{public.api.baseurl}}/v3/ClientTaskComments/{{public.api.clienttask_test_commentkey}}"
+                        "url": {
+                          "raw": "{{public.api.baseurl}}/v3/ClientTaskComments/{{public.api.clienttask_test_commentkey}}",
+                          "host": [
+                            "{{public.api.baseurl}}"
+                          ],
+                          "path": [
+                            "v3",
+                            "ClientTaskComments",
+                            "{{public.api.clienttask_test_commentkey}}"
+                          ],
+                          "query": [
+                            {
+                              "key": "linkId",
+                              "value": "287DF211-BD8D-4F91-B7A4-ADE7608F9544",
+                              "type": "text",
+                              "disabled": true
+                            }
+                          ]
+                        }
                       },
                       "response": []
                     },
@@ -9545,6 +9727,55 @@
                 }
               ],
               "id": "0bf5abf0-3f33-45e0-86f1-84d48bff8729"
+            },
+            {
+              "name": "ClientTaskCommentAttachment",
+              "item": [
+                {
+                  "name": "Get ClientTaskCommentAttachments [Updated]",
+                  "event": [
+                    {
+                      "listen": "test",
+                      "script": {
+                        "id": "25abd56e-b46d-46a5-ab8e-38080e29d64b",
+                        "exec": [
+                          "pm.test(\"Status code is 200 for Dev2, 404 otherwise\", function () {\r",
+                          "    console.log()\r",
+                          "    if (pm.environment.name == 'Dev2' || pm.environment.name == 'Stage' ||  pm.environment.name == 'Pulkit'){ \r",
+                          "        pm.response.to.have.status(200);\r",
+                          "    } else {\r",
+                          "        pm.response.to.have.status(404);\r",
+                          "    }\r",
+                          "});"
+                        ],
+                        "type": "text/javascript"
+                      }
+                    }
+                  ],
+                  "id": "3bcfe499-dae1-40cc-935a-30990b8dc9aa",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "AccessKey",
+                        "value": "{{publicapi.accesskey}}",
+                        "type": "text"
+                      },
+                      {
+                        "key": "Authorization",
+                        "value": "{{publicapi.authorization}}",
+                        "type": "text"
+                      }
+                    ],
+                    "url": "{{public.api.baseurl}}/v3/{{public.api.downloadattachment_url}}"
+                  },
+                  "response": []
+                }
+              ],
+              "id": "4849bceb-e979-4083-a427-2b247e3e1176"
             },
             {
               "name": "MagicLink Requests",
