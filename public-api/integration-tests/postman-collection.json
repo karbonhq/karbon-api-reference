@@ -9162,35 +9162,15 @@
                           {
                             "key": "AccessKey",
                             "value": "{{publicapi.accesskey}}",
-                            "type": "text",
-                            "disabled": true
+                            "type": "text"
                           },
                           {
                             "key": "Authorization",
                             "value": "{{publicapi.authorization}}",
-                            "type": "text",
-                            "disabled": true
+                            "type": "text"
                           }
                         ],
-                        "url": {
-                          "raw": "https://localhost:5001/api/ClientTaskComments",
-                          "protocol": "https",
-                          "host": [
-                            "localhost"
-                          ],
-                          "port": "5001",
-                          "path": [
-                            "api",
-                            "ClientTaskComments"
-                          ],
-                          "query": [
-                            {
-                              "key": "clientTaskId",
-                              "value": "{{public.api.clienttask_test_permakey}}",
-                              "disabled": true
-                            }
-                          ]
-                        }
+                        "url": "{{public.api.baseurl}}/v3/ClientTaskComments/{{public.api.clienttask_test_permakey}}"
                       },
                       "response": []
                     }
