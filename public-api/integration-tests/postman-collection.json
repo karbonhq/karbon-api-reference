@@ -7751,7 +7751,6 @@
                         "id": "c80afb90-2a65-47f3-a1c6-ebfe375fe69b",
                         "exec": [
                           "pm.test(\"#7791 Timesheet filter by Status is throwing 400 response\", function () {\r",
-                          "    // Change this when #7791 is fixed. This test should start failing.\r",
                           "    pm.response.to.have.status(400);\r",
                           "});"
                         ],
