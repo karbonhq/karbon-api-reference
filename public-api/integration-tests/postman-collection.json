@@ -4269,7 +4269,16 @@
                           "    pm.expect(jsonData[\"@odata.count\"]).to.gte(1)\r",
                           "    pm.expect(jsonData.value.length).to.gte(1);    \r",
                           "    pm.environment.set(\"public.api.Timesheet_Key\", jsonData.value[0].TimesheetKey);\r",
-                          "});"
+                          "});\r",
+                          "\r",
+                          "pm.test(\"Set WorkItemKey environment variable\", function () {\r",
+                          "    var jsonData = pm.response.json();\r",
+                          "    hasWorkItemKey = function(timesheet) {\r",
+                          "        return timesheet.WorkItemKeys.length>0;\r",
+                          "    }\r",
+                          "    const result = jsonData.value.find(hasWorkItemKey);\r",
+                          "    pm.environment.set(\"public.api.Timesheet_WorkItemKey\", result.WorkItemKeys[0]);\r",
+                          "})"
                         ],
                         "type": "text/javascript"
                       }
@@ -4601,6 +4610,70 @@
                   "response": []
                 },
                 {
+                  "name": "Search filter by WorkItemKey",
+                  "event": [
+                    {
+                      "listen": "test",
+                      "script": {
+                        "id": "85097d52-a6ab-468b-bb4d-dfd2bf315958",
+                        "exec": [
+                          "pm.test(\"Status code is 200\", function () {\r",
+                          "    pm.response.to.have.status(200);\r",
+                          "});\r",
+                          "pm.test(\"Body contains more than 1 timesheet \", function () {\r",
+                          "    var jsonData = pm.response.json();\r",
+                          "    pm.expect(jsonData.value.length).to.gte(1);\r",
+                          "    pm.expect(jsonData.value.length).to.lte(101);\r",
+                          "});\r",
+                          "pm.test(\"Results have correct work item key\", function () {\r",
+                          "    var jsonData = pm.response.json();\r",
+                          "    for(const timesheet of jsonData.value) {\r",
+                          "        pm.expect(timesheet.WorkItemKeys).to.include(pm.environment.get('public.api.Timesheet_WorkItemKey'));\r",
+                          "    }        \r",
+                          "});"
+                        ],
+                        "type": "text/javascript"
+                      }
+                    }
+                  ],
+                  "id": "f869aaba-fc41-4c0e-958c-f19cb6eb83c4",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Authorization",
+                        "value": "{{publicapi.authorization}}",
+                        "type": "text"
+                      },
+                      {
+                        "key": "AccessKey",
+                        "value": "{{publicapi.accesskey}}",
+                        "type": "text"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{public.api.baseurl}}/v3/Timesheets?$filter=WorkItemKeys/any(s:s eq '{{public.api.Timesheet_WorkItemKey}}')",
+                      "host": [
+                        "{{public.api.baseurl}}"
+                      ],
+                      "path": [
+                        "v3",
+                        "Timesheets"
+                      ],
+                      "query": [
+                        {
+                          "key": "$filter",
+                          "value": "WorkItemKeys/any(s:s eq '{{public.api.Timesheet_WorkItemKey}}')"
+                        }
+                      ]
+                    }
+                  },
+                  "response": []
+                },
+                {
                   "name": "Search filter by Status",
                   "event": [
                     {
@@ -4711,21 +4784,22 @@
                   "response": []
                 },
                 {
-                  "name": "Search with day operator odata attribute Copy",
+                  "name": "Search with day operator odata attribute",
                   "event": [
                     {
                       "listen": "test",
                       "script": {
+                        "id": "0803ae65-1ac2-4bab-ab8a-06cb1f72bab7",
                         "exec": [
-                          "pm.test(\"Status code is 400\", function () {\r",
-                          "    pm.response.to.have.status(400);\r",
+                          "pm.test(\"Status code is 200\", function () {\r",
+                          "    pm.response.to.have.status(200);\r",
                           "});\r",
-                          "pm.test(\"Body matches contains day function not allowed\", function () {\r",
-                          "    pm.expect(pm.response.text()).to.include(\"Function 'day' is not allowed\");\r",
+                          "pm.test(\"Body contains more than 1 timesheet \", function () {\r",
+                          "    var jsonData = pm.response.json();\r",
+                          "    pm.expect(jsonData.value.length).to.gte(1);\r",
                           "});"
                         ],
-                        "type": "text/javascript",
-                        "id": "0803ae65-1ac2-4bab-ab8a-06cb1f72bab7"
+                        "type": "text/javascript"
                       }
                     }
                   ],
@@ -4760,6 +4834,63 @@
                         {
                           "key": "$filter",
                           "value": "day(StartDate) eq 8"
+                        }
+                      ]
+                    }
+                  },
+                  "response": []
+                },
+                {
+                  "name": "Search with StartDate greater than",
+                  "event": [
+                    {
+                      "listen": "test",
+                      "script": {
+                        "id": "526d4820-010b-41de-8416-8f18e073996f",
+                        "exec": [
+                          "pm.test(\"Status code is 200\", function () {\r",
+                          "    pm.response.to.have.status(200);\r",
+                          "});\r",
+                          "pm.test(\"Body contains at least 1 timesheet \", function () {\r",
+                          "    var jsonData = pm.response.json();\r",
+                          "    pm.expect(jsonData.value.length).to.gte(1);\r",
+                          "});"
+                        ],
+                        "type": "text/javascript"
+                      }
+                    }
+                  ],
+                  "id": "b1b9821c-a84a-4964-b921-24891986476d",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Authorization",
+                        "value": "{{publicapi.authorization}}",
+                        "type": "text"
+                      },
+                      {
+                        "key": "AccessKey",
+                        "value": "{{publicapi.accesskey}}",
+                        "type": "text"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{public.api.baseurl}}/v3/Timesheets?$filter=StartDate gt 2021-04-27T00:00:00Z",
+                      "host": [
+                        "{{public.api.baseurl}}"
+                      ],
+                      "path": [
+                        "v3",
+                        "Timesheets"
+                      ],
+                      "query": [
+                        {
+                          "key": "$filter",
+                          "value": "StartDate gt 2021-04-27T00:00:00Z"
                         }
                       ]
                     }
@@ -5432,7 +5563,64 @@
                     ],
                     "body": {
                       "mode": "raw",
-                      "raw": "{\r\n    \"AssigneeEmailAddress\": \"{{public.api.workitem_useremail}}\",\r\n    \"Title\": \"Template full test\",\r\n    \"ClientKey\": \"{{public.api.workitem_clientkey}}\",\r\n    \"ClientType\": \"Contact\",\r\n    \"RelatedClientGroupKey\": \"{{public.api.workitem_relatedclientgroupkey}}\",\r\n    \"StartDate\": \"2021-07-11\",\r\n    \"DueDate\": \"2021-07-19\",\r\n    \"WorkType\": \"Payroll\",\r\n    \"Description\": \"Test description\",\r\n    \"WorkTemplateKey\": \"{{public.api.worktemplatekey}}\",\r\n    \"UserRoleAssignments\": [\r\n        {\r\n            \"RoleKey\": \"{{public.api.worktemplate_actor1}}\",\r\n            \"UserProfileKey\": \"{{public.api.worktemplate_user1}}\"\r\n        },\r\n        {\r\n            \"RoleKey\": \"{{public.api.worktemplate_actor2}}\",\r\n            \"UserProfileKey\": \"{{public.api.worktemplate_user2}}\"\r\n        },\r\n                {\r\n            \"RoleKey\": \"{{public.api.worktemplate_actor3}}\",\r\n            \"UserProfileKey\": \"{{public.api.worktemplate_user3}}\"\r\n        },\r\n        {\r\n            \"RoleKey\": \"{{public.api.worktemplate_actor4}}\",\r\n            \"UserProfileKey\": \"{{public.api.worktemplate_user4}}\"\r\n        }\r\n    ],\r\n    \"ClientTaskRecipients\": []\r\n}",
+                      "raw": "{\r\n    \"AssigneeEmailAddress\": \"{{public.api.workitem_useremail}}\",\r\n    \"Title\": \"Template full test\",\r\n    \"ClientKey\": \"{{public.api.workitem_clientkey}}\",\r\n    \"ClientType\": \"Contact\",\r\n    \"RelatedClientGroupKey\": \"{{public.api.workitem_relatedclientgroupkey}}\",\r\n    \"StartDate\": \"2021-07-11\",\r\n    \"DueDate\": \"2021-07-19\",\r\n    \"WorkType\": \"Payroll\",\r\n    \"Description\": \"Test description\",\r\n    \"WorkTemplateKey\": \"{{public.api.worktemplatekey}}\",\r\n    \"UserRoleAssignments\": [\r\n        {\r\n            \"RoleKey\": \"{{public.api.worktemplate_actor1}}\",\r\n            \"UserProfileKey\": \"{{public.api.worktemplate_user1}}\"\r\n        },\r\n        {\r\n            \"RoleKey\": \"{{public.api.worktemplate_actor2}}\",\r\n            \"UserProfileKey\": \"{{public.api.worktemplate_user2}}\"\r\n        },\r\n                {\r\n            \"RoleKey\": \"{{public.api.worktemplate_actor3}}\",\r\n            \"UserProfileKey\": \"{{public.api.worktemplate_user3}}\"\r\n        },\r\n        {\r\n            \"RoleKey\": \"{{public.api.worktemplate_actor4}}\",\r\n            \"UserProfileKey\": \"{{public.api.worktemplate_user4}}\"\r\n        }\r\n    ]\r\n}",
+                      "options": {
+                        "raw": {
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": "{{public.api.baseurl}}/v3/WorkItems"
+                  },
+                  "response": []
+                },
+                {
+                  "name": "Create WorkItem from Template with ClientTaskRecipients set",
+                  "event": [
+                    {
+                      "listen": "test",
+                      "script": {
+                        "id": "544ed67f-8423-4110-a2ab-5068c6ff5936",
+                        "exec": [
+                          "pm.test(\"Status code is 201\", function () {\r",
+                          "    pm.response.to.have.status(201);\r",
+                          "});\r",
+                          "\r",
+                          "pm.test(\"WorkType should not be inherited from Template if provided in request\", function() {\r",
+                          "    pm.expect(pm.response.json().WorkType).to.eq(\"Payroll\");\r",
+                          "})\r",
+                          "\r",
+                          "pm.test(\"Set workitem PermaKey\", function () {\r",
+                          "    var jsonData = pm.response.json();\r",
+                          "    pm.environment.set(\"public.api.workitem_permakey\", jsonData.WorkItemKey);\r",
+                          "});\r",
+                          ""
+                        ],
+                        "type": "text/javascript"
+                      }
+                    }
+                  ],
+                  "id": "fe4a0b3b-7073-40aa-bbaf-1e82dc942aa4",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Authorization",
+                        "value": "{{publicapi.authorization}}",
+                        "type": "text"
+                      },
+                      {
+                        "key": "AccessKey",
+                        "value": "{{publicapi.accesskey}}",
+                        "type": "text"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\r\n    \"AssigneeEmailAddress\": \"{{public.api.workitem_useremail}}\",\r\n    \"Title\": \"Template full test\",\r\n    \"ClientKey\": \"{{public.api.workitem_clientkey}}\",\r\n    \"ClientType\": \"Contact\",\r\n    \"RelatedClientGroupKey\": \"{{public.api.workitem_relatedclientgroupkey}}\",\r\n    \"StartDate\": \"2021-07-11\",\r\n    \"DueDate\": \"2021-07-19\",\r\n    \"WorkType\": \"Payroll\",\r\n    \"Description\": \"Test description\",\r\n    \"WorkTemplateKey\": \"{{public.api.worktemplatekey}}\",\r\n    \"UserRoleAssignments\": [\r\n        {\r\n            \"RoleKey\": \"{{public.api.worktemplate_actor1}}\",\r\n            \"UserProfileKey\": \"{{public.api.worktemplate_user1}}\"\r\n        },\r\n        {\r\n            \"RoleKey\": \"{{public.api.worktemplate_actor2}}\",\r\n            \"UserProfileKey\": \"{{public.api.worktemplate_user2}}\"\r\n        },\r\n                {\r\n            \"RoleKey\": \"{{public.api.worktemplate_actor3}}\",\r\n            \"UserProfileKey\": \"{{public.api.worktemplate_user3}}\"\r\n        },\r\n        {\r\n            \"RoleKey\": \"{{public.api.worktemplate_actor4}}\",\r\n            \"UserProfileKey\": \"{{public.api.worktemplate_user4}}\"\r\n        }\r\n    ],\r\n    \"ClientTaskRecipient\": {\r\n        \"RecipientKey\": \"{{public.api.workitem_clientkey}}\",\r\n        \"LinkType\": \"Contact\",\r\n        \"EmailAddress\": \"email@test.com\"\r\n    }\r\n}",
                       "options": {
                         "raw": {
                           "language": "json"
@@ -5489,215 +5677,7 @@
                     ],
                     "body": {
                       "mode": "raw",
-                      "raw": "{\r\n    \"AssigneeEmailAddress\": \"{{public.api.workitem_useremail}}\",\r\n    \"Title\": \"Template full test\",\r\n    \"ClientKey\": \"{{public.api.workitem_clientkey}}\",\r\n    \"ClientType\": \"Contact\",\r\n    \"RelatedClientGroupKey\": \"{{public.api.workitem_relatedclientgroupkey}}\",\r\n    \"StartDate\": \"2021-07-11\",\r\n    \"DueDate\": \"2021-07-19\",\r\n    \"Description\": \"Test description\",\r\n    \"WorkTemplateKey\": \"{{public.api.worktemplatekey}}\",\r\n    \"UserRoleAssignments\": [\r\n        {\r\n            \"RoleKey\": \"{{public.api.worktemplate_actor1}}\",\r\n            \"UserProfileKey\": \"{{public.api.worktemplate_user1}}\"\r\n        },\r\n        {\r\n            \"RoleKey\": \"{{public.api.worktemplate_actor2}}\",\r\n            \"UserProfileKey\": \"{{public.api.worktemplate_user2}}\"\r\n        },\r\n                {\r\n            \"RoleKey\": \"{{public.api.worktemplate_actor3}}\",\r\n            \"UserProfileKey\": \"{{public.api.worktemplate_user3}}\"\r\n        },\r\n        {\r\n            \"RoleKey\": \"{{public.api.worktemplate_actor4}}\",\r\n            \"UserProfileKey\": \"{{public.api.worktemplate_user4}}\"\r\n        }\r\n    ],\r\n    \"ClientTaskRecipients\": []\r\n}",
-                      "options": {
-                        "raw": {
-                          "language": "json"
-                        }
-                      }
-                    },
-                    "url": "{{public.api.baseurl}}/v3/WorkItems"
-                  },
-                  "response": []
-                },
-                {
-                  "name": "BUGTEST - Create WorkItem from Template with no ClientTaskRecipients property",
-                  "event": [
-                    {
-                      "listen": "test",
-                      "script": {
-                        "id": "4d541a50-2e83-4e81-b3f0-1c59c7c97adb",
-                        "exec": [
-                          "pm.test(\"Status code is 201\", function () {\r",
-                          "    pm.response.to.have.status(201);\r",
-                          "});\r",
-                          "pm.test(\"Set workitem PermaKey\", function () {\r",
-                          "    var jsonData = pm.response.json();\r",
-                          "    pm.environment.set(\"public.api.workitem_permakey\", jsonData.WorkItemKey);\r",
-                          "});\r",
-                          ""
-                        ],
-                        "type": "text/javascript"
-                      }
-                    }
-                  ],
-                  "id": "601b6d9a-97de-4e4b-bab1-2b56224a1466",
-                  "protocolProfileBehavior": {
-                    "disableBodyPruning": true
-                  },
-                  "request": {
-                    "method": "POST",
-                    "header": [
-                      {
-                        "key": "Authorization",
-                        "value": "{{publicapi.authorization}}",
-                        "type": "text"
-                      },
-                      {
-                        "key": "AccessKey",
-                        "value": "{{publicapi.accesskey}}",
-                        "type": "text"
-                      }
-                    ],
-                    "body": {
-                      "mode": "raw",
-                      "raw": "{\r\n    \"AssigneeEmailAddress\": \"{{public.api.workitem_useremail}}\",\r\n    \"Title\": \"Template full test\",\r\n    \"ClientKey\": \"{{public.api.workitem_clientkey}}\",\r\n    \"ClientType\": \"Contact\",\r\n    \"RelatedClientGroupKey\": \"{{public.api.workitem_relatedclientgroupkey}}\",\r\n    \"StartDate\": \"2021-07-11\",\r\n    \"DueDate\": \"2021-07-19\",\r\n    \"WorkType\": \"Payroll\",\r\n    \"Description\": \"Test description\",\r\n    \"WorkTemplateKey\": \"{{public.api.worktemplatekey}}\",\r\n    \"UserRoleAssignments\": [\r\n        {\r\n            \"RoleKey\": \"{{public.api.worktemplate_actor1}}\",\r\n            \"UserProfileKey\": \"{{public.api.worktemplate_user1}}\"\r\n        },\r\n        {\r\n            \"RoleKey\": \"{{public.api.worktemplate_actor2}}\",\r\n            \"UserProfileKey\": \"{{public.api.worktemplate_user2}}\"\r\n        },\r\n                {\r\n            \"RoleKey\": \"{{public.api.worktemplate_actor3}}\",\r\n            \"UserProfileKey\": \"{{public.api.worktemplate_user3}}\"\r\n        },\r\n        {\r\n            \"RoleKey\": \"{{public.api.worktemplate_actor4}}\",\r\n            \"UserProfileKey\": \"{{public.api.worktemplate_user4}}\"\r\n        }\r\n    ]\r\n}",
-                      "options": {
-                        "raw": {
-                          "language": "json"
-                        }
-                      }
-                    },
-                    "url": "{{public.api.baseurl}}/v3/WorkItems"
-                  },
-                  "response": []
-                },
-                {
-                  "name": "BUGTEST - Create WorkItem from Template with empty ClientTaskRecipients array property",
-                  "event": [
-                    {
-                      "listen": "test",
-                      "script": {
-                        "id": "382a2aa8-9fb7-4a65-95ad-6aae5379d83a",
-                        "exec": [
-                          "pm.test(\"Status code is 201\", function () {\r",
-                          "    pm.response.to.have.status(201);\r",
-                          "});\r",
-                          "pm.test(\"Set workitem PermaKey\", function () {\r",
-                          "    var jsonData = pm.response.json();\r",
-                          "    pm.environment.set(\"public.api.workitem_permakey\", jsonData.WorkItemKey);\r",
-                          "});\r",
-                          ""
-                        ],
-                        "type": "text/javascript"
-                      }
-                    }
-                  ],
-                  "id": "fbaebc64-5919-4717-a2f4-233103df1d94",
-                  "protocolProfileBehavior": {
-                    "disableBodyPruning": true
-                  },
-                  "request": {
-                    "method": "POST",
-                    "header": [
-                      {
-                        "key": "Authorization",
-                        "value": "{{publicapi.authorization}}",
-                        "type": "text"
-                      },
-                      {
-                        "key": "AccessKey",
-                        "value": "{{publicapi.accesskey}}",
-                        "type": "text"
-                      }
-                    ],
-                    "body": {
-                      "mode": "raw",
-                      "raw": "{\r\n    \"AssigneeEmailAddress\": \"{{public.api.workitem_useremail}}\",\r\n    \"Title\": \"Template full test\",\r\n    \"ClientKey\": \"{{public.api.workitem_clientkey}}\",\r\n    \"ClientType\": \"Contact\",\r\n    \"RelatedClientGroupKey\": \"{{public.api.workitem_relatedclientgroupkey}}\",\r\n    \"StartDate\": \"2021-07-11\",\r\n    \"DueDate\": \"2021-07-19\",\r\n    \"WorkType\": \"Payroll\",\r\n    \"Description\": \"Test description\",\r\n    \"WorkTemplateKey\": \"{{public.api.worktemplatekey}}\",\r\n    \"UserRoleAssignments\": [\r\n        {\r\n            \"RoleKey\": \"{{public.api.worktemplate_actor1}}\",\r\n            \"UserProfileKey\": \"{{public.api.worktemplate_user1}}\"\r\n        },\r\n        {\r\n            \"RoleKey\": \"{{public.api.worktemplate_actor2}}\",\r\n            \"UserProfileKey\": \"{{public.api.worktemplate_user2}}\"\r\n        },\r\n                {\r\n            \"RoleKey\": \"{{public.api.worktemplate_actor3}}\",\r\n            \"UserProfileKey\": \"{{public.api.worktemplate_user3}}\"\r\n        },\r\n        {\r\n            \"RoleKey\": \"{{public.api.worktemplate_actor4}}\",\r\n            \"UserProfileKey\": \"{{public.api.worktemplate_user4}}\"\r\n        }\r\n    ],\r\n    \"ClientTaskRecipients\": []\r\n}",
-                      "options": {
-                        "raw": {
-                          "language": "json"
-                        }
-                      }
-                    },
-                    "url": "{{public.api.baseurl}}/v3/WorkItems"
-                  },
-                  "response": []
-                },
-                {
-                  "name": "BUGTEST - Create WorkItem without template and no ClientTaskRecipients",
-                  "event": [
-                    {
-                      "listen": "test",
-                      "script": {
-                        "id": "27f962db-5631-4c78-9ba9-9d9e3e4e8c65",
-                        "exec": [
-                          "pm.test(\"Status code is 201\", function () {\r",
-                          "    pm.response.to.have.status(201);\r",
-                          "});\r",
-                          "pm.test(\"Set workitem PermaKey\", function () {\r",
-                          "    var jsonData = pm.response.json();\r",
-                          "    pm.environment.set(\"public.api.workitem_permakey\", jsonData.WorkItemKey);\r",
-                          "});\r",
-                          ""
-                        ],
-                        "type": "text/javascript"
-                      }
-                    }
-                  ],
-                  "id": "311f9ee3-8e50-45b6-a1a9-2c225850c4d4",
-                  "protocolProfileBehavior": {
-                    "disableBodyPruning": true
-                  },
-                  "request": {
-                    "method": "POST",
-                    "header": [
-                      {
-                        "key": "Authorization",
-                        "value": "{{publicapi.authorization}}",
-                        "type": "text"
-                      },
-                      {
-                        "key": "AccessKey",
-                        "value": "{{publicapi.accesskey}}",
-                        "type": "text"
-                      }
-                    ],
-                    "body": {
-                      "mode": "raw",
-                      "raw": "{\r\n    \"AssigneeEmailAddress\": \"{{public.api.workitem_useremail}}\",\r\n    \"Title\": \"Template full test\",\r\n    \"ClientKey\": \"{{public.api.workitem_clientkey}}\",\r\n    \"ClientType\": \"Contact\",\r\n    \"RelatedClientGroupKey\": \"{{public.api.workitem_relatedclientgroupkey}}\",\r\n    \"StartDate\": \"2021-07-11\",\r\n    \"DueDate\": \"2021-07-19\",\r\n    \"WorkType\": \"Payroll\",\r\n    \"Description\": \"Test description\"\r\n}",
-                      "options": {
-                        "raw": {
-                          "language": "json"
-                        }
-                      }
-                    },
-                    "url": "{{public.api.baseurl}}/v3/WorkItems"
-                  },
-                  "response": []
-                },
-                {
-                  "name": "BUGTEST - Create WorkItem without template and ClientTaskRecipients",
-                  "event": [
-                    {
-                      "listen": "test",
-                      "script": {
-                        "id": "d468dd97-4a9f-419b-b202-61ed99d4aeb4",
-                        "exec": [
-                          "pm.test(\"Status code is 201\", function () {\r",
-                          "    pm.response.to.have.status(201);\r",
-                          "});\r",
-                          "pm.test(\"Set workitem PermaKey\", function () {\r",
-                          "    var jsonData = pm.response.json();\r",
-                          "    pm.environment.set(\"public.api.workitem_permakey\", jsonData.WorkItemKey);\r",
-                          "});\r",
-                          ""
-                        ],
-                        "type": "text/javascript"
-                      }
-                    }
-                  ],
-                  "id": "af9784a0-971b-4d70-97af-e1fe3acb173a",
-                  "protocolProfileBehavior": {
-                    "disableBodyPruning": true
-                  },
-                  "request": {
-                    "method": "POST",
-                    "header": [
-                      {
-                        "key": "Authorization",
-                        "value": "{{publicapi.authorization}}",
-                        "type": "text"
-                      },
-                      {
-                        "key": "AccessKey",
-                        "value": "{{publicapi.accesskey}}",
-                        "type": "text"
-                      }
-                    ],
-                    "body": {
-                      "mode": "raw",
-                      "raw": "{\r\n    \"AssigneeEmailAddress\": \"{{public.api.workitem_useremail}}\",\r\n    \"Title\": \"Template full test\",\r\n    \"ClientKey\": \"{{public.api.workitem_clientkey}}\",\r\n    \"ClientType\": \"Contact\",\r\n    \"RelatedClientGroupKey\": \"{{public.api.workitem_relatedclientgroupkey}}\",\r\n    \"StartDate\": \"2021-07-11\",\r\n    \"DueDate\": \"2021-07-19\",\r\n    \"WorkType\": \"Payroll\",\r\n    \"Description\": \"Test description\",\r\n    \"ClientTaskRecipients\": []\r\n}",
+                      "raw": "{\r\n    \"AssigneeEmailAddress\": \"{{public.api.workitem_useremail}}\",\r\n    \"Title\": \"Template full test\",\r\n    \"ClientKey\": \"{{public.api.workitem_clientkey}}\",\r\n    \"ClientType\": \"Contact\",\r\n    \"RelatedClientGroupKey\": \"{{public.api.workitem_relatedclientgroupkey}}\",\r\n    \"StartDate\": \"2021-07-11\",\r\n    \"DueDate\": \"2021-07-19\",\r\n    \"Description\": \"Test description\",\r\n    \"WorkTemplateKey\": \"{{public.api.worktemplatekey}}\",\r\n    \"UserRoleAssignments\": [\r\n        {\r\n            \"RoleKey\": \"{{public.api.worktemplate_actor1}}\",\r\n            \"UserProfileKey\": \"{{public.api.worktemplate_user1}}\"\r\n        },\r\n        {\r\n            \"RoleKey\": \"{{public.api.worktemplate_actor2}}\",\r\n            \"UserProfileKey\": \"{{public.api.worktemplate_user2}}\"\r\n        },\r\n                {\r\n            \"RoleKey\": \"{{public.api.worktemplate_actor3}}\",\r\n            \"UserProfileKey\": \"{{public.api.worktemplate_user3}}\"\r\n        },\r\n        {\r\n            \"RoleKey\": \"{{public.api.worktemplate_actor4}}\",\r\n            \"UserProfileKey\": \"{{public.api.worktemplate_user4}}\"\r\n        }\r\n    ]\r\n}",
                       "options": {
                         "raw": {
                           "language": "json"
