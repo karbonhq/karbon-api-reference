@@ -8133,17 +8133,11 @@
                       "script": {
                         "id": "5cb42b8a-fe5d-43d8-a77b-01f855a45648",
                         "exec": [
-                          "// Test should only run on Dev2 and return 404 elsewhere. You can add the name of your local environment here to run the test.\r",
-                          "pm.test(\"Status code is 200 for Dev2/Stage, 404 otherwise\", function () {\r",
-                          "    console.log()\r",
-                          "    if (pm.environment.name == 'Dev2' || pm.environment.name == 'Stage'){ \r",
+                          "pm.test(\"Status code is 200\", function () {\r",
                           "        pm.response.to.have.status(200);\r",
                           "        var jsonData = pm.response.json();\r",
                           "        pm.expect(jsonData.value.length).to.gte(1);    \r",
                           "        pm.environment.set(\"public.api.clientrequest_test_recipientkey\", jsonData.value[0].ClientRequestRecipientKey);\r",
-                          "    } else {\r",
-                          "        pm.response.to.have.status(404);\r",
-                          "    }\r",
                           "});"
                         ],
                         "type": "text/javascript"
