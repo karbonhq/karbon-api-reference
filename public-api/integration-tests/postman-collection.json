@@ -8874,7 +8874,7 @@
                       }
                     ],
                     "url": {
-                      "raw": "{{public.api.baseurl}}/v3/ClientTasks/{{public.api.clienttask_test_permakey}}",
+                      "raw": "{{public.api.baseurl}}/v3/ClientTasks/{{public.api.clienttask_test_permakey}}?$expand=LastCommentItem",
                       "host": [
                         "{{public.api.baseurl}}"
                       ],
@@ -8884,6 +8884,10 @@
                         "{{public.api.clienttask_test_permakey}}"
                       ],
                       "query": [
+                        {
+                          "key": "$expand",
+                          "value": "LastCommentItem"
+                        },
                         {
                           "key": "linkId",
                           "value": "287DF211-BD8D-4F91-B7A4-ADE7608F9544",
