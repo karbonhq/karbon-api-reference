@@ -8906,10 +8906,10 @@
                       "script": {
                         "id": "d0dbcf75-6d1e-4a1f-aa11-a44e7cdc29eb",
                         "exec": [
-                          "pm.test(\"Status code is 204 for Dev2, 404 otherwise\", function () {\r",
+                          "pm.test(\"Status code is 200 for Dev2, 404 otherwise\", function () {\r",
                           "    console.log()\r",
                           "    if (pm.environment.name == 'Dev2' || pm.environment.name == 'Stage'){ \r",
-                          "        pm.response.to.have.status(204);\r",
+                          "        pm.response.to.have.status(200);\r",
                           "    } else {\r",
                           "        pm.response.to.have.status(404);\r",
                           "    }\r",
