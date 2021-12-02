@@ -9763,24 +9763,24 @@
                     "header": [
                       {
                         "key": "AccessKey",
-                        "value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJLYXJib25IUSIsInJlZyI6InN0YWdlMiIsInRhayI6IjFENEEyMDQzLUU3NzUtNDMxMi04QkVCLTQwNEEzMkVEMEZDMSIsImlhdCI6MTYzODMyODAxNC4wfQ.KvcqMRqxT0fHYyfukvrmvVNmQvZivpSX4YER6BcOcP4",
+                        "value": "{{publicapi.accesskey}}",
                         "type": "text"
                       },
                       {
                         "key": "Authorization",
-                        "value": "bearer d409f6b8-0a91-44fb-bb49-9ab8d33d6266",
+                        "value": "{{publicapi.authorization}}",
                         "type": "text"
                       }
                     ],
                     "url": {
-                      "raw": "{{public.api.baseurl}}/v3/MagicLinkClientRequests/4eb29c0a-21e7-4766-a001-c79313bf87d2?$expand=Recipient, ClientTaskSummaries($expand=LastCommentItem)&deviceId=2869ab8c-f7cc-4dad-bb88-060c647819dc",
+                      "raw": "{{public.api.baseurl}}/v3/MagicLinkClientRequests/{{clienttrequest_test_magiclinkid}}?$expand=Recipient, ClientTaskSummaries($expand=LastCommentItem)&deviceId=2869ab8c-f7cc-4dad-bb88-060c647819dc",
                       "host": [
                         "{{public.api.baseurl}}"
                       ],
                       "path": [
                         "v3",
                         "MagicLinkClientRequests",
-                        "4eb29c0a-21e7-4766-a001-c79313bf87d2"
+                        "{{clienttrequest_test_magiclinkid}}"
                       ],
                       "query": [
                         {
@@ -9808,7 +9808,7 @@
   ],
   "variable": [
     {
-      "id": "05f95481-8d08-4a7d-a059-d814656e53fe",
+      "id": "fd664fe8-af64-41b7-861c-4967f4d3ee43",
       "key": "clienttrequest_test_magiclinkid",
       "value": "6B4B3141-4E7B-4D01-AD7B-0D590E8BB274"
     }
