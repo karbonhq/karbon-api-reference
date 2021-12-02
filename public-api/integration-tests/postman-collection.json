@@ -9441,7 +9441,7 @@
                         {
                           "listen": "test",
                           "script": {
-                            "id": "daf42f29-801e-490b-92f5-4a8e13b331ed",
+                            "id": "558685f1-0f3a-4b4e-953a-7b429992fadf",
                             "exec": [
                               "pm.test(\"Status code is 204 for Dev2, 404 otherwise\", function () {\r",
                               "    console.log()\r",
@@ -9456,7 +9456,7 @@
                           }
                         }
                       ],
-                      "id": "3ca736d7-5432-496c-aef6-2b4ee660985d",
+                      "id": "05c39c81-d5df-4abf-9a11-2a6ec3870cea",
                       "protocolProfileBehavior": {
                         "disableBodyPruning": true
                       },
