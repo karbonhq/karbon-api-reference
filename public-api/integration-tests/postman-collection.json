@@ -9805,5 +9805,12 @@
       ],
       "id": "ae7faa85-66ea-4f17-901c-7798cc3be613"
     }
+  ],
+  "variable": [
+    {
+      "id": "05f95481-8d08-4a7d-a059-d814656e53fe",
+      "key": "clienttrequest_test_magiclinkid",
+      "value": "6B4B3141-4E7B-4D01-AD7B-0D590E8BB274"
+    }
   ]
 }
