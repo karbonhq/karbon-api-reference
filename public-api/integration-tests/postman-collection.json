@@ -9806,11 +9806,26 @@
       "id": "ae7faa85-66ea-4f17-901c-7798cc3be613"
     }
   ],
-  "variable": [
+  "event": [
     {
-      "id": "fd664fe8-af64-41b7-861c-4967f4d3ee43",
-      "key": "clienttrequest_test_magiclinkid",
-      "value": "6B4B3141-4E7B-4D01-AD7B-0D590E8BB274"
+      "listen": "prerequest",
+      "script": {
+        "id": "9d6328a2-aa80-4ce2-885f-82b8e53708cd",
+        "type": "text/javascript",
+        "exec": [
+          ""
+        ]
+      }
+    },
+    {
+      "listen": "test",
+      "script": {
+        "id": "f657a5b3-fcab-4529-b61a-a72fb480e068",
+        "type": "text/javascript",
+        "exec": [
+          ""
+        ]
+      }
     }
   ]
 }
