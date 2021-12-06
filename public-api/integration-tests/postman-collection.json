@@ -9753,7 +9753,7 @@
                   "response": []
                 },
                 {
-                  "name": "Get ClientTaskCommentAttachments [Updated] Copy",
+                  "name": "DELETE ClientTaskCommentAttachments",
                   "event": [
                     {
                       "listen": "test",
