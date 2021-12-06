@@ -9771,7 +9771,7 @@
                     "disableBodyPruning": true
                   },
                   "request": {
-                    "method": "GET",
+                    "method": "DELETE",
                     "header": [
                       {
                         "key": "AccessKey",
@@ -9800,8 +9800,7 @@
                         },
                         {
                           "key": "linkId",
-                          "value": "287DF211-BD8D-4F91-B7A4-ADE7608F9544",
-                          "type": "text"
+                          "value": "287DF211-BD8D-4F91-B7A4-ADE7608F9544"
                         }
                       ]
                     }
