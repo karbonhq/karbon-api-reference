@@ -9751,6 +9751,62 @@
                     }
                   },
                   "response": []
+                },
+                {
+                  "name": "Get ClientTaskCommentAttachments [Updated] Copy",
+                  "event": [
+                    {
+                      "listen": "test",
+                      "script": {
+                        "id": "510305fc-de82-4e77-9022-ff3ca0cd3620",
+                        "exec": [
+                          "// cannot be tested at this point"
+                        ],
+                        "type": "text/javascript"
+                      }
+                    }
+                  ],
+                  "id": "9d008d7b-586a-4d6d-aee9-e08678123c10",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "AccessKey",
+                        "value": "{{publicapi.accesskey}}",
+                        "type": "text"
+                      },
+                      {
+                        "key": "Authorization",
+                        "value": "{{publicapi.authorization}}",
+                        "type": "text"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{public.api.baseurl}}/v3/ClientTaskCommentAttachments?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJGaWxlQ29udGV4dFBlcm1hS2V5IjoiUE5kTDl6TkZjWmgiLCJpYXQiOjE2Mzg4MjYyMjguMCwiZXhwIjoxNjM5MDg1NDI4LjB9.fWiXRR0sZY4ZujYnl3nFuCnB7-g9ueNCoaTPlvPRDck&linkId=287DF211-BD8D-4F91-B7A4-ADE7608F9544",
+                      "host": [
+                        "{{public.api.baseurl}}"
+                      ],
+                      "path": [
+                        "v3",
+                        "ClientTaskCommentAttachments"
+                      ],
+                      "query": [
+                        {
+                          "key": "token",
+                          "value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJGaWxlQ29udGV4dFBlcm1hS2V5IjoiUE5kTDl6TkZjWmgiLCJpYXQiOjE2Mzg4MjYyMjguMCwiZXhwIjoxNjM5MDg1NDI4LjB9.fWiXRR0sZY4ZujYnl3nFuCnB7-g9ueNCoaTPlvPRDck"
+                        },
+                        {
+                          "key": "linkId",
+                          "value": "287DF211-BD8D-4F91-B7A4-ADE7608F9544",
+                          "type": "text"
+                        }
+                      ]
+                    }
+                  },
+                  "response": []
                 }
               ],
               "id": "4849bceb-e979-4083-a427-2b247e3e1176"
