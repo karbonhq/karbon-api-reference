@@ -9729,7 +9729,7 @@
                       }
                     ],
                     "url": {
-                      "raw": "{{public.api.baseurl}}/v3/ClientTaskCommentAttachments?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJGaWxlQ29udGV4dFBlcm1hS2V5IjoiUE5kTDl6TkZjWmgiLCJpYXQiOjE2Mzg4MjYyMjguMCwiZXhwIjoxNjM5MDg1NDI4LjB9.fWiXRR0sZY4ZujYnl3nFuCnB7-g9ueNCoaTPlvPRDck&linkId=287DF211-BD8D-4F91-B7A4-ADE7608F9544",
+                      "raw": "{{public.api.baseurl}}/v3/ClientTaskCommentAttachments?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJGaWxlQ29udGV4dFBlcm1hS2V5IjoiZ2RnbGZzeEw4U0wiLCJpYXQiOjE2Mzg4MjkxMjAuMCwiZXhwIjoxNjM5MDg4MzIwLjB9.RajztjaRrESoLuKSvR3bR9ddkkEda7GVB9gmmczpxKI",
                       "host": [
                         "{{public.api.baseurl}}"
                       ],
@@ -9740,12 +9740,7 @@
                       "query": [
                         {
                           "key": "token",
-                          "value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJGaWxlQ29udGV4dFBlcm1hS2V5IjoiUE5kTDl6TkZjWmgiLCJpYXQiOjE2Mzg4MjYyMjguMCwiZXhwIjoxNjM5MDg1NDI4LjB9.fWiXRR0sZY4ZujYnl3nFuCnB7-g9ueNCoaTPlvPRDck"
-                        },
-                        {
-                          "key": "linkId",
-                          "value": "287DF211-BD8D-4F91-B7A4-ADE7608F9544",
-                          "type": "text"
+                          "value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJGaWxlQ29udGV4dFBlcm1hS2V5IjoiZ2RnbGZzeEw4U0wiLCJpYXQiOjE2Mzg4MjkxMjAuMCwiZXhwIjoxNjM5MDg4MzIwLjB9.RajztjaRrESoLuKSvR3bR9ddkkEda7GVB9gmmczpxKI"
                         }
                       ]
                     }
