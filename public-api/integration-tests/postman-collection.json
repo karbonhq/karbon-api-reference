@@ -9728,7 +9728,23 @@
                         "type": "text"
                       }
                     ],
-                    "url": "{{public.api.baseurl}}/v3/{{public.api.downloadattachment_url}}"
+                    "url": {
+                      "raw": "{{public.api.baseurl}}/v3//ClientTaskCommentAttachments?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJGaWxlQ29udGV4dFBlcm1hS2V5IjoiUE5kTDl6TkZjWmgiLCJpYXQiOjE2Mzg4MjYyMjguMCwiZXhwIjoxNjM5MDg1NDI4LjB9.fWiXRR0sZY4ZujYnl3nFuCnB7-g9ueNCoaTPlvPRDck",
+                      "host": [
+                        "{{public.api.baseurl}}"
+                      ],
+                      "path": [
+                        "v3",
+                        "",
+                        "ClientTaskCommentAttachments"
+                      ],
+                      "query": [
+                        {
+                          "key": "token",
+                          "value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJGaWxlQ29udGV4dFBlcm1hS2V5IjoiUE5kTDl6TkZjWmgiLCJpYXQiOjE2Mzg4MjYyMjguMCwiZXhwIjoxNjM5MDg1NDI4LjB9.fWiXRR0sZY4ZujYnl3nFuCnB7-g9ueNCoaTPlvPRDck"
+                        }
+                      ]
+                    }
                   },
                   "response": []
                 }
