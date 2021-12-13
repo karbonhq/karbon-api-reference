@@ -8819,7 +8819,7 @@
                       }
                     ],
                     "url": {
-                      "raw": "{{public.api.baseurl}}/v3/ClientTasks/{{public.api.clienttask_test_permakey}}?$expand=LastCommentItem",
+                      "raw": "{{public.api.baseurl}}/v3/ClientTasks/{{public.api.clienttask_test_permakey}}",
                       "host": [
                         "{{public.api.baseurl}}"
                       ],
@@ -8831,7 +8831,8 @@
                       "query": [
                         {
                           "key": "$expand",
-                          "value": "LastCommentItem"
+                          "value": "LastCommentItem",
+                          "disabled": true
                         },
                         {
                           "key": "linkId",
