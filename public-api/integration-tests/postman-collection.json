@@ -8236,7 +8236,7 @@
                       "script": {
                         "id": "161d618e-488f-40eb-9264-407c3b0e2305",
                         "exec": [
-                          "pm.test(\"Status code is 200 for Dev2, 404 otherwise\", function () {\r",
+                          "pm.test(\"Status code is 200\", function () {\r",
                           "    pm.response.to.have.status(200);\r",
                           "    var jsonData = pm.response.json();\r",
                           "    pm.expect(jsonData).to.have.property('Recipient');\r",
