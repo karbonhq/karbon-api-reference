@@ -8294,18 +8294,13 @@
                         "id": "36c48748-66bb-4ae3-b9cb-98ac2d53afdf",
                         "exec": [
                           "// Test should only run on Dev2 and return 404 elsewhere. You can add the name of your local environment here to run the test.\r",
-                          "pm.test(\"Status code is 200 for Dev2, 404 otherwise\", function () {\r",
-                          "    console.log()\r",
-                          "    if (pm.environment.name == 'Dev2' || pm.environment.name == 'Stage'){ \r",
+                          "pm.test(\"Status code is 200 for Dev2\", function () {\r",
                           "        pm.response.to.have.status(200);\r",
                           "        var jsonData = pm.response.json();\r",
                           "        pm.expect(jsonData).to.have.property('Recipient');\r",
                           "        pm.expect(jsonData).to.have.property('ClientTaskSummaries');\r",
                           "        jsonData.ClientTaskSummaries.forEach(task => pm.expect(task).to.not.have.property('LastExternalCommentItem'));\r",
                           "        pm.environment.set(\"public.api.clienttask_test_permakey\", jsonData.ClientTaskSummaries[0].ClientTaskKey);\r",
-                          "    } else {\r",
-                          "        pm.response.to.have.status(404);\r",
-                          "    }\r",
                           "});"
                         ],
                         "type": "text/javascript"
