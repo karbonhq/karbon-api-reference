@@ -8293,7 +8293,6 @@
                       "script": {
                         "id": "36c48748-66bb-4ae3-b9cb-98ac2d53afdf",
                         "exec": [
-                          "// Test should only run on Dev2 and return 404 elsewhere. You can add the name of your local environment here to run the test.\r",
                           "pm.test(\"Status code is 200 for Dev2\", function () {\r",
                           "        pm.response.to.have.status(200);\r",
                           "        var jsonData = pm.response.json();\r",
