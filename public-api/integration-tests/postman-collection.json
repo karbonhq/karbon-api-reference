@@ -8410,19 +8410,13 @@
                       "script": {
                         "id": "164c60d3-96b7-4007-ae0b-cfdd2f179956",
                         "exec": [
-                          "// Test should only run on Dev2 and return 404 elsewhere. You can add the name of your local environment here to run the test.\r",
-                          "pm.test(\"Status code is 200 for Dev2, 404 otherwise\", function () {\r",
-                          "    console.log()\r",
-                          "    if (pm.environment.name == 'Dev2' || pm.environment.name == 'Stage'){ \r",
+                          "pm.test(\"Status code is 200 \", function () {\r",
                           "        pm.response.to.have.status(200);\r",
                           "        pm.test(\"Check client requests are returned\", function () {\r",
                           "            var jsonData = pm.response.json();\r",
                           "            pm.expect(jsonData.value.length).to.gte(1);    \r",
                           "            pm.expect(jsonData.value.length).to.lte(100);\r",
                           "        });\r",
-                          "    } else {\r",
-                          "        pm.response.to.have.status(404);\r",
-                          "    }\r",
                           "});"
                         ],
                         "type": "text/javascript"
