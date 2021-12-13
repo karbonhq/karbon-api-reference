@@ -9035,9 +9035,7 @@
                           "script": {
                             "id": "b50b86a4-6fbd-4c25-a6d4-0fc0bfbd48a3",
                             "exec": [
-                              "pm.test(\"Status code is 204 for Dev2, 404 otherwise\", function () {\r",
-                              "    console.log()\r",
-                              "    if (pm.environment.name == 'Dev2' || pm.environment.name == 'Stage' ||  pm.environment.name == 'Pulkit'){ \r",
+                              "pm.test(\"Status code is 200\", function () {\r",
                               "        pm.response.to.have.status(200);\r",
                               "        pm.test(\"Check object is returned with correct data.\", function () {\r",
                               "            var jsonData = pm.response.json();\r",
@@ -9048,9 +9046,6 @@
                               "                    pm.expect(element.ClientTaskKey).to.eq(clientTaskKey));\r",
                               "            }\r",
                               "        });\r",
-                              "    } else {\r",
-                              "        pm.response.to.have.status(404);\r",
-                              "    }\r",
                               "});"
                             ],
                             "type": "text/javascript"
