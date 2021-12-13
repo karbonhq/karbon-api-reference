@@ -8980,12 +8980,7 @@
                         "id": "8f6c6476-5301-4ed4-a7ec-c04ee53396ec",
                         "exec": [
                           "pm.test(\"Status code is 400 for Dev2, 404 otherwise\", function () {\r",
-                          "    console.log()\r",
-                          "    if (pm.environment.name == 'Dev2' || pm.environment.name == 'Stage'){ \r",
-                          "        pm.response.to.have.status(400);\r",
-                          "    } else {\r",
-                          "        pm.response.to.have.status(404);\r",
-                          "    }\r",
+                          "    pm.response.to.have.status(400);\r",
                           "});"
                         ],
                         "type": "text/javascript"
