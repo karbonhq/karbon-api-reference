@@ -8580,9 +8580,7 @@
                       "script": {
                         "id": "cffed391-547e-4e55-8762-27ede3c9336e",
                         "exec": [
-                          "// Test should only run on Dev2 and return 404 elsewhere. You can add the name of your local environment here to run the test.\r",
-                          "pm.test(\"Status code is 200 for Dev2, 404 otherwise\", function () {\r",
-                          "    if (pm.environment.name == 'Dev2' || pm.environment.name == 'Stage'){ \r",
+                          "pm.test(\"Status code is 200\", function () {\r",
                           "        pm.response.to.have.status(200);\r",
                           "        pm.test(\"Check client requests are returned with correct search results\", function () {\r",
                           "            var jsonData = pm.response.json();\r",
@@ -8592,9 +8590,6 @@
                           "                    pm.expect(Date.parse(element.WorkItemDueDate)).to.gte(Date.parse('2020-10-31T17:04:32Z')));\r",
                           "            }\r",
                           "        });\r",
-                          "    } else {\r",
-                          "        pm.response.to.have.status(404);\r",
-                          "    }\r",
                           "});\r",
                           ""
                         ],
