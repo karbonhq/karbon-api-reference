@@ -8714,9 +8714,7 @@
                       "script": {
                         "id": "d0cd7780-876e-4c39-bcf8-f51612e8b263",
                         "exec": [
-                          "// Test should only run on Dev2 and return 404 elsewhere. You can add the name of your local environment here to run the test.\r",
-                          "pm.test(\"Status code is 200 for Dev2, 404 otherwise\", function () {\r",
-                          "    if (pm.environment.name == 'Dev2' || pm.environment.name == 'Stage'){ \r",
+                          "pm.test(\"Status code is 200\", function () {\r",
                           "        pm.response.to.have.status(200);\r",
                           "        pm.test(\"Check client requests are returned with correct search results\", function () {\r",
                           "            var jsonData = pm.response.json();\r",
@@ -8725,13 +8723,10 @@
                           "                var recipientKey = pm.environment.get('public.api.clientrequest_test_recipientkey');\r",
                           "                jsonData.value.forEach(element => \r",
                           "                    pm.expect(Date.parse(element.WorkItemDueDate)).to.gte(Date.parse('2008-10-31T17:04:32Z')) &&\r",
-                          "                    pm.expect(Date.parse(element.WorkItemDueDate)).to.lte(Date.parse('2021-06-30T17:04:32Z')) &&\r",
+                          "                    pm.expect(Date.parse(element.WorkItemDueDate)).to.lte(Date.parse('2031-06-30T17:04:32Z')) &&\r",
                           "                    pm.expect(element.ClientRequestRecipientKey).to.eq(recipientKey));\r",
                           "            }\r",
                           "        });\r",
-                          "    } else {\r",
-                          "        pm.response.to.have.status(404);\r",
-                          "    }\r",
                           "});\r",
                           ""
                         ],
@@ -8758,7 +8753,7 @@
                       }
                     ],
                     "url": {
-                      "raw": "{{public.api.baseurl}}/v3/ClientRequests?$filter=WorkItemDueDate ge 2008-10-31T17:04:32Z and WorkItemDueDate le 2021-06-30T17:04:32Z and ClientRequestRecipientKey eq '{{public.api.clientrequest_test_recipientkey}}'",
+                      "raw": "{{public.api.baseurl}}/v3/ClientRequests?$filter=WorkItemDueDate ge 2008-10-31T17:04:32Z and WorkItemDueDate le 2031-06-30T17:04:32Z and ClientRequestRecipientKey eq '{{public.api.clientrequest_test_recipientkey}}'",
                       "host": [
                         "{{public.api.baseurl}}"
                       ],
@@ -8769,7 +8764,7 @@
                       "query": [
                         {
                           "key": "$filter",
-                          "value": "WorkItemDueDate ge 2008-10-31T17:04:32Z and WorkItemDueDate le 2021-06-30T17:04:32Z and ClientRequestRecipientKey eq '{{public.api.clientrequest_test_recipientkey}}'"
+                          "value": "WorkItemDueDate ge 2008-10-31T17:04:32Z and WorkItemDueDate le 2031-06-30T17:04:32Z and ClientRequestRecipientKey eq '{{public.api.clientrequest_test_recipientkey}}'"
                         }
                       ]
                     }
