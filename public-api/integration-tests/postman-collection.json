@@ -8236,17 +8236,11 @@
                       "script": {
                         "id": "161d618e-488f-40eb-9264-407c3b0e2305",
                         "exec": [
-                          "// Test should only run on Dev2 and return 404 elsewhere. You can add the name of your local environment here to run the test.\r",
                           "pm.test(\"Status code is 200 for Dev2, 404 otherwise\", function () {\r",
-                          "    console.log()\r",
-                          "    if (pm.environment.name == 'Dev2' || pm.environment.name == 'Stage'){ \r",
-                          "        pm.response.to.have.status(200);\r",
-                          "        var jsonData = pm.response.json();\r",
-                          "        pm.expect(jsonData).to.have.property('Recipient');\r",
-                          "        pm.expect(jsonData).to.not.have.property('ClientTaskSummaries');\r",
-                          "    } else {\r",
-                          "        pm.response.to.have.status(404);\r",
-                          "    }\r",
+                          "    pm.response.to.have.status(200);\r",
+                          "    var jsonData = pm.response.json();\r",
+                          "    pm.expect(jsonData).to.have.property('Recipient');\r",
+                          "    pm.expect(jsonData).to.not.have.property('ClientTaskSummaries');\r",
                           "});"
                         ],
                         "type": "text/javascript"
