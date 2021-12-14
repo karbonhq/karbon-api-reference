@@ -9088,10 +9088,7 @@
                           "script": {
                             "id": "b3125875-e9cc-40ff-a0d0-03009c3611a0",
                             "exec": [
-                              "// Test should only run on Dev2 and return 404 elsewhere. You can add the name of your local environment here to run the test.\r",
-                              "// Endpoint in development - tests coming soon.\r",
-                              "pm.test(\"Status code is 201 for Dev2, 404 otherwise\", function () {\r",
-                              "    if (pm.environment.name == 'Dev2' || pm.environment.name == 'Stage' || pm.environment.name == 'Pulkit'){ \r",
+                              "pm.test(\"Status code is 201\", function () {\r",
                               "        pm.response.to.have.status(201);\r",
                               "        pm.test(\"Check object is created with correct data.\", function () {\r",
                               "            var jsonData = pm.response.json();\r",
@@ -9101,9 +9098,6 @@
                               "            pm.expect(jsonData.AuthorKey).to.eq(requestData.AuthorKey);\r",
                               "            pm.environment.set('public.api.clienttask_test_commentkey', jsonData.CommentItemKey);\r",
                               "        });\r",
-                              "    } else {\r",
-                              "        pm.response.to.have.status(404);\r",
-                              "    }\r",
                               "});"
                             ],
                             "type": "text/javascript"
