@@ -9365,13 +9365,8 @@
                           "script": {
                             "id": "558685f1-0f3a-4b4e-953a-7b429992fadf",
                             "exec": [
-                              "pm.test(\"Status code is 204 for Dev2, 404 otherwise\", function () {\r",
-                              "    console.log()\r",
-                              "    if (pm.environment.name == 'Dev2' || pm.environment.name == 'Stage' || pm.environment.name == 'Pulkit'){ \r",
+                              "pm.test(\"Status code is 204\", function () {\r",
                               "        pm.response.to.have.status(204);\r",
-                              "    } else {\r",
-                              "        pm.response.to.have.status(404);\r",
-                              "    }\r",
                               "});"
                             ],
                             "type": "text/javascript"
