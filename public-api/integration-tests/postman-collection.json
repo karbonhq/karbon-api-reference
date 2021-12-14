@@ -9247,12 +9247,7 @@
                             "id": "e8b528ec-b154-4fed-9dc9-9148a345b8b0",
                             "exec": [
                               "pm.test(\"Status code is 400 for Dev2, 404 otherwise\", function () {\r",
-                              "    console.log()\r",
-                              "    if (pm.environment.name == 'Dev2' || pm.environment.name == 'Stage' || pm.environment.name == 'Pulkit'){ \r",
                               "        pm.response.to.have.status(400);\r",
-                              "    } else {\r",
-                              "        pm.response.to.have.status(404);\r",
-                              "    }\r",
                               "});"
                             ],
                             "type": "text/javascript"
