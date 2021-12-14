@@ -9544,13 +9544,8 @@
                             "id": "b5148572-7b35-4f8e-a2f4-1bb8fead3d76",
                             "exec": [
                               "pm.test(\"Status code is 204 for Dev2, 404 otherwise\", function () {\r",
-                              "    console.log()\r",
-                              "    if (pm.environment.name == 'Dev2' || pm.environment.name == 'Stage' ||  pm.environment.name == 'Pulkit'){ \r",
                               "        pm.response.to.have.status(400);\r",
                               "        pm.expect(pm.response.json().error.message).to.contain(\"No comment found\");\r",
-                              "    } else {\r",
-                              "        pm.response.to.have.status(404);\r",
-                              "    }\r",
                               "});"
                             ],
                             "type": "text/javascript"
