@@ -9625,6 +9625,57 @@
                   "response": []
                 },
                 {
+                  "name": "Get ClientTaskCommentAttachments [Updated] Copy",
+                  "event": [
+                    {
+                      "listen": "test",
+                      "script": {
+                        "id": "2317dedf-781b-43eb-b2e9-bf59f70ff37c",
+                        "exec": [
+                          "// cannot be tested at this point"
+                        ],
+                        "type": "text/javascript"
+                      }
+                    }
+                  ],
+                  "id": "8799f11d-9e04-4b9b-ac31-b685e353a9da",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "AccessKey",
+                        "value": "{{publicapi.accesskey}}",
+                        "type": "text"
+                      },
+                      {
+                        "key": "Authorization",
+                        "value": "{{publicapi.authorization}}",
+                        "type": "text"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{public.api.baseurl}}/v3/ClientTaskCommentAttachments?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJGaWxlQ29udGV4dFBlcm1hS2V5IjoiMjJTZ3JtbGJHakRKIiwiaWF0IjoxNjM5OTQ4NTQ5LjAsImV4cCI6MTY0MDIwNzc0OS4wfQ.YHG4wPwBvYsjoJBENr-idpsDus08sXs5fSKi-7xjHUo",
+                      "host": [
+                        "{{public.api.baseurl}}"
+                      ],
+                      "path": [
+                        "v3",
+                        "ClientTaskCommentAttachments"
+                      ],
+                      "query": [
+                        {
+                          "key": "token",
+                          "value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJGaWxlQ29udGV4dFBlcm1hS2V5IjoiMjJTZ3JtbGJHakRKIiwiaWF0IjoxNjM5OTQ4NTQ5LjAsImV4cCI6MTY0MDIwNzc0OS4wfQ.YHG4wPwBvYsjoJBENr-idpsDus08sXs5fSKi-7xjHUo"
+                        }
+                      ]
+                    }
+                  },
+                  "response": []
+                },
+                {
                   "name": "DELETE ClientTaskCommentAttachments",
                   "event": [
                     {
@@ -9674,57 +9725,6 @@
                           "key": "linkId",
                           "value": "287DF211-BD8D-4F91-B7A4-ADE7608F9544",
                           "disabled": true
-                        }
-                      ]
-                    }
-                  },
-                  "response": []
-                },
-                {
-                  "name": "Get ClientTaskCommentAttachments [Updated] Copy",
-                  "event": [
-                    {
-                      "listen": "test",
-                      "script": {
-                        "id": "2317dedf-781b-43eb-b2e9-bf59f70ff37c",
-                        "exec": [
-                          "// cannot be tested at this point"
-                        ],
-                        "type": "text/javascript"
-                      }
-                    }
-                  ],
-                  "id": "8799f11d-9e04-4b9b-ac31-b685e353a9da",
-                  "protocolProfileBehavior": {
-                    "disableBodyPruning": true
-                  },
-                  "request": {
-                    "method": "GET",
-                    "header": [
-                      {
-                        "key": "AccessKey",
-                        "value": "{{publicapi.accesskey}}",
-                        "type": "text"
-                      },
-                      {
-                        "key": "Authorization",
-                        "value": "{{publicapi.authorization}}",
-                        "type": "text"
-                      }
-                    ],
-                    "url": {
-                      "raw": "{{public.api.baseurl}}/v3/ClientTaskCommentAttachments?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJGaWxlQ29udGV4dFBlcm1hS2V5IjoiMjJTZ3JtbGJHakRKIiwiaWF0IjoxNjM5OTQ4NTQ5LjAsImV4cCI6MTY0MDIwNzc0OS4wfQ.YHG4wPwBvYsjoJBENr-idpsDus08sXs5fSKi-7xjHUo",
-                      "host": [
-                        "{{public.api.baseurl}}"
-                      ],
-                      "path": [
-                        "v3",
-                        "ClientTaskCommentAttachments"
-                      ],
-                      "query": [
-                        {
-                          "key": "token",
-                          "value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJGaWxlQ29udGV4dFBlcm1hS2V5IjoiMjJTZ3JtbGJHakRKIiwiaWF0IjoxNjM5OTQ4NTQ5LjAsImV4cCI6MTY0MDIwNzc0OS4wfQ.YHG4wPwBvYsjoJBENr-idpsDus08sXs5fSKi-7xjHUo"
                         }
                       ]
                     }
