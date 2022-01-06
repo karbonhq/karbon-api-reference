@@ -9694,7 +9694,7 @@
                     "disableBodyPruning": true
                   },
                   "request": {
-                    "method": "GET",
+                    "method": "PUT",
                     "header": [
                       {
                         "key": "AccessKey",
@@ -9707,22 +9707,17 @@
                         "type": "text"
                       }
                     ],
-                    "url": {
-                      "raw": "{{public.api.baseurl}}/v3/ClientTaskCommentAttachments?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJGaWxlQ29udGV4dFBlcm1hS2V5IjoiMjJTZ3JtbGJHakRKIiwiaWF0IjoxNjM5OTQ4NTQ5LjAsImV4cCI6MTY0MDIwNzc0OS4wfQ.YHG4wPwBvYsjoJBENr-idpsDus08sXs5fSKi-7xjHUo",
-                      "host": [
-                        "{{public.api.baseurl}}"
-                      ],
-                      "path": [
-                        "v3",
-                        "ClientTaskCommentAttachments"
-                      ],
-                      "query": [
+                    "body": {
+                      "mode": "formdata",
+                      "formdata": [
                         {
-                          "key": "token",
-                          "value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJGaWxlQ29udGV4dFBlcm1hS2V5IjoiMjJTZ3JtbGJHakRKIiwiaWF0IjoxNjM5OTQ4NTQ5LjAsImV4cCI6MTY0MDIwNzc0OS4wfQ.YHG4wPwBvYsjoJBENr-idpsDus08sXs5fSKi-7xjHUo"
+                          "key": "files",
+                          "type": "file",
+                          "src": "/C:/Users/PulkitKalra/Desktop/dev docs/testKarbonSig.PNG"
                         }
                       ]
-                    }
+                    },
+                    "url": "{{public.api.baseurl}}/v3/ClientTaskCommentAttachments/{{public.api.clienttask_test_commentkey}}"
                   },
                   "response": []
                 },
