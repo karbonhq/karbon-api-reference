@@ -1248,6 +1248,71 @@
                     "url": "{{public.api.baseurl}}/v3/Contacts"
                   },
                   "response": []
+                },
+                {
+                  "name": "#4350 Create Contact with extra CRM Fields Copy",
+                  "event": [
+                    {
+                      "listen": "prerequest",
+                      "script": {
+                        "id": "48265c74-9f2e-464d-981a-c1839d83caeb",
+                        "exec": [
+                          "var uuid = require('uuid');\r",
+                          "var generatedUUID = uuid.v4(); \r",
+                          "pm.environment.set(\"public.api.contact_uniqueidentifier\", generatedUUID);"
+                        ],
+                        "type": "text/javascript"
+                      }
+                    },
+                    {
+                      "listen": "test",
+                      "script": {
+                        "id": "8e9d5b9f-7710-4b18-b791-9c5673e3897c",
+                        "exec": [
+                          "pm.test(\"Status code is Created (201)\", function () {\r",
+                          "    pm.response.to.have.status(201);\r",
+                          "});\r",
+                          "\r",
+                          "pm.test(\"Set contact permakey\", function () {\r",
+                          "    var jsonData = pm.response.json();\r",
+                          "    pm.environment.set(\"public.api.contact_permakey\", jsonData.ContactKey);\r",
+                          "    pm.environment.set(\"public.api.contact_userdefinedidentifier\", jsonData.UserDefinedIdentifier);\r",
+                          "});"
+                        ],
+                        "type": "text/javascript"
+                      }
+                    }
+                  ],
+                  "id": "55da7c11-098c-4f87-bd86-5cc668f34f74",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Authorization",
+                        "value": "{{publicapi.authorization}}",
+                        "type": "text"
+                      },
+                      {
+                        "key": "AccessKey",
+                        "value": "{{publicapi.accesskey}}",
+                        "type": "text"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\r\n    \"FirstName\": \"First\",\r\n    \"MiddleName\": \"Second\",\r\n    \"LastName\": \"Last\",\r\n    \"PreferredName\": \"Preferrred\",\r\n    \"Salutation\": \"Dr\",\r\n    \"Suffix\": \"Of the Test\",\r\n    \"RestrictionLevel\": \"Public\",\r\n    \"UserDefinedIdentifier\": \"{{public.api.contact_uniqueidentifier}}\",\r\n    \"BusinessCards\": [\r\n        {\r\n            \"IsPrimaryCard\": true,\r\n            \"Addresses\": [\r\n                {\r\n                    \"AddressLines\": \"address line test\",\r\n                    \"City\": \"city test\",\r\n                    \"StateProvinceCounty\": \"NSW\",\r\n                    \"ZipCode\": \"2120\",\r\n                    \"CountryCode\": \"AU\",\r\n                    \"Label\": \"Test label\"\r\n                }\r\n            ],\r\n            \"PhoneNumbers\": [\r\n                {\r\n                    \"Number\": \"12345678\",\r\n                    \"CountryCode\": \"+61\",\r\n                    \"Label\": \"Work\"\r\n                }\r\n            ],\r\n            \"WebSites\": [\r\n                \"web.cool\",\r\n                \"website.two\"\r\n            ],\r\n            \"EmailAddresses\": [\r\n                \"{{public.api.contact_uniqueidentifier}}@karbonhq.com\"\r\n            ],\r\n            \"RoleOrTitle\": \"CIO\",\r\n            \"FacebookLink\": \"facebook.com/test\",\r\n            \"LinkedInLink\": \"LinkedIn.com/test\",\r\n            \"TwitterLink\": \"Twitter.com/test\",\r\n            \"SkypeLink\": \"Skype.com/test\"\r\n        }\r\n    ],\r\n    \"EntityDescription\": {\r\n        \"Text\": \"test description\"\r\n    },\r\n    \"AccountingDetail\": {\r\n        \"BirthDate\": \"2001-05-16\",\r\n        \"DeathDate\": \"2021-05-16\",\r\n        \"Salutation\": \"The Dishonorable\",\r\n        \"Sex\": \"M\",\r\n        \"FinancialYearEndDay\": \"11\",\r\n        \"FinancialYearEndMonth\": \"0\",\r\n        \"LegalName\": \"League of Heels\",\r\n        \"TaxCountryCode\": \"AU\",\r\n        \"IncomeTaxInstallmentPeriod\": \"Monthly\",\r\n        \"RegistrationNumbers\": [\r\n            {\r\n                \"RegistrationNumber\": \"123 321 3445\",\r\n                \"Type\": \"Tax File Number (TFN)\"\r\n            },\r\n            {\r\n                \"RegistrationNumber\": \"444 333 222\",\r\n                \"Type\": \"Australian Business Number (ABN)\"\r\n            }\r\n        ],\r\n        \"Notes\": [\r\n            {\r\n                \"Body\": \"Notes basic body\",\r\n                \"Type\": \"Basic\"\r\n            },\r\n            {\r\n                \"Body\": \"Notes tax body\",\r\n                \"Type\": \"Tax\"\r\n            },\r\n            {\r\n                \"Body\": \"Notes system body\",\r\n                \"Type\": \"System\"\r\n            },\r\n            {\r\n                \"Body\": \"Notes related people body\",\r\n                \"Type\": \"Related People\"\r\n            }\r\n        ]\r\n    }\r\n}",
+                      "options": {
+                        "raw": {
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": "{{public.api.baseurl}}/v3/Contacts"
+                  },
+                  "response": []
                 }
               ],
               "id": "ddfbfca0-9c98-489d-89cc-0dc74cefca18"
