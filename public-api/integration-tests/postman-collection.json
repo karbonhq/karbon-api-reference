@@ -5763,7 +5763,11 @@
                         "exec": [
                           "pm.test(\"Status code is 200\", function () {\r",
                           "    pm.response.to.have.status(200);\r",
-                          "});"
+                          "});\r",
+                          "\r",
+                          "pm.test(\"#9117 User Definied Client Identifier should be returned\", function() {\r",
+                          "    pm.expect(pm.response.json().ClientUserDefinedIdentifier).to.eq(\"HD567\");\r",
+                          "})"
                         ],
                         "type": "text/javascript"
                       }
