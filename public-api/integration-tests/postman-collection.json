@@ -5210,7 +5210,7 @@
           "name": "SocketManager",
           "item": [
             {
-              "name": "List",
+              "name": "Get",
               "item": [
                 {
                   "name": "Search all Users",
