@@ -5228,7 +5228,7 @@
                           "pm.test(\"Check token was found\", function () {\r",
                           "    var jsonData = pm.response.json();\r",
                           "    pm.expect(jsonData[\"UserToken\"]).not.to.be.null;\r",
-                          "    pm.expect(jsonData.value.length).not.to.be.null;\r",
+                          "    pm.expect(jsonData[\"SocketManagerUri\"]).not.to.be.null;\r",
                           "});"
                         ],
                         "type": "text/javascript"
