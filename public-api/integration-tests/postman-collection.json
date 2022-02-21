@@ -5255,63 +5255,6 @@
                     "url": "{{public.api.baseurl}}/v3/Users"
                   },
                   "response": []
-                },
-                {
-                  "name": "Search with select odata attribute",
-                  "event": [
-                    {
-                      "listen": "test",
-                      "script": {
-                        "id": "deb562af-48a8-4015-8091-370726a16279",
-                        "exec": [
-                          "pm.test(\"Status code is 400\", function () {\r",
-                          "    pm.response.to.have.status(400);\r",
-                          "});\r",
-                          "\r",
-                          "pm.test(\"Body matches contains Select not allowed\", function () {\r",
-                          "    pm.expect(pm.response.text()).to.include(\"Query option 'Select' is not allowed\");\r",
-                          "});"
-                        ],
-                        "type": "text/javascript"
-                      }
-                    }
-                  ],
-                  "id": "013e6c89-a3d3-4f74-8e3b-f2cb93d46a80",
-                  "protocolProfileBehavior": {
-                    "disableBodyPruning": true
-                  },
-                  "request": {
-                    "method": "GET",
-                    "header": [
-                      {
-                        "key": "Authorization",
-                        "value": "{{publicapi.authorization}}",
-                        "type": "text"
-                      },
-                      {
-                        "key": "AccessKey",
-                        "value": "{{publicapi.accesskey}}",
-                        "type": "text"
-                      }
-                    ],
-                    "url": {
-                      "raw": "{{public.api.baseurl}}/v3/Users?$select=FullName",
-                      "host": [
-                        "{{public.api.baseurl}}"
-                      ],
-                      "path": [
-                        "v3",
-                        "Users"
-                      ],
-                      "query": [
-                        {
-                          "key": "$select",
-                          "value": "FullName"
-                        }
-                      ]
-                    }
-                  },
-                  "response": []
                 }
               ],
               "id": "c200ce8f-ea95-41ee-9ee9-06311a64414a"
