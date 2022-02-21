@@ -5224,10 +5224,10 @@
                           "    pm.response.to.have.status(200);\r",
                           "});\r",
                           "\r",
-                          "pm.test(\"Check items were found\", function () {\r",
+                          "pm.test(\"Check token was found\", function () {\r",
                           "    var jsonData = pm.response.json();\r",
-                          "    pm.expect(jsonData[\"@odata.count\"]).to.gte(1);\r",
-                          "    pm.expect(jsonData.value.length).to.gte(1);\r",
+                          "    pm.expect(jsonData[\"UserToken\"]).not.to.be.null;\r",
+                          "    pm.expect(jsonData.value.length).not.to.be.null;\r",
                           "});"
                         ],
                         "type": "text/javascript"
