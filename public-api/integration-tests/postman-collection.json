@@ -5213,7 +5213,7 @@
               "name": "Get",
               "item": [
                 {
-                  "name": "Search all Users",
+                  "name": "Get Token",
                   "event": [
                     {
                       "listen": "test",
