@@ -5207,6 +5207,250 @@
           "id": "15c92b1c-e17a-4405-91bd-65023748dc31"
         },
         {
+          "name": "SocketManager",
+          "item": [
+            {
+              "name": "List",
+              "item": [
+                {
+                  "name": "Search all Users",
+                  "event": [
+                    {
+                      "listen": "test",
+                      "script": {
+                        "id": "d7492c0b-7ac7-4185-ab56-3bca5ef1604d",
+                        "exec": [
+                          "pm.test(\"Status code is 400\", function () {\r",
+                          "    pm.response.to.have.status(200);\r",
+                          "});\r",
+                          "\r",
+                          "pm.test(\"Check items were found\", function () {\r",
+                          "    var jsonData = pm.response.json();\r",
+                          "    pm.expect(jsonData[\"@odata.count\"]).to.gte(1);\r",
+                          "    pm.expect(jsonData.value.length).to.gte(1);\r",
+                          "});"
+                        ],
+                        "type": "text/javascript"
+                      }
+                    }
+                  ],
+                  "id": "e58d6d8f-dc08-4cff-906c-b08b652b6977",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Authorization",
+                        "value": "{{publicapi.authorization}}",
+                        "type": "text"
+                      },
+                      {
+                        "key": "AccessKey",
+                        "value": "{{publicapi.accesskey}}",
+                        "type": "text"
+                      }
+                    ],
+                    "url": "{{public.api.baseurl}}/v3/Users"
+                  },
+                  "response": []
+                },
+                {
+                  "name": "Search some Users",
+                  "event": [
+                    {
+                      "listen": "test",
+                      "script": {
+                        "id": "0188d15c-1727-4310-90d8-1d011930b30d",
+                        "exec": [
+                          "pm.test(\"Status code is 200\", function () {\r",
+                          "    pm.response.to.have.status(200);\r",
+                          "});\r",
+                          "\r",
+                          "pm.test(\"Check correct number of items were found\", function () {\r",
+                          "    var jsonData = pm.response.json();\r",
+                          "    pm.expect(jsonData[\"@odata.count\"]).to.gte(1);\r",
+                          "    pm.expect(jsonData.value.length).to.equal(5);\r",
+                          "});"
+                        ],
+                        "type": "text/javascript"
+                      }
+                    }
+                  ],
+                  "id": "b30e4e6a-254c-4e1d-8611-21187f5e7818",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Authorization",
+                        "value": "{{publicapi.authorization}}",
+                        "type": "text"
+                      },
+                      {
+                        "key": "AccessKey",
+                        "value": "{{publicapi.accesskey}}",
+                        "type": "text"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{public.api.baseurl}}/v3/Users?$top=5",
+                      "host": [
+                        "{{public.api.baseurl}}"
+                      ],
+                      "path": [
+                        "v3",
+                        "Users"
+                      ],
+                      "query": [
+                        {
+                          "key": "$top",
+                          "value": "5"
+                        }
+                      ]
+                    }
+                  },
+                  "response": []
+                },
+                {
+                  "name": "Search with select odata attribute",
+                  "event": [
+                    {
+                      "listen": "test",
+                      "script": {
+                        "id": "deb562af-48a8-4015-8091-370726a16279",
+                        "exec": [
+                          "pm.test(\"Status code is 400\", function () {\r",
+                          "    pm.response.to.have.status(400);\r",
+                          "});\r",
+                          "\r",
+                          "pm.test(\"Body matches contains Select not allowed\", function () {\r",
+                          "    pm.expect(pm.response.text()).to.include(\"Query option 'Select' is not allowed\");\r",
+                          "});"
+                        ],
+                        "type": "text/javascript"
+                      }
+                    }
+                  ],
+                  "id": "013e6c89-a3d3-4f74-8e3b-f2cb93d46a80",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Authorization",
+                        "value": "{{publicapi.authorization}}",
+                        "type": "text"
+                      },
+                      {
+                        "key": "AccessKey",
+                        "value": "{{publicapi.accesskey}}",
+                        "type": "text"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{public.api.baseurl}}/v3/Users?$select=FullName",
+                      "host": [
+                        "{{public.api.baseurl}}"
+                      ],
+                      "path": [
+                        "v3",
+                        "Users"
+                      ],
+                      "query": [
+                        {
+                          "key": "$select",
+                          "value": "FullName"
+                        }
+                      ]
+                    }
+                  },
+                  "response": []
+                }
+              ],
+              "id": "c200ce8f-ea95-41ee-9ee9-06311a64414a"
+            },
+            {
+              "name": "Create",
+              "item": [
+                {
+                  "name": "Create User V3",
+                  "event": [
+                    {
+                      "listen": "prerequest",
+                      "script": {
+                        "id": "44a1efc4-a8bf-49fd-a910-246e483f4016",
+                        "exec": [
+                          "var uuid = require('uuid');\r",
+                          "var generatedEmail = uuid.v4() + \"@gmail.com\"; \r",
+                          "var generatedName = uuid.v4(); \r",
+                          "\r",
+                          "pm.environment.set(\"public.api.contact_test_user_generatedemail\", generatedEmail);\r",
+                          "pm.environment.set(\"public.api.contact_test_user_generatedname\", generatedName);\r",
+                          "\r",
+                          "console.log(generatedEmail);\r",
+                          "console.log(generatedName);"
+                        ],
+                        "type": "text/javascript"
+                      }
+                    },
+                    {
+                      "listen": "test",
+                      "script": {
+                        "id": "6466f10a-bb64-43d4-8943-e4525118e0f2",
+                        "exec": [
+                          "pm.test(\"Status code is Created (201)\", function () {\r",
+                          "    pm.response.to.have.status(201);\r",
+                          "});\r",
+                          ""
+                        ],
+                        "type": "text/javascript"
+                      }
+                    }
+                  ],
+                  "id": "35bfd7f5-9432-48f6-9021-e8011722962e",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Authorization",
+                        "value": "{{publicapi.authorization}}",
+                        "type": "text"
+                      },
+                      {
+                        "key": "AccessKey",
+                        "value": "{{publicapi.accesskey}}",
+                        "type": "text"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\r\n    \"Name\": \"{{public.api.contact_test_user_generatedemail}}\",\r\n    \"EmailAddress\": \"{{public.api.contact_test_user_generatedname}}\"\r\n}",
+                      "options": {
+                        "raw": {
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": "{{public.api.baseurl}}/v3/Users"
+                  },
+                  "response": []
+                }
+              ],
+              "id": "91f9f177-dd7b-4ffa-b452-20fd01412b63"
+            }
+          ],
+          "id": "6096bdc1-8629-456c-a290-68945f5f459c"
+        },
+        {
           "name": "WebhookSubscriptions",
           "item": [
             {
