@@ -5257,65 +5257,6 @@
                   "response": []
                 },
                 {
-                  "name": "Search some Users",
-                  "event": [
-                    {
-                      "listen": "test",
-                      "script": {
-                        "id": "0188d15c-1727-4310-90d8-1d011930b30d",
-                        "exec": [
-                          "pm.test(\"Status code is 200\", function () {\r",
-                          "    pm.response.to.have.status(200);\r",
-                          "});\r",
-                          "\r",
-                          "pm.test(\"Check correct number of items were found\", function () {\r",
-                          "    var jsonData = pm.response.json();\r",
-                          "    pm.expect(jsonData[\"@odata.count\"]).to.gte(1);\r",
-                          "    pm.expect(jsonData.value.length).to.equal(5);\r",
-                          "});"
-                        ],
-                        "type": "text/javascript"
-                      }
-                    }
-                  ],
-                  "id": "b30e4e6a-254c-4e1d-8611-21187f5e7818",
-                  "protocolProfileBehavior": {
-                    "disableBodyPruning": true
-                  },
-                  "request": {
-                    "method": "GET",
-                    "header": [
-                      {
-                        "key": "Authorization",
-                        "value": "{{publicapi.authorization}}",
-                        "type": "text"
-                      },
-                      {
-                        "key": "AccessKey",
-                        "value": "{{publicapi.accesskey}}",
-                        "type": "text"
-                      }
-                    ],
-                    "url": {
-                      "raw": "{{public.api.baseurl}}/v3/Users?$top=5",
-                      "host": [
-                        "{{public.api.baseurl}}"
-                      ],
-                      "path": [
-                        "v3",
-                        "Users"
-                      ],
-                      "query": [
-                        {
-                          "key": "$top",
-                          "value": "5"
-                        }
-                      ]
-                    }
-                  },
-                  "response": []
-                },
-                {
                   "name": "Search with select odata attribute",
                   "event": [
                     {
