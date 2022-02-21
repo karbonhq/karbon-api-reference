@@ -5252,7 +5252,7 @@
                         "type": "text"
                       }
                     ],
-                    "url": "{{public.api.baseurl}}/v3/Users"
+                    "url": "{{public.api.baseurl}}/v3/SocketManager"
                   },
                   "response": []
                 }
