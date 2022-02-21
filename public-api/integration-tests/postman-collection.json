@@ -5220,6 +5220,7 @@
                       "script": {
                         "id": "d7492c0b-7ac7-4185-ab56-3bca5ef1604d",
                         "exec": [
+                          "//only turned on in stage for ClientPortalV2 application\r",
                           "pm.test(\"Status code is 200\", function () {\r",
                           "    pm.response.to.have.status(200);\r",
                           "});\r",
