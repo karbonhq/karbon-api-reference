@@ -5227,6 +5227,10 @@
                           "\r",
                           "pm.test(\"Check token was found\", function () {\r",
                           "    var jsonData = pm.response.json();\r",
+                          "    pm.expect(jsonData.hasOwnProperty(\"UserToken\"));\r",
+                          "    pm.expect(jsonData.hasOwnProperty(\"SocketManagerUri\"));\r",
+                          "    console.log(jsonData[\"UserToken\"]);\r",
+                          "    console.log(jsonData[\"SocketManagerUri\"]);\r",
                           "    pm.expect(jsonData[\"UserToken\"]).not.to.be.null;\r",
                           "    pm.expect(jsonData[\"SocketManagerUri\"]).not.to.be.null;\r",
                           "});"
@@ -5254,7 +5258,7 @@
                       }
                     ],
                     "url": {
-                      "raw": "{{public.api.baseurl}}/v3/SocketManager?linkId={{public.api.magiclink_linkid}}",
+                      "raw": "{{public.api.baseurl}}/v3/SocketManager?linkId=asd",
                       "host": [
                         "{{public.api.baseurl}}"
                       ],
@@ -5265,7 +5269,7 @@
                       "query": [
                         {
                           "key": "linkId",
-                          "value": "{{public.api.magiclink_linkid}}"
+                          "value": "asd"
                         }
                       ]
                     }
