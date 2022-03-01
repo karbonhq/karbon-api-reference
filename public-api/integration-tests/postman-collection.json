@@ -5227,12 +5227,8 @@
                           "\r",
                           "pm.test(\"Check token was found\", function () {\r",
                           "    var jsonData = pm.response.json();\r",
-                          "    pm.expect(jsonData.hasOwnProperty(\"UserToken\"));\r",
-                          "    pm.expect(jsonData.hasOwnProperty(\"SocketManagerUri\"));\r",
-                          "    console.log(jsonData[\"UserToken\"]);\r",
-                          "    console.log(jsonData[\"SocketManagerUri\"]);\r",
-                          "    pm.expect(jsonData[\"UserToken\"]).not.to.be.null;\r",
-                          "    pm.expect(jsonData[\"SocketManagerUri\"]).not.to.be.null;\r",
+                          "    pm.expect(jsonData.hasOwnProperty(\"UserToken\")).to.true;\r",
+                          "    pm.expect(jsonData.hasOwnProperty(\"SocketManagerUri\")).to.true;\r",
                           "});"
                         ],
                         "type": "text/javascript"
@@ -5258,7 +5254,7 @@
                       }
                     ],
                     "url": {
-                      "raw": "{{public.api.baseurl}}/v3/SocketManager?linkId=asd",
+                      "raw": "{{public.api.baseurl}}/v3/SocketManager?linkId={{public.api.magiclink_linkid}}",
                       "host": [
                         "{{public.api.baseurl}}"
                       ],
@@ -5269,7 +5265,7 @@
                       "query": [
                         {
                           "key": "linkId",
-                          "value": "asd"
+                          "value": "{{public.api.magiclink_linkid}}"
                         }
                       ]
                     }
