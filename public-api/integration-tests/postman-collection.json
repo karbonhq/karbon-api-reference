@@ -5253,7 +5253,22 @@
                         "type": "text"
                       }
                     ],
-                    "url": "{{public.api.baseurl}}/v3/SocketManager"
+                    "url": {
+                      "raw": "{{public.api.baseurl}}/v3/SocketManager?linkId={{public.api.magiclink_linkid}}",
+                      "host": [
+                        "{{public.api.baseurl}}"
+                      ],
+                      "path": [
+                        "v3",
+                        "SocketManager"
+                      ],
+                      "query": [
+                        {
+                          "key": "linkId",
+                          "value": "{{public.api.magiclink_linkid}}"
+                        }
+                      ]
+                    }
                   },
                   "response": []
                 }
