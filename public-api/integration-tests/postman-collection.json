@@ -5820,6 +5820,63 @@
                   "response": []
                 },
                 {
+                  "name": "#9546 Create WorkItem from Template with ClientTaskRecipients no email address at all",
+                  "event": [
+                    {
+                      "listen": "test",
+                      "script": {
+                        "id": "544ed67f-8423-4110-a2ab-5068c6ff5936",
+                        "exec": [
+                          "pm.test(\"Status code is 201\", function () {\r",
+                          "    pm.response.to.have.status(201);\r",
+                          "});\r",
+                          "\r",
+                          "pm.test(\"WorkType should not be inherited from Template if provided in request\", function() {\r",
+                          "    pm.expect(pm.response.json().WorkType).to.eq(\"Payroll\");\r",
+                          "})\r",
+                          "\r",
+                          "pm.test(\"Set workitem PermaKey\", function () {\r",
+                          "    var jsonData = pm.response.json();\r",
+                          "    pm.environment.set(\"public.api.workitem_permakey\", jsonData.WorkItemKey);\r",
+                          "});\r",
+                          ""
+                        ],
+                        "type": "text/javascript"
+                      }
+                    }
+                  ],
+                  "id": "40272d18-6fb3-4595-a462-c7e39836379b",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Authorization",
+                        "value": "{{publicapi.authorization}}",
+                        "type": "text"
+                      },
+                      {
+                        "key": "AccessKey",
+                        "value": "{{publicapi.accesskey}}",
+                        "type": "text"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\r\n    \"AssigneeEmailAddress\": \"{{public.api.workitem_useremail}}\",\r\n    \"Title\": \"Template full test\",\r\n    \"ClientKey\": \"{{public.api.workitem_clientkey}}\",\r\n    \"ClientType\": \"Contact\",\r\n    \"RelatedClientGroupKey\": \"{{public.api.workitem_relatedclientgroupkey}}\",\r\n    \"StartDate\": \"2021-07-11\",\r\n    \"DueDate\": \"2021-07-19\",\r\n    \"WorkType\": \"Payroll\",\r\n    \"Description\": \"Test description\",\r\n    \"WorkTemplateKey\": \"{{public.api.worktemplatekey}}\",\r\n    \"UserRoleAssignments\": [\r\n        {\r\n            \"RoleKey\": \"{{public.api.worktemplate_actor1}}\",\r\n            \"UserProfileKey\": \"{{public.api.worktemplate_user1}}\"\r\n        },\r\n        {\r\n            \"RoleKey\": \"{{public.api.worktemplate_actor2}}\",\r\n            \"UserProfileKey\": \"{{public.api.worktemplate_user2}}\"\r\n        },\r\n                {\r\n            \"RoleKey\": \"{{public.api.worktemplate_actor3}}\",\r\n            \"UserProfileKey\": \"{{public.api.worktemplate_user3}}\"\r\n        },\r\n        {\r\n            \"RoleKey\": \"{{public.api.worktemplate_actor4}}\",\r\n            \"UserProfileKey\": \"{{public.api.worktemplate_user4}}\"\r\n        }\r\n    ],\r\n    \"ClientTaskRecipient\": {\r\n        \"RecipientKey\": \"{{public.api.workitem_clientkey}}\",\r\n        \"LinkType\": \"Contact\"\r\n    }\r\n}",
+                      "options": {
+                        "raw": {
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": "{{public.api.baseurl}}/v3/WorkItems"
+                  },
+                  "response": []
+                },
+                {
                   "name": "#8165 Inherit Work Type from Template",
                   "event": [
                     {
