@@ -1777,13 +1777,7 @@
                       "body": ""
                     }
                   ]
-                }
-              ],
-              "id": "92c1ac4e-19ca-4689-91b1-ab0d653bab1a"
-            },
-            {
-              "name": "Search",
-              "item": [
+                },
                 {
                   "name": "Search parameterless",
                   "event": [
@@ -1832,7 +1826,13 @@
                     "url": "{{public.api.baseurl}}/v3/Contacts"
                   },
                   "response": []
-                },
+                }
+              ],
+              "id": "92c1ac4e-19ca-4689-91b1-ab0d653bab1a"
+            },
+            {
+              "name": "Search",
+              "item": [
                 {
                   "name": "Search orderby FullName",
                   "event": [
@@ -8739,7 +8739,7 @@
                       }
                     ],
                     "url": {
-                      "raw": "{{public.api.baseurl}}/v3/ClientRequests?$filter=ClientRequestRecipientKey eq '{{public.api.clientrequest_test_recipientkey}}'",
+                      "raw": "{{public.api.baseurl}}/v3/ClientRequests?$filter=Recipient/ClientRequestRecipientKey eq '{{public.api.clientrequest_test_recipientkey}}'",
                       "host": [
                         "{{public.api.baseurl}}"
                       ],
@@ -8750,7 +8750,7 @@
                       "query": [
                         {
                           "key": "$filter",
-                          "value": "ClientRequestRecipientKey eq '{{public.api.clientrequest_test_recipientkey}}'"
+                          "value": "Recipient/ClientRequestRecipientKey eq '{{public.api.clientrequest_test_recipientkey}}'"
                         }
                       ]
                     }
