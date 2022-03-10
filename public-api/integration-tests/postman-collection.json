@@ -9002,7 +9002,7 @@
                       }
                     ],
                     "url": {
-                      "raw": "{{public.api.baseurl}}/v3/ClientRequests?$filter=WorkItemDueDate ge 2008-10-31T17:04:32Z and WorkItemDueDate le 2031-06-30T17:04:32Z and ClientRequestRecipientKey eq '{{public.api.clientrequest_test_recipientkey}}'",
+                      "raw": "{{public.api.baseurl}}/v3/ClientRequests?$filter=WorkItemDueDate ge 2008-10-31T17:04:32Z and WorkItemDueDate le 2031-06-30T17:04:32Z and Recipient/ClientRequestRecipientKey eq '{{public.api.clientrequest_test_recipientkey}}'",
                       "host": [
                         "{{public.api.baseurl}}"
                       ],
@@ -9013,7 +9013,7 @@
                       "query": [
                         {
                           "key": "$filter",
-                          "value": "WorkItemDueDate ge 2008-10-31T17:04:32Z and WorkItemDueDate le 2031-06-30T17:04:32Z and ClientRequestRecipientKey eq '{{public.api.clientrequest_test_recipientkey}}'"
+                          "value": "WorkItemDueDate ge 2008-10-31T17:04:32Z and WorkItemDueDate le 2031-06-30T17:04:32Z and Recipient/ClientRequestRecipientKey eq '{{public.api.clientrequest_test_recipientkey}}'"
                         }
                       ]
                     }
