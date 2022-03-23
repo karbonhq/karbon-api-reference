@@ -8710,7 +8710,7 @@
                           "                pm.environment.set('public.api.clientrequest_test_workitemkey', jsonData.value[0].WorkItemKey);\r",
                           "                var recipientKey = pm.environment.get('public.api.clientrequest_test_recipientkey');\r",
                           "                jsonData.value.forEach(element => \r",
-                          "                    pm.expect(element.ClientRequestRecipientKey).to.eq(recipientKey));\r",
+                          "                    pm.expect(element.Recipient.ClientRequestRecipientKey).to.eq(recipientKey));\r",
                           "            }\r",
                           "        });\r",
                           "});\r",
@@ -8739,7 +8739,7 @@
                       }
                     ],
                     "url": {
-                      "raw": "{{public.api.baseurl}}/v3/ClientRequests?$filter=Recipient/ClientRequestRecipientKey eq '{{public.api.clientrequest_test_recipientkey}}'",
+                      "raw": "{{public.api.baseurl}}/v3/ClientRequests?$filter=Recipient/ClientRequestRecipientKey eq '{{public.api.clientrequest_test_recipientkey}}'&$expand=Recipient",
                       "host": [
                         "{{public.api.baseurl}}"
                       ],
@@ -8751,6 +8751,11 @@
                         {
                           "key": "$filter",
                           "value": "Recipient/ClientRequestRecipientKey eq '{{public.api.clientrequest_test_recipientkey}}'"
+                        },
+                        {
+                          "key": "$expand",
+                          "value": "Recipient",
+                          "type": "text"
                         }
                       ]
                     }
