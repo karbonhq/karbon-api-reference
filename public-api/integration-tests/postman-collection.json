@@ -8983,7 +8983,7 @@
                           "                jsonData.value.forEach(element => \r",
                           "                    pm.expect(Date.parse(element.WorkItemDueDate)).to.gte(Date.parse('2008-10-31T17:04:32Z')) &&\r",
                           "                    pm.expect(Date.parse(element.WorkItemDueDate)).to.lte(Date.parse('2031-06-30T17:04:32Z')) &&\r",
-                          "                    pm.expect(element.ClientRequestRecipientKey).to.eq(recipientKey));\r",
+                          "                    pm.expect(element.Recipient.ClientRequestRecipientKey).to.eq(recipientKey));\r",
                           "            }\r",
                           "        });\r",
                           "});\r",
@@ -9012,7 +9012,7 @@
                       }
                     ],
                     "url": {
-                      "raw": "{{public.api.baseurl}}/v3/ClientRequests?$filter=WorkItemDueDate ge 2008-10-31T17:04:32Z and WorkItemDueDate le 2031-06-30T17:04:32Z and Recipient/ClientRequestRecipientKey eq '{{public.api.clientrequest_test_recipientkey}}'",
+                      "raw": "{{public.api.baseurl}}/v3/ClientRequests?$filter=WorkItemDueDate ge 2008-10-31T17:04:32Z and WorkItemDueDate le 2031-06-30T17:04:32Z and Recipient/ClientRequestRecipientKey eq '{{public.api.clientrequest_test_recipientkey}}'&$expand=Recipient",
                       "host": [
                         "{{public.api.baseurl}}"
                       ],
@@ -9024,6 +9024,11 @@
                         {
                           "key": "$filter",
                           "value": "WorkItemDueDate ge 2008-10-31T17:04:32Z and WorkItemDueDate le 2031-06-30T17:04:32Z and Recipient/ClientRequestRecipientKey eq '{{public.api.clientrequest_test_recipientkey}}'"
+                        },
+                        {
+                          "key": "$expand",
+                          "value": "Recipient",
+                          "type": "text"
                         }
                       ]
                     }
