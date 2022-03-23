@@ -5940,7 +5940,7 @@
               "name": "Get by PermaKey",
               "item": [
                 {
-                  "name": "#5170 Get by PermaKey with basic work fields Expand",
+                  "name": "Get Estimates by WorkItemKey",
                   "event": [
                     {
                       "listen": "test",
