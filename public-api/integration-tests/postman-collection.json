@@ -8695,6 +8695,49 @@
                   "response": []
                 },
                 {
+                  "name": "Search ClientRequest (Parameterless) Expand ClientTaskSummaries Invalid",
+                  "event": [
+                    {
+                      "listen": "test",
+                      "script": {
+                        "id": "164c60d3-96b7-4007-ae0b-cfdd2f179956",
+                        "exec": [
+                          "pm.test(\"Status code is 200 \", function () {\r",
+                          "        pm.response.to.have.status(200);\r",
+                          "        pm.test(\"Check client requests are returned\", function () {\r",
+                          "            var jsonData = pm.response.json();\r",
+                          "            pm.expect(jsonData.value.length).to.gte(1);    \r",
+                          "            pm.expect(jsonData.value.length).to.lte(100);\r",
+                          "        });\r",
+                          "});"
+                        ],
+                        "type": "text/javascript"
+                      }
+                    }
+                  ],
+                  "id": "c507165e-87d1-496a-8765-5880598d163a",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "AccessKey",
+                        "value": "{{publicapi.accesskey}}",
+                        "type": "text"
+                      },
+                      {
+                        "key": "Authorization",
+                        "value": "{{publicapi.authorization}}",
+                        "type": "text"
+                      }
+                    ],
+                    "url": "{{public.api.baseurl}}/v3/ClientRequests/"
+                  },
+                  "response": []
+                },
+                {
                   "name": "Search ClientRequest By ClientRequestRecipientKey",
                   "event": [
                     {
