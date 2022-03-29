@@ -8808,7 +8808,7 @@
                       }
                     ],
                     "url": {
-                      "raw": "{{public.api.baseurl}}/v3/ClientRequests?$filter=Recipient/ClientRequestRecipientKey eq '{{public.api.clientrequest_test_recipientkey}}' and WorkItemKey eq '{{public.api.clientrequest_test_workitemkey}}'&$expand=Recipient",
+                      "raw": "{{public.api.baseurl}}/v3/ClientRequests?$filter=Recipient/ClientRequestRecipientKey eq '{{public.api.clientrequest_test_recipientkey}}' and WorkItemKey eq '{{public.api.clientrequest_test_workitemkey}}'&$expand=Recipient,ClientTaskSummaries",
                       "host": [
                         "{{public.api.baseurl}}"
                       ],
@@ -8823,8 +8823,7 @@
                         },
                         {
                           "key": "$expand",
-                          "value": "Recipient",
-                          "type": "text"
+                          "value": "Recipient,ClientTaskSummaries"
                         }
                       ]
                     }
