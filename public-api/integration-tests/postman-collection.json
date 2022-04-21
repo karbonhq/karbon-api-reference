@@ -5325,7 +5325,7 @@
                     ],
                     "body": {
                       "mode": "raw",
-                      "raw": "{\r\n    \"TargetUrl\": \"https://hooks.zapier.com/hooks/catch/3550924/ovsbqn4/\"\r\n    \"WebhookType\": \"Test\"\r\n}",
+                      "raw": "{\r\n    \"TargetUrl\": \"https://hooks.zapier.com/hooks/catch/3550924/ovsbqn4/\",\r\n    \"WebhookType\": \"ContentItem\"\r\n}",
                       "options": {
                         "raw": {
                           "language": "json"
