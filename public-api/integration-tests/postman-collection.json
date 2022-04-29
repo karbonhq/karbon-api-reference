@@ -5755,6 +5755,45 @@
                   "response": []
                 },
                 {
+                  "name": "Delete WebhookSubscription All",
+                  "event": [
+                    {
+                      "listen": "test",
+                      "script": {
+                        "id": "3752b00c-1e69-4a90-bc16-ecc242b85fd6",
+                        "exec": [
+                          "pm.test(\"Status code is 204\", function () {\r",
+                          "    pm.response.to.have.status(204);\r",
+                          "});\r",
+                          ""
+                        ],
+                        "type": "text/javascript"
+                      }
+                    }
+                  ],
+                  "id": "c54f3abe-bfc1-43e0-bdd2-9f359709c9df",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "method": "DELETE",
+                    "header": [
+                      {
+                        "key": "Authorization",
+                        "value": "{{publicapi.authorization}}",
+                        "type": "text"
+                      },
+                      {
+                        "key": "AccessKey",
+                        "value": "{{publicapi.accesskey}}",
+                        "type": "text"
+                      }
+                    ],
+                    "url": "{{public.api.baseurl}}/v3/WebhookSubscriptions"
+                  },
+                  "response": []
+                },
+                {
                   "name": "GetWebhookSubscription 404 after Deletion",
                   "event": [
                     {
