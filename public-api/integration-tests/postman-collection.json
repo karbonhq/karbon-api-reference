@@ -10334,7 +10334,13 @@
         },
         {
           "name": "EstimateSummaries",
-          "item": [],
+          "item": [
+            {
+              "name": "New Folder",
+              "item": [],
+              "id": "5c648604-0478-4ea2-b3ff-a3d1bc7bd426"
+            }
+          ],
           "id": "c137a77c-15f1-4e30-995c-48902fd53460"
         }
       ],
