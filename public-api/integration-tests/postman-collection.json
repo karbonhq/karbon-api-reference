@@ -10408,7 +10408,67 @@
           "item": [
             {
               "name": "Get",
-              "item": [],
+              "item": [
+                {
+                  "name": "Get Note Comments by NotePermaKey",
+                  "event": [
+                    {
+                      "listen": "test",
+                      "script": {
+                        "id": "79eda62c-9da2-42f2-88ab-2d4b9bccf167",
+                        "exec": [
+                          "pm.test(\"Status code is 200\", function () {\r",
+                          "    pm.response.to.have.status(200);\r",
+                          "});\r",
+                          "\r",
+                          "pm.test(\"#9117 User Definied Client Identifier should be returned\", function() {\r",
+                          "    pm.expect(pm.response.json().ClientUserDefinedIdentifier).to.eq(\"HD567\");\r",
+                          "})"
+                        ],
+                        "type": "text/javascript"
+                      }
+                    }
+                  ],
+                  "id": "5bf97e39-4424-4f3b-a238-544229a807c5",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true,
+                    "disabledSystemHeaders": {
+                      "accept": true
+                    }
+                  },
+                  "request": {
+                    "auth": {
+                      "type": "noauth"
+                    },
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Authorization",
+                        "value": "{{publicapi.authorization}}",
+                        "type": "text"
+                      },
+                      {
+                        "key": "AccessKey",
+                        "value": "{{publicapi.accesskey}}",
+                        "type": "text"
+                      },
+                      {
+                        "key": "Accept",
+                        "value": "application/json",
+                        "type": "text"
+                      },
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json",
+                        "type": "text",
+                        "disabled": true
+                      }
+                    ],
+                    "url": "{{public.api.baseurl}}/v3/NoteComments/3xJG6kVvC4gQ"
+                  },
+                  "response": []
+                }
+              ],
               "id": "f17f8384-18af-4791-ac40-956b83cb5940"
             }
           ],
