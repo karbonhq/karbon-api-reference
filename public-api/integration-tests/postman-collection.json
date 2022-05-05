@@ -10393,7 +10393,7 @@
                         "disabled": true
                       }
                     ],
-                    "url": "{{public.api.baseurl}}v3/EstimateSummaries/49WSJmbm4NlL"
+                    "url": "{{public.api.baseurl}}/v3/EstimateSummaries/49WSJmbm4NlL"
                   },
                   "response": []
                 }
