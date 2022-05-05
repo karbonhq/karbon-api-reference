@@ -10523,7 +10523,7 @@
                         "disabled": true
                       }
                     ],
-                    "url": "{{public.api.baseurl}}/v3/NoteComments/26z6LTCsPf2c"
+                    "url": "{{public.api.baseurl}}/v3/NoteComments/{{public.api.note_permakey_no_comments_exist}}"
                   },
                   "response": []
                 },
