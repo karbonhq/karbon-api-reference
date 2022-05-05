@@ -10410,7 +10410,7 @@
               "name": "Get",
               "item": [
                 {
-                  "name": "Notes exist but no Comments",
+                  "name": "Notes exist with Comments",
                   "event": [
                     {
                       "listen": "test",
