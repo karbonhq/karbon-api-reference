@@ -10410,7 +10410,7 @@
               "name": "Get",
               "item": [
                 {
-                  "name": "Get Note Comments by NotePermaKey",
+                  "name": "Notes exist but no Comments",
                   "event": [
                     {
                       "listen": "test",
