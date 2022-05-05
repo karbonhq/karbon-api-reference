@@ -10469,7 +10469,7 @@
                   "response": []
                 },
                 {
-                  "name": "Notes exist with Comments",
+                  "name": "Notes exist but no Comments",
                   "event": [
                     {
                       "listen": "test",
