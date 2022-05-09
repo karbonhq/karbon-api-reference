@@ -10535,8 +10535,8 @@
                       "script": {
                         "id": "79eda62c-9da2-42f2-88ab-2d4b9bccf167",
                         "exec": [
-                          "pm.test(\"Status code is 200\", function () {\r",
-                          "    pm.response.to.have.status(200);\r",
+                          "pm.test(\"Status code is 404\", function () {\r",
+                          "    pm.response.to.have.status(404);\r",
                           "});\r",
                           "\r",
                           "pm.test(\"Comments should be null\", function() {\r",
