@@ -10422,7 +10422,7 @@
                           "});\r",
                           "\r",
                           "pm.test(\"Comments should not be undefined\", function() {\r",
-                          "    pm.expect(pm.response.Comments).not.eq(null);\r",
+                          "    pm.expect(pm.response.Comments).not.eq(undefined);\r",
                           "})"
                         ],
                         "type": "text/javascript"
