@@ -5279,527 +5279,6 @@
           "id": "6096bdc1-8629-456c-a290-68945f5f459c"
         },
         {
-          "name": "WebhookSubscriptions",
-          "item": [
-            {
-              "name": "Create",
-              "item": [
-                {
-                  "name": "SetTargetUrl",
-                  "event": [
-                    {
-                      "listen": "test",
-                      "script": {
-                        "id": "adab9176-e2aa-4af6-b1a4-7a8defeb3379",
-                        "exec": [
-                          "pm.test(\"Status code is 201\", function () {\r",
-                          "    pm.response.to.have.status(201);\r",
-                          "});\r",
-                          "\r",
-                          "pm.test(\"Target Url is set\", function () {\r",
-                          "    const responseJson = pm.response.json();\r",
-                          "    pm.expect(responseJson.TargetUrl).to.be.not.empty;\r",
-                          "});"
-                        ],
-                        "type": "text/javascript"
-                      }
-                    }
-                  ],
-                  "id": "9ea29b2f-8ca4-40f9-9f4e-bf798f2b4566",
-                  "protocolProfileBehavior": {
-                    "disableBodyPruning": true
-                  },
-                  "request": {
-                    "method": "POST",
-                    "header": [
-                      {
-                        "key": "Authorization",
-                        "value": "{{publicapi.authorization}}",
-                        "type": "text"
-                      },
-                      {
-                        "key": "AccessKey",
-                        "value": "{{publicapi.accesskey}}",
-                        "type": "text"
-                      }
-                    ],
-                    "body": {
-                      "mode": "raw",
-                      "raw": "{\r\n    \"TargetUrl\": \"https://hooks.zapier.com/hooks/catch/3550924/ovsbqn4/\"\r\n}",
-                      "options": {
-                        "raw": {
-                          "language": "json"
-                        }
-                      }
-                    },
-                    "url": "{{public.api.baseurl}}/v3/WebhookSubscriptions"
-                  },
-                  "response": [
-                    {
-                      "id": "9f9d3c5d-3b90-463b-9a73-8f8a708f8743",
-                      "name": "OK",
-                      "originalRequest": {
-                        "method": "GET",
-                        "header": [],
-                        "url": {
-                          "raw": "{{baseUrl}}/v3/Contacts?$select=<string>&$filter=<string>&$orderby=<string>&$top=<integer>&$skip=<integer>",
-                          "host": [
-                            "{{baseUrl}}"
-                          ],
-                          "path": [
-                            "v3",
-                            "Contacts"
-                          ],
-                          "query": [
-                            {
-                              "key": "$select",
-                              "value": "<string>"
-                            },
-                            {
-                              "key": "$filter",
-                              "value": "<string>"
-                            },
-                            {
-                              "key": "$orderby",
-                              "value": "<string>"
-                            },
-                            {
-                              "key": "$top",
-                              "value": "<integer>"
-                            },
-                            {
-                              "key": "$skip",
-                              "value": "<integer>"
-                            }
-                          ]
-                        }
-                      },
-                      "status": "OK",
-                      "code": 200,
-                      "_postman_previewlanguage": "json",
-                      "header": [
-                        {
-                          "key": "Content-Type",
-                          "value": "application/json"
-                        }
-                      ],
-                      "cookie": [],
-                      "responseTime": null,
-                      "body": "{\n \"Items\": [\n  {\n   \"FullName\": \"Adams, Douglas Noel\",\n   \"PreferredName\": \"Doug\",\n   \"Salutation\": \"Mr\",\n   \"ClientOwner\": \"myowner@megadodopublications.com\",\n   \"ClientManager\": \"mymanager@megadodopublications.com\",\n   \"Address\": \"42 Galaxy Way, London\",\n   \"EmailAddress\": \"DNA@megadodopublications.net\",\n   \"PhoneNumber\": \"+61212345678\",\n   \"RoleOrTitle\": \"CEO\",\n   \"UserDefinedIdentifier\": \"42\",\n   \"LastModifiedDateTime\": \"2021-01-22T03:00:14.8634476Z\",\n   \"ContactKey\": \"2BtTSg4xM7Dt\"\n  },\n  {\n   \"FullName\": \"Asimov, Isaac\",\n   \"PreferredName\": \"Zac\",\n   \"Salutation\": \"Mr\",\n   \"ClientOwner\": \"myowner@bostonuniversity.edu\",\n   \"ClientManager\": \"mymanager@bostonuniversity.edu\",\n   \"Address\": \"1920 Foundation Boulevard, Petrovichi, Russia\",\n   \"EmailAddress\": \"asimo@bostonuniversity.edu\",\n   \"PhoneNumber\": \"069283779143\",\n   \"RoleOrTitle\": \"Writer\",\n   \"UserDefinedIdentifier\": \"5020\",\n   \"LastModifiedDateTime\": \"2021-02-03T03:00:14.8634476Z\",\n   \"ContactKey\": \"23WWskXjR4wX\"\n  }\n ],\n \"NextPageLink\": \"https://api.karbonhq.com/v3/Contacts?$skip=100\",\n \"Count\": 123\n}"
-                    }
-                  ]
-                }
-              ],
-              "id": "e368d213-812f-4209-a50e-baf6ef8ddfa6"
-            },
-            {
-              "name": "Get",
-              "item": [
-                {
-                  "name": "GetWebhookSubscription",
-                  "event": [
-                    {
-                      "listen": "test",
-                      "script": {
-                        "id": "615d5a97-d782-4b60-ad16-2f2982f26336",
-                        "exec": [
-                          "pm.test(\"Status code is 200\", function () {\r",
-                          "    pm.response.to.have.status(200);\r",
-                          "});\r",
-                          ""
-                        ],
-                        "type": "text/javascript"
-                      }
-                    }
-                  ],
-                  "id": "b4efcf17-a529-4a3a-b809-e95bb6cc90ad",
-                  "protocolProfileBehavior": {
-                    "disableBodyPruning": true
-                  },
-                  "request": {
-                    "method": "GET",
-                    "header": [
-                      {
-                        "key": "Authorization",
-                        "value": "{{publicapi.authorization}}",
-                        "type": "text"
-                      },
-                      {
-                        "key": "AccessKey",
-                        "value": "{{publicapi.accesskey}}",
-                        "type": "text"
-                      }
-                    ],
-                    "url": "{{public.api.baseurl}}/v3/WebhookSubscriptions"
-                  },
-                  "response": [
-                    {
-                      "id": "8c275328-a736-4367-94c0-18e87cd4cc11",
-                      "name": "OK",
-                      "originalRequest": {
-                        "method": "GET",
-                        "header": [],
-                        "url": {
-                          "raw": "{{baseUrl}}/v3/Contacts?$select=<string>&$filter=<string>&$orderby=<string>&$top=<integer>&$skip=<integer>",
-                          "host": [
-                            "{{baseUrl}}"
-                          ],
-                          "path": [
-                            "v3",
-                            "Contacts"
-                          ],
-                          "query": [
-                            {
-                              "key": "$select",
-                              "value": "<string>"
-                            },
-                            {
-                              "key": "$filter",
-                              "value": "<string>"
-                            },
-                            {
-                              "key": "$orderby",
-                              "value": "<string>"
-                            },
-                            {
-                              "key": "$top",
-                              "value": "<integer>"
-                            },
-                            {
-                              "key": "$skip",
-                              "value": "<integer>"
-                            }
-                          ]
-                        }
-                      },
-                      "status": "OK",
-                      "code": 200,
-                      "_postman_previewlanguage": "json",
-                      "header": [
-                        {
-                          "key": "Content-Type",
-                          "value": "application/json"
-                        }
-                      ],
-                      "cookie": [],
-                      "responseTime": null,
-                      "body": "{\n \"Items\": [\n  {\n   \"FullName\": \"Adams, Douglas Noel\",\n   \"PreferredName\": \"Doug\",\n   \"Salutation\": \"Mr\",\n   \"ClientOwner\": \"myowner@megadodopublications.com\",\n   \"ClientManager\": \"mymanager@megadodopublications.com\",\n   \"Address\": \"42 Galaxy Way, London\",\n   \"EmailAddress\": \"DNA@megadodopublications.net\",\n   \"PhoneNumber\": \"+61212345678\",\n   \"RoleOrTitle\": \"CEO\",\n   \"UserDefinedIdentifier\": \"42\",\n   \"LastModifiedDateTime\": \"2021-01-22T03:00:14.8634476Z\",\n   \"ContactKey\": \"2BtTSg4xM7Dt\"\n  },\n  {\n   \"FullName\": \"Asimov, Isaac\",\n   \"PreferredName\": \"Zac\",\n   \"Salutation\": \"Mr\",\n   \"ClientOwner\": \"myowner@bostonuniversity.edu\",\n   \"ClientManager\": \"mymanager@bostonuniversity.edu\",\n   \"Address\": \"1920 Foundation Boulevard, Petrovichi, Russia\",\n   \"EmailAddress\": \"asimo@bostonuniversity.edu\",\n   \"PhoneNumber\": \"069283779143\",\n   \"RoleOrTitle\": \"Writer\",\n   \"UserDefinedIdentifier\": \"5020\",\n   \"LastModifiedDateTime\": \"2021-02-03T03:00:14.8634476Z\",\n   \"ContactKey\": \"23WWskXjR4wX\"\n  }\n ],\n \"NextPageLink\": \"https://api.karbonhq.com/v3/Contacts?$skip=100\",\n \"Count\": 123\n}"
-                    },
-                    {
-                      "id": "afd47e71-3f6f-4e6a-9598-7ce77d7efb2d",
-                      "name": "GetWebhookSubscription",
-                      "originalRequest": {
-                        "method": "GET",
-                        "header": [
-                          {
-                            "key": "Authorization",
-                            "value": "{{publicapi.authorization}}",
-                            "type": "text"
-                          },
-                          {
-                            "key": "AccessKey",
-                            "value": "{{publicapi.accesskey}}",
-                            "type": "text"
-                          },
-                          {
-                            "key": "Content-Type",
-                            "value": "application/json",
-                            "type": "text"
-                          }
-                        ],
-                        "url": "{{public.api.baseurl}}/v3/WebhookSubscriptions"
-                      },
-                      "status": "Not Acceptable",
-                      "code": 406,
-                      "_postman_previewlanguage": "plain",
-                      "header": [
-                        {
-                          "key": "Cache-Control",
-                          "value": "no-cache"
-                        },
-                        {
-                          "key": "Pragma",
-                          "value": "no-cache"
-                        },
-                        {
-                          "key": "Expires",
-                          "value": "-1"
-                        },
-                        {
-                          "key": "Server",
-                          "value": "Microsoft-IIS/10.0"
-                        },
-                        {
-                          "key": "X-AspNet-Version",
-                          "value": "4.0.30319"
-                        },
-                        {
-                          "key": "X-Powered-By",
-                          "value": "ASP.NET"
-                        },
-                        {
-                          "key": "Date",
-                          "value": "Thu, 14 Apr 2022 02:13:09 GMT"
-                        },
-                        {
-                          "key": "Content-Length",
-                          "value": "0"
-                        }
-                      ],
-                      "cookie": [],
-                      "responseTime": null,
-                      "body": null
-                    }
-                  ]
-                },
-                {
-                  "name": "GetWebhookSubscription Copy",
-                  "event": [
-                    {
-                      "listen": "test",
-                      "script": {
-                        "id": "615d5a97-d782-4b60-ad16-2f2982f26336",
-                        "exec": [
-                          "pm.test(\"Status code is 200\", function () {\r",
-                          "    pm.response.to.have.status(200);\r",
-                          "});\r",
-                          ""
-                        ],
-                        "type": "text/javascript"
-                      }
-                    }
-                  ],
-                  "id": "26e1285e-c1be-42c3-9054-cd8d5d80185a",
-                  "protocolProfileBehavior": {
-                    "disableBodyPruning": true
-                  },
-                  "request": {
-                    "method": "GET",
-                    "header": [
-                      {
-                        "key": "Authorization",
-                        "value": "{{publicapi.authorization}}",
-                        "type": "text"
-                      },
-                      {
-                        "key": "AccessKey",
-                        "value": "{{publicapi.accesskey}}",
-                        "type": "text"
-                      }
-                    ],
-                    "url": "{{public.api.baseurl}}/v3/WebhookSubscriptions/Work"
-                  },
-                  "response": [
-                    {
-                      "id": "1d1f61f0-b419-4e76-b28f-2edb9e6860fe",
-                      "name": "OK",
-                      "originalRequest": {
-                        "method": "GET",
-                        "header": [],
-                        "url": {
-                          "raw": "{{baseUrl}}/v3/Contacts?$select=<string>&$filter=<string>&$orderby=<string>&$top=<integer>&$skip=<integer>",
-                          "host": [
-                            "{{baseUrl}}"
-                          ],
-                          "path": [
-                            "v3",
-                            "Contacts"
-                          ],
-                          "query": [
-                            {
-                              "key": "$select",
-                              "value": "<string>"
-                            },
-                            {
-                              "key": "$filter",
-                              "value": "<string>"
-                            },
-                            {
-                              "key": "$orderby",
-                              "value": "<string>"
-                            },
-                            {
-                              "key": "$top",
-                              "value": "<integer>"
-                            },
-                            {
-                              "key": "$skip",
-                              "value": "<integer>"
-                            }
-                          ]
-                        }
-                      },
-                      "status": "OK",
-                      "code": 200,
-                      "_postman_previewlanguage": "json",
-                      "header": [
-                        {
-                          "key": "Content-Type",
-                          "value": "application/json"
-                        }
-                      ],
-                      "cookie": [],
-                      "responseTime": null,
-                      "body": "{\n \"Items\": [\n  {\n   \"FullName\": \"Adams, Douglas Noel\",\n   \"PreferredName\": \"Doug\",\n   \"Salutation\": \"Mr\",\n   \"ClientOwner\": \"myowner@megadodopublications.com\",\n   \"ClientManager\": \"mymanager@megadodopublications.com\",\n   \"Address\": \"42 Galaxy Way, London\",\n   \"EmailAddress\": \"DNA@megadodopublications.net\",\n   \"PhoneNumber\": \"+61212345678\",\n   \"RoleOrTitle\": \"CEO\",\n   \"UserDefinedIdentifier\": \"42\",\n   \"LastModifiedDateTime\": \"2021-01-22T03:00:14.8634476Z\",\n   \"ContactKey\": \"2BtTSg4xM7Dt\"\n  },\n  {\n   \"FullName\": \"Asimov, Isaac\",\n   \"PreferredName\": \"Zac\",\n   \"Salutation\": \"Mr\",\n   \"ClientOwner\": \"myowner@bostonuniversity.edu\",\n   \"ClientManager\": \"mymanager@bostonuniversity.edu\",\n   \"Address\": \"1920 Foundation Boulevard, Petrovichi, Russia\",\n   \"EmailAddress\": \"asimo@bostonuniversity.edu\",\n   \"PhoneNumber\": \"069283779143\",\n   \"RoleOrTitle\": \"Writer\",\n   \"UserDefinedIdentifier\": \"5020\",\n   \"LastModifiedDateTime\": \"2021-02-03T03:00:14.8634476Z\",\n   \"ContactKey\": \"23WWskXjR4wX\"\n  }\n ],\n \"NextPageLink\": \"https://api.karbonhq.com/v3/Contacts?$skip=100\",\n \"Count\": 123\n}"
-                    },
-                    {
-                      "id": "0290f2ab-ead9-407f-8246-c5c0521ab6ed",
-                      "name": "GetWebhookSubscription",
-                      "originalRequest": {
-                        "method": "GET",
-                        "header": [
-                          {
-                            "key": "Authorization",
-                            "value": "{{publicapi.authorization}}",
-                            "type": "text"
-                          },
-                          {
-                            "key": "AccessKey",
-                            "value": "{{publicapi.accesskey}}",
-                            "type": "text"
-                          },
-                          {
-                            "key": "Content-Type",
-                            "value": "application/json",
-                            "type": "text"
-                          }
-                        ],
-                        "url": "{{public.api.baseurl}}/v3/WebhookSubscriptions"
-                      },
-                      "status": "Not Acceptable",
-                      "code": 406,
-                      "_postman_previewlanguage": "plain",
-                      "header": [
-                        {
-                          "key": "Cache-Control",
-                          "value": "no-cache"
-                        },
-                        {
-                          "key": "Pragma",
-                          "value": "no-cache"
-                        },
-                        {
-                          "key": "Expires",
-                          "value": "-1"
-                        },
-                        {
-                          "key": "Server",
-                          "value": "Microsoft-IIS/10.0"
-                        },
-                        {
-                          "key": "X-AspNet-Version",
-                          "value": "4.0.30319"
-                        },
-                        {
-                          "key": "X-Powered-By",
-                          "value": "ASP.NET"
-                        },
-                        {
-                          "key": "Date",
-                          "value": "Thu, 14 Apr 2022 02:13:09 GMT"
-                        },
-                        {
-                          "key": "Content-Length",
-                          "value": "0"
-                        }
-                      ],
-                      "cookie": [],
-                      "responseTime": null,
-                      "body": null
-                    }
-                  ]
-                }
-              ],
-              "id": "85028589-628e-46d6-a494-523984038f9a"
-            },
-            {
-              "name": "Delete",
-              "item": [
-                {
-                  "name": "Delete WebhookSubscription",
-                  "event": [
-                    {
-                      "listen": "test",
-                      "script": {
-                        "id": "3752b00c-1e69-4a90-bc16-ecc242b85fd6",
-                        "exec": [
-                          "pm.test(\"Status code is 204\", function () {\r",
-                          "    pm.response.to.have.status(204);\r",
-                          "});\r",
-                          ""
-                        ],
-                        "type": "text/javascript"
-                      }
-                    }
-                  ],
-                  "id": "a5015f87-04a6-42b6-b0fd-ab5d0913d6b8",
-                  "protocolProfileBehavior": {
-                    "disableBodyPruning": true
-                  },
-                  "request": {
-                    "method": "DELETE",
-                    "header": [
-                      {
-                        "key": "Authorization",
-                        "value": "{{publicapi.authorization}}",
-                        "type": "text"
-                      },
-                      {
-                        "key": "AccessKey",
-                        "value": "{{publicapi.accesskey}}",
-                        "type": "text"
-                      }
-                    ],
-                    "url": "{{public.api.baseurl}}/v3/WebhookSubscriptions"
-                  },
-                  "response": []
-                },
-                {
-                  "name": "GetWebhookSubscription 404 after Deletion",
-                  "event": [
-                    {
-                      "listen": "test",
-                      "script": {
-                        "id": "02ba2957-0a83-4012-b90c-e99df6d86ee0",
-                        "exec": [
-                          "pm.test(\"Status code is 404 if Deleted\", function () {\r",
-                          "    pm.response.to.have.status(404);\r",
-                          "});\r",
-                          ""
-                        ],
-                        "type": "text/javascript"
-                      }
-                    }
-                  ],
-                  "id": "e5c325bd-b4b2-4800-8b82-c8da66beab0f",
-                  "protocolProfileBehavior": {
-                    "disableBodyPruning": true
-                  },
-                  "request": {
-                    "method": "GET",
-                    "header": [
-                      {
-                        "key": "Authorization",
-                        "value": "{{publicapi.authorization}}",
-                        "type": "text"
-                      },
-                      {
-                        "key": "AccessKey",
-                        "value": "{{publicapi.accesskey}}",
-                        "type": "text"
-                      }
-                    ],
-                    "url": "{{public.api.baseurl}}/v3/WebhookSubscriptions"
-                  },
-                  "response": []
-                }
-              ],
-              "id": "cc66fcb9-a4fa-418e-97f0-013bbbbaaa16"
-            }
-          ],
-          "id": "af24e8c3-ead5-41be-a65d-406e08f69657"
-        },
-        {
           "name": "WorkItems",
           "item": [
             {
@@ -10591,6 +10070,675 @@
             }
           ],
           "id": "fc808846-c2a4-4f11-a747-69449f5795e8"
+        },
+        {
+          "name": "WebhookSubscriptions",
+          "item": [
+            {
+              "name": "Create",
+              "item": [
+                {
+                  "name": "Create all webhookSubscriptions",
+                  "event": [
+                    {
+                      "listen": "test",
+                      "script": {
+                        "id": "adab9176-e2aa-4af6-b1a4-7a8defeb3379",
+                        "exec": [
+                          "pm.test(\"Status code is 201\", function () {\r",
+                          "    pm.response.to.have.status(201);\r",
+                          "});\r",
+                          "\r",
+                          "pm.test(\"Target Url is set\", function () {\r",
+                          "    const responseJson = pm.response.json();\r",
+                          "    pm.expect(responseJson.TargetUrl).to.be.not.empty;\r",
+                          "});"
+                        ],
+                        "type": "text/javascript"
+                      }
+                    }
+                  ],
+                  "id": "1ed99b0d-6126-4303-b11d-ab5b50f03711",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Authorization",
+                        "value": "{{publicapi.authorization}}",
+                        "type": "text"
+                      },
+                      {
+                        "key": "AccessKey",
+                        "value": "{{publicapi.accesskey}}",
+                        "type": "text"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\r\n    \"TargetUrl\": \"https://hooks.zapier.com/hooks/catch/3550924/ovsbqn4/\"\r\n}",
+                      "options": {
+                        "raw": {
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": "{{public.api.baseurl}}/v3/WebhookSubscriptions"
+                  },
+                  "response": []
+                },
+                {
+                  "name": "Create Work WebhookSubscription",
+                  "event": [
+                    {
+                      "listen": "test",
+                      "script": {
+                        "id": "adab9176-e2aa-4af6-b1a4-7a8defeb3379",
+                        "exec": [
+                          "pm.test(\"Status code is 201\", function () {\r",
+                          "    pm.response.to.have.status(201);\r",
+                          "});\r",
+                          "\r",
+                          "pm.test(\"Target Url is set\", function () {\r",
+                          "    const responseJson = pm.response.json();\r",
+                          "    pm.expect(responseJson.TargetUrl).to.be.not.empty;\r",
+                          "});"
+                        ],
+                        "type": "text/javascript"
+                      }
+                    }
+                  ],
+                  "id": "9a196f3e-d258-4587-af3d-f1cc38148346",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Authorization",
+                        "value": "{{publicapi.authorization}}",
+                        "type": "text"
+                      },
+                      {
+                        "key": "AccessKey",
+                        "value": "{{publicapi.accesskey}}",
+                        "type": "text"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\r\n    \"TargetUrl\": \"https://hooks.zapier.com/hooks/catch/3550924/ovsbqn4/\",\r\n    \"WebhookType\": \"Work\"\r\n}",
+                      "options": {
+                        "raw": {
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": "{{public.api.baseurl}}/v3/WebhookSubscriptions"
+                  },
+                  "response": []
+                },
+                {
+                  "name": "Create Contact WebhookSubscription",
+                  "event": [
+                    {
+                      "listen": "test",
+                      "script": {
+                        "id": "adab9176-e2aa-4af6-b1a4-7a8defeb3379",
+                        "exec": [
+                          "pm.test(\"Status code is 201\", function () {\r",
+                          "    pm.response.to.have.status(201);\r",
+                          "});\r",
+                          "\r",
+                          "pm.test(\"Target Url is set\", function () {\r",
+                          "    const responseJson = pm.response.json();\r",
+                          "    pm.expect(responseJson.TargetUrl).to.be.not.empty;\r",
+                          "});"
+                        ],
+                        "type": "text/javascript"
+                      }
+                    }
+                  ],
+                  "id": "0ec96837-09b9-4086-a902-443f9e7dc15b",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Authorization",
+                        "value": "{{publicapi.authorization}}",
+                        "type": "text"
+                      },
+                      {
+                        "key": "AccessKey",
+                        "value": "{{publicapi.accesskey}}",
+                        "type": "text"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\r\n    \"TargetUrl\": \"https://hooks.zapier.com/hooks/catch/3550924/ovsbqn4/\",\r\n    \"WebhookType\": \"Contact\"\r\n}",
+                      "options": {
+                        "raw": {
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": "{{public.api.baseurl}}/v3/WebhookSubscriptions"
+                  },
+                  "response": []
+                },
+                {
+                  "name": "Create ContentItem WebhookSubscription",
+                  "event": [
+                    {
+                      "listen": "test",
+                      "script": {
+                        "id": "adab9176-e2aa-4af6-b1a4-7a8defeb3379",
+                        "exec": [
+                          "pm.test(\"Status code is 201\", function () {\r",
+                          "    pm.response.to.have.status(201);\r",
+                          "});\r",
+                          "\r",
+                          "pm.test(\"Target Url is set\", function () {\r",
+                          "    const responseJson = pm.response.json();\r",
+                          "    pm.expect(responseJson.TargetUrl).to.be.not.empty;\r",
+                          "});"
+                        ],
+                        "type": "text/javascript"
+                      }
+                    }
+                  ],
+                  "id": "84966d79-888c-4477-a57b-5d441ef6bc9b",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Authorization",
+                        "value": "{{publicapi.authorization}}",
+                        "type": "text"
+                      },
+                      {
+                        "key": "AccessKey",
+                        "value": "{{publicapi.accesskey}}",
+                        "type": "text"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\r\n    \"TargetUrl\": \"https://hooks.zapier.com/hooks/catch/3550924/ovsbqn4/\",\r\n    \"WebhookType\": \"ContentItem\"\r\n}",
+                      "options": {
+                        "raw": {
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": "{{public.api.baseurl}}/v3/WebhookSubscriptions"
+                  },
+                  "response": []
+                },
+                {
+                  "name": "Create WebhookSubscription NegativeTest",
+                  "event": [
+                    {
+                      "listen": "test",
+                      "script": {
+                        "id": "adab9176-e2aa-4af6-b1a4-7a8defeb3379",
+                        "exec": [
+                          "pm.test(\"Status code is 404\", function () {\r",
+                          "    pm.response.to.have.status(404);\r",
+                          "});"
+                        ],
+                        "type": "text/javascript"
+                      }
+                    }
+                  ],
+                  "id": "176bb8a2-7a9c-4616-9069-88c69d4d2a87",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Authorization",
+                        "value": "{{publicapi.authorization}}",
+                        "type": "text"
+                      },
+                      {
+                        "key": "AccessKey",
+                        "value": "{{publicapi.accesskey}}",
+                        "type": "text"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\r\n    \"TargetUrl\": \"https://hooks.zapier.com/hooks/catch/3550924/ovsbqn4/\",\r\n    \"WebhookType\": \"Test\"\r\n}",
+                      "options": {
+                        "raw": {
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": "{{public.api.baseurl}}/v3/WebhookSubscriptions"
+                  },
+                  "response": []
+                }
+              ],
+              "id": "52a8b61d-1e6a-4a9e-af05-d1e533f3fa38"
+            },
+            {
+              "name": "Get",
+              "item": [
+                {
+                  "name": "GetWebhookSubscription Default to Contact",
+                  "event": [
+                    {
+                      "listen": "test",
+                      "script": {
+                        "id": "615d5a97-d782-4b60-ad16-2f2982f26336",
+                        "exec": [
+                          "pm.test(\"Status code is 200\", function () {\r",
+                          "    pm.response.to.have.status(200);\r",
+                          "});\r",
+                          ""
+                        ],
+                        "type": "text/javascript"
+                      }
+                    }
+                  ],
+                  "id": "31056ba9-c090-46e3-943e-9a58c954a8f5",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Authorization",
+                        "value": "{{publicapi.authorization}}",
+                        "type": "text"
+                      },
+                      {
+                        "key": "AccessKey",
+                        "value": "{{publicapi.accesskey}}",
+                        "type": "text"
+                      }
+                    ],
+                    "url": "{{public.api.baseurl}}/v3/WebhookSubscriptions"
+                  },
+                  "response": []
+                },
+                {
+                  "name": "GetWebhookSubscription NegativeTest",
+                  "event": [
+                    {
+                      "listen": "test",
+                      "script": {
+                        "id": "615d5a97-d782-4b60-ad16-2f2982f26336",
+                        "exec": [
+                          "pm.test(\"Status code is 404\", function () {\r",
+                          "    pm.response.to.have.status(404);\r",
+                          "});\r",
+                          ""
+                        ],
+                        "type": "text/javascript"
+                      }
+                    }
+                  ],
+                  "id": "3fe36135-8c37-493e-9374-75fd8407552f",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Authorization",
+                        "value": "{{publicapi.authorization}}",
+                        "type": "text"
+                      },
+                      {
+                        "key": "AccessKey",
+                        "value": "{{publicapi.accesskey}}",
+                        "type": "text"
+                      }
+                    ],
+                    "url": "{{public.api.baseurl}}/v3/WebhookSubscriptions/Test"
+                  },
+                  "response": []
+                },
+                {
+                  "name": "GetWebhookSubscription Work",
+                  "event": [
+                    {
+                      "listen": "test",
+                      "script": {
+                        "id": "615d5a97-d782-4b60-ad16-2f2982f26336",
+                        "exec": [
+                          "pm.test(\"Status code is 200\", function () {\r",
+                          "    pm.response.to.have.status(200);\r",
+                          "});\r",
+                          ""
+                        ],
+                        "type": "text/javascript"
+                      }
+                    }
+                  ],
+                  "id": "7bd5986b-393d-41cb-8da2-764d04e25719",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Authorization",
+                        "value": "{{publicapi.authorization}}",
+                        "type": "text"
+                      },
+                      {
+                        "key": "AccessKey",
+                        "value": "{{publicapi.accesskey}}",
+                        "type": "text"
+                      }
+                    ],
+                    "url": "{{public.api.baseurl}}/v3/WebhookSubscriptions/Work"
+                  },
+                  "response": []
+                },
+                {
+                  "name": "GetWebhookSubscription ContentItem",
+                  "event": [
+                    {
+                      "listen": "test",
+                      "script": {
+                        "id": "615d5a97-d782-4b60-ad16-2f2982f26336",
+                        "exec": [
+                          "pm.test(\"Status code is 200\", function () {\r",
+                          "    pm.response.to.have.status(200);\r",
+                          "});\r",
+                          ""
+                        ],
+                        "type": "text/javascript"
+                      }
+                    }
+                  ],
+                  "id": "f88505dc-2926-4b6c-ace0-854d0f8dda0a",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Authorization",
+                        "value": "{{publicapi.authorization}}",
+                        "type": "text"
+                      },
+                      {
+                        "key": "AccessKey",
+                        "value": "{{publicapi.accesskey}}",
+                        "type": "text"
+                      }
+                    ],
+                    "url": "{{public.api.baseurl}}/v3/WebhookSubscriptions/ContentItem"
+                  },
+                  "response": []
+                }
+              ],
+              "id": "f37f7843-dca0-4fa0-9334-4caafed74d14"
+            },
+            {
+              "name": "Delete",
+              "item": [
+                {
+                  "name": "Delete All WebhookSubscriptions",
+                  "event": [
+                    {
+                      "listen": "test",
+                      "script": {
+                        "id": "3752b00c-1e69-4a90-bc16-ecc242b85fd6",
+                        "exec": [
+                          "pm.test(\"Status code is 204\", function () {\r",
+                          "    pm.response.to.have.status(204);\r",
+                          "});\r",
+                          ""
+                        ],
+                        "type": "text/javascript"
+                      }
+                    }
+                  ],
+                  "id": "b99b3f44-db72-4aa6-a696-e6272ba3783f",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "method": "DELETE",
+                    "header": [
+                      {
+                        "key": "Authorization",
+                        "value": "{{publicapi.authorization}}",
+                        "type": "text"
+                      },
+                      {
+                        "key": "AccessKey",
+                        "value": "{{publicapi.accesskey}}",
+                        "type": "text"
+                      }
+                    ],
+                    "url": "{{public.api.baseurl}}/v3/WebhookSubscriptions"
+                  },
+                  "response": []
+                },
+                {
+                  "name": "Delete Work WebhookSubscription",
+                  "event": [
+                    {
+                      "listen": "test",
+                      "script": {
+                        "id": "3752b00c-1e69-4a90-bc16-ecc242b85fd6",
+                        "exec": [
+                          "pm.test(\"Status code is 204\", function () {\r",
+                          "    pm.response.to.have.status(204);\r",
+                          "});\r",
+                          ""
+                        ],
+                        "type": "text/javascript"
+                      }
+                    }
+                  ],
+                  "id": "c1824838-7a52-4d71-98ea-0c91bcc744b6",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "method": "DELETE",
+                    "header": [
+                      {
+                        "key": "Authorization",
+                        "value": "{{publicapi.authorization}}",
+                        "type": "text"
+                      },
+                      {
+                        "key": "AccessKey",
+                        "value": "{{publicapi.accesskey}}",
+                        "type": "text"
+                      }
+                    ],
+                    "url": "{{public.api.baseurl}}/v3/WebhookSubscriptions/Work"
+                  },
+                  "response": []
+                },
+                {
+                  "name": "Delete Contact WebhookSubscription",
+                  "event": [
+                    {
+                      "listen": "test",
+                      "script": {
+                        "id": "3752b00c-1e69-4a90-bc16-ecc242b85fd6",
+                        "exec": [
+                          "pm.test(\"Status code is 204\", function () {\r",
+                          "    pm.response.to.have.status(204);\r",
+                          "});\r",
+                          ""
+                        ],
+                        "type": "text/javascript"
+                      }
+                    }
+                  ],
+                  "id": "d4b08de3-b014-4d51-b5c9-57a1cd90ab5f",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "method": "DELETE",
+                    "header": [
+                      {
+                        "key": "Authorization",
+                        "value": "{{publicapi.authorization}}",
+                        "type": "text"
+                      },
+                      {
+                        "key": "AccessKey",
+                        "value": "{{publicapi.accesskey}}",
+                        "type": "text"
+                      }
+                    ],
+                    "url": "{{public.api.baseurl}}/v3/WebhookSubscriptions/Contact"
+                  },
+                  "response": []
+                },
+                {
+                  "name": "Delete WebhookSubscription NegativeTest",
+                  "event": [
+                    {
+                      "listen": "test",
+                      "script": {
+                        "id": "3752b00c-1e69-4a90-bc16-ecc242b85fd6",
+                        "exec": [
+                          "pm.test(\"Status code is 404\", function () {\r",
+                          "    pm.response.to.have.status(404);\r",
+                          "});\r",
+                          ""
+                        ],
+                        "type": "text/javascript"
+                      }
+                    }
+                  ],
+                  "id": "35a6915a-094c-4971-8676-5a448e32d12b",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "method": "DELETE",
+                    "header": [
+                      {
+                        "key": "Authorization",
+                        "value": "{{publicapi.authorization}}",
+                        "type": "text"
+                      },
+                      {
+                        "key": "AccessKey",
+                        "value": "{{publicapi.accesskey}}",
+                        "type": "text"
+                      }
+                    ],
+                    "url": "{{public.api.baseurl}}/v3/WebhookSubscriptions/Test"
+                  },
+                  "response": []
+                },
+                {
+                  "name": "Delete ContentItem WebhookSubscription",
+                  "event": [
+                    {
+                      "listen": "test",
+                      "script": {
+                        "id": "3752b00c-1e69-4a90-bc16-ecc242b85fd6",
+                        "exec": [
+                          "pm.test(\"Status code is 204\", function () {\r",
+                          "    pm.response.to.have.status(204);\r",
+                          "});\r",
+                          ""
+                        ],
+                        "type": "text/javascript"
+                      }
+                    }
+                  ],
+                  "id": "4bfc3470-e787-452a-9992-0c87c2baea17",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "method": "DELETE",
+                    "header": [
+                      {
+                        "key": "Authorization",
+                        "value": "{{publicapi.authorization}}",
+                        "type": "text"
+                      },
+                      {
+                        "key": "AccessKey",
+                        "value": "{{publicapi.accesskey}}",
+                        "type": "text"
+                      }
+                    ],
+                    "url": "{{public.api.baseurl}}/v3/WebhookSubscriptions/ContentItem"
+                  },
+                  "response": []
+                },
+                {
+                  "name": "GetWebhookSubscription 404 after Deletion",
+                  "event": [
+                    {
+                      "listen": "test",
+                      "script": {
+                        "id": "02ba2957-0a83-4012-b90c-e99df6d86ee0",
+                        "exec": [
+                          "pm.test(\"Status code is 404 if Deleted\", function () {\r",
+                          "    pm.response.to.have.status(404);\r",
+                          "});\r",
+                          ""
+                        ],
+                        "type": "text/javascript"
+                      }
+                    }
+                  ],
+                  "id": "dc504486-12c8-4377-8882-36942bca357f",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Authorization",
+                        "value": "{{publicapi.authorization}}",
+                        "type": "text"
+                      },
+                      {
+                        "key": "AccessKey",
+                        "value": "{{publicapi.accesskey}}",
+                        "type": "text"
+                      }
+                    ],
+                    "url": "{{public.api.baseurl}}/v3/WebhookSubscriptions"
+                  },
+                  "response": []
+                }
+              ],
+              "id": "1e870c9d-6288-463f-af6b-63b432918e01"
+            }
+          ],
+          "id": "b005c019-94be-43c6-990e-c3d1ad6ce4b3"
         }
       ],
       "id": "ae7faa85-66ea-4f17-901c-7798cc3be613"
