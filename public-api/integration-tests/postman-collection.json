@@ -10480,7 +10480,7 @@
                           "    pm.response.to.have.status(200);\r",
                           "});\r",
                           "\r",
-                          "pm.test(\"Comments should be null\", function() {\r",
+                          "pm.test(\"Comments should be undefined\", function() {\r",
                           "    pm.expect(pm.response.Comments).eq(undefined);\r",
                           "})"
                         ],
