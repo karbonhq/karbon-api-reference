@@ -10421,8 +10421,8 @@
                           "    pm.response.to.have.status(200);\r",
                           "});\r",
                           "\r",
-                          "pm.test(\"#9117 User Definied Client Identifier should be returned\", function() {\r",
-                          "    pm.expect(pm.response.json().ClientUserDefinedIdentifier).to.eq(\"HD567\");\r",
+                          "pm.test(\"Comments should not be null\", function() {\r",
+                          "    pm.expect(pm.response.Comments).not.eq(null);\r",
                           "})"
                         ],
                         "type": "text/javascript"
