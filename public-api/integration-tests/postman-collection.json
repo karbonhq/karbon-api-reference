@@ -10481,7 +10481,7 @@
                           "});\r",
                           "\r",
                           "pm.test(\"Comments should be null\", function() {\r",
-                          "    pm.expect(pm.response.Comments).eq(null);\r",
+                          "    pm.expect(pm.response.Comments).eq(undefined);\r",
                           "})"
                         ],
                         "type": "text/javascript"
