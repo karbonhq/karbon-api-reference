@@ -9516,6 +9516,16 @@
 												],
 												"type": "text/javascript"
 											}
+										},
+										{
+											"listen": "prerequest",
+											"script": {
+												"id": "17c9a3e9-2a4c-4dda-9f92-da2963747158",
+												"exec": [
+													"pm.environment.set(\"public.api.clienttask_test_attachment_content\",pm.variables.replaceIn('{{$guid}}'))"
+												],
+												"type": "text/javascript"
+											}
 										}
 									],
 									"id": "279f20fb-4ca3-48e9-b1b8-7a4022cc46a6",
@@ -9534,11 +9544,21 @@
 												"key": "Authorization",
 												"value": "{{publicapi.authorization}}",
 												"type": "text"
+											},
+											{
+												"key": "content-type",
+												"value": "multipart/form-data; boundary=--------------------------separator",
+												"type": "text"
 											}
 										],
 										"body": {
 											"mode": "raw",
-											"raw": "------WebKitFormBoundaryHiWYzIj7oCirPjoP\r\nContent-Disposition: form-data; name=\"file\"; filename=\"test.txt\"\r\nContent-Type: text/plain\r\n\r\ntest\r\n------WebKitFormBoundaryHiWYzIj7oCirPjoP--"
+											"raw": "----------------------------separator\r\nContent-Disposition: form-data; name=\"file\"; filename=\"file.txt\"\r\nContent-Type: text/plain\r\n\r\n{{public.api.clienttask_test_attachment_content}}\r\n----------------------------separator--",
+											"options": {
+												"raw": {
+													"language": "text"
+												}
+											}
 										},
 										"url": "{{public.api.baseurl}}/v3/ClientTaskCommentAttachments/{{public.api.clienttask_test_commentkey}}"
 									},
@@ -9554,6 +9574,8 @@
 												"exec": [
 													"pm.test(\"Status code is 200\", function () {\r",
 													"    pm.response.to.have.status(200);\r",
+													"    var expectedValue=pm.environment.get(\"public.api.clienttask_test_attachment_content\");\r",
+													"    pm.expect(pm.response.text()).to.eq(expectedValue);\r",
 													"});"
 												],
 												"type": "text/javascript"
