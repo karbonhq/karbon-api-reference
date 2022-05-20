@@ -9537,15 +9537,8 @@
 											}
 										],
 										"body": {
-											"mode": "formdata",
-											"formdata": [
-												{
-													"key": "file",
-													"type": "file",
-													"contentType": "text/plain",
-													"src": "nhvDS5gc3/test.txt"
-												}
-											]
+											"mode": "raw",
+											"raw": "------WebKitFormBoundaryHiWYzIj7oCirPjoP\r\nContent-Disposition: form-data; name=\"file\"; filename=\"test.txt\"\r\nContent-Type: text/plain\r\n\r\ntest\r\n------WebKitFormBoundaryHiWYzIj7oCirPjoP--"
 										},
 										"url": "{{public.api.baseurl}}/v3/ClientTaskCommentAttachments/{{public.api.clienttask_test_commentkey}}"
 									},
