@@ -4016,7 +4016,7 @@
 										],
 										"body": {
 											"mode": "raw",
-											"raw": "{\r\n    \"FullName\": \"Full Name Test update\",\r\n    \"RestrictionLevel\": \"Public\",\r\n    \"ContactType\": \"Prospect\",\r\n    \"UserDefinedIdentifier\": \"{{public.api.organization_permakey}}\",\r\n    \"EntityDescription\": {\r\n        \"Text\": \"test description update\"\r\n    }\r\n}",
+											"raw": "{\r\n    \"FullName\": \"Full Name Test update\",\r\n    \"RestrictionLevel\": \"Public\",\r\n    \"ContactType\": null,\r\n    \"UserDefinedIdentifier\": \"{{public.api.organization_permakey}}\",\r\n    \"EntityDescription\": {\r\n        \"Text\": \"test description update1\"\r\n    }\r\n}",
 											"options": {
 												"raw": {
 													"language": "json"
