@@ -2244,7 +2244,7 @@
 									"response": []
 								},
 								{
-									"name": "Search contacts by FullName",
+									"name": "Partial Search contacts by FullName",
 									"event": [
 										{
 											"listen": "test",
