@@ -2256,8 +2256,15 @@
 													"});\r",
 													"\r",
 													"pm.test(\"Test some results were found\", function () {\r",
-													"    var jsonData = pm.response.json();\r",
-													"    pm.expect(jsonData.value.length).to.be.greaterThan(0);\r",
+													"    const expectedFullName = pm.variables.get(\"public.api.partial_search_test_contact_fullname\");\r",
+													"    const jsonData = pm.response.json();\r",
+													"    const contacts = jsonData.value;\r",
+													"    \r",
+													"    pm.expect(contacts.length).to.be.greaterThan(0);\r",
+													"\r",
+													"    contacts.forEach(c => {\r",
+													"        pm.expect(c.FullName.includes(expectedFullName)).to.be.true;\r",
+													"    });\r",
 													"});"
 												],
 												"type": "text/javascript"
@@ -2283,7 +2290,7 @@
 											}
 										],
 										"url": {
-											"raw": "{{public.api.baseurl}}/v3/Contacts?$filter=FullName eq '{{public.api.search_test_contact1_fullname}}'",
+											"raw": "{{public.api.baseurl}}/v3/Contacts?$filter=(contains(FullName, '{{public.api.partial_search_test_contact_fullname}}'))",
 											"host": [
 												"{{public.api.baseurl}}"
 											],
@@ -2294,7 +2301,7 @@
 											"query": [
 												{
 													"key": "$filter",
-													"value": "FullName eq '{{public.api.search_test_contact1_fullname}}'"
+													"value": "(contains(FullName, '{{public.api.partial_search_test_contact_fullname}}'))"
 												}
 											]
 										}
