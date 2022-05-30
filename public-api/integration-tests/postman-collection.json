@@ -9969,195 +9969,6 @@
 					"id": "c137a77c-15f1-4e30-995c-48902fd53460"
 				},
 				{
-					"name": "NoteComments",
-					"item": [
-						{
-							"name": "Get",
-							"item": [
-								{
-									"name": "Notes exist with Comments",
-									"event": [
-										{
-											"listen": "test",
-											"script": {
-												"id": "79eda62c-9da2-42f2-88ab-2d4b9bccf167",
-												"exec": [
-													"pm.test(\"Status code is 200\", function () {\r",
-													"    pm.response.to.have.status(200);\r",
-													"});\r",
-													"\r",
-													"pm.test(\"Comments should not be null\", function() {\r",
-													"    pm.expect(pm.response.Comments).not.eq(null);\r",
-													"})"
-												],
-												"type": "text/javascript"
-											}
-										}
-									],
-									"id": "5bf97e39-4424-4f3b-a238-544229a807c5",
-									"protocolProfileBehavior": {
-										"disableBodyPruning": true,
-										"disabledSystemHeaders": {
-											"accept": true
-										}
-									},
-									"request": {
-										"auth": {
-											"type": "noauth"
-										},
-										"method": "GET",
-										"header": [
-											{
-												"key": "Authorization",
-												"value": "{{publicapi.authorization}}",
-												"type": "text"
-											},
-											{
-												"key": "AccessKey",
-												"value": "{{publicapi.accesskey}}",
-												"type": "text"
-											},
-											{
-												"key": "Accept",
-												"value": "application/json",
-												"type": "text"
-											},
-											{
-												"key": "Content-Type",
-												"value": "application/json",
-												"type": "text",
-												"disabled": true
-											}
-										],
-										"url": "{{public.api.baseurl}}/v3/NoteComments/{{public.api.note_permakey_comments_exist}}"
-									},
-									"response": []
-								},
-								{
-									"name": "Notes exist but no Comments",
-									"event": [
-										{
-											"listen": "test",
-											"script": {
-												"id": "79eda62c-9da2-42f2-88ab-2d4b9bccf167",
-												"exec": [
-													"pm.test(\"Status code is 200\", function () {\r",
-													"    pm.response.to.have.status(200);\r",
-													"});\r",
-													"\r",
-													"pm.test(\"Comments should be undefined\", function() {\r",
-													"    pm.expect(pm.response.Comments).eq(undefined);\r",
-													"})"
-												],
-												"type": "text/javascript"
-											}
-										}
-									],
-									"id": "3f17ed10-36b0-4e10-b837-092ea15e09f1",
-									"protocolProfileBehavior": {
-										"disableBodyPruning": true,
-										"disabledSystemHeaders": {
-											"accept": true
-										}
-									},
-									"request": {
-										"auth": {
-											"type": "noauth"
-										},
-										"method": "GET",
-										"header": [
-											{
-												"key": "Authorization",
-												"value": "{{publicapi.authorization}}",
-												"type": "text"
-											},
-											{
-												"key": "AccessKey",
-												"value": "{{publicapi.accesskey}}",
-												"type": "text"
-											},
-											{
-												"key": "Accept",
-												"value": "application/json",
-												"type": "text"
-											},
-											{
-												"key": "Content-Type",
-												"value": "application/json",
-												"type": "text",
-												"disabled": true
-											}
-										],
-										"url": "{{public.api.baseurl}}/v3/NoteComments/{{public.api.note_permakey_no_comments_exist}}"
-									},
-									"response": []
-								},
-								{
-									"name": "No Notes exist",
-									"event": [
-										{
-											"listen": "test",
-											"script": {
-												"id": "79eda62c-9da2-42f2-88ab-2d4b9bccf167",
-												"exec": [
-													"pm.test(\"Status code is 404\", function () {\r",
-													"    pm.response.to.have.status(404);\r",
-													"});\r",
-													"\r",
-													"pm.test(\"Comments should be null\", function() {\r",
-													"    pm.expect(pm.response.Comments).eq(null);\r",
-													"})"
-												],
-												"type": "text/javascript"
-											}
-										}
-									],
-									"id": "d453acb1-251b-46e9-a330-db2ea2780d71",
-									"protocolProfileBehavior": {
-										"disableBodyPruning": true,
-										"disabledSystemHeaders": {
-											"accept": true
-										}
-									},
-									"request": {
-										"auth": {
-											"type": "noauth"
-										},
-										"method": "GET",
-										"header": [
-											{
-												"key": "Authorization",
-												"value": "{{publicapi.authorization}}",
-												"type": "text"
-											},
-											{
-												"key": "AccessKey",
-												"value": "{{publicapi.accesskey}}",
-												"type": "text"
-											},
-											{
-												"key": "Accept",
-												"value": "application/json",
-												"type": "text"
-											},
-											{
-												"key": "Content-Type",
-												"value": "application/json",
-												"type": "text",
-												"disabled": true
-											}
-										],
-										"url": "{{public.api.baseurl}}/v3/NoteComments/{{public.api.note_permakey_no_notes_exist}}"
-									},
-									"response": []
-								}
-							],
-							"id": "f17f8384-18af-4791-ac40-956b83cb5940"
-						}
-					],
-					"id": "fc808846-c2a4-4f11-a747-69449f5795e8"
-				},
-				{
 					"name": "WebhookSubscriptions",
 					"item": [
 						{
@@ -10425,219 +10236,8 @@
 							"id": "f37f7843-dca0-4fa0-9334-4caafed74d14"
 						},
 						{
-							"name": "Delete all should return 404",
-							"item": [
-								{
-									"name": "Delete All WebhookSubscriptions",
-									"event": [
-										{
-											"listen": "test",
-											"script": {
-												"id": "3752b00c-1e69-4a90-bc16-ecc242b85fd6",
-												"exec": [
-													"pm.test(\"Status code is 204\", function () {\r",
-													"    pm.response.to.have.status(204);\r",
-													"});\r",
-													""
-												],
-												"type": "text/javascript"
-											}
-										}
-									],
-									"id": "5e2b79f5-06b4-48b0-81da-e1c98c2a198d",
-									"protocolProfileBehavior": {
-										"disableBodyPruning": true
-									},
-									"request": {
-										"method": "DELETE",
-										"header": [
-											{
-												"key": "Authorization",
-												"value": "{{publicapi.authorization}}",
-												"type": "text"
-											},
-											{
-												"key": "AccessKey",
-												"value": "{{publicapi.accesskey}}",
-												"type": "text"
-											}
-										],
-										"url": "{{public.api.baseurl}}/v3/WebhookSubscriptions"
-									},
-									"response": []
-								},
-								{
-									"name": "Get Work 404 after Deletion",
-									"event": [
-										{
-											"listen": "test",
-											"script": {
-												"id": "615d5a97-d782-4b60-ad16-2f2982f26336",
-												"exec": [
-													"pm.test(\"Status code is 404\", function () {\r",
-													"    pm.response.to.have.status(404);\r",
-													"});\r",
-													""
-												],
-												"type": "text/javascript"
-											}
-										}
-									],
-									"id": "ab5b8aa9-9679-419f-b5f8-35f55b8f2066",
-									"protocolProfileBehavior": {
-										"disableBodyPruning": true
-									},
-									"request": {
-										"method": "GET",
-										"header": [
-											{
-												"key": "Authorization",
-												"value": "{{publicapi.authorization}}",
-												"type": "text"
-											},
-											{
-												"key": "AccessKey",
-												"value": "{{publicapi.accesskey}}",
-												"type": "text"
-											}
-										],
-										"url": "{{public.api.baseurl}}/v3/WebhookSubscriptions/{{WorkWebhookType}}"
-									},
-									"response": []
-								},
-								{
-									"name": "Get Note 404 after Deletion",
-									"event": [
-										{
-											"listen": "test",
-											"script": {
-												"id": "615d5a97-d782-4b60-ad16-2f2982f26336",
-												"exec": [
-													"pm.test(\"Status code is 404\", function () {\r",
-													"    pm.response.to.have.status(404);\r",
-													"});\r",
-													""
-												],
-												"type": "text/javascript"
-											}
-										}
-									],
-									"id": "0c8866bb-441c-4190-9cc0-f7d0f44bf359",
-									"protocolProfileBehavior": {
-										"disableBodyPruning": true
-									},
-									"request": {
-										"method": "GET",
-										"header": [
-											{
-												"key": "Authorization",
-												"value": "{{publicapi.authorization}}",
-												"type": "text"
-											},
-											{
-												"key": "AccessKey",
-												"value": "{{publicapi.accesskey}}",
-												"type": "text"
-											}
-										],
-										"url": "{{public.api.baseurl}}/v3/WebhookSubscriptions/{{NoteWebhookType}}"
-									},
-									"response": []
-								},
-								{
-									"name": "Get Contact 404 after Deletion",
-									"event": [
-										{
-											"listen": "test",
-											"script": {
-												"id": "02ba2957-0a83-4012-b90c-e99df6d86ee0",
-												"exec": [
-													"pm.test(\"Status code is 404 if Deleted\", function () {\r",
-													"    pm.response.to.have.status(404);\r",
-													"});\r",
-													""
-												],
-												"type": "text/javascript"
-											}
-										}
-									],
-									"id": "72da8b13-1b6a-4f9b-b218-201e23355b25",
-									"protocolProfileBehavior": {
-										"disableBodyPruning": true
-									},
-									"request": {
-										"method": "GET",
-										"header": [
-											{
-												"key": "Authorization",
-												"value": "{{publicapi.authorization}}",
-												"type": "text"
-											},
-											{
-												"key": "AccessKey",
-												"value": "{{publicapi.accesskey}}",
-												"type": "text"
-											}
-										],
-										"url": "{{public.api.baseurl}}/v3/WebhookSubscriptions"
-									},
-									"response": []
-								}
-							],
-							"id": "b3c8f76e-aba0-4e99-b775-a1db5c5c9e2b"
-						},
-						{
 							"name": "Contact",
 							"item": [
-								{
-									"name": "Get Contact",
-									"event": [
-										{
-											"listen": "test",
-											"script": {
-												"id": "615d5a97-d782-4b60-ad16-2f2982f26336",
-												"exec": [
-													"pm.test(\"Status code is 200\", function () {\r",
-													"    pm.response.to.have.status(200);\r",
-													"});\r",
-													"\r",
-													"pm.test(\"Target Url is set\", function () {\r",
-													"    const responseJson = pm.response.json();\r",
-													"    pm.expect(responseJson.TargetUrl).to.be.not.empty;\r",
-													"    pm.expect(responseJson.TargetUrl).to.eql(pm.variables.get(\"hardCodedUrl\"));\r",
-													"});\r",
-													"\r",
-													"pm.test(\"WebhookType is set\", function () {\r",
-													"    const responseJson = pm.response.json();\r",
-													"    pm.expect(responseJson).have.property('WebhookType',pm.variables.get(\"ContactWebhookType\"));\r",
-													"});"
-												],
-												"type": "text/javascript"
-											}
-										}
-									],
-									"id": "8c3d1521-4d6b-4ea1-873f-fab7a6d0e930",
-									"protocolProfileBehavior": {
-										"disableBodyPruning": true
-									},
-									"request": {
-										"method": "GET",
-										"header": [
-											{
-												"key": "Authorization",
-												"value": "{{publicapi.authorization}}",
-												"type": "text"
-											},
-											{
-												"key": "AccessKey",
-												"value": "{{publicapi.accesskey}}",
-												"type": "text"
-											}
-										],
-										"url": "{{public.api.baseurl}}/v3/WebhookSubscriptions/{{ContactWebhookType}}"
-									},
-									"response": []
-								},
 								{
 									"name": "Create Contact - Same target url",
 									"event": [
@@ -10693,6 +10293,55 @@
 											}
 										},
 										"url": "{{public.api.baseurl}}/v3/WebhookSubscriptions"
+									},
+									"response": []
+								},
+								{
+									"name": "Get Contact",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "615d5a97-d782-4b60-ad16-2f2982f26336",
+												"exec": [
+													"pm.test(\"Status code is 200\", function () {\r",
+													"    pm.response.to.have.status(200);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Target Url is set\", function () {\r",
+													"    const responseJson = pm.response.json();\r",
+													"    pm.expect(responseJson.TargetUrl).to.be.not.empty;\r",
+													"    pm.expect(responseJson.TargetUrl).to.eql(pm.variables.get(\"hardCodedUrl\"));\r",
+													"});\r",
+													"\r",
+													"pm.test(\"WebhookType is set\", function () {\r",
+													"    const responseJson = pm.response.json();\r",
+													"    pm.expect(responseJson).have.property('WebhookType',pm.variables.get(\"ContactWebhookType\"));\r",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"id": "8c3d1521-4d6b-4ea1-873f-fab7a6d0e930",
+									"protocolProfileBehavior": {
+										"disableBodyPruning": true
+									},
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Authorization",
+												"value": "{{publicapi.authorization}}",
+												"type": "text"
+											},
+											{
+												"key": "AccessKey",
+												"value": "{{publicapi.accesskey}}",
+												"type": "text"
+											}
+										],
+										"url": "{{public.api.baseurl}}/v3/WebhookSubscriptions/{{ContactWebhookType}}"
 									},
 									"response": []
 								},
@@ -11209,45 +10858,6 @@
 									"response": []
 								},
 								{
-									"name": "Get Work 404 after Deletion",
-									"event": [
-										{
-											"listen": "test",
-											"script": {
-												"id": "615d5a97-d782-4b60-ad16-2f2982f26336",
-												"exec": [
-													"pm.test(\"Status code is 404\", function () {\r",
-													"    pm.response.to.have.status(404);\r",
-													"});\r",
-													""
-												],
-												"type": "text/javascript"
-											}
-										}
-									],
-									"id": "aca99246-ff89-4b57-bd99-b393f6032059",
-									"protocolProfileBehavior": {
-										"disableBodyPruning": true
-									},
-									"request": {
-										"method": "GET",
-										"header": [
-											{
-												"key": "Authorization",
-												"value": "{{publicapi.authorization}}",
-												"type": "text"
-											},
-											{
-												"key": "AccessKey",
-												"value": "{{publicapi.accesskey}}",
-												"type": "text"
-											}
-										],
-										"url": "{{public.api.baseurl}}/v3/WebhookSubscriptions/{{WorkWebhookType}}"
-									},
-									"response": []
-								},
-								{
 									"name": "Create Work",
 									"event": [
 										{
@@ -11387,6 +10997,45 @@
 									},
 									"request": {
 										"method": "DELETE",
+										"header": [
+											{
+												"key": "Authorization",
+												"value": "{{publicapi.authorization}}",
+												"type": "text"
+											},
+											{
+												"key": "AccessKey",
+												"value": "{{publicapi.accesskey}}",
+												"type": "text"
+											}
+										],
+										"url": "{{public.api.baseurl}}/v3/WebhookSubscriptions/{{WorkWebhookType}}"
+									},
+									"response": []
+								},
+								{
+									"name": "Get Work 404 after Deletion",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "615d5a97-d782-4b60-ad16-2f2982f26336",
+												"exec": [
+													"pm.test(\"Status code is 404\", function () {\r",
+													"    pm.response.to.have.status(404);\r",
+													"});\r",
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"id": "aca99246-ff89-4b57-bd99-b393f6032059",
+									"protocolProfileBehavior": {
+										"disableBodyPruning": true
+									},
+									"request": {
+										"method": "GET",
 										"header": [
 											{
 												"key": "Authorization",
@@ -11646,45 +11295,6 @@
 									"response": []
 								},
 								{
-									"name": "Get Note 404 after Deletion",
-									"event": [
-										{
-											"listen": "test",
-											"script": {
-												"id": "615d5a97-d782-4b60-ad16-2f2982f26336",
-												"exec": [
-													"pm.test(\"Status code is 404\", function () {\r",
-													"    pm.response.to.have.status(404);\r",
-													"});\r",
-													""
-												],
-												"type": "text/javascript"
-											}
-										}
-									],
-									"id": "58d643b4-fb0d-42a0-a9c6-30f6e8236e29",
-									"protocolProfileBehavior": {
-										"disableBodyPruning": true
-									},
-									"request": {
-										"method": "GET",
-										"header": [
-											{
-												"key": "Authorization",
-												"value": "{{publicapi.authorization}}",
-												"type": "text"
-											},
-											{
-												"key": "AccessKey",
-												"value": "{{publicapi.accesskey}}",
-												"type": "text"
-											}
-										],
-										"url": "{{public.api.baseurl}}/v3/WebhookSubscriptions/{{NoteWebhookType}}"
-									},
-									"response": []
-								},
-								{
 									"name": "Create Note",
 									"event": [
 										{
@@ -11829,9 +11439,210 @@
 										"url": "{{public.api.baseurl}}/v3/WebhookSubscriptions/{{NoteWebhookType}}"
 									},
 									"response": []
+								},
+								{
+									"name": "Get Note 404 after Deletion",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "615d5a97-d782-4b60-ad16-2f2982f26336",
+												"exec": [
+													"pm.test(\"Status code is 404\", function () {\r",
+													"    pm.response.to.have.status(404);\r",
+													"});\r",
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"id": "58d643b4-fb0d-42a0-a9c6-30f6e8236e29",
+									"protocolProfileBehavior": {
+										"disableBodyPruning": true
+									},
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Authorization",
+												"value": "{{publicapi.authorization}}",
+												"type": "text"
+											},
+											{
+												"key": "AccessKey",
+												"value": "{{publicapi.accesskey}}",
+												"type": "text"
+											}
+										],
+										"url": "{{public.api.baseurl}}/v3/WebhookSubscriptions/{{NoteWebhookType}}"
+									},
+									"response": []
 								}
 							],
 							"id": "068bdf1d-2e18-4e4d-a0f5-6e74bfdb4cc3"
+						},
+						{
+							"name": "Delete all should return 404",
+							"item": [
+								{
+									"name": "Delete All WebhookSubscriptions",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "3752b00c-1e69-4a90-bc16-ecc242b85fd6",
+												"exec": [
+													"pm.test(\"Status code is 204\", function () {\r",
+													"    pm.response.to.have.status(204);\r",
+													"});\r",
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"id": "5e2b79f5-06b4-48b0-81da-e1c98c2a198d",
+									"protocolProfileBehavior": {
+										"disableBodyPruning": true
+									},
+									"request": {
+										"method": "DELETE",
+										"header": [
+											{
+												"key": "Authorization",
+												"value": "{{publicapi.authorization}}",
+												"type": "text"
+											},
+											{
+												"key": "AccessKey",
+												"value": "{{publicapi.accesskey}}",
+												"type": "text"
+											}
+										],
+										"url": "{{public.api.baseurl}}/v3/WebhookSubscriptions"
+									},
+									"response": []
+								},
+								{
+									"name": "Get Work 404 after Deletion",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "615d5a97-d782-4b60-ad16-2f2982f26336",
+												"exec": [
+													"pm.test(\"Status code is 404\", function () {\r",
+													"    pm.response.to.have.status(404);\r",
+													"});\r",
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"id": "ab5b8aa9-9679-419f-b5f8-35f55b8f2066",
+									"protocolProfileBehavior": {
+										"disableBodyPruning": true
+									},
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Authorization",
+												"value": "{{publicapi.authorization}}",
+												"type": "text"
+											},
+											{
+												"key": "AccessKey",
+												"value": "{{publicapi.accesskey}}",
+												"type": "text"
+											}
+										],
+										"url": "{{public.api.baseurl}}/v3/WebhookSubscriptions/{{WorkWebhookType}}"
+									},
+									"response": []
+								},
+								{
+									"name": "Get Note 404 after Deletion",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "615d5a97-d782-4b60-ad16-2f2982f26336",
+												"exec": [
+													"pm.test(\"Status code is 404\", function () {\r",
+													"    pm.response.to.have.status(404);\r",
+													"});\r",
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"id": "0c8866bb-441c-4190-9cc0-f7d0f44bf359",
+									"protocolProfileBehavior": {
+										"disableBodyPruning": true
+									},
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Authorization",
+												"value": "{{publicapi.authorization}}",
+												"type": "text"
+											},
+											{
+												"key": "AccessKey",
+												"value": "{{publicapi.accesskey}}",
+												"type": "text"
+											}
+										],
+										"url": "{{public.api.baseurl}}/v3/WebhookSubscriptions/{{NoteWebhookType}}"
+									},
+									"response": []
+								},
+								{
+									"name": "Get Contact 404 after Deletion",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "02ba2957-0a83-4012-b90c-e99df6d86ee0",
+												"exec": [
+													"pm.test(\"Status code is 404 if Deleted\", function () {\r",
+													"    pm.response.to.have.status(404);\r",
+													"});\r",
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"id": "72da8b13-1b6a-4f9b-b218-201e23355b25",
+									"protocolProfileBehavior": {
+										"disableBodyPruning": true
+									},
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Authorization",
+												"value": "{{publicapi.authorization}}",
+												"type": "text"
+											},
+											{
+												"key": "AccessKey",
+												"value": "{{publicapi.accesskey}}",
+												"type": "text"
+											}
+										],
+										"url": "{{public.api.baseurl}}/v3/WebhookSubscriptions"
+									},
+									"response": []
+								}
+							],
+							"id": "b3c8f76e-aba0-4e99-b775-a1db5c5c9e2b"
 						}
 					],
 					"id": "b005c019-94be-43c6-990e-c3d1ad6ce4b3",
