@@ -2309,7 +2309,7 @@
 									"response": []
 								},
 								{
-									"name": "Partial Search contacts by EmailAddress",
+									"name": "Partial search by EmailAddress",
 									"event": [
 										{
 											"listen": "test",
