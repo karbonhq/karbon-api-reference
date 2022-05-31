@@ -2255,7 +2255,7 @@
 													"    pm.response.to.have.status(200);\r",
 													"});\r",
 													"\r",
-													"pm.test(\"Test some results were found\", function () {\r",
+													"pm.test(\"Test matching item was found\", function () {\r",
 													"    const expectedFullName = pm.variables.get(\"public.api.partial_search_test_contact_fullname\");\r",
 													"    const jsonData = pm.response.json();\r",
 													"    const contacts = jsonData.value;\r",
