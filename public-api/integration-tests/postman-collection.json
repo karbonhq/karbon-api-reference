@@ -2374,7 +2374,7 @@
 									"response": []
 								},
 								{
-									"name": "Search contacts by PhoneNumber",
+									"name": "Partial search by PhoneNumber",
 									"event": [
 										{
 											"listen": "test",
@@ -2385,9 +2385,16 @@
 													"    pm.response.to.have.status(200);\r",
 													"});\r",
 													"\r",
-													"pm.test(\"Test matching item was found\", function () {\r",
-													"    var jsonData = pm.response.json();\r",
-													"    pm.expect(jsonData.value.length).to.be.greaterThan(0);\r",
+													"pm.test(\"Test matching items were found\", function () {\r",
+													"    const expectedPhone = pm.variables.get(\"public.api.contact_phone\");\r",
+													"    const jsonData = pm.response.json();\r",
+													"    const contacts = jsonData.value;\r",
+													"    \r",
+													"    pm.expect(contacts.length).to.be.greaterThan(0);\r",
+													"\r",
+													"    contacts.forEach(c => {\r",
+													"        pm.expect(c.PhoneNumber.includes(expectedPhone)).to.be.true;\r",
+													"    });\r",
 													"});"
 												],
 												"type": "text/javascript"
@@ -2413,7 +2420,7 @@
 											}
 										],
 										"url": {
-											"raw": "{{public.api.baseurl}}/v3/Contacts?$filter=PhoneNumber eq '12345678'",
+											"raw": "{{public.api.baseurl}}/v3/Contacts?$filter=(contains(PhoneNumber, '{{public.api.contact_phone}}'))",
 											"host": [
 												"{{public.api.baseurl}}"
 											],
@@ -2424,7 +2431,7 @@
 											"query": [
 												{
 													"key": "$filter",
-													"value": "PhoneNumber eq '12345678'"
+													"value": "(contains(PhoneNumber, '{{public.api.contact_phone}}'))"
 												}
 											]
 										}
