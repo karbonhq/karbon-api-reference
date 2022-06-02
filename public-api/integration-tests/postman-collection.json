@@ -2244,6 +2244,67 @@
 									"response": []
 								},
 								{
+									"name": "Search contacts by FullName",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "0315d2fc-9d9e-4dc2-abb3-dd6d2916fe72",
+												"exec": [
+													"pm.test(\"Status code is OK (200)\", function () {\r",
+													"    pm.response.to.have.status(200);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Test matching item was found\", function () {\r",
+													"    var jsonData = pm.response.json();\r",
+													"    pm.expect(jsonData.value.length).to.be.greaterThan(0);\r",
+													"    var contactData = jsonData.value[0];\r",
+													"\r",
+													"    pm.expect(contactData.FullName).to.eq(pm.environment.get(\"public.api.search_test_contact1_fullname\"));\r",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"id": "d9237b11-0468-47d0-b48a-5f93ddc04224",
+									"protocolProfileBehavior": {
+										"disableBodyPruning": true
+									},
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Authorization",
+												"value": "{{publicapi.authorization}}",
+												"type": "text"
+											},
+											{
+												"key": "AccessKey",
+												"value": "{{publicapi.accesskey}}",
+												"type": "text"
+											}
+										],
+										"url": {
+											"raw": "{{public.api.baseurl}}/v3/Contacts?$filter=FullName eq '{{public.api.search_test_contact1_fullname}}'",
+											"host": [
+												"{{public.api.baseurl}}"
+											],
+											"path": [
+												"v3",
+												"Contacts"
+											],
+											"query": [
+												{
+													"key": "$filter",
+													"value": "FullName eq '{{public.api.search_test_contact1_fullname}}'"
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
 									"name": "Partial search by EmailAddress",
 									"event": [
 										{
@@ -2271,7 +2332,7 @@
 											}
 										}
 									],
-									"id": "b5889873-85a3-4b2a-8613-d0b0b9017b8b",
+									"id": "87277b6b-2b81-422e-a0fe-274a99fedf35",
 									"protocolProfileBehavior": {
 										"disableBodyPruning": true
 									},
@@ -2309,6 +2370,71 @@
 									"response": []
 								},
 								{
+									"name": "Partial search by FullName",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "af8b51c3-c739-4a5b-93f3-52011572104b",
+												"exec": [
+													"pm.test(\"Status code is OK (200)\", function () {\r",
+													"    pm.response.to.have.status(200);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Test matching items were found\", function () {\r",
+													"    const expectedEmail = pm.variables.get(\"public.api.contact_uniqueidentifier\");\r",
+													"    const jsonData = pm.response.json();\r",
+													"    const contacts = jsonData.value;\r",
+													"    \r",
+													"    pm.expect(contacts.length).to.be.greaterThan(0);\r",
+													"\r",
+													"    contacts.forEach(c => {\r",
+													"        pm.expect(c.FullName.includes(expectedEmail)).to.be.true;\r",
+													"    });\r",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"id": "2c6a4c26-ec85-45c1-98c6-dc0fa14ab6dc",
+									"protocolProfileBehavior": {
+										"disableBodyPruning": true
+									},
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Authorization",
+												"value": "{{publicapi.authorization}}",
+												"type": "text"
+											},
+											{
+												"key": "AccessKey",
+												"value": "{{publicapi.accesskey}}",
+												"type": "text"
+											}
+										],
+										"url": {
+											"raw": "{{public.api.baseurl}}/v3/Contacts?$filter=(contains(FullName, '{{public.api.search_test_contact1_fullname}}'))",
+											"host": [
+												"{{public.api.baseurl}}"
+											],
+											"path": [
+												"v3",
+												"Contacts"
+											],
+											"query": [
+												{
+													"key": "$filter",
+													"value": "(contains(FullName, '{{public.api.search_test_contact1_fullname}}'))"
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
 									"name": "Partial search by PhoneNumber",
 									"event": [
 										{
@@ -2336,7 +2462,7 @@
 											}
 										}
 									],
-									"id": "da41aa92-a9f7-4c69-8c4b-6a8e197fe006",
+									"id": "bbd54a6d-157b-4153-acac-76852d2f3564",
 									"protocolProfileBehavior": {
 										"disableBodyPruning": true
 									},
