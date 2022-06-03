@@ -9909,7 +9909,7 @@
 												}
 											}
 										},
-										"url": "{{public.api.baseurl}}/v3/MagicLinkClientRequests({{public.api.clienttask_test_magiclinkid}})/KarbonService.Resend"
+										"url": "{{public.api.baseurl}}/v3/MagicLinkClientRequests('{{public.api.clienttask_test_magiclinkid}}')/KarbonService.Resend"
 									},
 									"response": []
 								},
