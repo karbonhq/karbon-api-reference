@@ -1154,6 +1154,7 @@
 													"    pm.environment.set(\"public.api.contact_permakey\", jsonData.ContactKey);\r",
 													"    pm.environment.set(\"public.api.contact_userdefinedidentifier\", jsonData.UserDefinedIdentifier);\r",
 													"    pm.environment.set(\"public.api.search_test_contact1_fullname\", fullName);\r",
+													"    pm.environment.set(\"public.api.contact_phone\", \"12345678\");\r",
 													"});"
 												],
 												"type": "text/javascript"
