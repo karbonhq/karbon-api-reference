@@ -5538,6 +5538,11 @@
 												"key": "AccessKey",
 												"value": "{{publicapi.accesskey}}",
 												"type": "text"
+											},
+											{
+												"key": "Content-Type",
+												"value": "application/json",
+												"type": "text"
 											}
 										],
 										"body": {
