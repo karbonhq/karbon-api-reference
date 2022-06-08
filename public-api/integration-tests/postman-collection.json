@@ -5048,7 +5048,7 @@
 					"name": "User",
 					"item": [
 						{
-							"name": "List",
+							"name": "Search",
 							"item": [
 								{
 									"name": "Search all Users",
@@ -5058,14 +5058,13 @@
 											"script": {
 												"id": "d7492c0b-7ac7-4185-ab56-3bca5ef1604d",
 												"exec": [
-													"pm.test(\"Status code is 400\", function () {\r",
+													"pm.test(\"Status code is 200\", function () {\r",
 													"    pm.response.to.have.status(200);\r",
 													"});\r",
 													"\r",
 													"pm.test(\"Check items were found\", function () {\r",
 													"    var jsonData = pm.response.json();\r",
-													"    pm.expect(jsonData[\"@odata.count\"]).to.gte(1);\r",
-													"    pm.expect(jsonData.value.length).to.gte(1);\r",
+													"    pm.expect(jsonData.value.length).to.be.greaterThan(0);\r",
 													"});"
 												],
 												"type": "text/javascript"
@@ -5091,6 +5090,266 @@
 											}
 										],
 										"url": "{{public.api.baseurl}}/v3/Users"
+									},
+									"response": []
+								},
+								{
+									"name": "Search by Name",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "d7492c0b-7ac7-4185-ab56-3bca5ef1604d",
+												"exec": [
+													"pm.test(\"Status code is OK (200)\", function () {\r",
+													"    pm.response.to.have.status(200);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Test matching items were found\", function () {\r",
+													"    const expectedName = pm.variables.get(\"public.api.user_name\");\r",
+													"    const jsonData = pm.response.json();\r",
+													"    const users = jsonData.value;\r",
+													"    \r",
+													"    pm.expect(users.length).to.be.greaterThan(0);\r",
+													"\r",
+													"    users.forEach(c => {\r",
+													"        pm.expect(c.Name).to.equal(expectedName);\r",
+													"    });\r",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"id": "ab92a0dc-bb37-4dde-b1de-fb58375a511e",
+									"protocolProfileBehavior": {
+										"disableBodyPruning": true
+									},
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Authorization",
+												"value": "{{publicapi.authorization}}",
+												"type": "text"
+											},
+											{
+												"key": "AccessKey",
+												"value": "{{publicapi.accesskey}}",
+												"type": "text"
+											}
+										],
+										"url": {
+											"raw": "{{public.api.baseurl}}/v3/Users?$filter=Name eq '{{public.api.user_name}}'",
+											"host": [
+												"{{public.api.baseurl}}"
+											],
+											"path": [
+												"v3",
+												"Users"
+											],
+											"query": [
+												{
+													"key": "$filter",
+													"value": "Name eq '{{public.api.user_name}}'"
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Partial search by Name",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "d7492c0b-7ac7-4185-ab56-3bca5ef1604d",
+												"exec": [
+													"pm.test(\"Status code is OK (200)\", function () {\r",
+													"    pm.response.to.have.status(200);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Test matching items were found\", function () {\r",
+													"    const expectedName = pm.variables.get(\"public.api.user_name_part\");\r",
+													"    const jsonData = pm.response.json();\r",
+													"    const users = jsonData.value;\r",
+													"    \r",
+													"    pm.expect(users.length).to.be.greaterThan(0);\r",
+													"\r",
+													"    users.forEach(c => {\r",
+													"        pm.expect(c.Name.toUpperCase().includes(expectedName.toUpperCase().trim())).to.be.true;\r",
+													"    });\r",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"id": "3d4eba8f-0ae0-4f71-b9e7-08c8dc9704c0",
+									"protocolProfileBehavior": {
+										"disableBodyPruning": true
+									},
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Authorization",
+												"value": "{{publicapi.authorization}}",
+												"type": "text"
+											},
+											{
+												"key": "AccessKey",
+												"value": "{{publicapi.accesskey}}",
+												"type": "text"
+											}
+										],
+										"url": {
+											"raw": "{{public.api.baseurl}}/v3/Users?$filter=(contains(Name, '{{public.api.user_name_part}}'))",
+											"host": [
+												"{{public.api.baseurl}}"
+											],
+											"path": [
+												"v3",
+												"Users"
+											],
+											"query": [
+												{
+													"key": "$filter",
+													"value": "(contains(Name, '{{public.api.user_name_part}}'))"
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Search by EmailAddress",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "d7492c0b-7ac7-4185-ab56-3bca5ef1604d",
+												"exec": [
+													"pm.test(\"Status code is OK (200)\", function () {\r",
+													"    pm.response.to.have.status(200);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Test matching items were found\", function () {\r",
+													"    const expectedEmail = pm.variables.get(\"public.api.user_email\");\r",
+													"    const jsonData = pm.response.json();\r",
+													"    const users = jsonData.value;\r",
+													"    \r",
+													"    pm.expect(users.length).to.be.greaterThan(0);\r",
+													"\r",
+													"    users.forEach(c => {\r",
+													"        pm.expect(c.EmailAddress).to.equal(expectedEmail);\r",
+													"    });\r",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"id": "16b0a9f4-b455-48da-98e7-9fb2f8c40384",
+									"protocolProfileBehavior": {
+										"disableBodyPruning": true
+									},
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Authorization",
+												"value": "{{publicapi.authorization}}",
+												"type": "text"
+											},
+											{
+												"key": "AccessKey",
+												"value": "{{publicapi.accesskey}}",
+												"type": "text"
+											}
+										],
+										"url": {
+											"raw": "{{public.api.baseurl}}/v3/Users?$filter=EmailAddress eq '{{public.api.user_email}}'",
+											"host": [
+												"{{public.api.baseurl}}"
+											],
+											"path": [
+												"v3",
+												"Users"
+											],
+											"query": [
+												{
+													"key": "$filter",
+													"value": "EmailAddress eq '{{public.api.user_email}}'"
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Partial search by EmailAddress",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "d7492c0b-7ac7-4185-ab56-3bca5ef1604d",
+												"exec": [
+													"pm.test(\"Status code is OK (200)\", function () {\r",
+													"    pm.response.to.have.status(200);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Test matching items were found\", function () {\r",
+													"    const expectedEmail = pm.variables.get(\"public.api.user_email_part\");\r",
+													"    const jsonData = pm.response.json();\r",
+													"    const users = jsonData.value;\r",
+													"    \r",
+													"    pm.expect(users.length).to.be.greaterThan(0);\r",
+													"\r",
+													"    users.forEach(c => {\r",
+													"        pm.expect(c.EmailAddress.toUpperCase().includes(expectedEmail.toUpperCase().trim())).to.be.true;\r",
+													"    });\r",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"id": "7957b531-d3b9-4356-b615-8ec4858c6369",
+									"protocolProfileBehavior": {
+										"disableBodyPruning": true
+									},
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Authorization",
+												"value": "{{publicapi.authorization}}",
+												"type": "text"
+											},
+											{
+												"key": "AccessKey",
+												"value": "{{publicapi.accesskey}}",
+												"type": "text"
+											}
+										],
+										"url": {
+											"raw": "{{public.api.baseurl}}/v3/Users?$filter=(contains(EmailAddress, '{{public.api.user_email_part}}'))",
+											"host": [
+												"{{public.api.baseurl}}"
+											],
+											"path": [
+												"v3",
+												"Users"
+											],
+											"query": [
+												{
+													"key": "$filter",
+													"value": "(contains(EmailAddress, '{{public.api.user_email_part}}'))"
+												}
+											]
+										}
 									},
 									"response": []
 								},
@@ -5244,6 +5503,18 @@
 												"exec": [
 													"pm.test(\"Status code is Created (201)\", function () {\r",
 													"    pm.response.to.have.status(201);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Test user was created\", function () {\r",
+													"    const jsonData = pm.response.json();\r",
+													"\r",
+													"    pm.environment.set(\"public.api.user_name\", jsonData.Name);\r",
+													"    pm.environment.set(\"public.api.user_name_part\", jsonData.Name.substr(0, 4));\r",
+													"\r",
+													"    pm.environment.set(\"public.api.user_email\", jsonData.EmailAddress);\r",
+													"    pm.environment.set(\"public.api.user_email_part\", jsonData.EmailAddress.substr(0, 6));\r",
+													"\r",
+													"    pm.expect(jsonData).not.null;\r",
 													"});\r",
 													""
 												],
