@@ -5099,14 +5099,14 @@
 										{
 											"listen": "test",
 											"script": {
-												"id": "d7492c0b-7ac7-4185-ab56-3bca5ef1604d",
+												"id": "be338de3-7a40-4d53-a833-12940d2aeee7",
 												"exec": [
 													"pm.test(\"Status code is OK (200)\", function () {\r",
 													"    pm.response.to.have.status(200);\r",
 													"});\r",
 													"\r",
 													"pm.test(\"Test matching items were found\", function () {\r",
-													"    const expectedName = pm.variables.get(\"public.api.user_name\");\r",
+													"    const expectedName = pm.environment.get(\"public.api.user_name\");\r",
 													"    const jsonData = pm.response.json();\r",
 													"    const users = jsonData.value;\r",
 													"    \r",
