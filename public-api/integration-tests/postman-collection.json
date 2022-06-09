@@ -5236,7 +5236,7 @@
 													"});\r",
 													"\r",
 													"pm.test(\"Test matching items were found\", function () {\r",
-													"    const expectedEmail = pm.variables.get(\"public.api.user_email\");\r",
+													"    const expectedEmail = pm.environment.get(\"public.api.user_email\");\r",
 													"    const jsonData = pm.response.json();\r",
 													"    const users = jsonData.value;\r",
 													"    \r",
