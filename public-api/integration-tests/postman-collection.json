@@ -6720,7 +6720,7 @@
 											}
 										],
 										"url": {
-											"raw": "{{public.api.baseurl}}/v3/WorkItems?$filter=AssigneeEmailAddress eq '{{public.api.workitem_useremail}}'",
+											"raw": "{{public.api.baseurl}}/v3/WorkItems?$filter=WorkType eq 'Payroll",
 											"host": [
 												"{{public.api.baseurl}}"
 											],
@@ -6731,7 +6731,7 @@
 											"query": [
 												{
 													"key": "$filter",
-													"value": "AssigneeEmailAddress eq '{{public.api.workitem_useremail}}'"
+													"value": "WorkType eq 'Payroll"
 												}
 											]
 										}
