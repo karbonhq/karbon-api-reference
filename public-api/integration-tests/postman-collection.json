@@ -5048,6 +5048,95 @@
 					"name": "User",
 					"item": [
 						{
+							"name": "Create",
+							"item": [
+								{
+									"name": "Create User V3",
+									"event": [
+										{
+											"listen": "prerequest",
+											"script": {
+												"id": "44a1efc4-a8bf-49fd-a910-246e483f4016",
+												"exec": [
+													"var uuid = require('uuid');\r",
+													"var generatedEmail = uuid.v4() + \"@gmail.com\"; \r",
+													"var generatedName = uuid.v4(); \r",
+													"\r",
+													"pm.environment.set(\"public.api.contact_test_user_generatedemail\", generatedEmail);\r",
+													"pm.environment.set(\"public.api.contact_test_user_generatedname\", generatedName);\r",
+													"\r",
+													"console.log(generatedEmail);\r",
+													"console.log(generatedName);"
+												],
+												"type": "text/javascript"
+											}
+										},
+										{
+											"listen": "test",
+											"script": {
+												"id": "6466f10a-bb64-43d4-8943-e4525118e0f2",
+												"exec": [
+													"pm.test(\"Status code is Created (201)\", function () {\r",
+													"    pm.response.to.have.status(201);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Test user was created\", function () {\r",
+													"    const jsonData = pm.response.json();\r",
+													"\r",
+													"    pm.environment.set(\"public.api.user_name\", jsonData.Name);\r",
+													"    pm.environment.set(\"public.api.user_name_part\", jsonData.Name.substr(0, 4));\r",
+													"\r",
+													"    pm.environment.set(\"public.api.user_email\", jsonData.EmailAddress);\r",
+													"    pm.environment.set(\"public.api.user_email_part\", jsonData.EmailAddress.substr(0, 6));\r",
+													"\r",
+													"    pm.expect(jsonData).not.null;\r",
+													"});\r",
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"id": "5fa0b3e2-bbf0-4454-bc2e-ef3d26f9bcaf",
+									"protocolProfileBehavior": {
+										"disableBodyPruning": true
+									},
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Authorization",
+												"value": "{{publicapi.authorization}}",
+												"type": "text"
+											},
+											{
+												"key": "AccessKey",
+												"value": "{{publicapi.accesskey}}",
+												"type": "text"
+											},
+											{
+												"key": "Content-Type",
+												"value": "application/json",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"Name\": \"{{public.api.contact_test_user_generatedemail}}\",\r\n    \"EmailAddress\": \"{{public.api.contact_test_user_generatedname}}\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": "{{public.api.baseurl}}/v3/Users"
+									},
+									"response": []
+								}
+							],
+							"id": "335fd32d-c4a8-44c1-aaf3-5e8a6dbc52fe"
+						},
+						{
 							"name": "Search",
 							"item": [
 								{
@@ -5471,95 +5560,6 @@
 								}
 							],
 							"id": "b6106690-d142-493f-ae0d-d36018b4b510"
-						},
-						{
-							"name": "Create",
-							"item": [
-								{
-									"name": "Create User V3",
-									"event": [
-										{
-											"listen": "prerequest",
-											"script": {
-												"id": "44a1efc4-a8bf-49fd-a910-246e483f4016",
-												"exec": [
-													"var uuid = require('uuid');\r",
-													"var generatedEmail = uuid.v4() + \"@gmail.com\"; \r",
-													"var generatedName = uuid.v4(); \r",
-													"\r",
-													"pm.environment.set(\"public.api.contact_test_user_generatedemail\", generatedEmail);\r",
-													"pm.environment.set(\"public.api.contact_test_user_generatedname\", generatedName);\r",
-													"\r",
-													"console.log(generatedEmail);\r",
-													"console.log(generatedName);"
-												],
-												"type": "text/javascript"
-											}
-										},
-										{
-											"listen": "test",
-											"script": {
-												"id": "6466f10a-bb64-43d4-8943-e4525118e0f2",
-												"exec": [
-													"pm.test(\"Status code is Created (201)\", function () {\r",
-													"    pm.response.to.have.status(201);\r",
-													"});\r",
-													"\r",
-													"pm.test(\"Test user was created\", function () {\r",
-													"    const jsonData = pm.response.json();\r",
-													"\r",
-													"    pm.environment.set(\"public.api.user_name\", jsonData.Name);\r",
-													"    pm.environment.set(\"public.api.user_name_part\", jsonData.Name.substr(0, 4));\r",
-													"\r",
-													"    pm.environment.set(\"public.api.user_email\", jsonData.EmailAddress);\r",
-													"    pm.environment.set(\"public.api.user_email_part\", jsonData.EmailAddress.substr(0, 6));\r",
-													"\r",
-													"    pm.expect(jsonData).not.null;\r",
-													"});\r",
-													""
-												],
-												"type": "text/javascript"
-											}
-										}
-									],
-									"id": "5fa0b3e2-bbf0-4454-bc2e-ef3d26f9bcaf",
-									"protocolProfileBehavior": {
-										"disableBodyPruning": true
-									},
-									"request": {
-										"method": "POST",
-										"header": [
-											{
-												"key": "Authorization",
-												"value": "{{publicapi.authorization}}",
-												"type": "text"
-											},
-											{
-												"key": "AccessKey",
-												"value": "{{publicapi.accesskey}}",
-												"type": "text"
-											},
-											{
-												"key": "Content-Type",
-												"value": "application/json",
-												"type": "text"
-											}
-										],
-										"body": {
-											"mode": "raw",
-											"raw": "{\r\n    \"Name\": \"{{public.api.contact_test_user_generatedemail}}\",\r\n    \"EmailAddress\": \"{{public.api.contact_test_user_generatedname}}\"\r\n}",
-											"options": {
-												"raw": {
-													"language": "json"
-												}
-											}
-										},
-										"url": "{{public.api.baseurl}}/v3/Users"
-									},
-									"response": []
-								}
-							],
-							"id": "335fd32d-c4a8-44c1-aaf3-5e8a6dbc52fe"
 						}
 					],
 					"id": "15c92b1c-e17a-4405-91bd-65023748dc31"
@@ -6674,7 +6674,7 @@
 									]
 								},
 								{
-									"name": "Search by AssigneeEmailAddress",
+									"name": "Search by WorkType",
 									"event": [
 										{
 											"listen": "test",
