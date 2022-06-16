@@ -7822,6 +7822,124 @@
 											"body": "{\n \"Items\": [\n  {\n   \"FullName\": \"Adams, Douglas Noel\",\n   \"PreferredName\": \"Doug\",\n   \"Salutation\": \"Mr\",\n   \"ClientOwner\": \"myowner@megadodopublications.com\",\n   \"ClientManager\": \"mymanager@megadodopublications.com\",\n   \"Address\": \"42 Galaxy Way, London\",\n   \"EmailAddress\": \"DNA@megadodopublications.net\",\n   \"PhoneNumber\": \"+61212345678\",\n   \"RoleOrTitle\": \"CEO\",\n   \"UserDefinedIdentifier\": \"42\",\n   \"LastModifiedDateTime\": \"2021-01-22T03:00:14.8634476Z\",\n   \"ContactKey\": \"2BtTSg4xM7Dt\"\n  },\n  {\n   \"FullName\": \"Asimov, Isaac\",\n   \"PreferredName\": \"Zac\",\n   \"Salutation\": \"Mr\",\n   \"ClientOwner\": \"myowner@bostonuniversity.edu\",\n   \"ClientManager\": \"mymanager@bostonuniversity.edu\",\n   \"Address\": \"1920 Foundation Boulevard, Petrovichi, Russia\",\n   \"EmailAddress\": \"asimo@bostonuniversity.edu\",\n   \"PhoneNumber\": \"069283779143\",\n   \"RoleOrTitle\": \"Writer\",\n   \"UserDefinedIdentifier\": \"5020\",\n   \"LastModifiedDateTime\": \"2021-02-03T03:00:14.8634476Z\",\n   \"ContactKey\": \"23WWskXjR4wX\"\n  }\n ],\n \"NextPageLink\": \"https://api.karbonhq.com/v3/Contacts?$skip=100\",\n \"Count\": 123\n}"
 										}
 									]
+								},
+								{
+									"name": "Partial Search by WorkType",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "157c6232-7220-45b6-b6af-98a45dbf01ac",
+												"exec": [
+													"// pm.test(\"Status code is OK (200)\", function () {\r",
+													"//     pm.response.to.have.status(200);\r",
+													"// });\r",
+													"\r",
+													"// pm.test(\"Test matching items were found\", function () {\r",
+													"//     const expectedWorkType = pm.variables.get(\"public.api.WorkItem_WorkType_Search\");\r",
+													"//     const jsonData = pm.response.json();\r",
+													"//     const workItems = jsonData.value;\r",
+													"    \r",
+													"//     pm.expect(workItems.length).to.be.greaterThan(0);\r",
+													"\r",
+													"//     workItems.forEach(c => {\r",
+													"//         pm.expect(c.expectedWorkType).to.equal(expectedWorkType);\r",
+													"//     });\r",
+													"// });"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"id": "707ca3d1-989f-4af3-8d2a-1b442e689285",
+									"protocolProfileBehavior": {
+										"disableBodyPruning": true
+									},
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Authorization",
+												"value": "{{publicapi.authorization}}",
+												"type": "text"
+											},
+											{
+												"key": "AccessKey",
+												"value": "{{publicapi.accesskey}}",
+												"type": "text"
+											}
+										],
+										"url": {
+											"raw": "{{public.api.baseurl}}/v3/WorkItems?$filter=WorkType eq 'Payroll",
+											"host": [
+												"{{public.api.baseurl}}"
+											],
+											"path": [
+												"v3",
+												"WorkItems"
+											],
+											"query": [
+												{
+													"key": "$filter",
+													"value": "WorkType eq 'Payroll"
+												}
+											]
+										}
+									},
+									"response": [
+										{
+											"id": "6e0429f7-2b5d-4cb9-926c-c0573066ad90",
+											"name": "OK",
+											"originalRequest": {
+												"method": "GET",
+												"header": [],
+												"url": {
+													"raw": "{{baseUrl}}/v3/Contacts?$select=<string>&$filter=<string>&$orderby=<string>&$top=<integer>&$skip=<integer>",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"v3",
+														"Contacts"
+													],
+													"query": [
+														{
+															"key": "$select",
+															"value": "<string>"
+														},
+														{
+															"key": "$filter",
+															"value": "<string>"
+														},
+														{
+															"key": "$orderby",
+															"value": "<string>"
+														},
+														{
+															"key": "$top",
+															"value": "<integer>"
+														},
+														{
+															"key": "$skip",
+															"value": "<integer>"
+														}
+													]
+												}
+											},
+											"status": "OK",
+											"code": 200,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												}
+											],
+											"cookie": [],
+											"responseTime": null,
+											"body": "{\n \"Items\": [\n  {\n   \"FullName\": \"Adams, Douglas Noel\",\n   \"PreferredName\": \"Doug\",\n   \"Salutation\": \"Mr\",\n   \"ClientOwner\": \"myowner@megadodopublications.com\",\n   \"ClientManager\": \"mymanager@megadodopublications.com\",\n   \"Address\": \"42 Galaxy Way, London\",\n   \"EmailAddress\": \"DNA@megadodopublications.net\",\n   \"PhoneNumber\": \"+61212345678\",\n   \"RoleOrTitle\": \"CEO\",\n   \"UserDefinedIdentifier\": \"42\",\n   \"LastModifiedDateTime\": \"2021-01-22T03:00:14.8634476Z\",\n   \"ContactKey\": \"2BtTSg4xM7Dt\"\n  },\n  {\n   \"FullName\": \"Asimov, Isaac\",\n   \"PreferredName\": \"Zac\",\n   \"Salutation\": \"Mr\",\n   \"ClientOwner\": \"myowner@bostonuniversity.edu\",\n   \"ClientManager\": \"mymanager@bostonuniversity.edu\",\n   \"Address\": \"1920 Foundation Boulevard, Petrovichi, Russia\",\n   \"EmailAddress\": \"asimo@bostonuniversity.edu\",\n   \"PhoneNumber\": \"069283779143\",\n   \"RoleOrTitle\": \"Writer\",\n   \"UserDefinedIdentifier\": \"5020\",\n   \"LastModifiedDateTime\": \"2021-02-03T03:00:14.8634476Z\",\n   \"ContactKey\": \"23WWskXjR4wX\"\n  }\n ],\n \"NextPageLink\": \"https://api.karbonhq.com/v3/Contacts?$skip=100\",\n \"Count\": 123\n}"
+										}
+									]
 								}
 							],
 							"id": "1e9dbab5-5ef9-475a-9368-b31dd69acc3c"
