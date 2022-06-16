@@ -6674,7 +6674,7 @@
 									]
 								},
 								{
-									"name": "Search by WorkType",
+									"name": "Search by AssigneeEmailAddress",
 									"event": [
 										{
 											"listen": "test",
