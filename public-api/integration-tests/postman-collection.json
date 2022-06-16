@@ -7870,7 +7870,7 @@
 											}
 										],
 										"url": {
-											"raw": "{{public.api.baseurl}}/v3/WorkItems?$filter=WorkType eq 'Payroll",
+											"raw": "{{public.api.baseurl}}/v3/WorkItems?$filter=(contains(WorkType , '{{public.api.WorkItem_WorkType_PartialSearch}}'))",
 											"host": [
 												"{{public.api.baseurl}}"
 											],
@@ -7881,7 +7881,7 @@
 											"query": [
 												{
 													"key": "$filter",
-													"value": "WorkType eq 'Payroll"
+													"value": "(contains(WorkType , '{{public.api.WorkItem_WorkType_PartialSearch}}'))"
 												}
 											]
 										}
