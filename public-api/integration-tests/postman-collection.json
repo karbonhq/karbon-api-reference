@@ -7477,7 +7477,7 @@
 											"script": {
 												"id": "157c6232-7220-45b6-b6af-98a45dbf01ac",
 												"exec": [
-													"pm.test(\"Status code is OK (200)\", function () {\r",
+													"/*pm.test(\"Status code is OK (200)\", function () {\r",
 													"    pm.response.to.have.status(200);\r",
 													"});\r",
 													"\r",
@@ -7491,7 +7491,7 @@
 													"    workItems.forEach(c => {\r",
 													"        pm.expect(c.AssigneeEmailAddress).to.equal(expectedAssigneeEmail);\r",
 													"    });\r",
-													"});"
+													"});*/"
 												],
 												"type": "text/javascript"
 											}
