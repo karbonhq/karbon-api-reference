@@ -6025,7 +6025,7 @@
 													"});\r",
 													"\r",
 													"pm.test(\"#9117 User Definied Client Identifier should be returned\", function() {\r",
-													"    pm.expect(pm.response.json().ClientUserDefinedIdentifier).to.eq(\"HD567\");\r",
+													"    pm.expect(pm.response.json().ClientUserDefinedIdentifier).to.eq(pm.environment.get(\"public.api.workitem_client_user_defined_identifier\"));\r",
 													"})"
 												],
 												"type": "text/javascript"
