@@ -5730,6 +5730,7 @@
 													"    const jsonData = pm.response.json();\r",
 													"    pm.environment.set(\"public.api.workitem_permakey\", jsonData.WorkItemKey);\r",
 													"    pm.environment.set(\"public.api.workitem_primarystatus\", jsonData.PrimaryStatus);\r",
+													"    pm.environment.set(\"public.api.workitem_client_user_defined_identifier\", jsonData.ClientUserDefinedIdentifier);\r",
 													"});\r",
 													""
 												],
