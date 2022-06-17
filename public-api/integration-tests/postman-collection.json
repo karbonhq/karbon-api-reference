@@ -11391,7 +11391,7 @@
 												"disabled": true
 											}
 										],
-										"url": "{{public.api.baseurl}}/v3/EstimateSummaries/{{public.api.EstimateSummary_WorkPermaKey}}"
+										"url": "{{public.api.baseurl}}/v3/EstimateSummaries/{{public.api.workitem_permakey}}"
 									},
 									"response": []
 								}
