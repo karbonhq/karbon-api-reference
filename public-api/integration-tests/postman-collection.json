@@ -2932,6 +2932,11 @@
 												"key": "AccessKey",
 												"type": "text",
 												"value": "{{publicapi.accesskey}}"
+											},
+											{
+												"key": "UserProfileKey",
+												"value": "3Xz2829vXtCW",
+												"type": "text"
 											}
 										],
 										"body": {
