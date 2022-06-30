@@ -4822,9 +4822,18 @@
 											"script": {
 												"id": "ccc202a2-da57-459b-bffc-7dc4f25485ff",
 												"exec": [
-													"pm.test(\"#7781 Timesheet filter by Status is throwing 500 response\", function () {\r",
-													"    // Change this when #7781 is fixed. This test should start failing.\r",
-													"    pm.response.to.have.status(500);\r",
+													"// pm.test(\"#7781 Timesheet filter by Status is throwing 500 response\", function () {\r",
+													"//     // Change this when #7781 is fixed. This test should start failing.\r",
+													"//     pm.response.to.have.status(500);\r",
+													"// });\r",
+													"\r",
+													"pm.test(\"Status code is 200\", function () {\r",
+													"    pm.response.to.have.status(200);\r",
+													"});\r",
+													"pm.test(\"Body contains more than 1 timesheet \", function () {\r",
+													"    var jsonData = pm.response.json();\r",
+													"    pm.expect(jsonData.value.length).to.lte(101);    \r",
+													"    //pm.environment.set(\"public.api.Timesheet_Key\", jsonData.value[0].TimesheetKey);\r",
 													"});"
 												],
 												"type": "text/javascript"
