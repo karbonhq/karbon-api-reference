@@ -3356,6 +3356,49 @@
 										}
 									},
 									"response": []
+								},
+								{
+									"name": "Get by PermaKey with Expand Contacts",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "70420c20-f6dc-4ad1-b819-39372cf1f7f9",
+												"exec": [
+													"pm.test(\"Status code is 200\", function () {\r",
+													"    pm.response.to.have.status(200);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Assert correct organization is returned\", function () {\r",
+													"    var jsonData = pm.response.json();\r",
+													"    pm.expect(jsonData.OrganizationKey).to.be.eql(pm.environment.get(\"public.api.organization_permakey\"));\r",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"id": "83c500be-a2a8-43f1-aa40-e7c48449d220",
+									"protocolProfileBehavior": {
+										"disableBodyPruning": true
+									},
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Authorization",
+												"value": "{{publicapi.authorization}}",
+												"type": "text"
+											},
+											{
+												"key": "AccessKey",
+												"value": "{{publicapi.accesskey}}",
+												"type": "text"
+											}
+										],
+										"url": "{{public.api.baseurl}}/v3/Organizations/{{public.api.organization_permakey}}"
+									},
+									"response": []
 								}
 							],
 							"id": "e3d225e7-c238-4c4c-940c-ec7a0afb4318"
