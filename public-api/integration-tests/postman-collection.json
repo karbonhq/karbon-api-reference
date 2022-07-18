@@ -3628,6 +3628,11 @@
 												"key": "AccessKey",
 												"type": "text",
 												"value": "{{publicapi.accesskey}}"
+											},
+											{
+												"key": "Content-Type",
+												"value": "application/json",
+												"type": "text"
 											}
 										],
 										"body": {
