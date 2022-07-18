@@ -3037,7 +3037,7 @@
 										],
 										"body": {
 											"mode": "raw",
-											"raw": "{\r\n    \"AssigneeEmailAddress\":\"qutbuddin.musekhan@karbonhq.com\",\r\n    \"AuthorEmailAddress\": \"qutbuddin.musekhan@karbonhq.com\",\r\n    \"Body\": \"Sample note body here\",\r\n    \"DueDate\": \"2025-03-11T15:12:55+11:00\",\r\n    \"Subject\": \"Sample subject header here\"\r\n}",
+											"raw": "{\r\n    \"AssigneeEmailAddress\":\"{{public.api.notes_test_user_generatedemail}}\",\r\n    \"AuthorEmailAddress\": \"{{public.api.notes_test_user_generatedemail}}\",\r\n    \"Body\": \"Sample note body here\",\r\n    \"DueDate\": \"2025-03-11T15:12:55+11:00\",\r\n    \"Subject\": \"Sample subject header here\"\r\n}",
 											"options": {
 												"raw": {
 													"language": "json"
