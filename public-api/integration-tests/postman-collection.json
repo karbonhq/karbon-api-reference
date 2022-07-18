@@ -216,7 +216,7 @@
 										],
 										"body": {
 											"mode": "raw",
-											"raw": "{\r\n    \"Name\": \"{{public.api.notes_test_user_generatedemail}}\",\r\n    \"EmailAddress\": \"{{public.api.notes_test_user_generatedname}}\"\r\n}",
+											"raw": "{\r\n    \"Name\": \"{{public.api.notes_test_user_generatedname}}\",\r\n    \"EmailAddress\": \"{{public.api.notes_test_user_generatedemail}}\"\r\n}",
 											"options": {
 												"raw": {
 													"language": "json"
