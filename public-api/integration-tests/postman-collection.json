@@ -172,11 +172,7 @@
 													"pm.environment.set(\"public.api.notes_test_user_generatedname\", generatedName);\r",
 													"\r",
 													"console.log(generatedEmail);\r",
-													"console.log(generatedName);\r",
-													"\r",
-													"var uuid = require('uuid');\r",
-													"var generatedUUID = uuid.v4(); \r",
-													"pm.environment.set(\"public.api.contact_uniqueidentifier\", generatedUUID);"
+													"console.log(generatedName);"
 												],
 												"type": "text/javascript"
 											}
