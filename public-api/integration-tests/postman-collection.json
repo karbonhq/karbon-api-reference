@@ -68,6 +68,601 @@
 			"name": "v3",
 			"item": [
 				{
+					"name": "User",
+					"item": [
+						{
+							"name": "Create",
+							"item": [
+								{
+									"name": "Create User V3",
+									"event": [
+										{
+											"listen": "prerequest",
+											"script": {
+												"id": "44a1efc4-a8bf-49fd-a910-246e483f4016",
+												"exec": [
+													"var uuid = require('uuid');\r",
+													"var generatedEmail = uuid.v4() + \"@gmail.com\"; \r",
+													"var generatedName = uuid.v4(); \r",
+													"\r",
+													"pm.environment.set(\"public.api.contact_test_user_generatedemail\", generatedEmail);\r",
+													"pm.environment.set(\"public.api.contact_test_user_generatedname\", generatedName);\r",
+													"\r",
+													"console.log(generatedEmail);\r",
+													"console.log(generatedName);"
+												],
+												"type": "text/javascript"
+											}
+										},
+										{
+											"listen": "test",
+											"script": {
+												"id": "6466f10a-bb64-43d4-8943-e4525118e0f2",
+												"exec": [
+													"pm.test(\"Status code is Created (201)\", function () {\r",
+													"    pm.response.to.have.status(201);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Test user was created\", function () {\r",
+													"    const jsonData = pm.response.json();\r",
+													"\r",
+													"    pm.environment.set(\"public.api.user_name\", jsonData.Name);\r",
+													"    pm.environment.set(\"public.api.user_name_part\", jsonData.Name.substr(0, 4));\r",
+													"\r",
+													"    pm.environment.set(\"public.api.user_email\", jsonData.EmailAddress);\r",
+													"    pm.environment.set(\"public.api.user_email_part\", jsonData.EmailAddress.substr(0, 6));\r",
+													"\r",
+													"    pm.expect(jsonData).not.null;\r",
+													"});\r",
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"id": "5fa0b3e2-bbf0-4454-bc2e-ef3d26f9bcaf",
+									"protocolProfileBehavior": {
+										"disableBodyPruning": true
+									},
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Authorization",
+												"value": "{{publicapi.authorization}}",
+												"type": "text"
+											},
+											{
+												"key": "AccessKey",
+												"value": "{{publicapi.accesskey}}",
+												"type": "text"
+											},
+											{
+												"key": "Content-Type",
+												"value": "application/json",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"Name\": \"{{public.api.contact_test_user_generatedname}}\",\r\n    \"EmailAddress\": \"{{public.api.contact_test_user_generatedemail}}\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": "{{public.api.baseurl}}/v3/Users"
+									},
+									"response": []
+								},
+								{
+									"name": "Create Alternate User for Notes V3",
+									"event": [
+										{
+											"listen": "prerequest",
+											"script": {
+												"id": "44a1efc4-a8bf-49fd-a910-246e483f4016",
+												"exec": [
+													"var uuid = require('uuid');\r",
+													"var generatedEmail = uuid.v4() + \"@gmail.com\"; \r",
+													"var generatedName = uuid.v4(); \r",
+													"\r",
+													"pm.environment.set(\"public.api.notes_test_user_generatedemail\", generatedEmail);\r",
+													"pm.environment.set(\"public.api.notes_test_user_generatedname\", generatedName);\r",
+													"\r",
+													"console.log(generatedEmail);\r",
+													"console.log(generatedName);\r",
+													"\r",
+													"var uuid = require('uuid');\r",
+													"var generatedUUID = uuid.v4(); \r",
+													"pm.environment.set(\"public.api.contact_uniqueidentifier\", generatedUUID);"
+												],
+												"type": "text/javascript"
+											}
+										},
+										{
+											"listen": "test",
+											"script": {
+												"id": "6466f10a-bb64-43d4-8943-e4525118e0f2",
+												"exec": [
+													"pm.test(\"Status code is Created (201)\", function () {\r",
+													"    pm.response.to.have.status(201);\r",
+													"});\r",
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"id": "c0b00241-dc15-4863-a4bf-79583be01864",
+									"protocolProfileBehavior": {
+										"disableBodyPruning": true
+									},
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Authorization",
+												"value": "{{publicapi.authorization}}",
+												"type": "text"
+											},
+											{
+												"key": "AccessKey",
+												"value": "{{publicapi.accesskey}}",
+												"type": "text"
+											},
+											{
+												"key": "Content-Type",
+												"value": "application/json",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"Name\": \"{{public.api.notes_test_user_generatedemail}}\",\r\n    \"EmailAddress\": \"{{public.api.notes_test_user_generatedname}}\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": "{{public.api.baseurl}}/v3/Users"
+									},
+									"response": []
+								}
+							],
+							"id": "335fd32d-c4a8-44c1-aaf3-5e8a6dbc52fe"
+						},
+						{
+							"name": "Search",
+							"item": [
+								{
+									"name": "Search all Users",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "d7492c0b-7ac7-4185-ab56-3bca5ef1604d",
+												"exec": [
+													"pm.test(\"Status code is 200\", function () {\r",
+													"    pm.response.to.have.status(200);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Check items were found\", function () {\r",
+													"    var jsonData = pm.response.json();\r",
+													"    pm.expect(jsonData.value.length).to.be.greaterThan(0);\r",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"id": "3733935d-4d21-4269-b18e-7ac779d2e999",
+									"protocolProfileBehavior": {
+										"disableBodyPruning": true
+									},
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Authorization",
+												"value": "{{publicapi.authorization}}",
+												"type": "text"
+											},
+											{
+												"key": "AccessKey",
+												"value": "{{publicapi.accesskey}}",
+												"type": "text"
+											}
+										],
+										"url": "{{public.api.baseurl}}/v3/Users"
+									},
+									"response": []
+								},
+								{
+									"name": "Search by Name",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "be338de3-7a40-4d53-a833-12940d2aeee7",
+												"exec": [
+													"pm.test(\"Status code is OK (200)\", function () {\r",
+													"    pm.response.to.have.status(200);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Test matching items were found\", function () {\r",
+													"    const expectedName = pm.environment.get(\"public.api.user_name\");\r",
+													"    const jsonData = pm.response.json();\r",
+													"    const users = jsonData.value;\r",
+													"    \r",
+													"    pm.expect(users.length).to.be.greaterThan(0);\r",
+													"\r",
+													"    users.forEach(c => {\r",
+													"        pm.expect(c.Name).to.equal(expectedName);\r",
+													"    });\r",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"id": "ab92a0dc-bb37-4dde-b1de-fb58375a511e",
+									"protocolProfileBehavior": {
+										"disableBodyPruning": true
+									},
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Authorization",
+												"value": "{{publicapi.authorization}}",
+												"type": "text"
+											},
+											{
+												"key": "AccessKey",
+												"value": "{{publicapi.accesskey}}",
+												"type": "text"
+											}
+										],
+										"url": {
+											"raw": "{{public.api.baseurl}}/v3/Users?$filter=Name eq '{{public.api.user_name}}'",
+											"host": [
+												"{{public.api.baseurl}}"
+											],
+											"path": [
+												"v3",
+												"Users"
+											],
+											"query": [
+												{
+													"key": "$filter",
+													"value": "Name eq '{{public.api.user_name}}'"
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Partial search by Name",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "d7492c0b-7ac7-4185-ab56-3bca5ef1604d",
+												"exec": [
+													"pm.test(\"Status code is OK (200)\", function () {\r",
+													"    pm.response.to.have.status(200);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Test matching items were found\", function () {\r",
+													"    const expectedName = pm.variables.get(\"public.api.user_name_part\");\r",
+													"    const jsonData = pm.response.json();\r",
+													"    const users = jsonData.value;\r",
+													"    \r",
+													"    pm.expect(users.length).to.be.greaterThan(0);\r",
+													"\r",
+													"    users.forEach(c => {\r",
+													"        pm.expect(c.Name.toUpperCase().includes(expectedName.toUpperCase().trim())).to.be.true;\r",
+													"    });\r",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"id": "3d4eba8f-0ae0-4f71-b9e7-08c8dc9704c0",
+									"protocolProfileBehavior": {
+										"disableBodyPruning": true
+									},
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Authorization",
+												"value": "{{publicapi.authorization}}",
+												"type": "text"
+											},
+											{
+												"key": "AccessKey",
+												"value": "{{publicapi.accesskey}}",
+												"type": "text"
+											}
+										],
+										"url": {
+											"raw": "{{public.api.baseurl}}/v3/Users?$filter=(contains(Name, '{{public.api.user_name_part}}'))",
+											"host": [
+												"{{public.api.baseurl}}"
+											],
+											"path": [
+												"v3",
+												"Users"
+											],
+											"query": [
+												{
+													"key": "$filter",
+													"value": "(contains(Name, '{{public.api.user_name_part}}'))"
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Search by EmailAddress",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "d7492c0b-7ac7-4185-ab56-3bca5ef1604d",
+												"exec": [
+													"pm.test(\"Status code is OK (200)\", function () {\r",
+													"    pm.response.to.have.status(200);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Test matching items were found\", function () {\r",
+													"    const expectedEmail = pm.environment.get(\"public.api.user_email\");\r",
+													"    const jsonData = pm.response.json();\r",
+													"    const users = jsonData.value;\r",
+													"    \r",
+													"    pm.expect(users.length).to.be.greaterThan(0);\r",
+													"\r",
+													"    users.forEach(c => {\r",
+													"        pm.expect(c.EmailAddress).to.equal(expectedEmail);\r",
+													"    });\r",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"id": "16b0a9f4-b455-48da-98e7-9fb2f8c40384",
+									"protocolProfileBehavior": {
+										"disableBodyPruning": true
+									},
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Authorization",
+												"value": "{{publicapi.authorization}}",
+												"type": "text"
+											},
+											{
+												"key": "AccessKey",
+												"value": "{{publicapi.accesskey}}",
+												"type": "text"
+											}
+										],
+										"url": {
+											"raw": "{{public.api.baseurl}}/v3/Users?$filter=EmailAddress eq '{{public.api.user_email}}'",
+											"host": [
+												"{{public.api.baseurl}}"
+											],
+											"path": [
+												"v3",
+												"Users"
+											],
+											"query": [
+												{
+													"key": "$filter",
+													"value": "EmailAddress eq '{{public.api.user_email}}'"
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Partial search by EmailAddress",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "d7492c0b-7ac7-4185-ab56-3bca5ef1604d",
+												"exec": [
+													"pm.test(\"Status code is OK (200)\", function () {\r",
+													"    pm.response.to.have.status(200);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Test matching items were found\", function () {\r",
+													"    const expectedEmail = pm.variables.get(\"public.api.user_email_part\");\r",
+													"    const jsonData = pm.response.json();\r",
+													"    const users = jsonData.value;\r",
+													"    \r",
+													"    pm.expect(users.length).to.be.greaterThan(0);\r",
+													"\r",
+													"    users.forEach(c => {\r",
+													"        pm.expect(c.EmailAddress.toUpperCase().includes(expectedEmail.toUpperCase().trim())).to.be.true;\r",
+													"    });\r",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"id": "7957b531-d3b9-4356-b615-8ec4858c6369",
+									"protocolProfileBehavior": {
+										"disableBodyPruning": true
+									},
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Authorization",
+												"value": "{{publicapi.authorization}}",
+												"type": "text"
+											},
+											{
+												"key": "AccessKey",
+												"value": "{{publicapi.accesskey}}",
+												"type": "text"
+											}
+										],
+										"url": {
+											"raw": "{{public.api.baseurl}}/v3/Users?$filter=(contains(EmailAddress, '{{public.api.user_email_part}}'))",
+											"host": [
+												"{{public.api.baseurl}}"
+											],
+											"path": [
+												"v3",
+												"Users"
+											],
+											"query": [
+												{
+													"key": "$filter",
+													"value": "(contains(EmailAddress, '{{public.api.user_email_part}}'))"
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Search some Users",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "0188d15c-1727-4310-90d8-1d011930b30d",
+												"exec": [
+													"pm.test(\"Status code is 200\", function () {\r",
+													"    pm.response.to.have.status(200);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Check correct number of items were found\", function () {\r",
+													"    var jsonData = pm.response.json();\r",
+													"    pm.expect(jsonData[\"@odata.count\"]).to.gte(1);\r",
+													"    pm.expect(jsonData.value.length).to.equal(5);\r",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"id": "a05b736a-5bbc-474b-9659-8d674402765f",
+									"protocolProfileBehavior": {
+										"disableBodyPruning": true
+									},
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Authorization",
+												"value": "{{publicapi.authorization}}",
+												"type": "text"
+											},
+											{
+												"key": "AccessKey",
+												"value": "{{publicapi.accesskey}}",
+												"type": "text"
+											}
+										],
+										"url": {
+											"raw": "{{public.api.baseurl}}/v3/Users?$top=5",
+											"host": [
+												"{{public.api.baseurl}}"
+											],
+											"path": [
+												"v3",
+												"Users"
+											],
+											"query": [
+												{
+													"key": "$top",
+													"value": "5"
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Search with select odata attribute",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "deb562af-48a8-4015-8091-370726a16279",
+												"exec": [
+													"pm.test(\"Status code is 400\", function () {\r",
+													"    pm.response.to.have.status(400);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Body matches contains Select not allowed\", function () {\r",
+													"    pm.expect(pm.response.text()).to.include(\"Query option 'Select' is not allowed\");\r",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"id": "70d3d83e-bc8c-4f25-80ee-2ac15c1ce133",
+									"protocolProfileBehavior": {
+										"disableBodyPruning": true
+									},
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Authorization",
+												"value": "{{publicapi.authorization}}",
+												"type": "text"
+											},
+											{
+												"key": "AccessKey",
+												"value": "{{publicapi.accesskey}}",
+												"type": "text"
+											}
+										],
+										"url": {
+											"raw": "{{public.api.baseurl}}/v3/Users?$select=FullName",
+											"host": [
+												"{{public.api.baseurl}}"
+											],
+											"path": [
+												"v3",
+												"Users"
+											],
+											"query": [
+												{
+													"key": "$select",
+													"value": "FullName"
+												}
+											]
+										}
+									},
+									"response": []
+								}
+							],
+							"id": "b6106690-d142-493f-ae0d-d36018b4b510"
+						}
+					],
+					"id": "15c92b1c-e17a-4405-91bd-65023748dc31"
+				},
+				{
 					"name": "ClientGroups",
 					"item": [
 						{
@@ -5206,592 +5801,6 @@
 						}
 					],
 					"id": "ebcbd483-451f-4b3b-86bc-757f60fa244d"
-				},
-				{
-					"name": "User",
-					"item": [
-						{
-							"name": "Create",
-							"item": [
-								{
-									"name": "Create User V3",
-									"event": [
-										{
-											"listen": "prerequest",
-											"script": {
-												"id": "44a1efc4-a8bf-49fd-a910-246e483f4016",
-												"exec": [
-													"var uuid = require('uuid');\r",
-													"var generatedEmail = uuid.v4() + \"@gmail.com\"; \r",
-													"var generatedName = uuid.v4(); \r",
-													"\r",
-													"pm.environment.set(\"public.api.contact_test_user_generatedemail\", generatedEmail);\r",
-													"pm.environment.set(\"public.api.contact_test_user_generatedname\", generatedName);\r",
-													"\r",
-													"console.log(generatedEmail);\r",
-													"console.log(generatedName);"
-												],
-												"type": "text/javascript"
-											}
-										},
-										{
-											"listen": "test",
-											"script": {
-												"id": "6466f10a-bb64-43d4-8943-e4525118e0f2",
-												"exec": [
-													"pm.test(\"Status code is Created (201)\", function () {\r",
-													"    pm.response.to.have.status(201);\r",
-													"});\r",
-													"\r",
-													"pm.test(\"Test user was created\", function () {\r",
-													"    const jsonData = pm.response.json();\r",
-													"\r",
-													"    pm.environment.set(\"public.api.user_name\", jsonData.Name);\r",
-													"    pm.environment.set(\"public.api.user_name_part\", jsonData.Name.substr(0, 4));\r",
-													"\r",
-													"    pm.environment.set(\"public.api.user_email\", jsonData.EmailAddress);\r",
-													"    pm.environment.set(\"public.api.user_email_part\", jsonData.EmailAddress.substr(0, 6));\r",
-													"\r",
-													"    pm.expect(jsonData).not.null;\r",
-													"});\r",
-													""
-												],
-												"type": "text/javascript"
-											}
-										}
-									],
-									"id": "5fa0b3e2-bbf0-4454-bc2e-ef3d26f9bcaf",
-									"protocolProfileBehavior": {
-										"disableBodyPruning": true
-									},
-									"request": {
-										"method": "POST",
-										"header": [
-											{
-												"key": "Authorization",
-												"value": "{{publicapi.authorization}}",
-												"type": "text"
-											},
-											{
-												"key": "AccessKey",
-												"value": "{{publicapi.accesskey}}",
-												"type": "text"
-											},
-											{
-												"key": "Content-Type",
-												"value": "application/json",
-												"type": "text"
-											}
-										],
-										"body": {
-											"mode": "raw",
-											"raw": "{\r\n    \"Name\": \"{{public.api.contact_test_user_generatedname}}\",\r\n    \"EmailAddress\": \"{{public.api.contact_test_user_generatedemail}}\"\r\n}",
-											"options": {
-												"raw": {
-													"language": "json"
-												}
-											}
-										},
-										"url": "{{public.api.baseurl}}/v3/Users"
-									},
-									"response": []
-								},
-								{
-									"name": "Create Alternate User for Notes V3",
-									"event": [
-										{
-											"listen": "prerequest",
-											"script": {
-												"id": "44a1efc4-a8bf-49fd-a910-246e483f4016",
-												"exec": [
-													"var uuid = require('uuid');\r",
-													"var generatedEmail = uuid.v4() + \"@gmail.com\"; \r",
-													"var generatedName = uuid.v4(); \r",
-													"\r",
-													"pm.environment.set(\"public.api.notes_test_user_generatedemail\", generatedEmail);\r",
-													"pm.environment.set(\"public.api.notes_test_user_generatedname\", generatedName);\r",
-													"\r",
-													"console.log(generatedEmail);\r",
-													"console.log(generatedName);"
-												],
-												"type": "text/javascript"
-											}
-										},
-										{
-											"listen": "test",
-											"script": {
-												"id": "6466f10a-bb64-43d4-8943-e4525118e0f2",
-												"exec": [
-													"pm.test(\"Status code is Created (201)\", function () {\r",
-													"    pm.response.to.have.status(201);\r",
-													"});\r",
-													""
-												],
-												"type": "text/javascript"
-											}
-										}
-									],
-									"id": "c0b00241-dc15-4863-a4bf-79583be01864",
-									"protocolProfileBehavior": {
-										"disableBodyPruning": true
-									},
-									"request": {
-										"method": "POST",
-										"header": [
-											{
-												"key": "Authorization",
-												"value": "{{publicapi.authorization}}",
-												"type": "text"
-											},
-											{
-												"key": "AccessKey",
-												"value": "{{publicapi.accesskey}}",
-												"type": "text"
-											}
-										],
-										"body": {
-											"mode": "raw",
-											"raw": "{\r\n    \"Name\": \"{{public.api.notes_test_user_generatedemail}}\",\r\n    \"EmailAddress\": \"{{public.api.notes_test_user_generatedname}}\"\r\n}",
-											"options": {
-												"raw": {
-													"language": "json"
-												}
-											}
-										},
-										"url": "{{public.api.baseurl}}/v3/Users"
-									},
-									"response": []
-								}
-							],
-							"id": "335fd32d-c4a8-44c1-aaf3-5e8a6dbc52fe"
-						},
-						{
-							"name": "Search",
-							"item": [
-								{
-									"name": "Search all Users",
-									"event": [
-										{
-											"listen": "test",
-											"script": {
-												"id": "d7492c0b-7ac7-4185-ab56-3bca5ef1604d",
-												"exec": [
-													"pm.test(\"Status code is 200\", function () {\r",
-													"    pm.response.to.have.status(200);\r",
-													"});\r",
-													"\r",
-													"pm.test(\"Check items were found\", function () {\r",
-													"    var jsonData = pm.response.json();\r",
-													"    pm.expect(jsonData.value.length).to.be.greaterThan(0);\r",
-													"});"
-												],
-												"type": "text/javascript"
-											}
-										}
-									],
-									"id": "3733935d-4d21-4269-b18e-7ac779d2e999",
-									"protocolProfileBehavior": {
-										"disableBodyPruning": true
-									},
-									"request": {
-										"method": "GET",
-										"header": [
-											{
-												"key": "Authorization",
-												"value": "{{publicapi.authorization}}",
-												"type": "text"
-											},
-											{
-												"key": "AccessKey",
-												"value": "{{publicapi.accesskey}}",
-												"type": "text"
-											}
-										],
-										"url": "{{public.api.baseurl}}/v3/Users"
-									},
-									"response": []
-								},
-								{
-									"name": "Search by Name",
-									"event": [
-										{
-											"listen": "test",
-											"script": {
-												"id": "be338de3-7a40-4d53-a833-12940d2aeee7",
-												"exec": [
-													"pm.test(\"Status code is OK (200)\", function () {\r",
-													"    pm.response.to.have.status(200);\r",
-													"});\r",
-													"\r",
-													"pm.test(\"Test matching items were found\", function () {\r",
-													"    const expectedName = pm.environment.get(\"public.api.user_name\");\r",
-													"    const jsonData = pm.response.json();\r",
-													"    const users = jsonData.value;\r",
-													"    \r",
-													"    pm.expect(users.length).to.be.greaterThan(0);\r",
-													"\r",
-													"    users.forEach(c => {\r",
-													"        pm.expect(c.Name).to.equal(expectedName);\r",
-													"    });\r",
-													"});"
-												],
-												"type": "text/javascript"
-											}
-										}
-									],
-									"id": "ab92a0dc-bb37-4dde-b1de-fb58375a511e",
-									"protocolProfileBehavior": {
-										"disableBodyPruning": true
-									},
-									"request": {
-										"method": "GET",
-										"header": [
-											{
-												"key": "Authorization",
-												"value": "{{publicapi.authorization}}",
-												"type": "text"
-											},
-											{
-												"key": "AccessKey",
-												"value": "{{publicapi.accesskey}}",
-												"type": "text"
-											}
-										],
-										"url": {
-											"raw": "{{public.api.baseurl}}/v3/Users?$filter=Name eq '{{public.api.user_name}}'",
-											"host": [
-												"{{public.api.baseurl}}"
-											],
-											"path": [
-												"v3",
-												"Users"
-											],
-											"query": [
-												{
-													"key": "$filter",
-													"value": "Name eq '{{public.api.user_name}}'"
-												}
-											]
-										}
-									},
-									"response": []
-								},
-								{
-									"name": "Partial search by Name",
-									"event": [
-										{
-											"listen": "test",
-											"script": {
-												"id": "d7492c0b-7ac7-4185-ab56-3bca5ef1604d",
-												"exec": [
-													"pm.test(\"Status code is OK (200)\", function () {\r",
-													"    pm.response.to.have.status(200);\r",
-													"});\r",
-													"\r",
-													"pm.test(\"Test matching items were found\", function () {\r",
-													"    const expectedName = pm.variables.get(\"public.api.user_name_part\");\r",
-													"    const jsonData = pm.response.json();\r",
-													"    const users = jsonData.value;\r",
-													"    \r",
-													"    pm.expect(users.length).to.be.greaterThan(0);\r",
-													"\r",
-													"    users.forEach(c => {\r",
-													"        pm.expect(c.Name.toUpperCase().includes(expectedName.toUpperCase().trim())).to.be.true;\r",
-													"    });\r",
-													"});"
-												],
-												"type": "text/javascript"
-											}
-										}
-									],
-									"id": "3d4eba8f-0ae0-4f71-b9e7-08c8dc9704c0",
-									"protocolProfileBehavior": {
-										"disableBodyPruning": true
-									},
-									"request": {
-										"method": "GET",
-										"header": [
-											{
-												"key": "Authorization",
-												"value": "{{publicapi.authorization}}",
-												"type": "text"
-											},
-											{
-												"key": "AccessKey",
-												"value": "{{publicapi.accesskey}}",
-												"type": "text"
-											}
-										],
-										"url": {
-											"raw": "{{public.api.baseurl}}/v3/Users?$filter=(contains(Name, '{{public.api.user_name_part}}'))",
-											"host": [
-												"{{public.api.baseurl}}"
-											],
-											"path": [
-												"v3",
-												"Users"
-											],
-											"query": [
-												{
-													"key": "$filter",
-													"value": "(contains(Name, '{{public.api.user_name_part}}'))"
-												}
-											]
-										}
-									},
-									"response": []
-								},
-								{
-									"name": "Search by EmailAddress",
-									"event": [
-										{
-											"listen": "test",
-											"script": {
-												"id": "d7492c0b-7ac7-4185-ab56-3bca5ef1604d",
-												"exec": [
-													"pm.test(\"Status code is OK (200)\", function () {\r",
-													"    pm.response.to.have.status(200);\r",
-													"});\r",
-													"\r",
-													"pm.test(\"Test matching items were found\", function () {\r",
-													"    const expectedEmail = pm.environment.get(\"public.api.user_email\");\r",
-													"    const jsonData = pm.response.json();\r",
-													"    const users = jsonData.value;\r",
-													"    \r",
-													"    pm.expect(users.length).to.be.greaterThan(0);\r",
-													"\r",
-													"    users.forEach(c => {\r",
-													"        pm.expect(c.EmailAddress).to.equal(expectedEmail);\r",
-													"    });\r",
-													"});"
-												],
-												"type": "text/javascript"
-											}
-										}
-									],
-									"id": "16b0a9f4-b455-48da-98e7-9fb2f8c40384",
-									"protocolProfileBehavior": {
-										"disableBodyPruning": true
-									},
-									"request": {
-										"method": "GET",
-										"header": [
-											{
-												"key": "Authorization",
-												"value": "{{publicapi.authorization}}",
-												"type": "text"
-											},
-											{
-												"key": "AccessKey",
-												"value": "{{publicapi.accesskey}}",
-												"type": "text"
-											}
-										],
-										"url": {
-											"raw": "{{public.api.baseurl}}/v3/Users?$filter=EmailAddress eq '{{public.api.user_email}}'",
-											"host": [
-												"{{public.api.baseurl}}"
-											],
-											"path": [
-												"v3",
-												"Users"
-											],
-											"query": [
-												{
-													"key": "$filter",
-													"value": "EmailAddress eq '{{public.api.user_email}}'"
-												}
-											]
-										}
-									},
-									"response": []
-								},
-								{
-									"name": "Partial search by EmailAddress",
-									"event": [
-										{
-											"listen": "test",
-											"script": {
-												"id": "d7492c0b-7ac7-4185-ab56-3bca5ef1604d",
-												"exec": [
-													"pm.test(\"Status code is OK (200)\", function () {\r",
-													"    pm.response.to.have.status(200);\r",
-													"});\r",
-													"\r",
-													"pm.test(\"Test matching items were found\", function () {\r",
-													"    const expectedEmail = pm.variables.get(\"public.api.user_email_part\");\r",
-													"    const jsonData = pm.response.json();\r",
-													"    const users = jsonData.value;\r",
-													"    \r",
-													"    pm.expect(users.length).to.be.greaterThan(0);\r",
-													"\r",
-													"    users.forEach(c => {\r",
-													"        pm.expect(c.EmailAddress.toUpperCase().includes(expectedEmail.toUpperCase().trim())).to.be.true;\r",
-													"    });\r",
-													"});"
-												],
-												"type": "text/javascript"
-											}
-										}
-									],
-									"id": "7957b531-d3b9-4356-b615-8ec4858c6369",
-									"protocolProfileBehavior": {
-										"disableBodyPruning": true
-									},
-									"request": {
-										"method": "GET",
-										"header": [
-											{
-												"key": "Authorization",
-												"value": "{{publicapi.authorization}}",
-												"type": "text"
-											},
-											{
-												"key": "AccessKey",
-												"value": "{{publicapi.accesskey}}",
-												"type": "text"
-											}
-										],
-										"url": {
-											"raw": "{{public.api.baseurl}}/v3/Users?$filter=(contains(EmailAddress, '{{public.api.user_email_part}}'))",
-											"host": [
-												"{{public.api.baseurl}}"
-											],
-											"path": [
-												"v3",
-												"Users"
-											],
-											"query": [
-												{
-													"key": "$filter",
-													"value": "(contains(EmailAddress, '{{public.api.user_email_part}}'))"
-												}
-											]
-										}
-									},
-									"response": []
-								},
-								{
-									"name": "Search some Users",
-									"event": [
-										{
-											"listen": "test",
-											"script": {
-												"id": "0188d15c-1727-4310-90d8-1d011930b30d",
-												"exec": [
-													"pm.test(\"Status code is 200\", function () {\r",
-													"    pm.response.to.have.status(200);\r",
-													"});\r",
-													"\r",
-													"pm.test(\"Check correct number of items were found\", function () {\r",
-													"    var jsonData = pm.response.json();\r",
-													"    pm.expect(jsonData[\"@odata.count\"]).to.gte(1);\r",
-													"    pm.expect(jsonData.value.length).to.equal(5);\r",
-													"});"
-												],
-												"type": "text/javascript"
-											}
-										}
-									],
-									"id": "a05b736a-5bbc-474b-9659-8d674402765f",
-									"protocolProfileBehavior": {
-										"disableBodyPruning": true
-									},
-									"request": {
-										"method": "GET",
-										"header": [
-											{
-												"key": "Authorization",
-												"value": "{{publicapi.authorization}}",
-												"type": "text"
-											},
-											{
-												"key": "AccessKey",
-												"value": "{{publicapi.accesskey}}",
-												"type": "text"
-											}
-										],
-										"url": {
-											"raw": "{{public.api.baseurl}}/v3/Users?$top=5",
-											"host": [
-												"{{public.api.baseurl}}"
-											],
-											"path": [
-												"v3",
-												"Users"
-											],
-											"query": [
-												{
-													"key": "$top",
-													"value": "5"
-												}
-											]
-										}
-									},
-									"response": []
-								},
-								{
-									"name": "Search with select odata attribute",
-									"event": [
-										{
-											"listen": "test",
-											"script": {
-												"id": "deb562af-48a8-4015-8091-370726a16279",
-												"exec": [
-													"pm.test(\"Status code is 400\", function () {\r",
-													"    pm.response.to.have.status(400);\r",
-													"});\r",
-													"\r",
-													"pm.test(\"Body matches contains Select not allowed\", function () {\r",
-													"    pm.expect(pm.response.text()).to.include(\"Query option 'Select' is not allowed\");\r",
-													"});"
-												],
-												"type": "text/javascript"
-											}
-										}
-									],
-									"id": "70d3d83e-bc8c-4f25-80ee-2ac15c1ce133",
-									"protocolProfileBehavior": {
-										"disableBodyPruning": true
-									},
-									"request": {
-										"method": "GET",
-										"header": [
-											{
-												"key": "Authorization",
-												"value": "{{publicapi.authorization}}",
-												"type": "text"
-											},
-											{
-												"key": "AccessKey",
-												"value": "{{publicapi.accesskey}}",
-												"type": "text"
-											}
-										],
-										"url": {
-											"raw": "{{public.api.baseurl}}/v3/Users?$select=FullName",
-											"host": [
-												"{{public.api.baseurl}}"
-											],
-											"path": [
-												"v3",
-												"Users"
-											],
-											"query": [
-												{
-													"key": "$select",
-													"value": "FullName"
-												}
-											]
-										}
-									},
-									"response": []
-								}
-							],
-							"id": "b6106690-d142-493f-ae0d-d36018b4b510"
-						}
-					],
-					"id": "15c92b1c-e17a-4405-91bd-65023748dc31"
 				},
 				{
 					"name": "SocketManager",
