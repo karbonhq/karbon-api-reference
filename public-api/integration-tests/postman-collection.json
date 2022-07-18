@@ -5295,6 +5295,72 @@
 										"url": "{{public.api.baseurl}}/v3/Users"
 									},
 									"response": []
+								},
+								{
+									"name": "Create Alternate User V3",
+									"event": [
+										{
+											"listen": "prerequest",
+											"script": {
+												"id": "44a1efc4-a8bf-49fd-a910-246e483f4016",
+												"exec": [
+													"var uuid = require('uuid');\r",
+													"var generatedEmail = uuid.v4() + \"@gmail.com\"; \r",
+													"var generatedName = uuid.v4(); \r",
+													"\r",
+													"pm.environment.set(\"public.api.notes_test_user_generatedemail\", generatedEmail);\r",
+													"pm.environment.set(\"public.api.notes_test_user_generatedname\", generatedName);\r",
+													"\r",
+													"console.log(generatedEmail);\r",
+													"console.log(generatedName);"
+												],
+												"type": "text/javascript"
+											}
+										},
+										{
+											"listen": "test",
+											"script": {
+												"id": "6466f10a-bb64-43d4-8943-e4525118e0f2",
+												"exec": [
+													"pm.test(\"Status code is Created (201)\", function () {\r",
+													"    pm.response.to.have.status(201);\r",
+													"});\r",
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"id": "c0b00241-dc15-4863-a4bf-79583be01864",
+									"protocolProfileBehavior": {
+										"disableBodyPruning": true
+									},
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Authorization",
+												"value": "{{publicapi.authorization}}",
+												"type": "text"
+											},
+											{
+												"key": "AccessKey",
+												"value": "{{publicapi.accesskey}}",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"Name\": \"{{public.api.notes_test_user_generatedemail}}\",\r\n    \"EmailAddress\": \"{{public.api.notes_test_user_generatedname}}\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": "{{public.api.baseurl}}/v3/Users"
+									},
+									"response": []
 								}
 							],
 							"id": "335fd32d-c4a8-44c1-aaf3-5e8a6dbc52fe"
