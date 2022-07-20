@@ -3527,7 +3527,7 @@
 										],
 										"body": {
 											"mode": "raw",
-											"raw": "{\r\n    \"AssigneeEmailAddress\":\"system@karbonhq.com\",\r\n    \"AuthorEmailAddress\": \"system@karbonhq.com\",\r\n    \"Body\": \"{Your note body here}\",\r\n    \"DueDate\": \"2021-03-11T15:12:55+11:00\",\r\n    \"Subject\": \"{Your subject header here}\",\r\n    \"TodoDate\": \"2021-03-11T15:12:55+11:00\"\r\n}",
+											"raw": "{\r\n    \"AssigneeEmailAddress\":\"thomas.williams@karbonhq.com\",\r\n    \"AuthorEmailAddress\": \"thomas.williams@karbonhq.com\",\r\n    \"Body\": \"{Your note body here}\",\r\n    \"DueDate\": \"2021-03-11T15:12:55+11:00\",\r\n    \"Subject\": \"{Your subject header here}\",\r\n    \"TodoDate\": \"2021-03-11T15:12:55+11:00\"\r\n}",
 											"options": {
 												"raw": {
 													"language": "json"
