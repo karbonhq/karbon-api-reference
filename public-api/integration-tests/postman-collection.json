@@ -13493,6 +13493,54 @@
 										"url": "{{public.api.baseurl}}/v3/BusinessCards/{{public.api.businessCardPermaKey}}"
 									},
 									"response": []
+								},
+								{
+									"name": "Get Organization BusinessCard Copy",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "94313d50-64ab-4339-8257-17f34ae3b4da",
+												"exec": [
+													"pm.test(\"Status code is 200\", function () {\r",
+													"    pm.response.to.have.status(200);\r",
+													"});\r",
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"id": "23a41948-5706-4003-8702-07e961387321",
+									"protocolProfileBehavior": {
+										"disableBodyPruning": true
+									},
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Authorization",
+												"value": "{{publicapi.authorization}}",
+												"type": "text"
+											},
+											{
+												"key": "AccessKey",
+												"value": "{{publicapi.accesskey}}",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": "{{public.api.baseurl}}/v3/BusinessCards/{{public.api.businessCardPermaKey}}"
+									},
+									"response": []
 								}
 							],
 							"id": "f3c13b8e-e2ec-46c1-8ed1-c71299385d29"
