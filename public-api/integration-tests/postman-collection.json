@@ -13538,7 +13538,7 @@
 												}
 											}
 										},
-										"url": "{{public.api.baseurl}}/v3/BusinessCards/{{public.api.OrganizationbusinessCardPermaKey}}"
+										"url": "{{public.api.baseurl}}/v3/BusinessCards/{{public.api.businessCardPermaKey_organization}}"
 									},
 									"response": []
 								},
