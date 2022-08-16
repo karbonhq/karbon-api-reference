@@ -13656,6 +13656,7 @@
 													"    pm.response.to.have.status(204);\r",
 													"});\r",
 													"\r",
+													"/*\r",
 													"const requestHost = pm.environment.get(\"public.api.baseurl\");\r",
 													"const requestId = pm.environment.get(\"public.api.businessCardPermaKey_organization\");\r",
 													"\r",
@@ -13680,7 +13681,8 @@
 													"        ])\r",
 													"        \r",
 													"    });\r",
-													"});"
+													"});\r",
+													"*/"
 												],
 												"type": "text/javascript"
 											}
