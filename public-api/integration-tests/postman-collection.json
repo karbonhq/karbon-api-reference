@@ -13693,7 +13693,7 @@
 									"response": []
 								},
 								{
-									"name": "Update Contact Business Card Copy",
+									"name": "Update Client Group Business Card",
 									"event": [
 										{
 											"listen": "test",
