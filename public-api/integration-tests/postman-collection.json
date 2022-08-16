@@ -13501,7 +13501,7 @@
 							"name": "Put",
 							"item": [
 								{
-									"name": "Update Business Card",
+									"name": "Update Contact Business Card",
 									"event": [
 										{
 											"listen": "test",
