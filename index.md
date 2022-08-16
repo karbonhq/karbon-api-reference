@@ -89,7 +89,7 @@ The value specified in the `Offset` property lets you increment (or decrement) t
 
     The value of the the `Offset` property affects the `day` function of the *`StartDate`* and the *`EndDate`*. 
 
-    When you use the `Offset` property with these variables, you will be able to move the dates forward (or decrement) by the number of days specified in the value of the `Offset` property.
+    When you use the `Offset` property with these variables, you will be able to move the dates forward (or backward) by the number of days specified in the value of the `Offset` property.
 
     For example, say the *`StartDate`* of the Work Item is 12 July, 2022. But you want the Work Item Title to read *10 JUL, 2022*. You will set the `Variable` property to *`StartDate`* and `Offset` property to `-2`. 
 
