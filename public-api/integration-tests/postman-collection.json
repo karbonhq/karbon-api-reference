@@ -13543,7 +13543,7 @@
 									"response": []
 								},
 								{
-									"name": "Get Client Group BusinessCard",
+									"name": "Get Organization BusinessCard Copy",
 									"event": [
 										{
 											"listen": "test",
