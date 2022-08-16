@@ -13447,7 +13447,7 @@
 							"name": "Get",
 							"item": [
 								{
-									"name": "Get BusinessCard",
+									"name": "Get Contact BusinessCard",
 									"event": [
 										{
 											"listen": "test",
