@@ -13736,7 +13736,7 @@
 												}
 											}
 										},
-										"url": "{{public.api.baseurl}}/v3/BusinessCards/{{public.api.clientGroupBusinessCard_permakey}}"
+										"url": "{{public.api.baseurl}}/v3/BusinessCards/{{public.api.businessCardPermaKey_clientGroup}}"
 									},
 									"response": []
 								}
