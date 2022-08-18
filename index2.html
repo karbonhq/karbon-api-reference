@@ -1,0 +1,27 @@
+<!doctype html> <!-- Important: must specify -->
+<html>
+  <head>
+    <meta charset="utf-8"> <!-- Important: rapi-doc uses utf8 characters -->
+    <script type="module" src="https://unpkg.com/rapidoc/dist/rapidoc-min.js"></script>
+  </head>
+  <body>
+    <rapi-doc spec-url = "https://karbonhq.github.io/karbon-api-reference/KarbonAPI.json"
+              theme = "light"
+              header-color = "#000000"
+              nav-bg-color = "#000000" 
+              primary-color = "#EE7F73"
+              allow-try = "true"
+              allow-server-selection = "true"
+              allow-authentication = "true"
+              schema-description-expanded = "true"
+              sort-endpoints-by	= "path"
+              render-style = "read"
+              layout = "row"
+              allow-spec-file-load = "false"
+              allow-spec-url-load = "false"
+              allow-spec-file-download= "true"
+    > 
+    <img slot ="logo" src = "https://developers.karbonhq.com/static/dev-center-logo-white-c992847ef9e2032c9d331277f1599672.svg" style="padding: 20px; width:275px; height:40px"/>
+    </rapi-doc>
+  </body>
+</html>
