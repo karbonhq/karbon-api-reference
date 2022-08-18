@@ -881,111 +881,61 @@ paths:
                 expression.  They are listed below with examples of usage.<br>
                 <ul><br> <li><b>Operators for DateTime Properties</b></li>
                 <table> <thead>
-
                     <tr>
-
                         <th>Logical Operators</th>
-
                         <th>Purpose</th>
-
                         <th>WorkItemCompletedDate</th>
-
                         <th>WorkItemDueDate</th>
-
                     </tr>
-
                 </thead> <tbody>
-
                     <tr>
-
                         <td>eq</td>
-
                         <td>Full-text search</td>
-
                         <td>WorkItemCompletedDate eq 2020-10-31T17:04:32Z</td>
-
                         <td>WorkItemDueDate eq  2020-10-31T17:04:32Z</td>
-
                     </tr>
-
                     <tr>
-
                         <td>ge</td>
-
                         <td>Greater than and equals to</td>
-
                         <td>WorkItemCompletedDate ge 2020-10-31T17:04:32Z</td>
-
                         <td>WorkItemDueDate ge 2020-10-31T17:04:32Z</td>
-
                     </tr>
-
                     <tr>
-
                         <td>le</td>
-
                         <td>Lesser than and equals to</td>
-
                         <td>WorkItemCompletedDate le 2020-10-31T17:04:32Z</td>
-
                         <td>WorkItemDueDate le 2020-10-31T17:04:32Z</td>
-
                     </tr>
-
                     <tr>
-
                         <td>and</td>
-
                         <td>Combines properties</td>
-
                         <td colspan = "2">WorkItemCompletedDate ge
                 2020-10-31T17:04:32Z and WorkItemKey eq '3jtk81v2Xtw7'</td>
-
                     </tr>
-
                 </tbody> </table><br> <li><b>Operators for other
                 Properties</b></li><br> <table> <thead>
-
                     <tr>
-
                         <th>Logical Operators</th>
-
                         <th>Purpose</th>
-
                         <th>Recipient/ClientRequestRecipientKey</th>
-
                         <th>WorkItemkey</th>
-
                     </tr>
-
                 </thead> <tbody>
-
                     <tr>
-
                         <td>eq</td>
-
                         <td>Full-text search</td>
-
                         <td>/v3/ClientRequests?$filter=Recipient/ClientRequestRecipientKe
                  eq 'yD8Rw3DxksW'</td>
-
                         <td>/v3/ClientRequests?$filter=WorkItemKey eq
                 '3jtk81v2Xtw7'</td>
-
                     </tr>
-
                     <tr>
-
                         <td>and</td>
-
                         <td>Combines properties</td>
-
                         <td colspan = "2">/v3/ClientRequests?$filter=WorkItemKey
                 eq '3jtk81v2Xtw7' and WorkItemDueDate ge
                 2020-10-31T17:04:32Z</td>
-
                     </tr>
-
                 </tbody> </table> </ul> </li></ul>
             operationId: getClientRequests
             parameters:
@@ -1441,14 +1391,12 @@ paths:
                 Use the <code>POST</code> method on this endpoint to create a new
                 Client Task comment.<br><br> You can also use this endpoint to
                 update an existing Client Task comment. If you want to update  an
-                existing Client Task comment using this endpoint, you must: <ul>
-
+                existing Client Task comment using this endpoint, you must: 
+                <ul>
                     <li>add the <code>CommentItemKey</code> property to the
                 request payload and assign the correct value to it.</li>
-
                     <li>remember that only <code>Message</code> and
                 <code>IsDraft</code> properties can be updated.</li>
-
                 <ul>
             operationId: postClientTaskComment
             responses:
@@ -2075,64 +2023,38 @@ paths:
                 <code>contains</code>, and <code>and</code>) and 3 properties to
                 help you form an expression. Usage examples below</li> <table>
                 <thead> <tr>
-
                     <th>Logical Operators</th>
-
                     <th>Purpose</th>
-
                     <th>FullName</th>
-
                     <th>EmailAddress</th>
-
                     <th>PhoneNumber</th>
-
                 </tr> </thead> <tbody>
-
                     <tr>
-
                         <td>eq</td>
-
                         <td>Full-text search</td>
-
                         <td>/v3/Contacts?$filter=FullName eq 'Sample Management
                 Team'</td>
-
                         <td>/v3/Contacts?$filter=EmailAddress eq
                 'sample@company.com'</td>
-
                         <td>/v3/Contacts?$filter=PhoneNumber eq
                 '1234567890'</td>
-
                     </tr>
-
                     <tr>
-
                         <td>contains</td>
-
                         <td>Partial-text search</td>
-
                         <td>/v3/Contacts?$filter=(contains(FullName, 'Management
                 Team'))</td>
-
                         <td>/v3/Contacts?$filter=(contains(EmailAddress,
                 'sample@'))</td>
-
                         <td>/v3/Contacts?$filter=(contains(PhoneNumber,
                 '45678'))</td>
-
                     </tr>
-
                     <tr>
-
                         <td>and</td>
-
                         <td>Combines properties</td>
-
                         <td colspan = "2">/v3/Contacts?$filter=PhoneNumber eq
                 '1234567890' and (contains(FullName, 'Management Team'))</td>
-
                     </tr>
-
                 </tbody> </table> </div>
             operationId: getAllContacts
             responses:
@@ -7978,125 +7900,35 @@ components:
                         is set to <code>LastDayOfMonth</code> or
                         <code>NoDueDate</code>.<br><br>Example of usage: <table>
                         <thead>
-
-
-
                             <th>ScheduleDueDateMethod</th>
-
-
-
                             <th>ScheduleDueDateDays</th>
-
-
-
                             <th>Read Due Date as</th>
-
-
-
                         </thead> <tbody>
-
-
-
                             <tr>
-
-
-
                                 <td>DaysFromStartDate</td>
-
-
-
                                 <td>7</td>
-
-
-
                                 <td>7 days after start date</td>
-
-
-
                             </tr>
-
-
-
                             <tr>
-
-
-
                                 <td>DayOfMonth</td>
-
-
-
                                 <td>7</td>
-
-
-
                                 <td>7th day of the current month</td>
-
-
-
                             </tr>
-
-
-
                             <tr>
-
-
-
                                 <td>LastDayOfMonth</td>
-
-
-
                                 <td>N/A</td>
-
-
-
                                 <td>Last day of the current month</td>
-
-
-
                             </tr>
-
-
-
                             <tr>
-
-
-
                                 <td>DayOfNextMonth</td>
-
-
-
                                 <td>7</td>
-
-
-
                                 <td>7th day of the next month</td>
-
-
-
                             </tr>
-
-
-
                             <tr>
-
-
-
                                 <td>NoDueDate</td>
-
-
-
                                 <td>N/A</td>
-
-
-
                                 <td>Work has no due date</td>
-
-
-
                             </tr>
-
-
-
                         </tbody> </table>
                     example: 7
                 ScheduleDueDateMonthMultiple:
@@ -8108,55 +7940,17 @@ components:
                         applicable if <code>ScheduleDueDateMethod</code> is set
                         to <code>DayOfSubsequentMonth</code>.<br><br>Example of
                         usage: <table> <thead>
-
-
-
                             <th>ScheduleDueDateMethod</th>
-
-
-
                             <th>ScheduleDueDateDays</th>
-
-
-
                             <th>ScheduleDueDateMonthMultiple</th>
-
-
-
                             <th>Read Due Date as</th>
-
-
-
                         </thead> <tbody>
-
-
-
                             <tr>
-
-
-
                                 <td>DaysFromStartDate</td>
-
-
-
                                 <td>7</td>
-
-
-
                                 <td>3</td>
-
-
-
-                                <td>7th day of the 3rd month after start
-
-                        date</td>
-
-
-
+                                <td>7th day of the 3rd month after start date</td>
                             </tr>
-
-
-
                         </tbody> </table>
                     example: 3
                 PreventStartEndOnWeekend:
@@ -8319,55 +8113,18 @@ components:
                         applicable if <code>ScheduleDueDateMethod</code> is set
                         to <code>DayOfSubsequentMonth</code>.<br><br>Example of
                         usage: <table> <thead>
-
-
-
                             <th>ScheduleDueDateMethod</th>
-
-
-
                             <th>ScheduleDueDateDays</th>
-
-
-
                             <th>ScheduleDueDateMonthMultiple</th>
-
-
-
                             <th>Read Due Date as</th>
-
-
-
                         </thead> <tbody>
-
-
-
                             <tr>
-
-
-
                                 <td>DaysFromStartDate</td>
-
-
-
                                 <td>7</td>
-
-
-
                                 <td>3</td>
-
-
-
                                 <td>7th day of the 3rd month after start
-
                         date</td>
-
-
-
                             </tr>
-
-
-
                         </tbody> </table>
                     example: 3
                 AssigneeUserKey:
