@@ -11238,7 +11238,34 @@
 												}
 											}
 										},
-										"url": "{{public.api.baseurl}}/v3/ClientTaskCommentAttachments/{{public.api.clienttask_test_commentkey}}"
+										"url": {
+											"raw": "{{public.api.baseurl}}/v3/ClientTaskCommentAttachments/{{public.api.clienttask_test_commentkey}}?userpublickey=6b080eaf-5550-40c2-878b-4ec1fc8ce599&clientkey={{public.api.clientcomment_test_authorkey}}&emailaddress={{public.api.clientrequest_test_emailaddress}}",
+											"host": [
+												"{{public.api.baseurl}}"
+											],
+											"path": [
+												"v3",
+												"ClientTaskCommentAttachments",
+												"{{public.api.clienttask_test_commentkey}}"
+											],
+											"query": [
+												{
+													"key": "userpublickey",
+													"value": "6b080eaf-5550-40c2-878b-4ec1fc8ce599",
+													"type": "text"
+												},
+												{
+													"key": "clientkey",
+													"value": "{{public.api.clientcomment_test_authorkey}}",
+													"type": "text"
+												},
+												{
+													"key": "emailaddress",
+													"value": "{{public.api.clientrequest_test_emailaddress}}",
+													"type": "text"
+												}
+											]
+										}
 									},
 									"response": []
 								},
