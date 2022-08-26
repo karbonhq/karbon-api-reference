@@ -1074,7 +1074,7 @@ paths:
                         enum:
                             - Recipient
                             - ClientTaskSummaries
-                            - LastCommentItem
+                            - ClientTaskSummaries($expand=LastCommentItem)
                         example: 'Recipient,ClientTaskSummaries($expand=LastCommentItem)'
                     description: >
                         When these parameters are combined with the URI, this
