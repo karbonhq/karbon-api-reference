@@ -2237,7 +2237,7 @@
                             "enum": [
                                 "LastCommentItem"
                             ],
-                            "example": "$expand=LastCommentItem"
+                            "example": "LastCommentItem"
                         }
                     }
                 ],

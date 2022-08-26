@@ -1711,7 +1711,7 @@ paths:
                         type: string
                         enum:
                             - LastCommentItem
-                        example: $expand=LastCommentItem
+                        example: LastCommentItem
             description: >
                 Use the <code>GET</code> method on this endpoint to receive the
                 details of a Client Task using the
