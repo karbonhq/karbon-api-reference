@@ -10279,7 +10279,6 @@
 													"        pm.test(\"Check client requests are returned with correct search results\", function () {\r",
 													"            var jsonData = pm.response.json();\r",
 													"            if (jsonData.value.length > 0){\r",
-													"                pm.expect(jsonData.value.length).to.lte(100);\r",
 													"                jsonData.value.forEach(element => \r",
 													"                    pm.expect(Date.parse(element.WorkItemDueDate)).to.gte(Date.parse('2020-10-31T17:04:32Z')));\r",
 													"            }\r",
