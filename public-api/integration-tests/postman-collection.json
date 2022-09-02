@@ -10037,8 +10037,7 @@
 													"        pm.response.to.have.status(200);\r",
 													"        pm.test(\"Check client requests are returned\", function () {\r",
 													"            var jsonData = pm.response.json();\r",
-													"            pm.expect(jsonData.value.length).to.gte(1);    \r",
-													"            pm.expect(jsonData.value.length).to.lte(100);\r",
+													"            pm.expect(jsonData.value.length).to.gte(1);\r",
 													"        });\r",
 													"});"
 												],
