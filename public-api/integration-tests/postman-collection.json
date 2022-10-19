@@ -13424,6 +13424,44 @@
 									"response": []
 								},
 								{
+									"name": "Test with John",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "463fc1ef-5516-484b-bf9f-d4923df89893",
+												"exec": [
+													"pm.test(\"Status code is 404\", function () {\r",
+													"    pm.response.to.have.status(404);\r",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"id": "d478e0e8-bd3e-48ba-9acc-519c6ab94150",
+									"protocolProfileBehavior": {
+										"disableBodyPruning": true
+									},
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Authorization",
+												"value": "{{publicapi.authorization}}",
+												"type": "text"
+											},
+											{
+												"key": "AccessKey",
+												"value": "{{publicapi.accesskey}}",
+												"type": "text"
+											}
+										],
+										"url": "{{public.api.baseurl}}/v3/Comments('{{hardCodedUrl}}')"
+									},
+									"response": []
+								},
+								{
 									"name": "Get comment valid",
 									"event": [
 										{
