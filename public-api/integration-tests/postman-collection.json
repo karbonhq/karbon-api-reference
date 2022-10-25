@@ -1710,1629 +1710,6 @@
 					"id": "c85812cd-f6e6-4bc2-afdb-f2cc7b6204cd"
 				},
 				{
-					"name": "Contacts",
-					"item": [
-						{
-							"name": "Create",
-							"item": [
-								{
-									"name": "#4350 Create Contact with extra CRM Fields",
-									"event": [
-										{
-											"listen": "prerequest",
-											"script": {
-												"id": "b86cb0a4-9236-4c22-ab13-d297fae2441e",
-												"exec": [
-													"var uuid = require('uuid');\r",
-													"var generatedUUID = uuid.v4(); \r",
-													"pm.environment.set(\"public.api.contact_uniqueidentifier\", generatedUUID);"
-												],
-												"type": "text/javascript"
-											}
-										},
-										{
-											"listen": "test",
-											"script": {
-												"id": "c3c24380-f17c-4a7d-b836-902c6e743a48",
-												"exec": [
-													"pm.test(\"Status code is Created (201)\", function () {\r",
-													"    pm.response.to.have.status(201);\r",
-													"});\r",
-													"\r",
-													"pm.test(\"Set contact permakey\", function () {\r",
-													"    const jsonData = pm.response.json();\r",
-													"    const fullName = `${jsonData.FirstName} ${jsonData.MiddleName} ${jsonData.LastName}`;\r",
-													"    pm.environment.set(\"public.api.contact_permakey\", jsonData.ContactKey);\r",
-													"    pm.environment.set(\"public.api.contact_userdefinedidentifier\", jsonData.UserDefinedIdentifier);\r",
-													"    pm.environment.set(\"public.api.search_test_contact1_fullname\", fullName);\r",
-													"    pm.environment.set(\"public.api.contact_phone\", \"12345678\");\r",
-													"});"
-												],
-												"type": "text/javascript"
-											}
-										}
-									],
-									"id": "eb1fe95c-45dd-40f1-881b-a5419e5fb2c0",
-									"protocolProfileBehavior": {
-										"disableBodyPruning": true
-									},
-									"request": {
-										"method": "POST",
-										"header": [
-											{
-												"key": "Authorization",
-												"value": "{{publicapi.authorization}}",
-												"type": "text"
-											},
-											{
-												"key": "AccessKey",
-												"value": "{{publicapi.accesskey}}",
-												"type": "text"
-											}
-										],
-										"body": {
-											"mode": "raw",
-											"raw": "{\r\n    \"FirstName\": \"First\",\r\n    \"MiddleName\": \"Second\",\r\n    \"LastName\": \"Last\",\r\n    \"PreferredName\": \"Preferrred\",\r\n    \"Salutation\": \"Dr\",\r\n    \"Suffix\": \"Of the Test\",\r\n    \"RestrictionLevel\": \"Public\",\r\n    \"UserDefinedIdentifier\": \"{{public.api.contact_uniqueidentifier}}\",\r\n    \"BusinessCards\": [\r\n        {\r\n            \"IsPrimaryCard\": true,\r\n            \"Addresses\": [\r\n                {\r\n                    \"AddressLines\": \"address line test\",\r\n                    \"City\": \"city test\",\r\n                    \"StateProvinceCounty\": \"NSW\",\r\n                    \"ZipCode\": \"2120\",\r\n                    \"CountryCode\": \"AU\",\r\n                    \"Label\": \"Test label\"\r\n                }\r\n            ],\r\n            \"PhoneNumbers\": [\r\n                {\r\n                    \"Number\": \"12345678\",\r\n                    \"CountryCode\": \"+61\",\r\n                    \"Label\": \"Work\"\r\n                }\r\n            ],\r\n            \"WebSites\": [\r\n                \"web.cool\",\r\n                \"website.two\"\r\n            ],\r\n            \"EmailAddresses\": [\r\n                \"{{public.api.contact_uniqueidentifier}}@karbonhq.com\"\r\n            ],\r\n            \"RoleOrTitle\": \"CIO\",\r\n            \"FacebookLink\": \"facebook.com/test\",\r\n            \"LinkedInLink\": \"LinkedIn.com/test\",\r\n            \"TwitterLink\": \"Twitter.com/test\",\r\n            \"SkypeLink\": \"Skype.com/test\"\r\n        }\r\n    ],\r\n    \"EntityDescription\": {\r\n        \"Text\": \"test description\"\r\n    },\r\n    \"AccountingDetail\": {\r\n        \"BirthDate\": \"2001-05-16\",\r\n        \"DeathDate\": \"2021-05-16\",\r\n        \"Salutation\": \"The Dishonorable\",\r\n        \"Sex\": \"M\",\r\n        \"FinancialYearEndDay\": \"11\",\r\n        \"FinancialYearEndMonth\": \"0\",\r\n        \"LegalName\": \"League of Heels\",\r\n        \"TaxCountryCode\": \"AU\",\r\n        \"IncomeTaxInstallmentPeriod\": \"Monthly\",\r\n        \"RegistrationNumbers\": [\r\n            {\r\n                \"RegistrationNumber\": \"123 321 3445\",\r\n                \"Type\": \"Tax File Number (TFN)\"\r\n            },\r\n            {\r\n                \"RegistrationNumber\": \"444 333 222\",\r\n                \"Type\": \"Australian Business Number (ABN)\"\r\n            }\r\n        ],\r\n        \"Notes\": [\r\n            {\r\n                \"Body\": \"Notes basic body\",\r\n                \"Type\": \"Basic\"\r\n            },\r\n            {\r\n                \"Body\": \"Notes tax body\",\r\n                \"Type\": \"Tax\"\r\n            },\r\n            {\r\n                \"Body\": \"Notes system body\",\r\n                \"Type\": \"System\"\r\n            },\r\n            {\r\n                \"Body\": \"Notes related people body\",\r\n                \"Type\": \"Related People\"\r\n            }\r\n        ]\r\n    }\r\n}",
-											"options": {
-												"raw": {
-													"language": "json"
-												}
-											}
-										},
-										"url": "{{public.api.baseurl}}/v3/Contacts"
-									},
-									"response": []
-								},
-								{
-									"name": "#9155 Create Contact with Registration Numbers but no Notes",
-									"event": [
-										{
-											"listen": "prerequest",
-											"script": {
-												"id": "48265c74-9f2e-464d-981a-c1839d83caeb",
-												"exec": [
-													"var uuid = require('uuid');\r",
-													"var generatedUUID = uuid.v4(); \r",
-													"pm.environment.set(\"public.api.contact_uniqueidentifier3\", generatedUUID);"
-												],
-												"type": "text/javascript"
-											}
-										},
-										{
-											"listen": "test",
-											"script": {
-												"id": "8e9d5b9f-7710-4b18-b791-9c5673e3897c",
-												"exec": [
-													"pm.test(\"Status code is Created (201)\", function () {\r",
-													"    pm.response.to.have.status(201);\r",
-													"});"
-												],
-												"type": "text/javascript"
-											}
-										}
-									],
-									"id": "55da7c11-098c-4f87-bd86-5cc668f34f74",
-									"protocolProfileBehavior": {
-										"disableBodyPruning": true
-									},
-									"request": {
-										"method": "POST",
-										"header": [
-											{
-												"key": "Authorization",
-												"value": "{{publicapi.authorization}}",
-												"type": "text"
-											},
-											{
-												"key": "AccessKey",
-												"value": "{{publicapi.accesskey}}",
-												"type": "text"
-											}
-										],
-										"body": {
-											"mode": "raw",
-											"raw": "{\r\n    \"FirstName\": \"First\",\r\n    \"MiddleName\": \"Second\",\r\n    \"LastName\": \"Last\",\r\n    \"PreferredName\": \"Preferrred\",\r\n    \"Salutation\": \"Dr\",\r\n    \"Suffix\": \"Of the Test\",\r\n    \"RestrictionLevel\": \"Public\",\r\n    \"UserDefinedIdentifier\": \"{{public.api.contact_uniqueidentifier3}}\",\r\n    \"BusinessCards\": [\r\n        {\r\n            \"IsPrimaryCard\": true,\r\n            \"Addresses\": [\r\n                {\r\n                    \"AddressLines\": \"address line test\",\r\n                    \"City\": \"city test\",\r\n                    \"StateProvinceCounty\": \"NSW\",\r\n                    \"ZipCode\": \"2120\",\r\n                    \"CountryCode\": \"AU\",\r\n                    \"Label\": \"Test label\"\r\n                }\r\n            ],\r\n            \"PhoneNumbers\": [\r\n                {\r\n                    \"Number\": \"12345678\",\r\n                    \"CountryCode\": \"+61\",\r\n                    \"Label\": \"Work\"\r\n                }\r\n            ],\r\n            \"WebSites\": [\r\n                \"web.cool\",\r\n                \"website.two\"\r\n            ],\r\n            \"EmailAddresses\": [\r\n                \"{{public.api.contact_uniqueidentifier3}}@karbonhq.com\"\r\n            ],\r\n            \"RoleOrTitle\": \"CIO\",\r\n            \"FacebookLink\": \"facebook.com/test\",\r\n            \"LinkedInLink\": \"LinkedIn.com/test\",\r\n            \"TwitterLink\": \"Twitter.com/test\",\r\n            \"SkypeLink\": \"Skype.com/test\"\r\n        }\r\n    ],\r\n    \"EntityDescription\": {\r\n        \"Text\": \"test description\"\r\n    },\r\n    \"AccountingDetail\": {\r\n        \"BirthDate\": \"2001-05-16\",\r\n        \"DeathDate\": \"2021-05-16\",\r\n        \"Salutation\": \"The Dishonorable\",\r\n        \"Sex\": \"M\",\r\n        \"FinancialYearEndDay\": \"11\",\r\n        \"FinancialYearEndMonth\": \"0\",\r\n        \"LegalName\": \"League of Heels\",\r\n        \"TaxCountryCode\": \"AU\",\r\n        \"IncomeTaxInstallmentPeriod\": \"Monthly\",\r\n        \"RegistrationNumbers\": [\r\n            {\r\n                \"RegistrationNumber\": \"123 321 3445\",\r\n                \"Type\": \"Tax File Number (TFN)\"\r\n            },\r\n            {\r\n                \"RegistrationNumber\": \"444 333 222\",\r\n                \"Type\": \"Australian Business Number (ABN)\"\r\n            }\r\n        ]\r\n    }\r\n}",
-											"options": {
-												"raw": {
-													"language": "json"
-												}
-											}
-										},
-										"url": "{{public.api.baseurl}}/v3/Contacts"
-									},
-									"response": []
-								},
-								{
-									"name": "Create Contact without notes or registration numbers",
-									"event": [
-										{
-											"listen": "prerequest",
-											"script": {
-												"id": "1ca86478-a7de-4674-ba48-057df724bf4e",
-												"exec": [
-													"var uuid = require('uuid');\r",
-													"var generatedUUID = uuid.v4(); \r",
-													"pm.environment.set(\"public.api.contact_uniqueidentifier2\", generatedUUID);"
-												],
-												"type": "text/javascript"
-											}
-										},
-										{
-											"listen": "test",
-											"script": {
-												"id": "76b3f9b0-f79b-4eac-a24d-46a1b2aaaf09",
-												"exec": [
-													"pm.test(\"Status code is Created (201)\", function () {\r",
-													"    pm.response.to.have.status(201);\r",
-													"});\r",
-													""
-												],
-												"type": "text/javascript"
-											}
-										}
-									],
-									"id": "bfc04902-c47c-46d5-b49e-0874e4481bf7",
-									"protocolProfileBehavior": {
-										"disableBodyPruning": true
-									},
-									"request": {
-										"method": "POST",
-										"header": [
-											{
-												"key": "Authorization",
-												"value": "{{publicapi.authorization}}",
-												"type": "text"
-											},
-											{
-												"key": "AccessKey",
-												"value": "{{publicapi.accesskey}}",
-												"type": "text"
-											}
-										],
-										"body": {
-											"mode": "raw",
-											"raw": "{\r\n    \"FirstName\": \"First\",\r\n    \"MiddleName\": \"Second\",\r\n    \"LastName\": \"Last\",\r\n    \"PreferredName\": \"Preferrred\",\r\n    \"Salutation\": \"Dr\",\r\n    \"Suffix\": \"Of the Test\",\r\n    \"RestrictionLevel\": \"Public\",\r\n    \"UserDefinedIdentifier\": \"{{public.api.contact_uniqueidentifier2}}}}\",\r\n    \"BusinessCards\": [\r\n        {\r\n            \"IsPrimaryCard\": true,\r\n            \"Addresses\": [\r\n                {\r\n                    \"AddressLines\": \"address line test\",\r\n                    \"City\": \"city test\",\r\n                    \"StateProvinceCounty\": \"NSW\",\r\n                    \"ZipCode\": \"2120\",\r\n                    \"CountryCode\": \"AU\",\r\n                    \"Label\": \"Test label\"\r\n                }\r\n            ],\r\n            \"PhoneNumbers\": [\r\n                {\r\n                    \"Number\": \"12345678\",\r\n                    \"CountryCode\": \"+61\",\r\n                    \"Label\": \"Work\"\r\n                }\r\n            ],\r\n            \"WebSites\": [\r\n                \"web.cool\",\r\n                \"website.two\"\r\n            ],\r\n            \"EmailAddresses\": [\r\n                \"{{public.api.contact_uniqueidentifier2}}@karbonhq.com\"\r\n            ],\r\n            \"RoleOrTitle\": \"CIO\",\r\n            \"FacebookLink\": \"facebook.com/test\",\r\n            \"LinkedInLink\": \"LinkedIn.com/test\",\r\n            \"TwitterLink\": \"Twitter.com/test\",\r\n            \"SkypeLink\": \"Skype.com/test\"\r\n        }\r\n    ],\r\n    \"EntityDescription\": {\r\n        \"Text\": \"test description\"\r\n    },\r\n    \"AccountingDetail\": {\r\n        \"BirthDate\": \"2001-05-16\",\r\n        \"DeathDate\": \"2021-05-16\",\r\n        \"Salutation\": \"The Dishonorable\",\r\n        \"Sex\": \"M\",\r\n        \"FinancialYearEndDay\": \"11\",\r\n        \"FinancialYearEndMonth\": \"0\",\r\n        \"LegalName\": \"League of Heels\",\r\n        \"TaxCountryCode\": \"AU\",\r\n        \"IncomeTaxInstallmentPeriod\": \"Monthly\"\r\n    }\r\n}",
-											"options": {
-												"raw": {
-													"language": "json"
-												}
-											}
-										},
-										"url": "{{public.api.baseurl}}/v3/Contacts"
-									},
-									"response": []
-								}
-							],
-							"id": "ddfbfca0-9c98-489d-89cc-0dc74cefca18"
-						},
-						{
-							"name": "Get By PermaKey",
-							"item": [
-								{
-									"name": "Get by PermaKey with select odata attribute",
-									"event": [
-										{
-											"listen": "test",
-											"script": {
-												"exec": [
-													"pm.test(\"Status code is 400\", function () {\r",
-													"    pm.response.to.have.status(400);\r",
-													"});\r",
-													"pm.test(\"Body matches contains select function not allowed\", function () {\r",
-													"    pm.expect(pm.response.text()).to.include(\"Query option 'Select' is not allowed\");\r",
-													"});"
-												],
-												"type": "text/javascript",
-												"id": "b4c112f2-4c83-4b84-a276-858a64a2740d"
-											}
-										}
-									],
-									"id": "a5c65c36-e9f2-471d-aa57-30495f3995b8",
-									"protocolProfileBehavior": {
-										"disableBodyPruning": true
-									},
-									"request": {
-										"method": "GET",
-										"header": [
-											{
-												"key": "Authorization",
-												"value": "{{publicapi.authorization}}",
-												"type": "text"
-											},
-											{
-												"key": "AccessKey",
-												"value": "{{publicapi.accesskey}}",
-												"type": "text"
-											}
-										],
-										"url": {
-											"raw": "{{public.api.baseurl}}/v3/Contacts/{{public.api.contact_permakey}}?$select=FullName",
-											"host": [
-												"{{public.api.baseurl}}"
-											],
-											"path": [
-												"v3",
-												"Contacts",
-												"{{public.api.contact_permakey}}"
-											],
-											"query": [
-												{
-													"key": "$select",
-													"value": "FullName"
-												}
-											]
-										}
-									},
-									"response": []
-								},
-								{
-									"name": "Get by PermaKey",
-									"event": [
-										{
-											"listen": "test",
-											"script": {
-												"id": "067d410b-4001-463d-be50-470336f95e02",
-												"exec": [
-													"pm.test(\"Status code is 200\", function () {\r",
-													"    pm.response.to.have.status(200);\r",
-													"});\r",
-													"pm.test(\"Business Cards are expanded\", function () {\r",
-													"    const responseJson = pm.response.json();\r",
-													"    var businessCards = responseJson.BusinessCards;\r",
-													"    pm.expect(businessCards.length).to.be.greaterThan(0);\r",
-													"\r",
-													"    // Get First business card and ensure a key exists.\r",
-													"    pm.expect(businessCards[0].BusinessCardKey).to.be.not.empty;\r",
-													"});\r",
-													"\r",
-													"pm.test(\"User Defined Identifier is returned\", function() {\r",
-													"    pm.expect(pm.response.json().UserDefinedIdentifier).to.eq(pm.environment.get(\"public.api.contact_userdefinedidentifier\"));\r",
-													"})"
-												],
-												"type": "text/javascript"
-											}
-										}
-									],
-									"id": "4dbf6d49-8ea8-4477-8ab3-af0c53a1034a",
-									"protocolProfileBehavior": {
-										"disableBodyPruning": true
-									},
-									"request": {
-										"method": "GET",
-										"header": [
-											{
-												"key": "Authorization",
-												"value": "{{publicapi.authorization}}",
-												"type": "text"
-											},
-											{
-												"key": "AccessKey",
-												"value": "{{publicapi.accesskey}}",
-												"type": "text"
-											}
-										],
-										"url": {
-											"raw": "{{public.api.baseurl}}/v3/Contacts/{{public.api.contact_permakey}}?$expand=BusinessCards",
-											"host": [
-												"{{public.api.baseurl}}"
-											],
-											"path": [
-												"v3",
-												"Contacts",
-												"{{public.api.contact_permakey}}"
-											],
-											"query": [
-												{
-													"key": "$expand",
-													"value": "BusinessCards"
-												}
-											]
-										}
-									},
-									"response": []
-								},
-								{
-									"name": "#4350 Get by PermaKey with Expand CRM fields Create test",
-									"event": [
-										{
-											"listen": "test",
-											"script": {
-												"id": "d4d527d1-1b55-463e-b792-f14d94c7d446",
-												"exec": [
-													"pm.test(\"Status code is 200\", function () {\r",
-													"    pm.response.to.have.status(200);\r",
-													"});\r",
-													"\r",
-													"pm.test(\"Restriction Level Test\", function () {\r",
-													"    var jsonData = pm.response.json();\r",
-													"    pm.expect(jsonData.RestrictionLevel).length.greaterThan(0);\r",
-													"});\r",
-													"\r",
-													"pm.test(\"Suffix Test\", function () {\r",
-													"    var jsonData = pm.response.json();\r",
-													"    pm.expect(jsonData.Suffix).length.greaterThan(0);\r",
-													"});\r",
-													"\r",
-													"pm.test(\"Entity Description Test\", function () {\r",
-													"    var jsonData = pm.response.json();\r",
-													"    pm.expect(jsonData.EntityDescription).to.not.eql(undefined);\r",
-													"    pm.expect(jsonData.EntityDescription.Text).length.greaterThan(0);\r",
-													"});\r",
-													"\r",
-													"pm.test(\"Contact Social Media Links Test\", function () {\r",
-													"    var jsonData = pm.response.json();\r",
-													"    pm.expect(jsonData.BusinessCards[0].FacebookLink).length.greaterThan(0);\r",
-													"    pm.expect(jsonData.BusinessCards[0].LinkedInLink).length.greaterThan(0);\r",
-													"    pm.expect(jsonData.BusinessCards[0].TwitterLink).length.greaterThan(0);\r",
-													"    pm.expect(jsonData.BusinessCards[0].SkypeLink).length.greaterThan(0);\r",
-													"});\r",
-													"\r",
-													"pm.test(\"Accounting Details Test\", function () {\r",
-													"    var jsonData = pm.response.json();\r",
-													"    pm.expect(jsonData.AccountingDetail).to.not.equal(undefined);\r",
-													"    pm.expect(jsonData.AccountingDetail.ContactPermaKey).length.greaterThan(0);\r",
-													"    pm.expect(jsonData.AccountingDetail.BirthDate).length.greaterThan(0);\r",
-													"    pm.expect(jsonData.AccountingDetail.DeathDate).length.greaterThan(0);\r",
-													"    pm.expect(jsonData.AccountingDetail.Salutation).length.greaterThan(0);\r",
-													"    pm.expect(jsonData.AccountingDetail.Sex).length.greaterThan(0);\r",
-													"    pm.expect(jsonData.AccountingDetail.FinancialYearEndDay).to.equal(11);\r",
-													"    pm.expect(jsonData.AccountingDetail.FinancialYearEndMonth).to.equal(0);\r",
-													"    pm.expect(jsonData.AccountingDetail.LegalName).length.greaterThan(0);\r",
-													"    pm.expect(jsonData.AccountingDetail.TaxCountryCode).length.greaterThan(0);\r",
-													"    pm.expect(jsonData.AccountingDetail.IncomeTaxInstallmentPeriod).length.greaterThan(0);\r",
-													"    pm.expect(jsonData.AccountingDetail.RegistrationNumbers.length).to.equal(2);\r",
-													"    pm.expect(jsonData.AccountingDetail.Notes.length).to.equal(4);\r",
-													"});"
-												],
-												"type": "text/javascript"
-											}
-										}
-									],
-									"id": "76a41b24-9c4e-457e-b888-546f7da1e009",
-									"protocolProfileBehavior": {
-										"disableBodyPruning": true
-									},
-									"request": {
-										"method": "GET",
-										"header": [
-											{
-												"key": "Authorization",
-												"value": "{{publicapi.authorization}}",
-												"type": "text"
-											},
-											{
-												"key": "AccessKey",
-												"value": "{{publicapi.accesskey}}",
-												"type": "text"
-											}
-										],
-										"url": {
-											"raw": "{{public.api.baseurl}}/v3/Contacts/{{public.api.contact_permakey}}?$expand=BusinessCards",
-											"host": [
-												"{{public.api.baseurl}}"
-											],
-											"path": [
-												"v3",
-												"Contacts",
-												"{{public.api.contact_permakey}}"
-											],
-											"query": [
-												{
-													"key": "$expand",
-													"value": "BusinessCards"
-												}
-											]
-										}
-									},
-									"response": []
-								}
-							],
-							"id": "d8e791ee-5e15-4c85-8a8b-8de5f4002ce9"
-						},
-						{
-							"name": "Get by UserDefinedIdentifier",
-							"item": [
-								{
-									"name": "Get a contact from the supplied User Defined Identifier",
-									"event": [
-										{
-											"listen": "test",
-											"script": {
-												"id": "b48d1b05-2fb3-447d-b6ea-f588b0eb64b5",
-												"exec": [
-													"pm.test(\"Status code is 200\", function () {\r",
-													"    pm.response.to.have.status(200);\r",
-													"});\r",
-													"\r",
-													"pm.test(\"Business Cards aren't loaded without expand\", function () {\r",
-													"    var jsonData = pm.response.json();\r",
-													"    pm.expect(jsonData.BusinessCards).to.eql(undefined);\r",
-													"});"
-												],
-												"type": "text/javascript"
-											}
-										},
-										{
-											"listen": "prerequest",
-											"script": {
-												"id": "42434556-16d9-466b-9fb9-c401128f8c2f",
-												"exec": [
-													""
-												],
-												"type": "text/javascript"
-											}
-										}
-									],
-									"id": "143b3126-3723-462e-b178-b112db142459",
-									"protocolProfileBehavior": {
-										"disableBodyPruning": true
-									},
-									"request": {
-										"method": "GET",
-										"header": [
-											{
-												"key": "Authorization",
-												"value": "{{publicapi.authorization}}",
-												"type": "text"
-											},
-											{
-												"key": "AccessKey",
-												"value": "{{publicapi.accesskey}}",
-												"type": "text"
-											}
-										],
-										"url": "{{public.api.baseurl}}/v3/Contacts/KarbonService.GetContactByUserDefinedIdentifier(UserDefinedIdentifier='{{public.api.contact_userdefinedidentifier}}')"
-									},
-									"response": [
-										{
-											"id": "339e2254-5d8f-49e6-bd04-0345ba7658c9",
-											"name": "OK",
-											"originalRequest": {
-												"method": "GET",
-												"header": [],
-												"url": "{{baseUrl}}/v3/Contacts/GetByUserDefinedIdentifier(userDefinedIdentifier='{{userDefinedIdentifier}}')"
-											},
-											"status": "OK",
-											"code": 200,
-											"_postman_previewlanguage": "json",
-											"header": [
-												{
-													"key": "Content-Type",
-													"value": "application/json"
-												}
-											],
-											"cookie": [],
-											"responseTime": null,
-											"body": "{\n \"FirstName\": \"Douglas\",\n \"MiddleName\": \"Noel\",\n \"LastName\": \"Adams\",\n \"PreferredName\": \"Doug\",\n \"Salutation\": \"Mr\",\n \"BusinessCards\": [\n  {\n   \"BusinessCardKey\": \"2xfLMq5PFqb7\",\n   \"IsPrimaryCard\": false,\n   \"Addresses\": [\n    {\n     \"AddressKey\": \"a5867584-687c-4f77-b397-854ae7523403\",\n     \"AddressLines\": \"2400 Bridgeway, Ste 280\",\n     \"City\": \"Sausalito\",\n     \"StateProvinceCounty\": \"CA\",\n     \"ZipCode\": \"94965\",\n     \"CountryCode\": \"US\",\n     \"Label\": \"Work\"\n    },\n    {\n     \"AddressKey\": \"a5867584-687c-4f77-b397-854ae7523403\",\n     \"AddressLines\": \"2400 Bridgeway, Ste 280\",\n     \"City\": \"Sausalito\",\n     \"StateProvinceCounty\": \"CA\",\n     \"ZipCode\": \"94965\",\n     \"CountryCode\": \"US\",\n     \"Label\": \"Work\"\n    }\n   ],\n   \"PhoneNumbers\": [\n    {\n     \"PhoneNumberKey\": \"41dfe6a4-efd3-4394-9b41-e5e43624e072\",\n     \"Number\": \"+61212345678\",\n     \"CountryCode\": \"US\",\n     \"Label\": \"Work\"\n    },\n    {\n     \"PhoneNumberKey\": \"41dfe6a4-efd3-4394-9b41-e5e43624e072\",\n     \"Number\": \"+61212345678\",\n     \"CountryCode\": \"US\",\n     \"Label\": \"Work\"\n    }\n   ],\n   \"WebSites\": [\n    \"https://www.karbonhq.com\"\n   ],\n   \"EmailAddresses\": [\n    \"enquiries@karbonhq.com\"\n   ],\n   \"OrganizationKey\": \"ZGNmtYyLm4z\",\n   \"RoleOrTitle\": \"CEO\"\n  },\n  {\n   \"BusinessCardKey\": \"2xfLMq5PFqb7\",\n   \"IsPrimaryCard\": false,\n   \"Addresses\": [\n    {\n     \"AddressKey\": \"aab4b44b-2e17-4b22-a1ff-795a6998b5b5\",\n     \"AddressLines\": \"2400 Bridgeway, Ste 280\",\n     \"City\": \"Sausalito\",\n     \"StateProvinceCounty\": \"CA\",\n     \"ZipCode\": \"94965\",\n     \"CountryCode\": \"US\",\n     \"Label\": \"Work\"\n    },\n    {\n     \"AddressKey\": \"aab4b44b-2e17-4b22-a1ff-795a6998b5b5\",\n     \"AddressLines\": \"2400 Bridgeway, Ste 280\",\n     \"City\": \"Sausalito\",\n     \"StateProvinceCounty\": \"CA\",\n     \"ZipCode\": \"94965\",\n     \"CountryCode\": \"US\",\n     \"Label\": \"Work\"\n    }\n   ],\n   \"PhoneNumbers\": [\n    {\n     \"PhoneNumberKey\": \"dbba71c1-759b-49d5-9ca3-4ad6821f5178\",\n     \"Number\": \"+61212345678\",\n     \"CountryCode\": \"US\",\n     \"Label\": \"Work\"\n    },\n    {\n     \"PhoneNumberKey\": \"dbba71c1-759b-49d5-9ca3-4ad6821f5178\",\n     \"Number\": \"+61212345678\",\n     \"CountryCode\": \"US\",\n     \"Label\": \"Work\"\n    }\n   ],\n   \"WebSites\": [\n    \"https://www.karbonhq.com\"\n   ],\n   \"EmailAddresses\": [\n    \"enquiries@karbonhq.com\"\n   ],\n   \"OrganizationKey\": \"ZGNmtYyLm4z\",\n   \"RoleOrTitle\": \"CEO\"\n  }\n ],\n \"ClientOwner\": \"myowner@karbonhq.com\",\n \"ClientManager\": \"mymanager@karbonhq.com\",\n \"ContactType\": \"Supplier\",\n \"UserDefinedIdentifier\": \"42\",\n \"LastModifiedDateTime\": \"2021-01-22T03:00:14.8664492Z\",\n \"ContactKey\": \"ZGNmtYyLm4z\"\n}"
-										},
-										{
-											"id": "8ef600e7-5595-4e5a-9be3-ec9618354da5",
-											"name": "UserDefinedIdentifier is missing or empty",
-											"originalRequest": {
-												"method": "GET",
-												"header": [],
-												"url": "{{baseUrl}}/v3/Contacts/GetByUserDefinedIdentifier(userDefinedIdentifier='{{userDefinedIdentifier}}')"
-											},
-											"status": "Bad Request",
-											"code": 400,
-											"_postman_previewlanguage": "text",
-											"header": [
-												{
-													"key": "Content-Type",
-													"value": "text/plain"
-												}
-											],
-											"cookie": [],
-											"responseTime": null,
-											"body": ""
-										},
-										{
-											"id": "789c60b8-f6eb-48d8-9bf7-a10886d12f29",
-											"name": "No Contact found for provided UserDefinedIdentifer",
-											"originalRequest": {
-												"method": "GET",
-												"header": [],
-												"url": "{{baseUrl}}/v3/Contacts/GetByUserDefinedIdentifier(userDefinedIdentifier='{{userDefinedIdentifier}}')"
-											},
-											"status": "Not Found",
-											"code": 404,
-											"_postman_previewlanguage": "text",
-											"header": [
-												{
-													"key": "Content-Type",
-													"value": "text/plain"
-												}
-											],
-											"cookie": [],
-											"responseTime": null,
-											"body": ""
-										}
-									]
-								},
-								{
-									"name": "Get a contact from the supplied User Defined Identifier with expand",
-									"event": [
-										{
-											"listen": "test",
-											"script": {
-												"id": "861273bb-6184-4f9a-b95b-a3f4d415f5ca",
-												"exec": [
-													"pm.test(\"Status code is 200\", function () {\r",
-													"    pm.response.to.have.status(200);\r",
-													"});\r",
-													"\r",
-													"pm.test(\"Business are loaded with expand\", function () {\r",
-													"    var jsonData = pm.response.json();\r",
-													"    pm.expect(jsonData.BusinessCards).to.not.eql(undefined);\r",
-													"});"
-												],
-												"type": "text/javascript"
-											}
-										}
-									],
-									"id": "c7639dc0-5eac-47f0-bd5f-7d32e96c35d4",
-									"protocolProfileBehavior": {
-										"disableBodyPruning": true
-									},
-									"request": {
-										"method": "GET",
-										"header": [
-											{
-												"key": "Authorization",
-												"value": "{{publicapi.authorization}}",
-												"type": "text"
-											},
-											{
-												"key": "AccessKey",
-												"value": "{{publicapi.accesskey}}",
-												"type": "text"
-											}
-										],
-										"url": {
-											"raw": "{{public.api.baseurl}}/v3/Contacts/KarbonService.GetContactByUserDefinedIdentifier(UserDefinedIdentifier='{{public.api.contact_userdefinedidentifier}}')?$expand=BusinessCards",
-											"host": [
-												"{{public.api.baseurl}}"
-											],
-											"path": [
-												"v3",
-												"Contacts",
-												"KarbonService.GetContactByUserDefinedIdentifier(UserDefinedIdentifier='{{public.api.contact_userdefinedidentifier}}')"
-											],
-											"query": [
-												{
-													"key": "$expand",
-													"value": "BusinessCards"
-												}
-											]
-										}
-									},
-									"response": [
-										{
-											"id": "87cbdf79-5e87-489c-88a3-7628a9754f02",
-											"name": "OK",
-											"originalRequest": {
-												"method": "GET",
-												"header": [],
-												"url": "{{baseUrl}}/v3/Contacts/GetByUserDefinedIdentifier(userDefinedIdentifier='{{userDefinedIdentifier}}')"
-											},
-											"status": "OK",
-											"code": 200,
-											"_postman_previewlanguage": "json",
-											"header": [
-												{
-													"key": "Content-Type",
-													"value": "application/json"
-												}
-											],
-											"cookie": [],
-											"responseTime": null,
-											"body": "{\n \"FirstName\": \"Douglas\",\n \"MiddleName\": \"Noel\",\n \"LastName\": \"Adams\",\n \"PreferredName\": \"Doug\",\n \"Salutation\": \"Mr\",\n \"BusinessCards\": [\n  {\n   \"BusinessCardKey\": \"2xfLMq5PFqb7\",\n   \"IsPrimaryCard\": false,\n   \"Addresses\": [\n    {\n     \"AddressKey\": \"a5867584-687c-4f77-b397-854ae7523403\",\n     \"AddressLines\": \"2400 Bridgeway, Ste 280\",\n     \"City\": \"Sausalito\",\n     \"StateProvinceCounty\": \"CA\",\n     \"ZipCode\": \"94965\",\n     \"CountryCode\": \"US\",\n     \"Label\": \"Work\"\n    },\n    {\n     \"AddressKey\": \"a5867584-687c-4f77-b397-854ae7523403\",\n     \"AddressLines\": \"2400 Bridgeway, Ste 280\",\n     \"City\": \"Sausalito\",\n     \"StateProvinceCounty\": \"CA\",\n     \"ZipCode\": \"94965\",\n     \"CountryCode\": \"US\",\n     \"Label\": \"Work\"\n    }\n   ],\n   \"PhoneNumbers\": [\n    {\n     \"PhoneNumberKey\": \"41dfe6a4-efd3-4394-9b41-e5e43624e072\",\n     \"Number\": \"+61212345678\",\n     \"CountryCode\": \"US\",\n     \"Label\": \"Work\"\n    },\n    {\n     \"PhoneNumberKey\": \"41dfe6a4-efd3-4394-9b41-e5e43624e072\",\n     \"Number\": \"+61212345678\",\n     \"CountryCode\": \"US\",\n     \"Label\": \"Work\"\n    }\n   ],\n   \"WebSites\": [\n    \"https://www.karbonhq.com\"\n   ],\n   \"EmailAddresses\": [\n    \"enquiries@karbonhq.com\"\n   ],\n   \"OrganizationKey\": \"ZGNmtYyLm4z\",\n   \"RoleOrTitle\": \"CEO\"\n  },\n  {\n   \"BusinessCardKey\": \"2xfLMq5PFqb7\",\n   \"IsPrimaryCard\": false,\n   \"Addresses\": [\n    {\n     \"AddressKey\": \"aab4b44b-2e17-4b22-a1ff-795a6998b5b5\",\n     \"AddressLines\": \"2400 Bridgeway, Ste 280\",\n     \"City\": \"Sausalito\",\n     \"StateProvinceCounty\": \"CA\",\n     \"ZipCode\": \"94965\",\n     \"CountryCode\": \"US\",\n     \"Label\": \"Work\"\n    },\n    {\n     \"AddressKey\": \"aab4b44b-2e17-4b22-a1ff-795a6998b5b5\",\n     \"AddressLines\": \"2400 Bridgeway, Ste 280\",\n     \"City\": \"Sausalito\",\n     \"StateProvinceCounty\": \"CA\",\n     \"ZipCode\": \"94965\",\n     \"CountryCode\": \"US\",\n     \"Label\": \"Work\"\n    }\n   ],\n   \"PhoneNumbers\": [\n    {\n     \"PhoneNumberKey\": \"dbba71c1-759b-49d5-9ca3-4ad6821f5178\",\n     \"Number\": \"+61212345678\",\n     \"CountryCode\": \"US\",\n     \"Label\": \"Work\"\n    },\n    {\n     \"PhoneNumberKey\": \"dbba71c1-759b-49d5-9ca3-4ad6821f5178\",\n     \"Number\": \"+61212345678\",\n     \"CountryCode\": \"US\",\n     \"Label\": \"Work\"\n    }\n   ],\n   \"WebSites\": [\n    \"https://www.karbonhq.com\"\n   ],\n   \"EmailAddresses\": [\n    \"enquiries@karbonhq.com\"\n   ],\n   \"OrganizationKey\": \"ZGNmtYyLm4z\",\n   \"RoleOrTitle\": \"CEO\"\n  }\n ],\n \"ClientOwner\": \"myowner@karbonhq.com\",\n \"ClientManager\": \"mymanager@karbonhq.com\",\n \"ContactType\": \"Supplier\",\n \"UserDefinedIdentifier\": \"42\",\n \"LastModifiedDateTime\": \"2021-01-22T03:00:14.8664492Z\",\n \"ContactKey\": \"ZGNmtYyLm4z\"\n}"
-										},
-										{
-											"id": "453cdab9-4027-4043-ae4f-59f5eb0886c4",
-											"name": "UserDefinedIdentifier is missing or empty",
-											"originalRequest": {
-												"method": "GET",
-												"header": [],
-												"url": "{{baseUrl}}/v3/Contacts/GetByUserDefinedIdentifier(userDefinedIdentifier='{{userDefinedIdentifier}}')"
-											},
-											"status": "Bad Request",
-											"code": 400,
-											"_postman_previewlanguage": "text",
-											"header": [
-												{
-													"key": "Content-Type",
-													"value": "text/plain"
-												}
-											],
-											"cookie": [],
-											"responseTime": null,
-											"body": ""
-										},
-										{
-											"id": "8c4753be-2112-43e3-8086-1d8cbaa11c14",
-											"name": "No Contact found for provided UserDefinedIdentifer",
-											"originalRequest": {
-												"method": "GET",
-												"header": [],
-												"url": "{{baseUrl}}/v3/Contacts/GetByUserDefinedIdentifier(userDefinedIdentifier='{{userDefinedIdentifier}}')"
-											},
-											"status": "Not Found",
-											"code": 404,
-											"_postman_previewlanguage": "text",
-											"header": [
-												{
-													"key": "Content-Type",
-													"value": "text/plain"
-												}
-											],
-											"cookie": [],
-											"responseTime": null,
-											"body": ""
-										}
-									]
-								},
-								{
-									"name": "Search parameterless",
-									"event": [
-										{
-											"listen": "test",
-											"script": {
-												"id": "3c85b03e-2695-4e94-a629-f4e41de69ffe",
-												"exec": [
-													"pm.test(\"Status code is 200\", function () {\r",
-													"    pm.response.to.have.status(200);\r",
-													"});\r",
-													"pm.test(\"Parameterless Query Returns at most 100 Contacts\", function () {\r",
-													"    const responseJson = pm.response.json();    \r",
-													"    pm.expect(responseJson.value.length).to.be.lessThan(101);\r",
-													"});\r",
-													"\r",
-													"pm.test(\"Grabbing two Full Names to use in future tests\", function () {\r",
-													"    const responseJson = pm.response.json();    \r",
-													"    pm.expect(responseJson.value.length).to.be.greaterThan(1);\r",
-													"    pm.environment.set(\"public.api.search_test_contact1_fullname\", responseJson.value[0].FullName);\r",
-													"    pm.environment.set(\"public.api.search_test_contact2_fullname\", responseJson.value[1].FullName);\r",
-													"});"
-												],
-												"type": "text/javascript"
-											}
-										}
-									],
-									"id": "a975f37d-5b61-4458-8bbd-1319df5df2d9",
-									"protocolProfileBehavior": {
-										"disableBodyPruning": true
-									},
-									"request": {
-										"method": "GET",
-										"header": [
-											{
-												"key": "Authorization",
-												"value": "{{publicapi.authorization}}",
-												"type": "text"
-											},
-											{
-												"key": "AccessKey",
-												"value": "{{publicapi.accesskey}}",
-												"type": "text"
-											}
-										],
-										"url": "{{public.api.baseurl}}/v3/Contacts"
-									},
-									"response": []
-								}
-							],
-							"id": "92c1ac4e-19ca-4689-91b1-ab0d653bab1a"
-						},
-						{
-							"name": "Search",
-							"item": [
-								{
-									"name": "Search orderby FullName",
-									"event": [
-										{
-											"listen": "test",
-											"script": {
-												"id": "5a61688f-76c9-473a-9041-f06975e7078a",
-												"exec": [
-													"pm.test(\"Status code is 200\", function () {\r",
-													"    pm.response.to.have.status(200);\r",
-													"});\r",
-													"\r",
-													"pm.test(\"Check items were found\", function () {\r",
-													"    var jsonData = pm.response.json();\r",
-													"    pm.expect(jsonData[\"@odata.count\"]).to.gte(5);\r",
-													"    pm.expect(jsonData.value.length).to.eq(5);\r",
-													"});\r",
-													""
-												],
-												"type": "text/javascript"
-											}
-										}
-									],
-									"id": "5847f103-912f-4d9d-b0e1-17b6aeeb91d9",
-									"protocolProfileBehavior": {
-										"disableBodyPruning": true
-									},
-									"request": {
-										"method": "GET",
-										"header": [
-											{
-												"key": "Authorization",
-												"value": "{{publicapi.authorization}}",
-												"type": "text"
-											},
-											{
-												"key": "AccessKey",
-												"value": "{{publicapi.accesskey}}",
-												"type": "text"
-											}
-										],
-										"url": {
-											"raw": "{{public.api.baseurl}}/v3/Contacts?$top=5&$orderby=FullName",
-											"host": [
-												"{{public.api.baseurl}}"
-											],
-											"path": [
-												"v3",
-												"Contacts"
-											],
-											"query": [
-												{
-													"key": "$top",
-													"value": "5"
-												},
-												{
-													"key": "$orderby",
-													"value": "FullName"
-												}
-											]
-										}
-									},
-									"response": []
-								},
-								{
-									"name": "Search orderby LastModifiedDateTime",
-									"event": [
-										{
-											"listen": "test",
-											"script": {
-												"id": "e8ba1d71-f679-43db-bef4-3b3ac115b9fe",
-												"exec": [
-													"/*pm.test(\"#7779 Ordering contacts by LastModifiedDate is broken\", function () {\r",
-													"    // Change this when #7779 is fixed. This test should start failing.\r",
-													"    pm.response.to.have.status(500);\r",
-													"});*/\r",
-													"\r",
-													"pm.test(\"Status code is 200\", function () {\r",
-													"    pm.response.to.have.status(200);\r",
-													"});\r",
-													"\r",
-													"pm.test(\"Check contacts were found\", function () {\r",
-													"    var jsonData = pm.response.json();\r",
-													"    pm.expect(jsonData.value.length).to.gte(1);\r",
-													"});\r",
-													""
-												],
-												"type": "text/javascript"
-											}
-										}
-									],
-									"id": "7a0342d2-72ee-42c5-8108-335f362d78d1",
-									"protocolProfileBehavior": {
-										"disableBodyPruning": true
-									},
-									"request": {
-										"method": "GET",
-										"header": [
-											{
-												"key": "Authorization",
-												"value": "{{publicapi.authorization}}",
-												"type": "text"
-											},
-											{
-												"key": "AccessKey",
-												"value": "{{publicapi.accesskey}}",
-												"type": "text"
-											}
-										],
-										"url": {
-											"raw": "{{public.api.baseurl}}/v3/Contacts?$top=5&$orderby=LastModifiedDateTime",
-											"host": [
-												"{{public.api.baseurl}}"
-											],
-											"path": [
-												"v3",
-												"Contacts"
-											],
-											"query": [
-												{
-													"key": "$top",
-													"value": "5"
-												},
-												{
-													"key": "$orderby",
-													"value": "LastModifiedDateTime"
-												}
-											]
-										}
-									},
-									"response": []
-								},
-								{
-									"name": "Search with select odata attribute",
-									"event": [
-										{
-											"listen": "test",
-											"script": {
-												"exec": [
-													"pm.test(\"Status code is 400\", function () {\r",
-													"    pm.response.to.have.status(400);\r",
-													"});\r",
-													"pm.test(\"Body matches contains Select not allowed\", function () {\r",
-													"    pm.expect(pm.response.text()).to.include(\"Query option 'Select' is not allowed\");\r",
-													"});"
-												],
-												"type": "text/javascript",
-												"id": "b8b4dbfb-6235-4e17-b521-247c5f6c5602"
-											}
-										}
-									],
-									"id": "3440aa3c-e962-4653-9da0-39ddf7f1b919",
-									"protocolProfileBehavior": {
-										"disableBodyPruning": true
-									},
-									"request": {
-										"method": "GET",
-										"header": [
-											{
-												"key": "Authorization",
-												"value": "{{publicapi.authorization}}",
-												"type": "text"
-											},
-											{
-												"key": "AccessKey",
-												"value": "{{publicapi.accesskey}}",
-												"type": "text"
-											}
-										],
-										"url": {
-											"raw": "{{public.api.baseurl}}/v3/Contacts?$select=FullName",
-											"host": [
-												"{{public.api.baseurl}}"
-											],
-											"path": [
-												"v3",
-												"Contacts"
-											],
-											"query": [
-												{
-													"key": "$select",
-													"value": "FullName"
-												}
-											]
-										}
-									},
-									"response": []
-								},
-								{
-									"name": "Search with startswith odata attribute not supported",
-									"event": [
-										{
-											"listen": "test",
-											"script": {
-												"id": "63ef35a6-45ee-4da3-bc11-d94b470e1e41",
-												"exec": [
-													"pm.test(\"Status code is 400\", function () {\r",
-													"    pm.response.to.have.status(400);\r",
-													"});\r",
-													"\r",
-													"pm.test(\"Check error message contents\", function () {\r",
-													"    pm.expect(pm.response.text()).to.include(\"Function 'startswith' is not allowed\");\r",
-													"});"
-												],
-												"type": "text/javascript"
-											}
-										}
-									],
-									"id": "bf1b038c-9858-42d9-9f20-4a92bdfa3d65",
-									"protocolProfileBehavior": {
-										"disableBodyPruning": true
-									},
-									"request": {
-										"method": "GET",
-										"header": [
-											{
-												"key": "Authorization",
-												"value": "{{publicapi.authorization}}",
-												"type": "text"
-											},
-											{
-												"key": "AccessKey",
-												"value": "{{publicapi.accesskey}}",
-												"type": "text"
-											}
-										],
-										"url": {
-											"raw": "{{public.api.baseurl}}/v3/Contacts?$filter=startswith(EmailAddress, 'james')",
-											"host": [
-												"{{public.api.baseurl}}"
-											],
-											"path": [
-												"v3",
-												"Contacts"
-											],
-											"query": [
-												{
-													"key": "$filter",
-													"value": "startswith(EmailAddress, 'james')"
-												}
-											]
-										}
-									},
-									"response": [
-										{
-											"id": "791164cb-5b00-4fc5-8356-0e30737c6a02",
-											"name": "OK",
-											"originalRequest": {
-												"method": "GET",
-												"header": [],
-												"url": {
-													"raw": "{{baseUrl}}/v3/Contacts?$select=<string>&$filter=<string>&$orderby=<string>&$top=<integer>&$skip=<integer>",
-													"host": [
-														"{{baseUrl}}"
-													],
-													"path": [
-														"v3",
-														"Contacts"
-													],
-													"query": [
-														{
-															"key": "$select",
-															"value": "<string>"
-														},
-														{
-															"key": "$filter",
-															"value": "<string>"
-														},
-														{
-															"key": "$orderby",
-															"value": "<string>"
-														},
-														{
-															"key": "$top",
-															"value": "<integer>"
-														},
-														{
-															"key": "$skip",
-															"value": "<integer>"
-														}
-													]
-												}
-											},
-											"status": "OK",
-											"code": 200,
-											"_postman_previewlanguage": "json",
-											"header": [
-												{
-													"key": "Content-Type",
-													"value": "application/json"
-												}
-											],
-											"cookie": [],
-											"responseTime": null,
-											"body": "{\n \"Items\": [\n  {\n   \"FullName\": \"Adams, Douglas Noel\",\n   \"PreferredName\": \"Doug\",\n   \"Salutation\": \"Mr\",\n   \"ClientOwner\": \"myowner@megadodopublications.com\",\n   \"ClientManager\": \"mymanager@megadodopublications.com\",\n   \"Address\": \"42 Galaxy Way, London\",\n   \"EmailAddress\": \"DNA@megadodopublications.net\",\n   \"PhoneNumber\": \"+61212345678\",\n   \"RoleOrTitle\": \"CEO\",\n   \"UserDefinedIdentifier\": \"42\",\n   \"LastModifiedDateTime\": \"2021-01-22T03:00:14.8634476Z\",\n   \"ContactKey\": \"2BtTSg4xM7Dt\"\n  },\n  {\n   \"FullName\": \"Asimov, Isaac\",\n   \"PreferredName\": \"Zac\",\n   \"Salutation\": \"Mr\",\n   \"ClientOwner\": \"myowner@bostonuniversity.edu\",\n   \"ClientManager\": \"mymanager@bostonuniversity.edu\",\n   \"Address\": \"1920 Foundation Boulevard, Petrovichi, Russia\",\n   \"EmailAddress\": \"asimo@bostonuniversity.edu\",\n   \"PhoneNumber\": \"069283779143\",\n   \"RoleOrTitle\": \"Writer\",\n   \"UserDefinedIdentifier\": \"5020\",\n   \"LastModifiedDateTime\": \"2021-02-03T03:00:14.8634476Z\",\n   \"ContactKey\": \"23WWskXjR4wX\"\n  }\n ],\n \"NextPageLink\": \"https://api.karbonhq.com/v3/Contacts?$skip=100\",\n \"Count\": 123\n}"
-										}
-									]
-								},
-								{
-									"name": "Search with datefunction odata attribute",
-									"event": [
-										{
-											"listen": "test",
-											"script": {
-												"exec": [
-													"pm.test(\"Status code is 400\", function () {\r",
-													"    pm.response.to.have.status(400);\r",
-													"});\r",
-													"pm.test(\"Body matches contains day function not allowed\", function () {\r",
-													"    pm.expect(pm.response.text()).to.include(\"Function 'day' is not allowed\");\r",
-													"});"
-												],
-												"type": "text/javascript",
-												"id": "d807ab42-22ec-475c-adfb-b08a4d70a71b"
-											}
-										}
-									],
-									"id": "7f30a192-6172-4424-96b7-0e7e57593b6a",
-									"protocolProfileBehavior": {
-										"disableBodyPruning": true
-									},
-									"request": {
-										"method": "GET",
-										"header": [
-											{
-												"key": "Authorization",
-												"value": "{{publicapi.authorization}}",
-												"type": "text"
-											},
-											{
-												"key": "AccessKey",
-												"value": "{{publicapi.accesskey}}",
-												"type": "text"
-											}
-										],
-										"url": {
-											"raw": "{{public.api.baseurl}}/v3/Contacts?$filter=day(LastModifiedDateTime) eq 8",
-											"host": [
-												"{{public.api.baseurl}}"
-											],
-											"path": [
-												"v3",
-												"Contacts"
-											],
-											"query": [
-												{
-													"key": "$filter",
-													"value": "day(LastModifiedDateTime) eq 8"
-												}
-											]
-										}
-									},
-									"response": []
-								},
-								{
-									"name": "Search with Greater than odata attribute",
-									"event": [
-										{
-											"listen": "test",
-											"script": {
-												"exec": [
-													"pm.test(\"Status code is 400\", function () {\r",
-													"    pm.response.to.have.status(400);\r",
-													"});\r",
-													"pm.test(\"Body matches contains Logical operator not allowed\", function () {\r",
-													"    pm.expect(pm.response.text()).to.include(\"Logical operator 'NotEqual' is not allowed\");\r",
-													"});"
-												],
-												"type": "text/javascript",
-												"id": "81cf3fc0-620d-4405-a6af-a6106d2dfd45"
-											}
-										}
-									],
-									"id": "36c7fe68-c3ff-4d30-ad7a-b5abaf16fca5",
-									"protocolProfileBehavior": {
-										"disableBodyPruning": true
-									},
-									"request": {
-										"method": "GET",
-										"header": [
-											{
-												"key": "Authorization",
-												"value": "{{publicapi.authorization}}",
-												"type": "text"
-											},
-											{
-												"key": "AccessKey",
-												"value": "{{publicapi.accesskey}}",
-												"type": "text"
-											}
-										],
-										"url": {
-											"raw": "{{public.api.baseurl}}/v3/Contacts?$filter=PhoneNumber ne '10'",
-											"host": [
-												"{{public.api.baseurl}}"
-											],
-											"path": [
-												"v3",
-												"Contacts"
-											],
-											"query": [
-												{
-													"key": "$filter",
-													"value": "PhoneNumber ne '10'"
-												}
-											]
-										}
-									},
-									"response": []
-								},
-								{
-									"name": "Search contacts by FullName",
-									"event": [
-										{
-											"listen": "test",
-											"script": {
-												"id": "0315d2fc-9d9e-4dc2-abb3-dd6d2916fe72",
-												"exec": [
-													"pm.test(\"Status code is OK (200)\", function () {\r",
-													"    pm.response.to.have.status(200);\r",
-													"});\r",
-													"\r",
-													"pm.test(\"Test matching item was found\", function () {\r",
-													"    var jsonData = pm.response.json();\r",
-													"    pm.expect(jsonData.value.length).to.be.greaterThan(0);\r",
-													"    var contactData = jsonData.value[0];\r",
-													"\r",
-													"    pm.expect(contactData.FullName).to.eq(pm.environment.get(\"public.api.search_test_contact1_fullname\"));\r",
-													"});"
-												],
-												"type": "text/javascript"
-											}
-										}
-									],
-									"id": "d9237b11-0468-47d0-b48a-5f93ddc04224",
-									"protocolProfileBehavior": {
-										"disableBodyPruning": true
-									},
-									"request": {
-										"method": "GET",
-										"header": [
-											{
-												"key": "Authorization",
-												"value": "{{publicapi.authorization}}",
-												"type": "text"
-											},
-											{
-												"key": "AccessKey",
-												"value": "{{publicapi.accesskey}}",
-												"type": "text"
-											}
-										],
-										"url": {
-											"raw": "{{public.api.baseurl}}/v3/Contacts?$filter=FullName eq '{{public.api.search_test_contact1_fullname}}'",
-											"host": [
-												"{{public.api.baseurl}}"
-											],
-											"path": [
-												"v3",
-												"Contacts"
-											],
-											"query": [
-												{
-													"key": "$filter",
-													"value": "FullName eq '{{public.api.search_test_contact1_fullname}}'"
-												}
-											]
-										}
-									},
-									"response": []
-								},
-								{
-									"name": "Partial search by EmailAddress",
-									"event": [
-										{
-											"listen": "test",
-											"script": {
-												"id": "af8b51c3-c739-4a5b-93f3-52011572104b",
-												"exec": [
-													"pm.test(\"Status code is OK (200)\", function () {\r",
-													"    pm.response.to.have.status(200);\r",
-													"});\r",
-													"\r",
-													"pm.test(\"Test matching items were found\", function () {\r",
-													"    const expectedEmail = pm.variables.get(\"public.api.contact_uniqueidentifier\");\r",
-													"    const jsonData = pm.response.json();\r",
-													"    const contacts = jsonData.value;\r",
-													"    \r",
-													"    pm.expect(contacts.length).to.be.greaterThan(0);\r",
-													"\r",
-													"    contacts.forEach(c => {\r",
-													"        pm.expect(c.EmailAddress.includes(expectedEmail)).to.be.true;\r",
-													"    });\r",
-													"});"
-												],
-												"type": "text/javascript"
-											}
-										}
-									],
-									"id": "87277b6b-2b81-422e-a0fe-274a99fedf35",
-									"protocolProfileBehavior": {
-										"disableBodyPruning": true
-									},
-									"request": {
-										"method": "GET",
-										"header": [
-											{
-												"key": "Authorization",
-												"value": "{{publicapi.authorization}}",
-												"type": "text"
-											},
-											{
-												"key": "AccessKey",
-												"value": "{{publicapi.accesskey}}",
-												"type": "text"
-											}
-										],
-										"url": {
-											"raw": "{{public.api.baseurl}}/v3/Contacts?$filter=(contains(EmailAddress, '{{public.api.contact_uniqueidentifier}}'))",
-											"host": [
-												"{{public.api.baseurl}}"
-											],
-											"path": [
-												"v3",
-												"Contacts"
-											],
-											"query": [
-												{
-													"key": "$filter",
-													"value": "(contains(EmailAddress, '{{public.api.contact_uniqueidentifier}}'))"
-												}
-											]
-										}
-									},
-									"response": []
-								},
-								{
-									"name": "Partial search by FullName",
-									"event": [
-										{
-											"listen": "test",
-											"script": {
-												"id": "af8b51c3-c739-4a5b-93f3-52011572104b",
-												"exec": [
-													"pm.test(\"Status code is OK (200)\", function () {\r",
-													"    pm.response.to.have.status(200);\r",
-													"});\r",
-													"\r",
-													"pm.test(\"Test matching items were found\", function () {\r",
-													"    const expectedName = pm.variables.get(\"public.api.search_test_contact1_fullname\");\r",
-													"    const jsonData = pm.response.json();\r",
-													"    const contacts = jsonData.value;\r",
-													"    \r",
-													"    pm.expect(contacts.length).to.be.greaterThan(0);\r",
-													"\r",
-													"    contacts.forEach(c => {\r",
-													"        pm.expect(c.FullName.includes(expectedName)).to.be.true;\r",
-													"    });\r",
-													"});"
-												],
-												"type": "text/javascript"
-											}
-										}
-									],
-									"id": "2c6a4c26-ec85-45c1-98c6-dc0fa14ab6dc",
-									"protocolProfileBehavior": {
-										"disableBodyPruning": true
-									},
-									"request": {
-										"method": "GET",
-										"header": [
-											{
-												"key": "Authorization",
-												"value": "{{publicapi.authorization}}",
-												"type": "text"
-											},
-											{
-												"key": "AccessKey",
-												"value": "{{publicapi.accesskey}}",
-												"type": "text"
-											}
-										],
-										"url": {
-											"raw": "{{public.api.baseurl}}/v3/Contacts?$filter=(contains(FullName, '{{public.api.search_test_contact1_fullname}}'))",
-											"host": [
-												"{{public.api.baseurl}}"
-											],
-											"path": [
-												"v3",
-												"Contacts"
-											],
-											"query": [
-												{
-													"key": "$filter",
-													"value": "(contains(FullName, '{{public.api.search_test_contact1_fullname}}'))"
-												}
-											]
-										}
-									},
-									"response": []
-								},
-								{
-									"name": "Partial search by PhoneNumber",
-									"event": [
-										{
-											"listen": "test",
-											"script": {
-												"id": "7a0a739c-2cd5-4dbc-b0e2-46f3a9445838",
-												"exec": [
-													"pm.test(\"Status code is OK (200)\", function () {\r",
-													"    pm.response.to.have.status(200);\r",
-													"});\r",
-													"\r",
-													"pm.test(\"Test matching items were found\", function () {\r",
-													"    const expectedPhone = pm.variables.get(\"public.api.contact_phone\");\r",
-													"    const jsonData = pm.response.json();\r",
-													"    const contacts = jsonData.value;\r",
-													"    \r",
-													"    pm.expect(contacts.length).to.be.greaterThan(0);\r",
-													"\r",
-													"    contacts.forEach(c => {\r",
-													"        pm.expect(c.PhoneNumber.includes(expectedPhone)).to.be.true;\r",
-													"    });\r",
-													"});"
-												],
-												"type": "text/javascript"
-											}
-										}
-									],
-									"id": "bbd54a6d-157b-4153-acac-76852d2f3564",
-									"protocolProfileBehavior": {
-										"disableBodyPruning": true
-									},
-									"request": {
-										"method": "GET",
-										"header": [
-											{
-												"key": "Authorization",
-												"value": "{{publicapi.authorization}}",
-												"type": "text"
-											},
-											{
-												"key": "AccessKey",
-												"value": "{{publicapi.accesskey}}",
-												"type": "text"
-											}
-										],
-										"url": {
-											"raw": "{{public.api.baseurl}}/v3/Contacts?$filter=(contains(PhoneNumber, '{{public.api.contact_phone}}'))",
-											"host": [
-												"{{public.api.baseurl}}"
-											],
-											"path": [
-												"v3",
-												"Contacts"
-											],
-											"query": [
-												{
-													"key": "$filter",
-													"value": "(contains(PhoneNumber, '{{public.api.contact_phone}}'))"
-												}
-											]
-										}
-									},
-									"response": []
-								}
-							],
-							"id": "57cbf28c-9afc-46d2-b755-9a600247486d"
-						},
-						{
-							"name": "Update (Put)",
-							"item": [
-								{
-									"name": "#4350 Update Contact with extra CRM Fields",
-									"event": [
-										{
-											"listen": "prerequest",
-											"script": {
-												"id": "b86cb0a4-9236-4c22-ab13-d297fae2441e",
-												"exec": [
-													"var uuid = require('uuid');\r",
-													"var generatedUUID = uuid.v4(); \r",
-													"pm.environment.set(\"public.api.contact_uniqueidentifier\", generatedUUID);"
-												],
-												"type": "text/javascript"
-											}
-										},
-										{
-											"listen": "test",
-											"script": {
-												"id": "c3c24380-f17c-4a7d-b836-902c6e743a48",
-												"exec": [
-													"pm.test(\"Status code is 204\", function () {\r",
-													"    pm.response.to.have.status(204);\r",
-													"});"
-												],
-												"type": "text/javascript"
-											}
-										}
-									],
-									"id": "f33be3c2-73a3-4a34-88a8-5d425311944b",
-									"protocolProfileBehavior": {
-										"disableBodyPruning": true
-									},
-									"request": {
-										"method": "PUT",
-										"header": [
-											{
-												"key": "Authorization",
-												"value": "{{publicapi.authorization}}",
-												"type": "text"
-											},
-											{
-												"key": "AccessKey",
-												"value": "{{publicapi.accesskey}}",
-												"type": "text"
-											}
-										],
-										"body": {
-											"mode": "raw",
-											"raw": "{\r\n    \"FirstName\": \"First update\",\r\n    \"MiddleName\": \"Second update\",\r\n    \"LastName\": \"Last update\",\r\n    \"PreferredName\": \"Preferrred update\",\r\n    \"Salutation\": \"Dr\",\r\n    \"Suffix\": \"Of the Test update\",\r\n    \"RestrictionLevel\": \"Public\",\r\n    \"UserDefinedIdentifier\": \"{{public.api.contact_uniqueidentifier}}\",\r\n    \"BusinessCards\": [\r\n        {\r\n            \"IsPrimaryCard\": true,\r\n            \"Addresses\": [\r\n                {\r\n                    \"AddressLines\": \"address line test update\",\r\n                    \"City\": \"city test update\",\r\n                    \"StateProvinceCounty\": \"NSW update\",\r\n                    \"ZipCode\": \"2120 update\",\r\n                    \"CountryCode\": \"AU\",\r\n                    \"Label\": \"Test label update\"\r\n                }\r\n            ],\r\n            \"PhoneNumbers\": [\r\n                {\r\n                    \"Number\": \"12345678\",\r\n                    \"CountryCode\": \"+61\",\r\n                    \"Label\": \"Work update\"\r\n                }\r\n            ],\r\n            \"WebSites\": [\r\n                \"web.coolupdate\",\r\n                \"website.twoupdate\"\r\n            ],\r\n            \"EmailAddresses\": [\r\n                \"{{public.api.contact_uniqueidentifier}}@karbonhq.com\"\r\n            ],\r\n            \"RoleOrTitle\": \"CIO\",\r\n            \"FacebookLink\": \"facebook.com/testupdate\",\r\n            \"LinkedInLink\": \"LinkedIn.com/testupdate\",\r\n            \"TwitterLink\": \"Twitter.com/testupdate\",\r\n            \"SkypeLink\": \"Skype.com/testupdate\"\r\n        }\r\n    ],\r\n    \"EntityDescription\": {\r\n        \"Text\": \"test description update\"\r\n    },\r\n    \"AccountingDetail\": {\r\n        \"ContactPermaKey\": \"{{public.api.contact_permakey}}\",\r\n        \"BirthDate\": \"2001-05-16\",\r\n        \"DeathDate\": \"2021-05-16\",\r\n        \"Salutation\": \"The Dishonorable update\",\r\n        \"Sex\": \"M\",\r\n        \"FinancialYearEndDay\": \"11\",\r\n        \"FinancialYearEndMonth\": \"0\",\r\n        \"LegalName\": \"League of Heels update\",\r\n        \"TaxCountryCode\": \"AU\",\r\n        \"IncomeTaxInstallmentPeriod\": \"Monthly\",\r\n        \"RegistrationNumbers\": [\r\n            {\r\n                \"RegistrationNumber\": \"123 321 3445\",\r\n                \"Type\": \"Tax File Number (TFN)\"\r\n            },\r\n            {\r\n                \"RegistrationNumber\": \"444 333 222\",\r\n                \"Type\": \"Australian Business Number (ABN)\"\r\n            }\r\n        ],\r\n        \"Notes\": [\r\n            {\r\n                \"Body\": \"Notes basic body update\",\r\n                \"Type\": \"Basic\"\r\n            },\r\n            {\r\n                \"Body\": \"Notes tax body update\",\r\n                \"Type\": \"Tax\"\r\n            },\r\n            {\r\n                \"Body\": \"Notes system body update\",\r\n                \"Type\": \"System\"\r\n            },\r\n            {\r\n                \"Body\": \"Notes related people body update\",\r\n                \"Type\": \"Related People\"\r\n            }\r\n        ]\r\n    }\r\n}",
-											"options": {
-												"raw": {
-													"language": "json"
-												}
-											}
-										},
-										"url": {
-											"raw": "{{public.api.baseurl}}/v3/Contacts/{{public.api.contact_permakey}}?$expand=BusinessCard",
-											"host": [
-												"{{public.api.baseurl}}"
-											],
-											"path": [
-												"v3",
-												"Contacts",
-												"{{public.api.contact_permakey}}"
-											],
-											"query": [
-												{
-													"key": "$expand",
-													"value": "BusinessCard"
-												}
-											]
-										}
-									},
-									"response": []
-								}
-							],
-							"id": "36b3bc3d-d8f5-4db3-88f3-535d7afa8243"
-						},
-						{
-							"name": "Update (Patch)",
-							"item": [
-								{
-									"name": "Partial Update Contact",
-									"event": [
-										{
-											"listen": "prerequest",
-											"script": {
-												"id": "3a416766-90d7-4baa-a90b-dd6cdf753261",
-												"exec": [
-													"var uuid = require('uuid');\r",
-													"var generatedUUID = uuid.v4(); \r",
-													"pm.environment.set(\"public.api.contact_uniqueidentifier\", generatedUUID);"
-												],
-												"type": "text/javascript"
-											}
-										},
-										{
-											"listen": "test",
-											"script": {
-												"id": "a27a792c-9ea7-442c-bc50-05885edbb3d4",
-												"exec": [
-													"pm.test(\"Status code is 200\", function () {\r",
-													"    pm.response.to.have.status(200);\r",
-													"});\r",
-													"\r",
-													"pm.test(\"Fields have been patched correctly\", function () {\r",
-													"    json = pm.response.json();\r",
-													"    pm.expect(json.FirstName).to.eq(\"Partial First Name\");\r",
-													"    pm.expect(json.MiddleName).to.eq(\"Partial Middle Name\");\r",
-													"    pm.expect(json.LastName).to.eq(\"Partial Last Name\");\r",
-													"    pm.expect(json.PreferredName).to.eq(\"Partial Preferred Name\");\r",
-													"    pm.expect(json.Salutation).to.eq(\"Ms\");\r",
-													"    pm.expect(json.Suffix).to.eq(\"Partial Suffix\");\r",
-													"});\r",
-													"\r",
-													""
-												],
-												"type": "text/javascript"
-											}
-										}
-									],
-									"id": "e62a1782-4b50-47ad-a2bd-62cf1cae63f1",
-									"protocolProfileBehavior": {
-										"disableBodyPruning": true
-									},
-									"request": {
-										"method": "PATCH",
-										"header": [
-											{
-												"key": "Authorization",
-												"value": "{{publicapi.authorization}}",
-												"type": "text"
-											},
-											{
-												"key": "AccessKey",
-												"value": "{{publicapi.accesskey}}",
-												"type": "text"
-											},
-											{
-												"key": "Prefer",
-												"value": "return=representation",
-												"type": "text"
-											}
-										],
-										"body": {
-											"mode": "raw",
-											"raw": "{\r\n    \"FirstName\": \"Partial First Name\",\r\n    \"MiddleName\": \"Partial Middle Name\",\r\n    \"LastName\": \"Partial Last Name\",\r\n    \"PreferredName\": \"Partial Preferred Name\",\r\n    \"Salutation\": \"Ms\",\r\n    \"Suffix\": \"Partial Suffix\"    \r\n}",
-											"options": {
-												"raw": {
-													"language": "json"
-												}
-											}
-										},
-										"url": "{{public.api.baseurl}}/v3/Contacts/{{public.api.contact_permakey}}"
-									},
-									"response": []
-								},
-								{
-									"name": "Partial Update Contact - Unsupported property",
-									"event": [
-										{
-											"listen": "prerequest",
-											"script": {
-												"id": "56b1097b-7142-495c-b5b2-09a9e1943905",
-												"exec": [
-													"var uuid = require('uuid');\r",
-													"var generatedUUID = uuid.v4(); \r",
-													"pm.environment.set(\"public.api.contact_uniqueidentifier\", generatedUUID);"
-												],
-												"type": "text/javascript"
-											}
-										},
-										{
-											"listen": "test",
-											"script": {
-												"id": "2c8ec812-d6da-4719-b829-6dfbd6b03a83",
-												"exec": [
-													"pm.test(\"Status code is 400\", function () {\r",
-													"    pm.response.to.have.status(400);\r",
-													"});\r",
-													"\r",
-													"pm.test(\"Patch has not been applied and error message is correct\", function () {\r",
-													"    pm.expect(pm.response.text()).to.include(\"Invalid property to update. Only FirstName,MiddleName,LastName,PreferredName,Salutation,Suffix can be patched.\");\r",
-													"})\r",
-													"\r",
-													""
-												],
-												"type": "text/javascript"
-											}
-										}
-									],
-									"id": "1ec32232-46c1-4a19-90ff-f6be2a199975",
-									"protocolProfileBehavior": {
-										"disableBodyPruning": true
-									},
-									"request": {
-										"method": "PATCH",
-										"header": [
-											{
-												"key": "Authorization",
-												"value": "{{publicapi.authorization}}",
-												"type": "text"
-											},
-											{
-												"key": "AccessKey",
-												"value": "{{publicapi.accesskey}}",
-												"type": "text"
-											},
-											{
-												"key": "Prefer",
-												"value": "return=representation",
-												"type": "text"
-											}
-										],
-										"body": {
-											"mode": "raw",
-											"raw": "{\r\n    \"UserDefinedIdentifier\": \"Whatever\"\r\n}",
-											"options": {
-												"raw": {
-													"language": "json"
-												}
-											}
-										},
-										"url": "{{public.api.baseurl}}/v3/Contacts/{{public.api.contact_permakey}}"
-									},
-									"response": []
-								}
-							],
-							"id": "97627977-40f3-4a4f-a1ef-8aa37a61fb54"
-						}
-					],
-					"id": "6296cbb5-719a-4c0b-911a-bba441b61b48"
-				},
-				{
 					"name": "Files",
 					"item": [
 						{
@@ -13800,21 +12177,1632 @@
 						}
 					],
 					"id": "204c4920-2422-4168-9c27-f75130f59265"
-				},
-				{
-					"name": "New Request",
-					"id": "2c9d9cb2-1b56-459a-ab3a-8893aeea4afc",
-					"protocolProfileBehavior": {
-						"disableBodyPruning": true
-					},
-					"request": {
-						"method": "GET",
-						"header": []
-					},
-					"response": []
 				}
 			],
 			"id": "ae7faa85-66ea-4f17-901c-7798cc3be613"
+		},
+		{
+			"name": "Contacts",
+			"item": [
+				{
+					"name": "Create",
+					"item": [
+						{
+							"name": "#4350 Create Contact with extra CRM Fields",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"id": "b86cb0a4-9236-4c22-ab13-d297fae2441e",
+										"exec": [
+											"var uuid = require('uuid');\r",
+											"var generatedUUID = uuid.v4(); \r",
+											"pm.environment.set(\"public.api.contact_uniqueidentifier\", generatedUUID);"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"id": "c3c24380-f17c-4a7d-b836-902c6e743a48",
+										"exec": [
+											"pm.test(\"Status code is Created (201)\", function () {\r",
+											"    pm.response.to.have.status(201);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Set contact permakey\", function () {\r",
+											"    const jsonData = pm.response.json();\r",
+											"    const fullName = `${jsonData.FirstName} ${jsonData.MiddleName} ${jsonData.LastName}`;\r",
+											"    pm.environment.set(\"public.api.contact_permakey\", jsonData.ContactKey);\r",
+											"    pm.environment.set(\"public.api.contact_userdefinedidentifier\", jsonData.UserDefinedIdentifier);\r",
+											"    pm.environment.set(\"public.api.search_test_contact1_fullname\", fullName);\r",
+											"    pm.environment.set(\"public.api.contact_phone\", \"12345678\");\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"id": "eb1fe95c-45dd-40f1-881b-a5419e5fb2c0",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{publicapi.authorization}}",
+										"type": "text"
+									},
+									{
+										"key": "AccessKey",
+										"value": "{{publicapi.accesskey}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"FirstName\": \"First\",\r\n    \"MiddleName\": \"Second\",\r\n    \"LastName\": \"Last\",\r\n    \"PreferredName\": \"Preferrred\",\r\n    \"Salutation\": \"Dr\",\r\n    \"Suffix\": \"Of the Test\",\r\n    \"RestrictionLevel\": \"Public\",\r\n    \"UserDefinedIdentifier\": \"{{public.api.contact_uniqueidentifier}}\",\r\n    \"BusinessCards\": [\r\n        {\r\n            \"IsPrimaryCard\": true,\r\n            \"Addresses\": [\r\n                {\r\n                    \"AddressLines\": \"address line test\",\r\n                    \"City\": \"city test\",\r\n                    \"StateProvinceCounty\": \"NSW\",\r\n                    \"ZipCode\": \"2120\",\r\n                    \"CountryCode\": \"AU\",\r\n                    \"Label\": \"Test label\"\r\n                }\r\n            ],\r\n            \"PhoneNumbers\": [\r\n                {\r\n                    \"Number\": \"12345678\",\r\n                    \"CountryCode\": \"+61\",\r\n                    \"Label\": \"Work\"\r\n                }\r\n            ],\r\n            \"WebSites\": [\r\n                \"web.cool\",\r\n                \"website.two\"\r\n            ],\r\n            \"EmailAddresses\": [\r\n                \"{{public.api.contact_uniqueidentifier}}@karbonhq.com\"\r\n            ],\r\n            \"RoleOrTitle\": \"CIO\",\r\n            \"FacebookLink\": \"facebook.com/test\",\r\n            \"LinkedInLink\": \"LinkedIn.com/test\",\r\n            \"TwitterLink\": \"Twitter.com/test\",\r\n            \"SkypeLink\": \"Skype.com/test\"\r\n        }\r\n    ],\r\n    \"EntityDescription\": {\r\n        \"Text\": \"test description\"\r\n    },\r\n    \"AccountingDetail\": {\r\n        \"BirthDate\": \"2001-05-16\",\r\n        \"DeathDate\": \"2021-05-16\",\r\n        \"Salutation\": \"The Dishonorable\",\r\n        \"Sex\": \"M\",\r\n        \"FinancialYearEndDay\": \"11\",\r\n        \"FinancialYearEndMonth\": \"0\",\r\n        \"LegalName\": \"League of Heels\",\r\n        \"TaxCountryCode\": \"AU\",\r\n        \"IncomeTaxInstallmentPeriod\": \"Monthly\",\r\n        \"RegistrationNumbers\": [\r\n            {\r\n                \"RegistrationNumber\": \"123 321 3445\",\r\n                \"Type\": \"Tax File Number (TFN)\"\r\n            },\r\n            {\r\n                \"RegistrationNumber\": \"444 333 222\",\r\n                \"Type\": \"Australian Business Number (ABN)\"\r\n            }\r\n        ],\r\n        \"Notes\": [\r\n            {\r\n                \"Body\": \"Notes basic body\",\r\n                \"Type\": \"Basic\"\r\n            },\r\n            {\r\n                \"Body\": \"Notes tax body\",\r\n                \"Type\": \"Tax\"\r\n            },\r\n            {\r\n                \"Body\": \"Notes system body\",\r\n                \"Type\": \"System\"\r\n            },\r\n            {\r\n                \"Body\": \"Notes related people body\",\r\n                \"Type\": \"Related People\"\r\n            }\r\n        ]\r\n    }\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "{{public.api.baseurl}}/v3/Contacts"
+							},
+							"response": []
+						},
+						{
+							"name": "#9155 Create Contact with Registration Numbers but no Notes",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"id": "48265c74-9f2e-464d-981a-c1839d83caeb",
+										"exec": [
+											"var uuid = require('uuid');\r",
+											"var generatedUUID = uuid.v4(); \r",
+											"pm.environment.set(\"public.api.contact_uniqueidentifier3\", generatedUUID);"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"id": "8e9d5b9f-7710-4b18-b791-9c5673e3897c",
+										"exec": [
+											"pm.test(\"Status code is Created (201)\", function () {\r",
+											"    pm.response.to.have.status(201);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"id": "55da7c11-098c-4f87-bd86-5cc668f34f74",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{publicapi.authorization}}",
+										"type": "text"
+									},
+									{
+										"key": "AccessKey",
+										"value": "{{publicapi.accesskey}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"FirstName\": \"First\",\r\n    \"MiddleName\": \"Second\",\r\n    \"LastName\": \"Last\",\r\n    \"PreferredName\": \"Preferrred\",\r\n    \"Salutation\": \"Dr\",\r\n    \"Suffix\": \"Of the Test\",\r\n    \"RestrictionLevel\": \"Public\",\r\n    \"UserDefinedIdentifier\": \"{{public.api.contact_uniqueidentifier3}}\",\r\n    \"BusinessCards\": [\r\n        {\r\n            \"IsPrimaryCard\": true,\r\n            \"Addresses\": [\r\n                {\r\n                    \"AddressLines\": \"address line test\",\r\n                    \"City\": \"city test\",\r\n                    \"StateProvinceCounty\": \"NSW\",\r\n                    \"ZipCode\": \"2120\",\r\n                    \"CountryCode\": \"AU\",\r\n                    \"Label\": \"Test label\"\r\n                }\r\n            ],\r\n            \"PhoneNumbers\": [\r\n                {\r\n                    \"Number\": \"12345678\",\r\n                    \"CountryCode\": \"+61\",\r\n                    \"Label\": \"Work\"\r\n                }\r\n            ],\r\n            \"WebSites\": [\r\n                \"web.cool\",\r\n                \"website.two\"\r\n            ],\r\n            \"EmailAddresses\": [\r\n                \"{{public.api.contact_uniqueidentifier3}}@karbonhq.com\"\r\n            ],\r\n            \"RoleOrTitle\": \"CIO\",\r\n            \"FacebookLink\": \"facebook.com/test\",\r\n            \"LinkedInLink\": \"LinkedIn.com/test\",\r\n            \"TwitterLink\": \"Twitter.com/test\",\r\n            \"SkypeLink\": \"Skype.com/test\"\r\n        }\r\n    ],\r\n    \"EntityDescription\": {\r\n        \"Text\": \"test description\"\r\n    },\r\n    \"AccountingDetail\": {\r\n        \"BirthDate\": \"2001-05-16\",\r\n        \"DeathDate\": \"2021-05-16\",\r\n        \"Salutation\": \"The Dishonorable\",\r\n        \"Sex\": \"M\",\r\n        \"FinancialYearEndDay\": \"11\",\r\n        \"FinancialYearEndMonth\": \"0\",\r\n        \"LegalName\": \"League of Heels\",\r\n        \"TaxCountryCode\": \"AU\",\r\n        \"IncomeTaxInstallmentPeriod\": \"Monthly\",\r\n        \"RegistrationNumbers\": [\r\n            {\r\n                \"RegistrationNumber\": \"123 321 3445\",\r\n                \"Type\": \"Tax File Number (TFN)\"\r\n            },\r\n            {\r\n                \"RegistrationNumber\": \"444 333 222\",\r\n                \"Type\": \"Australian Business Number (ABN)\"\r\n            }\r\n        ]\r\n    }\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "{{public.api.baseurl}}/v3/Contacts"
+							},
+							"response": []
+						},
+						{
+							"name": "Create Contact without notes or registration numbers",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"id": "1ca86478-a7de-4674-ba48-057df724bf4e",
+										"exec": [
+											"var uuid = require('uuid');\r",
+											"var generatedUUID = uuid.v4(); \r",
+											"pm.environment.set(\"public.api.contact_uniqueidentifier2\", generatedUUID);"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"id": "76b3f9b0-f79b-4eac-a24d-46a1b2aaaf09",
+										"exec": [
+											"pm.test(\"Status code is Created (201)\", function () {\r",
+											"    pm.response.to.have.status(201);\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"id": "bfc04902-c47c-46d5-b49e-0874e4481bf7",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{publicapi.authorization}}",
+										"type": "text"
+									},
+									{
+										"key": "AccessKey",
+										"value": "{{publicapi.accesskey}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"FirstName\": \"First\",\r\n    \"MiddleName\": \"Second\",\r\n    \"LastName\": \"Last\",\r\n    \"PreferredName\": \"Preferrred\",\r\n    \"Salutation\": \"Dr\",\r\n    \"Suffix\": \"Of the Test\",\r\n    \"RestrictionLevel\": \"Public\",\r\n    \"UserDefinedIdentifier\": \"{{public.api.contact_uniqueidentifier2}}}}\",\r\n    \"BusinessCards\": [\r\n        {\r\n            \"IsPrimaryCard\": true,\r\n            \"Addresses\": [\r\n                {\r\n                    \"AddressLines\": \"address line test\",\r\n                    \"City\": \"city test\",\r\n                    \"StateProvinceCounty\": \"NSW\",\r\n                    \"ZipCode\": \"2120\",\r\n                    \"CountryCode\": \"AU\",\r\n                    \"Label\": \"Test label\"\r\n                }\r\n            ],\r\n            \"PhoneNumbers\": [\r\n                {\r\n                    \"Number\": \"12345678\",\r\n                    \"CountryCode\": \"+61\",\r\n                    \"Label\": \"Work\"\r\n                }\r\n            ],\r\n            \"WebSites\": [\r\n                \"web.cool\",\r\n                \"website.two\"\r\n            ],\r\n            \"EmailAddresses\": [\r\n                \"{{public.api.contact_uniqueidentifier2}}@karbonhq.com\"\r\n            ],\r\n            \"RoleOrTitle\": \"CIO\",\r\n            \"FacebookLink\": \"facebook.com/test\",\r\n            \"LinkedInLink\": \"LinkedIn.com/test\",\r\n            \"TwitterLink\": \"Twitter.com/test\",\r\n            \"SkypeLink\": \"Skype.com/test\"\r\n        }\r\n    ],\r\n    \"EntityDescription\": {\r\n        \"Text\": \"test description\"\r\n    },\r\n    \"AccountingDetail\": {\r\n        \"BirthDate\": \"2001-05-16\",\r\n        \"DeathDate\": \"2021-05-16\",\r\n        \"Salutation\": \"The Dishonorable\",\r\n        \"Sex\": \"M\",\r\n        \"FinancialYearEndDay\": \"11\",\r\n        \"FinancialYearEndMonth\": \"0\",\r\n        \"LegalName\": \"League of Heels\",\r\n        \"TaxCountryCode\": \"AU\",\r\n        \"IncomeTaxInstallmentPeriod\": \"Monthly\"\r\n    }\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "{{public.api.baseurl}}/v3/Contacts"
+							},
+							"response": []
+						}
+					],
+					"id": "ddfbfca0-9c98-489d-89cc-0dc74cefca18"
+				},
+				{
+					"name": "Get By PermaKey",
+					"item": [
+						{
+							"name": "Get by PermaKey with select odata attribute",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 400\", function () {\r",
+											"    pm.response.to.have.status(400);\r",
+											"});\r",
+											"pm.test(\"Body matches contains select function not allowed\", function () {\r",
+											"    pm.expect(pm.response.text()).to.include(\"Query option 'Select' is not allowed\");\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"id": "b4c112f2-4c83-4b84-a276-858a64a2740d"
+									}
+								}
+							],
+							"id": "a5c65c36-e9f2-471d-aa57-30495f3995b8",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{publicapi.authorization}}",
+										"type": "text"
+									},
+									{
+										"key": "AccessKey",
+										"value": "{{publicapi.accesskey}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{public.api.baseurl}}/v3/Contacts/{{public.api.contact_permakey}}?$select=FullName",
+									"host": [
+										"{{public.api.baseurl}}"
+									],
+									"path": [
+										"v3",
+										"Contacts",
+										"{{public.api.contact_permakey}}"
+									],
+									"query": [
+										{
+											"key": "$select",
+											"value": "FullName"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get by PermaKey",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "067d410b-4001-463d-be50-470336f95e02",
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"pm.test(\"Business Cards are expanded\", function () {\r",
+											"    const responseJson = pm.response.json();\r",
+											"    var businessCards = responseJson.BusinessCards;\r",
+											"    pm.expect(businessCards.length).to.be.greaterThan(0);\r",
+											"\r",
+											"    // Get First business card and ensure a key exists.\r",
+											"    pm.expect(businessCards[0].BusinessCardKey).to.be.not.empty;\r",
+											"});\r",
+											"\r",
+											"pm.test(\"User Defined Identifier is returned\", function() {\r",
+											"    pm.expect(pm.response.json().UserDefinedIdentifier).to.eq(pm.environment.get(\"public.api.contact_userdefinedidentifier\"));\r",
+											"})"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"id": "4dbf6d49-8ea8-4477-8ab3-af0c53a1034a",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{publicapi.authorization}}",
+										"type": "text"
+									},
+									{
+										"key": "AccessKey",
+										"value": "{{publicapi.accesskey}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{public.api.baseurl}}/v3/Contacts/{{public.api.contact_permakey}}?$expand=BusinessCards",
+									"host": [
+										"{{public.api.baseurl}}"
+									],
+									"path": [
+										"v3",
+										"Contacts",
+										"{{public.api.contact_permakey}}"
+									],
+									"query": [
+										{
+											"key": "$expand",
+											"value": "BusinessCards"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "#4350 Get by PermaKey with Expand CRM fields Create test",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "d4d527d1-1b55-463e-b792-f14d94c7d446",
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Restriction Level Test\", function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.RestrictionLevel).length.greaterThan(0);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Suffix Test\", function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.Suffix).length.greaterThan(0);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Entity Description Test\", function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.EntityDescription).to.not.eql(undefined);\r",
+											"    pm.expect(jsonData.EntityDescription.Text).length.greaterThan(0);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Contact Social Media Links Test\", function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.BusinessCards[0].FacebookLink).length.greaterThan(0);\r",
+											"    pm.expect(jsonData.BusinessCards[0].LinkedInLink).length.greaterThan(0);\r",
+											"    pm.expect(jsonData.BusinessCards[0].TwitterLink).length.greaterThan(0);\r",
+											"    pm.expect(jsonData.BusinessCards[0].SkypeLink).length.greaterThan(0);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Accounting Details Test\", function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.AccountingDetail).to.not.equal(undefined);\r",
+											"    pm.expect(jsonData.AccountingDetail.ContactPermaKey).length.greaterThan(0);\r",
+											"    pm.expect(jsonData.AccountingDetail.BirthDate).length.greaterThan(0);\r",
+											"    pm.expect(jsonData.AccountingDetail.DeathDate).length.greaterThan(0);\r",
+											"    pm.expect(jsonData.AccountingDetail.Salutation).length.greaterThan(0);\r",
+											"    pm.expect(jsonData.AccountingDetail.Sex).length.greaterThan(0);\r",
+											"    pm.expect(jsonData.AccountingDetail.FinancialYearEndDay).to.equal(11);\r",
+											"    pm.expect(jsonData.AccountingDetail.FinancialYearEndMonth).to.equal(0);\r",
+											"    pm.expect(jsonData.AccountingDetail.LegalName).length.greaterThan(0);\r",
+											"    pm.expect(jsonData.AccountingDetail.TaxCountryCode).length.greaterThan(0);\r",
+											"    pm.expect(jsonData.AccountingDetail.IncomeTaxInstallmentPeriod).length.greaterThan(0);\r",
+											"    pm.expect(jsonData.AccountingDetail.RegistrationNumbers.length).to.equal(2);\r",
+											"    pm.expect(jsonData.AccountingDetail.Notes.length).to.equal(4);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"id": "76a41b24-9c4e-457e-b888-546f7da1e009",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{publicapi.authorization}}",
+										"type": "text"
+									},
+									{
+										"key": "AccessKey",
+										"value": "{{publicapi.accesskey}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{public.api.baseurl}}/v3/Contacts/{{public.api.contact_permakey}}?$expand=BusinessCards",
+									"host": [
+										"{{public.api.baseurl}}"
+									],
+									"path": [
+										"v3",
+										"Contacts",
+										"{{public.api.contact_permakey}}"
+									],
+									"query": [
+										{
+											"key": "$expand",
+											"value": "BusinessCards"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"id": "d8e791ee-5e15-4c85-8a8b-8de5f4002ce9"
+				},
+				{
+					"name": "Get by UserDefinedIdentifier",
+					"item": [
+						{
+							"name": "Get a contact from the supplied User Defined Identifier",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "b48d1b05-2fb3-447d-b6ea-f588b0eb64b5",
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Business Cards aren't loaded without expand\", function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.BusinessCards).to.eql(undefined);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"id": "42434556-16d9-466b-9fb9-c401128f8c2f",
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"id": "143b3126-3723-462e-b178-b112db142459",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{publicapi.authorization}}",
+										"type": "text"
+									},
+									{
+										"key": "AccessKey",
+										"value": "{{publicapi.accesskey}}",
+										"type": "text"
+									}
+								],
+								"url": "{{public.api.baseurl}}/v3/Contacts/KarbonService.GetContactByUserDefinedIdentifier(UserDefinedIdentifier='{{public.api.contact_userdefinedidentifier}}')"
+							},
+							"response": [
+								{
+									"id": "339e2254-5d8f-49e6-bd04-0345ba7658c9",
+									"name": "OK",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": "{{baseUrl}}/v3/Contacts/GetByUserDefinedIdentifier(userDefinedIdentifier='{{userDefinedIdentifier}}')"
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"responseTime": null,
+									"body": "{\n \"FirstName\": \"Douglas\",\n \"MiddleName\": \"Noel\",\n \"LastName\": \"Adams\",\n \"PreferredName\": \"Doug\",\n \"Salutation\": \"Mr\",\n \"BusinessCards\": [\n  {\n   \"BusinessCardKey\": \"2xfLMq5PFqb7\",\n   \"IsPrimaryCard\": false,\n   \"Addresses\": [\n    {\n     \"AddressKey\": \"a5867584-687c-4f77-b397-854ae7523403\",\n     \"AddressLines\": \"2400 Bridgeway, Ste 280\",\n     \"City\": \"Sausalito\",\n     \"StateProvinceCounty\": \"CA\",\n     \"ZipCode\": \"94965\",\n     \"CountryCode\": \"US\",\n     \"Label\": \"Work\"\n    },\n    {\n     \"AddressKey\": \"a5867584-687c-4f77-b397-854ae7523403\",\n     \"AddressLines\": \"2400 Bridgeway, Ste 280\",\n     \"City\": \"Sausalito\",\n     \"StateProvinceCounty\": \"CA\",\n     \"ZipCode\": \"94965\",\n     \"CountryCode\": \"US\",\n     \"Label\": \"Work\"\n    }\n   ],\n   \"PhoneNumbers\": [\n    {\n     \"PhoneNumberKey\": \"41dfe6a4-efd3-4394-9b41-e5e43624e072\",\n     \"Number\": \"+61212345678\",\n     \"CountryCode\": \"US\",\n     \"Label\": \"Work\"\n    },\n    {\n     \"PhoneNumberKey\": \"41dfe6a4-efd3-4394-9b41-e5e43624e072\",\n     \"Number\": \"+61212345678\",\n     \"CountryCode\": \"US\",\n     \"Label\": \"Work\"\n    }\n   ],\n   \"WebSites\": [\n    \"https://www.karbonhq.com\"\n   ],\n   \"EmailAddresses\": [\n    \"enquiries@karbonhq.com\"\n   ],\n   \"OrganizationKey\": \"ZGNmtYyLm4z\",\n   \"RoleOrTitle\": \"CEO\"\n  },\n  {\n   \"BusinessCardKey\": \"2xfLMq5PFqb7\",\n   \"IsPrimaryCard\": false,\n   \"Addresses\": [\n    {\n     \"AddressKey\": \"aab4b44b-2e17-4b22-a1ff-795a6998b5b5\",\n     \"AddressLines\": \"2400 Bridgeway, Ste 280\",\n     \"City\": \"Sausalito\",\n     \"StateProvinceCounty\": \"CA\",\n     \"ZipCode\": \"94965\",\n     \"CountryCode\": \"US\",\n     \"Label\": \"Work\"\n    },\n    {\n     \"AddressKey\": \"aab4b44b-2e17-4b22-a1ff-795a6998b5b5\",\n     \"AddressLines\": \"2400 Bridgeway, Ste 280\",\n     \"City\": \"Sausalito\",\n     \"StateProvinceCounty\": \"CA\",\n     \"ZipCode\": \"94965\",\n     \"CountryCode\": \"US\",\n     \"Label\": \"Work\"\n    }\n   ],\n   \"PhoneNumbers\": [\n    {\n     \"PhoneNumberKey\": \"dbba71c1-759b-49d5-9ca3-4ad6821f5178\",\n     \"Number\": \"+61212345678\",\n     \"CountryCode\": \"US\",\n     \"Label\": \"Work\"\n    },\n    {\n     \"PhoneNumberKey\": \"dbba71c1-759b-49d5-9ca3-4ad6821f5178\",\n     \"Number\": \"+61212345678\",\n     \"CountryCode\": \"US\",\n     \"Label\": \"Work\"\n    }\n   ],\n   \"WebSites\": [\n    \"https://www.karbonhq.com\"\n   ],\n   \"EmailAddresses\": [\n    \"enquiries@karbonhq.com\"\n   ],\n   \"OrganizationKey\": \"ZGNmtYyLm4z\",\n   \"RoleOrTitle\": \"CEO\"\n  }\n ],\n \"ClientOwner\": \"myowner@karbonhq.com\",\n \"ClientManager\": \"mymanager@karbonhq.com\",\n \"ContactType\": \"Supplier\",\n \"UserDefinedIdentifier\": \"42\",\n \"LastModifiedDateTime\": \"2021-01-22T03:00:14.8664492Z\",\n \"ContactKey\": \"ZGNmtYyLm4z\"\n}"
+								},
+								{
+									"id": "8ef600e7-5595-4e5a-9be3-ec9618354da5",
+									"name": "UserDefinedIdentifier is missing or empty",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": "{{baseUrl}}/v3/Contacts/GetByUserDefinedIdentifier(userDefinedIdentifier='{{userDefinedIdentifier}}')"
+									},
+									"status": "Bad Request",
+									"code": 400,
+									"_postman_previewlanguage": "text",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "text/plain"
+										}
+									],
+									"cookie": [],
+									"responseTime": null,
+									"body": ""
+								},
+								{
+									"id": "789c60b8-f6eb-48d8-9bf7-a10886d12f29",
+									"name": "No Contact found for provided UserDefinedIdentifer",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": "{{baseUrl}}/v3/Contacts/GetByUserDefinedIdentifier(userDefinedIdentifier='{{userDefinedIdentifier}}')"
+									},
+									"status": "Not Found",
+									"code": 404,
+									"_postman_previewlanguage": "text",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "text/plain"
+										}
+									],
+									"cookie": [],
+									"responseTime": null,
+									"body": ""
+								}
+							]
+						},
+						{
+							"name": "Get a contact from the supplied User Defined Identifier with expand",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "861273bb-6184-4f9a-b95b-a3f4d415f5ca",
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Business are loaded with expand\", function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.BusinessCards).to.not.eql(undefined);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"id": "c7639dc0-5eac-47f0-bd5f-7d32e96c35d4",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{publicapi.authorization}}",
+										"type": "text"
+									},
+									{
+										"key": "AccessKey",
+										"value": "{{publicapi.accesskey}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{public.api.baseurl}}/v3/Contacts/KarbonService.GetContactByUserDefinedIdentifier(UserDefinedIdentifier='{{public.api.contact_userdefinedidentifier}}')?$expand=BusinessCards",
+									"host": [
+										"{{public.api.baseurl}}"
+									],
+									"path": [
+										"v3",
+										"Contacts",
+										"KarbonService.GetContactByUserDefinedIdentifier(UserDefinedIdentifier='{{public.api.contact_userdefinedidentifier}}')"
+									],
+									"query": [
+										{
+											"key": "$expand",
+											"value": "BusinessCards"
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"id": "87cbdf79-5e87-489c-88a3-7628a9754f02",
+									"name": "OK",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": "{{baseUrl}}/v3/Contacts/GetByUserDefinedIdentifier(userDefinedIdentifier='{{userDefinedIdentifier}}')"
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"responseTime": null,
+									"body": "{\n \"FirstName\": \"Douglas\",\n \"MiddleName\": \"Noel\",\n \"LastName\": \"Adams\",\n \"PreferredName\": \"Doug\",\n \"Salutation\": \"Mr\",\n \"BusinessCards\": [\n  {\n   \"BusinessCardKey\": \"2xfLMq5PFqb7\",\n   \"IsPrimaryCard\": false,\n   \"Addresses\": [\n    {\n     \"AddressKey\": \"a5867584-687c-4f77-b397-854ae7523403\",\n     \"AddressLines\": \"2400 Bridgeway, Ste 280\",\n     \"City\": \"Sausalito\",\n     \"StateProvinceCounty\": \"CA\",\n     \"ZipCode\": \"94965\",\n     \"CountryCode\": \"US\",\n     \"Label\": \"Work\"\n    },\n    {\n     \"AddressKey\": \"a5867584-687c-4f77-b397-854ae7523403\",\n     \"AddressLines\": \"2400 Bridgeway, Ste 280\",\n     \"City\": \"Sausalito\",\n     \"StateProvinceCounty\": \"CA\",\n     \"ZipCode\": \"94965\",\n     \"CountryCode\": \"US\",\n     \"Label\": \"Work\"\n    }\n   ],\n   \"PhoneNumbers\": [\n    {\n     \"PhoneNumberKey\": \"41dfe6a4-efd3-4394-9b41-e5e43624e072\",\n     \"Number\": \"+61212345678\",\n     \"CountryCode\": \"US\",\n     \"Label\": \"Work\"\n    },\n    {\n     \"PhoneNumberKey\": \"41dfe6a4-efd3-4394-9b41-e5e43624e072\",\n     \"Number\": \"+61212345678\",\n     \"CountryCode\": \"US\",\n     \"Label\": \"Work\"\n    }\n   ],\n   \"WebSites\": [\n    \"https://www.karbonhq.com\"\n   ],\n   \"EmailAddresses\": [\n    \"enquiries@karbonhq.com\"\n   ],\n   \"OrganizationKey\": \"ZGNmtYyLm4z\",\n   \"RoleOrTitle\": \"CEO\"\n  },\n  {\n   \"BusinessCardKey\": \"2xfLMq5PFqb7\",\n   \"IsPrimaryCard\": false,\n   \"Addresses\": [\n    {\n     \"AddressKey\": \"aab4b44b-2e17-4b22-a1ff-795a6998b5b5\",\n     \"AddressLines\": \"2400 Bridgeway, Ste 280\",\n     \"City\": \"Sausalito\",\n     \"StateProvinceCounty\": \"CA\",\n     \"ZipCode\": \"94965\",\n     \"CountryCode\": \"US\",\n     \"Label\": \"Work\"\n    },\n    {\n     \"AddressKey\": \"aab4b44b-2e17-4b22-a1ff-795a6998b5b5\",\n     \"AddressLines\": \"2400 Bridgeway, Ste 280\",\n     \"City\": \"Sausalito\",\n     \"StateProvinceCounty\": \"CA\",\n     \"ZipCode\": \"94965\",\n     \"CountryCode\": \"US\",\n     \"Label\": \"Work\"\n    }\n   ],\n   \"PhoneNumbers\": [\n    {\n     \"PhoneNumberKey\": \"dbba71c1-759b-49d5-9ca3-4ad6821f5178\",\n     \"Number\": \"+61212345678\",\n     \"CountryCode\": \"US\",\n     \"Label\": \"Work\"\n    },\n    {\n     \"PhoneNumberKey\": \"dbba71c1-759b-49d5-9ca3-4ad6821f5178\",\n     \"Number\": \"+61212345678\",\n     \"CountryCode\": \"US\",\n     \"Label\": \"Work\"\n    }\n   ],\n   \"WebSites\": [\n    \"https://www.karbonhq.com\"\n   ],\n   \"EmailAddresses\": [\n    \"enquiries@karbonhq.com\"\n   ],\n   \"OrganizationKey\": \"ZGNmtYyLm4z\",\n   \"RoleOrTitle\": \"CEO\"\n  }\n ],\n \"ClientOwner\": \"myowner@karbonhq.com\",\n \"ClientManager\": \"mymanager@karbonhq.com\",\n \"ContactType\": \"Supplier\",\n \"UserDefinedIdentifier\": \"42\",\n \"LastModifiedDateTime\": \"2021-01-22T03:00:14.8664492Z\",\n \"ContactKey\": \"ZGNmtYyLm4z\"\n}"
+								},
+								{
+									"id": "453cdab9-4027-4043-ae4f-59f5eb0886c4",
+									"name": "UserDefinedIdentifier is missing or empty",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": "{{baseUrl}}/v3/Contacts/GetByUserDefinedIdentifier(userDefinedIdentifier='{{userDefinedIdentifier}}')"
+									},
+									"status": "Bad Request",
+									"code": 400,
+									"_postman_previewlanguage": "text",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "text/plain"
+										}
+									],
+									"cookie": [],
+									"responseTime": null,
+									"body": ""
+								},
+								{
+									"id": "8c4753be-2112-43e3-8086-1d8cbaa11c14",
+									"name": "No Contact found for provided UserDefinedIdentifer",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": "{{baseUrl}}/v3/Contacts/GetByUserDefinedIdentifier(userDefinedIdentifier='{{userDefinedIdentifier}}')"
+									},
+									"status": "Not Found",
+									"code": 404,
+									"_postman_previewlanguage": "text",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "text/plain"
+										}
+									],
+									"cookie": [],
+									"responseTime": null,
+									"body": ""
+								}
+							]
+						},
+						{
+							"name": "Search parameterless",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "3c85b03e-2695-4e94-a629-f4e41de69ffe",
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"pm.test(\"Parameterless Query Returns at most 100 Contacts\", function () {\r",
+											"    const responseJson = pm.response.json();    \r",
+											"    pm.expect(responseJson.value.length).to.be.lessThan(101);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Grabbing two Full Names to use in future tests\", function () {\r",
+											"    const responseJson = pm.response.json();    \r",
+											"    pm.expect(responseJson.value.length).to.be.greaterThan(1);\r",
+											"    pm.environment.set(\"public.api.search_test_contact1_fullname\", responseJson.value[0].FullName);\r",
+											"    pm.environment.set(\"public.api.search_test_contact2_fullname\", responseJson.value[1].FullName);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"id": "a975f37d-5b61-4458-8bbd-1319df5df2d9",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{publicapi.authorization}}",
+										"type": "text"
+									},
+									{
+										"key": "AccessKey",
+										"value": "{{publicapi.accesskey}}",
+										"type": "text"
+									}
+								],
+								"url": "{{public.api.baseurl}}/v3/Contacts"
+							},
+							"response": []
+						}
+					],
+					"id": "92c1ac4e-19ca-4689-91b1-ab0d653bab1a"
+				},
+				{
+					"name": "Search",
+					"item": [
+						{
+							"name": "Search orderby FullName",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "5a61688f-76c9-473a-9041-f06975e7078a",
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Check items were found\", function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData[\"@odata.count\"]).to.gte(5);\r",
+											"    pm.expect(jsonData.value.length).to.eq(5);\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"id": "5847f103-912f-4d9d-b0e1-17b6aeeb91d9",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{publicapi.authorization}}",
+										"type": "text"
+									},
+									{
+										"key": "AccessKey",
+										"value": "{{publicapi.accesskey}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{public.api.baseurl}}/v3/Contacts?$top=5&$orderby=FullName",
+									"host": [
+										"{{public.api.baseurl}}"
+									],
+									"path": [
+										"v3",
+										"Contacts"
+									],
+									"query": [
+										{
+											"key": "$top",
+											"value": "5"
+										},
+										{
+											"key": "$orderby",
+											"value": "FullName"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Search orderby LastModifiedDateTime",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "e8ba1d71-f679-43db-bef4-3b3ac115b9fe",
+										"exec": [
+											"/*pm.test(\"#7779 Ordering contacts by LastModifiedDate is broken\", function () {\r",
+											"    // Change this when #7779 is fixed. This test should start failing.\r",
+											"    pm.response.to.have.status(500);\r",
+											"});*/\r",
+											"\r",
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Check contacts were found\", function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.value.length).to.gte(1);\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"id": "7a0342d2-72ee-42c5-8108-335f362d78d1",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{publicapi.authorization}}",
+										"type": "text"
+									},
+									{
+										"key": "AccessKey",
+										"value": "{{publicapi.accesskey}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{public.api.baseurl}}/v3/Contacts?$top=5&$orderby=LastModifiedDateTime",
+									"host": [
+										"{{public.api.baseurl}}"
+									],
+									"path": [
+										"v3",
+										"Contacts"
+									],
+									"query": [
+										{
+											"key": "$top",
+											"value": "5"
+										},
+										{
+											"key": "$orderby",
+											"value": "LastModifiedDateTime"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Search with select odata attribute",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 400\", function () {\r",
+											"    pm.response.to.have.status(400);\r",
+											"});\r",
+											"pm.test(\"Body matches contains Select not allowed\", function () {\r",
+											"    pm.expect(pm.response.text()).to.include(\"Query option 'Select' is not allowed\");\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"id": "b8b4dbfb-6235-4e17-b521-247c5f6c5602"
+									}
+								}
+							],
+							"id": "3440aa3c-e962-4653-9da0-39ddf7f1b919",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{publicapi.authorization}}",
+										"type": "text"
+									},
+									{
+										"key": "AccessKey",
+										"value": "{{publicapi.accesskey}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{public.api.baseurl}}/v3/Contacts?$select=FullName",
+									"host": [
+										"{{public.api.baseurl}}"
+									],
+									"path": [
+										"v3",
+										"Contacts"
+									],
+									"query": [
+										{
+											"key": "$select",
+											"value": "FullName"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Search with startswith odata attribute not supported",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "63ef35a6-45ee-4da3-bc11-d94b470e1e41",
+										"exec": [
+											"pm.test(\"Status code is 400\", function () {\r",
+											"    pm.response.to.have.status(400);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Check error message contents\", function () {\r",
+											"    pm.expect(pm.response.text()).to.include(\"Function 'startswith' is not allowed\");\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"id": "bf1b038c-9858-42d9-9f20-4a92bdfa3d65",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{publicapi.authorization}}",
+										"type": "text"
+									},
+									{
+										"key": "AccessKey",
+										"value": "{{publicapi.accesskey}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{public.api.baseurl}}/v3/Contacts?$filter=startswith(EmailAddress, 'james')",
+									"host": [
+										"{{public.api.baseurl}}"
+									],
+									"path": [
+										"v3",
+										"Contacts"
+									],
+									"query": [
+										{
+											"key": "$filter",
+											"value": "startswith(EmailAddress, 'james')"
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"id": "791164cb-5b00-4fc5-8356-0e30737c6a02",
+									"name": "OK",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/v3/Contacts?$select=<string>&$filter=<string>&$orderby=<string>&$top=<integer>&$skip=<integer>",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"v3",
+												"Contacts"
+											],
+											"query": [
+												{
+													"key": "$select",
+													"value": "<string>"
+												},
+												{
+													"key": "$filter",
+													"value": "<string>"
+												},
+												{
+													"key": "$orderby",
+													"value": "<string>"
+												},
+												{
+													"key": "$top",
+													"value": "<integer>"
+												},
+												{
+													"key": "$skip",
+													"value": "<integer>"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"responseTime": null,
+									"body": "{\n \"Items\": [\n  {\n   \"FullName\": \"Adams, Douglas Noel\",\n   \"PreferredName\": \"Doug\",\n   \"Salutation\": \"Mr\",\n   \"ClientOwner\": \"myowner@megadodopublications.com\",\n   \"ClientManager\": \"mymanager@megadodopublications.com\",\n   \"Address\": \"42 Galaxy Way, London\",\n   \"EmailAddress\": \"DNA@megadodopublications.net\",\n   \"PhoneNumber\": \"+61212345678\",\n   \"RoleOrTitle\": \"CEO\",\n   \"UserDefinedIdentifier\": \"42\",\n   \"LastModifiedDateTime\": \"2021-01-22T03:00:14.8634476Z\",\n   \"ContactKey\": \"2BtTSg4xM7Dt\"\n  },\n  {\n   \"FullName\": \"Asimov, Isaac\",\n   \"PreferredName\": \"Zac\",\n   \"Salutation\": \"Mr\",\n   \"ClientOwner\": \"myowner@bostonuniversity.edu\",\n   \"ClientManager\": \"mymanager@bostonuniversity.edu\",\n   \"Address\": \"1920 Foundation Boulevard, Petrovichi, Russia\",\n   \"EmailAddress\": \"asimo@bostonuniversity.edu\",\n   \"PhoneNumber\": \"069283779143\",\n   \"RoleOrTitle\": \"Writer\",\n   \"UserDefinedIdentifier\": \"5020\",\n   \"LastModifiedDateTime\": \"2021-02-03T03:00:14.8634476Z\",\n   \"ContactKey\": \"23WWskXjR4wX\"\n  }\n ],\n \"NextPageLink\": \"https://api.karbonhq.com/v3/Contacts?$skip=100\",\n \"Count\": 123\n}"
+								}
+							]
+						},
+						{
+							"name": "Search with datefunction odata attribute",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 400\", function () {\r",
+											"    pm.response.to.have.status(400);\r",
+											"});\r",
+											"pm.test(\"Body matches contains day function not allowed\", function () {\r",
+											"    pm.expect(pm.response.text()).to.include(\"Function 'day' is not allowed\");\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"id": "d807ab42-22ec-475c-adfb-b08a4d70a71b"
+									}
+								}
+							],
+							"id": "7f30a192-6172-4424-96b7-0e7e57593b6a",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{publicapi.authorization}}",
+										"type": "text"
+									},
+									{
+										"key": "AccessKey",
+										"value": "{{publicapi.accesskey}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{public.api.baseurl}}/v3/Contacts?$filter=day(LastModifiedDateTime) eq 8",
+									"host": [
+										"{{public.api.baseurl}}"
+									],
+									"path": [
+										"v3",
+										"Contacts"
+									],
+									"query": [
+										{
+											"key": "$filter",
+											"value": "day(LastModifiedDateTime) eq 8"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Search with Greater than odata attribute",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 400\", function () {\r",
+											"    pm.response.to.have.status(400);\r",
+											"});\r",
+											"pm.test(\"Body matches contains Logical operator not allowed\", function () {\r",
+											"    pm.expect(pm.response.text()).to.include(\"Logical operator 'NotEqual' is not allowed\");\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"id": "81cf3fc0-620d-4405-a6af-a6106d2dfd45"
+									}
+								}
+							],
+							"id": "36c7fe68-c3ff-4d30-ad7a-b5abaf16fca5",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{publicapi.authorization}}",
+										"type": "text"
+									},
+									{
+										"key": "AccessKey",
+										"value": "{{publicapi.accesskey}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{public.api.baseurl}}/v3/Contacts?$filter=PhoneNumber ne '10'",
+									"host": [
+										"{{public.api.baseurl}}"
+									],
+									"path": [
+										"v3",
+										"Contacts"
+									],
+									"query": [
+										{
+											"key": "$filter",
+											"value": "PhoneNumber ne '10'"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Search contacts by FullName",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "0315d2fc-9d9e-4dc2-abb3-dd6d2916fe72",
+										"exec": [
+											"pm.test(\"Status code is OK (200)\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Test matching item was found\", function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.value.length).to.be.greaterThan(0);\r",
+											"    var contactData = jsonData.value[0];\r",
+											"\r",
+											"    pm.expect(contactData.FullName).to.eq(pm.environment.get(\"public.api.search_test_contact1_fullname\"));\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"id": "d9237b11-0468-47d0-b48a-5f93ddc04224",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{publicapi.authorization}}",
+										"type": "text"
+									},
+									{
+										"key": "AccessKey",
+										"value": "{{publicapi.accesskey}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{public.api.baseurl}}/v3/Contacts?$filter=FullName eq '{{public.api.search_test_contact1_fullname}}'",
+									"host": [
+										"{{public.api.baseurl}}"
+									],
+									"path": [
+										"v3",
+										"Contacts"
+									],
+									"query": [
+										{
+											"key": "$filter",
+											"value": "FullName eq '{{public.api.search_test_contact1_fullname}}'"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Partial search by EmailAddress",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "af8b51c3-c739-4a5b-93f3-52011572104b",
+										"exec": [
+											"pm.test(\"Status code is OK (200)\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Test matching items were found\", function () {\r",
+											"    const expectedEmail = pm.variables.get(\"public.api.contact_uniqueidentifier\");\r",
+											"    const jsonData = pm.response.json();\r",
+											"    const contacts = jsonData.value;\r",
+											"    \r",
+											"    pm.expect(contacts.length).to.be.greaterThan(0);\r",
+											"\r",
+											"    contacts.forEach(c => {\r",
+											"        pm.expect(c.EmailAddress.includes(expectedEmail)).to.be.true;\r",
+											"    });\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"id": "87277b6b-2b81-422e-a0fe-274a99fedf35",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{publicapi.authorization}}",
+										"type": "text"
+									},
+									{
+										"key": "AccessKey",
+										"value": "{{publicapi.accesskey}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{public.api.baseurl}}/v3/Contacts?$filter=(contains(EmailAddress, '{{public.api.contact_uniqueidentifier}}'))",
+									"host": [
+										"{{public.api.baseurl}}"
+									],
+									"path": [
+										"v3",
+										"Contacts"
+									],
+									"query": [
+										{
+											"key": "$filter",
+											"value": "(contains(EmailAddress, '{{public.api.contact_uniqueidentifier}}'))"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Partial search by FullName",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "af8b51c3-c739-4a5b-93f3-52011572104b",
+										"exec": [
+											"pm.test(\"Status code is OK (200)\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Test matching items were found\", function () {\r",
+											"    const expectedName = pm.variables.get(\"public.api.search_test_contact1_fullname\");\r",
+											"    const jsonData = pm.response.json();\r",
+											"    const contacts = jsonData.value;\r",
+											"    \r",
+											"    pm.expect(contacts.length).to.be.greaterThan(0);\r",
+											"\r",
+											"    contacts.forEach(c => {\r",
+											"        pm.expect(c.FullName.includes(expectedName)).to.be.true;\r",
+											"    });\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"id": "2c6a4c26-ec85-45c1-98c6-dc0fa14ab6dc",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{publicapi.authorization}}",
+										"type": "text"
+									},
+									{
+										"key": "AccessKey",
+										"value": "{{publicapi.accesskey}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{public.api.baseurl}}/v3/Contacts?$filter=(contains(FullName, '{{public.api.search_test_contact1_fullname}}'))",
+									"host": [
+										"{{public.api.baseurl}}"
+									],
+									"path": [
+										"v3",
+										"Contacts"
+									],
+									"query": [
+										{
+											"key": "$filter",
+											"value": "(contains(FullName, '{{public.api.search_test_contact1_fullname}}'))"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Partial search by PhoneNumber",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "7a0a739c-2cd5-4dbc-b0e2-46f3a9445838",
+										"exec": [
+											"pm.test(\"Status code is OK (200)\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Test matching items were found\", function () {\r",
+											"    const expectedPhone = pm.variables.get(\"public.api.contact_phone\");\r",
+											"    const jsonData = pm.response.json();\r",
+											"    const contacts = jsonData.value;\r",
+											"    \r",
+											"    pm.expect(contacts.length).to.be.greaterThan(0);\r",
+											"\r",
+											"    contacts.forEach(c => {\r",
+											"        pm.expect(c.PhoneNumber.includes(expectedPhone)).to.be.true;\r",
+											"    });\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"id": "bbd54a6d-157b-4153-acac-76852d2f3564",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{publicapi.authorization}}",
+										"type": "text"
+									},
+									{
+										"key": "AccessKey",
+										"value": "{{publicapi.accesskey}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{public.api.baseurl}}/v3/Contacts?$filter=(contains(PhoneNumber, '{{public.api.contact_phone}}'))",
+									"host": [
+										"{{public.api.baseurl}}"
+									],
+									"path": [
+										"v3",
+										"Contacts"
+									],
+									"query": [
+										{
+											"key": "$filter",
+											"value": "(contains(PhoneNumber, '{{public.api.contact_phone}}'))"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"id": "57cbf28c-9afc-46d2-b755-9a600247486d"
+				},
+				{
+					"name": "Update (Put)",
+					"item": [
+						{
+							"name": "#4350 Update Contact with extra CRM Fields",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"id": "b86cb0a4-9236-4c22-ab13-d297fae2441e",
+										"exec": [
+											"var uuid = require('uuid');\r",
+											"var generatedUUID = uuid.v4(); \r",
+											"pm.environment.set(\"public.api.contact_uniqueidentifier\", generatedUUID);"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"id": "c3c24380-f17c-4a7d-b836-902c6e743a48",
+										"exec": [
+											"pm.test(\"Status code is 204\", function () {\r",
+											"    pm.response.to.have.status(204);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"id": "f33be3c2-73a3-4a34-88a8-5d425311944b",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{publicapi.authorization}}",
+										"type": "text"
+									},
+									{
+										"key": "AccessKey",
+										"value": "{{publicapi.accesskey}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"FirstName\": \"First update\",\r\n    \"MiddleName\": \"Second update\",\r\n    \"LastName\": \"Last update\",\r\n    \"PreferredName\": \"Preferrred update\",\r\n    \"Salutation\": \"Dr\",\r\n    \"Suffix\": \"Of the Test update\",\r\n    \"RestrictionLevel\": \"Public\",\r\n    \"UserDefinedIdentifier\": \"{{public.api.contact_uniqueidentifier}}\",\r\n    \"BusinessCards\": [\r\n        {\r\n            \"IsPrimaryCard\": true,\r\n            \"Addresses\": [\r\n                {\r\n                    \"AddressLines\": \"address line test update\",\r\n                    \"City\": \"city test update\",\r\n                    \"StateProvinceCounty\": \"NSW update\",\r\n                    \"ZipCode\": \"2120 update\",\r\n                    \"CountryCode\": \"AU\",\r\n                    \"Label\": \"Test label update\"\r\n                }\r\n            ],\r\n            \"PhoneNumbers\": [\r\n                {\r\n                    \"Number\": \"12345678\",\r\n                    \"CountryCode\": \"+61\",\r\n                    \"Label\": \"Work update\"\r\n                }\r\n            ],\r\n            \"WebSites\": [\r\n                \"web.coolupdate\",\r\n                \"website.twoupdate\"\r\n            ],\r\n            \"EmailAddresses\": [\r\n                \"{{public.api.contact_uniqueidentifier}}@karbonhq.com\"\r\n            ],\r\n            \"RoleOrTitle\": \"CIO\",\r\n            \"FacebookLink\": \"facebook.com/testupdate\",\r\n            \"LinkedInLink\": \"LinkedIn.com/testupdate\",\r\n            \"TwitterLink\": \"Twitter.com/testupdate\",\r\n            \"SkypeLink\": \"Skype.com/testupdate\"\r\n        }\r\n    ],\r\n    \"EntityDescription\": {\r\n        \"Text\": \"test description update\"\r\n    },\r\n    \"AccountingDetail\": {\r\n        \"ContactPermaKey\": \"{{public.api.contact_permakey}}\",\r\n        \"BirthDate\": \"2001-05-16\",\r\n        \"DeathDate\": \"2021-05-16\",\r\n        \"Salutation\": \"The Dishonorable update\",\r\n        \"Sex\": \"M\",\r\n        \"FinancialYearEndDay\": \"11\",\r\n        \"FinancialYearEndMonth\": \"0\",\r\n        \"LegalName\": \"League of Heels update\",\r\n        \"TaxCountryCode\": \"AU\",\r\n        \"IncomeTaxInstallmentPeriod\": \"Monthly\",\r\n        \"RegistrationNumbers\": [\r\n            {\r\n                \"RegistrationNumber\": \"123 321 3445\",\r\n                \"Type\": \"Tax File Number (TFN)\"\r\n            },\r\n            {\r\n                \"RegistrationNumber\": \"444 333 222\",\r\n                \"Type\": \"Australian Business Number (ABN)\"\r\n            }\r\n        ],\r\n        \"Notes\": [\r\n            {\r\n                \"Body\": \"Notes basic body update\",\r\n                \"Type\": \"Basic\"\r\n            },\r\n            {\r\n                \"Body\": \"Notes tax body update\",\r\n                \"Type\": \"Tax\"\r\n            },\r\n            {\r\n                \"Body\": \"Notes system body update\",\r\n                \"Type\": \"System\"\r\n            },\r\n            {\r\n                \"Body\": \"Notes related people body update\",\r\n                \"Type\": \"Related People\"\r\n            }\r\n        ]\r\n    }\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{public.api.baseurl}}/v3/Contacts/{{public.api.contact_permakey}}?$expand=BusinessCard",
+									"host": [
+										"{{public.api.baseurl}}"
+									],
+									"path": [
+										"v3",
+										"Contacts",
+										"{{public.api.contact_permakey}}"
+									],
+									"query": [
+										{
+											"key": "$expand",
+											"value": "BusinessCard"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"id": "36b3bc3d-d8f5-4db3-88f3-535d7afa8243"
+				},
+				{
+					"name": "Update (Patch)",
+					"item": [
+						{
+							"name": "Partial Update Contact",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"id": "3a416766-90d7-4baa-a90b-dd6cdf753261",
+										"exec": [
+											"var uuid = require('uuid');\r",
+											"var generatedUUID = uuid.v4(); \r",
+											"pm.environment.set(\"public.api.contact_uniqueidentifier\", generatedUUID);"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"id": "a27a792c-9ea7-442c-bc50-05885edbb3d4",
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Fields have been patched correctly\", function () {\r",
+											"    json = pm.response.json();\r",
+											"    pm.expect(json.FirstName).to.eq(\"Partial First Name\");\r",
+											"    pm.expect(json.MiddleName).to.eq(\"Partial Middle Name\");\r",
+											"    pm.expect(json.LastName).to.eq(\"Partial Last Name\");\r",
+											"    pm.expect(json.PreferredName).to.eq(\"Partial Preferred Name\");\r",
+											"    pm.expect(json.Salutation).to.eq(\"Ms\");\r",
+											"    pm.expect(json.Suffix).to.eq(\"Partial Suffix\");\r",
+											"});\r",
+											"\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"id": "e62a1782-4b50-47ad-a2bd-62cf1cae63f1",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "PATCH",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{publicapi.authorization}}",
+										"type": "text"
+									},
+									{
+										"key": "AccessKey",
+										"value": "{{publicapi.accesskey}}",
+										"type": "text"
+									},
+									{
+										"key": "Prefer",
+										"value": "return=representation",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"FirstName\": \"Partial First Name\",\r\n    \"MiddleName\": \"Partial Middle Name\",\r\n    \"LastName\": \"Partial Last Name\",\r\n    \"PreferredName\": \"Partial Preferred Name\",\r\n    \"Salutation\": \"Ms\",\r\n    \"Suffix\": \"Partial Suffix\"    \r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "{{public.api.baseurl}}/v3/Contacts/{{public.api.contact_permakey}}"
+							},
+							"response": []
+						},
+						{
+							"name": "Partial Update Contact - Unsupported property",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"id": "56b1097b-7142-495c-b5b2-09a9e1943905",
+										"exec": [
+											"var uuid = require('uuid');\r",
+											"var generatedUUID = uuid.v4(); \r",
+											"pm.environment.set(\"public.api.contact_uniqueidentifier\", generatedUUID);"
+										],
+										"type": "text/javascript"
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"id": "2c8ec812-d6da-4719-b829-6dfbd6b03a83",
+										"exec": [
+											"pm.test(\"Status code is 400\", function () {\r",
+											"    pm.response.to.have.status(400);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Patch has not been applied and error message is correct\", function () {\r",
+											"    pm.expect(pm.response.text()).to.include(\"Invalid property to update. Only FirstName,MiddleName,LastName,PreferredName,Salutation,Suffix can be patched.\");\r",
+											"})\r",
+											"\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"id": "1ec32232-46c1-4a19-90ff-f6be2a199975",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "PATCH",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{publicapi.authorization}}",
+										"type": "text"
+									},
+									{
+										"key": "AccessKey",
+										"value": "{{publicapi.accesskey}}",
+										"type": "text"
+									},
+									{
+										"key": "Prefer",
+										"value": "return=representation",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"UserDefinedIdentifier\": \"Whatever\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "{{public.api.baseurl}}/v3/Contacts/{{public.api.contact_permakey}}"
+							},
+							"response": []
+						}
+					],
+					"id": "97627977-40f3-4a4f-a1ef-8aa37a61fb54"
+				}
+			],
+			"id": "6296cbb5-719a-4c0b-911a-bba441b61b48"
 		}
 	],
 	"event": [
