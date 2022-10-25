@@ -13800,6 +13800,18 @@
 						}
 					],
 					"id": "204c4920-2422-4168-9c27-f75130f59265"
+				},
+				{
+					"name": "New Request",
+					"id": "2c9d9cb2-1b56-459a-ab3a-8893aeea4afc",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
 				}
 			],
 			"id": "ae7faa85-66ea-4f17-901c-7798cc3be613"
