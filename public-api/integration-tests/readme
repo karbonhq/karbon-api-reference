@@ -1,0 +1,5 @@
+# Postman collection backup
+
+## Integration
+
+ - Uses personal access token to back up changes from postman to this repository
