@@ -453,7 +453,7 @@
                                         "BusinessCardKey": "2tBHyXtJBxBy",
                                         "IsPrimaryCard": true,
                                         "WebSites": ["www.website.one", "www.website.two"],
-                                        "EmailAddresses": ["sample@email.com", "sample.two@email.com"],
+                                        "EmailAddresses": ["sample@example.com", "sample.two@example.com"],
                                         "OrganizationKey": "ZGNmtYyLm4z",
                                         "RoleOrTitle": "COO",
                                         "FacebookLink": "facebook.com/sampleName",
@@ -632,7 +632,7 @@
                                         "BusinessCardKey": "2tBHyXtJBxBy",
                                         "IsPrimaryCard": true,
                                         "WebSites": ["www.website.one", "www.website.two"],
-                                        "EmailAddresses": ["sample@email.com", "sample.two@email.com"],
+                                        "EmailAddresses": ["sample@example.com", "sample.two@example.com"],
                                         "OrganizationKey": "ZGNmtYyLm4z",
                                         "RoleOrTitle": "COO",
                                         "FacebookLink": "facebook.com/sampleName",
@@ -845,7 +845,7 @@
                                 "BusinessCard": {
                                     "IsPrimaryCard": true,
                                     "WebSites": ["www.website.one", "www.website.two"],
-                                    "EmailAddresses": ["sample@email.com", "sample.two@email.com"],
+                                    "EmailAddresses": ["sample@example.com", "sample.two@example.com"],
                                     "RoleOrTitle": "COO",
                                     "FacebookLink": "facebook.com/sampleName",
                                     "LinkedInLink": "linkedin.com/sampleName",
@@ -2809,7 +2809,7 @@
                                         "BusinessCardKey": "2tBHyXtJBxBy",
                                         "IsPrimaryCard": true,
                                         "WebSites": ["www.website.one", "www.website.two"],
-                                        "EmailAddresses": ["sample@email.com", "sample.two@email.com"],
+                                        "EmailAddresses": ["sample@example.com", "sample.two@example.com"],
                                         "OrganizationKey": "ZGNmtYyLm4z",
                                         "RoleOrTitle": "COO",
                                         "FacebookLink": "facebook.com/sampleName",
@@ -3017,7 +3017,7 @@
                                         "BusinessCardKey": "2tBHyXtJBxBy",
                                         "IsPrimaryCard": true,
                                         "WebSites": ["www.website.one", "www.website.two"],
-                                        "EmailAddresses": ["sample@email.com", "sample.two@email.com"],
+                                        "EmailAddresses": ["sample@example.com", "sample.two@example.com"],
                                         "OrganizationKey": "ZGNmtYyLm4z",
                                         "RoleOrTitle": "COO",
                                         "FacebookLink": "facebook.com/sampleName",
@@ -3214,7 +3214,7 @@
                                         "BusinessCardKey": "2tBHyXtJBxBy",
                                         "IsPrimaryCard": true,
                                         "WebSites": ["www.website.one", "www.website.two"],
-                                        "EmailAddresses": ["sample@email.com", "sample.two@email.com"],
+                                        "EmailAddresses": ["sample@example.com", "sample.two@example.com"],
                                         "OrganizationKey": "ZGNmtYyLm4z",
                                         "RoleOrTitle": "COO",
                                         "FacebookLink": "facebook.com/sampleName",
@@ -4592,7 +4592,7 @@
                                     "BusinessCardKey": "2tBHyXtJBxBy",
                                     "IsPrimaryCard": true,
                                     "WebSites": ["www.website.one", "www.website.two"],
-                                    "EmailAddresses": ["sample@email.com", "sample.two@email.com"],
+                                    "EmailAddresses": ["sample@example.com", "sample.two@example.com"],
                                     "OrganizationKey": "ZGNmtYyLm4z",
                                     "RoleOrTitle": "COO",
                                     "FacebookLink": "facebook.com/sampleName",
@@ -4726,7 +4726,7 @@
                                             "BusinessCardKey": "PVvnQdX1RCH",
                                             "IsPrimaryCard": true,
                                             "WebSites": ["www.website.one", "www.website.two"],
-                                            "EmailAddresses": ["sample@email.com", "sample.two@email.com"],
+                                            "EmailAddresses": ["sample@example.com", "sample.two@example.com"],
                                             "OrganizationKey": null,
                                             "RoleOrTitle": null,
                                             "FacebookLink": "facebook.com/samplecompany",
@@ -4938,7 +4938,7 @@
                                             "BusinessCardKey": "PVvnQdX1RCH",
                                             "IsPrimaryCard": true,
                                             "WebSites": ["www.website.one", "www.website.two"],
-                                            "EmailAddresses": ["sample@email.com", "sample.two@email.com"],
+                                            "EmailAddresses": ["sample@example.com", "sample.two@example.com"],
                                             "OrganizationKey": null,
                                             "RoleOrTitle": null,
                                             "FacebookLink": "facebook.com/samplecompany",
@@ -5164,7 +5164,7 @@
                                     "BusinessCardKey": "2tBHyXtJBxBy",
                                     "IsPrimaryCard": true,
                                     "WebSites": ["www.website.one", "www.website.two"],
-                                    "EmailAddresses": ["sample@email.com", "sample.two@email.com"],
+                                    "EmailAddresses": ["sample@example.com", "sample.two@example.com"],
                                     "OrganizationKey": "ZGNmtYyLm4z",
                                     "RoleOrTitle": null,
                                     "FacebookLink": "facebook.com/sampleName",
@@ -7415,7 +7415,7 @@
                     },
                     "email": {
                         "type": "string",
-                        "example": "john@email.com"
+                        "example": "john@example.com"
                     },
                     "password": {
                         "type": "string",
@@ -7459,7 +7459,7 @@
                         "items": {
                             "type": "string"
                         },
-                        "example": ["sample@email.com", "sample.two@email.com"]
+                        "example": ["sample@example.com", "sample.two@example.com"]
                     },
                     "RoleOrTitle": {
                         "type": "string",
@@ -7591,7 +7591,7 @@
                         "items": {
                             "type": "string"
                         },
-                        "example": ["sample@email.com", "sample.two@email.com"]
+                        "example": ["sample@example.com", "sample.two@example.com"]
                     },
                     "OrganizationKey": {
                         "type": "string",

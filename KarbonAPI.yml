@@ -388,7 +388,7 @@ paths:
                                     BusinessCardKey: 2tBHyXtJBxBy
                                     IsPrimaryCard: true
                                     WebSites: '["www.website.one", "www.website.two"]'
-                                    EmailAddresses: '["sample@email.com", "sample.two@email.com"]'
+                                    EmailAddresses: '["sample@example.com", "sample.two@example.com"]'
                                     OrganizationKey: ZGNmtYyLm4z
                                     RoleOrTitle: COO
                                     FacebookLink: facebook.com/sampleName
@@ -522,7 +522,7 @@ paths:
                                     BusinessCardKey: 2tBHyXtJBxBy
                                     IsPrimaryCard: true
                                     WebSites: '["www.website.one", "www.website.two"]'
-                                    EmailAddresses: '["sample@email.com", "sample.two@email.com"]'
+                                    EmailAddresses: '["sample@example.com", "sample.two@example.com"]'
                                     OrganizationKey: ZGNmtYyLm4z
                                     RoleOrTitle: COO
                                     FacebookLink: facebook.com/sampleName
@@ -668,7 +668,7 @@ paths:
                             BusinessCard:
                                 IsPrimaryCard: true
                                 WebSites: '["www.website.one", "www.website.two"]'
-                                EmailAddresses: '["sample@email.com", "sample.two@email.com"]'
+                                EmailAddresses: '["sample@example.com", "sample.two@example.com"]'
                                 RoleOrTitle: COO
                                 FacebookLink: facebook.com/sampleName
                                 LinkedInLink: linkedin.com/sampleName
@@ -2178,7 +2178,7 @@ paths:
                                     BusinessCardKey: 2tBHyXtJBxBy
                                     IsPrimaryCard: true
                                     WebSites: '["www.website.one", "www.website.two"]'
-                                    EmailAddresses: '["sample@email.com", "sample.two@email.com"]'
+                                    EmailAddresses: '["sample@example.com", "sample.two@example.com"]'
                                     OrganizationKey: ZGNmtYyLm4z
                                     RoleOrTitle: COO
                                     FacebookLink: facebook.com/sampleName
@@ -2344,7 +2344,7 @@ paths:
                                     BusinessCardKey: 2tBHyXtJBxBy
                                     IsPrimaryCard: true
                                     WebSites: '["www.website.one", "www.website.two"]'
-                                    EmailAddresses: '["sample@email.com", "sample.two@email.com"]'
+                                    EmailAddresses: '["sample@example.com", "sample.two@example.com"]'
                                     OrganizationKey: ZGNmtYyLm4z
                                     RoleOrTitle: COO
                                     FacebookLink: facebook.com/sampleName
@@ -2501,7 +2501,7 @@ paths:
                                     BusinessCardKey: 2tBHyXtJBxBy
                                     IsPrimaryCard: true
                                     WebSites: '["www.website.one", "www.website.two"]'
-                                    EmailAddresses: '["sample@email.com", "sample.two@email.com"]'
+                                    EmailAddresses: '["sample@example.com", "sample.two@example.com"]'
                                     OrganizationKey: ZGNmtYyLm4z
                                     RoleOrTitle: COO
                                     FacebookLink: facebook.com/sampleName
@@ -3505,7 +3505,7 @@ paths:
                                 BusinessCardKey: 2tBHyXtJBxBy
                                 IsPrimaryCard: true
                                 WebSites: '["www.website.one", "www.website.two"]'
-                                EmailAddresses: '["sample@email.com", "sample.two@email.com"]'
+                                EmailAddresses: '["sample@example.com", "sample.two@example.com"]'
                                 OrganizationKey: ZGNmtYyLm4z
                                 RoleOrTitle: COO
                                 FacebookLink: facebook.com/sampleName
@@ -3624,7 +3624,7 @@ paths:
                                         BusinessCardKey: PVvnQdX1RCH
                                         IsPrimaryCard: true
                                         WebSites: '["www.website.one", "www.website.two"]'
-                                        EmailAddresses: '["sample@email.com", "sample.two@email.com"]'
+                                        EmailAddresses: '["sample@example.com", "sample.two@example.com"]'
                                         OrganizationKey: null
                                         RoleOrTitle: null
                                         FacebookLink: facebook.com/samplecompany
@@ -3789,7 +3789,7 @@ paths:
                                         BusinessCardKey: PVvnQdX1RCH
                                         IsPrimaryCard: true
                                         WebSites: '["www.website.one", "www.website.two"]'
-                                        EmailAddresses: '["sample@email.com", "sample.two@email.com"]'
+                                        EmailAddresses: '["sample@example.com", "sample.two@example.com"]'
                                         OrganizationKey: null
                                         RoleOrTitle: null
                                         FacebookLink: facebook.com/samplecompany
@@ -3942,7 +3942,7 @@ paths:
                                 BusinessCardKey: 2tBHyXtJBxBy
                                 IsPrimaryCard: true
                                 WebSites: '["www.website.one", "www.website.two"]'
-                                EmailAddresses: '["sample@email.com", "sample.two@email.com"]'
+                                EmailAddresses: '["sample@example.com", "sample.two@example.com"]'
                                 OrganizationKey: ZGNmtYyLm4z
                                 RoleOrTitle: null
                                 FacebookLink: facebook.com/sampleName
@@ -5555,7 +5555,7 @@ components:
                     example: James
                 email:
                     type: string
-                    example: john@email.com
+                    example: john@example.com
                 password:
                     type: string
                     example: 12345
@@ -5588,7 +5588,7 @@ components:
                     type: array
                     items:
                         type: string
-                    example: '["sample@email.com", "sample.two@email.com"]'
+                    example: '["sample@example.com", "sample.two@example.com"]'
                 RoleOrTitle:
                     type: string
                     description: The business role or title of the contact this Business Cards belongs to
@@ -5690,7 +5690,7 @@ components:
                     type: array
                     items:
                         type: string
-                    example: '["sample@email.com", "sample.two@email.com"]'
+                    example: '["sample@example.com", "sample.two@example.com"]'
                 OrganizationKey:
                     type: string
                     description: A Karbon-generated key to indicate the organization this Business Card belongs to
