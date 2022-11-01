@@ -135,7 +135,7 @@
                             "default": "ClientGroupKey",
                             "example": [
                                 "FullName",
-                                "FulName desc"
+                                "FullName desc"
                             ]
                         },
                         "description": "When this parameter is combined with the URI, this endpoint will return a list of Client Groups, sorted by the available properties.\n"
@@ -452,8 +452,8 @@
                                     "BusinessCard": {
                                         "BusinessCardKey": "2tBHyXtJBxBy",
                                         "IsPrimaryCard": true,
-                                        "WebSites": "['www.website.one', 'www.website.two']",
-                                        "EmailAddresses": "['sample@email.com', 'sample.two@email.com']",
+                                        "WebSites": ["www.website.one", "www.website.two"],
+                                        "EmailAddresses": ["sample@email.com", "sample.two@email.com"],
                                         "OrganizationKey": "ZGNmtYyLm4z",
                                         "RoleOrTitle": "COO",
                                         "FacebookLink": "facebook.com/sampleName",
@@ -631,8 +631,8 @@
                                     "BusinessCard": {
                                         "BusinessCardKey": "2tBHyXtJBxBy",
                                         "IsPrimaryCard": true,
-                                        "WebSites": "['www.website.one', 'www.website.two']",
-                                        "EmailAddresses": "['sample@email.com', 'sample.two@email.com']",
+                                        "WebSites": ["www.website.one", "www.website.two"],
+                                        "EmailAddresses": ["sample@email.com", "sample.two@email.com"],
                                         "OrganizationKey": "ZGNmtYyLm4z",
                                         "RoleOrTitle": "COO",
                                         "FacebookLink": "facebook.com/sampleName",
@@ -844,8 +844,8 @@
                                 },
                                 "BusinessCard": {
                                     "IsPrimaryCard": true,
-                                    "WebSites": "[\\\"www.website.one\\\", \"www.website.two\"]",
-                                    "EmailAddresses": "['sample@email.com', 'sample.two@email.com']",
+                                    "WebSites": ["www.website.one", "www.website.two"],
+                                    "EmailAddresses": ["sample@email.com", "sample.two@email.com"],
                                     "RoleOrTitle": "COO",
                                     "FacebookLink": "facebook.com/sampleName",
                                     "LinkedInLink": "linkedin.com/sampleName",
@@ -2808,8 +2808,8 @@
                                     "BusinessCards": {
                                         "BusinessCardKey": "2tBHyXtJBxBy",
                                         "IsPrimaryCard": true,
-                                        "WebSites": "['www.website.one', 'www.website.two']",
-                                        "EmailAddresses": "['sample@email.com', 'sample.two@email.com']",
+                                        "WebSites": ["www.website.one", "www.website.two"],
+                                        "EmailAddresses": ["sample@email.com", "sample.two@email.com"],
                                         "OrganizationKey": "ZGNmtYyLm4z",
                                         "RoleOrTitle": "COO",
                                         "FacebookLink": "facebook.com/sampleName",
@@ -3016,8 +3016,8 @@
                                     "BusinessCards": {
                                         "BusinessCardKey": "2tBHyXtJBxBy",
                                         "IsPrimaryCard": true,
-                                        "WebSites": "['www.website.one', 'www.website.two']",
-                                        "EmailAddresses": "['sample@email.com', 'sample.two@email.com']",
+                                        "WebSites": ["www.website.one", "www.website.two"],
+                                        "EmailAddresses": ["sample@email.com", "sample.two@email.com"],
                                         "OrganizationKey": "ZGNmtYyLm4z",
                                         "RoleOrTitle": "COO",
                                         "FacebookLink": "facebook.com/sampleName",
@@ -3213,8 +3213,8 @@
                                     "BusinessCards": {
                                         "BusinessCardKey": "2tBHyXtJBxBy",
                                         "IsPrimaryCard": true,
-                                        "WebSites": "['www.website.one', 'www.website.two']",
-                                        "EmailAddresses": "['sample@email.com', 'sample.two@email.com']",
+                                        "WebSites": ["www.website.one", "www.website.two"],
+                                        "EmailAddresses": ["sample@email.com", "sample.two@email.com"],
                                         "OrganizationKey": "ZGNmtYyLm4z",
                                         "RoleOrTitle": "COO",
                                         "FacebookLink": "facebook.com/sampleName",
@@ -4591,8 +4591,8 @@
                                 "BusinessCards": {
                                     "BusinessCardKey": "2tBHyXtJBxBy",
                                     "IsPrimaryCard": true,
-                                    "WebSites": "['www.website.one', 'www.website.two']",
-                                    "EmailAddresses": "['sample@email.com', 'sample.two@email.com']",
+                                    "WebSites": ["www.website.one", "www.website.two"],
+                                    "EmailAddresses": ["sample@email.com", "sample.two@email.com"],
                                     "OrganizationKey": "ZGNmtYyLm4z",
                                     "RoleOrTitle": "COO",
                                     "FacebookLink": "facebook.com/sampleName",
@@ -4725,8 +4725,8 @@
                                         {
                                             "BusinessCardKey": "PVvnQdX1RCH",
                                             "IsPrimaryCard": true,
-                                            "WebSites": "['www.website.one', 'www.website.two']",
-                                            "EmailAddresses": "['sample@email.com', 'sample.two@email.com']",
+                                            "WebSites": ["www.website.one", "www.website.two"],
+                                            "EmailAddresses": ["sample@email.com", "sample.two@email.com"],
                                             "OrganizationKey": null,
                                             "RoleOrTitle": null,
                                             "FacebookLink": "facebook.com/samplecompany",
@@ -4937,8 +4937,8 @@
                                         {
                                             "BusinessCardKey": "PVvnQdX1RCH",
                                             "IsPrimaryCard": true,
-                                            "WebSites": "['www.website.one', 'www.website.two']",
-                                            "EmailAddresses": "['sample@email.com', 'sample.two@email.com']",
+                                            "WebSites": ["www.website.one", "www.website.two"],
+                                            "EmailAddresses": ["sample@email.com", "sample.two@email.com"],
                                             "OrganizationKey": null,
                                             "RoleOrTitle": null,
                                             "FacebookLink": "facebook.com/samplecompany",
@@ -5163,8 +5163,8 @@
                                 "BusinessCards": {
                                     "BusinessCardKey": "2tBHyXtJBxBy",
                                     "IsPrimaryCard": true,
-                                    "WebSites": "['www.website.one', 'www.website.two']",
-                                    "EmailAddresses": "['sample@email.com', 'sample.two@email.com']",
+                                    "WebSites": ["www.website.one", "www.website.two"],
+                                    "EmailAddresses": ["sample@email.com", "sample.two@email.com"],
                                     "OrganizationKey": "ZGNmtYyLm4z",
                                     "RoleOrTitle": null,
                                     "FacebookLink": "facebook.com/sampleName",
@@ -7451,7 +7451,7 @@
                         "items": {
                             "type": "string"
                         },
-                        "example": "[\"www.website.one\", \"www.website.two\"]"
+                        "example": ["www.website.one", "www.website.two"]
                     },
                     "EmailAddresses": {
                         "description": "The email addresses associated with this Business card.",
@@ -7459,7 +7459,7 @@
                         "items": {
                             "type": "string"
                         },
-                        "example": "[\"sample@email.com\", \"sample.two@email.com\"]"
+                        "example": ["sample@email.com", "sample.two@email.com"]
                     },
                     "RoleOrTitle": {
                         "type": "string",
@@ -7583,7 +7583,7 @@
                         "items": {
                             "type": "string"
                         },
-                        "example": "[\"www.website.one\", \"www.website.two\"]"
+                        "example": ["www.website.one", "www.website.two"]
                     },
                     "EmailAddresses": {
                         "description": "The email addresses associated with this Business card.",
@@ -7591,7 +7591,7 @@
                         "items": {
                             "type": "string"
                         },
-                        "example": "[\"sample@email.com\", \"sample.two@email.com\"]"
+                        "example": ["sample@email.com", "sample.two@email.com"]
                     },
                     "OrganizationKey": {
                         "type": "string",
@@ -8184,7 +8184,7 @@
                     "Attachments": {
                         "type": "array",
                         "nullable": true,
-                        "description": "The details of the Client Task Attachments. When creating a new Client Task comment, this property will be an empty array\"",
+                        "description": "The details of the Client Task Attachments. When creating a new Client Task comment, this property will be an empty array",
                         "items": {
                             "type": "object",
                             "nullable": true
@@ -10386,7 +10386,7 @@
                     "WorkItemTitleDefinition": {
                         "type": "string",
                         "description": "Use this property to define the format of the Work Item title. Karbon offers a series of object that you can use to construct Work Item Title. For more information, see Technical Guide to Work Item Title Definition.\n",
-                        "example": "[{\"Text\":\"Payroll \",\"Variable\":null,\"Format\":null,\"Offset\":0},{\"Text\":null,\"Variable\":\"RepeatPeriod\",\"Format\":\"DD MMM, YYYY - DD MMM, YYYY\",\"Offset\":0}}]"
+                        "example": [{"Text":"Payroll ","Variable":null,"Format":null,"Offset":0},{"Text":null,"Variable":"RepeatPeriod","Format":"DD MMM, YYYY - DD MMM, YYYY","Offset":0}]
                     }
                 }
             },
@@ -10550,7 +10550,7 @@
                     "WorkItemTitleDefinition": {
                         "type": "string",
                         "description": "Use this property to define the format of the Work Item title. Karbon offers a series of object that you can use to construct Work Item Title. For more information, see Technical Guide to Work Item Title Definition.\n",
-                        "example": "[{\"Text\":\"Payroll \",\"Variable\":null,\"Format\":null,\"Offset\":0},{\"Text\":null,\"Variable\":\"RepeatPeriod\",\"Format\":\"DD MMM, YYYY - DD MMM, YYYY\",\"Offset\":0}}]"
+                        "example": [{"Text":"Payroll ","Variable":null,"Format":null,"Offset":0},{"Text":null,"Variable":"RepeatPeriod","Format":"DD MMM, YYYY - DD MMM, YYYY","Offset":0}]
                     },
                     "WorkItemTitleDisplayText": {
                         "type": "string",
