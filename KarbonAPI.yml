@@ -3517,13 +3517,13 @@ paths:
                                     AddressLines: 45 Sample Street
                                     City: Alexandria
                                     StateProvinceCounty: NSW
-                                    ZipCode: 2015
+                                    ZipCode: "2015"
                                     CountryCode: AU
                                     Label: Physical
                                 PhoneNumbers:
                                     PhoneNumberKey: 6e0b9ace-24b1-4328-a922-3b8be5ef5052
-                                    Number: 1234567890
-                                    CountryCode: 61
+                                    Number: "1234567890"
+                                    CountryCode: "61"
                                     Label: Work
     "/v3/Organizations/GetOrganizationByUserDefinedIdentifier(UserDefinedIdentifier='{UserDefinedIdentifier}')":
         get:

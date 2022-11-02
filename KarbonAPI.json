@@ -4588,33 +4588,35 @@
                                         "Type": "Basic"
                                     }
                                 },
-                                "BusinessCards": {
-                                    "BusinessCardKey": "2tBHyXtJBxBy",
-                                    "IsPrimaryCard": true,
-                                    "WebSites": ["www.website.one", "www.website.two"],
-                                    "EmailAddresses": ["sample@example.com", "sample.two@example.com"],
-                                    "OrganizationKey": "ZGNmtYyLm4z",
-                                    "RoleOrTitle": "COO",
-                                    "FacebookLink": "facebook.com/sampleName",
-                                    "LinkedInLink": "linkedin.com/sampleName",
-                                    "TwitterLink": "twitter.com/sampleName",
-                                    "SkypeLink": "skype.com/sampleName",
-                                    "Addresses": {
-                                        "AddressKey": "e150a05a-2dea-4292-8bc8-03398c9384e4",
-                                        "AddressLines": "45 Sample Street",
-                                        "City": "Alexandria",
-                                        "StateProvinceCounty": "NSW",
-                                        "ZipCode": 2015,
-                                        "CountryCode": "AU",
-                                        "Label": "Physical"
-                                    },
-                                    "PhoneNumbers": {
-                                        "PhoneNumberKey": "6e0b9ace-24b1-4328-a922-3b8be5ef5052",
-                                        "Number": 1234567890,
-                                        "CountryCode": 61,
-                                        "Label": "Work"
+                                "BusinessCards": [
+                                    {
+                                        "BusinessCardKey": "2tBHyXtJBxBy",
+                                        "IsPrimaryCard": true,
+                                        "WebSites": ["www.website.one", "www.website.two"],
+                                        "EmailAddresses": ["sample@example.com", "sample.two@example.com"],
+                                        "OrganizationKey": "ZGNmtYyLm4z",
+                                        "RoleOrTitle": "COO",
+                                        "FacebookLink": "facebook.com/sampleName",
+                                        "LinkedInLink": "linkedin.com/sampleName",
+                                        "TwitterLink": "twitter.com/sampleName",
+                                        "SkypeLink": "skype.com/sampleName",
+                                        "Addresses": {
+                                            "AddressKey": "e150a05a-2dea-4292-8bc8-03398c9384e4",
+                                            "AddressLines": "45 Sample Street",
+                                            "City": "Alexandria",
+                                            "StateProvinceCounty": "NSW",
+                                            "ZipCode": "2015",
+                                            "CountryCode": "AU",
+                                            "Label": "Physical"
+                                        },
+                                        "PhoneNumbers": {
+                                            "PhoneNumberKey": "6e0b9ace-24b1-4328-a922-3b8be5ef5052",
+                                            "Number": "1234567890",
+                                            "CountryCode": "61",
+                                            "Label": "Work"
+                                        }
                                     }
-                                }
+                                ]
                             }
                         }
                     }
