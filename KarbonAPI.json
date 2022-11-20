@@ -10388,7 +10388,7 @@
                     "WorkItemTitleDefinition": {
                         "type": "string",
                         "description": "Use this property to define the format of the Work Item title. Karbon offers a series of object that you can use to construct Work Item Title. For more information, see Technical Guide to Work Item Title Definition.\n",
-                        "example": [{"Text":"Payroll ","Variable":null,"Format":null,"Offset":0},{"Text":null,"Variable":"RepeatPeriod","Format":"DD MMM, YYYY - DD MMM, YYYY","Offset":0}]
+                        "example": "[{\"Text\":\"Payroll\",\"Variable\":null,\"Format\":null,\"Offset\":0},{\"Text\":null,\"Variable\":\"RepeatPeriod\",\"Format\":\"DD MMM, YYYY - DD MMM, YYYY\",\"Offset\":0}]"
                     }
                 }
             },
@@ -10552,7 +10552,7 @@
                     "WorkItemTitleDefinition": {
                         "type": "string",
                         "description": "Use this property to define the format of the Work Item title. Karbon offers a series of object that you can use to construct Work Item Title. For more information, see Technical Guide to Work Item Title Definition.\n",
-                        "example": [{"Text":"Payroll ","Variable":null,"Format":null,"Offset":0},{"Text":null,"Variable":"RepeatPeriod","Format":"DD MMM, YYYY - DD MMM, YYYY","Offset":0}]
+                        "example": "[{\"Text\":\"Payroll \",\"Variable\":null,\"Format\":null,\"Offset\":0},{\"Text\":null,\"Variable\":\"RepeatPeriod\",\"Format\":\"DD MMM, YYYY - DD MMM, YYYY\",\"Offset\":0}]"
                     },
                     "WorkItemTitleDisplayText": {
                         "type": "string",
