@@ -22,6 +22,10 @@
     },
     "tags": [
         {
+            "name": "Business Cards",
+            "description": "View or update the Business Card attached to a Contact and/or Organisation"
+        },
+        {
             "name": "Client Groups",
             "description": "Create a client group to manage related contacts, create work for them, and see all related jobs in a single view. [Read more](https://help.karbonhq.com/en/articles/5880261-manage-a-client-group)"
         },
@@ -105,6 +109,263 @@
         }
     ],
     "paths": {
+        "/v3/BusinessCards/{BusinessCardKey}": {
+            "get": {
+                "tags": [
+                    "Business Cards"
+                ],
+                "summary": "Gets a single Business Card",
+                "parameters": [
+                    {
+                        "required": true,
+                        "in": "path",
+                        "name": "BusinessCardKey",
+                        "schema": {
+                            "type": "string",
+                            "example": "2tBHyXtJBxBy"
+                        },
+                        "description": "The Karbon-generated Business Card key"
+                    }
+                ],
+                "description": "Use the <code>GET</code> method on this endpoint to receive the details of a Business Card specified using the BusinessCardKey.",
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "allOf": [
+                                        {
+                                            "type": "object",
+                                            "properties": {
+                                                "@odata.context": {
+                                                    "type": "string",
+                                                    "example": "https://api.karbonhq.com/v3/$metadata#BusinessCards/$entity",
+                                                    "description": "The information about Karbon controllers generating this response."
+                                                }
+                                            }
+                                        },
+                                        {
+                                            "type": "object",
+                                            "properties": {
+                                                "EntityType": {
+                                                    "type": "string",
+                                                    "example": "Organization",
+                                                    "enum": [
+                                                        "Contact",
+                                                        "Organization"
+                                                    ],
+                                                    "description": "The type of entity that this business card is connected to."
+                                                },
+                                                "EntityKey": {
+                                                    "type": "string",
+                                                    "example": "2jHPZngklwxQ",
+                                                    "descrition": "The unique key for the entity specified this business card is connected to"
+                                                }
+                                            }
+                                        },
+                                        {
+                                            "$ref": "#/components/schemas/BusinessCard"
+                                        }
+                                    ]
+                                },
+                                "example": {
+                                    "@odata.context": "https://api.karbonhq.com/v3/$metadata#BusinessCards/$entity",
+                                    "@odata.type": "#KarbonService.ClientGroupDTO",
+                                    "BusinessCardKey": "2tBHyXtJBxBy",
+                                    "EntityType": "Organization",
+                                    "EntityKey": "2jHPZngklwxQ",
+                                    "IsPrimaryCard": true,
+                                    "WebSites": [
+                                        "www.website.one",
+                                        "www.website.two"
+                                    ],
+                                    "EmailAddresses": [
+                                        "sample@example.com",
+                                        "sample.two@example.com"
+                                    ],
+                                    "OrganizationKey": "ZGNmtYyLm4z",
+                                    "RoleOrTitle": "COO",
+                                    "FacebookLink": "facebook.com/sampleName",
+                                    "LinkedInLink": "linkedin.com/sampleName",
+                                    "TwitterLink": "twitter.com/sampleName",
+                                    "SkypeLink": "skype.com/sampleName",
+                                    "Addresses": {
+                                        "AddressKey": "e150a05a-2dea-4292-8bc8-03398c9384e4",
+                                        "AddressLines": "45 Sample Street",
+                                        "City": "Alexandria",
+                                        "StateProvinceCounty": "NSW",
+                                        "ZipCode": "2015",
+                                        "CountryCode": "AU",
+                                        "Label": "Physical"
+                                    },
+                                    "PhoneNumbers": {
+                                        "PhoneNumberKey": "6e0b9ace-24b1-4328-a922-3b8be5ef5052",
+                                        "Number": 1234567890,
+                                        "CountryCode": 61,
+                                        "Label": "Work"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ResourceNotFound"
+                                },
+                                "examples": {
+                                    "Unauthorized Access": {
+                                        "$ref": "#/components/examples/UnauthorizedAccess"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorMessages"
+                                },
+                                "examples": {
+                                    "UDI Not Found": {
+                                        "$ref": "#/components/examples/BusinessCard_Not_Found"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Business Cards"
+                ],
+                "summary": "Updates a single Business Card",
+                "parameters": [
+                    {
+                        "required": true,
+                        "in": "path",
+                        "name": "BusinessCardKey",
+                        "schema": {
+                            "type": "string",
+                            "example": "2tBHyXtJBxBy"
+                        },
+                        "description": "The Karbon-generated Business Card key"
+                    }
+                ],
+                "description": "Use the <code>PUT</code> method on this endpoint to update the details of a Business Card specified using the BusinessCardKey.",
+                "responses": {
+                    "204": {
+                        "description": "No Content"
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorMessages"
+                                },
+                                "examples": {
+                                    "Incorrect or Missing Data": {
+                                        "$ref": "#/components/examples/Missing_Update_Data"
+                                    },
+                                    "Unsupported Option": {
+                                        "$ref": "#/components/examples/Unsupported_option"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ResourceNotFound"
+                                },
+                                "examples": {
+                                    "Unauthorized Access": {
+                                        "$ref": "#/components/examples/UnauthorizedAccess"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Resource Not Found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ResourceNotFound"
+                                },
+                                "examples": {
+                                    "Key Not Found": {
+                                        "$ref": "#/components/examples/ResourceNotFound"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorMessages"
+                                },
+                                "examples": {
+                                    "Non existent Key": {
+                                        "$ref": "#/components/examples/Shortened_5001"
+                                    },
+                                    "Undefined Error": {
+                                        "$ref": "#/components/examples/elongated_5001"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "requestBody": {
+                    "description": "Refer to the table below for more information on each field in the request body.",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "allOf": [
+                                    {
+                                        "type": "object",
+                                        "properties": {
+                                            "EntityType": {
+                                                "type": "string",
+                                                "example": "Organization",
+                                                "enum": [
+                                                    "Contact",
+                                                    "Organization"
+                                                ],
+                                                "description": "The type of entity that this business card is connected to."
+                                            },
+                                            "EntityKey": {
+                                                "type": "string",
+                                                "example": "2jHPZngklwxQ",
+                                                "description": "The unique key for the entity specified this business card is connected to"
+                                            }
+                                        }
+                                    },
+                                    {
+                                        "$ref": "#/components/schemas/BusinessCardRequest"
+                                    }
+                                ]
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/v3/ClientGroups": {
             "get": {
                 "tags": [
@@ -452,8 +713,14 @@
                                     "BusinessCard": {
                                         "BusinessCardKey": "2tBHyXtJBxBy",
                                         "IsPrimaryCard": true,
-                                        "WebSites": ["www.website.one", "www.website.two"],
-                                        "EmailAddresses": ["sample@example.com", "sample.two@example.com"],
+                                        "WebSites": [
+                                            "www.website.one",
+                                            "www.website.two"
+                                        ],
+                                        "EmailAddresses": [
+                                            "sample@example.com",
+                                            "sample.two@example.com"
+                                        ],
                                         "OrganizationKey": "ZGNmtYyLm4z",
                                         "RoleOrTitle": "COO",
                                         "FacebookLink": "facebook.com/sampleName",
@@ -465,7 +732,7 @@
                                             "AddressLines": "45 Sample Street",
                                             "City": "Alexandria",
                                             "StateProvinceCounty": "NSW",
-                                            "ZipCode": 2015,
+                                            "ZipCode": "2015",
                                             "CountryCode": "AU",
                                             "Label": "Physical"
                                         },
@@ -631,8 +898,14 @@
                                     "BusinessCard": {
                                         "BusinessCardKey": "2tBHyXtJBxBy",
                                         "IsPrimaryCard": true,
-                                        "WebSites": ["www.website.one", "www.website.two"],
-                                        "EmailAddresses": ["sample@example.com", "sample.two@example.com"],
+                                        "WebSites": [
+                                            "www.website.one",
+                                            "www.website.two"
+                                        ],
+                                        "EmailAddresses": [
+                                            "sample@example.com",
+                                            "sample.two@example.com"
+                                        ],
                                         "OrganizationKey": "ZGNmtYyLm4z",
                                         "RoleOrTitle": "COO",
                                         "FacebookLink": "facebook.com/sampleName",
@@ -644,7 +917,7 @@
                                             "AddressLines": "45 Sample Street",
                                             "City": "Alexandria",
                                             "StateProvinceCounty": "NSW",
-                                            "ZipCode": 2015,
+                                            "ZipCode": "2015",
                                             "CountryCode": "AU",
                                             "Label": "Physical"
                                         },
@@ -844,8 +1117,14 @@
                                 },
                                 "BusinessCard": {
                                     "IsPrimaryCard": true,
-                                    "WebSites": ["www.website.one", "www.website.two"],
-                                    "EmailAddresses": ["sample@example.com", "sample.two@example.com"],
+                                    "WebSites": [
+                                        "www.website.one",
+                                        "www.website.two"
+                                    ],
+                                    "EmailAddresses": [
+                                        "sample@example.com",
+                                        "sample.two@example.com"
+                                    ],
                                     "RoleOrTitle": "COO",
                                     "FacebookLink": "facebook.com/sampleName",
                                     "LinkedInLink": "linkedin.com/sampleName",
@@ -855,7 +1134,7 @@
                                         "AddressLines": "45 Sample Street",
                                         "City": "Alexandria",
                                         "StateProvinceCounty": "NSW",
-                                        "ZipCode": 2015,
+                                        "ZipCode": "2015",
                                         "CountryCode": "AU",
                                         "Label": "Physical"
                                     },
@@ -2808,8 +3087,14 @@
                                     "BusinessCards": {
                                         "BusinessCardKey": "2tBHyXtJBxBy",
                                         "IsPrimaryCard": true,
-                                        "WebSites": ["www.website.one", "www.website.two"],
-                                        "EmailAddresses": ["sample@example.com", "sample.two@example.com"],
+                                        "WebSites": [
+                                            "www.website.one",
+                                            "www.website.two"
+                                        ],
+                                        "EmailAddresses": [
+                                            "sample@example.com",
+                                            "sample.two@example.com"
+                                        ],
                                         "OrganizationKey": "ZGNmtYyLm4z",
                                         "RoleOrTitle": "COO",
                                         "FacebookLink": "facebook.com/sampleName",
@@ -2821,7 +3106,7 @@
                                             "AddressLines": "45 Sample Street",
                                             "City": "Alexandria",
                                             "StateProvinceCounty": "NSW",
-                                            "ZipCode": 2015,
+                                            "ZipCode": "2015",
                                             "CountryCode": "AU",
                                             "Label": "Physical"
                                         },
@@ -3016,8 +3301,14 @@
                                     "BusinessCards": {
                                         "BusinessCardKey": "2tBHyXtJBxBy",
                                         "IsPrimaryCard": true,
-                                        "WebSites": ["www.website.one", "www.website.two"],
-                                        "EmailAddresses": ["sample@example.com", "sample.two@example.com"],
+                                        "WebSites": [
+                                            "www.website.one",
+                                            "www.website.two"
+                                        ],
+                                        "EmailAddresses": [
+                                            "sample@example.com",
+                                            "sample.two@example.com"
+                                        ],
                                         "OrganizationKey": "ZGNmtYyLm4z",
                                         "RoleOrTitle": "COO",
                                         "FacebookLink": "facebook.com/sampleName",
@@ -3029,7 +3320,7 @@
                                             "AddressLines": "45 Sample Street",
                                             "City": "Alexandria",
                                             "StateProvinceCounty": "NSW",
-                                            "ZipCode": 2015,
+                                            "ZipCode": "2015",
                                             "CountryCode": "AU",
                                             "Label": "Physical"
                                         },
@@ -3213,8 +3504,14 @@
                                     "BusinessCards": {
                                         "BusinessCardKey": "2tBHyXtJBxBy",
                                         "IsPrimaryCard": true,
-                                        "WebSites": ["www.website.one", "www.website.two"],
-                                        "EmailAddresses": ["sample@example.com", "sample.two@example.com"],
+                                        "WebSites": [
+                                            "www.website.one",
+                                            "www.website.two"
+                                        ],
+                                        "EmailAddresses": [
+                                            "sample@example.com",
+                                            "sample.two@example.com"
+                                        ],
                                         "OrganizationKey": "ZGNmtYyLm4z",
                                         "RoleOrTitle": "COO",
                                         "FacebookLink": "facebook.com/sampleName",
@@ -3226,7 +3523,7 @@
                                             "AddressLines": "45 Sample Street",
                                             "City": "Alexandria",
                                             "StateProvinceCounty": "NSW",
-                                            "ZipCode": 2015,
+                                            "ZipCode": "2015",
                                             "CountryCode": "AU",
                                             "Label": "Physical"
                                         },
@@ -4592,8 +4889,14 @@
                                     {
                                         "BusinessCardKey": "2tBHyXtJBxBy",
                                         "IsPrimaryCard": true,
-                                        "WebSites": ["www.website.one", "www.website.two"],
-                                        "EmailAddresses": ["sample@example.com", "sample.two@example.com"],
+                                        "WebSites": [
+                                            "www.website.one",
+                                            "www.website.two"
+                                        ],
+                                        "EmailAddresses": [
+                                            "sample@example.com",
+                                            "sample.two@example.com"
+                                        ],
                                         "OrganizationKey": "ZGNmtYyLm4z",
                                         "RoleOrTitle": "COO",
                                         "FacebookLink": "facebook.com/sampleName",
@@ -4727,8 +5030,14 @@
                                         {
                                             "BusinessCardKey": "PVvnQdX1RCH",
                                             "IsPrimaryCard": true,
-                                            "WebSites": ["www.website.one", "www.website.two"],
-                                            "EmailAddresses": ["sample@example.com", "sample.two@example.com"],
+                                            "WebSites": [
+                                                "www.website.one",
+                                                "www.website.two"
+                                            ],
+                                            "EmailAddresses": [
+                                                "sample@example.com",
+                                                "sample.two@example.com"
+                                            ],
                                             "OrganizationKey": null,
                                             "RoleOrTitle": null,
                                             "FacebookLink": "facebook.com/samplecompany",
@@ -4740,7 +5049,7 @@
                                                 "AddressLines": "45 Sample Street",
                                                 "City": "Alexandria",
                                                 "StateProvinceCounty": "NSW",
-                                                "ZipCode": 2015,
+                                                "ZipCode": "2015",
                                                 "CountryCode": "AU",
                                                 "Label": "Physical"
                                             },
@@ -4939,8 +5248,14 @@
                                         {
                                             "BusinessCardKey": "PVvnQdX1RCH",
                                             "IsPrimaryCard": true,
-                                            "WebSites": ["www.website.one", "www.website.two"],
-                                            "EmailAddresses": ["sample@example.com", "sample.two@example.com"],
+                                            "WebSites": [
+                                                "www.website.one",
+                                                "www.website.two"
+                                            ],
+                                            "EmailAddresses": [
+                                                "sample@example.com",
+                                                "sample.two@example.com"
+                                            ],
                                             "OrganizationKey": null,
                                             "RoleOrTitle": null,
                                             "FacebookLink": "facebook.com/samplecompany",
@@ -4952,7 +5267,7 @@
                                                 "AddressLines": "45 Sample Street",
                                                 "City": "Alexandria",
                                                 "StateProvinceCounty": "NSW",
-                                                "ZipCode": 2015,
+                                                "ZipCode": "2015",
                                                 "CountryCode": "AU",
                                                 "Label": "Physical"
                                             },
@@ -5165,8 +5480,14 @@
                                 "BusinessCards": {
                                     "BusinessCardKey": "2tBHyXtJBxBy",
                                     "IsPrimaryCard": true,
-                                    "WebSites": ["www.website.one", "www.website.two"],
-                                    "EmailAddresses": ["sample@example.com", "sample.two@example.com"],
+                                    "WebSites": [
+                                        "www.website.one",
+                                        "www.website.two"
+                                    ],
+                                    "EmailAddresses": [
+                                        "sample@example.com",
+                                        "sample.two@example.com"
+                                    ],
                                     "OrganizationKey": "ZGNmtYyLm4z",
                                     "RoleOrTitle": null,
                                     "FacebookLink": "facebook.com/sampleName",
@@ -5178,7 +5499,7 @@
                                         "AddressLines": "45 Sample Street",
                                         "City": "Alexandria",
                                         "StateProvinceCounty": "NSW",
-                                        "ZipCode": 2015,
+                                        "ZipCode": "2015",
                                         "CountryCode": "AU",
                                         "Label": "Physical"
                                     },
@@ -7453,7 +7774,10 @@
                         "items": {
                             "type": "string"
                         },
-                        "example": ["www.website.one", "www.website.two"]
+                        "example": [
+                            "www.website.one",
+                            "www.website.two"
+                        ]
                     },
                     "EmailAddresses": {
                         "description": "The email addresses associated with this Business card.",
@@ -7461,7 +7785,10 @@
                         "items": {
                             "type": "string"
                         },
-                        "example": ["sample@example.com", "sample.two@example.com"]
+                        "example": [
+                            "sample@example.com",
+                            "sample.two@example.com"
+                        ]
                     },
                     "RoleOrTitle": {
                         "type": "string",
@@ -7585,7 +7912,10 @@
                         "items": {
                             "type": "string"
                         },
-                        "example": ["www.website.one", "www.website.two"]
+                        "example": [
+                            "www.website.one",
+                            "www.website.two"
+                        ]
                     },
                     "EmailAddresses": {
                         "description": "The email addresses associated with this Business card.",
@@ -7593,7 +7923,10 @@
                         "items": {
                             "type": "string"
                         },
-                        "example": ["sample@example.com", "sample.two@example.com"]
+                        "example": [
+                            "sample@example.com",
+                            "sample.two@example.com"
+                        ]
                     },
                     "OrganizationKey": {
                         "type": "string",
@@ -8676,6 +9009,106 @@
                         "type": "string",
                         "example": "OgCjeo4gwu",
                         "description": "A random value that indicates the email address of the Karbon user who created the comment."
+                    }
+                }
+            },
+            "GetBusinessCard": {
+                "required": [
+                    "value"
+                ],
+                "type": "object",
+                "properties": {
+                    "BusinessCardKey": {
+                        "type": "string",
+                        "example": "2xfLMq5PFqb7",
+                        "description": "The unique key for the business card requested."
+                    },
+                    "IsPrimaryCard": {
+                        "type": "bool",
+                        "example": true,
+                        "description": "Whether this business card is the primary card for a contact."
+                    },
+                    "Addresses": {
+                        "AddressKey": {
+                            "type": "string",
+                            "example": "3f855e2e-4a1a-4af7-837d-38b0be3ebf90",
+                            "description": "A unique identifier for the address"
+                        },
+                        "AddressLines": {
+                            "type": "string",
+                            "example": "2400 Bridgeway, Ste 280",
+                            "description": "The address lines of an address, typically the street or PO Box "
+                        },
+                        "City": {
+                            "type": "string",
+                            "example": "Sausalito",
+                            "description": "The town or city portion of an address"
+                        },
+                        "StateProvinceCounty": {
+                            "type": "string",
+                            "example": "CA",
+                            "description": "The state or region portion of an address"
+                        },
+                        "ZipCode": {
+                            "type": "string",
+                            "example": "94965",
+                            "description": "The Zip or Post code portion of an address"
+                        },
+                        "CountryCode": {
+                            "type": "string",
+                            "example": "US",
+                            "description": "The two letter country code of an address"
+                        },
+                        "Label": {
+                            "type": "string",
+                            "example": "Work",
+                            "description": "A label for the address"
+                        }
+                    },
+                    "PhoneNumbers": {
+                        "type": "array",
+                        "example": [],
+                        "description": "An array of phone number objects."
+                    },
+                    "WebSites": {
+                        "type": "array",
+                        "example": [],
+                        "description": "An array of website hostnames."
+                    },
+                    "EmailAddresses": {
+                        "type": "array",
+                        "example": [],
+                        "description": "An array of email addresses."
+                    },
+                    "OrganizationKey": {
+                        "type": "string",
+                        "example": "ZGNmtYyLm4z",
+                        "description": "The key for the associated organisation."
+                    },
+                    "RoleOrTitle": {
+                        "type": "string",
+                        "example": "",
+                        "description": "An optional role for the contact."
+                    },
+                    "FacebookLink": {
+                        "type": "string",
+                        "example": "",
+                        "description": "An optional role for the contact."
+                    },
+                    "LinkedInLink": {
+                        "type": "string",
+                        "example": "",
+                        "description": "An optional LinkedIn link for the associated contact or organisation."
+                    },
+                    "TwitterLink": {
+                        "type": "string",
+                        "example": "",
+                        "description": "An optional Twitter link for the associated contact or organisation."
+                    },
+                    "SkypeLink": {
+                        "type": "string",
+                        "example": "",
+                        "description": "An optional Skype link for the associated contact or organisation."
                     }
                 }
             },
@@ -11175,6 +11608,14 @@
                     "error": {
                         "code": 4004,
                         "message": "No Webhook Type found for the provided WebhookType input value : <Input type>. Valid WebhookTypes are Contact, Work, Note"
+                    }
+                }
+            },
+            "BusinessCard_Not_Found": {
+                "value": {
+                    "error": {
+                        "code": 4004,
+                        "message": "Invalid businessCardPermaKey 2tBHyXtJBxBy"
                     }
                 }
             },
