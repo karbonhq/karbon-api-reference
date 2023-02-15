@@ -6244,7 +6244,7 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/GetWebhookSubscription"
+                                    "$ref": "#/components/schemas/GetWebhookSubscriptions"
                                 }
                             }
                         }
@@ -6378,7 +6378,7 @@
                 }
             }
         },
-        "/v3/WebhookSubscription": {
+        "/v3/WebhookSubscriptions": {
             "post": {
                 "tags": [
                     "Webhook Subscriptions"
@@ -6392,7 +6392,7 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/GetWebhookSubscription"
+                                    "$ref": "#/components/schemas/GetWebhookSubscriptions"
                                 }
                             }
                         },
@@ -6481,7 +6481,7 @@
                                             "Work",
                                             "Note"
                                         ],
-                                        "description": "The type of Karbon entity, which the Webhook Subscription is associated with",
+                                        "description": "The type of Karbon entity which the Webhook Subscription is associated with. To receive ClientGroup, Contact and Organization updates, pass WebhookType as <code>Contact</code>. To receive WorkItem updates, pass WebhookType as <code>Work</code>. To receive Note and NoteComment updates, pass WebhookType as <code>Note</code>",
                                         "example": "Contact"
                                     }
                                 }
@@ -10669,7 +10669,7 @@
                     }
                 }
             },
-            "GetWebhookSubscription": {
+            "GetWebhookSubscriptions": {
                 "type": "object",
                 "properties": {
                     "@odata.context": {
