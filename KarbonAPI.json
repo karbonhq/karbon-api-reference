@@ -6384,7 +6384,7 @@
                     "Webhook Subscriptions"
                 ],
                 "summary": "Creates a new Webhook Subscription",
-                "description": "Use the <code>POST</code> method on create and associate a Webhook Subscriptions with a Karbon entity.<br> You can create <b>only one</b> Webhook Subcription per entity.\n",
+                "description": "<p>Use the <code>POST</code> method on create and associate a Webhook Subscriptions with a Karbon entity.<br> You can create <b>only one</b> Webhook Subcription per entity.</p><p>Payload delivery for a webhook subscription will be retried 10 times, with increasing delays. If unsuccessful after 10 tries (no 2xx HTTP response), the subscription ends and needs to be recreated to receive further updates.</p>\n",
                 "operationId": "createUser",
                 "responses": {
                     "201": {
