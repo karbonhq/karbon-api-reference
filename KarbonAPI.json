@@ -22,6 +22,10 @@
     },
     "tags": [
         {
+            "name": "Billing",
+            "description": "List and view an Invoice and associated line items"
+        },
+        {
             "name": "Business Cards",
             "description": "View or update the Business Card attached to a Contact and/or Organisation"
         },
@@ -109,6 +113,127 @@
         }
     ],
     "paths": {
+        "/v3/Invoices/{InvoiceKey}": {
+            "get": {
+                "tags": [
+                    "Billing"
+                ],
+                "summary": "Gets a single Invoice",
+                "parameters": [
+                    {
+                        "required": true,
+                        "in": "path",
+                        "name": "InvoiceKey",
+                        "schema": {
+                            "type": "string",
+                            "example": "M2dVbCt4RHk"
+                        },
+                        "description": "The Karbon-generated Invoice key"
+                    },
+                    {
+                        "in": "query",
+                        "name": "$expand",
+                        "schema": {
+                            "type": "string",
+                            "example": "LineItems",
+                            "enum": [
+                                "LineItems"
+                            ]
+                        },
+                        "description": "Include additional invoice properties, such as lineitems"
+                    }
+                ],
+                "description": "Use the <code>GET</code> method on this endpoint to receive the details of an Invoice specified using the InvoiceKey.",
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "allOf": [
+                                        {
+                                            "type": "object",
+                                            "properties": {
+                                                "@odata.context": {
+                                                    "type": "string",
+                                                    "example": "https://api.karbonhq.com/v3/$metadata#Invoices/$entity",
+                                                    "description": "The information about Karbon controllers generating this response."
+                                                }
+                                            }
+                                        },
+                                        {
+                                            "$ref": "#/components/schemas/BillingInvoice"
+                                        }
+                                    ]
+                                },
+                                "example": {
+                                    "@odata.context": "https://api-dev.karbonhq.com/v3/$metadata#Invoices/$entity",
+                                    "InvoiceKey": "M2dVbCt4RHk",
+                                    "InvoiceNumber": "KIN-1001",
+                                    "TotalAmountDue": 1607.1300,
+                                    "InvoiceTotal": 1607.1300,
+                                    "InvoiceSubTotal": 1397.5000,
+                                    "InvoiceTaxTotal": 209.6300,
+                                    "InvoiceDate": "2023-07-21T00:00:00Z",
+                                    "PaymentDueDate": "2023-07-28T00:00:00Z",
+                                    "UpdatedAt": "2023-07-20T23:52:11Z",
+                                    "CurrencyCode": "AUD",
+                                    "PaymentInstructions": null,
+                                    "InvoiceStatus": "AwaitingPayment",
+                                    "Client": {
+                                        "ClientKey": "2xxnBLyCP4Ts",
+                                        "ClientType": "Organization",
+                                        "Name": "Acme Corp",
+                                        "AddressLine": "15 Example Street",
+                                        "City": "Sydney",
+                                        "StateProvinceCounty": "NSW",
+                                        "ZipCode": "4004",
+                                        "Country": "Australia",
+                                        "EmailAddress": "acme@example.com"
+                                    },
+                                    "TaxLineItems": [
+                                        {
+                                            "TaxName": "GST",
+                                            "TaxValue": 209.6300
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ResourceNotFound"
+                                },
+                                "examples": {
+                                    "Unauthorized Access": {
+                                        "$ref": "#/components/examples/UnauthorizedAccess"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorMessages"
+                                },
+                                "examples": {
+                                    "UDI Not Found": {
+                                        "$ref": "#/components/examples/Invoice_Not_Found"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/v3/BusinessCards/{BusinessCardKey}": {
             "get": {
                 "tags": [
@@ -7792,6 +7917,155 @@
     },
     "components": {
         "schemas": {
+            "BillingInvoice": {
+                "required": [
+                    "@odata.context",
+                    "InvoiceKey",
+                    "InvoiceNumber",
+                    "TotalAmountDue",
+                    "InvoiceTotal",
+                    "InvoiceSubTotal",
+                    "InvoiceTaxTotal",
+                    "InvoiceDate",
+                    "PaymentDueDate",
+                    "UpdatedAt",
+                    "CurrencyCode",
+                    "PaymentInstructions",
+                    "InvoiceStatus",
+                    "Client",
+                    "TaxLineItems"
+                ],
+                "properties": {
+                    "InvoiceKey": {
+                        "type": "string"
+                    },
+                    "InvoiceNumber": {
+                        "type": "string"
+                    },
+                    "TotalAmountDue": {
+                        "type": "number"
+                    },
+                    "InvoiceTotal": {
+                        "type": "number"
+                    },
+                    "InvoiceSubTotal": {
+                        "type": "number"
+                    },
+                    "InvoiceTaxTotal": {
+                        "type": "number"
+                    },
+                    "InvoiceDate": {
+                        "type": "string"
+                    },
+                    "PaymentDueDate": {
+                        "type": "string"
+                    },
+                    "UpdatedAt": {
+                        "type": "string"
+                    },
+                    "CurrencyCode": {
+                        "type": "string"
+                    },
+                    "PaymentInstructions": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "InvoiceStatus": {
+                        "type": "string"
+                    },
+                    "Client": {
+                        "$ref": "#components/schemas/BillingClient"
+                    },
+                    "TaxLineItems": {
+                        "type": "array",
+                        "items": {
+                            "type": "object",
+                            "$ref": "#components/schemas/BillingTaxLineItem"
+                        }
+                    },
+                    "LineItems": {
+                        "type": "array",
+                        "items": {
+                            "type": "object",
+                            "$ref": "#components/schemas/BillingInvoiceLineItem"
+                        }
+                    }
+                }
+            },
+            "BillingInvoiceLineItem": {
+                "properties": {
+                    "LineItemKey": {
+                        "type": "string:"
+                    },
+                    "BillableItemEntityKey": {
+                        "type": "string:"
+                    },
+                    "BillableItemType": {
+                        "type": "string:"
+                    },
+                    "Description": {
+                        "type": "string:"
+                    },
+                    "Quantity": {
+                        "type": "string:"
+                    },
+                    "UnitPrice": {
+                        "type": "string:"
+                    },
+                    "Amount": {
+                        "type": "string:"
+                    },
+                    "TaxRate": {
+                        "type": "string:"
+                    },
+                    "TaxRateName": {
+                        "type": "string:"
+                    }
+                }
+            },
+            "BillingClient": {
+                "properties": {
+                    "ClientKey": {
+                        "type": "string"
+                    },
+                    "ClientType": {
+                        "type": "string"
+                    },
+                    "Name": {
+                        "type": "string"
+                    },
+                    "AddressLine": {
+                        "type": "string"
+                    },
+                    "City": {
+                        "type": "string"
+                    },
+                    "StateProvinceCounty": {
+                        "type": "string"
+                    },
+                    "ZipCode": {
+                        "type": "string"
+                    },
+                    "Country": {
+                        "type": "string"
+                    },
+                    "EmailAddress": {
+                        "type": "string"
+                    }
+                }
+            },
+            "BillingTaxLineItem": {
+                "properties": {
+                    "TaxName": {
+                        "type": "string",
+                        "example": "GST"
+                    },
+                    "TaxValue": {
+                        "type": "number",
+                        "example": 209.6300
+                    }
+                }
+            },
             "User": {
                 "properties": {
                     "id": {
@@ -10729,9 +11003,9 @@
                         "example": "#KarbonService.UserProfileDTO"
                     },
                     "Id": {
-                            "type": "string",
-                            "description": "The unique Id of the User, this should match the key used in the URL",
-                            "example": "2bYxtn94ZSdY"
+                        "type": "string",
+                        "description": "The unique Id of the User, this should match the key used in the URL",
+                        "example": "2bYxtn94ZSdY"
                     },
                     "Name": {
                         "type": "string",
@@ -10754,7 +11028,9 @@
                             "type": "string"
                         },
                         "description": "A list of the permissions allocated to the User",
-                        "example": ["User"]
+                        "example": [
+                            "User"
+                        ]
                     },
                     "Roles": {
                         "type": "array",
@@ -10762,7 +11038,10 @@
                             "type": "string"
                         },
                         "description": "A list of the roles allocated to the User",
-                        "example": ["Accountant", "Bookkeeper"]
+                        "example": [
+                            "Accountant",
+                            "Bookkeeper"
+                        ]
                     },
                     "Teams": {
                         "type": "array",
@@ -10770,7 +11049,10 @@
                             "type": "string"
                         },
                         "description": "A list of the teams the User is member of",
-                        "example": ["Accountants", "Bookkeepers"]
+                        "example": [
+                            "Accountants",
+                            "Bookkeepers"
+                        ]
                     }
                 }
             },
@@ -10840,7 +11122,8 @@
                                 "example": "Bm6CGxrWp8W"
                             }
                         }
-                    }, {
+                    },
+                    {
                         "$ref": "#/components/schemas/WorkScheduleRequest"
                     }
                 ]
@@ -11772,6 +12055,14 @@
                     "error": {
                         "code": 4004,
                         "message": "Invalid businessCardPermaKey 2tBHyXtJBxBy"
+                    }
+                }
+            },
+            "Invoice_Not_Found": {
+                "value": {
+                    "error": {
+                        "code": "4004",
+                        "message": "Invoice with key InvalidInvoiceId not found."
                     }
                 }
             },
