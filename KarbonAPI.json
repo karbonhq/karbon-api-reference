@@ -285,7 +285,7 @@
                                                 "EntityKey": {
                                                     "type": "string",
                                                     "example": "2jHPZngklwxQ",
-                                                    "descrition": "The unique key for the entity specified this business card is connected to"
+                                                    "description": "The unique key for the entity specified this business card is connected to"
                                                 }
                                             }
                                         },
@@ -7937,120 +7937,168 @@
                 ],
                 "properties": {
                     "InvoiceKey": {
-                        "type": "string"
+                        "type": "string",
+                        "description": "The unique key assigned to an invoice by Karbon"
                     },
                     "InvoiceNumber": {
-                        "type": "string"
+                        "type": "string",
+                        "description": "The invoice number of the invoice, e.g. KIN-1000"
                     },
                     "TotalAmountDue": {
-                        "type": "number"
+                        "type": "number",
+                        "description": "Remaining amount due on the invoice, including taxes minus any payments"
                     },
                     "InvoiceTotal": {
-                        "type": "number"
+                        "type": "number",
+                        "description": "Invoice total, including taxes"
                     },
                     "InvoiceSubTotal": {
-                        "type": "number"
+                        "type": "number",
+                        "description": "The sum of the line items of the invoice, excluding taxes"
                     },
                     "InvoiceTaxTotal": {
-                        "type": "number"
+                        "type": "number",
+                        "description": "Total of the taxes on the invoice"
                     },
                     "InvoiceDate": {
-                        "type": "string"
+                        "type": "string",
+                        "description": "The date the invoice was issued as an ISO 8601 timestamp"
                     },
                     "PaymentDueDate": {
-                        "type": "string"
+                        "type": "string",
+                        "description": "The date the invoice is due as an ISO 8601 timestamp"
                     },
                     "UpdatedAt": {
-                        "type": "string"
+                        "type": "string",
+                        "description": "A timestamp showing when the invoice was last updated as an ISO 8601 timestamp"
                     },
                     "CurrencyCode": {
-                        "type": "string"
+                        "type": "string",
+                        "description": "A three letter ISO 4217 currency code denoting the currency used in the invoice, e.g. AUD, USD, CAD, NZD, EUR, GBP"
                     },
                     "PaymentInstructions": {
                         "type": "string",
-                        "nullable": true
+                        "nullable": true,
+                        "description": "Payment instructions added to the invoice"
                     },
                     "InvoiceStatus": {
-                        "type": "string"
+                        "type": "string",
+                        "enum": [
+                            "Draft",
+                            "Approved",
+                            "AwaitingPayment",
+                            "Paid",
+                            "Exported",
+                            "Voided"
+                        ],
+                        "description": "Current status of the invoice"
                     },
                     "Client": {
-                        "$ref": "#components/schemas/BillingClient"
+                        "$ref": "#components/schemas/BillingClient",
+                        "description": "The details of the recipient of the invoice at the point in time the invoice was drafted"
                     },
                     "TaxLineItems": {
                         "type": "array",
                         "items": {
                             "type": "object",
                             "$ref": "#components/schemas/BillingTaxLineItem"
-                        }
+                        },
+                        "description": "An array of tax types and values from invoice line items"
                     },
                     "LineItems": {
                         "type": "array",
                         "items": {
                             "type": "object",
                             "$ref": "#components/schemas/BillingInvoiceLineItem"
-                        }
+                        },
+                        "description": "An array of invoice line items"
                     }
                 }
             },
             "BillingInvoiceLineItem": {
                 "properties": {
                     "LineItemKey": {
-                        "type": "string:"
+                        "type": "string:",
+                        "description": "A unique GUID for the line item"
                     },
                     "BillableItemEntityKey": {
-                        "type": "string:"
+                        "type": "string",
+                        "description": "The unique key of the related entity the line item was created from, could be a Contact, WorkItem or TimeEntry"
                     },
                     "BillableItemType": {
-                        "type": "string:"
+                        "type": "string",
+                        "enum": [
+                            "TimeEntry",
+                            "Expense",
+                            "Entity"
+                        ],
+                        "description": "The source type of the line item"
                     },
                     "Description": {
-                        "type": "string:"
+                        "type": "string",
+                        "description": "The description of charge the line item covers"
                     },
                     "Quantity": {
-                        "type": "string:"
+                        "type": "number",
+                        "description": "The quantity of units for a line item"
                     },
                     "UnitPrice": {
-                        "type": "string:"
+                        "type": "string",
+                        "description": "The per unit price of the line item"
                     },
                     "Amount": {
-                        "type": "string:"
+                        "type": "number",
+                        "description": "A unique GUID for the line item"
                     },
                     "TaxRate": {
-                        "type": "string:"
+                        "type": "number",
+                        "description": "The percentage tax rate, expressed as an integer - e.g. 15% is rendered as 15.0000",
+                        "nullable": true
                     },
                     "TaxRateName": {
-                        "type": "string:"
+                        "type": "string",
+                        "description": "The user specified name of tax rate, e.g. GST, VAT, PST",
+                        "nullable": true
                     }
                 }
             },
             "BillingClient": {
                 "properties": {
                     "ClientKey": {
-                        "type": "string"
+                        "type": "string",
+                        "description": "The unique key of the billed Client"
                     },
                     "ClientType": {
-                        "type": "string"
+                        "type": "string",
+                        "description": "The client type, e.g. Contact or Organization"
                     },
                     "Name": {
-                        "type": "string"
+                        "type": "string",
+                        "description": "The name of the client at the point the invoice was drafted"
                     },
                     "AddressLine": {
-                        "type": "string"
+                        "type": "string",
+                        "description": "The billing address of the cient at the point the invoice was drafted"
                     },
                     "City": {
-                        "type": "string"
+                        "type": "string",
+                        "description": "The billing address city of the cient at the point the invoice was drafted"
                     },
                     "StateProvinceCounty": {
-                        "type": "string"
+                        "type": "string",
+                        "description": "The billing address state/province/country of the cient at the point the invoice was drafted"
                     },
                     "ZipCode": {
-                        "type": "string"
+                        "type": "string",
+                        "description": "The billing address zip/postal code of the cient at the point the invoice was drafted"
                     },
                     "Country": {
-                        "type": "string"
+                        "type": "string",
+                        "description": "The billing address country of the cient at the point the invoice was drafted"
                     },
                     "EmailAddress": {
-                        "type": "string"
+                        "type": "string",
+                        "description": "The billing email address of the cient at the point the invoice was drafted"
                     }
                 }
             },
@@ -8058,11 +8106,11 @@
                 "properties": {
                     "TaxName": {
                         "type": "string",
-                        "example": "GST"
+                        "description": "The name of the tax, e.g. GST"
                     },
                     "TaxValue": {
                         "type": "number",
-                        "example": 209.6300
+                        "description": "The value of the tax in the invoice currency, e.g. 209.6300"
                     }
                 }
             },
