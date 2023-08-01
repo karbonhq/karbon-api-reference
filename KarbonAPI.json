@@ -6553,9 +6553,10 @@
                                         "enum": [
                                             "Contact",
                                             "Work",
-                                            "Note"
+                                            "Note",
+                                            "User"
                                         ],
-                                        "description": "The type of Karbon entity which the Webhook Subscription is associated with. To receive ClientGroup, Contact and Organization updates, pass WebhookType as <code>Contact</code>. To receive WorkItem updates, pass WebhookType as <code>Work</code>. To receive Note and NoteComment updates, pass WebhookType as <code>Note</code>",
+                                        "description": "The type of Karbon entity which the Webhook Subscription is associated with. To receive ClientGroup, Contact and Organization updates, pass WebhookType as <code>Contact</code>. To receive WorkItem updates, pass WebhookType as <code>Work</code>. To receive Note and NoteComment updates, pass WebhookType as <code>Note</code>. To receive an update when a User has accepted an invite to Karbon, pass WebhookType as <code>User</code>",
                                         "example": "Contact"
                                     }
                                 }
