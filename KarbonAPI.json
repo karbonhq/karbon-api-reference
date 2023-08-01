@@ -7457,7 +7457,7 @@
                     "content": {
                         "application/json": {
                             "schema": {
-                                "$ref": "#/components/schemas/WorkScheduleRequest"
+                                "$ref": "#/components/schemas/WorkSchedulePUTRequest"
                             }
                         }
                     }
@@ -10688,6 +10688,25 @@
                         "example": "Contact"
                     }
                 }
+            },
+            "WorkSchedulePUTRequest": {
+                "allOf": [
+                    {
+                        "type": "object",
+                        "required": [
+                            "WorkScheduleKey"
+                        ],
+                        "properties": {
+                            "WorkScheduleKey": {
+                                "type": "string",
+                                "description": "The key of the WorkSchedule, this should match the key used in the URL",
+                                "example": "Bm6CGxrWp8W"
+                            }
+                        }
+                    }, {
+                        "$ref": "#/components/schemas/WorkScheduleRequest"
+                    }
+                ]
             },
             "WorkScheduleRequest": {
                 "required": [
