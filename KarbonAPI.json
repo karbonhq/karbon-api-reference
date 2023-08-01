@@ -113,6 +113,121 @@
         }
     ],
     "paths": {
+        "/v3/Invoices": {
+            "get": {
+                "tags": [
+                    "Billing"
+                ],
+                "summary": "Gets a list of Invoices",
+                "parameters": [
+                    {
+                        "in": "query",
+                        "name": "$expand",
+                        "schema": {
+                            "type": "string",
+                            "example": "LineItems",
+                            "enum": [
+                                "LineItems"
+                            ]
+                        },
+                        "description": "Include additional invoice properties, such as lineitems"
+                    },                     {
+                        "in": "query",
+                        "name": "$orderby",
+                        "schema": {
+                            "type": "string",
+                            "example": "InvoiceDate",
+                            "enum": [
+                                "InvoiceDate", "InvoiceDate asc", "InvoiceDate desc"
+                            ]
+                        },
+                        "description": "Order responses by invoice date"
+                    }
+                ],
+                "description": "Use the <code>GET</code> method on this endpoint to receive a list of Invoices",
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "@odata.context": {
+                                            "type": "string",
+                                            "example": "https://api-dev.karbonhq.com/v3/$metadata#Invoices",
+                                            "description": "The information about Karbon controllers generating this response."
+                                        },
+                                        "@odata.count": {
+                                            "type": "integer",
+                                            "example": 10,
+                                            "description": "The total number of results"
+                                        },
+                                        "values": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/BillingInvoice"
+                                            }
+                                        }
+                                    }       
+                                },
+                                "example": {
+                                    "@odata.context": "https://api-dev.karbonhq.com/v3/$metadata#Invoices",
+                                    "@odata.count": 1,
+                                    "value": [
+                                        {
+                                            "InvoiceKey": "M2dVbCt4RHk",
+                                            "InvoiceNumber": "KIN-1001",
+                                            "TotalAmountDue": 1607.1300,
+                                            "InvoiceTotal": 1607.1300,
+                                            "InvoiceSubTotal": 1397.5000,
+                                            "InvoiceTaxTotal": 209.6300,
+                                            "InvoiceDate": "2023-07-21T00:00:00Z",
+                                            "PaymentDueDate": "2023-07-28T00:00:00Z",
+                                            "UpdatedAt": "2023-07-20T23:52:11Z",
+                                            "CurrencyCode": "AUD",
+                                            "PaymentInstructions": null,
+                                            "InvoiceStatus": "AwaitingPayment",
+                                            "Client": {
+                                                "ClientKey": "2xxnBLyCP4Ts",
+                                                "ClientType": "Organization",
+                                                "Name": "Acme Corp",
+                                                "AddressLine": "15 Example Street",
+                                                "City": "Sydney",
+                                                "StateProvinceCounty": "NSW",
+                                                "ZipCode": "4004",
+                                                "Country": "Australia",
+                                                "EmailAddress": "acme@example.com"
+                                            },
+                                            "TaxLineItems": [
+                                                {
+                                                    "TaxName": "GST",
+                                                    "TaxValue": 209.6300
+                                                }
+                                            ]
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ResourceNotFound"
+                                },
+                                "examples": {
+                                    "Unauthorized Access": {
+                                        "$ref": "#/components/examples/UnauthorizedAccess"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/v3/Invoices/{InvoiceKey}": {
             "get": {
                 "tags": [
