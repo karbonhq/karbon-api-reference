@@ -6213,6 +6213,80 @@
                 }
             }
         },
+        "/v3/Users/{UserId}": {
+            "get": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Gets the details of a single User",
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "{UserId}",
+                        "schema": {
+                            "type": "string",
+                            "example": "2bYxtn94ZSdY",
+                            "required": true
+                        },
+                        "description": "The unique ID of the User to get"
+                    }
+                ],
+                "description": "Use the <code>GET</code> method on this endpoint to receive the details of a single User from your tenant.",
+                "operationId": "getUserById",
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/GetUserById"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorMessages"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ResourceNotFound"
+                                },
+                                "examples": {
+                                    "Unauthorized Access": {
+                                        "$ref": "#/components/examples/UnauthorizedAccess"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorMessages"
+                                },
+                                "examples": {
+                                    "Undefined Error": {
+                                        "$ref": "#/components/examples/elongated_5001"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/v3/WebhookSubscriptions/{WebhookType}": {
             "get": {
                 "tags": [
@@ -10634,6 +10708,68 @@
                         "type": "string",
                         "example": "joe@samplecompany.com",
                         "description": "The email address of the User"
+                    }
+                }
+            },
+            "GetUserById": {
+                "required": [
+                    "UserId"
+                ],
+                "type": "object",
+                "properties": {
+                    "@odata.context": {
+                        "type": "string",
+                        "description": "The information about Karbon controllers generating this response.",
+                        "example": "https://api.karbonhq.com/v3/$metadata#Users/KarbonService.UserProfileDTO/$entity"
+                    },
+                    "@odata.type": {
+                        "type": "string",
+                        "description": "The information about Karbon data type in this response.",
+                        "example": "#KarbonService.UserProfileDTO"
+                    },
+                    "Id": {
+                            "type": "string",
+                            "description": "The unique Id of the User, this should match the key used in the URL",
+                            "example": "2bYxtn94ZSdY"
+                    },
+                    "Name": {
+                        "type": "string",
+                        "description": "The name of the User",
+                        "example": "Janet Smith"
+                    },
+                    "EmailAddress": {
+                        "type": "string",
+                        "description": "The email address of the User",
+                        "example": "janet@example.com"
+                    },
+                    "CapacityMinutesPerWeek": {
+                        "type": "integer",
+                        "description": "The number of billable minutes allocated to the user per week",
+                        "example": 2400
+                    },
+                    "Permissions": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        },
+                        "description": "A list of the permissions allocated to the User",
+                        "example": ["User"]
+                    },
+                    "Roles": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        },
+                        "description": "A list of the roles allocated to the User",
+                        "example": ["Accountant", "Bookkeeper"]
+                    },
+                    "Teams": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        },
+                        "description": "A list of the teams the User is member of",
+                        "example": ["Accountants", "Bookkeepers"]
                     }
                 }
             },
