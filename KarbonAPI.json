@@ -154,7 +154,7 @@
                                     "properties": {
                                         "@odata.context": {
                                             "type": "string",
-                                            "example": "https://api-dev.karbonhq.com/v3/$metadata#Invoices",
+                                            "example": "https://api.karbonhq.com/v3/$metadata#Invoices",
                                             "description": "The information about Karbon controllers generating this response."
                                         },
                                         "@odata.count": {
@@ -171,7 +171,7 @@
                                     }       
                                 },
                                 "example": {
-                                    "@odata.context": "https://api-dev.karbonhq.com/v3/$metadata#Invoices",
+                                    "@odata.context": "https://api.karbonhq.com/v3/$metadata#Invoices",
                                     "@odata.count": 1,
                                     "value": [
                                         {
@@ -282,7 +282,7 @@
                                     ]
                                 },
                                 "example": {
-                                    "@odata.context": "https://api-dev.karbonhq.com/v3/$metadata#Invoices/$entity",
+                                    "@odata.context": "https://api.karbonhq.com/v3/$metadata#Invoices/$entity",
                                     "InvoiceKey": "M2dVbCt4RHk",
                                     "InvoiceNumber": "KIN-1001",
                                     "TotalAmountDue": 1607.1300,
