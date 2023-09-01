@@ -75,11 +75,11 @@
         },
         {
             "name": "Organizations",
-            "description": "Create an organization to represent marriages and couples and client groups to represent families. [Read more](https://help.karbonhq.com/en/articles/5880261-manage-a-client-group)"
+            "description": "Create an organization to represent marriages and couples and client groups to represent families. [Read more](https://help.karbonhq.com/en/articles/5708609-overview-of-contacts#h_8ee87bfcc1)"
         },
         {
-            "name": "Socket Manager",
-            "description": "Operations about Socket Manager"
+            "name": "Tags",
+            "description": "Assign or remove tags from an entity - <strong>Note:</strong> Tags APIs are currently in beta and are <strong>not</strong> enabled for all API users"
         },
         {
             "name": "Timesheets",
@@ -4811,11 +4811,21 @@
                             "type": "string",
                             "enum": [
                                 "FullName",
-                                "EmailAddress"
-                            ],
-                            "example": "FullName eq 'Sample Company'"
+                                "EmailAddress",
+                                "Tags"
+                            ]
                         },
-                        "description": "When this parameter is combined with the URI, this endpoint will return a subset of the Organizations that satisfy the <code>$filter</code> expression. \n"
+                        "examples": {
+                            "fullName": {
+                                "value": "FullName eq 'Sample Company'",
+                                "summary": "The full name of the organization equals 'Sample Company'"
+                            },
+                            "tags": {
+                                "value": "Tags/any(tag: tag eq 'sync')",
+                                "summary": "The list tags assigned to the Organisation contains 'sync'"
+                            }
+                        },
+                        "description": "When this parameter is combined with the URI, this endpoint will return a subset of the Organizations that satisfy the <code>$filter</code> expression. \nFiltering for Tags cannot be combined with other filters."
                     },
                     {
                         "in": "query",
@@ -5948,6 +5958,195 @@
                                         "type": "string",
                                         "description": "The full name of the Organization",
                                         "example": "Sample Company Pty. Ltd."
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/v3/Tags": {
+            "post": {
+                "tags": [
+                    "Tags"
+                ],
+                "summary": "Assigns one or more tags to an entity.",
+                "parameters": [],
+                "description": "Use the <code>POST</code> method on this endpoint to assign one or more tags to an Organization",
+                "operationId": "addTags",
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {}
+                    },
+                    "404": {
+                        "description": "Resource Not Found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ResourceNotFound"
+                                },
+                                "examples": {
+                                    "Key Not Found": {
+                                        "$ref": "#/components/examples/ResourceNotFound"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorMessages"
+                                },
+                                "examples": {
+                                    "Incorrect or Missing Data": {
+                                        "$ref": "#/components/examples/Missing_Update_Data"
+                                    },
+                                    "Unsupported Option": {
+                                        "$ref": "#/components/examples/Unsupported_option"
+                                    },
+                                    "Invalid Property": {
+                                        "$ref": "#/components/examples/Invalid_Property"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "requestBody": {
+                    "description": "Refer to the table below for more information on each field in the request body.",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "EntityKey": {
+                                        "type": "string",
+                                        "description": "The key of the entity the tag(s) should be assigned to",
+                                        "example": "2dFxlS2Q6WlF"
+                                    },
+                                    "EntityType": {
+                                        "type": "string",
+                                        "enum": [
+                                            "Organisation"
+                                        ],
+                                        "description": "The entity type of the entity above",
+                                        "example": "Organization"
+                                    },
+                                    "Tags": {
+                                        "type": "array",
+                                        "description": "And array of tags to be assigned to the entity, tags may only contain lower case letters a-z, numbers 0-9, the dash - or underscore _ character",
+                                        "items": {
+                                            "type": "string"
+                                        },
+                                        "example": [
+                                            "sync"
+                                        ]
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/v3/Tags/{EntityKey}": {
+            "delete": {
+                "tags": [
+                    "Tags"
+                ],
+                "summary": "Removes one or more tags to an entity",
+                "parameters": [
+                    {
+                        "required": true,
+                        "in": "path",
+                        "name": "EntityKey",
+                        "schema": {
+                            "type": "string",
+                            "example": "2dFxlS2Q6WlF"
+                        },
+                        "description": "The Karbon-generated entity key"
+                    }
+                ],
+                "description": "Use the <code>DELETE</code> method on this endpoint to remove one or more tags assigned to an Organization",
+                "operationId": "removeTags",
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {}
+                    },
+                    "404": {
+                        "description": "Resource Not Found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ResourceNotFound"
+                                },
+                                "examples": {
+                                    "Key Not Found": {
+                                        "$ref": "#/components/examples/ResourceNotFound"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorMessages"
+                                },
+                                "examples": {
+                                    "Incorrect or Missing Data": {
+                                        "$ref": "#/components/examples/Missing_Update_Data"
+                                    },
+                                    "Unsupported Option": {
+                                        "$ref": "#/components/examples/Unsupported_option"
+                                    },
+                                    "Invalid Property": {
+                                        "$ref": "#/components/examples/Invalid_Property"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "requestBody": {
+                    "description": "Refer to the table below for more information on each field in the request body.",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "EntityKey": {
+                                        "type": "string",
+                                        "description": "The key of the entity the tag(s) should be assigned to",
+                                        "example": "2dFxlS2Q6WlF"
+                                    },
+                                    "EntityType": {
+                                        "type": "string",
+                                        "enum": [
+                                            "Organisation"
+                                        ],
+                                        "description": "The entity type of the entity above",
+                                        "example": "Organization"
+                                    },
+                                    "Tags": {
+                                        "type": "array",
+                                        "description": "And array of tags to be removed from the entity, tags may only contain lower case letters a-z, numbers 0-9, the dash - or underscore _ character",
+                                        "items": {
+                                            "type": "string"
+                                        },
+                                        "example": [
+                                            "sync"
+                                        ]
                                     }
                                 }
                             }
