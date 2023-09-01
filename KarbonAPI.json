@@ -8099,7 +8099,6 @@
                     "InvoiceStatus": {
                         "type": "string",
                         "enum": [
-                            "Draft",
                             "Approved",
                             "AwaitingPayment",
                             "Paid",
