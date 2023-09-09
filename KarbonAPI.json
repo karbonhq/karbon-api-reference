@@ -8361,7 +8361,7 @@
                     },
                     "Amount": {
                         "type": "number",
-                        "description": "A unique GUID for the line item"
+                        "description": "The amount of the line item calculated as UnitPrice * Quantity, excluding taxes"
                     },
                     "TaxRate": {
                         "type": "number",
