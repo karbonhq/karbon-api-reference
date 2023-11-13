@@ -124,9 +124,9 @@
                     {
                         "in": "query",
                         "name": "$expand",
+                        "example": "LineItems",
                         "schema": {
                             "type": "string",
-                            "example": "LineItems",
                             "enum": [
                                 "LineItems"
                             ]
@@ -134,10 +134,10 @@
                         "description": "Include additional invoice properties, such as lineitems"
                     },                     {
                         "in": "query",
+                        "example": "InvoiceDate",
                         "name": "$orderby",
                         "schema": {
                             "type": "string",
-                            "example": "InvoiceDate",
                             "enum": [
                                 "InvoiceDate", "InvoiceDate asc", "InvoiceDate desc"
                             ]
@@ -241,18 +241,18 @@
                         "required": true,
                         "in": "path",
                         "name": "InvoiceKey",
+                        "example": "M2dVbCt4RHk",
                         "schema": {
-                            "type": "string",
-                            "example": "M2dVbCt4RHk"
+                            "type": "string"
                         },
                         "description": "The Karbon-generated Invoice key"
                     },
                     {
                         "in": "query",
                         "name": "$expand",
+                        "example": "LineItems",
                         "schema": {
                             "type": "string",
-                            "example": "LineItems",
                             "enum": [
                                 "LineItems"
                             ]
@@ -363,9 +363,9 @@
                         "required": true,
                         "in": "path",
                         "name": "BusinessCardKey",
+                        "example": "2tBHyXtJBxBy",
                         "schema": {
-                            "type": "string",
-                            "example": "2tBHyXtJBxBy"
+                            "type": "string"
                         },
                         "description": "The Karbon-generated Business Card key"
                     }
@@ -433,21 +433,25 @@
                                     "LinkedInLink": "linkedin.com/sampleName",
                                     "TwitterLink": "twitter.com/sampleName",
                                     "SkypeLink": "skype.com/sampleName",
-                                    "Addresses": {
-                                        "AddressKey": "e150a05a-2dea-4292-8bc8-03398c9384e4",
-                                        "AddressLines": "45 Sample Street",
-                                        "City": "Alexandria",
-                                        "StateProvinceCounty": "NSW",
-                                        "ZipCode": "2015",
-                                        "CountryCode": "AU",
-                                        "Label": "Physical"
-                                    },
-                                    "PhoneNumbers": {
-                                        "PhoneNumberKey": "6e0b9ace-24b1-4328-a922-3b8be5ef5052",
-                                        "Number": 1234567890,
-                                        "CountryCode": 61,
-                                        "Label": "Work"
-                                    }
+                                    "Addresses": [
+                                        {
+                                            "AddressKey": "e150a05a-2dea-4292-8bc8-03398c9384e4",
+                                            "AddressLines": "45 Sample Street",
+                                            "City": "Alexandria",
+                                            "StateProvinceCounty": "NSW",
+                                            "ZipCode": "2015",
+                                            "CountryCode": "AU",
+                                            "Label": "Physical"
+                                        }
+                                    ],
+                                    "PhoneNumbers": [
+                                        {
+                                            "PhoneNumberKey": "6e0b9ace-24b1-4328-a922-3b8be5ef5052",
+                                            "Number": "1234567890",
+                                            "CountryCode": "AU",
+                                            "Label": "Work"
+                                        }
+                                    ]
                                 }
                             }
                         }
@@ -505,7 +509,8 @@
                 "description": "Use the <code>PUT</code> method on this endpoint to update the details of a Business Card specified using the BusinessCardKey.",
                 "responses": {
                     "204": {
-                        "description": "No Content"
+                        "description": "No Content",
+                        "content"
                     },
                     "400": {
                         "description": "Bad Request",
@@ -2761,7 +2766,8 @@
                                 "LastCommentItem"
                             ],
                             "example": "LastCommentItem"
-                        }
+                        },
+                        "description": "Include the last comment item on the client task to the returned response"
                     }
                 ],
                 "description": "Use the <code>GET</code> method on this endpoint to receive the details of a Client Task using the <code>ClientTaskKey</code>.<br><br> Using the query parameter available to this endpoint, you can also include LastCommentItem associated with the Client task in the response.\n",
@@ -2784,13 +2790,13 @@
                                             }
                                         },
                                         {
-                                            "$ref": "#components/schemas/ClientTaskSummary"
+                                            "$ref": "#/components/schemas/ClientTaskSummary"
                                         },
                                         {
                                             "type": "object",
                                             "properties": {
                                                 "LastCommentItem": {
-                                                    "$ref": "#components/schemas/LastCommentItemForClientRequest"
+                                                    "$ref": "#/components/schemas/LastCommentItemForClientRequest"
                                                 }
                                             }
                                         }
@@ -2895,7 +2901,8 @@
                                 "LastCommentItem"
                             ],
                             "example": "LastCommentItem"
-                        }
+                        },
+                        "description": "Include the last comment item on the client task to the returned response"
                     }
                 ],
                 "description": "Use the <code>PATCH</code> method on this endpoint to update partial details of a Client Task specified using the <code>ClientTaskKey</code>.<br><br> <b>Only</b> <code>DateCompleted</code> property can be updated using this endpoint.<br><br> Using the query parameter available to this endpoint, you can also include LastCommentItem associated with the Client task in the response.\n",
@@ -2918,13 +2925,13 @@
                                             }
                                         },
                                         {
-                                            "$ref": "#components/schemas/ClientTaskSummary"
+                                            "$ref": "#/components/schemas/ClientTaskSummary"
                                         },
                                         {
                                             "type": "object",
                                             "properties": {
                                                 "LastCommentItem": {
-                                                    "$ref": "#components/schemas/LastCommentItemForClientRequest"
+                                                    "$ref": "#/components/schemas/LastCommentItemForClientRequest"
                                                 }
                                             }
                                         }
@@ -8237,7 +8244,6 @@
         "schemas": {
             "BillingInvoice": {
                 "required": [
-                    "@odata.context",
                     "InvoiceKey",
                     "InvoiceNumber",
                     "TotalAmountDue",
@@ -8248,7 +8254,6 @@
                     "PaymentDueDate",
                     "UpdatedAt",
                     "CurrencyCode",
-                    "PaymentInstructions",
                     "InvoiceStatus",
                     "Client",
                     "TaxLineItems"
@@ -8311,25 +8316,26 @@
                         "description": "Current status of the invoice"
                     },
                     "Client": {
-                        "$ref": "#components/schemas/BillingClient"
+                        "$ref": "#/components/schemas/BillingClient"
                     },
                     "TaxLineItems": {
                         "type": "array",
                         "items": {
-                            "$ref": "#components/schemas/BillingTaxLineItem"
+                            "$ref": "#/components/schemas/BillingTaxLineItem"
                         },
                         "description": "An array of tax types and values from invoice line items"
                     },
                     "LineItems": {
                         "type": "array",
                         "items": {
-                            "$ref": "#components/schemas/BillingInvoiceLineItem"
+                            "$ref": "#/components/schemas/BillingInvoiceLineItem"
                         },
                         "description": "An array of invoice line items"
                     }
                 }
             },
             "BillingInvoiceLineItem": {
+                "type": "object",
                 "properties": {
                     "LineItemKey": {
                         "type": "string",
@@ -8377,6 +8383,7 @@
                 }
             },
             "BillingClient": {
+                "type": "object",
                 "description": "The details of the recipient of the invoice at the point in time the invoice was drafted",
                 "properties": {
                     "ClientKey": {
@@ -8428,49 +8435,6 @@
                         "description": "The value of the tax in the invoice currency, e.g. 209.6300"
                     }
                 }
-            },
-            "User": {
-                "properties": {
-                    "id": {
-                        "type": "integer",
-                        "format": "int64",
-                        "example": 10
-                    },
-                    "username": {
-                        "type": "string",
-                        "example": "theUser"
-                    },
-                    "firstName": {
-                        "type": "string",
-                        "example": "John"
-                    },
-                    "lastName": {
-                        "type": "string",
-                        "example": "James"
-                    },
-                    "email": {
-                        "type": "string",
-                        "example": "john@example.com"
-                    },
-                    "password": {
-                        "type": "string",
-                        "example": 12345
-                    },
-                    "phone": {
-                        "type": "string",
-                        "example": 12345
-                    },
-                    "userStatus": {
-                        "type": "integer",
-                        "format": "int32",
-                        "example": 1,
-                        "description": "User Status"
-                    }
-                },
-                "xml": {
-                    "name": "user"
-                },
-                "type": "object"
             },
             "BusinessCardRequest": {
                 "type": "object",
@@ -9315,7 +9279,7 @@
                         "type": "array",
                         "description": "The details of the Client Task Attachments",
                         "items": {
-                            "$ref": "#components/schemas/Attachments"
+                            "$ref": "#/components/schemas/Attachments"
                         }
                     }
                 }
@@ -9465,7 +9429,7 @@
                         "type": "array",
                         "description": "The details of the Client Task Attachments",
                         "items": {
-                            "$ref": "#components/schemas/Attachments"
+                            "$ref": "#/components/schemas/Attachments"
                         }
                     }
                 }
@@ -9519,13 +9483,13 @@
                         "items": {
                             "allOf": [
                                 {
-                                    "$ref": "#components/schemas/ClientTaskSummary"
+                                    "$ref": "#/components/schemas/ClientTaskSummary"
                                 },
                                 {
                                     "type": "object",
                                     "properties": {
                                         "LastCommentItem": {
-                                            "$ref": "#components/schemas/LastCommentItemForClientRequest"
+                                            "$ref": "#/components/schemas/LastCommentItemForClientRequest"
                                         }
                                     }
                                 }
@@ -9581,7 +9545,7 @@
                         "type": "array",
                         "description": "The summary of all the Client Tasks",
                         "items": {
-                            "$ref": "#components/schemas/ClientTaskSummary"
+                            "$ref": "#/components/schemas/ClientTaskSummary"
                         }
                     }
                 }
@@ -9720,109 +9684,6 @@
                         "type": "string",
                         "example": "OgCjeo4gwu",
                         "description": "A random value that indicates the email address of the Karbon user who created the comment."
-                    }
-                }
-            },
-            "GetBusinessCard": {
-                "required": [
-                    "value"
-                ],
-                "type": "object",
-                "properties": {
-                    "BusinessCardKey": {
-                        "type": "string",
-                        "example": "2xfLMq5PFqb7",
-                        "description": "The unique key for the business card requested."
-                    },
-                    "IsPrimaryCard": {
-                        "type": "boolean",
-                        "example": true,
-                        "description": "Whether this business card is the primary card for a contact."
-                    },
-                    "Addresses": {
-                        "type": "object",
-                        "properties": {
-                            "AddressKey": {
-                                "type": "string",
-                                "example": "3f855e2e-4a1a-4af7-837d-38b0be3ebf90",
-                                "description": "A unique identifier for the address"
-                            },
-                            "AddressLines": {
-                                "type": "string",
-                                "example": "2400 Bridgeway, Ste 280",
-                                "description": "The address lines of an address, typically the street or PO Box "
-                            },
-                            "City": {
-                                "type": "string",
-                                "example": "Sausalito",
-                                "description": "The town or city portion of an address"
-                            },
-                            "StateProvinceCounty": {
-                                "type": "string",
-                                "example": "CA",
-                                "description": "The state or region portion of an address"
-                            },
-                            "ZipCode": {
-                                "type": "string",
-                                "example": "94965",
-                                "description": "The Zip or Post code portion of an address"
-                            },
-                            "CountryCode": {
-                                "type": "string",
-                                "example": "US",
-                                "description": "The two letter country code of an address"
-                            },
-                            "Label": {
-                                "type": "string",
-                                "example": "Work",
-                                "description": "A label for the address"
-                            }
-                        }
-                    },
-                    "PhoneNumbers": {
-                        "type": "array",
-                        "example": [],
-                        "description": "An array of phone number objects."
-                    },
-                    "WebSites": {
-                        "type": "array",
-                        "example": [],
-                        "description": "An array of website hostnames."
-                    },
-                    "EmailAddresses": {
-                        "type": "array",
-                        "example": [],
-                        "description": "An array of email addresses."
-                    },
-                    "OrganizationKey": {
-                        "type": "string",
-                        "example": "ZGNmtYyLm4z",
-                        "description": "The key for the associated organisation."
-                    },
-                    "RoleOrTitle": {
-                        "type": "string",
-                        "example": "",
-                        "description": "An optional role for the contact."
-                    },
-                    "FacebookLink": {
-                        "type": "string",
-                        "example": "",
-                        "description": "An optional role for the contact."
-                    },
-                    "LinkedInLink": {
-                        "type": "string",
-                        "example": "",
-                        "description": "An optional LinkedIn link for the associated contact or organisation."
-                    },
-                    "TwitterLink": {
-                        "type": "string",
-                        "example": "",
-                        "description": "An optional Twitter link for the associated contact or organisation."
-                    },
-                    "SkypeLink": {
-                        "type": "string",
-                        "example": "",
-                        "description": "An optional Skype link for the associated contact or organisation."
                     }
                 }
             },
@@ -11316,7 +11177,7 @@
                     "value": {
                         "type": "array",
                         "items": {
-                            "$ref": "#components/schemas/GetSingleTimeSheet"
+                            "$ref": "#/components/schemas/GetSingleTimeSheet"
                         }
                     },
                     "@odata.nextLink": {
@@ -11443,7 +11304,7 @@
                     "value": {
                         "type": "array",
                         "items": {
-                            "$ref": "#components/schemas/GetSingleUser"
+                            "$ref": "#/components/schemas/GetSingleUser"
                         }
                     },
                     "@odata.nextLink": {
@@ -11934,7 +11795,7 @@
                     "value": {
                         "type": "array",
                         "items": {
-                            "$ref": "#components/schemas/GetSingleWorkTemplate"
+                            "$ref": "#/components/schemas/GetSingleWorkTemplate"
                         }
                     },
                     "@odata.nextLink": {
