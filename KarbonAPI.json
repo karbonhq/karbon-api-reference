@@ -509,8 +509,7 @@
                 "description": "Use the <code>PUT</code> method on this endpoint to update the details of a Business Card specified using the BusinessCardKey.",
                 "responses": {
                     "204": {
-                        "description": "No Content",
-                        "content"
+                        "description": "No Content"
                     },
                     "400": {
                         "description": "Bad Request",
