@@ -688,7 +688,7 @@
                                         "$ref": "#/components/examples/Unsupported_Property_Filter"
                                     },
                                     "Unsupported Orderby Property": {
-                                        "$ref": "#/components/examples/$Orderby_Unsupported_Property"
+                                        "$ref": "#/components/examples/Orderby_Unsupported_Property"
                                     },
                                     "$top limit exceeded": {
                                         "$ref": "#/components/examples/Limit_Exceeded_Top"
@@ -2761,7 +2761,7 @@
                     }
                 ],
                 "description": "Use the <code>GET</code> method on this endpoint to receive the details of a Client Task using the <code>ClientTaskKey</code>.<br><br> Using the query parameter available to this endpoint, you can also include LastCommentItem associated with the Client task in the response.\n",
-                "operationId": "getClientTaskCommentsByClientTaskKey",
+                "operationId": "getClientTasksByClientTaskKey",
                 "responses": {
                     "200": {
                         "description": "Successful operation",
@@ -3205,7 +3205,7 @@
                                         "$ref": "#/components/examples/Unsupported_Property_Filter"
                                     },
                                     "Unsupported Orderby Property": {
-                                        "$ref": "#/components/examples/$Orderby_Unsupported_Property"
+                                        "$ref": "#/components/examples/Orderby_Unsupported_Property"
                                     },
                                     "$top limit exceeded": {
                                         "$ref": "#/components/examples/Limit_Exceeded_Top"
@@ -3469,7 +3469,7 @@
                     }
                 ],
                 "description": "Use the <code>GET</code> method on this endpoint to receive the details of a Contact specified using the UserDefinedIdentifier.  <br><br>Using the query parameter available to this endpoint, you can also include Business Card details of the Contact in the response.\n",
-                "operationId": "getClientGroupByUDI",
+                "operationId": "getContactByUDI",
                 "responses": {
                     "200": {
                         "description": "Successful operation",
@@ -4891,7 +4891,7 @@
                                         "$ref": "#/components/examples/Unsupported_Property_Filter"
                                     },
                                     "Unsupported Orderby Property": {
-                                        "$ref": "#/components/examples/$Orderby_Unsupported_Property"
+                                        "$ref": "#/components/examples/Orderby_Unsupported_Property"
                                     },
                                     "$top limit exceeded": {
                                         "$ref": "#/components/examples/Limit_Exceeded_Top"
@@ -5561,7 +5561,7 @@
                                         "$ref": "#/components/examples/Unsupported_Property_Filter"
                                     },
                                     "Unsupported Orderby Property": {
-                                        "$ref": "#/components/examples/$Orderby_Unsupported_Property"
+                                        "$ref": "#/components/examples/Orderby_Unsupported_Property"
                                     },
                                     "Unsupported Option": {
                                         "$ref": "#/components/examples/Unsupported_option"
@@ -6254,7 +6254,7 @@
                                         "$ref": "#/components/examples/Unsupported_Property_Filter"
                                     },
                                     "Unsupported Orderby Property": {
-                                        "$ref": "#/components/examples/$Orderby_Unsupported_Property"
+                                        "$ref": "#/components/examples/Orderby_Unsupported_Property"
                                     },
                                     "Unsupported Logical Operator": {
                                         "$ref": "#/components/examples/Unsupported_Logical_Operator"
@@ -6662,7 +6662,7 @@
                     {
                         "required": true,
                         "in": "path",
-                        "name": "{UserId}",
+                        "name": "UserId",
                         "schema": {
                             "type": "string",
                             "example": "2bYxtn94ZSdY"
@@ -6898,7 +6898,7 @@
                 ],
                 "summary": "Creates a new Webhook Subscription",
                 "description": "<p>Use the <code>POST</code> method on create and associate a Webhook Subscriptions with a Karbon entity.<br> You can create <b>only one</b> Webhook Subcription per entity.</p><p>Payload delivery for a webhook subscription will be retried 10 times, with increasing delays. If unsuccessful after 10 tries (no 2xx HTTP response), the subscription ends and needs to be recreated to receive further updates.</p>\n",
-                "operationId": "createUser",
+                "operationId": "createWebhookSubscription",
                 "responses": {
                     "201": {
                         "description": "Created",
@@ -7136,7 +7136,7 @@
                                         "$ref": "#/components/examples/Unsupported_Property_Filter"
                                     },
                                     "Unsupported Orderby Property": {
-                                        "$ref": "#/components/examples/$Orderby_Unsupported_Property"
+                                        "$ref": "#/components/examples/Orderby_Unsupported_Property"
                                     },
                                     "$top limit exceeded": {
                                         "$ref": "#/components/examples/Limit_Exceeded_Top"
@@ -8071,7 +8071,7 @@
                                         "$ref": "#/components/examples/Unsupported_Property_Filter"
                                     },
                                     "Unsupported Orderby Property": {
-                                        "$ref": "#/components/examples/$Orderby_Unsupported_Property"
+                                        "$ref": "#/components/examples/Orderby_Unsupported_Property"
                                     },
                                     "$top limit exceeded": {
                                         "$ref": "#/components/examples/WorkTemplates_Limit_Exceeded_Top"
@@ -9739,40 +9739,43 @@
                         "description": "Whether this business card is the primary card for a contact."
                     },
                     "Addresses": {
-                        "AddressKey": {
-                            "type": "string",
-                            "example": "3f855e2e-4a1a-4af7-837d-38b0be3ebf90",
-                            "description": "A unique identifier for the address"
-                        },
-                        "AddressLines": {
-                            "type": "string",
-                            "example": "2400 Bridgeway, Ste 280",
-                            "description": "The address lines of an address, typically the street or PO Box "
-                        },
-                        "City": {
-                            "type": "string",
-                            "example": "Sausalito",
-                            "description": "The town or city portion of an address"
-                        },
-                        "StateProvinceCounty": {
-                            "type": "string",
-                            "example": "CA",
-                            "description": "The state or region portion of an address"
-                        },
-                        "ZipCode": {
-                            "type": "string",
-                            "example": "94965",
-                            "description": "The Zip or Post code portion of an address"
-                        },
-                        "CountryCode": {
-                            "type": "string",
-                            "example": "US",
-                            "description": "The two letter country code of an address"
-                        },
-                        "Label": {
-                            "type": "string",
-                            "example": "Work",
-                            "description": "A label for the address"
+                        "type": "object",
+                        "properties": {
+                            "AddressKey": {
+                                "type": "string",
+                                "example": "3f855e2e-4a1a-4af7-837d-38b0be3ebf90",
+                                "description": "A unique identifier for the address"
+                            },
+                            "AddressLines": {
+                                "type": "string",
+                                "example": "2400 Bridgeway, Ste 280",
+                                "description": "The address lines of an address, typically the street or PO Box "
+                            },
+                            "City": {
+                                "type": "string",
+                                "example": "Sausalito",
+                                "description": "The town or city portion of an address"
+                            },
+                            "StateProvinceCounty": {
+                                "type": "string",
+                                "example": "CA",
+                                "description": "The state or region portion of an address"
+                            },
+                            "ZipCode": {
+                                "type": "string",
+                                "example": "94965",
+                                "description": "The Zip or Post code portion of an address"
+                            },
+                            "CountryCode": {
+                                "type": "string",
+                                "example": "US",
+                                "description": "The two letter country code of an address"
+                            },
+                            "Label": {
+                                "type": "string",
+                                "example": "Work",
+                                "description": "A label for the address"
+                            }
                         }
                     },
                     "PhoneNumbers": {
@@ -12491,7 +12494,7 @@
                     }
                 }
             },
-            "$Orderby_Unsupported_Property": {
+            "Orderby_Unsupported_Property": {
                 "value": {
                     "error": {
                         "code": 4002,
