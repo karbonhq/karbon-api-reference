@@ -6660,12 +6660,12 @@
                 "summary": "Gets the details of a single User",
                 "parameters": [
                     {
+                        "required": true,
                         "in": "path",
                         "name": "{UserId}",
                         "schema": {
                             "type": "string",
-                            "example": "2bYxtn94ZSdY",
-                            "required": true
+                            "example": "2bYxtn94ZSdY"
                         },
                         "description": "The unique ID of the User to get"
                     }
@@ -8331,7 +8331,7 @@
             "BillingInvoiceLineItem": {
                 "properties": {
                     "LineItemKey": {
-                        "type": "string:",
+                        "type": "string",
                         "description": "A unique GUID for the line item"
                     },
                     "BillableItemEntityKey": {
@@ -9734,7 +9734,7 @@
                         "description": "The unique key for the business card requested."
                     },
                     "IsPrimaryCard": {
-                        "type": "bool",
+                        "type": "boolean",
                         "example": true,
                         "description": "Whether this business card is the primary card for a contact."
                     },
