@@ -115,6 +115,7 @@
     "paths": {
         "/v3/Invoices": {
             "get": {
+                "operationId": "getInvoices",
                 "tags": [
                     "Billing"
                 ],
@@ -230,6 +231,7 @@
         },
         "/v3/Invoices/{InvoiceKey}": {
             "get": {
+                "operationId": "getInvoiceByKey",
                 "tags": [
                     "Billing"
                 ],
@@ -351,6 +353,7 @@
         },
         "/v3/BusinessCards/{BusinessCardKey}": {
             "get": {
+                "operationId": "getBusinessCardByKey",
                 "tags": [
                     "Business Cards"
                 ],
@@ -482,6 +485,7 @@
                 }
             },
             "put": {
+                "operationId": "updateBusinessCardByKey",
                 "tags": [
                     "Business Cards"
                 ],
@@ -2414,7 +2418,7 @@
                 }
             }
         },
-        "/v3/ClientTaskComments/{ClientTaskKey}": {
+        "/v3/ClientTaskComments('{ClientTaskKey}')": {
             "get": {
                 "tags": [
                     "Client Task Comments"
@@ -8307,13 +8311,11 @@
                         "description": "Current status of the invoice"
                     },
                     "Client": {
-                        "$ref": "#components/schemas/BillingClient",
-                        "description": "The details of the recipient of the invoice at the point in time the invoice was drafted"
+                        "$ref": "#components/schemas/BillingClient"
                     },
                     "TaxLineItems": {
                         "type": "array",
                         "items": {
-                            "type": "object",
                             "$ref": "#components/schemas/BillingTaxLineItem"
                         },
                         "description": "An array of tax types and values from invoice line items"
@@ -8321,7 +8323,6 @@
                     "LineItems": {
                         "type": "array",
                         "items": {
-                            "type": "object",
                             "$ref": "#components/schemas/BillingInvoiceLineItem"
                         },
                         "description": "An array of invoice line items"
@@ -8376,6 +8377,7 @@
                 }
             },
             "BillingClient": {
+                "description": "The details of the recipient of the invoice at the point in time the invoice was drafted",
                 "properties": {
                     "ClientKey": {
                         "type": "string",
@@ -9018,7 +9020,6 @@
                                         "DOL UIF Number",
                                         "SDL Number",
                                         "DOL Workman Compensation",
-                                        "VAT Number",
                                         "Company Number",
                                         "Business Registration Number",
                                         "Charity Number",
