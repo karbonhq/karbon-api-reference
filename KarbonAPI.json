@@ -4749,7 +4749,7 @@
                                         "$ref": "#/components/examples/HTTP_Resource_Not_Found"
                                     },
                                     "Payload Mising": {
-                                        "$ref": "#/components/examples/Note_Payload_Mising"
+                                        "$ref": "#/components/examples/Note_Payload_Missing"
                                     }
                                 }
                             }
@@ -9469,6 +9469,7 @@
                 }
             },
             "ClientRequestExpandOptionsWLastCommentItem": {
+                "description": "A Client Request showing Recipient, Client Task Summaries and the most recent Comment item",
                 "type": "object",
                 "properties": {
                     "Recipient": {
@@ -9533,6 +9534,7 @@
                 }
             },
             "ClientRequestExpandOptionsWOLastCommentItem": {
+                "description": "A Client Request showing Recipient and Client Task Summaries",
                 "type": "object",
                 "properties": {
                     "Recipient": {
@@ -9585,6 +9587,7 @@
                 }
             },
             "GetCollapsedClientRequest": {
+                "description": "A Client Request showing basic details",
                 "type": "object",
                 "required": [
                     "ClientRequestKey"
@@ -9643,6 +9646,7 @@
                 }
             },
             "GetExpandedClientRequest": {
+                "description": "A Client Request showing basic details and most recent Comment",
                 "allOf": [
                     {
                         "type": "object",
@@ -9663,6 +9667,7 @@
                 ]
             },
             "GetExpandedClientRequestWOLastCommentItem": {
+                "description": "A Client Request showing basic details with additional ClientTasks and Recipient details",
                 "allOf": [
                     {
                         "type": "object",
@@ -10594,6 +10599,7 @@
                 }
             },
             "ContactsCardOrganization": {
+                "description": "A business card object for an Organization",
                 "type": "array",
                 "items": {
                     "type": "object",
@@ -11112,6 +11118,7 @@
                 }
             },
             "WithBusinessCardsCreateOrganizationResponse": {
+                "description": "The response returned when a business card is created and $expand=BusinessCards is specified in the URL",
                 "allOf": [
                     {
                         "$ref": "#/components/schemas/CreateOrganizationResponse"
@@ -12206,6 +12213,7 @@
                 }
             },
             "Invalid_ClientTaskKey": {
+                "description": "The error returned when a Client Task comment is requested with an invalid Client Task Key",
                 "value": {
                     "error": {
                         "code": 4003,
@@ -12221,6 +12229,7 @@
                 }
             },
             "Invalid_AuthorKey": {
+                "description": "The error returned when a Client Task comment is requested with an Author Key that is not a recipient of the Client Task",
                 "value": {
                     "error": {
                         "code": 4003,
@@ -12236,6 +12245,7 @@
                 }
             },
             "Missing_AuthorKey": {
+                "description": "The error returned when a Client Task comment is requested with an blank Author Key",
                 "value": {
                     "error": {
                         "code": 4003,
@@ -12251,6 +12261,7 @@
                 }
             },
             "Missing_AuthorType": {
+                "description": "The error returned when a Client Task comment is requested with an blank or invalid Author Type",
                 "value": {
                     "error": {
                         "code": 4003,
@@ -12266,6 +12277,7 @@
                 }
             },
             "Missing_ClientTaskKey": {
+                "description": "The error returned when a Client Task is requested without a Client Task Key",
                 "value": {
                     "error": {
                         "code": 4003,
@@ -12281,6 +12293,7 @@
                 }
             },
             "Key_Not_Found": {
+                "description": "The error returned when a Client Group cannot be found using the requested Client Group Key",
                 "value": {
                     "error": {
                         "code": 4004,
@@ -12289,6 +12302,7 @@
                 }
             },
             "ClientRequestRecipient_Not_Found": {
+                "description": "The error returned when a Client Request Recipient cannot be found using the provided email address",
                 "value": {
                     "error": {
                         "code": 4004,
@@ -12297,6 +12311,7 @@
                 }
             },
             "ClientRequestRecipient_Invalid_Email": {
+                "description": "The error returned when requesting a Client Request Recipient with an invalid email address",
                 "value": {
                     "error": {
                         "code": 4002,
@@ -12305,6 +12320,7 @@
                 }
             },
             "CommentKey_Not_Found": {
+                "description": "The error returned when a Comment cannot be found for the provided Comment Key",
                 "value": {
                     "error": {
                         "code": 4004,
@@ -12313,6 +12329,7 @@
                 }
             },
             "ClientRequestKey_Not_Found": {
+                "description": "The error returned when a Client Request cannot be foudn for the provided Client Request Key",
                 "value": {
                     "error": {
                         "code": 4004,
@@ -12321,14 +12338,16 @@
                 }
             },
             "Organization_Key_Not_Found_404": {
+                "description": "The error returned when an Organization cannot be found for the provided Organisation Key",
                 "value": {
                     "error": {
                         "code": 4004,
-                        "message": "No organization exists with a key of 3g44LgvYQFTk."
+                        "message": "No organization exists with a key of <OrganizationKey>."
                     }
                 }
             },
             "WorkItem_Key_Not_Found_404": {
+                "description": "The error returned when a Work Item cannot be found for the provided Work Item Key",
                 "value": {
                     "error": {
                         "code": 4004,
@@ -12337,6 +12356,7 @@
                 }
             },
             "WorkSchedule_Key_Not_Found_404": {
+                "description": "The error returned when a Work Schedule cannot be found for the provided Work Schedule Key",
                 "value": {
                     "error": {
                         "code": 4004,
@@ -12345,6 +12365,7 @@
                 }
             },
             "WorkTemplate_Key_Not_Found_404": {
+                "description": "The error returned when a Work Template cannot be found for the provided Work Template Key",
                 "value": {
                     "error": {
                         "code": 4004,
@@ -12353,6 +12374,7 @@
                 }
             },
             "ContactKey_Not_Found": {
+                "description": "The error returned when a Contact cannot be found for the provided Contact Key",
                 "value": {
                     "error": {
                         "code": 4004,
@@ -12361,6 +12383,7 @@
                 }
             },
             "Organization_Key_Not_Found_400": {
+                "description": "The error returned when an Organization cannot be found for the provided Organization Key",
                 "value": {
                     "error": {
                         "code": 4002,
@@ -12369,6 +12392,7 @@
                 }
             },
             "Timesheet_Key_Not_Found_404": {
+                "description": "The error returned when an Timesheet cannot be found for the provided Timesheet Key",
                 "value": {
                     "error": {
                         "code": 4004,
@@ -12377,14 +12401,16 @@
                 }
             },
             "Webhook_Subscription_Key_Not_Found_404": {
+                "description": "The error returned when a Webhook Subscription request cannot be fulfilled because there are no Webhook Subscriptions for the provided Webhook Type",
                 "value": {
                     "error": {
                         "code": 4004,
-                        "message": "No timesheet found for provided key"
+                        "message": "No existing webhook subscription for Contact"
                     }
                 }
             },
             "Webhook_Subscription_Type_Not_Found_404": {
+                "description": "The error returned when a Webhook Subscription request cannot be fulfilled because the provided Webhook Type is not one of the valid types",
                 "value": {
                     "error": {
                         "code": 4004,
@@ -12393,22 +12419,25 @@
                 }
             },
             "BusinessCard_Not_Found": {
+                "description": "The error returned when a Business Card request cannot be fulfilled because the provided Business Card Key does not exist",
                 "value": {
                     "error": {
                         "code": 4004,
-                        "message": "Invalid businessCardPermaKey 2tBHyXtJBxBy"
+                        "message": "Invalid businessCardPermaKey <BusinessCardKey>"
                     }
                 }
             },
             "Invoice_Not_Found": {
+                "description": "The error returned when a Invoice request cannot be fulfilled because the provided Invoice Id Key does not exist",
                 "value": {
                     "error": {
                         "code": "4004",
-                        "message": "Invoice with key InvalidInvoiceId not found."
+                        "message": "Invoice with key <InvalidInvoiceId> not found."
                     }
                 }
             },
             "UDI_Not_Found": {
+                "description": "The error returned when a Client Group request cannot be fulfilled because the provided User Defined Idenfier does not exist",
                 "value": {
                     "error": {
                         "code": 4004,
@@ -12417,6 +12446,7 @@
                 }
             },
             "UDI_Not_Found_Contact": {
+                "description": "The error returned when a Contact request cannot be fulfilled because the provided User Defined Idenfier does not exist",
                 "value": {
                     "error": {
                         "code": 4004,
@@ -12425,6 +12455,7 @@
                 }
             },
             "UDI_Not_Found_Organization": {
+                "description": "The error returned when a Organization request cannot be fulfilled because the provided User Defined Idenfier does not exist",
                 "value": {
                     "error": {
                         "code": 4004,
@@ -12433,6 +12464,7 @@
                 }
             },
             "UDI_Is_Empty": {
+                "description": "The error returned when a Client Group request cannot be fulfilled because a User Defined Idenfier has not been provided",
                 "value": {
                     "error": {
                         "code": 4002,
@@ -12441,6 +12473,7 @@
                 }
             },
             "Missing_Update_Data": {
+                "description": "The error returned when the payload for an update is missing or invalid",
                 "value": {
                     "error": {
                         "code": 4005,
@@ -12449,6 +12482,7 @@
                 }
             },
             "Duplicate_UDI": {
+                "description": "The error returned when the request payload includes a User Defined Identifier which is already in use",
                 "value": {
                     "error": {
                         "code": 5001,
@@ -12457,6 +12491,7 @@
                 }
             },
             "Missing_Create_Data": {
+                "description": "The error returned when the request payload is missing a required value",
                 "value": {
                     "error": {
                         "code": 4005,
@@ -12465,6 +12500,7 @@
                 }
             },
             "Update_Unsupported_Property": {
+                "description": "The error returned when attempting to update a property on an Organization other than the FullName",
                 "value": {
                     "error": {
                         "code": 4002,
@@ -12473,6 +12509,7 @@
                 }
             },
             "Orderby_Unsupported_Property": {
+                "description": "The error returned when an unsupported sort order is used in a request",
                 "value": {
                     "error": {
                         "code": 4002,
@@ -12481,6 +12518,7 @@
                 }
             },
             "Unsupported_Property_Filter": {
+                "description": "The error returned when an unsupported filter is used in a request",
                 "value": {
                     "error": {
                         "code": 4002,
@@ -12489,6 +12527,7 @@
                 }
             },
             "Unsupported_Logical_Operator": {
+                "description": "The error returned when an unsupported operator is used in a request",
                 "value": {
                     "error": {
                         "code": 4002,
@@ -12497,6 +12536,7 @@
                 }
             },
             "Limit_Exceeded_Top": {
+                "description": "The error returned when the limit is used in a request exceeds the maximum set for the API",
                 "value": {
                     "error": {
                         "code": 4002,
@@ -12505,6 +12545,7 @@
                 }
             },
             "WorkTemplates_Limit_Exceeded_Top": {
+                "description": "The error returned when the limit is used in a request exceeds the maximum set for the API",
                 "value": {
                     "error": {
                         "code": 4002,
@@ -12513,6 +12554,7 @@
                 }
             },
             "Unsupported_option": {
+                "description": "The error returned when the query option in a request is not allowed for by the API",
                 "value": {
                     "error": {
                         "code": 4002,
@@ -12521,6 +12563,7 @@
                 }
             },
             "Invalid_Property": {
+                "description": "The error returned when attempting to use PATCH to update a property that can only be updated as part of a PUT",
                 "value": {
                     "error": {
                         "code": 4002,
@@ -12529,6 +12572,7 @@
                 }
             },
             "HTTP_Resource_Not_Found": {
+                "description": "The error returned when the request path and request method does not match any configured API path and method",
                 "value": {
                     "error": {
                         "code": null,
@@ -12537,6 +12581,7 @@
                 }
             },
             "Generic_Key_Not_Found": {
+                "description": "The error returned when the request for a Contact cannot be fulfilled because a Contact with the supplied Contact Key cannot be found",
                 "value": {
                     "error": {
                         "code": 4004,
@@ -12545,6 +12590,7 @@
                 }
             },
             "Unsupported_File_Type": {
+                "description": "The error returned when attempting to upload an upsupported File Type",
                 "value": {
                     "error": {
                         "code": 5001,
@@ -12552,7 +12598,8 @@
                     }
                 }
             },
-            "Note_Payload_Mising": {
+            "Note_Payload_Missing": {
+                "description": "The error returned when attempting create a Note, but the request payload is missing or invalid",
                 "value": {
                     "error": {
                         "code": 4005,
@@ -12561,6 +12608,7 @@
                 }
             },
             "Missing_Assignee_Email_Address": {
+                "description": "The error returned when assign an entity to a user email that does not exist in Karbon",
                 "value": {
                     "error": {
                         "code": 5001,
@@ -12569,6 +12617,7 @@
                 }
             },
             "Invalid_Author_Email_Address": {
+                "description": "The error returned when specifying an author on an entity where the author email does not exist as a user in Karbon",
                 "value": {
                     "error": {
                         "code": 5001,
@@ -12577,6 +12626,7 @@
                 }
             },
             "Missing_Author_Email_Address": {
+                "description": "The error returned when specifying an author on an entity where the author email is blank",
                 "value": {
                     "error": {
                         "code": 5001,
@@ -12585,6 +12635,7 @@
                 }
             },
             "Missing_CreatedFromWorkItemKey": {
+                "description": "The error returned when a required Work Item Key is not provided when creating a new Work Schedule",
                 "value": {
                     "error": {
                         "code": 4002,
@@ -12593,6 +12644,7 @@
                 }
             },
             "Incorrect_CustomFrequencyMultiple": {
+                "description": "The error returned when creating a new Work Schedule with CustomFrequencyMultiple that is negative or not a number",
                 "value": {
                     "error": {
                         "code": 4002,
@@ -12601,6 +12653,7 @@
                 }
             },
             "Missing_Filter_Property": {
+                "description": "The error returned when requesting Client Task Summaries without a $filter parameter",
                 "value": {
                     "error": {
                         "code": 4002,
@@ -12609,6 +12662,7 @@
                 }
             },
             "Missing_Token": {
+                "description": "The error returned when requesting a Client Task Comment Attachment with an attachment token that does not exist",
                 "value": {
                     "error": {
                         "code": 4001,
@@ -12617,6 +12671,7 @@
                 }
             },
             "Invalid_Token": {
+                "description": "The error returned when requesting a Client Task Comment Attachment with an attachment token that is invalid",
                 "value": {
                     "error": {
                         "code": 4001,
@@ -12625,6 +12680,7 @@
                 }
             },
             "Could_not_upload_attachment": {
+                "description": "The error returned when uploading an attachment to a Client Task fails",
                 "value": {
                     "error": {
                         "code": 4002,
@@ -12633,6 +12689,7 @@
                 }
             },
             "Invalid_Patch_Property": {
+                "description": "The error returned when attempting to update an unsupported property in a Client Task or Client Task Comment",
                 "value": {
                     "error": {
                         "code": 4002,
@@ -12641,6 +12698,7 @@
                 }
             },
             "Comment_Not_Found": {
+                "description": "The error returned when a attempting to delete a Client Task Comment that does not exist",
                 "value": {
                     "error": {
                         "code": 4002,
@@ -12649,6 +12707,7 @@
                 }
             },
             "Name_or_Email_Is_Empty": {
+                "description": "The error returned when a Name and Email Address are not provided when creating a User",
                 "value": {
                     "error": {
                         "code": 5001,
@@ -12659,11 +12718,13 @@
         },
         "securitySchemes": {
             "BearerAuth": {
+                "description": "The Application ID for your API application, supplied by secure message when your Application is first registered",
                 "type": "http",
                 "scheme": "bearer",
                 "bearerFormat": "JWT"
             },
             "ApiKeyAuth": {
+                "description": "The AccessKey for your API application, found inside the Settings > Connected Apps section in Karbon",
                 "type": "apiKey",
                 "in": "header",
                 "name": "AccessKey"
