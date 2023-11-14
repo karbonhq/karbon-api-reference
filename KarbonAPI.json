@@ -8236,12 +8236,13 @@
         }
     },
     "externalDocs": {
-        "description": "Find out more about Swagger",
-        "url": "http://swagger.io"
+        "description": "Karbon Developers - API release notes",
+        "url": "https://developers.karbonhq.com/release-notes/"
     },
     "components": {
         "schemas": {
             "BillingInvoice": {
+                "description": "A Karbon invoice",
                 "required": [
                     "InvoiceKey",
                     "InvoiceNumber",
@@ -8260,48 +8261,59 @@
                 "properties": {
                     "InvoiceKey": {
                         "type": "string",
-                        "description": "The unique key assigned to an invoice by Karbon"
+                        "description": "The unique key assigned to an invoice by Karbon",
+                        "example": "rE3qYC48lv"
                     },
                     "InvoiceNumber": {
                         "type": "string",
-                        "description": "The invoice number of the invoice, e.g. KIN-1000"
+                        "description": "The invoice number of the invoice",
+                        "example": "KIN-1001"
                     },
                     "TotalAmountDue": {
                         "type": "number",
-                        "description": "Remaining amount due on the invoice, including taxes minus any payments"
+                        "description": "Remaining amount due on the invoice, including taxes minus any payments",
+                        "example": 22.3400
                     },
                     "InvoiceTotal": {
                         "type": "number",
-                        "description": "Invoice total, including taxes"
+                        "description": "Invoice total, including taxes",
+                        "example": 24.0000
                     },
                     "InvoiceSubTotal": {
                         "type": "number",
-                        "description": "The sum of the line items of the invoice, excluding taxes"
+                        "description": "The sum of the line items of the invoice, excluding taxes",
+                        "example": 22.0000
                     },
                     "InvoiceTaxTotal": {
                         "type": "number",
-                        "description": "Total of the taxes on the invoice"
+                        "description": "Total of the taxes on the invoice",
+                        "example": 2.0000
                     },
                     "InvoiceDate": {
                         "type": "string",
-                        "description": "The date the invoice was issued as an ISO 8601 timestamp"
+                        "description": "The date the invoice was issued as an ISO 8601 timestamp",
+                        "example": "2023-08-11T00:00:00Z"
                     },
                     "PaymentDueDate": {
                         "type": "string",
-                        "description": "The date the invoice is due as an ISO 8601 timestamp"
+                        "description": "The date the invoice is due as an ISO 8601 timestamp",
+                        "example": "2023-08-18T00:00:00Z"
                     },
                     "UpdatedAt": {
                         "type": "string",
-                        "description": "A timestamp showing when the invoice was last updated as an ISO 8601 timestamp"
+                        "description": "A timestamp showing when the invoice was last updated as an ISO 8601 timestamp",
+                        "example": "2023-08-12T03:24:11Z"
                     },
                     "CurrencyCode": {
                         "type": "string",
-                        "description": "A three letter ISO 4217 currency code denoting the currency used in the invoice, e.g. AUD, USD, CAD, NZD, EUR, GBP"
+                        "description": "A three letter ISO 4217 currency code denoting the currency used in the invoice, e.g. AUD, USD, CAD, NZD, EUR, GBP",
+                        "example": "CAD"
                     },
                     "PaymentInstructions": {
                         "type": "string",
                         "nullable": true,
-                        "description": "Payment instructions added to the invoice"
+                        "description": "Payment instructions added to the invoice",
+                        "example": "Payment due 7 days from invoice date"
                     },
                     "InvoiceStatus": {
                         "type": "string",
@@ -8312,7 +8324,8 @@
                             "Exported",
                             "Voided"
                         ],
-                        "description": "Current status of the invoice"
+                        "description": "Current status of the invoice",
+                        "example": "AwaitingPayment"
                     },
                     "Client": {
                         "$ref": "#/components/schemas/BillingClient"
@@ -8334,6 +8347,7 @@
                 }
             },
             "BillingInvoiceLineItem": {
+                "description": "A line item on a Karbon invoice",
                 "type": "object",
                 "properties": {
                     "LineItemKey": {
@@ -8387,55 +8401,68 @@
                 "properties": {
                     "ClientKey": {
                         "type": "string",
-                        "description": "The unique key of the billed Client"
+                        "description": "The unique key of the billed Client",
+                        "example": "R2oFn56pC"
                     },
                     "ClientType": {
                         "type": "string",
-                        "description": "The client type, e.g. Contact or Organization"
+                        "description": "The client type, e.g. Contact or Organization",
+                        "example": "Contact"
                     },
                     "Name": {
                         "type": "string",
-                        "description": "The name of the client at the point the invoice was drafted"
+                        "description": "The name of the client at the point the invoice was drafted",
+                        "example": "Georgia Davies"
                     },
                     "AddressLine": {
                         "type": "string",
-                        "description": "The billing address of the cient at the point the invoice was drafted"
+                        "description": "The billing address of the cient at the point the invoice was drafted",
+                        "example": "11 Example Blvd"
                     },
                     "City": {
                         "type": "string",
-                        "description": "The billing address city of the cient at the point the invoice was drafted"
+                        "description": "The billing address city of the cient at the point the invoice was drafted",
+                        "example": "Los Angeles"
                     },
                     "StateProvinceCounty": {
                         "type": "string",
-                        "description": "The billing address state/province/country of the cient at the point the invoice was drafted"
+                        "description": "The billing address state/province/country of the cient at the point the invoice was drafted",
+                        "example": "CA"
                     },
                     "ZipCode": {
                         "type": "string",
-                        "description": "The billing address zip/postal code of the cient at the point the invoice was drafted"
+                        "description": "The billing address zip/postal code of the cient at the point the invoice was drafted",
+                        "example": "90210"
                     },
                     "Country": {
                         "type": "string",
-                        "description": "The billing address country of the cient at the point the invoice was drafted"
+                        "description": "The billing address country of the cient at the point the invoice was drafted",
+                        "example": "USA"
                     },
                     "EmailAddress": {
                         "type": "string",
-                        "description": "The billing email address of the cient at the point the invoice was drafted"
+                        "description": "The billing email address of the cient at the point the invoice was drafted",
+                        "example": "recipient@example.com"
                     }
                 }
             },
             "BillingTaxLineItem": {
+                "description": "A tax line item detailing the tax code and amount on Karbon invoice",
                 "properties": {
                     "TaxName": {
                         "type": "string",
-                        "description": "The name of the tax, e.g. GST"
+                        "description": "The name of the tax",
+                        "example": "GST"
                     },
                     "TaxValue": {
                         "type": "number",
-                        "description": "The value of the tax in the invoice currency, e.g. 209.6300"
+                        "description": "The value of the tax in the invoice currency",
+                        "example": 209.6300
                     }
                 }
             },
             "BusinessCardRequest": {
+                "description": "A business card associated with a contact or organisation",
                 "type": "object",
                 "properties": {
                     "IsPrimaryCard": {
@@ -8569,6 +8596,7 @@
                 }
             },
             "BusinessCard": {
+                "description": "A business card associated with a contact or organisation",
                 "type": "object",
                 "properties": {
                     "BusinessCardKey": {
@@ -8722,6 +8750,7 @@
                 }
             },
             "BusinessCardsRequestAsArray": {
+                "description": "A collection of business cards",
                 "type": "object",
                 "properties": {
                     "BusinessCards": {
@@ -9033,6 +9062,7 @@
                 }
             },
             "Attachments": {
+                "description": "Details of a file attached to a Client Task Comment",
                 "type": "object",
                 "properties": {
                     "ClientTaskCommentAttachmentKey": {
@@ -9078,6 +9108,7 @@
                 }
             },
             "CreateCommentItem": {
+                "description": "A comment associated with a Client Task",
                 "type": "object",
                 "required": [
                     "ClientTaskKey",
@@ -9118,6 +9149,7 @@
                 }
             },
             "ResponseCommentItem": {
+                "description": "A response to a comment associated with a Client Task",
                 "type": "object",
                 "properties": {
                     "CommentItemKey": {
@@ -9203,6 +9235,7 @@
                 }
             },
             "CommentItemForClientRequest": {
+                "description": "",
                 "type": "object",
                 "properties": {
                     "CommentItemKey": {
@@ -9284,6 +9317,7 @@
                 }
             },
             "LastCommentItemForClientRequest": {
+                "description": "The most recent Comment associated with a Client Request",
                 "type": "object",
                 "properties": {
                     "CommentItemKey": {
@@ -9368,6 +9402,7 @@
                 }
             },
             "ClientTaskSummary": {
+                "description": "A summary of a Client Task including comments and attachments",
                 "type": "object",
                 "properties": {
                     "ClientTaskKey": {
@@ -9648,6 +9683,7 @@
                 ]
             },
             "GetComment": {
+                "description": "A comment on a Work Item, Note or Contact",
                 "required": [
                     "CommentBody",
                     "AuthorKey",
@@ -9687,6 +9723,7 @@
                 }
             },
             "GetClientGroup": {
+                "description": "A list of Client Groups",
                 "required": [
                     "value",
                     "@odata.context",
@@ -9760,6 +9797,7 @@
                 }
             },
             "GetContacts": {
+                "description": "A list of Contacts",
                 "required": [
                     "value",
                     "@odata.context",
@@ -9868,6 +9906,7 @@
                 }
             },
             "GetOrganizations": {
+                "description": "A list of Organizations",
                 "required": [
                     "value",
                     "@odata.context",
@@ -9945,6 +9984,7 @@
                 }
             },
             "GetSingleWorkItem": {
+                "description": "A single work item",
                 "required": [
                     "ClientKey",
                     "StartDate",
@@ -10088,6 +10128,7 @@
                 }
             },
             "GetWorkItems": {
+                "description": "A collection of work items",
                 "required": [
                     "value",
                     "@odata.context",
@@ -10134,6 +10175,7 @@
                 }
             },
             "RequestCreateWorkItem": {
+                "description": "A single work item",
                 "type": "object",
                 "required": [
                     "AssigneeEmailAddress",
@@ -10272,6 +10314,7 @@
                 }
             },
             "ResponseCreateClientGroup": {
+                "description": "A single Client Group",
                 "required": [
                     "@odata.context",
                     "ClientGroupKey",
@@ -10374,6 +10417,7 @@
                 }
             },
             "CreateClientGroup": {
+                "description": "A single Client Group",
                 "required": [
                     "FullName"
                 ],
@@ -10433,6 +10477,7 @@
                 }
             },
             "ResponseCreateContact": {
+                "description": "A single Contact",
                 "required": [
                     "@odata.context",
                     "@odata.type",
@@ -10555,31 +10600,38 @@
                     "properties": {
                         "ContactKey": {
                             "type": "string",
+                            "example": "m29BvD0lyT",
                             "description": "A Karbon-generated value that is used to identify the Contact"
                         },
                         "FullName": {
                             "type": "string",
+                            "example": "Jane River",
                             "description": "The full name of the Contact"
                         },
                         "PreferredName": {
                             "type": "string",
+                            "example": "Jane",
                             "description": "The preferred name of the Contact"
                         },
                         "Salutation": {
                             "type": "string",
+                            "example": "Ms",
                             "description": "The title to address the Contact"
                         },
                         "ClientOwner": {
                             "type": "string",
+                            "example": "jessica.tse@samplecompany.com",
                             "description": "The team member in your firm who looks after client relationship or is responsible for the vast majority of the work of the Contact. You can only use the UserKey or the email address of an existing team member."
                         },
                         "ClientManager": {
                             "type": "string",
+                            "example": "rodney.muller@samplecompany.com",
                             "description": "The team member in your firm who manages the work for Contact. You can only use the UserKey or the email address of an existing team member."
                         },
                         "Address": {
                             "nullable": true,
                             "type": "string",
+                            "example": "",
                             "description": "The Address of the Contact"
                         },
                         "EmailAddress": {
@@ -10598,17 +10650,20 @@
                         },
                         "UserDefinedIdentifier": {
                             "type": "string",
+                            "example": "JR_1001_2022",
                             "description": "A unique key that you can create to identify this Contact."
                         },
                         "LastModifiedDateTime": {
                             "type": "string",
                             "format": "UTC",
+                            "example": "2023-06-12T14:00:00Z",
                             "description": "The date and time at which this Contact was last modified."
                         }
                     }
                 }
             },
             "CreateContact": {
+                "description": "A single Contact",
                 "required": [
                     "FirstName",
                     "LastName"
@@ -10659,7 +10714,7 @@
                     "UserDefinedIdentifier": {
                         "type": "string",
                         "description": "A unique key that you can create to identify this Contact.",
-                        "example": "BILLJR"
+                        "example": "BILLJR-001"
                     },
                     "BusinessCards": {
                         "type": "array",
@@ -10683,6 +10738,7 @@
                 }
             },
             "NoteRequest": {
+                "description": "A single Note",
                 "required": [
                     "AssigneeEmailAddress",
                     "AuthorEmailAddress",
@@ -10693,28 +10749,34 @@
                 "properties": {
                     "Subject": {
                         "type": "string",
+                        "example": "Note from Client",
                         "description": "The subject line of the Note"
                     },
                     "Body": {
                         "type": "string",
+                        "example": "<strong>To do:</strong> return customer call",
                         "description": "The body of the Note. This property supports HTML."
                     },
                     "AuthorEmailAddress": {
                         "type": "string",
+                        "example": "author@example.com",
                         "description": "The email address of the Note's author"
                     },
                     "AssigneeEmailAddress": {
                         "type": "string",
+                        "example": "assignee@example.com",
                         "description": "The email address of the Note's reader"
                     },
                     "DueDate": {
                         "type": "string",
                         "format": "UTC",
+                        "example": "2022-10-11T00:00:00Z",
                         "description": "The date by which the actions on the note must be complete"
                     },
                     "TodoDate": {
                         "type": "string",
                         "format": "UTC",
+                        "example": "2022-10-10T00:00:00Z",
                         "description": "The date for which the actions will be executed"
                     },
                     "Timelines": {
@@ -10743,6 +10805,7 @@
                 }
             },
             "NoteResponse": {
+                "description": "A single Contact",
                 "required": [
                     "AssigneeEmailAddress",
                     "AuthorEmailAddress",
@@ -10757,37 +10820,39 @@
                     },
                     "Id": {
                         "type": "string",
+                        "example": "pkX234GlP",
                         "description": "A Karbon-generated value that is used to identify the Note"
                     },
                     "Subject": {
                         "type": "string",
+                        "example": "Note from Client",
                         "description": "The subject line of the Note"
                     },
                     "Body": {
                         "type": "string",
+                        "example": "<strong>To do:</strong> return customer call",
                         "description": "The body of the Note. This property supports HTML."
-                    },
-                    "CreatedDate": {
-                        "type": "string",
-                        "format": "UTC",
-                        "description": "The date at which the note was created"
                     },
                     "AuthorEmailAddress": {
                         "type": "string",
+                        "example": "author@example.com",
                         "description": "The email address of the Note's author"
                     },
                     "AssigneeEmailAddress": {
                         "type": "string",
+                        "example": "assignee@example.com",
                         "description": "The email address of the Note's reader"
                     },
                     "DueDate": {
                         "type": "string",
                         "format": "UTC",
+                        "example": "2022-10-11T00:00:00Z",
                         "description": "The date by which the actions on the note must be complete"
                     },
                     "TodoDate": {
                         "type": "string",
                         "format": "UTC",
+                        "example": "2022-10-10T00:00:00Z",
                         "description": "The date for which the actions will be executed"
                     },
                     "Timelines": {
@@ -10798,6 +10863,7 @@
                             "properties": {
                                 "EntityType": {
                                     "type": "string",
+                                    "example": "Contact",
                                     "description": "The type of entity this note will be linked to",
                                     "enum": [
                                         "WorkItem",
@@ -10808,6 +10874,7 @@
                                 },
                                 "EntityKey": {
                                     "type": "string",
+                                    "example": "4tYpP2F1w",
                                     "description": "A Karbon-generated value to indicate the entity"
                                 }
                             }
@@ -10821,19 +10888,23 @@
                             "properties": {
                                 "CommentKey": {
                                     "type": "string",
+                                    "example": "4lQn23Y6b",
                                     "description": "A Karbon-generated value that is used to identify the Comment"
                                 },
                                 "CommentBody": {
                                     "type": "string",
+                                    "example": "A long string with the body of the comment.\nMay include line breaks or other formatting.",
                                     "description": "A Karbon-generated value that is used to identify the Comment"
                                 },
                                 "CreatedDate": {
                                     "type": "string",
                                     "format": "UTC",
+                                    "example": "2022-11-12T15:34:11Z",
                                     "description": "The date at which the Comment was created"
                                 },
                                 "AuthorEmailAddress": {
                                     "type": "string",
+                                    "example": "author@example.com",
                                     "description": "The email address of the Comment's author"
                                 }
                             }
@@ -10842,6 +10913,7 @@
                 }
             },
             "CreateOrganizationResponse": {
+                "description": "A single Organization",
                 "required": [
                     "@odata.context",
                     "@odata.type",
@@ -10862,27 +10934,33 @@
                     },
                     "OrganizationKey": {
                         "type": "string",
-                        "description": "A Karbon-generated value that is used to identify the Organization"
+                        "description": "A Karbon-generated value that is used to identify the Organization",
+                        "example": "mC82l11VBk"
                     },
                     "FullName": {
                         "type": "string",
-                        "description": "The full name of the Organization"
+                        "description": "The full name of the Organization",
+                        "example": "Example Business"
                     },
                     "ClientOwner": {
                         "type": "string",
-                        "description": "The team member in your firm who looks after client relationship or is responsible for the vast majority of the work of the clients in this Organization. You can only use the UserKey or the email address of an existing team member."
+                        "description": "The team member in your firm who looks after client relationship or is responsible for the vast majority of the work of the clients in this Organization. You can only use the UserKey or the email address of an existing team member.",
+                        "example": "client.owner@example.com"
                     },
                     "ClientManager": {
                         "type": "string",
-                        "description": "The team member in your firm who manages the work for the clients in this Organization. You can only use the UserKey or the email address of an existing team member."
+                        "description": "The team member in your firm who manages the work for the clients in this Organization. You can only use the UserKey or the email address of an existing team member.",
+                        "example": "client.manager@example.com"
                     },
                     "ContactType": {
                         "type": "string",
-                        "description": "The Contact Type for this Organization. You can only use existing Contact Type."
+                        "description": "The Contact Type for this Organization. You can only use existing Contact Type.",
+                        "example": "Client"
                     },
                     "UserDefinedIdentifier": {
                         "type": "string",
-                        "description": "A unique key that you can create to identify this Organization."
+                        "description": "A unique key that you can create to identify this Organization.",
+                        "example": "Example Business"
                     },
                     "RestrictionLevel": {
                         "type": "string",
@@ -10916,6 +10994,7 @@
                 }
             },
             "CreateOrganization": {
+                "description": "A single Organization",
                 "required": [
                     "FullName"
                 ],
@@ -10923,23 +11002,28 @@
                 "properties": {
                     "FullName": {
                         "type": "string",
-                        "description": "The full name of the Organization"
+                        "description": "The full name of the Organization",
+                        "example": "Example Business"
                     },
                     "ClientOwner": {
                         "type": "string",
-                        "description": "The team member in your firm who looks after client relationship or is responsible for the vast majority of the work of the clients in this Organization. You can only use the UserKey or the email address of an existing team member."
+                        "description": "The team member in your firm who looks after client relationship or is responsible for the vast majority of the work of the clients in this Organization. You can only use the UserKey or the email address of an existing team member.",
+                        "example": "client.owner@example.com"
                     },
                     "ClientManager": {
                         "type": "string",
-                        "description": "The team member in your firm who manages the work for the clients in this Organization. You can only use the UserKey or the email address of an existing team member."
+                        "description": "The team member in your firm who manages the work for the clients in this Organization. You can only use the UserKey or the email address of an existing team member.",
+                        "example": "client.manager@example.com"
                     },
                     "ContactType": {
                         "type": "string",
-                        "description": "The Contact Type for this Organization. You can only use existing Contact Type."
+                        "description": "The Contact Type for this Organization. You can only use existing Contact Type.",
+                        "example": "Client"
                     },
                     "UserDefinedIdentifier": {
                         "type": "string",
-                        "description": "A unique key that you can create to identify this Organization."
+                        "description": "A unique key that you can create to identify this Organization.",
+                        "example": "EXAMPLEB_001"
                     },
                     "RestrictionLevel": {
                         "type": "string",
@@ -10949,7 +11033,8 @@
                             "Public",
                             "Private",
                             "Hidden"
-                        ]
+                        ],
+                        "example": "Public"
                     },
                     "BusinessCards": {
                         "type": "array",
@@ -10962,7 +11047,8 @@
                         "properties": {
                             "Text": {
                                 "type": "string",
-                                "description": "Free-form text that can be used to add more information about the Organization"
+                                "description": "Free-form text that can be used to add more information about the Organization",
+                                "example": "This organization has a sibling Organisation called Example Trust"
                             }
                         }
                     },
@@ -10972,6 +11058,7 @@
                 }
             },
             "UpdateOrganization": {
+                "description": "A single Organization",
                 "required": [
                     "FullName"
                 ],
@@ -11035,6 +11122,7 @@
                 ]
             },
             "GetSingleTimeSheet": {
+                "description": "A single TimeSheet with TimeEntries",
                 "type": "object",
                 "required": [
                     "TimesheetKey",
@@ -11155,6 +11243,7 @@
                 }
             },
             "GetTimeSheets": {
+                "description": "A collection of TimeSheets",
                 "required": [
                     "value",
                     "@odata.context",
@@ -11187,6 +11276,7 @@
                 }
             },
             "GetSingleUser": {
+                "description": "The unique id, name and email address for a single User",
                 "required": [
                     "Id",
                     "Name",
@@ -11212,6 +11302,7 @@
                 }
             },
             "GetUserById": {
+                "description": "The details for a single User",
                 "required": [
                     "UserId"
                 ],
@@ -11282,6 +11373,7 @@
                 }
             },
             "GetUsers": {
+                "description": "A collection of Users",
                 "required": [
                     "value",
                     "@odata.context",
@@ -11314,6 +11406,7 @@
                 }
             },
             "GetWebhookSubscriptions": {
+                "description": "The details of a specific Webhook Subscription",
                 "type": "object",
                 "properties": {
                     "@odata.context": {
@@ -11334,6 +11427,7 @@
                 }
             },
             "WorkSchedulePUTRequest": {
+                "description": "A single Work Schedule",
                 "allOf": [
                     {
                         "type": "object",
@@ -11354,6 +11448,7 @@
                 ]
             },
             "WorkScheduleRequest": {
+                "description": "A single Work Schedule",
                 "required": [
                     "CreatedFromWorkItemKey",
                     "RecurrenceFrequency",
@@ -11490,6 +11585,7 @@
                 }
             },
             "GetWorkSchedule": {
+                "description": "A single Work Schedule",
                 "required": [
                     "@odata.context",
                     "WorkScheduleKey",
@@ -11676,6 +11772,7 @@
                 }
             },
             "GetSingleWorkTemplate": {
+                "description": "A single Work Template",
                 "required": [
                     "WorkTemplateKey",
                     "WorkTypeKey",
@@ -11773,6 +11870,7 @@
                 }
             },
             "GetWorkTemplates": {
+                "description": "A collection of Work Templates",
                 "required": [
                     "value",
                     "@odata.context",
@@ -11805,6 +11903,7 @@
                 }
             },
             "ErrorMessages": {
+                "description": "The details of an error associated with an API request",
                 "required": [
                     "error"
                 ],
@@ -11830,6 +11929,7 @@
                 }
             },
             "EnhancedErrorMessages": {
+                "description": "The details of an error associated with an API request",
                 "required": [
                     "error"
                 ],
@@ -11876,6 +11976,7 @@
                 }
             },
             "ResourceNotFound": {
+                "description": "A generic response shown when the API cannot find a requested entity",
                 "type": "object",
                 "properties": {
                     "statusCode": {
@@ -11891,24 +11992,28 @@
         },
         "examples": {
             "ResourceNotFound": {
+                "description": "A generic response shown when the API cannot find a requested path",
                 "value": {
                     "statusCode": 404,
                     "message": "Resource not found"
                 }
             },
             "UnauthorizedAccess": {
+                "description": "A generic response shown when the API cannot confirm the authentication creditials provided",
                 "value": {
                     "statusCode": 401,
                     "message": "JWT not present."
                 }
             },
             "NotFound": {
+                "description": "A generic response shown when the API cannot find a requested entity",
                 "value": {
                     "code": 4004,
                     "message": "Not Found"
                 }
             },
             "elongated_5001": {
+                "description": "A response shown when the API encounters an exception",
                 "value": {
                     "error": {
                         "code": 5001,
@@ -11917,6 +12022,7 @@
                 }
             },
             "Shortened_5001": {
+                "description": "A response shown when the API encounters an exception",
                 "value": {
                     "error": {
                         "code": 5001,
@@ -11925,6 +12031,7 @@
                 }
             },
             "Bad_Model": {
+                "description": "A response shown when a badly formed Webhook Subscription request is sent",
                 "value": {
                     "error": {
                         "code": 4002,
@@ -11933,6 +12040,7 @@
                 }
             },
             "Bad_Model_WorkItem_Incorrect_ClientType": {
+                "description": "A response shown when an invalid Client Type is provided when creating or updating a Work Item ",
                 "value": {
                     "error": {
                         "code": 4003,
@@ -11946,6 +12054,7 @@
                 }
             },
             "Bad_Model_WorkItem_Empty_Property": {
+                "description": "A response shown when a required field is not provided when creating or updating a Work Item ",
                 "value": {
                     "error": {
                         "code": 4003,
@@ -11959,6 +12068,7 @@
                 }
             },
             "Bad_Model_WorkItem_Incorrect_EmailAddress": {
+                "description": "A response shown when an invalid email is provided when creating or updating a Work Item ",
                 "value": {
                     "error": {
                         "code": 4003,
@@ -11972,6 +12082,7 @@
                 }
             },
             "Bad_Model_WorkItem_Incorrect_ClientKey": {
+                "description": "A response shown when an invalid Contact key is provided when creating or updating a Work Item ",
                 "value": {
                     "error": {
                         "code": 4003,
@@ -11985,6 +12096,7 @@
                 }
             },
             "Bad_Model_WorkItem_Incorrect_WorkType": {
+                "description": "A response shown when an Work Type is provided when creating or updating a Work Item ",
                 "value": {
                     "error": {
                         "code": 4003,
@@ -11998,6 +12110,7 @@
                 }
             },
             "Bad_Model_WorkItem_Incorrect_WorkTemplate_Key": {
+                "description": "A response shown when an invalid Work Template is provided when creating a Work Item",
                 "value": {
                     "error": {
                         "code": 4003,
@@ -12011,6 +12124,7 @@
                 }
             },
             "Bad_Model_WorkItem_Client_Not_a_member_of_ClientGroup": {
+                "description": "A response shown when an invalid Client Group is provided when creating or updating a Work Item",
                 "value": {
                     "error": {
                         "code": 4003,
@@ -12024,6 +12138,7 @@
                 }
             },
             "File_key_not_present": {
+                "description": "A response shown when an required fields are missing or malformed when uploading a file",
                 "value": {
                     "error": {
                         "code": 4003,
@@ -12049,6 +12164,7 @@
                 }
             },
             "No_File_context": {
+                "description": "A response shown when an required context fields are missing or malformed when uploading a file",
                 "value": {
                     "error": {
                         "code": 4003,
@@ -12069,6 +12185,7 @@
                 }
             },
             "Client_task_key_is_empty": {
+                "description": "A response shown when an required Client Task fields is missing or malformed",
                 "value": {
                     "error": {
                         "code": 4003,
