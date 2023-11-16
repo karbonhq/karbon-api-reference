@@ -7220,7 +7220,7 @@
                                             }
                                         },
                                         {
-                                            "$ref": "#/components/schemas/SingleWorkItem"
+                                            "$ref": "#/components/schemas/WorkItemWithFeeSettings"
                                         },
                                         {
                                             "type": "object",
@@ -7381,7 +7381,7 @@
                                             }
                                         },
                                         {
-                                            "$ref": "#/components/schemas/SingleWorkItem"
+                                            "$ref": "#/components/schemas/WorkItemWithFeeSettings"
                                         },
                                         {
                                             "type": "object",
@@ -9988,149 +9988,156 @@
                     }
                 }
             },
-            "SingleWorkItem": {
-                "description": "A single work item",
-                "allOf": [{
-                    "required": [
-                        "ClientKey",
-                        "StartDate",
-                        "Title",
-                        "WorkItemKey"
-                     ],
-                    "type": "object",
-                    "properties": {
-                        "WorkItemKey": {
-                            "type": "string",
-                            "example": "2LPSrkzbYrn4",
-                            "description": "A Karbon-generated unique identifier for the Work Item"
-                        },
-                        "AssigneeEmailAddress": {
-                            "type": "string",
-                            "example": "joe@samplecompany.com",
-                            "description": "The email address of the user to whom the Work Item has been assigned"
-                        },
-                        "AssigneeKey": {
-                            "type": "string",
-                            "example": "4gHCvnbFFqsq",
-                            "description": "A Karbon-generated value used to identify the user to whom the Work Item has been assigned"
-                        },
-                        "AssigneeName": {
-                            "type": "string",
-                            "example": "Joe Min",
-                            "description": "The name of the user to whom the Work Item has been assigned"
-                        },
-                        "Title": {
-                            "type": "string",
-                            "example": "Payroll 31 Aug - 15 Sep 2022",
-                            "description": "The title of the Work Item"
-                        },
-                        "ClientKey": {
-                            "type": "string",
-                            "example": "4ncPZ7q96SGc",
-                            "description": "A Karbon-generated value used to identify the Client for whom the Work Item is prepared"
-                        },
-                        "ClientName": {
-                            "type": "string",
-                            "example": "Acme Corporation",
-                            "description": "The name of the Client for whom the Work Item is prepared"
-                        },
-                        "ClientType": {
-                            "type": "string",
-                            "enum": [
-                                "Contact",
-                                "Organization",
-                                "ClientGroup"
-                            ],
-                            "example": "Organization",
-                            "description": "The type of the Client"
-                        },
-                        "ClientUserDefinedIdentifier": {
-                            "type": "string",
-                            "example": "ACMECORP",
-                            "description": "A unique identifier that you had created to identify the Client. This parameter is not case sensitive."
-                        },
-                        "RelatedClientGroupKey": {
-                            "type": "string",
-                            "example": "3LCPr987gNrc",
-                            "description": "A Karbon-generated value used to identify the Client Group of the Client"
-                        },
-                        "ClientGroupKey": {
-                            "type": "string",
-                            "example": "3LCPr987gNrc",
-                            "description": "A Karbon-generated value used to identify the Client Group of the Client"
-                        },
-                        "RelatedClientGroupName": {
-                            "type": "string",
-                            "example": "Smith Family Group",
-                            "description": "The name of the related Client Group"
-                        },
-                        "StartDate": {
-                            "type": "string",
-                            "format": "UTC",
-                            "description": "The date and time at which the Work Item should start",
-                            "example": "2021-12-29T00:00:00Z"
-                        },
-                        "DueDate": {
-                            "type": "string",
-                            "format": "UTC",
-                            "description": "The date and time by which the Work Item should be complete",
-                            "example": "2022-01-29T00:00:00Z"
-                        },
-                        "CompletedDate": {
-                            "type": "string",
-                            "format": "UTC",
-                            "description": "The date and time at which the Work Item was completed",
-                            "example": "2022-02-01T00:00:00Z"
-                        },
-                        "ToDoPeriod": {
-                            "type": "string",
-                            "format": "UTC",
-                            "description": "The period, in which the Work Item should start.",
-                            "example": "2021-12-29T00:00:00Z"
-                        },
-                        "WorkType": {
-                            "type": "string",
-                            "description": "The type of work related to the Work Item",
-                            "example": "Payroll"
-                        },
-                        "WorkStatus": {
-                            "type": "string",
-                            "description": "The current status of the Work Item",
-                            "example": "Ready To Start - Send client requests"
-                        },
-                        "PrimaryStatus": {
-                            "type": "string",
-                            "description": "The current parent-level Status of the Work Item. If <code>WorkStatus</code> and <code>PrimaryStatus</code> have different values, <code>PrimaryStatus</code> will be the source of truth for Work Item status.\n",
-                            "example": "Ready To Start"
-                        },
-                        "SecondaryStatus": {
-                            "type": "string",
-                            "description": "The current child-level Status of the Work Item",
-                            "example": "Send client requests"
-                        },
-                        "WorkTemplateKey": {
-                            "type": "string",
-                            "description": "A Karbon-generated value used to identify the Template that generated this Work Item",
-                            "example": "p56mtcBhwb9"
-                        },
-                        "WorkTemplateTile": {
-                            "type": "string",
-                            "description": "The title of the Work Template",
-                            "example": "Payroll processing"
-                        },
-                        "WorkScheduleKey": {
-                            "type": "string",
-                            "description": "A Karbon-generated value used to identify the Work Schedule for this Work Item",
-                            "example": "4f3gHnLC323"
-                        },
-                        "EstimatedBudget": {
-                            "deprecated": true,
-                            "type": "number",
-                            "format": "decimal",
-                            "description": "Deprecated! - previously used as the estimated budget for the Work Item",
-                            "example": 1200.05
-                        }
+            "WorkItem": {
+                "description": "The base data for a Work Item",
+                "required": [
+                    "ClientKey",
+                    "StartDate",
+                    "Title",
+                    "WorkItemKey"
+                    ],
+                "type": "object",
+                "properties": {
+                    "WorkItemKey": {
+                        "type": "string",
+                        "example": "2LPSrkzbYrn4",
+                        "description": "A Karbon-generated unique identifier for the Work Item"
+                    },
+                    "AssigneeEmailAddress": {
+                        "type": "string",
+                        "example": "joe@samplecompany.com",
+                        "description": "The email address of the user to whom the Work Item has been assigned"
+                    },
+                    "AssigneeKey": {
+                        "type": "string",
+                        "example": "4gHCvnbFFqsq",
+                        "description": "A Karbon-generated value used to identify the user to whom the Work Item has been assigned"
+                    },
+                    "AssigneeName": {
+                        "type": "string",
+                        "example": "Joe Min",
+                        "description": "The name of the user to whom the Work Item has been assigned"
+                    },
+                    "Title": {
+                        "type": "string",
+                        "example": "Payroll 31 Aug - 15 Sep 2022",
+                        "description": "The title of the Work Item"
+                    },
+                    "ClientKey": {
+                        "type": "string",
+                        "example": "4ncPZ7q96SGc",
+                        "description": "A Karbon-generated value used to identify the Client for whom the Work Item is prepared"
+                    },
+                    "ClientName": {
+                        "type": "string",
+                        "example": "Acme Corporation",
+                        "description": "The name of the Client for whom the Work Item is prepared"
+                    },
+                    "ClientType": {
+                        "type": "string",
+                        "enum": [
+                            "Contact",
+                            "Organization",
+                            "ClientGroup"
+                        ],
+                        "example": "Organization",
+                        "description": "The type of the Client"
+                    },
+                    "ClientUserDefinedIdentifier": {
+                        "type": "string",
+                        "example": "ACMECORP",
+                        "description": "A unique identifier that you had created to identify the Client. This parameter is not case sensitive."
+                    },
+                    "RelatedClientGroupKey": {
+                        "type": "string",
+                        "example": "3LCPr987gNrc",
+                        "description": "A Karbon-generated value used to identify the Client Group of the Client"
+                    },
+                    "ClientGroupKey": {
+                        "type": "string",
+                        "example": "3LCPr987gNrc",
+                        "description": "A Karbon-generated value used to identify the Client Group of the Client"
+                    },
+                    "RelatedClientGroupName": {
+                        "type": "string",
+                        "example": "Smith Family Group",
+                        "description": "The name of the related Client Group"
+                    },
+                    "StartDate": {
+                        "type": "string",
+                        "format": "UTC",
+                        "description": "The date and time at which the Work Item should start",
+                        "example": "2021-12-29T00:00:00Z"
+                    },
+                    "DueDate": {
+                        "type": "string",
+                        "format": "UTC",
+                        "description": "The date and time by which the Work Item should be complete",
+                        "example": "2022-01-29T00:00:00Z"
+                    },
+                    "CompletedDate": {
+                        "type": "string",
+                        "format": "UTC",
+                        "description": "The date and time at which the Work Item was completed",
+                        "example": "2022-02-01T00:00:00Z"
+                    },
+                    "ToDoPeriod": {
+                        "type": "string",
+                        "format": "UTC",
+                        "description": "The period, in which the Work Item should start.",
+                        "example": "2021-12-29T00:00:00Z"
+                    },
+                    "WorkType": {
+                        "type": "string",
+                        "description": "The type of work related to the Work Item",
+                        "example": "Payroll"
+                    },
+                    "WorkStatus": {
+                        "type": "string",
+                        "description": "The current status of the Work Item",
+                        "example": "Ready To Start - Send client requests"
+                    },
+                    "PrimaryStatus": {
+                        "type": "string",
+                        "description": "The current parent-level Status of the Work Item. If <code>WorkStatus</code> and <code>PrimaryStatus</code> have different values, <code>PrimaryStatus</code> will be the source of truth for Work Item status.\n",
+                        "example": "Ready To Start"
+                    },
+                    "SecondaryStatus": {
+                        "type": "string",
+                        "description": "The current child-level Status of the Work Item",
+                        "example": "Send client requests"
+                    },
+                    "WorkTemplateKey": {
+                        "type": "string",
+                        "description": "A Karbon-generated value used to identify the Template that generated this Work Item",
+                        "example": "p56mtcBhwb9"
+                    },
+                    "WorkTemplateTile": {
+                        "type": "string",
+                        "description": "The title of the Work Template",
+                        "example": "Payroll processing"
+                    },
+                    "WorkScheduleKey": {
+                        "type": "string",
+                        "description": "A Karbon-generated value used to identify the Work Schedule for this Work Item",
+                        "example": "4f3gHnLC323"
+                    },
+                    "EstimatedBudget": {
+                        "deprecated": true,
+                        "type": "number",
+                        "format": "decimal",
+                        "description": "Deprecated! - previously used as the estimated budget for the Work Item",
+                        "example": 1200.05
                     }
+                }
+            },
+            "WorkItemInCollection": {
+                "$ref": "#/components/schemas/WorkItem"
+            },
+            "WorkItemWithFeeSettings": {
+                "description": "A Work Item with Fee Settings",
+                "allOf": [{
+                    "$ref": "#/components/schemas/WorkItem"
                 }, {
                     "$ref": "#/components/schemas/WorkFeeSettings"
                 }]
@@ -10196,7 +10203,7 @@
                                     }
                                 },
                                 {
-                                    "$ref": "#/components/schemas/SingleWorkItem"
+                                    "$ref": "#/components/schemas/WorkItemInCollection"
                                 }
                             ]
                         }
