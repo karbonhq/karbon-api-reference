@@ -4493,7 +4493,9 @@
                             "schema": {
                                 "type": "object",
                                 "required": [
-                                    "file"
+                                    "file",
+                                    "FileName",
+                                    "MimeType"
                                 ],
                                 "minProperties": 2,
                                 "properties": {
@@ -5790,6 +5792,16 @@
                             "example": "2Nw8tnxwQCVf"
                         },
                         "description": "The Karbon-generated Organization key"
+                    },
+                    {
+                        "required": false,
+                        "in": "header",
+                        "name": "Prefer",
+                        "schema": {
+                            "type": "string",
+                            "example": "return=representation"
+                        },
+                        "description": "Return the record after it has been updated"
                     }
                 ],
                 "description": "Use the <code>PATCH</code> method on this endpoint to update partial details of a Organization specified using the <code>Organizationkey</code>.  <br><br>This method <b>only supports</b> editing the <code>FullName</code> property. \n",
