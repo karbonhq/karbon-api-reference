@@ -8582,7 +8582,8 @@
                                 "Number": {
                                     "type": "string",
                                     "description": "The phone number of the entity",
-                                    "example": 1234567890
+                                    "example": 1234567890,
+                                    "maxLength": 20
                                 },
                                 "CountryCode": {
                                     "type": "string",
@@ -8736,7 +8737,8 @@
                                 "Number": {
                                     "type": "string",
                                     "description": "The phone number of the entity",
-                                    "example": 1234567890
+                                    "example": 1234567890,
+                                    "maxLength": 20
                                 },
                                 "CountryCode": {
                                     "type": "string",
@@ -10699,7 +10701,8 @@
                         "PhoneNumber": {
                             "nullable": true,
                             "type": "string",
-                            "description": "The phone number associated with the Contact"
+                            "description": "The phone number associated with the Contact",
+                            "maxLength": 20
                         },
                         "RoleOrTitle": {
                             "type": "string",
