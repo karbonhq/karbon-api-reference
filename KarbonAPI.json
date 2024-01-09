@@ -3443,6 +3443,8 @@
                   },
                   "BusinessCards": {
                     "BusinessCardKey": "2tBHyXtJBxBy",
+                    "EntityType": "Contact",
+                    "EntityKey": "67zlxNyJSr8e",
                     "IsPrimaryCard": true,
                     "WebSites": ["www.website.one", "www.website.two"],
                     "EmailAddresses": [
@@ -3639,6 +3641,8 @@
                   },
                   "BusinessCards": {
                     "BusinessCardKey": "2tBHyXtJBxBy",
+                    "EntityType": "Contact",
+                    "EntityKey": "67zlxNyJSr8e", 
                     "IsPrimaryCard": true,
                     "WebSites": ["www.website.one", "www.website.two"],
                     "EmailAddresses": [
@@ -3751,7 +3755,7 @@
             "description": "The Karbon-generated Contact key"
           }
         ],
-        "description": "Use the <code>PUT</code> method on this endpoint to update full details of a Contact specified using the <code>Contactkey</code>.  <br><br>Using the query parameter available to this endpoint, you can also update the Business Card details of the Contact.\n",
+        "description": "Use the <code>PUT</code> method on this endpoint to update full details of a Contact specified using the <code>Contactkey</code>. <p>Using the query parameter <code>$expand</code> with this endpoint, you can also update the Business Card details of the Contact. <br><b>Note:</b> When updating business cards, you must include <code>BusinessCardKey</code>, <code>EntityType</code> and <code>EntityKey</code> properties for existing Business Cards - or the existing card and any associated Client Requests may be removed.</p>",
         "operationId": "putContactByID",
         "responses": {
           "204": {
@@ -5138,6 +5142,8 @@
                   "BusinessCards": [
                     {
                       "BusinessCardKey": "PVvnQdX1RCH",
+                      "EntityType": "Organization",
+                      "EntityKey": "2Nw8tnxwQCVf",
                       "IsPrimaryCard": true,
                       "WebSites": ["www.website.one", "www.website.two"],
                       "EmailAddresses": [
@@ -5348,6 +5354,8 @@
                   "BusinessCards": [
                     {
                       "BusinessCardKey": "PVvnQdX1RCH",
+                      "EntityType": "Organization",
+                      "EntityKey": "2Nw8tnxwQCVf",
                       "IsPrimaryCard": true,
                       "WebSites": ["www.website.one", "www.website.two"],
                       "EmailAddresses": [
@@ -5480,7 +5488,7 @@
             "description": "The Karbon-generated Organization key"
           }
         ],
-        "description": "Use the <code>PUT</code> method on this endpoint to update full details of a Organization specified using the <code>Organizationkey</code>. \n",
+        "description": "Use the <code>PUT</code> method on this endpoint to update full details of a Organization specified using the <code>Organizationkey</code>.\n<p>Using the query parameter <code>$expand</code> with this endpoint, you can also update the Business Card details of the Organization. <br><b>Note:</b> When updating business cards, you must include <code>BusinessCardKey</code>, <code>EntityType</code> and <code>EntityKey</code> properties for existing Business Cards - or the existing card and any associated Client Requests may be removed.</p>",
         "operationId": "putOrganizationByID",
         "responses": {
           "204": {
@@ -5575,13 +5583,15 @@
                 },
                 "BusinessCards": {
                   "BusinessCardKey": "2tBHyXtJBxBy",
+                  "EntityType": "Organization",
+                  "EntityKey": "SCwCq2M9pFm",
                   "IsPrimaryCard": true,
                   "WebSites": ["www.website.one", "www.website.two"],
                   "EmailAddresses": [
                     "sample@example.com",
                     "sample.two@example.com"
                   ],
-                  "OrganizationKey": "ZGNmtYyLm4z",
+                  "OrganizationKey": null,
                   "RoleOrTitle": null,
                   "FacebookLink": "facebook.com/sampleName",
                   "LinkedInLink": "linkedin.com/sampleName",
