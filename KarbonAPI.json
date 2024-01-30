@@ -2931,7 +2931,7 @@
                 "properties": {
                   "DateCompleted": {
                     "type": "string",
-                    "format": "UTC",
+                    "format": "date-time",
                     "description": "The date at which this Client Task was completed",
                     "example": "2022-07-25T00:03:22Z"
                   }
@@ -3929,7 +3929,7 @@
                     },
                     "LastModifiedDateTime": {
                       "type": "string",
-                      "format": "UTC",
+                      "format": "date-time",
                       "description": "The date and time at which this Contact was last modified."
                     },
                     "EntityDescription": {
@@ -5691,7 +5691,7 @@
                     },
                     "LastModifiedDateTime": {
                       "type": "string",
-                      "format": "UTC",
+                      "format": "date-time",
                       "description": "The date and time at which this Contact was last modified.",
                       "example": "2022-07-05T07:30:13.7188114Z"
                     },
@@ -8498,13 +8498,13 @@
           },
           "BirthDate": {
             "type": "string",
-            "format": "UTC",
+            "format": "date-time",
             "description": "The day at which the contact (if a person) was born."
           },
           "DeathDate": {
             "nullable": true,
             "type": "string",
-            "format": "UTC",
+            "format": "date-time",
             "description": "The day at which the contact (if a person) died."
           },
           "Salutation": {
@@ -8529,7 +8529,7 @@
           },
           "IncorporationDate": {
             "type": "string",
-            "format": "UTC",
+            "format": "date-time",
             "description": "The date at which the contact (if a business or an organization) was incorporated."
           },
           "IncorporationState": {
@@ -9102,25 +9102,25 @@
           },
           "DateCompleted": {
             "type": "string",
-            "format": "UTC",
+            "format": "date-time",
             "description": "The date time at which the Client Task was completed",
             "example": "2022-07-25T00:03:22Z"
           },
           "DateCreated": {
             "type": "string",
-            "format": "UTC",
+            "format": "date-time",
             "description": "The date time at which the Client Task was created",
             "example": "2021-12-19T20:50:54Z"
           },
           "DateModified": {
             "type": "string",
-            "format": "UTC",
+            "format": "date-time",
             "description": "The date time at which the Client Task was the most recently modified",
             "example": "2022-07-25T00:03:22Z"
           },
           "DueDate": {
             "type": "string",
-            "format": "UTC",
+            "format": "date-time",
             "description": "The date time at which the Client Task should be completed",
             "example": "2022-07-27T00:03:22Z"
           },
@@ -9431,7 +9431,7 @@
                 },
                 "LastModifiedDateTime": {
                   "type": "string",
-                  "format": "UTC",
+                  "format": "date-time",
                   "description": "The date and time at which the Client Group was most recently modified.",
                   "example": "2021-12-29T07:01:53Z"
                 },
@@ -9541,7 +9541,7 @@
                 },
                 "LastModifiedDateTime": {
                   "type": "string",
-                  "format": "UTC",
+                  "format": "date-time",
                   "description": "The date and time at which the Contact was most recently modified.",
                   "example": "2021-12-29T07:01:53Z"
                 }
@@ -9615,7 +9615,7 @@
                 },
                 "LastModifiedDateTime": {
                   "type": "string",
-                  "format": "UTC",
+                  "format": "date-time",
                   "description": "The date and time at which the Organization was most recently modified.",
                   "example": "2021-12-29T07:01:53Z"
                 }
@@ -9697,31 +9697,32 @@
           },
           "StartDate": {
             "type": "string",
-            "format": "UTC",
+            "format": "date-time",
             "description": "The date and time at which the Work Item should start",
             "example": "2021-12-29T00:00:00Z"
           },
           "DueDate": {
             "type": "string",
-            "format": "UTC",
+            "format": "date-time",
             "description": "The date and time by which the Work Item should be complete",
             "example": "2022-01-30T00:00:00Z"
           },
           "DeadlineDate": {
             "type": "string",
-            "format": "UTC",
+            "format": "date-time",
+            "nullable": true,
             "description": "The date and time by which the Work Item should be complete according to a party outside of your firm. e.g. A tax filing date or payroll processing cut-off date.",
             "example": "2022-01-31T00:00:00Z"
           },
           "CompletedDate": {
             "type": "string",
-            "format": "UTC",
+            "format": "date-time",
             "description": "The date and time at which the Work Item was completed",
             "example": "2022-02-01T00:00:00Z"
           },
           "ToDoPeriod": {
             "type": "string",
-            "format": "UTC",
+            "format": "date-time",
             "description": "The period, in which the Work Item should start.",
             "example": "2021-12-29T00:00:00Z"
           },
@@ -9768,9 +9769,6 @@
             "example": 1200.05
           }
         }
-      },
-      "WorkItemInCollection": {
-        "$ref": "#/components/schemas/WorkItem"
       },
       "WorkItemWithFeeSettings": {
         "description": "A Work Item with Fee Settings",
@@ -9837,7 +9835,7 @@
                   }
                 },
                 {
-                  "$ref": "#/components/schemas/WorkItemInCollection"
+                  "$ref": "#/components/schemas/WorkItem"
                 }
               ]
             }
@@ -9924,19 +9922,20 @@
               },
               "StartDate": {
                 "type": "string",
-                "format": "ISO 8601",
+                "format": "date-time",
                 "description": "The date and time at which the Work Item should start",
                 "example": "2021-12-29"
               },
               "DueDate": {
                 "type": "string",
-                "format": "ISO 8601",
+                "format": "date-time",
                 "description": "The date and time by which the Work Item should be complete",
                 "example": "2022-01-30"
               },
               "DeadlineDate": {
                 "type": "string",
-                "format": "ISO 8601",
+                "format": "date-time",
+                "nullable": true,
                 "description": "The date and time by which an external party has specified that the Work Item should be complete",
                 "example": "2022-01-31"
               },
@@ -10086,7 +10085,7 @@
           },
           "LastModifiedDateTime": {
             "type": "string",
-            "format": "UTC",
+            "format": "date-time",
             "description": "The date and time at which this Client Group was last modified.",
             "example": "2022-07-05T07:30:13.7188114Z"
           },
@@ -10263,7 +10262,7 @@
           },
           "LastModifiedDateTime": {
             "type": "string",
-            "format": "UTC",
+            "format": "date-time",
             "description": "The date and time at which this Contact was last modified.",
             "example": "2022-07-05T07:30:13.7188114Z"
           },
@@ -10352,7 +10351,7 @@
             },
             "LastModifiedDateTime": {
               "type": "string",
-              "format": "UTC",
+              "format": "date-time",
               "example": "2023-06-12T14:00:00Z",
               "description": "The date and time at which this Contact was last modified."
             }
@@ -10459,13 +10458,13 @@
           },
           "DueDate": {
             "type": "string",
-            "format": "UTC",
+            "format": "date-time",
             "example": "2022-10-11T00:00:00Z",
             "description": "The date by which the actions on the note must be complete"
           },
           "TodoDate": {
             "type": "string",
-            "format": "UTC",
+            "format": "date-time",
             "example": "2022-10-10T00:00:00Z",
             "description": "The date for which the actions will be executed"
           },
@@ -10530,13 +10529,13 @@
           },
           "DueDate": {
             "type": "string",
-            "format": "UTC",
+            "format": "date-time",
             "example": "2022-10-11T00:00:00Z",
             "description": "The date by which the actions on the note must be complete"
           },
           "TodoDate": {
             "type": "string",
-            "format": "UTC",
+            "format": "date-time",
             "example": "2022-10-10T00:00:00Z",
             "description": "The date for which the actions will be executed"
           },
@@ -10578,7 +10577,7 @@
                 },
                 "CreatedDate": {
                   "type": "string",
-                  "format": "UTC",
+                  "format": "date-time",
                   "example": "2022-11-12T15:34:11Z",
                   "description": "The date at which the Comment was created"
                 },
@@ -10650,7 +10649,7 @@
           },
           "LastModifiedDateTime": {
             "type": "string",
-            "format": "UTC",
+            "format": "date-time",
             "description": "The date and time at which this Contact was last modified.",
             "example": "2022-07-05T07:30:13.7188114Z"
           },
@@ -10804,13 +10803,13 @@
           },
           "StartDate": {
             "type": "string",
-            "format": "UTC",
+            "format": "date-time",
             "example": "2022-07-04T00:00:00Z",
             "description": "The start date for the TimeSheet"
           },
           "EndDate": {
             "type": "string",
-            "format": "UTC",
+            "format": "date-time",
             "example": "2022-07-10T00:00:00Z",
             "description": "The end date for the TimeSheet"
           },
@@ -11129,13 +11128,13 @@
           },
           "ScheduleStartDate": {
             "type": "string",
-            "format": "UTC",
+            "format": "date-time",
             "description": "The date at which this Work Schedule should start running",
             "example": "2021-07-01"
           },
           "ScheduleEndDate": {
             "type": "string",
-            "format": "UTC",
+            "format": "date-time",
             "description": "The date at which this Work Schedule should stop running<br>To set the Work Schedule to run forever, set the value of this property to <code>0001-01-01</code>.",
             "example": "2021-09-01"
           },
@@ -11282,13 +11281,13 @@
           },
           "ScheduleStartDate": {
             "type": "string",
-            "format": "UTC",
+            "format": "date-time",
             "description": "The date at which this Work Schedule should start running",
             "example": "2021-07-01"
           },
           "ScheduleEndDate": {
             "type": "string",
-            "format": "UTC",
+            "format": "date-time",
             "description": "The date at which this Work Schedule should stop running<br>To set the Work Schedule to run forever, set the value of this property to <code>0001-01-01</code>.",
             "example": "2021-09-01"
           },
@@ -11424,7 +11423,7 @@
           },
           "PublishedDate": {
             "type": "string",
-            "format": "UTC",
+            "format": "date-time",
             "description": "The date at which this Work Template was published",
             "example": "2022-07-21T07:14:08Z"
           },
@@ -11435,13 +11434,13 @@
           },
           "DateLastWorkItemCreated": {
             "type": "string",
-            "format": "UTC",
+            "format": "date-time",
             "description": "The most recent date at which a Work Item was created using this Work Template",
             "example": "2022-07-21T07:14:08Z"
           },
           "DateModified": {
             "type": "string",
-            "format": "UTC",
+            "format": "date-time",
             "description": "The most recent date at which this Work Template was modified",
             "example": "2022-07-23T03:20:54Z"
           },
