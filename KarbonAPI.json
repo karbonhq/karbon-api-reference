@@ -1480,7 +1480,6 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "required": ["value", "@odata.context"],
                   "type": "object",
                   "properties": {
                     "@odata.context": {
@@ -1491,7 +1490,6 @@
                     "value": {
                       "type": "array",
                       "items": {
-                        "required": ["value", "@odata.context"],
                         "type": "object",
                         "properties": {
                           "ClientRequestRecipientKey": {
@@ -6864,6 +6862,7 @@
               "enum": [
                 "AssigneeEmailAddress",
                 "ClientKey",
+                "DeadlineDate",
                 "PrimaryStatus",
                 "StartDate",
                 "Title",
@@ -6879,7 +6878,7 @@
             "name": "$orderby",
             "schema": {
               "type": "string",
-              "enum": ["StartDate", "StartDate desc"],
+              "enum": ["StartDate", "StartDate desc", "DeadlineDate", "DeadlineDate desc"],
               "default": "WorkItemKey"
             },
             "example": "StartDate",
@@ -7380,21 +7379,20 @@
         "summary": "Updates a Work Item (Partial)",
         "parameters": [
           {
-            "required": true,
             "in": "path",
             "name": "WorkItemkey",
-            "schema": {
-              "type": "string"
-            },
+            "schema": { "type": "string" },
+            "required": true,
             "example": "2LPSrkzbYrn4",
             "description": "The Karbon-generated Work Item key"
           }
         ],
-        "description": "Use the <code>PATCH</code> method on this endpoint to update partial details of a Work Item (specified using the WorkItemkey).   <br><br>This method <b>only supports</b> editing the <code>Description</code> property.\n",
+        "description": "Use the <code>PATCH</code> method on this endpoint to update partial details of a Work Item (specified using the WorkItemkey). <br><br>This method <b>only supports</b> editing the <code>Description</code> and <code>DeadlineDate</code> properties.",
         "operationId": "patchWorkItemByID",
         "responses": {
           "204": {
-            "description": "No Content"
+            "description": "No Content",
+            "content": {}
           },
           "400": {
             "description": "Bad Request",
@@ -7469,14 +7467,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "type": "object",
-                "properties": {
-                  "Description": {
-                    "type": "string",
-                    "description": "A free form text field to add more information about the Work Item",
-                    "example": "Reviewed and approved by Jo."
-                  }
-                }
+                "$ref": "#/components/schemas/UpdateWorkItem"
               }
             }
           }
@@ -9714,7 +9705,13 @@
             "type": "string",
             "format": "UTC",
             "description": "The date and time by which the Work Item should be complete",
-            "example": "2022-01-29T00:00:00Z"
+            "example": "2022-01-30T00:00:00Z"
+          },
+          "DeadlineDate": {
+            "type": "string",
+            "format": "UTC",
+            "description": "The date and time by which the Work Item should be complete according to a party outside of your firm. e.g. A tax filing date or payroll processing cut-off date.",
+            "example": "2022-01-31T00:00:00Z"
           },
           "CompletedDate": {
             "type": "string",
@@ -9852,6 +9849,40 @@
           }
         }
       },
+      "UpdateWorkItem": {
+        "type": "object",
+        "anyOf": [
+          {
+            "properties": {
+                "Description": {
+                  "type": "string",
+                  "description": "A free form text field to add more information about the Work Item",
+                  "example": "Reviewed and approved by Jo."
+                }
+            }
+          },
+          {
+            "properties": {
+              "DeadlineDate": {
+                "oneOf": [
+                  {
+                    "type": "string",
+                    "example": "2024-02-01T00:00:00Z",
+                    "format": "date-time"
+                  }, {
+                    "type": "string",
+                    "example": "2024-02-01",
+                    "format": "date"
+                  }
+                ],
+                "nullable": true,
+                "example": "2024-02-01T00:00:00Z",
+                "description": "The deadline of the workitem as ISO8601 formated datestamp or timestamp"
+              }
+            }
+          }
+        ]
+      },
       "RequestCreateWorkItem": {
         "description": "A single work item",
         "allOf": [
@@ -9901,7 +9932,13 @@
                 "type": "string",
                 "format": "ISO 8601",
                 "description": "The date and time by which the Work Item should be complete",
-                "example": "2022-01-29"
+                "example": "2022-01-30"
+              },
+              "DeadlineDate": {
+                "type": "string",
+                "format": "ISO 8601",
+                "description": "The date and time by which an external party has specified that the Work Item should be complete",
+                "example": "2022-01-31"
               },
               "WorkType": {
                 "type": "string",
@@ -10914,7 +10951,6 @@
       },
       "GetUserById": {
         "description": "The details for a single User",
-        "required": ["UserId"],
         "type": "object",
         "properties": {
           "@odata.context": {
