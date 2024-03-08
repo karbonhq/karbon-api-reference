@@ -3192,7 +3192,7 @@
                   "EntityDescription": {
                     "Text": "Birthday on June 23."
                   },
-                  "AccountingDetails": {
+                  "AccountingDetail": {
                     "ContactPermaKey": "4XHEn8T3J4Y6",
                     "OrganizationPermaKey": null,
                     "BirthDate": "1969-08-05T00:00:00Z",
@@ -3399,7 +3399,7 @@
                   "EntityDescription": {
                     "Text": "Birthday on June 23."
                   },
-                  "AccountingDetails": {
+                  "AccountingDetail": {
                     "ContactPermaKey": "4XHEn8T3J4Y6",
                     "OrganizationPermaKey": null,
                     "BirthDate": "1969-08-05T00:00:00Z",
@@ -3597,7 +3597,7 @@
                   "EntityDescription": {
                     "Text": "Birthday on June 23."
                   },
-                  "AccountingDetails": {
+                  "AccountingDetail": {
                     "ContactPermaKey": "4XHEn8T3J4Y6",
                     "OrganizationPermaKey": null,
                     "BirthDate": "1969-08-05T00:00:00Z",
@@ -3941,7 +3941,7 @@
                         }
                       }
                     },
-                    "AccountingDetails": {
+                    "AccountingDetail": {
                       "nullable": true,
                       "type": "string",
                       "description": "The accounting details associated with the Client Group. This property will be <code>null</code>."
@@ -3968,7 +3968,7 @@
                   "EntityDescription": {
                     "Text": "Birthday on June 23."
                   },
-                  "AccountingDetails": null
+                  "AccountingDetail": null
                 }
               }
             }
@@ -4832,7 +4832,7 @@
                   "EntityDescription": {
                     "Text": "John Doe is the Managing Director of this organization."
                   },
-                  "AccountingDetails": {
+                  "AccountingDetail": {
                     "ContactPermaKey": null,
                     "OrganizationPermaKey": "2Nw8tnxwQCVf",
                     "BirthDate": null,
@@ -4957,7 +4957,7 @@
                 "EntityDescription": {
                   "Text": "John Doe is the Managing Director of this organization."
                 },
-                "AccountingDetails": {
+                "AccountingDetail": {
                   "ContactPermaKey": null,
                   "OrganizationPermaKey": "2Nw8tnxwQCVf",
                   "BirthDate": null,
@@ -5091,7 +5091,7 @@
                   "EntityDescription": {
                     "Text": "John Doe is the Managing Director of this organization."
                   },
-                  "AccountingDetails": {
+                  "AccountingDetail": {
                     "ContactPermaKey": null,
                     "OrganizationPermaKey": "2Nw8tnxwQCVf",
                     "BirthDate": null,
@@ -5303,7 +5303,7 @@
                   "EntityDescription": {
                     "Text": "John Doe is the Managing Director of this organization."
                   },
-                  "AccountingDetails": {
+                  "AccountingDetail": {
                     "ContactPermaKey": null,
                     "OrganizationPermaKey": "2Nw8tnxwQCVf",
                     "BirthDate": null,
@@ -5705,7 +5705,7 @@
                         }
                       }
                     },
-                    "AccountingDetails": {
+                    "AccountingDetail": {
                       "type": "string",
                       "nullable": true,
                       "description": "The accounting details associated with the Client Group. This property will be <code>null</code>."
@@ -5726,7 +5726,7 @@
                   "EntityDescription": {
                     "Text": "John Doe is the Managing Director of this organization."
                   },
-                  "AccountingDetails": null
+                  "AccountingDetail": null
                 }
               }
             }
@@ -10276,7 +10276,7 @@
               }
             }
           },
-          "AccountingDetails": {
+          "AccountingDetail": {
             "$ref": "#/components/schemas/DetailsOfAccounting"
           },
           "BusinessCards": {
@@ -10421,7 +10421,7 @@
               }
             }
           },
-          "AccountingDetails": {
+          "AccountingDetail": {
             "$ref": "#/components/schemas/DetailsOfAccounting"
           }
         }
@@ -10663,7 +10663,7 @@
               }
             }
           },
-          "AccountingDetails": {
+          "AccountingDetail": {
             "$ref": "#/components/schemas/DetailsOfAccounting"
           }
         }
@@ -10721,7 +10721,7 @@
               }
             }
           },
-          "AccountingDetails": {
+          "AccountingDetail": {
             "$ref": "#/components/schemas/DetailsOfAccounting"
           }
         }
