@@ -6071,7 +6071,8 @@
                     "type": "array",
                     "description": "And array of tags to be assigned to the entity, tags may only contain lower case letters a-z, numbers 0-9, the dash - or underscore _ character",
                     "items": {
-                      "type": "string"
+                      "type": "string",
+                      "example": "example-tag"
                     },
                     "example": [
                       "sync"
@@ -6096,9 +6097,9 @@
             "in": "path",
             "name": "EntityKey",
             "schema": {
-              "type": "string"
+              "type": "string",
+              "example": "2dFxlS2Q6WlF"
             },
-            "example": "2dFxlS2Q6WlF",
             "description": "The Karbon-generated entity key"
           }
         ],
@@ -6171,7 +6172,8 @@
                     "type": "array",
                     "description": "And array of tags to be removed from the entity, tags may only contain lower case letters a-z, numbers 0-9, the dash - or underscore _ character",
                     "items": {
-                      "type": "string"
+                      "type": "string",
+                      "example": "example-tag"
                     },
                     "example": [
                       "sync"
@@ -6199,6 +6201,134 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/GetTenantSettings"
+                },
+                "example": {
+                  "@odata.context": "https://api-dev.karbonhq.com/v3/$metadata#TenantSettings/$entity",
+                  "TenantKey": "2BzmMRkhbwBT",
+                  "WorkStatuses": [
+                    {
+                      "Name": "Planned",
+                      "Type": "Primary",
+                      "Children": []
+                    },
+                    {
+                      "Name": "InProgress",
+                      "Type": "Primary",
+                      "Children": [
+                        {
+                          "Name": "Review",
+                          "Type": "Secondary",
+                          "WorkStatusKey": "2mwflHRTqsdv"
+                        },
+                        {
+                          "Name": "Assemble",
+                          "Type": "Secondary",
+                          "WorkStatusKey": "4mdN65g99lzF"
+                        },
+                        {
+                          "Name": "Lodge",
+                          "Type": "Secondary",
+                          "WorkStatusKey": "22tBP6QkrMbY"
+                        },
+                        {
+                          "Name": "Follow-up",
+                          "Type": "Secondary",
+                          "WorkStatusKey": "3sDb8y6mgzrz"
+                        }
+                      ]
+                    },
+                    {
+                      "Name": "Waiting",
+                      "Type": "Primary",
+                      "Children": [
+                        {
+                          "Name": "Waiting for client",
+                          "Type": "Secondary",
+                          "WorkStatusKey": "GrZfvNMt49q"
+                        },
+                        {
+                          "Name": "Wait for confirmation",
+                          "Type": "Secondary",
+                          "WorkStatusKey": "3G9vZTc3cXwz"
+                        }
+                      ]
+                    },
+                    {
+                      "Name": "Completed",
+                      "Type": "Primary",
+                      "Children": [
+                        {
+                          "Name": "Billed",
+                          "Type": "Secondary",
+                          "WorkStatusKey": "lqlGVMcvm7T"
+                        },
+                        {
+                          "Name": "Cancelled",
+                          "Type": "Secondary",
+                          "WorkStatusKey": "nJ8jJDwF6l"
+                        }
+                      ]
+                    },
+                    {
+                      "Name": "ReadyToStart",
+                      "Type": "Primary",
+                      "Children": []
+                    }
+                  ],
+                  "WorkTypes": [
+                    {
+                      "Name": "Accounting",
+                      "WorkTypeKey": "nTlQkTQnNz7",
+                      "AvailableStatuses": {
+                        "Primary": [
+                          "In Progress",
+                          "Ready To Start",
+                          "Waiting",
+                          "Completed"
+                        ],
+                        "Secondary": [
+                          "2mwflHRTqsdv",
+                          "3sDb8y6mgzrz",
+                          "GrZfvNMt49q",
+                          "nJ8jJDwF6l"
+                        ]
+                      }
+                    },
+                    {
+                      "Name": "Bookkeeping",
+                      "WorkTypeKey": "3RJgJSgq5xz",
+                      "AvailableStatuses": {
+                        "Primary": [
+                          "In Progress",
+                          "Ready To Start",
+                          "Waiting",
+                          "Completed"
+                        ],
+                        "Secondary": [
+                          "GrZfvNMt49q",
+                          "nJ8jJDwF6l"
+                        ]
+                      }
+                    }
+                  ],
+                  "ContactTypes": [
+                    {
+                      "Name": "Prospect",
+                      "ContactTypeKey": "2FZQTGSgmyyQ"
+                    },
+                    {
+                      "Name": "Client",
+                      "ContactTypeKey": "2kYcl5QHnSxh"
+                    },
+                    {
+                      "Name": "Inactive",
+                      "ContactTypeKey": "3dxPhBZvhCGm"
+                    },
+                    {
+                      "Name": "Other",
+                      "ContactTypeKey": "478pf88jbnQr"
+                    }
+                  ]
                 }
               }
             }
@@ -6233,6 +6363,7 @@
             "in": "query",
             "name": "$orderby",
             "schema": {
+              "example": "StartDate desc",
               "type": "string",
               "enum": [
                 "StartDate",
@@ -6508,9 +6639,9 @@
             "name": "$skip",
             "schema": {
               "type": "integer",
-              "minimum": 0
+              "minimum": 0,
+              "example": 100
             },
-            "example": 100,
             "description": "When this parameter is combined with the URI and a value N is assigned to it, this endpoint will return all but the first N Users.\n"
           }
         ],
