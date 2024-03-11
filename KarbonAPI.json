@@ -27,7 +27,7 @@
     },
     {
       "name": "Business Cards",
-      "description": "View or update the Business Card attached to a Contact and/or Organisation"
+      "description": "View or update the Business Card attached to a Contact and/or Organization"
     },
     {
       "name": "Client Groups",
@@ -4836,7 +4836,7 @@
               },
               "tags": {
                 "value": "Tags/any(tag: tag eq 'sync')",
-                "summary": "The list tags assigned to the Organisation contains 'sync'"
+                "summary": "The list tags assigned to the Organization contains 'sync'"
               }
             },
             "description": "When this parameter is combined with the URI, this endpoint will return a subset of the Organizations that satisfy the <code>$filter</code> expression. \nFiltering for Tags cannot be combined with other filters."
@@ -6062,7 +6062,7 @@
                   "EntityType": {
                     "type": "string",
                     "enum": [
-                      "Organisation"
+                      "Organization"
                     ],
                     "description": "The entity type of the entity above",
                     "example": "Organization"
@@ -6163,7 +6163,7 @@
                   "EntityType": {
                     "type": "string",
                     "enum": [
-                      "Organisation"
+                      "Organization"
                     ],
                     "description": "The entity type of the entity above",
                     "example": "Organization"
@@ -6203,7 +6203,7 @@
                   "$ref": "#/components/schemas/GetTenantSettings"
                 },
                 "example": {
-                  "@odata.context": "https://api-dev.karbonhq.com/v3/$metadata#TenantSettings/$entity",
+                  "@odata.context": "https://api.karbonhq.com/v3/$metadata#TenantSettings/$entity",
                   "TenantKey": "2BzmMRkhbwBT",
                   "WorkStatuses": [
                     {
@@ -8630,7 +8630,7 @@
         }
       },
       "BusinessCardRequest": {
-        "description": "A business card associated with a contact or organisation",
+        "description": "A business card associated with a contact or organization",
         "type": "object",
         "properties": {
           "IsPrimaryCard": {
@@ -8765,7 +8765,7 @@
         }
       },
       "BusinessCard": {
-        "description": "A business card associated with a contact or organisation",
+        "description": "A business card associated with a contact or organization",
         "type": "object",
         "properties": {
           "BusinessCardKey": {
@@ -9154,7 +9154,8 @@
               "properties": {
                 "RegistrationNumber": {
                   "type": "string",
-                  "description": "The registration number"
+                  "description": "The registration number",
+                  "maxLength": 50
                 },
                 "Type": {
                   "type": "string",
@@ -11347,7 +11348,7 @@
               "Text": {
                 "type": "string",
                 "description": "Free-form text that can be used to add more information about the Organization",
-                "example": "This organization has a sibling Organisation called Example Trust"
+                "example": "This organization has a sibling Organization called Example Trust"
               }
             }
           },
@@ -12730,7 +12731,7 @@
         }
       },
       "Organization_Key_Not_Found_404": {
-        "description": "The error returned when an Organization cannot be found for the provided Organisation Key",
+        "description": "The error returned when an Organization cannot be found for the provided Organization Key",
         "value": {
           "error": {
             "code": 4004,
