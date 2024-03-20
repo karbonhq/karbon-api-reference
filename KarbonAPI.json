@@ -11808,7 +11808,7 @@
           "ScheduleEndDate": {
             "type": "string",
             "format": "date-time",
-            "description": "The date at which this Work Schedule should stop running<br>To set the Work Schedule to run forever, set the value of this property to <code>0001-01-01</code>.",
+            "description": "The date at which this Work Schedule should stop running<br>To set the Work Schedule to run forever, set the value of this property to <code>null</code>.",
             "example": "2021-09-01"
           },
           "ScheduleDueDateMethod": {
@@ -12110,6 +12110,7 @@
           },
           "EstimatedBudget": {
             "type": "string",
+            "nullable": true,
             "description": "The estimated budget for the Work Items generated using this Work Template. This property value will be <code>null</code>.",
             "example": null
           },
