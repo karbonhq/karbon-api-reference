@@ -8693,22 +8693,26 @@
                 "AddressLines": {
                   "type": "string",
                   "description": "Street Address",
-                  "example": "45 Sample Street"
+                  "example": "45 Sample Street",
+                  "maxLength": 200
                 },
                 "City": {
                   "type": "string",
                   "description": "City",
-                  "example": "Alexandria"
+                  "example": "Alexandria",
+                  "maxLength": 100
                 },
                 "StateProvinceCounty": {
                   "type": "string",
                   "description": "State / Province / County",
-                  "example": "NSW"
+                  "example": "NSW",
+                  "maxLength": 100
                 },
                 "ZipCode": {
                   "type": "string",
                   "description": "ZipCode / PostCode",
-                  "example": 2015
+                  "example": 2015,
+                  "maxLength": 20
                 },
                 "CountryCode": {
                   "type": "string",
@@ -8843,22 +8847,26 @@
                 "AddressLines": {
                   "type": "string",
                   "description": "Street Address",
-                  "example": "45 Sample Street"
+                  "example": "45 Sample Street",
+                  "maxLength": 200
                 },
                 "City": {
                   "type": "string",
                   "description": "City",
-                  "example": "Alexandria"
+                  "example": "Alexandria",
+                  "maxLength": 100
                 },
                 "StateProvinceCounty": {
                   "type": "string",
                   "description": "State / Province / County",
-                  "example": "NSW"
+                  "example": "NSW",
+                  "maxLength": 100
                 },
                 "ZipCode": {
                   "type": "string",
                   "description": "ZipCode / PostCode",
-                  "example": 2015
+                  "example": 2015,
+                  "maxLength": 20
                 },
                 "CountryCode": {
                   "type": "string",
