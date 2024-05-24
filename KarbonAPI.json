@@ -8638,6 +8638,12 @@
             "description": "Set to true, if this business card is also the primary business card for this entity.",
             "example": true
           },
+          "OrganizationKey": {
+            "type": "string",
+            "description": "Used on the Business Card for a Contact to specify the Organization that the Contact is related to. Will always be null for an Organization business card.",
+            "example": "7NN1ySxv89B",
+            "nullable": true
+          },
           "WebSites": {
             "description": "The websites associated with this Business card.",
             "type": "array",
