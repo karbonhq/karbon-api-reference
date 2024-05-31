@@ -6923,7 +6923,9 @@
               "enum": [
                 "Contact",
                 "Work",
-                "Note"
+                "Note",
+                "User",
+                "Invoice"
               ]
             },
             "example": "Contact",
@@ -7011,7 +7013,9 @@
               "enum": [
                 "Contact",
                 "Work",
-                "Note"
+                "Note",
+                "User",
+                "Invoice"
               ]
             },
             "example": "Contact",
@@ -7174,9 +7178,10 @@
                       "Contact",
                       "Work",
                       "Note",
-                      "User"
+                      "User",
+                      "Invoice"
                     ],
-                    "description": "The type of Karbon entity which the Webhook Subscription is associated with. To receive ClientGroup, Contact and Organization updates, pass WebhookType as <code>Contact</code>. To receive WorkItem updates, pass WebhookType as <code>Work</code>. To receive Note and NoteComment updates, pass WebhookType as <code>Note</code>. To receive an update when a User has accepted an invite to Karbon, pass WebhookType as <code>User</code>",
+                    "description": "The type of Karbon entity which the Webhook Subscription is associated with. To receive ClientGroup, Contact and Organization updates, pass WebhookType as <code>Contact</code>. To receive WorkItem updates, pass WebhookType as <code>Work</code>. To receive Note and NoteComment updates, pass WebhookType as <code>Note</code>. To receive an update when a User has accepted an invite to Karbon, pass WebhookType as <code>User</code>. To receive an update when an Invioce changes status, pass WebhookType as <code>Invoice</code>.",
                     "example": "Contact"
                   }
                 }
@@ -11734,7 +11739,14 @@
           "WebhookType": {
             "type": "string",
             "description": "The type of Karbon entity, which the Webhook Subscription is associated with",
-            "example": "Contact"
+            "example": "Contact",
+            "enum": [
+              "Contact",
+              "Work",
+              "Note",
+              "User",
+              "Invoice"
+            ]
           }
         }
       },
