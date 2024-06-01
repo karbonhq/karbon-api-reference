@@ -358,6 +358,148 @@
         }
       }
     },
+    "/v3/ManualPayments": {
+      "post": {
+        "operationId": "createManualPayment",
+        "tags": [
+          "Billing"
+        ],
+        "summary": "Create a manual payment against an Invoice",
+        "description": "Use the <code>GET</code> method on this endpoint to receive a list of Invoices",
+        "responses": {
+          "201": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "values": {
+                      "type": "array",
+                      "items": {}
+                    }
+                  }
+                },
+                "example": {
+                  "PaymentProcessingKey": "2ZXZJcS5fVfR"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "description": "The response shown when trying to overpay an invoice",
+                  "type": "object",
+                  "properties": {
+                    "Error": {
+                      "type": "object",
+                      "properties": {
+                        "Code": {
+                          "type": "string",
+                          "description": "A code that denotes different types of error under the 400 response code.",
+                          "example": "4002"
+                        },
+                        "Message": {
+                          "type": "string",
+                          "description": "The error message",
+                          "example": "An attempt was made to overpay Invoice with [tenantPermaKey=2BzmMRkhbwBT] and [invoicePermaKey=tnl31HQDzRS]."
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResourceNotFound"
+                },
+                "examples": {
+                  "Unauthorized Access": {
+                    "$ref": "#/components/examples/UnauthorizedAccess"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "description": "A manual payment request body",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "required": [
+                  "InvoiceKey",
+                  "PaymentMethod",
+                  "PaymentDate",
+                  "TotalAmount"
+                ],
+                "properties": {
+                  "InvoiceKey": {
+                    "type": "string",
+                    "example": "tnl31HQDzRS",
+                    "description": "The unique key of the Invoice to pay"
+                  },
+                  "PaymentMethod": {
+                    "type": "string",
+                    "example": "Cash",
+                    "enum": [
+                      "Bank Transfer",
+                      "Direct Debit",
+                      "Credit Card Online",
+                      "Credit Card Office",
+                      "Check",
+                      "Cash",
+                      "Other"
+                    ],
+                    "description": "The method used to pay the invoice"
+                  },
+                  "PaymentDate": {
+                    "type": "string",
+                    "example": "2024-06-30",
+                    "description": "The method used to pay the invoice",
+                    "format": "date"
+                  },
+                  "PaymentCurrency": {
+                    "type": "string",
+                    "example": "GBP",
+                    "enum": [
+                      "AUD",
+                      "CAD",
+                      "EUR",
+                      "GBP",
+                      "NZD",
+                      "USD",
+                      "ZAR"
+                    ],
+                    "description": "The currency of the payment, this should match the CurrencyCode property of the Invoice being paid."
+                  },
+                  "TotalAmount": {
+                    "type": "number",
+                    "example": 520.55,
+                    "description": "The amount of the payment in the nominated currency, must be greater than 0 and equal or less than the outstanding due amount on the invoice.",
+                    "format": "float",
+                    "minimum": 0.01
+                  },
+                  "Reference": {
+                    "type": "string",
+                    "example": "Payment in person",
+                    "description": "An optional reference to include with the payment."
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/v3/BusinessCards/{BusinessCardKey}": {
       "get": {
         "operationId": "getBusinessCardByKey",
