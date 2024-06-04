@@ -467,20 +467,6 @@
                     "description": "The method used to pay the invoice",
                     "format": "date"
                   },
-                  "PaymentCurrency": {
-                    "type": "string",
-                    "example": "GBP",
-                    "enum": [
-                      "AUD",
-                      "CAD",
-                      "EUR",
-                      "GBP",
-                      "NZD",
-                      "USD",
-                      "ZAR"
-                    ],
-                    "description": "The currency of the payment, this should match the CurrencyCode property of the Invoice being paid."
-                  },
                   "TotalAmount": {
                     "type": "number",
                     "example": 520.55,
@@ -7323,7 +7309,7 @@
                       "User",
                       "Invoice"
                     ],
-                    "description": "The type of Karbon entity which the Webhook Subscription is associated with. To receive ClientGroup, Contact and Organization updates, pass WebhookType as <code>Contact</code>. To receive WorkItem updates, pass WebhookType as <code>Work</code>. To receive Note and NoteComment updates, pass WebhookType as <code>Note</code>. To receive an update when a User has accepted an invite to Karbon, pass WebhookType as <code>User</code>. To receive an update when an Invioce changes status, pass WebhookType as <code>Invoice</code>.",
+                    "description": "The type of Karbon entity which the Webhook Subscription is associated with. To receive ClientGroup, Contact and Organization updates, pass WebhookType as <code>Contact</code>. To receive WorkItem updates, pass WebhookType as <code>Work</code>. To receive Note and NoteComment updates, pass WebhookType as <code>Note</code>. To receive an update when a User has accepted an invite to Karbon, pass WebhookType as <code>User</code>. To receive an update when an Invoice changes status, pass WebhookType as <code>Invoice</code>.",
                     "example": "Contact"
                   }
                 }
