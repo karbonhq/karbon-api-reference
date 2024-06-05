@@ -7,13 +7,13 @@
     }
   ],
   "info": {
-    "description": "This document covers Karbon API endpoints and data formats. You can find additional developer resources at [Karbon Developer Center](https://developers.karbonhq.com). <br><br><b>Please note the following</b> <ul><li>Karbon's APIs use the OData standard to help with resource searching. Use [OData's reference guide](https://www.odata.org/documentation/odata-version-2-0/uri-conventions/)  to learn more about OData URI conventions.</li> <li>PATCH operations are limited to simple top-level properties and currently do not work on nested objects.</li> <li>OData's <code>$expand</code> option is only available where explicitly mentioned.</li>  <li>If an endpoint allows you to use multiple properties with the <code>$expand</code> option, you can assign a comma-separated list of the properties to the <code>$expand</code> option.</li>  <li>Wherever <code>$orderby</code> option is explicitly mentioned, you can also use allowed property name followed by space then <code>desc</code> keyword to receive the response in descending order.</li>  </ul> \n<p><b style=\"color:red\">Warning!!</b> - The examples shown below are for illustration purpose only. Attempting to call an API using the examples for request payload might result in unusual behaviour because the Karbon generated values for various entities' keys may differ from the values in your tenant.</p>\n<hr> <h2>Credentials for accessing Karbon APIs<h2> <p>You will need two credentials - an Authorization token and a Karbon Tenant AccessKey - to access Karbon APIs. If you don't already have these credentials, follow the steps below to receive them and access Karbon APIs: <ol> <li> [Register](https://developers.karbonhq.com/register) for a free developer account to receive the Authorization (<code>Bearer</code>) token via an email.</li> <li> [Find](https://help.karbonhq.com/en/articles/4580888-karbon-api-integration#h_03a24631ea) your Karbon Tenant Accesskey under Settings -> Connected Apps in Karbon.</li> <li>Assign the Authorization token to <code>Authorization</code> header and Karbon Tenant AccessKey to <code>AccessKey</code> header to send requests to Karbon APIs.</li> </ol></p> <hr>\n",
+    "description": "This document covers Karbon API endpoints and data formats. You can find additional developer resources at [Karbon Developer Center](https://developers.karbonhq.com).\n\n**Please note the following:**\n\n- Karbon's APIs use the OData standard to help with resource searching. Use [OData's reference guide](https://www.odata.org/documentation/odata-version-2-0/uri-conventions/) to learn more about OData URI conventions.\n- OData's `$expand` option is only available where explicitly mentioned.\n- If an endpoint allows you to use multiple properties with the `$expand` option, you can assign a comma-separated list of the properties to the `$expand` option.\n- Wherever `$orderby` option is explicitly mentioned, you can also use allowed property name followed by space then `desc` keyword to receive the response in descending order.\n\n> ⚠️ The examples shown below are for **illustrative purposes only**. Attempting to call an API using the examples for request payload might result in unusual behaviour because the Karbon generated values for various entities' keys may differ from the values in your tenant.\n\n## Credentials for accessing Karbon APIs\n\nYou will need two credentials - an Authorization token and an AccessKey - to access Karbon APIs. If you don't already have these credentials, follow the steps below to receive them and access Karbon APIs:\n\n1. [Register for a free developer account](https://developers.karbonhq.com/register) to receive the Authorization (`Bearer`) token via an email.\n1. [Find your API Access Key](https://help.karbonhq.com/en/articles/4580888-karbon-api-integration#h_03a24631ea) under **Settings -> Connected Apps -> `{Your API Application}`** in Karbon.\n1. Assign the Authorization token to `Authorization` header and Karbon Tenant AccessKey to `AccessKey` header to send requests to Karbon APIs.\n",
     "version": "v3",
     "title": "Karbon API",
     "termsOfService": "https://karbonhq.com/terms-of-use/",
     "contact": {
       "name": "API Support",
-      "url": "karbonhq.com/contact-us"
+      "url": "https://developers.karbonhq.com/issues/"
     },
     "license": {
       "name": "Apache 2.0",
@@ -95,7 +95,7 @@
     },
     {
       "name": "Webhook Subscriptions",
-      "description": "Integrate your system with Karbon to receive changes made to your data in Karbon."
+      "description": "Integrate your system with Karbon to receive changes made to your data in Karbon.\n\nNote: Webhook payloads take the following form:\n\n```JSON\n{\n  \"ResourcePermaKey\": \"{EntityKey}\",\n  \"ResourceType\": \"{EntityType}\",\n  \"ActionType\": \"{ActionType}\"\n}\n```\n\n"
     },
     {
       "name": "Work Items",
@@ -152,7 +152,7 @@
             "description": "Order responses by invoice date"
           }
         ],
-        "description": "Use the <code>GET</code> method on this endpoint to receive a list of Invoices",
+        "description": "Use the `GET` method on this endpoint to receive a list of Invoices",
         "responses": {
           "200": {
             "description": "Successful operation",
@@ -267,7 +267,7 @@
             "description": "Include additional invoice properties, such as lineitems"
           }
         ],
-        "description": "Use the <code>GET</code> method on this endpoint to receive the details of an Invoice specified using the InvoiceKey.",
+        "description": "Use the `GET` method on this endpoint to receive the details of an Invoice specified using the InvoiceKey.",
         "responses": {
           "200": {
             "description": "Successful operation",
@@ -365,7 +365,7 @@
           "Billing"
         ],
         "summary": "Create a manual payment against an Invoice",
-        "description": "Use the <code>GET</code> method on this endpoint to receive a list of Invoices",
+        "description": "Use the `GET` method on this endpoint to receive a list of Invoices",
         "responses": {
           "201": {
             "description": "Successful operation",
@@ -505,7 +505,7 @@
             "description": "The Karbon-generated Business Card key"
           }
         ],
-        "description": "Use the <code>GET</code> method on this endpoint to receive the details of a Business Card specified using the BusinessCardKey.",
+        "description": "Use the `GET` method on this endpoint to receive the details of a Business Card specified using the BusinessCardKey.",
         "responses": {
           "200": {
             "description": "Successful operation",
@@ -641,7 +641,7 @@
             "description": "The Karbon-generated Business Card key"
           }
         ],
-        "description": "Use the <code>PUT</code> method on this endpoint to update the details of a Business Card specified using the BusinessCardKey.",
+        "description": "Use the `PUT` method on this endpoint to update the details of a Business Card specified using the BusinessCardKey.",
         "responses": {
           "204": {
             "description": "No Content"
@@ -764,7 +764,7 @@
               "pattern": "^FullName"
             },
             "example": "FullName eq 'Sample Management Team'",
-            "description": "When this parameter is combined with the URI, this endpoint will return a subset of the Client Groups that satisfy the <code>$filter</code> expression. \n"
+            "description": "When this parameter is combined with the URI, this endpoint will return a subset of the Client Groups that satisfy the `$filter` expression.\n"
           },
           {
             "in": "query",
@@ -802,7 +802,7 @@
             "description": "When this parameter is combined with the URI and a value N is assigned to it, this endpoint will return all but the first N Client Groups.\n"
           }
         ],
-        "description": "Use the <code>GET</code> method on this endpoint to receive a paginated list of Client Groups from your tenant.  Using the query parameters available to this endpoint,  you can also filter the list of Client Groups by their full name. <br><br> <div style = \"border-block: 1px solid #fc7f03;\"> <b>Notes</b> <ul> <li>This endpoint returns a maximum of 100 Client Groups at once.</li> <li>If the query results in more than 100 Client Groups, a link to the next set of the results will be given in the <code>@odata.nextLink</code> field of the response.</li> <li>The <code>$filter</code> query parameter supports a logical operator - <code>eq</code> and a property to help you form an expression.</li> </ul> </div>\n",
+        "description": "Use the `GET` method on this endpoint to receive a paginated list of Client Groups from your tenant.\nUsing the query parameters available to this endpoint, you can also filter the list of Client Groups by their full name.\n\n**Notes**\n\n* This endpoint returns a maximum of 100 Client Groups at once.\n* If the query results in more than 100 Client Groups, a link to the next set of the results will be given in the `@odata.nextLink` field of the response.\n* The `$filter` query parameter supports a logical operator - `eq` and a property to help you form an expression.\n\n",
         "operationId": "getClientGroups",
         "responses": {
           "200": {
@@ -876,7 +876,7 @@
           "Client Groups"
         ],
         "summary": "Creates a new Client Group",
-        "description": "Use the <code>POST</code> method on this endpoint to create a new Client Group in your tenant.\n",
+        "description": "Use the `POST` method on this endpoint to create a new Client Group in your tenant.\n",
         "operationId": "createClientGroup",
         "responses": {
           "200": {
@@ -894,7 +894,7 @@
                         "AccountingDetails": {
                           "nullable": true,
                           "type": "string",
-                          "description": "The accounting details associated with the Client Group. This property will be <code>null</code>."
+                          "description": "The accounting details associated with the Client Group. This property will be `null`."
                         }
                       }
                     }
@@ -1022,7 +1022,7 @@
               "type": "string"
             },
             "example": "SILVERS",
-            "description": "A unique identifier that you had created to identify this Client Group. This parameter is <b>not</b> case sensitive."
+            "description": "A unique identifier that you had created to identify this Client Group. This parameter is **not** case sensitive."
           },
           {
             "in": "query",
@@ -1037,7 +1037,7 @@
             "description": "When this parameter is combined with the URI, this endpoint will also return the Business Card of the Client Group.\n"
           }
         ],
-        "description": "Use the <code>GET</code> method on this endpoint to receive the details of a Client Group specified using the UserDefinedIdentifier.  <br><br>Using the query parameter available to this endpoint, you can also include Business Card details of the Client Group in the response.\n",
+        "description": "Use the `GET` method on this endpoint to receive the details of a Client Group specified using the UserDefinedIdentifier.\n\nUsing the query parameter available to this endpoint, you can also include Business Card details of the Client Group in the response.\n",
         "operationId": "getClientGroupByUDI",
         "responses": {
           "200": {
@@ -1055,7 +1055,7 @@
                         "AccountingDetails": {
                           "nullable": true,
                           "type": "string",
-                          "description": "The accounting details associated with the Client Group. This property will be <code>null</code>."
+                          "description": "The accounting details associated with the Client Group. This property will be `null`."
                         }
                       }
                     },
@@ -1222,7 +1222,7 @@
             "description": "When this parameter is combined with the URI, this endpoint will also return Business Card of the Client Group.\n"
           }
         ],
-        "description": "Use the <code>GET</code> method on this endpoint to receive the details of a Client Group specified using the <code>ClientGroupkey</code>.  <br><br>Using the query parameter available to this endpoint,  you can also include the Business Card details of the Client Group in the response.\n",
+        "description": "Use the `GET` method on this endpoint to receive the details of a Client Group specified using the `ClientGroupkey`.\n\nUsing the query parameter available to this endpoint,  you can also include the Business Card details of the Client Group in the response.\n",
         "operationId": "getClientGroupByID",
         "responses": {
           "200": {
@@ -1240,7 +1240,7 @@
                         "AccountingDetails": {
                           "nullable": true,
                           "type": "string",
-                          "description": "The accounting details associated with the Client Group. This property will be <code>null</code>."
+                          "description": "The accounting details associated with the Client Group. This property will be `null`."
                         }
                       }
                     },
@@ -1390,7 +1390,7 @@
             "description": "The Karbon-generated Client Group key"
           }
         ],
-        "description": "Use the <code>PUT</code> method on this endpoint to update full details of a Client Group specified using the <code>ClientGroupkey</code>.  <br><br>Using the query parameter available to this endpoint, you can also update the Business Card details of the Client Group.\n",
+        "description": "Use the `PUT` method on this endpoint to update full details of a Client Group specified using the `ClientGroupkey`.\n\nUsing the query parameter available to this endpoint, you can also update the Business Card details of the Client Group.\n",
         "operationId": "putClientGroupByID",
         "responses": {
           "204": {
@@ -1545,7 +1545,7 @@
             "description": "The Karbon-generated Client Group key"
           }
         ],
-        "description": "Use the <code>PATCH</code> method on this endpoint to update partial details of a Client Group specified using the <code>ClientGroupkey</code>.  <br><br>This method <b>only supports</b> editing the <code>FullName</code> property. \n",
+        "description": "Use the `PATCH` method on this endpoint to update partial details of a Client Group specified using the `ClientGroupkey`.\n\nThis method **only supports** editing the `FullName` property.\n",
         "operationId": "patchClientGroupByID",
         "responses": {
           "204": {
@@ -1659,7 +1659,7 @@
             "description": "When this parameter is combined with the URI, this endpoint will return the details of a Client email.\n"
           }
         ],
-        "description": "Use the <code>GET</code> method on this endpoint to receive the details of a Client email address.\n",
+        "description": "Use the `GET` method on this endpoint to receive the details of a Client email address.\n",
         "operationId": "getClientRequestRecipientsByEmail",
         "responses": {
           "200": {
@@ -1797,7 +1797,7 @@
           "Client Requests"
         ],
         "summary": "Gets a list of Client Requests",
-        "description": "This endpoint can be used to get the details of all Client Request tasks.<br><br> <div style = \"border-block: 1px solid #fc7f03;\">   <b>Notes</b>   <ul>   <li>This endpoint returns a maximum of 100 Client Requests at once.</li>   <li>If the query results in more than 100 Client Requests, a link to the next set of the results will be given in the <code>@odata.nextLink</code> field of the response.</li>   <li>The <code>$expand</code> query parameter lets you include Recipient and ClientTaskSummaries associated with the Client task in the response. </li>  <li>The <code>$filter</code> query parameter supports 4 logical operators (<code>eq</code>, <code>ge</code>, <code>le</code>, and <code>and</code>) and 4 properties to help you  form an expression.  They are listed below with examples of usage.<br> <ul><br> <li><b>Operators for DateTime Properties</b></li> <table> <thead>\n    <tr>\n        <th>Logical Operators</th>\n        <th>Purpose</th>\n        <th>WorkItemCompletedDate</th>\n        <th>WorkItemDueDate</th>\n    </tr>\n</thead> <tbody>\n    <tr>\n        <td>eq</td>\n        <td>Full-text search</td>\n        <td>WorkItemCompletedDate eq 2020-10-31T17:04:32Z</td>\n        <td>WorkItemDueDate eq  2020-10-31T17:04:32Z</td>\n    </tr>\n    <tr>\n        <td>ge</td>\n        <td>Greater than and equals to</td>\n        <td>WorkItemCompletedDate ge 2020-10-31T17:04:32Z</td>\n        <td>WorkItemDueDate ge 2020-10-31T17:04:32Z</td>\n    </tr>\n    <tr>\n        <td>le</td>\n        <td>Lesser than and equals to</td>\n        <td>WorkItemCompletedDate le 2020-10-31T17:04:32Z</td>\n        <td>WorkItemDueDate le 2020-10-31T17:04:32Z</td>\n    </tr>\n    <tr>\n        <td>and</td>\n        <td>Combines properties</td>\n        <td colspan = \"2\">WorkItemCompletedDate ge\n2020-10-31T17:04:32Z and WorkItemKey eq '3jtk81v2Xtw7'</td>\n    </tr>\n</tbody> </table><br> <li><b>Operators for other Properties</b></li><br> <table> <thead>\n    <tr>\n        <th>Logical Operators</th>\n        <th>Purpose</th>\n        <th>Recipient/ClientRequestRecipientKey</th>\n        <th>WorkItemkey</th>\n    </tr>\n</thead> <tbody>\n    <tr>\n        <td>eq</td>\n        <td>Full-text search</td>\n        <td>/v3/ClientRequests?$filter=Recipient/ClientRequestRecipientKe\n eq 'yD8Rw3DxksW'</td>\n        <td>/v3/ClientRequests?$filter=WorkItemKey eq\n'3jtk81v2Xtw7'</td>\n    </tr>\n    <tr>\n        <td>and</td>\n        <td>Combines properties</td>\n        <td colspan = \"2\">/v3/ClientRequests?$filter=WorkItemKey\neq '3jtk81v2Xtw7' and WorkItemDueDate ge 2020-10-31T17:04:32Z</td>\n    </tr>\n</tbody> </table> </ul> </li></ul>",
+        "description": "This endpoint can be used to get the details of all Client Request tasks.\n**Notes**\n- This endpoint returns a maximum of 100 Client Requests at once.\n- If the query results in more than 100 Client Requests, a link to the next set of the results will be given in the `@odata.nextLink` field of the response.\n- The `$expand` query parameter lets you include Recipient and ClientTaskSummaries associated with the Client task in the response.\n- The `$filter` query parameter supports 4 logical operators (`eq`, `ge`, `le`, and `and`) and 4 properties to help you form an expression. They are listed below with examples of usage.\n### $filter operators for DateTime Properties\n<table>\n<thead>\n<tr>\n<th>Logical Operators</th>\n<th>Purpose</th>\n<th>WorkItemCompletedDate</th>\n<th>WorkItemDueDate</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td>eq</td>\n<td>Full-text search</td>\n<td>WorkItemCompletedDate eq 2020-10-31T17:04:32Z</td>\n<td>WorkItemDueDate eq  2020-10-31T17:04:32Z</td>\n</tr>\n<tr>\n<td>ge</td>\n<td>Greater than and equals to</td>\n<td>WorkItemCompletedDate ge 2020-10-31T17:04:32Z</td>\n<td>WorkItemDueDate ge 2020-10-31T17:04:32Z</td>\n</tr>\n<tr>\n<td>le</td>\n<td>Lesser than and equals to</td>\n<td>WorkItemCompletedDate le 2020-10-31T17:04:32Z</td>\n<td>WorkItemDueDate le 2020-10-31T17:04:32Z</td>\n</tr>\n<tr>\n<td>and</td>\n<td>Combines properties</td>\n<td colspan = \"2\">WorkItemCompletedDate ge 2020-10-31T17:04:32Z and WorkItemKey eq '3jtk81v2Xtw7'</td>\n</tr>\n</tbody>\n</table>\n\n### $filter operators for other Properties\n<table>\n<thead>\n<tr>\n<th>Logical Operators</th>\n<th>Purpose</th>\n<th>Recipient/ClientRequestRecipientKey</th>\n<th>WorkItemkey</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td>eq</td>\n<td>Full-text search</td>\n<td>/v3/ClientRequests?$filter=Recipient/ClientRequestRecipientKey eq 'yD8Rw3DxksW'</td>\n<td>/v3/ClientRequests?$filter=WorkItemKey eq '3jtk81v2Xtw7'</td>\n</tr>\n<tr>\n<td>and</td>\n<td>Combines properties</td>\n<td colspan = \"2\">/v3/ClientRequests?$filter=WorkItemKey eq '3jtk81v2Xtw7' and WorkItemDueDate ge 2020-10-31T17:04:32Z</td>\n</tr>\n</tbody>\n</table>\n",
         "operationId": "getClientRequests",
         "parameters": [
           {
@@ -1813,7 +1813,7 @@
               ]
             },
             "example": "WorkItemKey eq '3jtk81v2Xtw7'",
-            "description": "When this parameter is combined with the URI, this endpoint will return a subset of the Client Requests that satisfy the <code>$filter</code> expression. \n"
+            "description": "When this parameter is combined with the URI, this endpoint will return a subset of the Client Requests that satisfy the `$filter` expression.\n"
           },
           {
             "in": "query",
@@ -1848,7 +1848,7 @@
               ]
             },
             "example": "Recipient,ClientTaskSummaries",
-            "description": "When these parameters are combined with the URI, this endpoint will also return the Recipient and ClientTaskSummaries associated with the Client task.  <br><br>  <b>Notes</b>:  <ul>  <li>You <b>must</b> use the <code>WorkItemKey</code> property on the <code>$filter</code> option to use <code>ClientTaskSummaries</code> on the <code>$expand</code> option. </li> <li>Assign <code>Recipient</code> and <code>ClientTaskSummaries</code> (seperated by a comma) to the <code>$expand</code> option to include, both, Recipient and ClientTaskSummaries in the response.</li></ul>\n"
+            "description": "When these parameters are combined with the URI, this endpoint will also return the Recipient and ClientTaskSummaries associated with the Client task.\n\n**Notes**:  <ul>  <li>You **must** use the `WorkItemKey` property on the `$filter` option to use `ClientTaskSummaries` on the `$expand` option. </li> <li>Assign `Recipient` and `ClientTaskSummaries` (seperated by a comma) to the `$expand` option to include, both, Recipient and ClientTaskSummaries in the response.</li></ul>\n"
           }
         ],
         "responses": {
@@ -1925,7 +1925,7 @@
           "Client Requests"
         ],
         "summary": "Gets a Client Request using ClientTaskkey",
-        "description": "This endpoint can be used to get the details of a Client Request task (specified by the <code>ClientTaskkey</code>) attached to a Work Item.<br><br>\nUsing the query parameter available to this endpoint, you can also include Recipient, ClientTaskSummaries, and LastCommentItem associated with the Client task in the response.",
+        "description": "This endpoint can be used to get the details of a Client Request task (specified by the `ClientTaskkey`) attached to a Work Item.\n\n\nUsing the query parameter available to this endpoint, you can also include Recipient, ClientTaskSummaries, and LastCommentItem associated with the Client task in the response.",
         "operationId": "getClientRequestsbyID",
         "parameters": [
           {
@@ -1950,7 +1950,7 @@
               ]
             },
             "example": "Recipient,ClientTaskSummaries($expand=LastCommentItem)",
-            "description": "When these parameters are combined with the URI, this endpoint will also return the Recipient, ClientTaskSummaries, and LastCommentItem associated with the Client task. <br><br> <b>Notes</b>: <ul> <li>Assign <code>Recipient</code> and <code>ClientTaskSummaries</code> (seperated by a comma) to the <code>$expand</code> option to include, both, Recipient and ClientTaskSummaries in the response.  </li> <li>The URI format for including <code>LastCommentItem</code> in the response is different from the format used for including <code>Recipient</code> and <code>ClientTaskSummaries</code> in the response.  <ul><li>You will need another <code>$expand</code> option (next to <code>ClientTaskSummaries</code> and inside parenthesis) and assign <code>LastCommentItem</code> to it.</li> <li>This anomaly in the format exists because <code>LastCommentItem</code> is a child object of <code>ClientTaskSummaries</code>.</li></ul> </li></ul>\n"
+            "description": "When these parameters are combined with the URI, this endpoint will also return the Recipient, ClientTaskSummaries, and LastCommentItem associated with the Client task.\n\n**Notes**: <ul> <li>Assign `Recipient` and `ClientTaskSummaries` (seperated by a comma) to the `$expand` option to include, both, Recipient and ClientTaskSummaries in the response.  </li> <li>The URI format for including `LastCommentItem` in the response is different from the format used for including `Recipient` and `ClientTaskSummaries` in the response.  <ul><li>You will need another `$expand` option (next to `ClientTaskSummaries` and inside parenthesis) and assign `LastCommentItem` to it.</li> <li>This anomaly in the format exists because `LastCommentItem` is a child object of `ClientTaskSummaries`.</li></ul> </li></ul>\n"
           }
         ],
         "responses": {
@@ -2036,7 +2036,7 @@
           "Client Task Comment Attachments"
         ],
         "summary": "Uploads and links a file",
-        "description": "This endpoint can be used to upload and link an attachment to a comment using the <code>ClientTaskCommentKey</code>.<br><br><div style = \"border-block: 1px solid #fc7f03; padding:5px;\"> Note that this endpoint <b>only supports uploading files from the local network</b> but not from the web. </div>",
+        "description": "This endpoint can be used to upload and link an attachment to a comment using the `ClientTaskCommentKey`.\n\nNote that this endpoint **only supports uploading files from the local network** but not from the web. ",
         "operationId": "uploadClientTaskCommentAttachments",
         "parameters": [
           {
@@ -2296,7 +2296,7 @@
           "Client Task Comment Attachments"
         ],
         "summary": "Deletes an attachment using fileKey",
-        "description": "This endpoint can be used to delete an attachment from a comment using the attachment <code>fileKey</code>.<br><br> <div style = \"border-block: 1px solid #fc7f03;\">   <b>Notes</b>   <ul>   <li>You can find the attachment's <code>fileKey</code> in the response generated by ClientTaskCommentAttachments endpoint's [PUT](#put-/v3/ClientTaskCommentAttachments/-ClientTaskCommentKey-) method. </li>   <ul><li>The <code>fileKey</code> will be the value of <code>ClientTaskCommentAttachmentKey</code> property.</li></ul> </ul> </div>",
+        "description": "This endpoint can be used to delete an attachment from a comment using the attachment `fileKey`.\n\n**Notes**\n\n* You can find the attachment's `fileKey` in the response generated by ClientTaskCommentAttachments endpoint's [PUT](#put-/v3/ClientTaskCommentAttachments/-ClientTaskCommentKey-) method.\n* The `fileKey` will be the value of `ClientTaskCommentAttachmentKey` property.\n",
         "operationId": "deleteClientTaskCommentAttachments",
         "parameters": [
           {
@@ -2421,7 +2421,7 @@
           "Client Task Comments"
         ],
         "summary": "Creates a new Client Task comment",
-        "description": "Use the <code>POST</code> method on this endpoint to create a new Client Task comment.<br><br> You can also use this endpoint to update an existing Client Task comment. If you want to update  an existing Client Task comment using this endpoint, you must:  <ul>\n    <li>add the <code>CommentItemKey</code> property to the\nrequest payload and assign the correct value to it.</li>\n    <li>remember that only <code>Message</code> and\n<code>IsDraft</code> properties can be updated.</li> <ul>\n",
+        "description": "Use the `POST` method on this endpoint to create a new Client Task comment.\n\nYou can also use this endpoint to update an existing Client Task comment. If you want to update  an existing Client Task comment using this endpoint, you must:  <ul>\n<li>add the `CommentItemKey` property to the\nrequest payload and assign the correct value to it.</li>\n<li>remember that only `Message` and\n`IsDraft` properties can be updated.</li> <ul>\n",
         "operationId": "postClientTaskComment",
         "responses": {
           "201": {
@@ -2567,7 +2567,7 @@
             "description": "The Karbon-generated Client Task key"
           }
         ],
-        "description": "Use the <code>GET</code> method on this endpoint to receive a list of comments on a Client Task using the <code>ClientTaskKey</code>.",
+        "description": "Use the `GET` method on this endpoint to receive a list of comments on a Client Task using the `ClientTaskKey`.",
         "operationId": "getClientTaskCommentsByClientTaskKey",
         "responses": {
           "200": {
@@ -2680,7 +2680,7 @@
             "description": "The Karbon-generated Comment Item key"
           }
         ],
-        "description": "Use the <code>PATCH</code> method on this endpoint to update partial details of a Client Task Comment specified using the <code>CommentItemKey</code>.<br><br> <b>Only</b> <code>Message</code> and <code>IsDraft</code> properties can be updated using this endpoint.\n",
+        "description": "Use the `PATCH` method on this endpoint to update partial details of a Client Task Comment specified using the `CommentItemKey`.\n\n**Only** `Message` and `IsDraft` properties can be updated using this endpoint.\n",
         "operationId": "patchClientTaskCommentByClientTaskCommentKey",
         "responses": {
           "204": {
@@ -2794,7 +2794,7 @@
             "description": "The Karbon-generated Comment Item key"
           }
         ],
-        "description": "Use the <code>DELETE</code> method to delete a Client Task comment specified using the <code>CommentItemKey</code>.",
+        "description": "Use the `DELETE` method to delete a Client Task comment specified using the `CommentItemKey`.",
         "operationId": "deleteClientTaskCommentByClientTaskCommentKey",
         "responses": {
           "204": {
@@ -2896,7 +2896,7 @@
             "description": "Include the last comment item on the client task to the returned response"
           }
         ],
-        "description": "Use the <code>GET</code> method on this endpoint to receive the details of a Client Task using the <code>ClientTaskKey</code>.<br><br> Using the query parameter available to this endpoint, you can also include LastCommentItem associated with the Client task in the response.\n",
+        "description": "Use the `GET` method on this endpoint to receive the details of a Client Task using the `ClientTaskKey`.\n\nUsing the query parameter available to this endpoint, you can also include LastCommentItem associated with the Client task in the response.\n",
         "operationId": "getClientTasksByClientTaskKey",
         "responses": {
           "200": {
@@ -3031,7 +3031,7 @@
             "description": "Include the last comment item on the client task to the returned response"
           }
         ],
-        "description": "Use the <code>PATCH</code> method on this endpoint to update partial details of a Client Task specified using the <code>ClientTaskKey</code>.<br><br> <b>Only</b> <code>DateCompleted</code> property can be updated using this endpoint.<br><br> Using the query parameter available to this endpoint, you can also include LastCommentItem associated with the Client task in the response.\n",
+        "description": "Use the `PATCH` method on this endpoint to update partial details of a Client Task specified using the `ClientTaskKey`.\n\n**Only** `DateCompleted` property can be updated using this endpoint.\n\nUsing the query parameter available to this endpoint, you can also include LastCommentItem associated with the Client task in the response.\n",
         "operationId": "patchClientTaskByClientTaskKey",
         "responses": {
           "200": {
@@ -3166,7 +3166,7 @@
           "Comments"
         ],
         "summary": "Gets a Comment using CommentKey",
-        "description": "This endpoint can be used to get the comment attached to any Karbon entity (e.g., Work Item, Timesheet, Notes, Contacts).<br><br>\nTo place a call using this endpoint, you will need the unique <code>Commentkey</code> that is used to identify a particular comment in Karbon.",
+        "description": "This endpoint can be used to get the comment attached to any Karbon entity (e.g., Work Item, Timesheet, Notes, Contacts).\n\n\nTo place a call using this endpoint, you will need the unique `Commentkey` that is used to identify a particular comment in Karbon.",
         "operationId": "getComment",
         "parameters": [
           {
@@ -3276,7 +3276,7 @@
               ]
             },
             "example": "FullName eq 'Sample Management Team'",
-            "description": "When this parameter is combined with the URI, this endpoint will return a subset of the Contacts that satisfy the <code>$filter</code> expression. \n"
+            "description": "When this parameter is combined with the URI, this endpoint will return a subset of the Contacts that satisfy the `$filter` expression.\n"
           },
           {
             "in": "query",
@@ -3316,7 +3316,7 @@
             "description": "When this parameter is combined with the URI and a value N is assigned to it, this endpoint will return all but the first N Contacts.\n"
           }
         ],
-        "description": "Use the <code>GET</code> method on this endpoint to receive a paginated list of Contacts from your tenant.   Using the query parameters available to this endpoint,  you can also filter the list of Contacts by their full name, email address, or phone number.  <br><br>  <div style = \"border-block: 1px solid #fc7f03;\">  <b>Notes</b>  <ul>  <li>This endpoint returns a maximum of 100 Contacts at once.</li>  <li>If the query results in more than 100 Contacts, a link to the next set of the results will be given in the <code>@odata.nextLink</code> field of the response.</li>  <li>The <code>$filter</code> query parameter supports 3 logical operators (<code>eq</code>, <code>contains</code>, and <code>and</code>) and 3 properties to help you form an expression. Usage examples below</li> <table> <thead> <tr>\n    <th>Logical Operators</th>\n    <th>Purpose</th>\n    <th>FullName</th>\n    <th>EmailAddress</th>\n    <th>PhoneNumber</th>\n</tr> </thead> <tbody>\n    <tr>\n        <td>eq</td>\n        <td>Full-text search</td>\n        <td>/v3/Contacts?$filter=FullName eq 'Sample Management\nTeam'</td>\n        <td>/v3/Contacts?$filter=EmailAddress eq\n'sample@company.com'</td>\n        <td>/v3/Contacts?$filter=PhoneNumber eq\n'1234567890'</td>\n    </tr>\n    <tr>\n        <td>contains</td>\n        <td>Partial-text search</td>\n        <td>/v3/Contacts?$filter=(contains(FullName, 'Management\nTeam'))</td>\n        <td>/v3/Contacts?$filter=(contains(EmailAddress,\n'sample@'))</td>\n        <td>/v3/Contacts?$filter=(contains(PhoneNumber,\n'45678'))</td>\n    </tr>\n    <tr>\n        <td>and</td>\n        <td>Combines properties</td>\n        <td colspan = \"2\">/v3/Contacts?$filter=PhoneNumber eq\n'1234567890' and (contains(FullName, 'Management Team'))</td>\n    </tr>\n</tbody> </table> </div>\n",
+        "description": "Use the `GET` method on this endpoint to receive a paginated list of Contacts from your tenant.   Using the query parameters available to this endpoint,  you can also filter the list of Contacts by their full name, email address, or phone number.\n\n**Notes**  <ul>  <li>This endpoint returns a maximum of 100 Contacts at once.</li>  <li>If the query results in more than 100 Contacts, a link to the next set of the results will be given in the `@odata.nextLink` field of the response.</li>  <li>The `$filter` query parameter supports 3 logical operators (`eq`, `contains`, and `and`) and 3 properties to help you form an expression. Usage examples below</li> <table> <thead> <tr>\n<th>Logical Operators</th>\n<th>Purpose</th>\n<th>FullName</th>\n<th>EmailAddress</th>\n<th>PhoneNumber</th>\n</tr> </thead> <tbody>\n<tr>\n<td>eq</td>\n<td>Full-text search</td>\n<td>/v3/Contacts?$filter=FullName eq 'Sample Management\nTeam'</td>\n<td>/v3/Contacts?$filter=EmailAddress eq\n'sample@company.com'</td>\n<td>/v3/Contacts?$filter=PhoneNumber eq\n'1234567890'</td>\n</tr>\n<tr>\n<td>contains</td>\n<td>Partial-text search</td>\n<td>/v3/Contacts?$filter=(contains(FullName, 'Management\nTeam'))</td>\n<td>/v3/Contacts?$filter=(contains(EmailAddress,\n'sample@'))</td>\n<td>/v3/Contacts?$filter=(contains(PhoneNumber,\n'45678'))</td>\n</tr>\n<tr>\n<td>and</td>\n<td>Combines properties</td>\n<td colspan = \"2\">/v3/Contacts?$filter=PhoneNumber eq\n'1234567890' and (contains(FullName, 'Management Team'))</td>\n</tr>\n</tbody> </table>\n",
         "operationId": "getAllContacts",
         "responses": {
           "200": {
@@ -3390,7 +3390,7 @@
           "Contacts"
         ],
         "summary": "Creates a new Contact",
-        "description": "Use the <code>POST</code> method on this endpoint to create a new Contact in your tenant.\n",
+        "description": "Use the `POST` method on this endpoint to create a new Contact in your tenant.\n",
         "operationId": "createContact",
         "responses": {
           "201": {
@@ -3589,7 +3589,7 @@
               "type": "string"
             },
             "example": "BILLJR",
-            "description": "A unique identifier that you had created to identify this Contact. This parameter is <b>not</b> case sensitive."
+            "description": "A unique identifier that you had created to identify this Contact. This parameter is **not** case sensitive."
           },
           {
             "in": "query",
@@ -3604,7 +3604,7 @@
             "description": "When this parameter is combined with the URI, this endpoint will also return the Business Cards of the Contact.\n"
           }
         ],
-        "description": "Use the <code>GET</code> method on this endpoint to receive the details of a Contact specified using the UserDefinedIdentifier.  <br><br>Using the query parameter available to this endpoint, you can also include Business Card details of the Contact in the response.\n",
+        "description": "Use the `GET` method on this endpoint to receive the details of a Contact specified using the UserDefinedIdentifier.\n\nUsing the query parameter available to this endpoint, you can also include Business Card details of the Contact in the response.\n",
         "operationId": "getContactByUDI",
         "responses": {
           "200": {
@@ -3809,7 +3809,7 @@
             "description": "When this parameter is combined with the URI, this endpoint will also return Business Card of the Contact.\n"
           }
         ],
-        "description": "Use the <code>GET</code> method on this endpoint to receive the details of a Contact specified using the <code>Contactkey</code>.  <br><br>Using the query parameter available to this endpoint,  you can also include the Business Card details of the Contacts in the response.\n",
+        "description": "Use the `GET` method on this endpoint to receive the details of a Contact specified using the `Contactkey`.\n\nUsing the query parameter available to this endpoint,  you can also include the Business Card details of the Contacts in the response.\n",
         "operationId": "getContactByID",
         "responses": {
           "200": {
@@ -4000,7 +4000,7 @@
             "description": "The Karbon-generated Contact key"
           }
         ],
-        "description": "Use the <code>PUT</code> method on this endpoint to update full details of a Contact specified using the <code>Contactkey</code>. <p>Using the query parameter <code>$expand</code> with this endpoint, you can also update the Business Card details of the Contact. <br><b>Note:</b> When updating business cards, you must include <code>BusinessCardKey</code>, <code>EntityType</code> and <code>EntityKey</code> properties for existing Business Cards - or the existing card and any associated Client Requests may be removed.</p>",
+        "description": "Use the `PUT` method on this endpoint to update full details of a Contact specified using the `Contactkey`.\n\nUsing the query parameter `$expand` with this endpoint, you can also update the Business Card details of the Contact.\n\n**Note:** When updating business cards, you must include `BusinessCardKey`, `EntityType` and `EntityKey` properties for existing Business Cards - or the existing card and any associated Client Requests may be removed.",
         "operationId": "putContactByID",
         "responses": {
           "204": {
@@ -4102,7 +4102,7 @@
             "description": "The Karbon-generated Contact key"
           }
         ],
-        "description": "Use the <code>PATCH</code> method on this endpoint to update partial details of a Contact specified using the <code>Contactkey</code>.  <br><br>This method <b>only supports</b> editing the <code>FirstName</code>, <code>MiddleName</code>, <code>LastName</code>, <code>PreferredName</code>, <code>Salutation</code> and <code>Suffix</code> properties. \n",
+        "description": "Use the `PATCH` method on this endpoint to update partial details of a Contact specified using the `Contactkey`.\n\nThis method **only supports** editing the `FirstName`, `MiddleName`, `LastName`, `PreferredName`, `Salutation` and `Suffix` properties.\n",
         "operationId": "patchContactsByID",
         "responses": {
           "200": {
@@ -4167,7 +4167,7 @@
                     },
                     "RestrictionLevel": {
                       "type": "string",
-                      "description": "The privacy level for this Client Group. <br> <ul><li>Public Client Groups can be managed by anyone in the firm</li> <li>Private Client Groups can only be managed by the [Client Team](https://help.karbonhq.com/en/articles/1524707-create-a-client-team). Basic details (name of the Contacts and the Work Items) related to such Client Groups are visible to anyone in the firm.</li> <li>Hidden Client Groups are only be visible to and managed by the [Client Team](https://help.karbonhq.com/en/articles/1524707-create-a-client-team).</li>\n",
+                      "description": "The privacy level for this Client Group.\n\n<ul><li>Public Client Groups can be managed by anyone in the firm</li> <li>Private Client Groups can only be managed by the [Client Team](https://help.karbonhq.com/en/articles/1524707-create-a-client-team). Basic details (name of the Contacts and the Work Items) related to such Client Groups are visible to anyone in the firm.</li> <li>Hidden Client Groups are only be visible to and managed by the [Client Team](https://help.karbonhq.com/en/articles/1524707-create-a-client-team).</li>\n",
                       "example": "Public",
                       "default": "Public",
                       "enum": [
@@ -4197,7 +4197,7 @@
                     "AccountingDetail": {
                       "nullable": true,
                       "type": "string",
-                      "description": "The accounting details associated with the Client Group. This property will be <code>null</code>."
+                      "description": "The accounting details associated with the Client Group. This property will be `null`."
                     }
                   }
                 },
@@ -4359,7 +4359,7 @@
             "description": "The Karbon-generated Work Item key"
           }
         ],
-        "description": "Use the <code>GET</code> method on this endpoint to receive the estimate summaries of a Work Item specified using the <code>WorkItemkey</code>. \n",
+        "description": "Use the `GET` method on this endpoint to receive the estimate summaries of a Work Item specified using the `WorkItemkey`.\n",
         "operationId": "getEstimateSummariesByWorkItemKey",
         "responses": {
           "200": {
@@ -4502,7 +4502,7 @@
           "Files"
         ],
         "summary": "Uploads and links a file",
-        "description": "Use the <code>POST</code> method on this endpoint to upload and link a file to an entity in your tenant. <br><br><div style = \"border-block: 1px solid #fc7f03; padding:5px;\"> Note that this endpoint <b>only supports uploading files from the local network</b> but not from the web. </div>\n",
+        "description": "Use the `POST` method on this endpoint to upload and link a file to an entity in your tenant.\n\nNote that this endpoint **only supports uploading files from the local network** but not from the web.\n",
         "operationId": "createFile",
         "responses": {
           "201": {
@@ -4616,7 +4616,7 @@
           }
         },
         "requestBody": {
-          "description": "Refer to the table below for more information on each field in the request body. <br><br> In addition to the `file` property, at least one of the following properties is required. <ul> <li><code>contact_keys</code></li> <li><code>organization_keys</code></li> <li><code>client_group_keys</code></li> <li><code>workitem_keys</code></li> </ul>\n",
+          "description": "Refer to the table below for more information on each field in the request body.\n\nIn addition to the `file` property, at least one of the following properties is required. <ul> <li>`contact_keys`</li> <li>`organization_keys`</li> <li>`client_group_keys`</li> <li>`workitem_keys`</li> </ul>\n",
           "required": true,
           "content": {
             "multipart/form-data": {
@@ -4689,7 +4689,7 @@
             "description": "The Karbon-generated Note key"
           }
         ],
-        "description": "Use the <code>GET</code> method on this endpoint to receive the Note specified using the <code>NoteID</code>. \n",
+        "description": "Use the `GET` method on this endpoint to receive the Note specified using the `NoteID`.\n",
         "operationId": "getNoteByNoteKey",
         "responses": {
           "200": {
@@ -4799,7 +4799,7 @@
           "Notes"
         ],
         "summary": "Creates a new Note",
-        "description": "Use the <code>POST</code> method on this endpoint to create a new Note and associate it with a Karbon entity (e.g., WorkItem, Contact, Organization, or ClientGroup) in your tenant.\n",
+        "description": "Use the `POST` method on this endpoint to create a new Note and associate it with a Karbon entity (e.g., WorkItem, Contact, Organization, or ClientGroup) in your tenant.\n",
         "operationId": "createNote",
         "responses": {
           "201": {
@@ -4967,7 +4967,7 @@
                 "summary": "The list tags assigned to the Organization contains 'sync'"
               }
             },
-            "description": "When this parameter is combined with the URI, this endpoint will return a subset of the Organizations that satisfy the <code>$filter</code> expression. \nFiltering for Tags cannot be combined with other filters."
+            "description": "When this parameter is combined with the URI, this endpoint will return a subset of the Organizations that satisfy the `$filter` expression.\nFiltering for Tags cannot be combined with other filters."
           },
           {
             "in": "query",
@@ -5007,7 +5007,7 @@
             "description": "When this parameter is combined with the URI and a value N is assigned to it, this endpoint will return all but the first N Organizations.\n"
           }
         ],
-        "description": "Use the <code>GET</code> method on this endpoint to receive a paginated list of Organizations from your tenant.   Using the query parameters available to this endpoint,  you can also filter the list of Organizations by their full name, or email address.  <br><br>  <div style = \"border-block: 1px solid #fc7f03;\">  <b>Notes</b>  <ul>  <li>This endpoint returns a maximum of 100 Organizations at once.</li>  <li>If the query results in more than 100 Organizations, a link to the next set of the results will be given in the <code>@odata.nextLink</code> field of the response.</li>  <li>The <code>$filter</code> query parameter supports 2 logical operators - <code>eq</code> and <code>and</code> - and 2 properties to help you form an expression. Usage examples below</li> <table>\n    <thead>\n        <tr>\n            <th>Logical Operators</th>\n            <th>Purpose</th>\n            <th>FullName</th>\n            <th>EmailAddress</th>\n        </tr>\n    </thead>\n    <tbody>\n        <tr>\n            <td>eq</td>\n            <td>Full-text search</td>\n            <td>/v3/Organizations?$filter=FullName eq 'Sample Company'</td>\n            <td>/v3/Organizations?$filter=EmailAddress eq 'info@samplecompany.com'</td>\n        </tr>\n        <tr>\n            <td>and</td>\n            <td>Combines properties</td>\n            <td colspan = \"2\">/v3/Organizations?$filter=FullName eq 'Sample Company' and EmailAddress eq 'info@samplecompany.com'</td>\n        </tr>                        \n    </tbody>\n</table> </div>\n",
+        "description": "Use the `GET` method on this endpoint to receive a paginated list of Organizations from your tenant.   Using the query parameters available to this endpoint,  you can also filter the list of Organizations by their full name, or email address.\n\n**Notes**\n\n* This endpoint returns a maximum of 100 Organizations at once.\n* If the query results in more than 100 Organizations, a link to the next set of the results will be given in the `@odata.nextLink` field of the response.\n* The `$filter` query parameter supports 2 logical operators - `eq` and `and` - and 2 properties to help you form an expression. Usage examples below<\n\n<table>\n<thead>\n<tr>\n<th>Logical Operators</th>\n<th>Purpose</th>\n<th>FullName</th>\n<th>EmailAddress</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td>eq</td>\n<td>Full-text search</td>\n<td>/v3/Organizations?$filter=FullName eq 'Sample Company'</td>\n<td>/v3/Organizations?$filter=EmailAddress eq 'info@samplecompany.com'</td>\n</tr>\n<tr>\n<td>and</td>\n<td>Combines properties</td>\n<td colspan = \"2\">/v3/Organizations?$filter=FullName eq 'Sample Company' and EmailAddress eq 'info@samplecompany.com'</td>\n</tr>\n</tbody>\n</table>\n",
         "operationId": "getAllOrganizations",
         "responses": {
           "200": {
@@ -5081,7 +5081,7 @@
           "Organizations"
         ],
         "summary": "Creates a new Organization",
-        "description": "Use the <code>POST</code> method on this endpoint to create a new Organization in your tenant.\n",
+        "description": "Use the `POST` method on this endpoint to create a new Organization in your tenant.\n",
         "operationId": "createOrganization",
         "responses": {
           "201": {
@@ -5332,7 +5332,7 @@
               "type": "string"
             },
             "example": "SAMPLECO",
-            "description": "A unique identifier that you had created to identify this Organization. This parameter is <b>not</b> case sensitive."
+            "description": "A unique identifier that you had created to identify this Organization. This parameter is **not** case sensitive."
           },
           {
             "in": "query",
@@ -5347,7 +5347,7 @@
             "description": "When this parameter is combined with the URI, this endpoint will also return the Business Cards of the Contact Organization.\n"
           }
         ],
-        "description": "Use the <code>GET</code> method on this endpoint to receive the details of a Organization specified using the UserDefinedIdentifier.  <br><br>Using the query parameter available to this endpoint, you can also include Business Card details of the Organization in the response.\n",
+        "description": "Use the `GET` method on this endpoint to receive the details of a Organization specified using the UserDefinedIdentifier.\n\nUsing the query parameter available to this endpoint, you can also include Business Card details of the Organization in the response.\n",
         "operationId": "getOrganizationByUDI",
         "responses": {
           "200": {
@@ -5555,7 +5555,7 @@
             "description": "When this parameter is combined with the URI, this endpoint will also return Business Cards and Contacts associated with the Organization.\n"
           }
         ],
-        "description": "Use the <code>GET</code> method on this endpoint to receive the details of a Organization specified using the <code>Organizationkey</code>.<br><br>Using the query parameter available to this endpoint,  you can also include the Business Card details of the Organization in the response.\n",
+        "description": "Use the `GET` method on this endpoint to receive the details of a Organization specified using the `Organizationkey`.\n\nUsing the query parameter available to this endpoint,  you can also include the Business Card details of the Organization in the response.\n",
         "operationId": "getOrganizationByID",
         "responses": {
           "200": {
@@ -5779,7 +5779,7 @@
             "description": "The Karbon-generated Organization key"
           }
         ],
-        "description": "Use the <code>PUT</code> method on this endpoint to update full details of a Organization specified using the <code>Organizationkey</code>.\n<p>Using the query parameter <code>$expand</code> with this endpoint, you can also update the Business Card details of the Organization. <br><b>Note:</b> When updating business cards, you must include <code>BusinessCardKey</code>, <code>EntityType</code> and <code>EntityKey</code> properties for existing Business Cards - or the existing card and any associated Client Requests may be removed.</p>",
+        "description": "Use the `PUT` method on this endpoint to update full details of a Organization specified using the `Organizationkey`.\n\n\nUsing the query parameter `$expand` with this endpoint, you can also update the Business Card details of the Organization.\n\n**Note:** When updating business cards, you must include `BusinessCardKey`, `EntityType` and `EntityKey` properties for existing Business Cards - or the existing card and any associated Client Requests may be removed.",
         "operationId": "putOrganizationByID",
         "responses": {
           "204": {
@@ -5939,7 +5939,7 @@
             "description": "Return the record after it has been updated"
           }
         ],
-        "description": "Use the <code>PATCH</code> method on this endpoint to update partial details of a Organization specified using the <code>Organizationkey</code>.  <br><br>This method <b>only supports</b> editing the <code>FullName</code> property. \n",
+        "description": "Use the `PATCH` method on this endpoint to update partial details of a Organization specified using the `Organizationkey`.\n\nThis method **only supports** editing the `FullName` property.\n",
         "operationId": "patchOrganizationByID",
         "responses": {
           "200": {
@@ -5983,7 +5983,7 @@
                     },
                     "RestrictionLevel": {
                       "type": "string",
-                      "description": "The privacy level for this Organization. <br> <ul><li>Public Organization can be managed by anyone in the firm</li> <li>Private Organization can only be managed by the [Client Team](https://help.karbonhq.com/en/articles/1524707-create-a-client-team). Basic details (name of the Organization and the Work Items) related to such Organization are visible to anyone in the firm.</li> <li>Hidden Organization are only be visible to and managed by the [Client Team](https://help.karbonhq.com/en/articles/1524707-create-a-client-team).</li>\n",
+                      "description": "The privacy level for this Organization.\n\n<ul><li>Public Organization can be managed by anyone in the firm</li> <li>Private Organization can only be managed by the [Client Team](https://help.karbonhq.com/en/articles/1524707-create-a-client-team). Basic details (name of the Organization and the Work Items) related to such Organization are visible to anyone in the firm.</li> <li>Hidden Organization are only be visible to and managed by the [Client Team](https://help.karbonhq.com/en/articles/1524707-create-a-client-team).</li>\n",
                       "default": "Public",
                       "enum": [
                         "Public",
@@ -6010,7 +6010,7 @@
                     "AccountingDetail": {
                       "type": "string",
                       "nullable": true,
-                      "description": "The accounting details associated with the Client Group. This property will be <code>null</code>."
+                      "description": "The accounting details associated with the Client Group. This property will be `null`."
                     }
                   }
                 },
@@ -6130,7 +6130,7 @@
         ],
         "summary": "Assigns one or more tags to an entity.",
         "parameters": [],
-        "description": "Use the <code>POST</code> method on this endpoint to assign one or more tags to an Organization",
+        "description": "Use the `POST` method on this endpoint to assign one or more tags to an Organization",
         "operationId": "addTags",
         "responses": {
           "200": {
@@ -6231,7 +6231,7 @@
             "description": "The Karbon-generated entity key"
           }
         ],
-        "description": "Use the <code>DELETE</code> method on this endpoint to remove one or more tags assigned to an Organization",
+        "description": "Use the `DELETE` method on this endpoint to remove one or more tags assigned to an Organization",
         "operationId": "removeTags",
         "responses": {
           "200": {
@@ -6485,7 +6485,7 @@
               ]
             },
             "example": "Status eq 'Draft'",
-            "description": "When this parameter is combined with the URI, this endpoint will return a subset of the Timesheets that satisfy the <code>$filter</code> expression. \n"
+            "description": "When this parameter is combined with the URI, this endpoint will return a subset of the Timesheets that satisfy the `$filter` expression.\n"
           },
           {
             "in": "query",
@@ -6538,7 +6538,7 @@
             "description": "When this parameter is combined with the URI, this endpoint will also return the Time Entries associated with the Timesheets.\n"
           }
         ],
-        "description": "Use the <code>GET</code> method on this endpoint to receive a paginated list of Timesheets from your tenant.  Using the query parameters available to this endpoint,  you can also filter the list of Timesheets by their StartDate,  EndDate, UserKey, WorkItemKeys, and Status.  <br><br>   <div style = \"border-block: 1px solid #fc7f03;\">   <b>Notes</b>   <ul>   <li>This endpoint returns a maximum of 100 Timesheets at once.</li>   <li>If the query results in more than 100 Timesheets, a link to the next set of the results will be given in the <code>@odata.nextLink</code> field of the response.</li>   <li>The <code>$filter</code> query parameter supports 8 logical operators, 3 functions and 6 properties to help you  form an expression. They are listed below with examples of usage.    <ul> <br>  <li> <b>Operators for DateTime properties</b> <table> <thead> <tr> <th>Logical Operators</th> <th>Purpose</th> <th>StartDate</th> <th>EndDate</th> </tr> </thead> <tbody> <tr> <td>eq</td> <td>Full-text search</td> <td>/v3/Timesheets?$filter=StartDate eq 2022-07-04T00:00:00Z</td> <td>/v3/Timesheets?$filter=EndDate eq 2022-07-17T00:00:00Z</td> </tr> <tr> <td>gt</td> <td>Greater than</td> <td>/v3/Timesheets?$filter=StartDate gt 2021-04-27T00:00:00Z</td> <td>/v3/Timesheets?$filter=EndDate gt 2021-06-21T00:00:00Z</td> </tr> <tr> <td>ge</td> <td>Greater than and equals</td> <td>/v3/Timesheets?$filter=StartDate ge 2021-04-27T00:00:00Z</td> <td>/v3/Timesheets?$filter=EndDate ge 2021-06-21T00:00:00Z</td> </tr> <tr> <td>lt</td> <td>Lesser than</td> <td>/v3/Timesheets?$filter=StartDate lt 2021-04-27T00:00:00Z</td> <td>/v3/Timesheets?$filter=EndDate lt 2021-06-21T00:00:00Z</td> </tr> <tr> <td>le</td> <td>Lesser than and equals</td> <td>/v3/Timesheets?$filter=StartDate le 2021-04-27T00:00:00Z</td> <td>/v3/Timesheets?$filter=EndDate le 2021-06-21T00:00:00Z</td> </tr> <tr> <td>and</td> <td>Combines properties</td> <td>/v3/Timesheets?$filter=StartDate gt 2021-04-27T00:00:00Z and StartDate lt 2021-06-27T00:00:00Z</td> <td>/v3/Timesheets?$filter=EndDate gt 2021-04-27T00:00:00Z and EndDate lt 2021-06-21T00:00:00Z</td> </tr> </tbody> </table> </li> <br> <li><b>Functions for DateTime properties</b><br><br> <table> <thead> <tr> <th>Functions</th> <th>StartDate</th> <th>EndDate</th> </tr> </thead> <tbody> <tr> <td>day</td> <td>/v3/Timesheets?$filter= day(StartDate) eq 4</td> <td>/v3/Timesheets?$filter=day(EndDate) eq 17</td> </tr> <tr> <td>month</td> <td>/v3/Timesheets?$filter= month(StartDate) eq 4</td> <td>/v3/Timesheets?$filter=month(EndDate) eq 8</td> </tr> <tr> <td>year</td> <td>/v3/Timesheets?$filter= year(StartDate) eq 2021</td> <td>/v3/Timesheets?$filter=year(EndDate) eq 2022</td> </tr> </tbody> </table> </li>  <br> <li><b>Operators for the rest of the properties</b><br><br> <table> <thead> <tr> <th>Logical Operators</th> <th>Purpose</th> <th>UserKey</th> <th>WorkItemKeys</th>\n <th>Status</th>\n </tr>\n </thead>\n <tbody>\n <tr>\n <td>eq</td>\n <td>Full-text search</td>\n <td>/v3/Timesheets?$filter=UserKey eq '2mYzTtly89Lq'</td>\n <td>/v3/Timesheets?$filter=WorkItemKeys/any(x: x eq '5mGnTfly34Rf')</td>\n <td>/v3/Timesheets?$filter=Status eq 'Draft'</td>\n </tr>\n <tr>\n <td>in</td>\n <td>Combines multiple ORs</td>\n <td>/v3/Timesheets?$filter=UserKey in ('2mYzTtly89Lq',  '2Qy48WVCRBcP' )</td>\n <td>/v3/Timesheets?$filter=WorkItemKeys/any(x: x in ('2m6pSFxRzcF2', '2y7H6dhQL7mD'))</td>\n <td>/v3/Timesheets?$filter=Status in ('Draft', 'Approved')</td>\n </tr>\n </tbody>\n </table>\n </li> \n </ul> \n </li> \n </ul> \n </div>\n",
+        "description": "Use the `GET` method on this endpoint to receive a paginated list of Timesheets from your tenant.  Using the query parameters available to this endpoint,  you can also filter the list of Timesheets by their StartDate,  EndDate, UserKey, WorkItemKeys, and Status.\n\n**Notes**\n\n* This endpoint returns a maximum of 100 Timesheets at once.\n* If the query results in more than 100 Timesheets, a link to the next set of the results will be given in the `@odata.nextLink` field of the response.\n* The `$filter` query parameter supports 8 logical operators, 3 functions and 6 properties to help you  form an expression. They are listed below with examples of usage.\n\n### $filter operators for DateTime properties\n\n<table><thead><tr><th>Logical Operators</th><th>Purpose</th><th>StartDate</th><th>EndDate</th></tr></thead><tbody><tr><td>eq</td><td>Full-text search</td><td>/v3/Timesheets?$filter=StartDate eq 2022-07-04T00:00:00Z</td><td>/v3/Timesheets?$filter=EndDate eq 2022-07-17T00:00:00Z</td></tr><tr><td>gt</td><td>Greater than</td><td>/v3/Timesheets?$filter=StartDate gt 2021-04-27T00:00:00Z</td><td>/v3/Timesheets?$filter=EndDate gt 2021-06-21T00:00:00Z</td></tr><tr><td>ge</td><td>Greater than and equals</td><td>/v3/Timesheets?$filter=StartDate ge 2021-04-27T00:00:00Z</td><td>/v3/Timesheets?$filter=EndDate ge 2021-06-21T00:00:00Z</td></tr><tr><td>lt</td><td>Lesser than</td><td>/v3/Timesheets?$filter=StartDate lt 2021-04-27T00:00:00Z</td><td>/v3/Timesheets?$filter=EndDate lt 2021-06-21T00:00:00Z</td></tr><tr><td>le</td><td>Lesser than and equals</td><td>/v3/Timesheets?$filter=StartDate le 2021-04-27T00:00:00Z</td><td>/v3/Timesheets?$filter=EndDate le 2021-06-21T00:00:00Z</td></tr><tr><td>and</td><td>Combines properties</td><td>/v3/Timesheets?$filter=StartDate gt 2021-04-27T00:00:00Z and StartDate lt 2021-06-27T00:00:00Z</td><td>/v3/Timesheets?$filter=EndDate gt 2021-04-27T00:00:00Z and EndDate lt 2021-06-21T00:00:00Z</td></tr></tbody></table></li>\n\n### Functions for DateTime properties\n\n<table><thead><tr><th>Functions</th><th>StartDate</th><th>EndDate</th></tr></thead><tbody><tr><td>day</td><td>/v3/Timesheets?$filter= day(StartDate) eq 4</td><td>/v3/Timesheets?$filter=day(EndDate) eq 17</td></tr><tr><td>month</td><td>/v3/Timesheets?$filter= month(StartDate) eq 4</td><td>/v3/Timesheets?$filter=month(EndDate) eq 8</td></tr><tr><td>year</td><td>/v3/Timesheets?$filter= year(StartDate) eq 2021</td><td>/v3/Timesheets?$filter=year(EndDate) eq 2022</td></tr></tbody></table>\n\n### $filter operators for the rest of the properties\n\n<table><thead><tr><th>Logical Operators</th><th>Purpose</th><th>UserKey</th><th>WorkItemKeys</th>\n<th>Status</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td>eq</td>\n<td>Full-text search</td>\n<td>/v3/Timesheets?$filter=UserKey eq '2mYzTtly89Lq'</td>\n<td>/v3/Timesheets?$filter=WorkItemKeys/any(x: x eq '5mGnTfly34Rf')</td>\n<td>/v3/Timesheets?$filter=Status eq 'Draft'</td>\n</tr>\n<tr>\n<td>in</td>\n<td>Combines multiple ORs</td>\n<td>/v3/Timesheets?$filter=UserKey in ('2mYzTtly89Lq',  '2Qy48WVCRBcP' )</td>\n<td>/v3/Timesheets?$filter=WorkItemKeys/any(x: x in ('2m6pSFxRzcF2', '2y7H6dhQL7mD'))</td>\n<td>/v3/Timesheets?$filter=Status in ('Draft', 'Approved')</td>\n</tr>\n</tbody>\n</table>\n",
         "operationId": "getAllTimesheets",
         "responses": {
           "200": {
@@ -6641,7 +6641,7 @@
             "description": "When this parameter is combined with the URI, this endpoint will also return the Time Entries associated with the Timesheets.\n"
           }
         ],
-        "description": "Use the <code>GET</code> method on this endpoint to receive the details of a Timesheet specified using the <code>Timesheetkey</code>.  <br><br>Using the query parameter available to this endpoint,  you can also include the Time Entries associated with the Timesheet in the response.\n",
+        "description": "Use the `GET` method on this endpoint to receive the details of a Timesheet specified using the `Timesheetkey`.\n\nUsing the query parameter available to this endpoint,  you can also include the Time Entries associated with the Timesheet in the response.\n",
         "operationId": "getTimesheetByID",
         "responses": {
           "200": {
@@ -6749,7 +6749,7 @@
               ]
             },
             "example": "EmailAddress eq 'joe@samplecompany.com'",
-            "description": "When this parameter is combined with the URI, this endpoint will return a subset of the Users that satisfy the <code>$filter</code> expression. \n"
+            "description": "When this parameter is combined with the URI, this endpoint will return a subset of the Users that satisfy the `$filter` expression.\n"
           },
           {
             "in": "query",
@@ -6773,7 +6773,7 @@
             "description": "When this parameter is combined with the URI and a value N is assigned to it, this endpoint will return all but the first N Users.\n"
           }
         ],
-        "description": "Use the <code>GET</code> method on this endpoint to receive a paginated list of Users from your tenant.   Using the query parameters available to this endpoint, you can also filter the list of Users by their Name, and EmailAddress.<br><br>  <div style = \"border-block: 1px solid #fc7f03;\">  <b>Notes</b>  <ul>  <li>This endpoint returns a maximum of 100 Users at once.</li>  <li>If the query results in more than 100 Users, a link to the next set of the results will be given in the <code>@odata.nextLink</code> field of the response.</li>  <li>The <code>$filter</code> query parameter supports 3 logical operators (<code>eq</code>, <code>contains</code>, and <code>and</code>), and 2 properties to help you  form an expression. They are listed below with examples of usage.</li> <table>\n    <thead>\n        <tr>\n            <th>Logical Operators</th>\n            <th>Purpose</th>\n            <th>Name</th>\n            <th>EmailAddress</th>\n        </tr>\n    </thead>\n    <tbody>\n        <tr>\n            <td>eq</td>\n            <td>Full-text search</td>\n            <td>/v3/Users?$filter=Name eq 'Joe Min'</td>\n            <td>/v3/Users?$filter=EmailAddress eq 'joe@samplecompany.com'</td>\n        </tr>\n        <tr>\n            <td>contains</td>\n            <td>Partial-text search</td>\n            <td>/v3/Users?$filter=(contains(Name, 'Min'))</td>\n            <td>/v3/Users?$filter=(contains(EmailAddress, 'joe'))</td>\n        </tr>                        \n        <tr>\n            <td>and</td>\n            <td>Combines properties</td>\n            <td colspan = \"2\">/v3/Users?$filter=Name eq 'Joe Min' and (contains(EmailAddress, 'joe'))</td>\n        </tr>\n    </tbody>\n</table> </ul> </div>\n",
+        "description": "Use the `GET` method on this endpoint to receive a paginated list of Users from your tenant.   Using the query parameters available to this endpoint, you can also filter the list of Users by their Name, and EmailAddress.\n\n**Notes**\n\n* This endpoint returns a maximum of 100 Users at once.\n* If the query results in more than 100 Users, a link to the next set of the results will be given in the `@odata.nextLink` field of the response.\n* The `$filter` query parameter supports 3 logical operators (`eq`, `contains`, and `and`), and 2 properties to help you  form an expression. They are listed below with examples of usage.\n\n<table>\n<thead>\n<tr>\n<th>Logical Operators</th>\n<th>Purpose</th>\n<th>Name</th>\n<th>EmailAddress</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td>eq</td>\n<td>Full-text search</td>\n<td>/v3/Users?$filter=Name eq 'Joe Min'</td>\n<td>/v3/Users?$filter=EmailAddress eq 'joe@samplecompany.com'</td>\n</tr>\n<tr>\n<td>contains</td>\n<td>Partial-text search</td>\n<td>/v3/Users?$filter=(contains(Name, 'Min'))</td>\n<td>/v3/Users?$filter=(contains(EmailAddress, 'joe'))</td>\n</tr>\n<tr>\n<td>and</td>\n<td>Combines properties</td>\n<td colspan = \"2\">/v3/Users?$filter=Name eq 'Joe Min' and (contains(EmailAddress, 'joe'))</td>\n</tr>\n</tbody>\n</table>\n",
         "operationId": "getAllUsers",
         "responses": {
           "200": {
@@ -6844,7 +6844,7 @@
           "Users"
         ],
         "summary": "Creates a new User",
-        "description": "Use the <code>POST</code> method on this endpoint to create a new User in your tenant.",
+        "description": "Use the `POST` method on this endpoint to create a new User in your tenant.",
         "operationId": "createUser",
         "responses": {
           "200": {
@@ -6979,7 +6979,7 @@
             "description": "The unique ID of the User to get"
           }
         ],
-        "description": "Use the <code>GET</code> method on this endpoint to receive the details of a single User from your tenant.",
+        "description": "Use the `GET` method on this endpoint to receive the details of a single User from your tenant.",
         "operationId": "getUserById",
         "responses": {
           "200": {
@@ -7060,7 +7060,7 @@
             "description": "The type of Karbon entity, which the Webhook Subscription must be associated with"
           }
         ],
-        "description": "Use the <code>GET</code> method on this endpoint to receive the details of a Webhook Subscriptions associated with the Karbon entity specified using the <code>WebhookType</code>.<br> <b>Only one</b> Webhook Subcription can exist per entity.\n",
+        "description": "Use the `GET` method on this endpoint to receive the details of a Webhook Subscriptions associated with the Karbon entity specified using the `WebhookType`.\n\n**Only one** Webhook Subcription can exist per entity.\n",
         "operationId": "getWebhookSubscriptionsByWebhookType",
         "responses": {
           "200": {
@@ -7150,7 +7150,7 @@
             "description": "The type of Karbon entity, which the Webhook Subscription must be associated with"
           }
         ],
-        "description": "Use the <code>DELETE</code> method on this endpoint to delete a Webhook Subscription associated with the Karbon entity specified using the <code>WebhookType</code>.<br>\n",
+        "description": "Use the `DELETE` method on this endpoint to delete a Webhook Subscription associated with the Karbon entity specified using the `WebhookType`.\n\n\n",
         "operationId": "delWebhookSubscriptionsByWebhookType",
         "responses": {
           "204": {
@@ -7210,7 +7210,7 @@
           "Webhook Subscriptions"
         ],
         "summary": "Creates a new Webhook Subscription",
-        "description": "<p>Use the <code>POST</code> method on create and associate a Webhook Subscriptions with a Karbon entity.<br> You can create <b>only one</b> Webhook Subcription per entity.</p><p>Payload delivery for a webhook subscription will be retried 10 times, with increasing delays. If unsuccessful after 10 tries (no 2xx HTTP response), the subscription ends and needs to be recreated to receive further updates.</p>\n",
+        "description": "\n\nUse the `POST` method on create and associate a Webhook Subscriptions with a Karbon entity.\n\nYou can create **only one** Webhook Subcription per entity.\n\nPayload delivery for a webhook subscription will be retried 10 times, with increasing delays. If unsuccessful after 10 tries (no 2xx HTTP response), the subscription ends and needs to be recreated to receive further updates.\n",
         "operationId": "createWebhookSubscription",
         "responses": {
           "201": {
@@ -7297,7 +7297,7 @@
                 "properties": {
                   "TargetUrl": {
                     "type": "string",
-                    "description": "The URL to your server that is waiting to receive information about the <code>WebhookType</code> from Karbon",
+                    "description": "The URL to your server that is waiting to receive information about the `WebhookType` from Karbon",
                     "example": "https://evelyn.info/hooks/catch/3550924/ovsbqn4/"
                   },
                   "WebhookType": {
@@ -7309,7 +7309,7 @@
                       "User",
                       "Invoice"
                     ],
-                    "description": "The type of Karbon entity which the Webhook Subscription is associated with. To receive ClientGroup, Contact and Organization updates, pass WebhookType as <code>Contact</code>. To receive WorkItem updates, pass WebhookType as <code>Work</code>. To receive Note and NoteComment updates, pass WebhookType as <code>Note</code>. To receive an update when a User has accepted an invite to Karbon, pass WebhookType as <code>User</code>. To receive an update when an Invoice changes status, pass WebhookType as <code>Invoice</code>.",
+                    "description": "The type of Karbon entity which the Webhook Subscription is associated with. To receive ClientGroup, Contact and Organization updates, pass WebhookType as `Contact`. To receive WorkItem updates, pass WebhookType as `Work`. To receive Note and NoteComment updates, pass WebhookType as `Note`. To receive an update when a User has accepted an invite to Karbon, pass WebhookType as `User`. To receive an update when an Invoice changes status, pass WebhookType as `Invoice`.",
                     "example": "Contact"
                   }
                 }
@@ -7323,7 +7323,7 @@
           "Webhook Subscriptions"
         ],
         "summary": "Deletes all Webhook Subscriptions",
-        "description": "Use the <code>DELETE</code> method on this endpoint to delete all Webhook Subscriptions associated with Contact, Work, and Note.<br>\n",
+        "description": "Use the `DELETE` method on this endpoint to delete all Webhook Subscriptions associated with Contact, Work, and Note.\n\n\n",
         "operationId": "delAllWebhookSubscriptions",
         "responses": {
           "204": {
@@ -7386,7 +7386,7 @@
               ]
             },
             "example": "WorkType eq 'Payroll'",
-            "description": "When this parameter is combined with the URI, this endpoint will return a subset of the Work Items that satisfy the <code>$filter</code> expression. \n"
+            "description": "When this parameter is combined with the URI, this endpoint will return a subset of the Work Items that satisfy the `$filter` expression.\n"
           },
           {
             "in": "query",
@@ -7426,7 +7426,7 @@
             "description": "When this parameter is combined with the URI and a value N is assigned to it, this endpoint will return all but the first N Work Items.\n"
           }
         ],
-        "description": "Use the <code>GET</code> method on this endpoint to receive a paginated list of Work Items from your tenant.   Using the query parameters available to this endpoint, you can also filter the list of Work Items by their AssigneeEmailAddress, ClientKey, PrimaryStatus StartDate, Title, WorkStatus, and WorkType. <br> <div style = \"border-block: 1px solid #fc7f03;\">  <b>Notes</b>  <ul>  <li>This endpoint returns a maximum of 100 Work Items at once.</li>  <li>If the query results in more than 100 Work Items, a link to the next set of the results will be given in the <code>@odata.nextLink</code> field of the response.</li>  <li>The <code>$filter</code> query parameter supports multiple logical operators and 7 properties to help you form an expression. They are listed below with examples of usage.  <ul> <br> <li><b>Operators for StartDate property</b>\n    <table>\n        <thead>\n            <tr>\n                <th>Operators</th>\n                <th>Purpose</th>\n                <th>StartDate</th>\n            </tr>\n        </thead>\n        <tbody>\n            <tr>\n                <td>ge</td>\n                <td>Greater than and equals</td>\n                <td>/v3/WorkItems?$filter=StartDate ge 2021-04-27T00:00:00Z</td>\n            </tr>\n            <tr>\n                <td>le</td>\n                <td>Lesser than and equals</td>\n                <td>/v3/WorkItems?$filter=StartDate le 2021-04-27T00:00:00Z</td>\n            </tr>\n            <tr>\n                <td>and</td>\n                <td>Combines properties</td>\n                <td>/v3/WorkItems?$filter=StartDate ge 2021-04-27T00:00:00Z and PrimaryStatus eq 'Planned'</td>\n            </tr>    \n        </tbody>\n    </table>\n</li> <li><b>Operators for rest of the properties</b>\n    <table>\n        <thead>\n            <tr>\n                <th>Property</th>\n                <th>eq<br>[For full-text search]</th>\n                <th>and<br>[For combined-property search]</th>\n                <th>contains<br>[For partial-text search]</th>\n            </tr>\n        </thead>\n        <tbody>\n            <tr>\n                <td>AssigneeEmailAddress</td>\n                <td>/v3/WorkItems?$filter=AssigneeEmailAddress eq 'joe@samplecompany.com'</td>\n                <td>/v3/WorkItems?$filter=AssigneeEmailAddress eq 'joe@samplecompany.com' and PrimaryStatus eq 'Planned'</td>\n                <td>/v3/WorkItems?$filter=(contains(AssigneeEmailAddress , 'joe'))</td>\n            </tr>\n            <tr>\n                <td>ClientKey</td>\n                <td>/v3/WorkItems?$filter=ClientKey eq '2nvhdM1TmZk3'</td>\n                <td>/v3/WorkItems?$filter=ClientKey eq '2nvhdM1TmZk3' and (contains(AssigneeEmailAddress , 'joe'))</td>\n                <td>N/A</td>\n            </tr>\n            <tr>\n                <td>PrimaryStatus</td>\n                <td>/v3/WorkItems?$filter=PrimaryStatus eq 'Planned'</td>\n                <td>/v3/WorkItems?$filter=AssigneeEmailAddress eq 'joe@samplecompany.com' and PrimaryStatus eq 'Planned'</td>\n                <td>N/A</td>\n            </tr>\n            <tr>\n                <td>Title</td>\n                <td>/v3/WorkItems?$filter=Title eq 'Payroll 31 Aug - 15 Sep 2022'</td>\n                <td>/v3/WorkItems?$filter=Title eq 'Payroll 31 Aug - 15 Sep 2022' and PrimaryStatus eq 'Planned'</td>\n                <td>/v3/WorkItems?$filter=(contains(Title, 'pay'))</td>\n            </tr>\n            <tr>\n                <td>WorkStatus</td>\n                <td>/v3/WorkItems?$filter=WorkStatus eq 'Ready To Start'</td>\n                <td>/v3/WorkItems?$filter=WorkStatus eq 'Ready To Start' and $filter=(contains(Title, 'Pay'))</td>\n                <td>/v3/WorkItems?$filter=(contains(WorkStatus , 'joe'))</td>\n            </tr>\n            <tr>\n                <td>WorkType</td>\n                <td>/v3/WorkItems?$filter=WorkType eq 'Payroll'</td>\n                <td>/v3/WorkItems?$filter=WorkType eq 'Payroll' and PrimaryStatus eq 'Planned'</td>\n                <td>/v3/WorkItems?$filter=(contains(WorkType , 'pay'))</td>\n            </tr> \n        </tbody>\n    </table>\n</li> </ul> </div>\n",
+        "description": "Use the `GET` method on this endpoint to receive a paginated list of Work Items from your tenant. Using the query parameters available to this endpoint, you can also filter the list of Work Items by their AssigneeEmailAddress, ClientKey, PrimaryStatus StartDate, Title, WorkStatus, and WorkType.\n\n**Notes**\n\n* This endpoint returns a maximum of 100 Work Items at once.\n* If the query results in more than 100 Work Items, a link to the next set of the results will be given in the `@odata.nextLink` field of the response.\n* The `$filter` query parameter supports multiple logical operators and 7 properties to help you form an expression. They are listed below with examples of usage.\n\n### $filter operators for StartDate property\n<table>\n<thead>\n<tr>\n<th>Operators</th>\n<th>Purpose</th>\n<th>StartDate</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td>ge</td>\n<td>Greater than and equals</td>\n<td>/v3/WorkItems?$filter=StartDate ge 2021-04-27T00:00:00Z</td>\n</tr>\n<tr>\n<td>le</td>\n<td>Lesser than and equals</td>\n<td>/v3/WorkItems?$filter=StartDate le 2021-04-27T00:00:00Z</td>\n</tr>\n<tr>\n<td>and</td>\n<td>Combines properties</td>\n<td>/v3/WorkItems?$filter=StartDate ge 2021-04-27T00:00:00Z and PrimaryStatus eq 'Planned'</td>\n</tr>\n</tbody>\n</table>\n\n### $filter operators for rest of the properties\n<table>\n<thead>\n<tr>\n<th>Property</th>\n<th>eq [For full-text search]</th>\n<th>and [For combined-property search]</th>\n<th>contains [For partial-text search]</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td>AssigneeEmailAddress</td>\n<td>/v3/WorkItems?$filter=AssigneeEmailAddress eq 'joe@samplecompany.com'</td>\n<td>/v3/WorkItems?$filter=AssigneeEmailAddress eq 'joe@samplecompany.com' and PrimaryStatus eq 'Planned'</td>\n<td>/v3/WorkItems?$filter=(contains(AssigneeEmailAddress , 'joe'))</td>\n</tr>\n<tr>\n<td>ClientKey</td>\n<td>/v3/WorkItems?$filter=ClientKey eq '2nvhdM1TmZk3'</td>\n<td>/v3/WorkItems?$filter=ClientKey eq '2nvhdM1TmZk3' and (contains(AssigneeEmailAddress , 'joe'))</td>\n<td>N/A</td>\n</tr>\n<tr>\n<td>PrimaryStatus</td>\n<td>/v3/WorkItems?$filter=PrimaryStatus eq 'Planned'</td>\n<td>/v3/WorkItems?$filter=AssigneeEmailAddress eq 'joe@samplecompany.com' and PrimaryStatus eq 'Planned'</td>\n<td>N/A</td>\n</tr>\n<tr>\n<td>Title</td>\n<td>/v3/WorkItems?$filter=Title eq 'Payroll 31 Aug - 15 Sep 2022'</td>\n<td>/v3/WorkItems?$filter=Title eq 'Payroll 31 Aug - 15 Sep 2022' and PrimaryStatus eq 'Planned'</td>\n<td>/v3/WorkItems?$filter=(contains(Title, 'pay'))</td>\n</tr>\n<tr>\n<td>WorkStatus</td>\n<td>/v3/WorkItems?$filter=WorkStatus eq 'Ready To Start'</td>\n<td>/v3/WorkItems?$filter=WorkStatus eq 'Ready To Start' and $filter=(contains(Title, 'Pay'))</td>\n<td>/v3/WorkItems?$filter=(contains(WorkStatus , 'joe'))</td>\n</tr>\n<tr>\n<td>WorkType</td>\n<td>/v3/WorkItems?$filter=WorkType eq 'Payroll'</td>\n<td>/v3/WorkItems?$filter=WorkType eq 'Payroll' and PrimaryStatus eq 'Planned'</td>\n<td>/v3/WorkItems?$filter=(contains(WorkType , 'pay'))</td>\n</tr>\n</tbody>\n</table>\n",
         "operationId": "getAllWorkItems",
         "responses": {
           "200": {
@@ -7500,7 +7500,7 @@
           "Work Items"
         ],
         "summary": "Creates a new Work Item",
-        "description": "Use the <code>POST</code> method on this endpoint to create a new Work Item in your tenant.\n",
+        "description": "Use the `POST` method on this endpoint to create a new Work Item in your tenant.\n",
         "operationId": "createWorkItem",
         "responses": {
           "201": {
@@ -7537,7 +7537,7 @@
                         },
                         "ClientTaskRecipient": {
                           "type": "string",
-                          "description": "The details about the recipient of the Client Tasks related to this Work Item. This property will always return <code>null</code>.",
+                          "description": "The details about the recipient of the Client Tasks related to this Work Item. This property will always return `null`.",
                           "example": null
                         }
                       }
@@ -7661,7 +7661,7 @@
             "description": "The Karbon-generated Work Item key"
           }
         ],
-        "description": "Use the <code>GET</code> method on this endpoint to receive the details of a Work Item specified using the WorkItemkey.\n",
+        "description": "Use the `GET` method on this endpoint to receive the details of a Work Item specified using the WorkItemkey.\n",
         "operationId": "getWorkItemByID",
         "responses": {
           "200": {
@@ -7698,7 +7698,7 @@
                         },
                         "ClientTaskRecipient": {
                           "type": "string",
-                          "description": "The details about the recipient of the Client Tasks related to this Work Item. This property will always return <code>null</code>.",
+                          "description": "The details about the recipient of the Client Tasks related to this Work Item. This property will always return `null`.",
                           "example": null
                         }
                       }
@@ -7787,7 +7787,7 @@
             "description": "The Karbon-generated Work Item key"
           }
         ],
-        "description": "Use the <code>PUT</code> method on this endpoint to update full details of a Work Item (specified using the WorkItemkey). \n",
+        "description": "Use the `PUT` method on this endpoint to update full details of a Work Item (specified using the WorkItemkey).\n",
         "operationId": "putWorkItemByID",
         "responses": {
           "204": {
@@ -7917,7 +7917,7 @@
             "description": "The Karbon-generated Work Item key"
           }
         ],
-        "description": "Use the <code>PATCH</code> method on this endpoint to update partial details of a Work Item (specified using the WorkItemkey). <br><br>This method <b>only supports</b> editing the <code>Description</code> and <code>DeadlineDate</code> properties.",
+        "description": "Use the `PATCH` method on this endpoint to update partial details of a Work Item (specified using the WorkItemkey).\n\nThis method **only supports** editing the `Description` and `DeadlineDate` properties.",
         "operationId": "patchWorkItemByID",
         "responses": {
           "204": {
@@ -8010,7 +8010,7 @@
           "Work Schedules"
         ],
         "summary": "Creates a new Work Schedule",
-        "description": "Use the <code>POST</code> method on this endpoint to create a new Work Schedule in your tenant.\n",
+        "description": "Use the `POST` method on this endpoint to create a new Work Schedule in your tenant.\n",
         "operationId": "createWorkSchedule",
         "responses": {
           "201": {
@@ -8115,7 +8115,7 @@
             "description": "The Karbon-generated Work Schedule key"
           }
         ],
-        "description": "Use the <code>GET</code> method on this endpoint to receive the details of a Work Schedule specified using the WorkSchedulekey.\n",
+        "description": "Use the `GET` method on this endpoint to receive the details of a Work Schedule specified using the WorkSchedulekey.\n",
         "operationId": "getWorkScheduleByID",
         "responses": {
           "200": {
@@ -8207,7 +8207,7 @@
             "description": "The Karbon-generated Work Schedule key"
           }
         ],
-        "description": "Use the <code>PUT</code> method on this endpoint to update full details of a Work Schedule specified using the WorkSchedulekey.",
+        "description": "Use the `PUT` method on this endpoint to update full details of a Work Schedule specified using the WorkSchedulekey.",
         "operationId": "putWorkScheduleByID",
         "responses": {
           "204": {
@@ -8311,7 +8311,7 @@
               ]
             },
             "example": "Title eq 'Payroll processing'",
-            "description": "When this parameter is combined with the URI, this endpoint will return a subset of the Work Templates that satisfy the <code>$filter</code> expression.\n"
+            "description": "When this parameter is combined with the URI, this endpoint will return a subset of the Work Templates that satisfy the `$filter` expression.\n"
           },
           {
             "in": "query",
@@ -8357,7 +8357,7 @@
             "description": "When this parameter is combined with the URI and a value N is assigned to it, this endpoint will return all but the first N Work Templates.\n"
           }
         ],
-        "description": "Use the <code>GET</code> method on this endpoint to receive a paginated list of Work Templates from your tenant.    Using the query parameters available to this endpoint,  you can also filter the list of Work Templates by their  Title, WorkTypeKey, HasScheduledClientTaskGroups, DraftHasChanges, PublishedDate, NumberOfWorkItemsCreated, DateLastWorkItemCreated, or DateModified.  <br><br>   <div style = \"border-block: 1px solid #fc7f03;\">   <b>Notes</b>   <ul>   <li>This endpoint returns a maximum of 100 Work Templates at once.</li>   <li>If the query results in more than 100 Work Templates, a link to the next set of the results will be given in the <code>@odata.nextLink</code> field of the response.</li>   <li>The <code>$filter</code> query parameter supports 3 logical operators (<code>eq</code>, <code>startswith</code> and <code>and</code>) and  8 properties to help you form an expression. Usage examples below  <table> <thead> <tr> <th>Properties</th> <th>eq<br>[For full-text search]</th> <th>startswith<br>[For searching text that starts with specified characters]</th> <th>and<br>[For combined property search]</th> </tr> </thead> <tbody> <tr> <td>Title</td> <td>/v3/WorkTemplates?$filter=Title eq 'Payroll processing'</td> <td>/v3/WorkTemplates?$filter=startswith(Title,'Payroll')</td> <td rowspan = \"8\">/v3/WorkTemplates?$filter=startswith(Title,'Payroll') and WorkTypeKey eq '2Wj3ZqNzWtnQ'</td> </tr> <tr> <td>WorkTypeKey</td> <td>/v3/WorkTemplates?$filter=WorkTypeKey eq '2Wj3ZqNzWtnQ'</td> <td>/v3/WorkTemplates?$filter=startswith(WorkTypeKey,'2W')</td> </tr> <tr> <td>HasScheduledClientTaskGroups</td> <td>/v3/WorkTemplates?$filter=HasScheduledClientTaskGroups eq false</td> <td>N/A</td> </tr> <tr> <td>DraftHasChanges</td> <td>/v3/WorkTemplates?$filter=DraftHasChanges eq false</td> <td>N/A</td> </tr> <tr> <td>PublishedDate</td> <td>/v3/WorkTemplates?$filter=PublishedDate eq 2021-12-17T01:02:25Z</td> <td>N/A</td> </tr> <tr> <td>NumberOfWorkItemsCreated</td> <td>/v3/WorkTemplates?$filter=NumberOfWorkItemsCreated eq 24</td> <td>N/A</td> </tr> <tr> <td>DateLastWorkItemCreated</td> <td>/v3/WorkTemplates?$filter=PublishedDate eq 2022-01-09T01:02:25Z</td> <td>N/A</td> </tr> <tr> <td>DateModified</td> <td>/v3/WorkTemplates?$filter=PublishedDate eq 2022-01-09T01:02:25Z</td> <td>N/A</td> </tr> </tbody> </table></li>  </div>\n",
+        "description": "Use the `GET` method on this endpoint to receive a paginated list of Work Templates from your tenant. Using the query parameters available to this endpoint, you can also filter the list of Work Templates by their Title, WorkTypeKey, HasScheduledClientTaskGroups, DraftHasChanges, PublishedDate, NumberOfWorkItemsCreated, DateLastWorkItemCreated, or DateModified.\n\n**Notes**\n\n* This endpoint returns a maximum of 100 Work Templates at once.\n* If the query results in more than 100 Work Templates, a link to the next set of the results will be given in the `@odata.nextLink` field of the response.\n* The `$filter` query parameter supports 3 logical operators (`eq`, `startswith` and `and`) and 8 properties to help you form an expression. Usage examples below:\n\n<table><thead><tr><th>Properties</th><th>eq\n\n[For full-text search]</th><th>startswith\n\n[For searching text that starts with specified characters]</th><th>and\n\n[For combined property search]</th></tr></thead><tbody><tr><td>Title</td><td>/v3/WorkTemplates?$filter=Title eq 'Payroll processing'</td><td>/v3/WorkTemplates?$filter=startswith(Title,'Payroll')</td><td rowspan = \"8\">/v3/WorkTemplates?$filter=startswith(Title,'Payroll') and WorkTypeKey eq '2Wj3ZqNzWtnQ'</td></tr><tr><td>WorkTypeKey</td><td>/v3/WorkTemplates?$filter=WorkTypeKey eq '2Wj3ZqNzWtnQ'</td><td>/v3/WorkTemplates?$filter=startswith(WorkTypeKey,'2W')</td></tr><tr><td>HasScheduledClientTaskGroups</td><td>/v3/WorkTemplates?$filter=HasScheduledClientTaskGroups eq false</td><td>N/A</td></tr><tr><td>DraftHasChanges</td><td>/v3/WorkTemplates?$filter=DraftHasChanges eq false</td><td>N/A</td></tr><tr><td>PublishedDate</td><td>/v3/WorkTemplates?$filter=PublishedDate eq 2021-12-17T01:02:25Z</td><td>N/A</td></tr><tr><td>NumberOfWorkItemsCreated</td><td>/v3/WorkTemplates?$filter=NumberOfWorkItemsCreated eq 24</td><td>N/A</td></tr><tr><td>DateLastWorkItemCreated</td><td>/v3/WorkTemplates?$filter=PublishedDate eq 2022-01-09T01:02:25Z</td><td>N/A</td></tr><tr><td>DateModified</td><td>/v3/WorkTemplates?$filter=PublishedDate eq 2022-01-09T01:02:25Z</td><td>N/A</td></tr></tbody></table>\n",
         "operationId": "getAllWorkTemplates",
         "responses": {
           "200": {
@@ -8445,7 +8445,7 @@
             "description": "The Karbon-generated Work Template key"
           }
         ],
-        "description": "Use the <code>GET</code> method on this endpoint to receive the details of a Work Template specified using the WorkTemplatekey.\n",
+        "description": "Use the `GET` method on this endpoint to receive the details of a Work Template specified using the WorkTemplatekey.\n",
         "operationId": "getWorkTemplateByID",
         "responses": {
           "200": {
@@ -9420,7 +9420,7 @@
           },
           "UploadedByKarbonUser": {
             "type": "boolean",
-            "description": "The value of this property is set to <code>true</code>, if the attachment was uploaded by an existing Karbon user.",
+            "description": "The value of this property is set to `true`, if the attachment was uploaded by an existing Karbon user.",
             "example": false
           }
         }
@@ -9461,7 +9461,7 @@
           "IsDraft": {
             "default": false,
             "type": "boolean",
-            "description": "The value of this property is set to <code>true</code>, if you don't want to publish the comment.",
+            "description": "The value of this property is set to `true`, if you don't want to publish the comment.",
             "example": false
           }
         }
@@ -9521,12 +9521,12 @@
           },
           "IsEdited": {
             "type": "boolean",
-            "description": "The value of this property is set to <code>true</code>, if the original comment was edited.",
+            "description": "The value of this property is set to `true`, if the original comment was edited.",
             "example": false
           },
           "IsDraft": {
             "type": "boolean",
-            "description": "The value of this property is set to <code>true</code>, if the comment is yet to be published.",
+            "description": "The value of this property is set to `true`, if the comment is yet to be published.",
             "example": false
           },
           "DateModified": {
@@ -9537,7 +9537,7 @@
           "HasAttachments": {
             "type": "boolean",
             "nullable": true,
-            "description": "The value of this property is set to <code>true</code>, if the comment has attachments. When creating a new Client Task comment, this field will be <code>null</code>.",
+            "description": "The value of this property is set to `true`, if the comment has attachments. When creating a new Client Task comment, this field will be `null`.",
             "example": null
           },
           "Attachments": {
@@ -9607,12 +9607,12 @@
           },
           "IsEdited": {
             "type": "boolean",
-            "description": "The value of this property is set to <code>true</code>, if the original comment was edited.",
+            "description": "The value of this property is set to `true`, if the original comment was edited.",
             "example": false
           },
           "IsDraft": {
             "type": "boolean",
-            "description": "The value of this property is set to <code>true</code>, if the comment is yet to be published.",
+            "description": "The value of this property is set to `true`, if the comment is yet to be published.",
             "example": false
           },
           "DateModified": {
@@ -9622,7 +9622,7 @@
           },
           "HasAttachments": {
             "type": "boolean",
-            "description": "The value of this property is set to <code>true</code>, if the comment has attachments.",
+            "description": "The value of this property is set to `true`, if the comment has attachments.",
             "example": true
           },
           "Attachments": {
@@ -9689,12 +9689,12 @@
           },
           "IsEdited": {
             "type": "boolean",
-            "description": "The value of this property is set to <code>true</code>, if the original comment was edited.",
+            "description": "The value of this property is set to `true`, if the original comment was edited.",
             "example": false
           },
           "IsDraft": {
             "type": "boolean",
-            "description": "The value of this property is set to <code>true</code>, if the comment is yet to be published.",
+            "description": "The value of this property is set to `true`, if the comment is yet to be published.",
             "example": false
           },
           "DateModified": {
@@ -9704,7 +9704,7 @@
           },
           "HasAttachments": {
             "type": "boolean",
-            "description": "The value of this property is set to <code>true</code>, if the comment has attachments.",
+            "description": "The value of this property is set to `true`, if the comment has attachments.",
             "example": true
           },
           "Attachments": {
@@ -10026,7 +10026,7 @@
           "CommentTypeKey": {
             "type": "string",
             "example": "wF8D81TVZPu",
-            "description": "A Karbon-generated value that is used to identify the Karbon entity (e.g., Work Item, Notes, Contacts) associated with the comment. \n"
+            "description": "A Karbon-generated value that is used to identify the Karbon entity (e.g., Work Item, Notes, Contacts) associated with the comment.\n"
           },
           "CommentBody": {
             "type": "string",
@@ -10036,7 +10036,7 @@
           "CreatedDate": {
             "type": "string",
             "example": "2022-06-21T05:38:10.0608412+00:00",
-            "description": "The date and time at which the comment was created in Karbon. This value is automatically generated by Karbon. <br><br>The datetime format is UTC.\n"
+            "description": "The date and time at which the comment was created in Karbon. This value is automatically generated by Karbon.\n\nThe datetime format is UTC.\n"
           },
           "AuthorKey": {
             "type": "string",
@@ -10453,7 +10453,7 @@
           },
           "PrimaryStatus": {
             "type": "string",
-            "description": "The current parent-level Status of the Work Item. If <code>WorkStatus</code> and <code>PrimaryStatus</code> have different values, <code>PrimaryStatus</code> will be the source of truth for Work Item status.\n",
+            "description": "The current parent-level Status of the Work Item. If `WorkStatus` and `PrimaryStatus` have different values, `PrimaryStatus` will be the source of truth for Work Item status.\n",
             "example": "Ready To Start"
           },
           "SecondaryStatus": {
@@ -10810,7 +10810,7 @@
           },
           "RestrictionLevel": {
             "type": "string",
-            "description": "The privacy level for this Client Group. <br> <ul><li>Public Client Groups can be managed by anyone in the firm</li> <li>Private Client Groups can only be managed by the [Client Team](https://help.karbonhq.com/en/articles/1524707-create-a-client-team). Basic details (name of the Contacts and the Work Items) related to such Client Groups are visible to anyone in the firm.</li> <li>Hidden Client Groups are only be visible to and managed by the [Client Team](https://help.karbonhq.com/en/articles/1524707-create-a-client-team).</li>\n",
+            "description": "The privacy level for this Client Group.\n\n<ul><li>Public Client Groups can be managed by anyone in the firm</li> <li>Private Client Groups can only be managed by the [Client Team](https://help.karbonhq.com/en/articles/1524707-create-a-client-team). Basic details (name of the Contacts and the Work Items) related to such Client Groups are visible to anyone in the firm.</li> <li>Hidden Client Groups are only be visible to and managed by the [Client Team](https://help.karbonhq.com/en/articles/1524707-create-a-client-team).</li>\n",
             "example": "Public",
             "default": "Public",
             "enum": [
@@ -10895,7 +10895,7 @@
           },
           "RestrictionLevel": {
             "type": "string",
-            "description": "The privacy level for this Client Group. <br> <ul><li>Public Client Groups can be managed by anyone in the firm</li> <li>Private Client Groups can only be managed by the [Client Team](https://help.karbonhq.com/en/articles/1524707-create-a-client-team). Basic details (name of the Contacts and the Work Items) related to such Client Groups are visible to anyone in the firm.</li> <li>Hidden Client Groups are only be visible to and managed by the [Client Team](https://help.karbonhq.com/en/articles/1524707-create-a-client-team).</li>\n",
+            "description": "The privacy level for this Client Group.\n\n<ul><li>Public Client Groups can be managed by anyone in the firm</li> <li>Private Client Groups can only be managed by the [Client Team](https://help.karbonhq.com/en/articles/1524707-create-a-client-team). Basic details (name of the Contacts and the Work Items) related to such Client Groups are visible to anyone in the firm.</li> <li>Hidden Client Groups are only be visible to and managed by the [Client Team](https://help.karbonhq.com/en/articles/1524707-create-a-client-team).</li>\n",
             "example": "Public",
             "default": "Public",
             "enum": [
@@ -10997,7 +10997,7 @@
           },
           "RestrictionLevel": {
             "type": "string",
-            "description": "The privacy level for this Client Group. <br> <ul><li>Public Client Groups can be managed by anyone in the firm</li> <li>Private Client Groups can only be managed by the [Client Team](https://help.karbonhq.com/en/articles/1524707-create-a-client-team). Basic details (name of the Contacts and the Work Items) related to such Client Groups are visible to anyone in the firm.</li> <li>Hidden Client Groups are only be visible to and managed by the [Client Team](https://help.karbonhq.com/en/articles/1524707-create-a-client-team).</li>\n",
+            "description": "The privacy level for this Client Group.\n\n<ul><li>Public Client Groups can be managed by anyone in the firm</li> <li>Private Client Groups can only be managed by the [Client Team](https://help.karbonhq.com/en/articles/1524707-create-a-client-team). Basic details (name of the Contacts and the Work Items) related to such Client Groups are visible to anyone in the firm.</li> <li>Hidden Client Groups are only be visible to and managed by the [Client Team](https://help.karbonhq.com/en/articles/1524707-create-a-client-team).</li>\n",
             "example": "Public",
             "default": "Public",
             "enum": [
@@ -11149,7 +11149,7 @@
           },
           "RestrictionLevel": {
             "type": "string",
-            "description": "The privacy level for this Contact. <br> <ul><li>Public Contacts can be managed by anyone in the firm</li> <li>Private Contacts can only be managed by the [Client Team](https://help.karbonhq.com/en/articles/1524707-create-a-client-team). Basic details (name of the Contacts and the Work Items) related to such Contacts are visible to anyone in the firm.</li> <li>Hidden Contacts are only be visible to and managed by the [Client Team](https://help.karbonhq.com/en/articles/1524707-create-a-client-team).</li>\n",
+            "description": "The privacy level for this Contact.\n\n<ul><li>Public Contacts can be managed by anyone in the firm</li> <li>Private Contacts can only be managed by the [Client Team](https://help.karbonhq.com/en/articles/1524707-create-a-client-team). Basic details (name of the Contacts and the Work Items) related to such Contacts are visible to anyone in the firm.</li> <li>Hidden Contacts are only be visible to and managed by the [Client Team](https://help.karbonhq.com/en/articles/1524707-create-a-client-team).</li>\n",
             "example": "Public",
             "default": "Public",
             "enum": [
@@ -11411,7 +11411,7 @@
           },
           "RestrictionLevel": {
             "type": "string",
-            "description": "The privacy level for this Organization. <br> <ul><li>Public Organization can be managed by anyone in the firm</li> <li>Private Organization can only be managed by the [Client Team](https://help.karbonhq.com/en/articles/1524707-create-a-client-team). Basic details (name of the Organization and the Work Items) related to such Organization are visible to anyone in the firm.</li> <li>Hidden Organization are only be visible to and managed by the [Client Team](https://help.karbonhq.com/en/articles/1524707-create-a-client-team).</li>\n",
+            "description": "The privacy level for this Organization.\n\n<ul><li>Public Organization can be managed by anyone in the firm</li> <li>Private Organization can only be managed by the [Client Team](https://help.karbonhq.com/en/articles/1524707-create-a-client-team). Basic details (name of the Organization and the Work Items) related to such Organization are visible to anyone in the firm.</li> <li>Hidden Organization are only be visible to and managed by the [Client Team](https://help.karbonhq.com/en/articles/1524707-create-a-client-team).</li>\n",
             "default": "Public",
             "enum": [
               "Public",
@@ -11474,7 +11474,7 @@
           },
           "RestrictionLevel": {
             "type": "string",
-            "description": "The privacy level for this Organization. <br> <ul><li>Public Organization can be managed by anyone in the firm</li> <li>Private Organization can only be managed by the [Client Team](https://help.karbonhq.com/en/articles/1524707-create-a-client-team). Basic details (name of the Organization and the Work Items) related to such Organization are visible to anyone in the firm.</li> <li>Hidden Organization are only be visible to and managed by the [Client Team](https://help.karbonhq.com/en/articles/1524707-create-a-client-team).</li>\n",
+            "description": "The privacy level for this Organization.\n\n<ul><li>Public Organization can be managed by anyone in the firm</li> <li>Private Organization can only be managed by the [Client Team](https://help.karbonhq.com/en/articles/1524707-create-a-client-team). Basic details (name of the Organization and the Work Items) related to such Organization are visible to anyone in the firm.</li> <li>Hidden Organization are only be visible to and managed by the [Client Team](https://help.karbonhq.com/en/articles/1524707-create-a-client-team).</li>\n",
             "default": "Public",
             "enum": [
               "Public",
@@ -11533,7 +11533,7 @@
           },
           "RestrictionLevel": {
             "type": "string",
-            "description": "The privacy level for this Organization. <br> <ul><li>Public Organization can be managed by anyone in the firm</li> <li>Private Organization can only be managed by the [Client Team](https://help.karbonhq.com/en/articles/1524707-create-a-client-team). Basic details (name of the Organization and the Work Items) related to such Organization are visible to anyone in the firm.</li> <li>Hidden Organization are only be visible to and managed by the [Client Team](https://help.karbonhq.com/en/articles/1524707-create-a-client-team).</li>\n",
+            "description": "The privacy level for this Organization.\n\n<ul><li>Public Organization can be managed by anyone in the firm</li> <li>Private Organization can only be managed by the [Client Team](https://help.karbonhq.com/en/articles/1524707-create-a-client-team). Basic details (name of the Organization and the Work Items) related to such Organization are visible to anyone in the firm.</li> <li>Hidden Organization are only be visible to and managed by the [Client Team](https://help.karbonhq.com/en/articles/1524707-create-a-client-team).</li>\n",
             "default": "Public",
             "enum": [
               "Public",
@@ -11861,7 +11861,7 @@
           },
           "TargetUrl": {
             "type": "string",
-            "description": "The URL to your server that is waiting to receive information about the <code>WebhookType</code> from Karbon",
+            "description": "The URL to your server that is waiting to receive information about the `WebhookType` from Karbon",
             "example": "https://evelyn.info/hooks/catch/3550924/ovsbqn4/"
           },
           "WebhookType": {
@@ -11916,7 +11916,7 @@
         "properties": {
           "CreatedFromWorkItemKey": {
             "type": "string",
-            "description": "The key of the Work Item, which the Work Schedule will be assigned to. This value will be <code>null</code>.",
+            "description": "The key of the Work Item, which the Work Schedule will be assigned to. This value will be `null`.",
             "example": null
           },
           "RecurrenceFrequency": {
@@ -11937,7 +11937,7 @@
           "CustomFrequencyUnits": {
             "type": "string",
             "nullable": true,
-            "description": "The unit of time at which this Work Schedule should repeat. Once set, the value of this property can not be changed.<br> This property is only applicable if <code>RecurrenceFrequency</code> is set to <code>Custom</code>.\n",
+            "description": "The unit of time at which this Work Schedule should repeat. Once set, the value of this property can not be changed.\n\nThis property is only applicable if `RecurrenceFrequency` is set to `Custom`.\n",
             "enum": [
               "Days",
               "Weeks",
@@ -11950,7 +11950,7 @@
             "type": "integer",
             "format": "int32",
             "minimum": 1,
-            "description": "The multiple of time unit at which this Work Schedule should repeat.  This property is not applicable if <code>RecurrenceFrequency</code> is set to <code>SemiMonth</code>, <code>Fortnight</code>, or <code>Quarter</code>.\n",
+            "description": "The multiple of time unit at which this Work Schedule should repeat.  This property is not applicable if `RecurrenceFrequency` is set to `SemiMonth`, `Fortnight`, or `Quarter`.\n",
             "example": 3
           },
           "ScheduleStartDate": {
@@ -11962,7 +11962,7 @@
           "ScheduleEndDate": {
             "type": "string",
             "format": "date-time",
-            "description": "The date at which this Work Schedule should stop running<br>To set the Work Schedule to run forever, set the value of this property to <code>null</code>.",
+            "description": "The date at which this Work Schedule should stop running\n\nTo set the Work Schedule to run forever, set the value of this property to `null`.",
             "example": "2021-09-01"
           },
           "ScheduleDueDateMethod": {
@@ -11981,23 +11981,23 @@
           "ScheduleDueDateDays": {
             "type": "integer",
             "format": "int32",
-            "description": "The value of the count for the Due Date<br>This property is not applicable if <code>ScheduleDueDateMethod</code> is set to <code>LastDayOfMonth</code> or <code>NoDueDate</code>.<br><br>Example of usage: <table> <thead>\n    <th>ScheduleDueDateMethod</th>\n    <th>ScheduleDueDateDays</th>\n    <th>Read Due Date as</th>\n</thead> <tbody>\n    <tr>\n        <td>DaysFromStartDate</td>\n        <td>7</td>\n        <td>7 days after start date</td>\n    </tr>\n    <tr>\n        <td>DayOfMonth</td>\n        <td>7</td>\n        <td>7th day of the current month</td>\n    </tr>\n    <tr>\n        <td>LastDayOfMonth</td>\n        <td>N/A</td>\n        <td>Last day of the current month</td>\n    </tr>\n    <tr>\n        <td>DayOfNextMonth</td>\n        <td>7</td>\n        <td>7th day of the next month</td>\n    </tr>\n    <tr>\n        <td>NoDueDate</td>\n        <td>N/A</td>\n        <td>Work has no due date</td>\n    </tr>\n</tbody> </table>\n",
+            "description": "The value of the count for the Due Date\n\nThis property is not applicable if `ScheduleDueDateMethod` is set to `LastDayOfMonth` or `NoDueDate`.\n\nExample of usage: <table> <thead>\n<th>ScheduleDueDateMethod</th>\n<th>ScheduleDueDateDays</th>\n<th>Read Due Date as</th>\n</thead> <tbody>\n<tr>\n<td>DaysFromStartDate</td>\n<td>7</td>\n<td>7 days after start date</td>\n</tr>\n<tr>\n<td>DayOfMonth</td>\n<td>7</td>\n<td>7th day of the current month</td>\n</tr>\n<tr>\n<td>LastDayOfMonth</td>\n<td>N/A</td>\n<td>Last day of the current month</td>\n</tr>\n<tr>\n<td>DayOfNextMonth</td>\n<td>7</td>\n<td>7th day of the next month</td>\n</tr>\n<tr>\n<td>NoDueDate</td>\n<td>N/A</td>\n<td>Work has no due date</td>\n</tr>\n</tbody> </table>\n",
             "example": 7
           },
           "ScheduleDueDateMonthMultiple": {
             "type": "integer",
             "format": "int32",
-            "description": "The value to denote the number of the months, if the due date is after 2 months.<br>This property is only applicable if <code>ScheduleDueDateMethod</code> is set to <code>DayOfSubsequentMonth</code>.<br><br>Example of usage: <table> <thead>\n    <th>ScheduleDueDateMethod</th>\n    <th>ScheduleDueDateDays</th>\n    <th>ScheduleDueDateMonthMultiple</th>\n    <th>Read Due Date as</th>\n</thead> <tbody>\n    <tr>\n        <td>DaysFromStartDate</td>\n        <td>7</td>\n        <td>3</td>\n        <td>7th day of the 3rd month after start date</td>\n    </tr>\n</tbody> </table>\n",
+            "description": "The value to denote the number of the months, if the due date is after 2 months.\n\nThis property is only applicable if `ScheduleDueDateMethod` is set to `DayOfSubsequentMonth`.\n\nExample of usage: <table> <thead>\n<th>ScheduleDueDateMethod</th>\n<th>ScheduleDueDateDays</th>\n<th>ScheduleDueDateMonthMultiple</th>\n<th>Read Due Date as</th>\n</thead> <tbody>\n<tr>\n<td>DaysFromStartDate</td>\n<td>7</td>\n<td>3</td>\n<td>7th day of the 3rd month after start date</td>\n</tr>\n</tbody> </table>\n",
             "example": 3
           },
           "PreventStartEndOnWeekend": {
             "type": "boolean",
-            "description": "If the value of this property is set to <code>true</code>, the Work Item will not start on Weekends.",
+            "description": "If the value of this property is set to `true`, the Work Item will not start on Weekends.",
             "example": true
           },
           "InitializeBeforeStartDateUnits": {
             "type": "string",
-            "description": "You can automatically create a Work Item before its Start date. Use this property to set the unit of delay between Start date and Work Item creation date. \n",
+            "description": "You can automatically create a Work Item before its Start date. Use this property to set the unit of delay between Start date and Work Item creation date.\n",
             "enum": [
               "Days",
               "Weeks",
@@ -12083,7 +12083,7 @@
           },
           "CreatedFromWorkItemKey": {
             "type": "string",
-            "description": "The key of the Work Item, which the Work Schedule will be assigned to. This value will be <code>null</code>.",
+            "description": "The key of the Work Item, which the Work Schedule will be assigned to. This value will be `null`.",
             "example": null
           },
           "RecurrenceFrequency": {
@@ -12104,7 +12104,7 @@
           "CustomFrequencyUnits": {
             "type": "string",
             "nullable": true,
-            "description": "The unit of time at which this Work Schedule should repeat. Once set, the value of this property can not be changed.<br> This property is only applicable if <code>RecurrenceFrequency</code> is set to <code>Custom</code>.\n",
+            "description": "The unit of time at which this Work Schedule should repeat. Once set, the value of this property can not be changed.\n\nThis property is only applicable if `RecurrenceFrequency` is set to `Custom`.\n",
             "enum": [
               "Days",
               "Weeks",
@@ -12117,7 +12117,7 @@
             "type": "integer",
             "format": "int32",
             "minimum": 1,
-            "description": "The multiple of time unit at which this Work Schedule should repeat.  This property is not applicable if <code>RecurrenceFrequency</code> is set to <code>SemiMonth</code>, <code>Fortnight</code>, or <code>Quarter</code>.\n",
+            "description": "The multiple of time unit at which this Work Schedule should repeat.  This property is not applicable if `RecurrenceFrequency` is set to `SemiMonth`, `Fortnight`, or `Quarter`.\n",
             "example": 3
           },
           "FrequencyDescription": {
@@ -12134,7 +12134,7 @@
           "ScheduleEndDate": {
             "type": "string",
             "format": "date-time",
-            "description": "The date at which this Work Schedule should stop running<br>To set the Work Schedule to run forever, set the value of this property to <code>0001-01-01</code>.",
+            "description": "The date at which this Work Schedule should stop running\n\nTo set the Work Schedule to run forever, set the value of this property to `0001-01-01`.",
             "example": "2021-09-01"
           },
           "ScheduleDueDateMethod": {
@@ -12153,13 +12153,13 @@
           "ScheduleDueDateDays": {
             "type": "integer",
             "format": "int32",
-            "description": "The value of the count for the Due Date<br>This property is not applicable if <code>ScheduleDueDateMethod</code> is set to <code>LastDayOfMonth</code> or <code>NoDueDate</code>.<br><br>Example of usage:  <table>\n        <th>ScheduleDueDateMethod</th>\n        <th>ScheduleDueDateDays</th>\n        <th>Read Due Date as</th>\n        <tr>\n            <td>DaysFromStartDate</td>\n            <td>7</td>\n            <td>7 days after start date</td>\n        </tr>\n        <tr>\n            <td>DayOfMonth</td>\n            <td>7</td>\n            <td>7th day of the current month</td>\n        </tr>\n        <tr>\n            <td>LastDayOfMonth</td>\n            <td>N/A</td>\n            <td>Last day of the current month</td>\n        </tr>\n        <tr>\n            <td>DayOfNextMonth</td>\n            <td>7</td>\n            <td>7th day of the next month</td>\n        </tr>\n        <tr>\n            <td>NoDueDate</td>\n            <td>N/A</td>\n            <td>Work has no due date</td>\n        </tr> \n</table>\n",
+            "description": "The value of the count for the Due Date\n\nThis property is not applicable if `ScheduleDueDateMethod` is set to `LastDayOfMonth` or `NoDueDate`.\n\nExample of usage:  <table>\n<th>ScheduleDueDateMethod</th>\n<th>ScheduleDueDateDays</th>\n<th>Read Due Date as</th>\n<tr>\n<td>DaysFromStartDate</td>\n<td>7</td>\n<td>7 days after start date</td>\n</tr>\n<tr>\n<td>DayOfMonth</td>\n<td>7</td>\n<td>7th day of the current month</td>\n</tr>\n<tr>\n<td>LastDayOfMonth</td>\n<td>N/A</td>\n<td>Last day of the current month</td>\n</tr>\n<tr>\n<td>DayOfNextMonth</td>\n<td>7</td>\n<td>7th day of the next month</td>\n</tr>\n<tr>\n<td>NoDueDate</td>\n<td>N/A</td>\n<td>Work has no due date</td>\n</tr>\n</table>\n",
             "example": 7
           },
           "ScheduleDueDateMonthMultiple": {
             "type": "integer",
             "format": "int32",
-            "description": "The value to denote the number of the months, if the due date is after 2 months.<br>This property is only applicable if <code>ScheduleDueDateMethod</code> is set to <code>DayOfSubsequentMonth</code>.<br><br>Example of usage: <table> <thead>\n    <th>ScheduleDueDateMethod</th>\n    <th>ScheduleDueDateDays</th>\n    <th>ScheduleDueDateMonthMultiple</th>\n    <th>Read Due Date as</th>\n</thead> <tbody>\n    <tr>\n        <td>DaysFromStartDate</td>\n        <td>7</td>\n        <td>3</td>\n        <td>7th day of the 3rd month after start\ndate</td>\n    </tr>\n</tbody> </table>\n",
+            "description": "The value to denote the number of the months, if the due date is after 2 months.\n\nThis property is only applicable if `ScheduleDueDateMethod` is set to `DayOfSubsequentMonth`.\n\nExample of usage: <table> <thead>\n<th>ScheduleDueDateMethod</th>\n<th>ScheduleDueDateDays</th>\n<th>ScheduleDueDateMonthMultiple</th>\n<th>Read Due Date as</th>\n</thead> <tbody>\n<tr>\n<td>DaysFromStartDate</td>\n<td>7</td>\n<td>3</td>\n<td>7th day of the 3rd month after start\ndate</td>\n</tr>\n</tbody> </table>\n",
             "example": 3
           },
           "AssigneeUserKey": {
@@ -12174,12 +12174,12 @@
           },
           "PreventStartEndOnWeekend": {
             "type": "boolean",
-            "description": "If the value of this property is set to <code>true</code>, the Work Item will not start on Weekends.",
+            "description": "If the value of this property is set to `true`, the Work Item will not start on Weekends.",
             "example": true
           },
           "InitializeBeforeStartDateUnits": {
             "type": "string",
-            "description": "You can automatically create a Work Item before its Start date. Use this property to set the unit of delay between Start date and Work Item creation date. \n",
+            "description": "You can automatically create a Work Item before its Start date. Use this property to set the unit of delay between Start date and Work Item creation date.\n",
             "enum": [
               "Days",
               "Weeks",
@@ -12265,12 +12265,12 @@
           "EstimatedBudget": {
             "type": "string",
             "nullable": true,
-            "description": "The estimated budget for the Work Items generated using this Work Template. This property value will be <code>null</code>.",
+            "description": "The estimated budget for the Work Items generated using this Work Template. This property value will be `null`.",
             "example": null
           },
           "EstimatedTime": {
             "type": "string",
-            "description": "The estimated time required to complete the Work Items generated using this Work Template. This property value will be <code>null</code>.",
+            "description": "The estimated time required to complete the Work Items generated using this Work Template. This property value will be `null`.",
             "example": null
           },
           "DraftHasChanges": {
