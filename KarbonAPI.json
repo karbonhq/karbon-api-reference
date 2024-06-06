@@ -11778,6 +11778,12 @@
             "description": "The email address of the User",
             "example": "janet@example.com"
           },
+          "BillableRate": {
+            "format": "double",
+            "description": "The default hourly rate in at which the user's work is billed at. The currency for `BillableRate` is based on the firm's currency and region found in Karbon under Settings > Account Settings.",
+            "minimum": 0,
+            "type": "number"
+          },
           "CapacityMinutesPerWeek": {
             "type": "integer",
             "description": "The number of billable minutes allocated to the user per week",
