@@ -368,25 +368,62 @@
         "description": "Use the `GET` method on this endpoint to receive a list of Invoices",
         "responses": {
           "201": {
-            "description": "Successful operation",
+            "description": "Manual Payment recorded successfully",
             "content": {
               "application/json": {
                 "schema": {
+                  "type": "object",
                   "properties": {
-                    "values": {
-                      "type": "array",
-                      "items": {}
+                    "@odata.context": {
+                      "type": "string",
+                      "example": "https://api.karbonhq.com/v3/$metadata#Invoices/$entity",
+                      "description": "The information about Karbon controllers generating this response."
+                    },
+                    "InvoiceKey": {
+                      "type": "string",
+                      "example": "2F3pqz88T2hW",
+                      "description": "The unique Key of the Invoice which the payment was applied to."
+                    },
+                    "PaymentMethod": {
+                      "type": "string",
+                      "example": "Cash",
+                      "description": "The method used to make the payment."
+                    },
+                    "PaymentDate": {
+                      "type": "string",
+                      "format": "date-time",
+                      "example": "2024-06-24T00:00:00Z",
+                      "description": "The date the payment made by the customer."
+                    },
+                    "TotalAmount": {},
+                    "Reference": {
+                      "type": "string",
+                      "example": "Payment made in cash.",
+                      "nullable": true,
+                      "maxLength": 250,
+                      "description": "An optional reference to include with the payment."
+                    },
+                    "PaymentProcessingKey": {
+                      "type": "string",
+                      "example": "2cmDVpGdCp99",
+                      "description": "The unique id of the payment record."
                     }
                   }
                 },
                 "example": {
-                  "PaymentProcessingKey": "2ZXZJcS5fVfR"
+                  "@odata.context": "https://api-stage.karbonhq.com/v3/$metadata#ManualPayments/$entity",
+                  "InvoiceKey": "2F3pqz88T2hW",
+                  "PaymentMethod": "Cash",
+                  "PaymentDate": "2024-06-06T00:00:00Z",
+                  "TotalAmount": 1100.11,
+                  "Reference": "Cash payment",
+                  "PaymentProcessingKey": "2cmDVpGdCp99"
                 }
               }
             }
           },
           "400": {
-            "description": "Bad Request",
+            "description": "Bad request",
             "content": {
               "application/json": {
                 "schema": {
