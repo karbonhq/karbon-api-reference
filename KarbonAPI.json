@@ -91,7 +91,7 @@
     },
     {
       "name": "Users",
-      "description": "Create and view the basics & defaults for colleagues, teams and job roles to customize Karbon to represent the way you and your team work. [Read more](https://help.karbonhq.com/en/articles/3731216-edit-your-user-profile)"
+      "description": "Create and view the basics & defaults for colleagues, teams and job roles to customize Karbon to represent the way you and your team work. [Read more](https://help.karbonhq.com/en/articles/3731216-edit-your-user-profile)\n**Note:** creating a new User may increase your Karbon subscription costs, as such this endpoint is disabled by default. You can request access via the [Developer Centre](https://developers.karbonhq.com/issues/)."
     },
     {
       "name": "Webhook Subscriptions",
