@@ -4742,7 +4742,7 @@
                 },
                 "examples": {
                   "Unsupported Option": {
-                    "$ref": "#/components/examples/Unsupported_option"
+                    "$ref": "#/components/examples/InvalidAttachmentToken"
                   }
                 }
               }
@@ -4850,7 +4850,7 @@
                 },
                 "examples": {
                   "Unsupported Option": {
-                    "$ref": "#/components/examples/Unsupported_option"
+                    "$ref": "#/components/examples/FileEntityNotFound"
                   }
                 }
               }
@@ -12898,6 +12898,24 @@
           "error": {
             "code": 5001,
             "message": "Internal Error."
+          }
+        }
+      },
+      "InvalidAttachmentToken": {
+        "description": "The details of an error associated with an API request",
+        "value": {
+          "error": {
+            "code": "4001",
+            "message": "Attachment token could not be validated."
+          }
+        }
+      },
+      "FileEntityNotFound": {
+        "description": "",
+        "value": {
+          "error": {
+              "code": "4004",
+              "message": "File entity is not found for permakey a3bXVhdMHgc9P"
           }
         }
       },
