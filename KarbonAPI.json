@@ -4706,6 +4706,205 @@
             }
           }
         }
+      },
+      "get": {
+        "tags": [
+          "Files"
+        ],
+        "summary": "Get a File using it's token",
+        "description": "Use the `GET` method on this endpoint with the `token` query string parameter to retrieve a file. Note: download tokens are only valid for 15 minutes from the moment of issue.",
+        "operationId": "downloadFile",
+        "parameters": [
+          {
+            "name": "token",
+            "in": "query",
+            "description": "A Karbon-generated JWT token that is used to identify the File",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "example": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJGaWxlQ29udGV4dFBlcm1hS2V5IjoiUzhic0JqdkNSSjMiLCJpYXQiOjE3MjEzNDY2MTIuMCwiZXhwIjoxNzIxMzQ3NTEyLjB9.TTVVpPAKXmAUX1jlPSLVjh5sMoCTbAyp0fOgbydA2aU"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/octet-stream": {}
+            }
+          },
+          "400": {
+            "description": "Attachment token could not be validated.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorMessages"
+                },
+                "examples": {
+                  "Unsupported Option": {
+                    "$ref": "#/components/examples/Unsupported_option"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResourceNotFound"
+                },
+                "examples": {
+                  "Unauthorized Access": {
+                    "$ref": "#/components/examples/UnauthorizedAccess"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorMessages"
+                },
+                "examples": {
+                  "Resource Not Found": {
+                    "$ref": "#/components/examples/HTTP_Resource_Not_Found"
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorMessages"
+                },
+                "examples": {
+                  "Unsupported File Type": {
+                    "$ref": "#/components/examples/Unsupported_File_Type"
+                  },
+                  "Undefined Error": {
+                    "$ref": "#/components/examples/elongated_5001"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v3/FileList/{EntityType}": {
+      "get": {
+        "tags": [
+          "Files"
+        ],
+        "summary": "Get a list of Files for a given entity",
+        "description": "Use the `GET` method on this endpoint to list files associated with a specific Entity Type and Entity Key",
+        "operationId": "listFiles",
+        "parameters": [
+          {
+            "name": "EntityType",
+            "in": "path",
+            "description": "The entity type related to the entity key.",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "enum": ["WorkItem", "Contact", "Organization"]
+            },
+            "example": "WorkItem"
+          },
+          {
+            "name": "EntityKey",
+            "in": "query",
+            "description": "The unique key to list files for.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "example": "3bXVhdMHgc9P"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FileList"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Attachment token could not be validated.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorMessages"
+                },
+                "examples": {
+                  "Unsupported Option": {
+                    "$ref": "#/components/examples/Unsupported_option"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResourceNotFound"
+                },
+                "examples": {
+                  "Unauthorized Access": {
+                    "$ref": "#/components/examples/UnauthorizedAccess"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorMessages"
+                },
+                "examples": {
+                  "Resource Not Found": {
+                    "$ref": "#/components/examples/HTTP_Resource_Not_Found"
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorMessages"
+                },
+                "examples": {
+                  "Unsupported File Type": {
+                    "$ref": "#/components/examples/Unsupported_File_Type"
+                  },
+                  "Undefined Error": {
+                    "$ref": "#/components/examples/elongated_5001"
+                  }
+                }
+              }
+            }
+          }
+        }
       }
     },
     "/v3/Notes/{NoteID}": {
@@ -11606,6 +11805,67 @@
           }
         ]
       },
+      "FileList": {
+        "description": "A collection of files associated with an entity in Karbon",
+        "type": "object",
+        "properties": {
+          "EntityKey": {
+            "type": "string",
+            "example": "3bXVhdMHgc9P",
+            "description": "The unique key of the entity the list of files is associated with"
+          },
+          "EntityType": {
+            "type": "string",
+            "example":"WorkItem",
+            "enum": ["WorkItem", "Contact", "Organization"],
+            "description": "The type of entity the file list is associated with"
+          },
+          "Attachments": {
+            "type": "array",
+            "description": "An array of Files including a name, mimetype, size, creation timestamp and download url",
+            "items": {
+              "$ref": "#/components/schemas/FileListItem"
+            }
+          }
+        }
+      },
+      "FileListItem": {
+        "description": "A single File",
+        "type": "object",
+        "properties": {
+          "FileContextKey": {
+            "type": "string",
+            "example": "S8bsBjvCRJ3",
+            "description": "The unique key of the file"
+          },
+          "FileName": {
+            "type": "string",
+            "example": "image.jpeg",
+            "description": "The name of the file"
+          },
+          "FileSize": {
+            "type": "integer",
+            "example": 7316,
+            "description": "The size of the file in bytes"
+          },
+          "MimeType": {
+            "type": "string",
+            "example": "image/jpeg",
+            "description": "The mimetype of the uploaded file"
+          },
+          "DownloadUrl": {
+            "type": "string",
+            "example": "/V3/Files?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJGaWxlQ29udGV4dFBlcm1hS2V5IjoiUzhic0JqdkNSSjMiLCJpYXQiOjE3MjE1NTIzNTQuMCwiZXhwIjoxNzIxNTUzMjU0LjB9.AW9WBmAfLu9jKVZ8odZY1uR1Jvsi-7KB3Zvv8Fbka5k",
+            "description": "The API path than can be called to download the file"
+          },
+          "DateCreated": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2024-07-18T23:44:26Z",
+            "description": "The timestamp of when the file was created"
+          }
+        }
+      },
       "GetSingleTimeSheet": {
         "description": "A single TimeSheet with TimeEntries",
         "type": "object",
@@ -11716,10 +11976,23 @@
                   "type": "array",
                   "description": "Free-form text that has more information about the Time Entry",
                   "items": {
-                    "type": "string"
+                    "type": "string",
+                    "nullable": true,
+                    "example": "Continued working on the end-year accounting"
                   },
                   "example": [
                     "Continued working on the end-year accounting"
+                  ]
+                },
+                "BilledStatus": {
+                  "type": "string",
+                  "description": "An indicator that represents whether the time entry has been or is in the process of being billed",
+                  "example": "Draft",
+                  "enum": [
+                    "Unbilled",
+                    "Draft",
+                    "InterimBilled",
+                    "Billed"
                   ]
                 }
               }
