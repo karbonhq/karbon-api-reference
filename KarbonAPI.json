@@ -1,5 +1,5 @@
 {
-  "openapi": "3.0.2",
+  "openapi": "3.1.0",
   "servers": [
     {
       "url": "https://api.karbonhq.com",
@@ -94,8 +94,13 @@
       "description": "Create and view the basics & defaults for colleagues, teams and job roles to customize Karbon to represent the way you and your team work. [Read more](https://help.karbonhq.com/en/articles/3731216-edit-your-user-profile)\n**Note:** creating a new User may increase your Karbon subscription costs, as such this endpoint is disabled by default. You can request access via the [Developer Centre](https://developers.karbonhq.com/issues/)."
     },
     {
+      "name": "Webhook Payloads",
+      "description": "Details of the different payloads sent for Karbon Webhook subscriptions"
+    },
+
+    {
       "name": "Webhook Subscriptions",
-      "description": "Integrate your system with Karbon to receive changes made to your data in Karbon.\n\nNote: Webhook payloads take the following form:\n\n```JSON\n{\n  \"ResourcePermaKey\": \"{EntityKey}\",\n  \"ResourceType\": \"{EntityType}\",\n  \"ActionType\": \"{ActionType}\"\n}\n```\n\n"
+      "description": "Integrate your system with Karbon to receive changes made to your data in Karbon.\n\nNote: Webhook payloads take the following form:\n\n```JSON\n{\n  \"ResourcePermaKey\": \"{EntityKey}\",\n  \"ResourceType\": \"{EntityType}\",\n  \"ActionType\": \"{ActionType}\"\n  \"TimeStamp\": \"{YYYY-MM-DDTHH:mm:ssZ}\"\n}\n```\n\n"
     },
     {
       "name": "Work Items",
@@ -116,6 +121,98 @@
       "BearerAuth": []
     }
   ],
+  "webhooks": {
+    "contact": {
+      "post": {
+        "tags": [
+          "Webhook Payloads"
+        ],
+        "description": "Contact created or updated",
+        "requestBody": {
+          "description": "Information about the created or updated contact",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/contact-webhook"
+              }
+            }
+          }
+        }
+      }
+    },
+    "invoice": {
+      "post": {
+        "tags": [
+          "Webhook Payloads"
+        ],
+        "description": "Invoice status updated",
+        "requestBody": {
+          "description": "Information about the created or updated contact",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/invoice-webhook"
+              }
+            }
+          }
+        }
+      }
+    },
+    "note": {
+      "post": {
+        "tags": [
+          "Webhook Payloads"
+        ],
+        "description": "Note created or updated",
+        "requestBody": {
+          "description": "Information about the created or updated contact",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/note-webhook"
+              }
+            }
+          }
+        }
+      }
+    },
+    "user": {
+      "post": {
+        "tags": [
+          "Webhook Payloads"
+        ],
+        "description": "User has accepted Karbon invite",
+        "requestBody": {
+          "description": "Information about the created or updated contact",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/user-webhook"
+              }
+            }
+          }
+        }
+      }
+    },
+    "work": {
+      "post": {
+        "tags": [
+          "Webhook Payloads"
+        ],
+        "description": "Work created or updated",
+        "requestBody": {
+          "description": "Information about the created or updated contact",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/work-webhook"
+              }
+            }
+          }
+        }
+      }
+    }
+  },
   "paths": {
     "/v3/Invoices": {
       "get": {
@@ -7557,6 +7654,14 @@
                     ],
                     "description": "The type of Karbon entity which the Webhook Subscription is associated with. To receive ClientGroup, Contact and Organization updates, pass WebhookType as `Contact`. To receive WorkItem updates, pass WebhookType as `Work`. To receive Note and NoteComment updates, pass WebhookType as `Note`. To receive an update when a User has accepted an invite to Karbon, pass WebhookType as `User`. To receive an update when an Invoice changes status, pass WebhookType as `Invoice`.",
                     "example": "Contact"
+                  },
+                  "SigningKey": {
+                    "type": "string",
+                    "description": "An optional key that will be used to sign webhook payloads, may contain letters, numbers, dashes or underscores",
+                    "nullable": true,
+                    "minLength": 16,
+                    "pattern": "^[A-Za-z0-9-_]$",
+                    "example": "96434E14-3C96-4F07-9FC2-CCC736827309"
                   }
                 }
               }
@@ -12867,6 +12972,157 @@
                 }
               }
             }
+          }
+        }
+      },
+      "contact-webhook": {
+        "description": "The schema for webhook payloads",
+        "type": "object",
+        "properties": {
+          "ResourcePermaKey": {
+            "type": "string",
+            "description": "The key for the resource that has been created or updated",
+            "example": "kCsVf7svWQw"
+          },
+          "ResourceType": {
+            "type": "string",
+            "enum": ["Contact"],
+            "description": "The type of resource that has been created or updated",
+            "example": "Contact"
+          },
+          "ActionType": {
+            "type": "string",
+            "description": "The key for the resource that has been created or updated",
+            "enum": [
+              "Inserted", "Updated"
+            ],
+            "example": "Updated"
+          },
+          "TimeStamp": {
+            "type": "string",
+            "format": "date-time",
+            "description": "The time stamp the associated resource was last altered",
+            "example": "2024-08-01T21:54:36Z"
+          }
+        }
+      },
+      "invoice-webhook": {
+        "description": "The schema for invoice webhook payloads",
+        "type": "object",
+        "properties": {
+          "ResourcePermaKey": {
+            "type": "string",
+            "description": "The key for the resource that has been created or updated",
+            "example": "kCsVf7svWQw"
+          },
+          "ResourceType": {
+            "type": "string",
+            "enum": ["Invoice"],
+            "description": "The type of resource that has been created or updated",
+            "example": "Invoice"
+          },
+          "ActionType": {
+            "type": "string",
+            "description": "The key for the resource that has been created or updated",
+            "enum": ["Updated"],
+            "example": "Updated"
+          },
+          "TimeStamp": {
+            "type": "string",
+            "format": "date-time",
+            "description": "The time stamp the associated resource was last altered",
+            "example": "2024-08-01T21:54:36Z"
+          }
+        }
+      },
+      "note-webhook": {
+        "description": "The schema for webhook payloads",
+        "type": "object",
+        "properties": {
+          "ResourcePermaKey": {
+            "type": "string",
+            "description": "The key for the resource that has been created or updated",
+            "example": "kCsVf7svWQw"
+          },
+          "ResourceType": {
+            "type": "string",
+            "enum": ["Note"],
+            "description": "The type of resource that has been created or updated",
+            "example": "Note"
+          },
+          "ActionType": {
+            "type": "string",
+            "description": "The key for the resource that has been created or updated",
+            "enum": [
+              "Inserted", "Updated"
+            ],
+            "example": "Updated"
+          },
+          "TimeStamp": {
+            "type": "string",
+            "format": "date-time",
+            "description": "The time stamp the associated resource was last altered",
+            "example": "2024-08-01T21:54:36Z"
+          }
+        }
+      },
+      "user-webhook": {
+        "description": "The schema for webhook payloads",
+        "type": "object",
+        "properties": {
+          "ResourcePermaKey": {
+            "type": "string",
+            "description": "The key for the resource that has been created or updated",
+            "example": "kCsVf7svWQw"
+          },
+          "ResourceType": {
+            "type": "string",
+            "enum": ["User"],
+            "description": "The type of resource that has been created or updated",
+            "example": "User"
+          },
+          "ActionType": {
+            "type": "string",
+            "description": "The key for the resource that has been created or updated",
+            "enum": ["Inserted"],
+            "example": "Updated"
+          },
+          "TimeStamp": {
+            "type": "string",
+            "format": "date-time",
+            "description": "The time stamp the associated resource was last altered",
+            "example": "2024-08-01T21:54:36Z"
+          }
+        }
+      },
+      "work-webhook": {
+        "description": "The schema for webhook payloads",
+        "type": "object",
+        "properties": {
+          "ResourcePermaKey": {
+            "type": "string",
+            "description": "The key for the resource that has been created or updated",
+            "example": "kCsVf7svWQw"
+          },
+          "ResourceType": {
+            "type": "string",
+            "enum": ["Work"],
+            "description": "The type of resource that has been created or updated",
+            "example": "Work"
+          },
+          "ActionType": {
+            "type": "string",
+            "description": "The key for the resource that has been created or updated",
+            "enum": [
+              "Inserted", "Updated"
+            ],
+            "example": "Updated"
+          },
+          "TimeStamp": {
+            "type": "string",
+            "format": "date-time",
+            "description": "The time stamp the associated resource was last altered",
+            "example": "2024-08-01T21:54:36Z"
           }
         }
       }
