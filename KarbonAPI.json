@@ -12994,7 +12994,7 @@
             "type": "string",
             "description": "The key for the resource that has been created or updated",
             "enum": [
-              "Inserted", "Updated"
+              "Inserted", "Updated", "Deleted"
             ],
             "example": "Updated"
           },
@@ -13054,7 +13054,7 @@
             "type": "string",
             "description": "The key for the resource that has been created or updated",
             "enum": [
-              "Inserted", "Updated"
+              "Inserted", "Updated", "Deleted"
             ],
             "example": "Updated"
           },
@@ -13114,7 +13114,7 @@
             "type": "string",
             "description": "The key for the resource that has been created or updated",
             "enum": [
-              "Inserted", "Updated"
+              "Inserted", "Updated", "Deleted"
             ],
             "example": "Updated"
           },
