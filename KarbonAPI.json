@@ -3309,7 +3309,8 @@
               "enum": [
                 "FullName",
                 "EmailAddress",
-                "PhoneNumber"
+                "PhoneNumber",
+                "ContactType"
               ]
             },
             "example": "FullName eq 'Sample Management Team'",
@@ -5190,13 +5191,22 @@
               "enum": [
                 "FullName",
                 "EmailAddress",
-                "Tags"
+                "Tags",
+                "ContactType"
               ]
             },
             "examples": {
               "fullName": {
                 "value": "FullName eq 'Sample Company'",
                 "summary": "The full name of the organization equals 'Sample Company'"
+              },
+              "contactTypeEquals": {
+                "value": "ContactType eq 'Prospect'",
+                "summary": "The ContactType of the organization equals 'Prospect'"
+              },
+              "contactTypeContains": {
+                "value": "contains(ContactType, 'Client')",
+                "summary": "The ContactType of the organization contains 'Client', would return Organizations with the ContactType 'Client', 'Client - VIP' and 'Inactive Client'"
               },
               "tags": {
                 "value": "Tags/any(tag: tag eq 'sync')",
