@@ -97,7 +97,6 @@
       "name": "Webhook Payloads",
       "description": "Details of the different payloads sent for Karbon Webhook subscriptions"
     },
-
     {
       "name": "Webhook Subscriptions",
       "description": "Integrate your system with Karbon to receive changes made to your data in Karbon.\n\nNote: Webhook payloads take the following form:\n\n```JSON\n{\n  \"ResourcePermaKey\": \"{EntityKey}\",\n  \"ResourceType\": \"{EntityType}\",\n  \"ActionType\": \"{ActionType}\"\n  \"TimeStamp\": \"{YYYY-MM-DDTHH:mm:ssZ}\"\n}\n```\n\n"
@@ -4913,7 +4912,11 @@
             "required": true,
             "schema": {
               "type": "string",
-              "enum": ["WorkItem", "Contact", "Organization"]
+              "enum": [
+                "WorkItem",
+                "Contact",
+                "Organization"
+              ]
             },
             "example": "WorkItem"
           },
@@ -6533,9 +6536,10 @@
                   "EntityType": {
                     "type": "string",
                     "enum": [
+                      "Contact",
                       "Organization"
                     ],
-                    "description": "The entity type of the entity above",
+                    "description": "The entity type of the entity key",
                     "example": "Organization"
                   },
                   "Tags": {
@@ -6634,9 +6638,10 @@
                   "EntityType": {
                     "type": "string",
                     "enum": [
+                      "Contact",
                       "Organization"
                     ],
-                    "description": "The entity type of the entity above",
+                    "description": "The entity type of the entity key",
                     "example": "Organization"
                   },
                   "Tags": {
@@ -9514,6 +9519,15 @@
               "Person",
               "Sole Proprietor",
               "Limited Liability",
+              "Charitable Incorporated Organisation",
+              "Company Limited by Guarantee",
+              "Community Interest Company",
+              "Limited Liability Partnership",
+              "Local Authority",
+              "Non Departmental Public Body",
+              "Pension Scheme",
+              "Royal Charter",
+              "Unincorporated Association",
               "Other/None"
             ]
           },
@@ -9639,6 +9653,12 @@
               "Products and Services",
               "Other"
             ]
+          },
+          "DateSignedEngagement": {
+            "type": "string",
+            "format": "date-time",
+            "description": "",
+            "nullable": true
           },
           "RegistrationNumbers": {
             "type": "array",
@@ -11931,8 +11951,12 @@
           },
           "EntityType": {
             "type": "string",
-            "example":"WorkItem",
-            "enum": ["WorkItem", "Contact", "Organization"],
+            "example": "WorkItem",
+            "enum": [
+              "WorkItem",
+              "Contact",
+              "Organization"
+            ],
             "description": "The type of entity the file list is associated with"
           },
           "Attachments": {
@@ -12986,7 +13010,9 @@
           },
           "ResourceType": {
             "type": "string",
-            "enum": ["Contact"],
+            "enum": [
+              "Contact"
+            ],
             "description": "The type of resource that has been created or updated",
             "example": "Contact"
           },
@@ -12994,7 +13020,9 @@
             "type": "string",
             "description": "The key for the resource that has been created or updated",
             "enum": [
-              "Inserted", "Updated", "Deleted"
+              "Inserted",
+              "Updated",
+              "Deleted"
             ],
             "example": "Updated"
           },
@@ -13017,14 +13045,18 @@
           },
           "ResourceType": {
             "type": "string",
-            "enum": ["Invoice"],
+            "enum": [
+              "Invoice"
+            ],
             "description": "The type of resource that has been created or updated",
             "example": "Invoice"
           },
           "ActionType": {
             "type": "string",
             "description": "The key for the resource that has been created or updated",
-            "enum": ["Updated"],
+            "enum": [
+              "Updated"
+            ],
             "example": "Updated"
           },
           "TimeStamp": {
@@ -13046,7 +13078,9 @@
           },
           "ResourceType": {
             "type": "string",
-            "enum": ["Note"],
+            "enum": [
+              "Note"
+            ],
             "description": "The type of resource that has been created or updated",
             "example": "Note"
           },
@@ -13054,7 +13088,9 @@
             "type": "string",
             "description": "The key for the resource that has been created or updated",
             "enum": [
-              "Inserted", "Updated", "Deleted"
+              "Inserted",
+              "Updated",
+              "Deleted"
             ],
             "example": "Updated"
           },
@@ -13077,14 +13113,18 @@
           },
           "ResourceType": {
             "type": "string",
-            "enum": ["User"],
+            "enum": [
+              "User"
+            ],
             "description": "The type of resource that has been created or updated",
             "example": "User"
           },
           "ActionType": {
             "type": "string",
             "description": "The key for the resource that has been created or updated",
-            "enum": ["Inserted"],
+            "enum": [
+              "Inserted"
+            ],
             "example": "Updated"
           },
           "TimeStamp": {
@@ -13106,7 +13146,9 @@
           },
           "ResourceType": {
             "type": "string",
-            "enum": ["Work"],
+            "enum": [
+              "Work"
+            ],
             "description": "The type of resource that has been created or updated",
             "example": "Work"
           },
@@ -13114,7 +13156,9 @@
             "type": "string",
             "description": "The key for the resource that has been created or updated",
             "enum": [
-              "Inserted", "Updated", "Deleted"
+              "Inserted",
+              "Updated",
+              "Deleted"
             ],
             "example": "Updated"
           },
@@ -13180,8 +13224,8 @@
         "description": "",
         "value": {
           "error": {
-              "code": "4004",
-              "message": "File entity is not found for permakey a3bXVhdMHgc9P"
+            "code": "4004",
+            "message": "File entity is not found for permakey a3bXVhdMHgc9P"
           }
         }
       },
