@@ -6035,6 +6035,50 @@
                 "EntityDescription": {
                   "Text": "John Doe is the Managing Director of this organization."
                 },
+                "AccountingDetails": {
+                  "ContactKey": null,
+                  "OrganizationKey": "SCwCq2M9pFm",
+                  "BirthDate": null,
+                  "DeathDate": null,
+                  "Salutation": null,
+                  "Sex": null,
+                  "FinancialYearEndDay": 1,
+                  "FinancialYearEndMonth": 1,
+                  "IncorporationDate": null,
+                  "IncorporationState": null,
+                  "LegalName": "The Sample Company",
+                  "LineOfBusiness": "Manufacturing",
+                  "EntityType": "Corporation",
+                  "TaxCountryCode": "US",
+                  "TradingName": null,
+                  "AnnualRevenue": 10000000.00,
+                  "BaseCurrency": null,
+                  "GstBasis": null,
+                  "GstPeriod": null,
+                  "IncomeTaxInstallmentPeriod": null,
+                  "IsVATRegistered": null,
+                  "OrganizationValuation": 0.00,
+                  "PaysTax": null,
+                  "PrepareGST": null,
+                  "ProvisionalTaxBasis": null,
+                  "ProvisionalTaxRatio": null,
+                  "RevenueModel": null,
+                  "SalesTaxBasis": null,
+                  "SalesTaxPeriod": null,
+                  "Sells": null,
+                  "RegistrationNumbers": [
+                      {
+                          "RegistrationNumber": "123456789",
+                          "Type": "Tax ID"
+                      }
+                  ],
+                  "Notes": [
+                      {
+                          "Body": "Example text",
+                          "Type": "Basic"
+                      }
+                  ]
+                },
                 "BusinessCards": {
                   "BusinessCardKey": "2tBHyXtJBxBy",
                   "EntityType": "Organization",
@@ -11435,6 +11479,9 @@
             "description": "The privacy level for this Organization.\n\n<ul><li>Public Organization can be managed by anyone in the firm</li> <li>Private Organization can only be managed by the [Client Team](https://help.karbonhq.com/en/articles/1524707-create-a-client-team). Basic details (name of the Organization and the Work Items) related to such Organization are visible to anyone in the firm.</li> <li>Hidden Organization are only be visible to and managed by the [Client Team](https://help.karbonhq.com/en/articles/1524707-create-a-client-team).</li>\n",
             "default": "Public",
             "enum": ["Public", "Private", "Hidden"]
+          },
+          "AccountingDetail": {
+            "$ref": "#/components/schemas/DetailsOfAccounting"
           },
           "BusinessCards": {
             "type": "array",
