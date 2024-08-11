@@ -6108,6 +6108,50 @@
                 "EntityDescription": {
                   "Text": "John Doe is the Managing Director of this organization."
                 },
+                "AccountingDetails": {
+                  "ContactKey": null,
+                  "OrganizationKey": "SCwCq2M9pFm",
+                  "BirthDate": null,
+                  "DeathDate": null,
+                  "Salutation": null,
+                  "Sex": null,
+                  "FinancialYearEndDay": 1,
+                  "FinancialYearEndMonth": 1,
+                  "IncorporationDate": null,
+                  "IncorporationState": null,
+                  "LegalName": "The Sample Company",
+                  "LineOfBusiness": "Manufacturing",
+                  "EntityType": "Corporation",
+                  "TaxCountryCode": "US",
+                  "TradingName": null,
+                  "AnnualRevenue": 10000000.00,
+                  "BaseCurrency": null,
+                  "GstBasis": null,
+                  "GstPeriod": null,
+                  "IncomeTaxInstallmentPeriod": null,
+                  "IsVATRegistered": null,
+                  "OrganizationValuation": 0.00,
+                  "PaysTax": null,
+                  "PrepareGST": null,
+                  "ProvisionalTaxBasis": null,
+                  "ProvisionalTaxRatio": null,
+                  "RevenueModel": null,
+                  "SalesTaxBasis": null,
+                  "SalesTaxPeriod": null,
+                  "Sells": null,
+                  "RegistrationNumbers": [
+                      {
+                          "RegistrationNumber": "123456789",
+                          "Type": "Tax ID"
+                      }
+                  ],
+                  "Notes": [
+                      {
+                          "Body": "Example text",
+                          "Type": "Basic"
+                      }
+                  ]
+                },
                 "BusinessCards": {
                   "BusinessCardKey": "2tBHyXtJBxBy",
                   "EntityType": "Organization",
@@ -11776,6 +11820,9 @@
               "Private",
               "Hidden"
             ]
+          },
+          "AccountingDetail": {
+            "$ref": "#/components/schemas/DetailsOfAccounting"
           },
           "BusinessCards": {
             "type": "array",
