@@ -4197,7 +4197,7 @@
                     "AccountingDetail": {
                       "nullable": true,
                       "type": "string",
-                      "description": "The accounting details associated with the Client Group. This property will be `null`."
+                      "description": "The accounting details associated with the Contact. This property will be `null`."
                     }
                   }
                 },
@@ -6208,7 +6208,7 @@
                     "AccountingDetail": {
                       "type": "string",
                       "nullable": true,
-                      "description": "The accounting details associated with the Client Group. This property will be `null`."
+                      "description": "The accounting details associated with the Organization. This property will be `null`."
                     }
                   }
                 },
