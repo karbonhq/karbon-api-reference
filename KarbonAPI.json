@@ -9375,9 +9375,6 @@
           "AccountingDetail": {
             "$ref": "#/components/schemas/DetailsOfAccounting"
           },
-          "AccountingDetail": {
-            "$ref": "#/components/schemas/DetailsOfAccounting"
-          },
           "BusinessCards": {
             "type": "array",
             "items": {
