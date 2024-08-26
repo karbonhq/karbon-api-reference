@@ -103,7 +103,9 @@
   "webhooks": {
     "contact": {
       "post": {
-        "tags": ["Webhook Payloads"],
+        "tags": [
+          "Webhook Payloads"
+        ],
         "description": "Contact created or updated",
         "requestBody": {
           "description": "Information about the created or updated contact",
@@ -119,7 +121,9 @@
     },
     "invoice": {
       "post": {
-        "tags": ["Webhook Payloads"],
+        "tags": [
+          "Webhook Payloads"
+        ],
         "description": "Invoice status updated",
         "requestBody": {
           "description": "Information about the created or updated contact",
@@ -135,7 +139,9 @@
     },
     "note": {
       "post": {
-        "tags": ["Webhook Payloads"],
+        "tags": [
+          "Webhook Payloads"
+        ],
         "description": "Note created or updated",
         "requestBody": {
           "description": "Information about the created or updated contact",
@@ -151,7 +157,9 @@
     },
     "user": {
       "post": {
-        "tags": ["Webhook Payloads"],
+        "tags": [
+          "Webhook Payloads"
+        ],
         "description": "User has accepted Karbon invite",
         "requestBody": {
           "description": "Information about the created or updated contact",
@@ -167,7 +175,9 @@
     },
     "work": {
       "post": {
-        "tags": ["Webhook Payloads"],
+        "tags": [
+          "Webhook Payloads"
+        ],
         "description": "Work created or updated",
         "requestBody": {
           "description": "Information about the created or updated contact",
@@ -186,7 +196,9 @@
     "/v3/Invoices": {
       "get": {
         "operationId": "getInvoices",
-        "tags": ["Billing"],
+        "tags": [
+          "Billing"
+        ],
         "summary": "Gets a list of Invoices",
         "parameters": [
           {
@@ -195,7 +207,9 @@
             "example": "LineItems",
             "schema": {
               "type": "string",
-              "enum": ["LineItems"]
+              "enum": [
+                "LineItems"
+              ]
             },
             "description": "Include additional invoice properties, such as lineitems"
           },
@@ -205,7 +219,11 @@
             "name": "$orderby",
             "schema": {
               "type": "string",
-              "enum": ["InvoiceDate", "InvoiceDate asc", "InvoiceDate desc"]
+              "enum": [
+                "InvoiceDate",
+                "InvoiceDate asc",
+                "InvoiceDate desc"
+              ]
             },
             "description": "Order responses by invoice date"
           }
@@ -283,7 +301,7 @@
                 "schema": {
                   "$ref": "#/components/schemas/ResourceNotFound"
                 },
-                "examples": {
+                "example": {
                   "Unauthorized Access": {
                     "$ref": "#/components/examples/UnauthorizedAccess"
                   }
@@ -297,7 +315,9 @@
     "/v3/Invoices/{InvoiceKey}": {
       "get": {
         "operationId": "getInvoiceByKey",
-        "tags": ["Billing"],
+        "tags": [
+          "Billing"
+        ],
         "summary": "Gets a single Invoice",
         "parameters": [
           {
@@ -316,7 +336,9 @@
             "example": "LineItems",
             "schema": {
               "type": "string",
-              "enum": ["LineItems"]
+              "enum": [
+                "LineItems"
+              ]
             },
             "description": "Include additional invoice properties, such as lineitems"
           }
@@ -415,7 +437,9 @@
     "/v3/ManualPayments": {
       "post": {
         "operationId": "createManualPayment",
-        "tags": ["Billing"],
+        "tags": [
+          "Billing"
+        ],
         "summary": "Create a manual payment against an Invoice",
         "description": "Use the `GET` method on this endpoint to receive a list of Invoices",
         "responses": {
@@ -578,7 +602,9 @@
     "/v3/BusinessCards/{BusinessCardKey}": {
       "get": {
         "operationId": "getBusinessCardByKey",
-        "tags": ["Business Cards"],
+        "tags": [
+          "Business Cards"
+        ],
         "summary": "Gets a single Business Card",
         "parameters": [
           {
@@ -616,7 +642,10 @@
                         "EntityType": {
                           "type": "string",
                           "example": "Organization",
-                          "enum": ["Contact", "Organization"],
+                          "enum": [
+                            "Contact",
+                            "Organization"
+                          ],
                           "description": "The type of entity that this business card is connected to."
                         },
                         "EntityKey": {
@@ -638,7 +667,10 @@
                   "EntityType": "Organization",
                   "EntityKey": "2jHPZngklwxQ",
                   "IsPrimaryCard": true,
-                  "WebSites": ["www.website.one", "www.website.two"],
+                  "WebSites": [
+                    "www.website.one",
+                    "www.website.two"
+                  ],
                   "EmailAddresses": [
                     "sample@example.com",
                     "sample.two@example.com"
@@ -706,7 +738,9 @@
       },
       "put": {
         "operationId": "updateBusinessCardByKey",
-        "tags": ["Business Cards"],
+        "tags": [
+          "Business Cards"
+        ],
         "summary": "Updates a single Business Card",
         "parameters": [
           {
@@ -805,7 +839,10 @@
                       "EntityType": {
                         "type": "string",
                         "example": "Organization",
-                        "enum": ["Contact", "Organization"],
+                        "enum": [
+                          "Contact",
+                          "Organization"
+                        ],
                         "description": "The type of entity that this business card is connected to."
                       },
                       "EntityKey": {
@@ -827,7 +864,9 @@
     },
     "/v3/ClientGroups": {
       "get": {
-        "tags": ["Client Groups"],
+        "tags": [
+          "Client Groups"
+        ],
         "summary": "Gets a list of Client Groups",
         "parameters": [
           {
@@ -845,7 +884,10 @@
             "name": "$orderby",
             "schema": {
               "type": "string",
-              "enum": ["FullName", "FullName desc"],
+              "enum": [
+                "FullName",
+                "FullName desc"
+              ],
               "default": "ClientGroupKey"
             },
             "example": "FullName",
@@ -943,7 +985,9 @@
         }
       },
       "post": {
-        "tags": ["Client Groups"],
+        "tags": [
+          "Client Groups"
+        ],
         "summary": "Creates a new Client Group",
         "description": "Use the `POST` method on this endpoint to create a new Client Group in your tenant.\n",
         "operationId": "createClientGroup",
@@ -1078,7 +1122,9 @@
     },
     "/v3/ClientGroups/GetClientGroupByUserDefinedIdentifier(UserDefinedIdentifier='{UserDefinedIdentifier}')": {
       "get": {
-        "tags": ["Client Groups"],
+        "tags": [
+          "Client Groups"
+        ],
         "summary": "Gets a Client Group using UserDefinedIdentifier",
         "parameters": [
           {
@@ -1096,7 +1142,9 @@
             "name": "$expand",
             "schema": {
               "type": "string",
-              "enum": ["BusinessCard"]
+              "enum": [
+                "BusinessCard"
+              ]
             },
             "example": "BusinessCard",
             "description": "When this parameter is combined with the URI, this endpoint will also return the Business Card of the Client Group.\n"
@@ -1157,7 +1205,10 @@
                   "BusinessCard": {
                     "BusinessCardKey": "2tBHyXtJBxBy",
                     "IsPrimaryCard": true,
-                    "WebSites": ["www.website.one", "www.website.two"],
+                    "WebSites": [
+                      "www.website.one",
+                      "www.website.two"
+                    ],
                     "EmailAddresses": [
                       "sample@example.com",
                       "sample.two@example.com"
@@ -1256,7 +1307,9 @@
     },
     "/v3/ClientGroups/{ClientGroupkey}": {
       "get": {
-        "tags": ["Client Groups"],
+        "tags": [
+          "Client Groups"
+        ],
         "summary": "Gets a Client Group using ClientGroupkey",
         "parameters": [
           {
@@ -1274,10 +1327,13 @@
             "name": "$expand",
             "schema": {
               "type": "string",
-              "enum": ["BusinessCard"]
+              "enum": [
+                "BusinessCard",
+                "ClientTeam"
+              ]
             },
             "example": "BusinessCard",
-            "description": "When this parameter is combined with the URI, this endpoint will also return Business Card of the Client Group.\n"
+            "description": "When this parameter is specified in the query string this endpoint will also return the Business Card and/or Client Team of the Client Group.\n"
           }
         ],
         "description": "Use the `GET` method on this endpoint to receive the details of a Client Group specified using the `ClientGroupkey`.\n\nUsing the query parameter available to this endpoint,  you can also include the Business Card details of the Client Group in the response.\n",
@@ -1309,6 +1365,14 @@
                           "$ref": "#/components/schemas/BusinessCard"
                         }
                       }
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "ClientTeam": {
+                          "$ref": "#/components/schemas/ClientTeam"
+                        }
+                      }
                     }
                   ]
                 },
@@ -1335,7 +1399,10 @@
                   "BusinessCard": {
                     "BusinessCardKey": "2tBHyXtJBxBy",
                     "IsPrimaryCard": true,
-                    "WebSites": ["www.website.one", "www.website.two"],
+                    "WebSites": [
+                      "www.website.one",
+                      "www.website.two"
+                    ],
                     "EmailAddresses": [
                       "sample@example.com",
                       "sample.two@example.com"
@@ -1361,7 +1428,34 @@
                       "CountryCode": 61,
                       "Label": "Work"
                     }
-                  }
+                  },
+                  "ClientTeam": [
+                    {
+                      "MemberKey": "JTphCpQqQYg",
+                      "MemberType": "User",
+                      "RoleType": "ClientOwner"
+                    },
+                    {
+                      "MemberKey": "nRML2ngs7WJ",
+                      "MemberType": "User",
+                      "RoleType": "ClientManager"
+                    },
+                    {
+                      "MemberKey": "3fv7lflmd1Z7",
+                      "MemberType": "User",
+                      "RoleType": "UserDefinedRole2"
+                    },
+                    {
+                      "MemberKey": "3v9YJmt55hLY",
+                      "MemberType": "User",
+                      "RoleType": "UserDefinedRole1"
+                    },
+                    {
+                      "MemberKey": "3zdQh89xCmZM",
+                      "MemberType": "User",
+                      "RoleType": null
+                    }
+                  ]
                 }
               }
             }
@@ -1429,7 +1523,9 @@
         }
       },
       "put": {
-        "tags": ["Client Groups"],
+        "tags": [
+          "Client Groups"
+        ],
         "summary": "Updates a Client Group (Full)",
         "parameters": [
           {
@@ -1549,7 +1645,10 @@
                 },
                 "BusinessCard": {
                   "IsPrimaryCard": true,
-                  "WebSites": ["www.website.one", "www.website.two"],
+                  "WebSites": [
+                    "www.website.one",
+                    "www.website.two"
+                  ],
                   "EmailAddresses": [
                     "sample@example.com",
                     "sample.two@example.com"
@@ -1579,7 +1678,9 @@
         }
       },
       "patch": {
-        "tags": ["Client Groups"],
+        "tags": [
+          "Client Groups"
+        ],
         "summary": "Updates a Client Group (Partial)",
         "parameters": [
           {
@@ -1691,7 +1792,9 @@
     },
     "/v3/Comments('{Commentkey}')": {
       "get": {
-        "tags": ["Comments"],
+        "tags": [
+          "Comments"
+        ],
         "summary": "Gets a Comment using CommentKey",
         "description": "This endpoint can be used to get the comment attached to any Karbon entity (e.g., Work Item, Timesheet, Notes, Contacts).\n\n\nTo place a call using this endpoint, you will need the unique `Commentkey` that is used to identify a particular comment in Karbon.",
         "operationId": "getComment",
@@ -1786,7 +1889,9 @@
     },
     "/v3/Contacts": {
       "get": {
-        "tags": ["Contacts"],
+        "tags": [
+          "Contacts"
+        ],
         "summary": "Gets a list of Contacts",
         "parameters": [
           {
@@ -1794,7 +1899,12 @@
             "name": "$filter",
             "schema": {
               "type": "string",
-              "enum": ["FullName", "EmailAddress", "PhoneNumber", "ContactType"]
+              "enum": [
+                "FullName",
+                "EmailAddress",
+                "PhoneNumber",
+                "ContactType"
+              ]
             },
             "example": "FullName eq 'Sample Management Team'",
             "description": "When this parameter is combined with the URI, this endpoint will return a subset of the Contacts that satisfy the `$filter` expression.\n"
@@ -1907,7 +2017,9 @@
         }
       },
       "post": {
-        "tags": ["Contacts"],
+        "tags": [
+          "Contacts"
+        ],
         "summary": "Creates a new Contact",
         "description": "Use the `POST` method on this endpoint to create a new Contact in your tenant.\n",
         "operationId": "createContact",
@@ -1982,7 +2094,10 @@
                   "BusinessCards": {
                     "BusinessCardKey": "2tBHyXtJBxBy",
                     "IsPrimaryCard": true,
-                    "WebSites": ["www.website.one", "www.website.two"],
+                    "WebSites": [
+                      "www.website.one",
+                      "www.website.two"
+                    ],
                     "EmailAddresses": [
                       "sample@example.com",
                       "sample.two@example.com"
@@ -2092,7 +2207,9 @@
     },
     "/v3/Contacts/GetContactByUserDefinedIdentifier(UserDefinedIdentifier='{UserDefinedIdentifier}')": {
       "get": {
-        "tags": ["Contacts"],
+        "tags": [
+          "Contacts"
+        ],
         "summary": "Gets a Contact using UserDefinedIdentifier",
         "parameters": [
           {
@@ -2110,7 +2227,9 @@
             "name": "$expand",
             "schema": {
               "type": "string",
-              "enum": ["BusinessCards"]
+              "enum": [
+                "BusinessCards"
+              ]
             },
             "example": "BusinessCards",
             "description": "When this parameter is combined with the URI, this endpoint will also return the Business Cards of the Contact.\n"
@@ -2191,7 +2310,10 @@
                     "EntityType": "Contact",
                     "EntityKey": "67zlxNyJSr8e",
                     "IsPrimaryCard": true,
-                    "WebSites": ["www.website.one", "www.website.two"],
+                    "WebSites": [
+                      "www.website.one",
+                      "www.website.two"
+                    ],
                     "EmailAddresses": [
                       "sample@example.com",
                       "sample.two@example.com"
@@ -2290,7 +2412,9 @@
     },
     "/v3/Contacts/{Contactkey}": {
       "get": {
-        "tags": ["Contacts"],
+        "tags": [
+          "Contacts"
+        ],
         "summary": "Gets a Contact using Contactkey",
         "parameters": [
           {
@@ -2308,10 +2432,13 @@
             "name": "$expand",
             "schema": {
               "type": "string",
-              "enum": ["BusinessCards"]
+              "enum": [
+                "BusinessCards",
+                "ClientTeam"
+              ]
             },
             "example": "BusinessCards",
-            "description": "When this parameter is combined with the URI, this endpoint will also return Business Card of the Contact.\n"
+            "description": "When this parameter is combined with the URI, this endpoint will also return Business Card and/or the Client Team of the Contact.\n"
           }
         ],
         "description": "Use the `GET` method on this endpoint to receive the details of a Contact specified using the `Contactkey`.\n\nUsing the query parameter available to this endpoint,  you can also include the Business Card details of the Contacts in the response.\n",
@@ -2384,38 +2511,70 @@
                       "Type": "Basic"
                     }
                   },
-                  "BusinessCards": {
-                    "BusinessCardKey": "2tBHyXtJBxBy",
-                    "EntityType": "Contact",
-                    "EntityKey": "67zlxNyJSr8e",
-                    "IsPrimaryCard": true,
-                    "WebSites": ["www.website.one", "www.website.two"],
-                    "EmailAddresses": [
-                      "sample@example.com",
-                      "sample.two@example.com"
-                    ],
-                    "OrganizationKey": "ZGNmtYyLm4z",
-                    "RoleOrTitle": "COO",
-                    "FacebookLink": "facebook.com/sampleName",
-                    "LinkedInLink": "linkedin.com/sampleName",
-                    "TwitterLink": "twitter.com/sampleName",
-                    "SkypeLink": "skype.com/sampleName",
-                    "Addresses": {
-                      "AddressKey": "e150a05a-2dea-4292-8bc8-03398c9384e4",
-                      "AddressLines": "45 Sample Street",
-                      "City": "Alexandria",
-                      "StateProvinceCounty": "NSW",
-                      "ZipCode": "2015",
-                      "CountryCode": "AU",
-                      "Label": "Physical"
-                    },
-                    "PhoneNumbers": {
-                      "PhoneNumberKey": "6e0b9ace-24b1-4328-a922-3b8be5ef5052",
-                      "Number": 1234567890,
-                      "CountryCode": 61,
-                      "Label": "Work"
+                  "BusinessCards": [
+                    {
+                      "BusinessCardKey": "2tBHyXtJBxBy",
+                      "EntityType": "Contact",
+                      "EntityKey": "67zlxNyJSr8e",
+                      "IsPrimaryCard": true,
+                      "WebSites": [
+                        "www.website.one",
+                        "www.website.two"
+                      ],
+                      "EmailAddresses": [
+                        "sample@example.com",
+                        "sample.two@example.com"
+                      ],
+                      "OrganizationKey": "ZGNmtYyLm4z",
+                      "RoleOrTitle": "COO",
+                      "FacebookLink": "facebook.com/sampleName",
+                      "LinkedInLink": "linkedin.com/sampleName",
+                      "TwitterLink": "twitter.com/sampleName",
+                      "SkypeLink": "skype.com/sampleName",
+                      "Addresses": {
+                        "AddressKey": "e150a05a-2dea-4292-8bc8-03398c9384e4",
+                        "AddressLines": "45 Sample Street",
+                        "City": "Alexandria",
+                        "StateProvinceCounty": "NSW",
+                        "ZipCode": "2015",
+                        "CountryCode": "AU",
+                        "Label": "Physical"
+                      },
+                      "PhoneNumbers": {
+                        "PhoneNumberKey": "6e0b9ace-24b1-4328-a922-3b8be5ef5052",
+                        "Number": 1234567890,
+                        "CountryCode": 61,
+                        "Label": "Work"
+                      }
                     }
-                  }
+                  ],
+                  "ClientTeam": [
+                    {
+                      "MemberKey": "JTphCpQqQYg",
+                      "MemberType": "User",
+                      "RoleType": "ClientOwner"
+                    },
+                    {
+                      "MemberKey": "nRML2ngs7WJ",
+                      "MemberType": "User",
+                      "RoleType": "ClientManager"
+                    },
+                    {
+                      "MemberKey": "3fv7lflmd1Z7",
+                      "MemberType": "User",
+                      "RoleType": "UserDefinedRole2"
+                    },
+                    {
+                      "MemberKey": "3v9YJmt55hLY",
+                      "MemberType": "User",
+                      "RoleType": "UserDefinedRole1"
+                    },
+                    {
+                      "MemberKey": "3zdQh89xCmZM",
+                      "MemberType": "User",
+                      "RoleType": null
+                    }
+                  ]
                 }
               }
             }
@@ -2486,7 +2645,9 @@
         }
       },
       "put": {
-        "tags": ["Contacts"],
+        "tags": [
+          "Contacts"
+        ],
         "summary": "Updates a Contact (Full)",
         "parameters": [
           {
@@ -2586,7 +2747,9 @@
         }
       },
       "patch": {
-        "tags": ["Contacts"],
+        "tags": [
+          "Contacts"
+        ],
         "summary": "Updates a Contact (Partial)",
         "parameters": [
           {
@@ -2668,7 +2831,11 @@
                       "description": "The privacy level for this Client Group.\n\n<ul><li>Public Client Groups can be managed by anyone in the firm</li> <li>Private Client Groups can only be managed by the [Client Team](https://help.karbonhq.com/en/articles/1524707-create-a-client-team). Basic details (name of the Contacts and the Work Items) related to such Client Groups are visible to anyone in the firm.</li> <li>Hidden Client Groups are only be visible to and managed by the [Client Team](https://help.karbonhq.com/en/articles/1524707-create-a-client-team).</li>\n",
                       "example": "Public",
                       "default": "Public",
-                      "enum": ["Public", "Private", "Hidden"]
+                      "enum": [
+                        "Public",
+                        "Private",
+                        "Hidden"
+                      ]
                     },
                     "AvatarUrl": {
                       "type": "string",
@@ -2837,7 +3004,9 @@
     },
     "/v3/EstimateSummaries/{WorkItemkey}": {
       "get": {
-        "tags": ["Estimate Summaries"],
+        "tags": [
+          "Estimate Summaries"
+        ],
         "summary": "Gets estimate summaries using WorkItemkey",
         "parameters": [
           {
@@ -2990,7 +3159,9 @@
     },
     "/v3/Files": {
       "post": {
-        "tags": ["Files"],
+        "tags": [
+          "Files"
+        ],
         "summary": "Uploads and links a file",
         "description": "Use the `POST` method on this endpoint to upload and link a file to an entity in your tenant.\n\nNote that this endpoint **only supports uploading files from the local network** but not from the web.\n",
         "operationId": "createFile",
@@ -3061,7 +3232,11 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ResourceNotFound"
+                  "oneOf": [
+                    {"$ref": "#/components/schemas/ResourceNotFound"},
+                    {"$ref": "#/components/examples/File_key_not_present"},
+                    {"$ref": "#/components/examples/No_File_context"},
+                  ]
                 },
                 "examples": {
                   "Unauthorized Access": {
@@ -3112,7 +3287,11 @@
             "multipart/form-data": {
               "schema": {
                 "type": "object",
-                "required": ["file", "FileName", "MimeType"],
+                "required": [
+                  "file",
+                  "FileName",
+                  "MimeType"
+                ],
                 "minProperties": 2,
                 "properties": {
                   "FileName": {
@@ -3157,7 +3336,9 @@
         }
       },
       "get": {
-        "tags": ["Files"],
+        "tags": [
+          "Files"
+        ],
         "summary": "Get a File using it's token",
         "description": "Use the `GET` method on this endpoint with the `token` query string parameter to retrieve a file. Note: download tokens are only valid for 15 minutes from the moment of issue.",
         "operationId": "downloadFile",
@@ -3248,7 +3429,9 @@
     },
     "/v3/FileList/{EntityType}": {
       "get": {
-        "tags": ["Files"],
+        "tags": [
+          "Files"
+        ],
         "summary": "Get a list of Files for a given entity",
         "description": "Use the `GET` method on this endpoint to list files associated with a specific Entity Type and Entity Key",
         "operationId": "listFiles",
@@ -3260,7 +3443,11 @@
             "required": true,
             "schema": {
               "type": "string",
-              "enum": ["WorkItem", "Contact", "Organization"]
+              "enum": [
+                "WorkItem",
+                "Contact",
+                "Organization"
+              ]
             },
             "example": "WorkItem"
           },
@@ -3354,7 +3541,9 @@
     },
     "/v3/Notes/{NoteID}": {
       "get": {
-        "tags": ["Notes"],
+        "tags": [
+          "Notes"
+        ],
         "summary": "Gets a Note using NoteID",
         "parameters": [
           {
@@ -3474,7 +3663,9 @@
     },
     "/v3/Notes": {
       "post": {
-        "tags": ["Notes"],
+        "tags": [
+          "Notes"
+        ],
         "summary": "Creates a new Note",
         "description": "Use the `POST` method on this endpoint to create a new Note and associate it with a Karbon entity (e.g., WorkItem, Contact, Organization, or ClientGroup) in your tenant.\n",
         "operationId": "createNote",
@@ -3618,7 +3809,9 @@
     },
     "/v3/Organizations": {
       "get": {
-        "tags": ["Organizations"],
+        "tags": [
+          "Organizations"
+        ],
         "summary": "Gets a list of Organizations",
         "parameters": [
           {
@@ -3626,7 +3819,12 @@
             "name": "$filter",
             "schema": {
               "type": "string",
-              "enum": ["FullName", "EmailAddress", "Tags", "ContactType"]
+              "enum": [
+                "FullName",
+                "EmailAddress",
+                "Tags",
+                "ContactType"
+              ]
             },
             "examples": {
               "fullName": {
@@ -3756,7 +3954,9 @@
         }
       },
       "post": {
-        "tags": ["Organizations"],
+        "tags": [
+          "Organizations"
+        ],
         "summary": "Creates a new Organization",
         "description": "Use the `POST` method on this endpoint to create a new Organization in your tenant.\n",
         "operationId": "createOrganization",
@@ -3957,7 +4157,10 @@
                   {
                     "BusinessCardKey": "2tBHyXtJBxBy",
                     "IsPrimaryCard": true,
-                    "WebSites": ["www.website.one", "www.website.two"],
+                    "WebSites": [
+                      "www.website.one",
+                      "www.website.two"
+                    ],
                     "EmailAddresses": [
                       "sample@example.com",
                       "sample.two@example.com"
@@ -3993,7 +4196,9 @@
     },
     "/v3/Organizations/GetOrganizationByUserDefinedIdentifier(UserDefinedIdentifier='{UserDefinedIdentifier}')": {
       "get": {
-        "tags": ["Organizations"],
+        "tags": [
+          "Organizations"
+        ],
         "summary": "Gets an Organization using UserDefinedIdentifier",
         "parameters": [
           {
@@ -4011,7 +4216,9 @@
             "name": "$expand",
             "schema": {
               "type": "string",
-              "enum": ["BusinessCards"]
+              "enum": [
+                "BusinessCards"
+              ]
             },
             "example": "BusinessCards",
             "description": "When this parameter is combined with the URI, this endpoint will also return the Business Cards of the Contact Organization.\n"
@@ -4093,7 +4300,10 @@
                       "EntityType": "Organization",
                       "EntityKey": "2Nw8tnxwQCVf",
                       "IsPrimaryCard": true,
-                      "WebSites": ["www.website.one", "www.website.two"],
+                      "WebSites": [
+                        "www.website.one",
+                        "www.website.two"
+                      ],
                       "EmailAddresses": [
                         "sample@example.com",
                         "sample.two@example.com"
@@ -4193,7 +4403,9 @@
     },
     "/v3/Organizations/{Organizationkey}": {
       "get": {
-        "tags": ["Organizations"],
+        "tags": [
+          "Organizations"
+        ],
         "summary": "Gets an Organization using Organizationkey",
         "parameters": [
           {
@@ -4211,10 +4423,14 @@
             "name": "$expand",
             "schema": {
               "type": "string",
-              "enum": ["BusinessCards", "Contacts"]
+              "enum": [
+                "BusinessCards",
+                "ClientTeam",
+                "Contacts"
+              ]
             },
             "example": "BusinessCards,Contacts",
-            "description": "When this parameter is combined with the URI, this endpoint will also return Business Cards and Contacts associated with the Organization.\n"
+            "description": "When this parameter is combined with the URI, this endpoint will also return Business Cards, Client Team and/or Contacts associated with the Organization.\n"
           }
         ],
         "description": "Use the `GET` method on this endpoint to receive the details of a Organization specified using the `Organizationkey`.\n\nUsing the query parameter available to this endpoint,  you can also include the Business Card details of the Organization in the response.\n",
@@ -4234,6 +4450,14 @@
                       "properties": {
                         "Contacts": {
                           "$ref": "#/components/schemas/ContactsCardOrganization"
+                        }
+                      }
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "ClientTeam": {
+                          "$ref": "#/components/schemas/ClientTeam"
                         }
                       }
                     }
@@ -4305,7 +4529,10 @@
                       "EntityType": "Organization",
                       "EntityKey": "2Nw8tnxwQCVf",
                       "IsPrimaryCard": true,
-                      "WebSites": ["www.website.one", "www.website.two"],
+                      "WebSites": [
+                        "www.website.one",
+                        "www.website.two"
+                      ],
                       "EmailAddresses": [
                         "sample@example.com",
                         "sample.two@example.com"
@@ -4347,6 +4574,33 @@
                       "RoleOrTitle": "CIO",
                       "UserDefinedIdentifier": "HD567",
                       "LastModifiedDateTime": "2022-02-03T03:34:11Z"
+                    }
+                  ],
+                  "ClientTeam": [
+                    {
+                      "MemberKey": "JTphCpQqQYg",
+                      "MemberType": "User",
+                      "RoleType": "ClientOwner"
+                    },
+                    {
+                      "MemberKey": "nRML2ngs7WJ",
+                      "MemberType": "User",
+                      "RoleType": "ClientManager"
+                    },
+                    {
+                      "MemberKey": "3fv7lflmd1Z7",
+                      "MemberType": "User",
+                      "RoleType": "UserDefinedRole2"
+                    },
+                    {
+                      "MemberKey": "3v9YJmt55hLY",
+                      "MemberType": "User",
+                      "RoleType": "UserDefinedRole1"
+                    },
+                    {
+                      "MemberKey": "3zdQh89xCmZM",
+                      "MemberType": "User",
+                      "RoleType": null
                     }
                   ]
                 }
@@ -4422,7 +4676,9 @@
         }
       },
       "put": {
-        "tags": ["Organizations"],
+        "tags": [
+          "Organizations"
+        ],
         "summary": "Updates an Organization (Full)",
         "parameters": [
           {
@@ -4561,16 +4817,16 @@
                   "SalesTaxPeriod": null,
                   "Sells": null,
                   "RegistrationNumbers": [
-                      {
-                          "RegistrationNumber": "123456789",
-                          "Type": "Tax ID"
-                      }
+                    {
+                      "RegistrationNumber": "123456789",
+                      "Type": "Tax ID"
+                    }
                   ],
                   "Notes": [
-                      {
-                          "Body": "Example text",
-                          "Type": "Basic"
-                      }
+                    {
+                      "Body": "Example text",
+                      "Type": "Basic"
+                    }
                   ]
                 },
                 "BusinessCards": {
@@ -4578,7 +4834,10 @@
                   "EntityType": "Organization",
                   "EntityKey": "SCwCq2M9pFm",
                   "IsPrimaryCard": true,
-                  "WebSites": ["www.website.one", "www.website.two"],
+                  "WebSites": [
+                    "www.website.one",
+                    "www.website.two"
+                  ],
                   "EmailAddresses": [
                     "sample@example.com",
                     "sample.two@example.com"
@@ -4611,7 +4870,9 @@
         }
       },
       "patch": {
-        "tags": ["Organizations"],
+        "tags": [
+          "Organizations"
+        ],
         "summary": "Updates an Organization (Partial)",
         "parameters": [
           {
@@ -4681,7 +4942,11 @@
                       "type": "string",
                       "description": "The privacy level for this Organization.\n\n<ul><li>Public Organization can be managed by anyone in the firm</li> <li>Private Organization can only be managed by the [Client Team](https://help.karbonhq.com/en/articles/1524707-create-a-client-team). Basic details (name of the Organization and the Work Items) related to such Organization are visible to anyone in the firm.</li> <li>Hidden Organization are only be visible to and managed by the [Client Team](https://help.karbonhq.com/en/articles/1524707-create-a-client-team).</li>\n",
                       "default": "Public",
-                      "enum": ["Public", "Private", "Hidden"]
+                      "enum": [
+                        "Public",
+                        "Private",
+                        "Hidden"
+                      ]
                     },
                     "LastModifiedDateTime": {
                       "type": "string",
@@ -4817,7 +5082,9 @@
     },
     "/v3/Tags": {
       "post": {
-        "tags": ["Tags"],
+        "tags": [
+          "Tags"
+        ],
         "summary": "Assigns one or more tags to an entity.",
         "parameters": [],
         "description": "Use the `POST` method on this endpoint to assign one or more tags to an Organization",
@@ -4879,7 +5146,10 @@
                   },
                   "EntityType": {
                     "type": "string",
-                    "enum": ["Contact", "Organization"],
+                    "enum": [
+                      "Contact",
+                      "Organization"
+                    ],
                     "description": "The entity type of the entity key",
                     "example": "Organization"
                   },
@@ -4890,7 +5160,9 @@
                       "type": "string",
                       "example": "example-tag"
                     },
-                    "example": ["sync"]
+                    "example": [
+                      "sync"
+                    ]
                   }
                 }
               }
@@ -4901,7 +5173,9 @@
     },
     "/v3/Tags/{EntityKey}": {
       "delete": {
-        "tags": ["Tags"],
+        "tags": [
+          "Tags"
+        ],
         "summary": "Removes one or more tags to an entity",
         "parameters": [
           {
@@ -4974,7 +5248,10 @@
                   },
                   "EntityType": {
                     "type": "string",
-                    "enum": ["Contact", "Organization"],
+                    "enum": [
+                      "Contact",
+                      "Organization"
+                    ],
                     "description": "The entity type of the entity key",
                     "example": "Organization"
                   },
@@ -4985,7 +5262,9 @@
                       "type": "string",
                       "example": "example-tag"
                     },
-                    "example": ["sync"]
+                    "example": [
+                      "sync"
+                    ]
                   }
                 }
               }
@@ -4996,9 +5275,11 @@
     },
     "/v3/TenantSettings": {
       "get": {
-        "tags": ["Tenant Settings"],
+        "tags": [
+          "Tenant Settings"
+        ],
         "summary": "Gets lists of customer specific Contact and Work settings",
-        "description": "",
+        "description": "Get specific settings for a tenant, including the valid work statuses, work types and client types",
         "operationId": "getTenantSettings",
         "responses": {
           "200": {
@@ -5110,7 +5391,10 @@
                           "Waiting",
                           "Completed"
                         ],
-                        "Secondary": ["GrZfvNMt49q", "nJ8jJDwF6l"]
+                        "Secondary": [
+                          "GrZfvNMt49q",
+                          "nJ8jJDwF6l"
+                        ]
                       }
                     }
                   ],
@@ -5141,7 +5425,9 @@
     },
     "/v3/Timesheets": {
       "get": {
-        "tags": ["Timesheets"],
+        "tags": [
+          "Timesheets"
+        ],
         "summary": "Gets a list of Timesheets",
         "parameters": [
           {
@@ -5203,7 +5489,9 @@
             "name": "$expand",
             "schema": {
               "type": "string",
-              "enum": ["TimeEntries"]
+              "enum": [
+                "TimeEntries"
+              ]
             },
             "example": "TimeEntries",
             "description": "When this parameter is combined with the URI, this endpoint will also return the Time Entries associated with the Timesheets.\n"
@@ -5284,7 +5572,9 @@
     },
     "/v3/Timesheets/{Timesheetkey}": {
       "get": {
-        "tags": ["Timesheets"],
+        "tags": [
+          "Timesheets"
+        ],
         "summary": "Gets a Timesheets using Timesheetkey",
         "parameters": [
           {
@@ -5302,7 +5592,9 @@
             "name": "$expand",
             "schema": {
               "type": "string",
-              "enum": ["TimeEntries"]
+              "enum": [
+                "TimeEntries"
+              ]
             },
             "example": "TimeEntries",
             "description": "When this parameter is combined with the URI, this endpoint will also return the Time Entries associated with the Timesheets.\n"
@@ -5400,7 +5692,9 @@
     },
     "/v3/Users": {
       "get": {
-        "tags": ["Users"],
+        "tags": [
+          "Users"
+        ],
         "summary": "Gets a list of Users",
         "parameters": [
           {
@@ -5408,7 +5702,10 @@
             "name": "$filter",
             "schema": {
               "type": "string",
-              "enum": ["Name", "EmailAddress"]
+              "enum": [
+                "Name",
+                "EmailAddress"
+              ]
             },
             "example": "EmailAddress eq 'joe@samplecompany.com'",
             "description": "When this parameter is combined with the URI, this endpoint will return a subset of the Users that satisfy the `$filter` expression.\n"
@@ -5502,7 +5799,9 @@
         }
       },
       "post": {
-        "tags": ["Users"],
+        "tags": [
+          "Users"
+        ],
         "summary": "Creates a new User",
         "description": "Use the `POST` method on this endpoint to create a new User in your tenant.",
         "operationId": "createUser",
@@ -5599,7 +5898,10 @@
             "application/json": {
               "schema": {
                 "type": "object",
-                "required": ["Name", "EmailAddress"],
+                "required": [
+                  "Name",
+                  "EmailAddress"
+                ],
                 "properties": {
                   "Name": {
                     "type": "string",
@@ -5620,7 +5922,9 @@
     },
     "/v3/Users/{UserId}": {
       "get": {
-        "tags": ["Users"],
+        "tags": [
+          "Users"
+        ],
         "summary": "Gets the details of a single User",
         "parameters": [
           {
@@ -5692,7 +5996,9 @@
     },
     "/v3/WebhookSubscriptions/{WebhookType}": {
       "get": {
-        "tags": ["Webhook Subscriptions"],
+        "tags": [
+          "Webhook Subscriptions"
+        ],
         "summary": "Gets a Webhook Subscription",
         "parameters": [
           {
@@ -5701,7 +6007,13 @@
             "name": "WebhookType",
             "schema": {
               "type": "string",
-              "enum": ["Contact", "Work", "Note", "User", "Invoice"]
+              "enum": [
+                "Contact",
+                "Work",
+                "Note",
+                "User",
+                "Invoice"
+              ]
             },
             "example": "Contact",
             "description": "The type of Karbon entity, which the Webhook Subscription must be associated with"
@@ -5774,7 +6086,9 @@
         }
       },
       "delete": {
-        "tags": ["Webhook Subscriptions"],
+        "tags": [
+          "Webhook Subscriptions"
+        ],
         "summary": "Deletes a Webhook Subscription",
         "parameters": [
           {
@@ -5783,7 +6097,13 @@
             "name": "WebhookType",
             "schema": {
               "type": "string",
-              "enum": ["Contact", "Work", "Note", "User", "Invoice"]
+              "enum": [
+                "Contact",
+                "Work",
+                "Note",
+                "User",
+                "Invoice"
+              ]
             },
             "example": "Contact",
             "description": "The type of Karbon entity, which the Webhook Subscription must be associated with"
@@ -5845,7 +6165,9 @@
     },
     "/v3/WebhookSubscriptions": {
       "post": {
-        "tags": ["Webhook Subscriptions"],
+        "tags": [
+          "Webhook Subscriptions"
+        ],
         "summary": "Creates a new Webhook Subscription",
         "description": "\n\nUse the `POST` method on create and associate a Webhook Subscriptions with a Karbon entity.\n\nYou can create **only one** Webhook Subcription per entity.\n\nPayload delivery for a webhook subscription will be retried 10 times, with increasing delays. If unsuccessful after 10 tries (no 2xx HTTP response), the subscription ends and needs to be recreated to receive further updates.\n",
         "operationId": "createWebhookSubscription",
@@ -5939,7 +6261,13 @@
                   },
                   "WebhookType": {
                     "type": "string",
-                    "enum": ["Contact", "Work", "Note", "User", "Invoice"],
+                    "enum": [
+                      "Contact",
+                      "Work",
+                      "Note",
+                      "User",
+                      "Invoice"
+                    ],
                     "description": "The type of Karbon entity which the Webhook Subscription is associated with. To receive ClientGroup, Contact and Organization updates, pass WebhookType as `Contact`. To receive WorkItem updates, pass WebhookType as `Work`. To receive Note and NoteComment updates, pass WebhookType as `Note`. To receive an update when a User has accepted an invite to Karbon, pass WebhookType as `User`. To receive an update when an Invoice changes status, pass WebhookType as `Invoice`.",
                     "example": "Contact"
                   },
@@ -5958,7 +6286,9 @@
         }
       },
       "delete": {
-        "tags": ["Webhook Subscriptions"],
+        "tags": [
+          "Webhook Subscriptions"
+        ],
         "summary": "Deletes all Webhook Subscriptions",
         "description": "Use the `DELETE` method on this endpoint to delete all Webhook Subscriptions associated with Contact, Work, and Note.\n\n\n",
         "operationId": "delAllWebhookSubscriptions",
@@ -6001,7 +6331,9 @@
     },
     "/v3/WorkItems": {
       "get": {
-        "tags": ["Work Items"],
+        "tags": [
+          "Work Items"
+        ],
         "summary": "Gets a list of Work Items",
         "parameters": [
           {
@@ -6131,7 +6463,9 @@
         }
       },
       "post": {
-        "tags": ["Work Items"],
+        "tags": [
+          "Work Items"
+        ],
         "summary": "Creates a new Work Item",
         "description": "Use the `POST` method on this endpoint to create a new Work Item in your tenant.\n",
         "operationId": "createWorkItem",
@@ -6278,7 +6612,9 @@
     },
     "/v3/WorkItems/{WorkItemkey}": {
       "get": {
-        "tags": ["Work Items"],
+        "tags": [
+          "Work Items"
+        ],
         "summary": "Gets a Work Item using WorkItemkey",
         "parameters": [
           {
@@ -6402,7 +6738,9 @@
         }
       },
       "put": {
-        "tags": ["Work Items"],
+        "tags": [
+          "Work Items"
+        ],
         "summary": "Updates a Work Item (Full)",
         "parameters": [
           {
@@ -6530,7 +6868,9 @@
         }
       },
       "patch": {
-        "tags": ["Work Items"],
+        "tags": [
+          "Work Items"
+        ],
         "summary": "Updates a Work Item (Partial)",
         "parameters": [
           {
@@ -6633,7 +6973,9 @@
     },
     "/v3/WorkSchedules": {
       "post": {
-        "tags": ["Work Schedules"],
+        "tags": [
+          "Work Schedules"
+        ],
         "summary": "Creates a new Work Schedule",
         "description": "Use the `POST` method on this endpoint to create a new Work Schedule in your tenant.\n",
         "operationId": "createWorkSchedule",
@@ -6724,7 +7066,9 @@
     },
     "/v3/WorkSchedules/{WorkSchedulekey}": {
       "get": {
-        "tags": ["Work Schedules"],
+        "tags": [
+          "Work Schedules"
+        ],
         "summary": "Gets a Work Schedule using WorkSchedulekey",
         "parameters": [
           {
@@ -6814,7 +7158,9 @@
         }
       },
       "put": {
-        "tags": ["Work Schedules"],
+        "tags": [
+          "Work Schedules"
+        ],
         "summary": "Updates a Work Schedule (Full)",
         "parameters": [
           {
@@ -6910,7 +7256,9 @@
     },
     "/v3/WorkTemplates": {
       "get": {
-        "tags": ["Work Templates"],
+        "tags": [
+          "Work Templates"
+        ],
         "summary": "Gets a list of Work Templates",
         "parameters": [
           {
@@ -7048,7 +7396,9 @@
     },
     "/v3/WorkTemplates/{WorkTemplatekey}": {
       "get": {
-        "tags": ["Work Templates"],
+        "tags": [
+          "Work Templates"
+        ],
         "summary": "Gets a Work Template using WorkTemplatekey",
         "parameters": [
           {
@@ -7278,7 +7628,11 @@
           },
           "BillableItemType": {
             "type": "string",
-            "enum": ["TimeEntry", "Expense", "Entity"],
+            "enum": [
+              "TimeEntry",
+              "Expense",
+              "Entity"
+            ],
             "description": "The source type of the line item"
           },
           "Description": {
@@ -7396,7 +7750,10 @@
             "items": {
               "type": "string"
             },
-            "example": ["www.website.one", "www.website.two"]
+            "example": [
+              "www.website.one",
+              "www.website.two"
+            ]
           },
           "EmailAddresses": {
             "description": "The email addresses associated with this Business card.",
@@ -7404,7 +7761,10 @@
             "items": {
               "type": "string"
             },
-            "example": ["sample@example.com", "sample.two@example.com"]
+            "example": [
+              "sample@example.com",
+              "sample.two@example.com"
+            ]
           },
           "RoleOrTitle": {
             "type": "string",
@@ -7470,7 +7830,12 @@
                   "type": "string",
                   "description": "The tag to indicate the type of Address",
                   "example": "Physical",
-                  "enum": ["Physical", "Mailing", "Legal", "Home"]
+                  "enum": [
+                    "Physical",
+                    "Mailing",
+                    "Legal",
+                    "Home"
+                  ]
                 }
               }
             }
@@ -7495,7 +7860,14 @@
                   "type": "string",
                   "description": "The tag to indicate the type of phone number",
                   "example": "Work",
-                  "enum": ["Work", "Mobile", "Office", "Fax", "Home", "Other"]
+                  "enum": [
+                    "Work",
+                    "Mobile",
+                    "Office",
+                    "Fax",
+                    "Home",
+                    "Other"
+                  ]
                 }
               }
             }
@@ -7522,7 +7894,10 @@
             "items": {
               "type": "string"
             },
-            "example": ["www.website.one", "www.website.two"]
+            "example": [
+              "www.website.one",
+              "www.website.two"
+            ]
           },
           "EmailAddresses": {
             "description": "The email addresses associated with this Business card.",
@@ -7530,7 +7905,10 @@
             "items": {
               "type": "string"
             },
-            "example": ["sample@example.com", "sample.two@example.com"]
+            "example": [
+              "sample@example.com",
+              "sample.two@example.com"
+            ]
           },
           "OrganizationKey": {
             "type": "string",
@@ -7606,7 +7984,12 @@
                   "type": "string",
                   "description": "The tag to indicate the type of Address",
                   "example": "Physical",
-                  "enum": ["Physical", "Mailing", "Legal", "Home"]
+                  "enum": [
+                    "Physical",
+                    "Mailing",
+                    "Legal",
+                    "Home"
+                  ]
                 }
               }
             }
@@ -7636,7 +8019,14 @@
                   "type": "string",
                   "description": "The tag to indicate the type of phone number",
                   "example": "Work",
-                  "enum": ["Work", "Mobile", "Office", "Fax", "Home", "Other"]
+                  "enum": [
+                    "Work",
+                    "Mobile",
+                    "Office",
+                    "Fax",
+                    "Home",
+                    "Other"
+                  ]
                 }
               }
             }
@@ -7651,6 +8041,42 @@
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/BusinessCardRequest"
+            }
+          }
+        }
+      },
+      "ClientTeam": {
+        "description": "The Client Team associated with a contact or organization",
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "MemberKey": {
+              "type": "string",
+              "example": "JTphCpQqQYg",
+              "description": "The unique key or the user or team assigned to the client team role"
+            },
+            "MemberType": {
+              "type": "string",
+              "example": "User",
+              "description": "The type of member assigned to the client team, can be either User or Team",
+              "enum": [
+                "User",
+                "Team"
+              ]
+            },
+            "RoleType": {
+              "type": "string",
+              "nullable": true,
+              "example": "ClientOwner",
+              "description": "The specific role the user or team is assigned to, can be null if a member of the client team without a specific role",
+              "enum": [
+                "ClientOwner",
+                "ClientManager",
+                "UserDefinedRole1",
+                "UserDefinedRole2"
+              ]
+
             }
           }
         }
@@ -7681,12 +8107,23 @@
           "Salutation": {
             "type": "string",
             "description": "The title of the contact (if a person)",
-            "enum": ["Mr", "Mrs", "Ms", "Miss", "Dr", "Prof", "Rev"]
+            "enum": [
+              "Mr",
+              "Mrs",
+              "Ms",
+              "Miss",
+              "Dr",
+              "Prof",
+              "Rev"
+            ]
           },
           "Sex": {
             "type": "string",
             "description": "The gender of the contact (if a person)",
-            "enum": ["M", "F"]
+            "enum": [
+              "M",
+              "F"
+            ]
           },
           "FinancialYearEndDay": {
             "type": "integer",
@@ -7780,7 +8217,12 @@
           "GstBasis": {
             "type": "string",
             "description": "The method of accounting for GST/BAS",
-            "enum": ["Cash", "Accruals", "None", "Close"]
+            "enum": [
+              "Cash",
+              "Accruals",
+              "None",
+              "Close"
+            ]
           },
           "GstPeriod": {
             "nullable": true,
@@ -7790,7 +8232,11 @@
           "IncomeTaxInstallmentPeriod": {
             "type": "string",
             "description": "The income tax installment period",
-            "enum": ["Monthly", "Quarterly", "Yearly"]
+            "enum": [
+              "Monthly",
+              "Quarterly",
+              "Yearly"
+            ]
           },
           "IsVATRegistered": {
             "type": "boolean",
@@ -7834,7 +8280,12 @@
           "SalesTaxBasis": {
             "type": "string",
             "description": "The tax method",
-            "enum": ["Cash", "Accruals", "None", "Close"]
+            "enum": [
+              "Cash",
+              "Accruals",
+              "None",
+              "Close"
+            ]
           },
           "SalesTaxPeriod": {
             "type": "string",
@@ -7843,7 +8294,12 @@
           "Sells": {
             "type": "string",
             "description": "The item that is primarily supplied by the company",
-            "enum": ["Services", "Products", "Products and Services", "Other"]
+            "enum": [
+              "Services",
+              "Products",
+              "Products and Services",
+              "Other"
+            ]
           },
           "DateSignedEngagement": {
             "type": "string",
@@ -7855,7 +8311,10 @@
             "type": "array",
             "description": "The registration numbers associated with the contact.",
             "items": {
-              "required": ["RegistrationNumber", "Type"],
+              "required": [
+                "RegistrationNumber",
+                "Type"
+              ],
               "type": "object",
               "properties": {
                 "RegistrationNumber": {
@@ -7912,7 +8371,10 @@
           "Notes": {
             "type": "array",
             "items": {
-              "required": ["Body", "Type"],
+              "required": [
+                "Body",
+                "Type"
+              ],
               "type": "object",
               "properties": {
                 "Body": {
@@ -7922,7 +8384,13 @@
                 "Type": {
                   "type": "string",
                   "description": "The section (within the accounting details) where the note resides",
-                  "enum": ["Basic", "Tax", "System", "Owner", "Officer"]
+                  "enum": [
+                    "Basic",
+                    "Tax",
+                    "System",
+                    "Owner",
+                    "Officer"
+                  ]
                 }
               }
             }
@@ -7931,7 +8399,11 @@
       },
       "GetComment": {
         "description": "A comment on a Work Item, Note or Contact",
-        "required": ["CommentBody", "AuthorKey", "CreatedDate"],
+        "required": [
+          "CommentBody",
+          "AuthorKey",
+          "CreatedDate"
+        ],
         "properties": {
           "@odata.context": {
             "type": "string",
@@ -7967,7 +8439,11 @@
       },
       "GetClientGroup": {
         "description": "A list of Client Groups",
-        "required": ["value", "@odata.context", "@odata.count"],
+        "required": [
+          "value",
+          "@odata.context",
+          "@odata.count"
+        ],
         "type": "object",
         "properties": {
           "@odata.context": {
@@ -8037,7 +8513,11 @@
       },
       "GetContacts": {
         "description": "A list of Contacts",
-        "required": ["value", "@odata.context", "@odata.count"],
+        "required": [
+          "value",
+          "@odata.context",
+          "@odata.count"
+        ],
         "type": "object",
         "properties": {
           "@odata.context": {
@@ -8171,7 +8651,11 @@
       },
       "GetOrganizations": {
         "description": "A list of Organizations",
-        "required": ["value", "@odata.context", "@odata.count"],
+        "required": [
+          "value",
+          "@odata.context",
+          "@odata.count"
+        ],
         "type": "object",
         "properties": {
           "@odata.context": {
@@ -8245,7 +8729,12 @@
       },
       "WorkItem": {
         "description": "The base data for a Work Item",
-        "required": ["ClientKey", "StartDate", "Title", "WorkItemKey"],
+        "required": [
+          "ClientKey",
+          "StartDate",
+          "Title",
+          "WorkItemKey"
+        ],
         "type": "object",
         "properties": {
           "WorkItemKey": {
@@ -8285,7 +8774,11 @@
           },
           "ClientType": {
             "type": "string",
-            "enum": ["Contact", "Organization", "ClientGroup"],
+            "enum": [
+              "Contact",
+              "Organization",
+              "ClientGroup"
+            ],
             "example": "Organization",
             "description": "The type of the Client"
           },
@@ -8405,7 +8898,11 @@
               "FeeType": {
                 "type": "string",
                 "description": "The way the fee is calculated for the Work Item",
-                "enum": ["FixedFee", "TimeAndMaterials", "NonBillable"],
+                "enum": [
+                  "FixedFee",
+                  "TimeAndMaterials",
+                  "NonBillable"
+                ],
                 "example": "FixedFee"
               },
               "FeeValue": {
@@ -8420,7 +8917,11 @@
       },
       "GetWorkItems": {
         "description": "A collection of work items",
-        "required": ["value", "@odata.context", "@odata.count"],
+        "required": [
+          "value",
+          "@odata.context",
+          "@odata.count"
+        ],
         "type": "object",
         "properties": {
           "@odata.context": {
@@ -8462,6 +8963,7 @@
         }
       },
       "UpdateWorkItem": {
+        "description": "The properties that can be updated on a Work Item with the PATCH method",
         "type": "object",
         "anyOf": [
           {
@@ -8526,7 +9028,11 @@
               },
               "ClientType": {
                 "type": "string",
-                "enum": ["Contact", "Organization", "ClientGroup"],
+                "enum": [
+                  "Contact",
+                  "Organization",
+                  "ClientGroup"
+                ],
                 "example": "Organization",
                 "description": "The type of the Client"
               },
@@ -8591,7 +9097,10 @@
                 "description": "The array that describes the roles of the users associated with this Work Item.",
                 "items": {
                   "type": "object",
-                  "required": ["RoleKey", "UserProfileKey"],
+                  "required": [
+                    "RoleKey",
+                    "UserProfileKey"
+                  ],
                   "properties": {
                     "RoleKey": {
                       "type": "string",
@@ -8608,7 +9117,10 @@
               },
               "ClientTaskRecipient": {
                 "type": "object",
-                "required": ["RecipientKey", "LinkType"],
+                "required": [
+                  "RecipientKey",
+                  "LinkType"
+                ],
                 "description": "The details about the recipient of the Client Tasks related to this Work Item.",
                 "properties": {
                   "RecipientKey": {
@@ -8618,7 +9130,10 @@
                   },
                   "LinkType": {
                     "type": "string",
-                    "enum": ["Contact", "Organization"],
+                    "enum": [
+                      "Contact",
+                      "Organization"
+                    ],
                     "description": "The Karbon entity, from which to pull the email address in case the email address of the Client Task recipient is empty.",
                     "example": "Organization"
                   },
@@ -8639,7 +9154,6 @@
       "ResponseCreateClientGroup": {
         "description": "A single Client Group",
         "required": [
-          "@odata.context",
           "ClientGroupKey",
           "FullName",
           "RestrictionLevel",
@@ -8654,7 +9168,8 @@
           },
           "@odata.type": {
             "type": "string",
-            "description": "The information about Karbon Objects generating this reponse."
+            "description": "The information about Karbon Objects generating this reponse.",
+            "example": "#KarbonService.ClientGroupDTO"
           },
           "ClientGroupKey": {
             "type": "string",
@@ -8691,7 +9206,11 @@
             "description": "The privacy level for this Client Group.\n\n<ul><li>Public Client Groups can be managed by anyone in the firm</li> <li>Private Client Groups can only be managed by the [Client Team](https://help.karbonhq.com/en/articles/1524707-create-a-client-team). Basic details (name of the Contacts and the Work Items) related to such Client Groups are visible to anyone in the firm.</li> <li>Hidden Client Groups are only be visible to and managed by the [Client Team](https://help.karbonhq.com/en/articles/1524707-create-a-client-team).</li>\n",
             "example": "Public",
             "default": "Public",
-            "enum": ["Public", "Private", "Hidden"]
+            "enum": [
+              "Public",
+              "Private",
+              "Hidden"
+            ]
           },
           "PrimaryContact": {
             "type": "string",
@@ -8709,6 +9228,7 @@
             "type": "array",
             "items": {
               "type": "object",
+              "nullable": true,
               "properties": {
                 "ContactKey": {
                   "type": "string",
@@ -8737,7 +9257,9 @@
       },
       "CreateClientGroup": {
         "description": "A single Client Group",
-        "required": ["FullName"],
+        "required": [
+          "FullName"
+        ],
         "type": "object",
         "properties": {
           "FullName": {
@@ -8770,7 +9292,11 @@
             "description": "The privacy level for this Client Group.\n\n<ul><li>Public Client Groups can be managed by anyone in the firm</li> <li>Private Client Groups can only be managed by the [Client Team](https://help.karbonhq.com/en/articles/1524707-create-a-client-team). Basic details (name of the Contacts and the Work Items) related to such Client Groups are visible to anyone in the firm.</li> <li>Hidden Client Groups are only be visible to and managed by the [Client Team](https://help.karbonhq.com/en/articles/1524707-create-a-client-team).</li>\n",
             "example": "Public",
             "default": "Public",
-            "enum": ["Public", "Private", "Hidden"]
+            "enum": [
+              "Public",
+              "Private",
+              "Hidden"
+            ]
           },
           "PrimaryContact": {
             "type": "string",
@@ -8868,7 +9394,11 @@
             "description": "The privacy level for this Client Group.\n\n<ul><li>Public Client Groups can be managed by anyone in the firm</li> <li>Private Client Groups can only be managed by the [Client Team](https://help.karbonhq.com/en/articles/1524707-create-a-client-team). Basic details (name of the Contacts and the Work Items) related to such Client Groups are visible to anyone in the firm.</li> <li>Hidden Client Groups are only be visible to and managed by the [Client Team](https://help.karbonhq.com/en/articles/1524707-create-a-client-team).</li>\n",
             "example": "Public",
             "default": "Public",
-            "enum": ["Public", "Private", "Hidden"]
+            "enum": [
+              "Public",
+              "Private",
+              "Hidden"
+            ]
           },
           "AvatarUrl": {
             "type": "string",
@@ -8898,6 +9428,13 @@
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/BusinessCard"
+            }
+          },
+          "ClientTeam": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "$ref": "#/components/schemas/ClientTeam"
             }
           }
         }
@@ -8975,7 +9512,10 @@
       },
       "CreateContact": {
         "description": "A single Contact",
-        "required": ["FirstName", "LastName"],
+        "required": [
+          "FirstName",
+          "LastName"
+        ],
         "type": "object",
         "properties": {
           "FirstName": {
@@ -9013,7 +9553,11 @@
             "description": "The privacy level for this Contact.\n\n<ul><li>Public Contacts can be managed by anyone in the firm</li> <li>Private Contacts can only be managed by the [Client Team](https://help.karbonhq.com/en/articles/1524707-create-a-client-team). Basic details (name of the Contacts and the Work Items) related to such Contacts are visible to anyone in the firm.</li> <li>Hidden Contacts are only be visible to and managed by the [Client Team](https://help.karbonhq.com/en/articles/1524707-create-a-client-team).</li>\n",
             "example": "Public",
             "default": "Public",
-            "enum": ["Public", "Private", "Hidden"]
+            "enum": [
+              "Public",
+              "Private",
+              "Hidden"
+            ]
           },
           "UserDefinedIdentifier": {
             "type": "string",
@@ -9092,7 +9636,12 @@
                 "EntityType": {
                   "type": "string",
                   "description": "The type of entity this note will be linked to",
-                  "enum": ["WorkItem", "Contact", "Organization", "ClientGroup"]
+                  "enum": [
+                    "WorkItem",
+                    "Contact",
+                    "Organization",
+                    "ClientGroup"
+                  ]
                 },
                 "EntityKey": {
                   "type": "string",
@@ -9164,7 +9713,12 @@
                   "type": "string",
                   "example": "Contact",
                   "description": "The type of entity this note will be linked to",
-                  "enum": ["WorkItem", "Contact", "Organization", "ClientGroup"]
+                  "enum": [
+                    "WorkItem",
+                    "Contact",
+                    "Organization",
+                    "ClientGroup"
+                  ]
                 },
                 "EntityKey": {
                   "type": "string",
@@ -9260,7 +9814,11 @@
             "type": "string",
             "description": "The privacy level for this Organization.\n\n<ul><li>Public Organization can be managed by anyone in the firm</li> <li>Private Organization can only be managed by the [Client Team](https://help.karbonhq.com/en/articles/1524707-create-a-client-team). Basic details (name of the Organization and the Work Items) related to such Organization are visible to anyone in the firm.</li> <li>Hidden Organization are only be visible to and managed by the [Client Team](https://help.karbonhq.com/en/articles/1524707-create-a-client-team).</li>\n",
             "default": "Public",
-            "enum": ["Public", "Private", "Hidden"]
+            "enum": [
+              "Public",
+              "Private",
+              "Hidden"
+            ]
           },
           "LastModifiedDateTime": {
             "type": "string",
@@ -9285,7 +9843,9 @@
       },
       "CreateOrganization": {
         "description": "A single Organization",
-        "required": ["FullName"],
+        "required": [
+          "FullName"
+        ],
         "type": "object",
         "properties": {
           "FullName": {
@@ -9317,7 +9877,11 @@
             "type": "string",
             "description": "The privacy level for this Organization.\n\n<ul><li>Public Organization can be managed by anyone in the firm</li> <li>Private Organization can only be managed by the [Client Team](https://help.karbonhq.com/en/articles/1524707-create-a-client-team). Basic details (name of the Organization and the Work Items) related to such Organization are visible to anyone in the firm.</li> <li>Hidden Organization are only be visible to and managed by the [Client Team](https://help.karbonhq.com/en/articles/1524707-create-a-client-team).</li>\n",
             "default": "Public",
-            "enum": ["Public", "Private", "Hidden"],
+            "enum": [
+              "Public",
+              "Private",
+              "Hidden"
+            ],
             "example": "Public"
           },
           "BusinessCards": {
@@ -9343,7 +9907,9 @@
       },
       "UpdateOrganization": {
         "description": "A single Organization",
-        "required": ["FullName"],
+        "required": [
+          "FullName"
+        ],
         "type": "object",
         "properties": {
           "FullName": {
@@ -9370,7 +9936,11 @@
             "type": "string",
             "description": "The privacy level for this Organization.\n\n<ul><li>Public Organization can be managed by anyone in the firm</li> <li>Private Organization can only be managed by the [Client Team](https://help.karbonhq.com/en/articles/1524707-create-a-client-team). Basic details (name of the Organization and the Work Items) related to such Organization are visible to anyone in the firm.</li> <li>Hidden Organization are only be visible to and managed by the [Client Team](https://help.karbonhq.com/en/articles/1524707-create-a-client-team).</li>\n",
             "default": "Public",
-            "enum": ["Public", "Private", "Hidden"]
+            "enum": [
+              "Public",
+              "Private",
+              "Hidden"
+            ]
           },
           "AccountingDetail": {
             "$ref": "#/components/schemas/DetailsOfAccounting"
@@ -9415,7 +9985,11 @@
           "EntityType": {
             "type": "string",
             "example": "WorkItem",
-            "enum": ["WorkItem", "Contact", "Organization"],
+            "enum": [
+              "WorkItem",
+              "Contact",
+              "Organization"
+            ],
             "description": "The type of entity the file list is associated with"
           },
           "Attachments": {
@@ -9500,7 +10074,12 @@
           "Status": {
             "type": "string",
             "example": "Draft",
-            "enum": ["Approved", "Declined", "Draft", "Submitted"],
+            "enum": [
+              "Approved",
+              "Declined",
+              "Draft",
+              "Submitted"
+            ],
             "description": "The approval status of the Timesheet"
           },
           "WorkItemKeys": {
@@ -9509,7 +10088,9 @@
             "items": {
               "type": "string"
             },
-            "example": ["2m6pSFxRzcF2"]
+            "example": [
+              "2m6pSFxRzcF2"
+            ]
           },
           "TimeEntries": {
             "type": "array",
@@ -9571,13 +10152,20 @@
                     "nullable": true,
                     "example": "Continued working on the end-year accounting"
                   },
-                  "example": ["Continued working on the end-year accounting"]
+                  "example": [
+                    "Continued working on the end-year accounting"
+                  ]
                 },
                 "BilledStatus": {
                   "type": "string",
                   "description": "An indicator that represents whether the time entry has been or is in the process of being billed",
                   "example": "Draft",
-                  "enum": ["Unbilled", "Draft", "InterimBilled", "Billed"]
+                  "enum": [
+                    "Unbilled",
+                    "Draft",
+                    "InterimBilled",
+                    "Billed"
+                  ]
                 }
               }
             }
@@ -9586,7 +10174,11 @@
       },
       "GetTimeSheets": {
         "description": "A collection of TimeSheets",
-        "required": ["value", "@odata.context", "@odata.count"],
+        "required": [
+          "value",
+          "@odata.context",
+          "@odata.count"
+        ],
         "type": "object",
         "properties": {
           "@odata.context": {
@@ -9615,7 +10207,11 @@
       },
       "GetSingleUser": {
         "description": "The unique id, name and email address for a single User",
-        "required": ["Id", "Name", "EmailAddress"],
+        "required": [
+          "Id",
+          "Name",
+          "EmailAddress"
+        ],
         "type": "object",
         "properties": {
           "Id": {
@@ -9681,7 +10277,9 @@
               "type": "string"
             },
             "description": "A list of the permissions allocated to the User",
-            "example": ["User"]
+            "example": [
+              "User"
+            ]
           },
           "Roles": {
             "type": "array",
@@ -9689,7 +10287,10 @@
               "type": "string"
             },
             "description": "A list of the roles allocated to the User",
-            "example": ["Accountant", "Bookkeeper"]
+            "example": [
+              "Accountant",
+              "Bookkeeper"
+            ]
           },
           "Teams": {
             "type": "array",
@@ -9697,13 +10298,20 @@
               "type": "string"
             },
             "description": "A list of the teams the User is member of",
-            "example": ["Accountants", "Bookkeepers"]
+            "example": [
+              "Accountants",
+              "Bookkeepers"
+            ]
           }
         }
       },
       "GetUsers": {
         "description": "A collection of Users",
-        "required": ["value", "@odata.context", "@odata.count"],
+        "required": [
+          "value",
+          "@odata.context",
+          "@odata.count"
+        ],
         "type": "object",
         "properties": {
           "@odata.context": {
@@ -9748,7 +10356,13 @@
             "type": "string",
             "description": "The type of Karbon entity, which the Webhook Subscription is associated with",
             "example": "Contact",
-            "enum": ["Contact", "Work", "Note", "User", "Invoice"]
+            "enum": [
+              "Contact",
+              "Work",
+              "Note",
+              "User",
+              "Invoice"
+            ]
           }
         }
       },
@@ -9757,7 +10371,9 @@
         "allOf": [
           {
             "type": "object",
-            "required": ["WorkScheduleKey"],
+            "required": [
+              "WorkScheduleKey"
+            ],
             "properties": {
               "WorkScheduleKey": {
                 "type": "string",
@@ -9810,7 +10426,12 @@
             "type": "string",
             "nullable": true,
             "description": "The unit of time at which this Work Schedule should repeat. Once set, the value of this property can not be changed.\n\nThis property is only applicable if `RecurrenceFrequency` is set to `Custom`.\n",
-            "enum": ["Days", "Weeks", "Months", "Years"],
+            "enum": [
+              "Days",
+              "Weeks",
+              "Months",
+              "Years"
+            ],
             "example": "Days"
           },
           "CustomFrequencyMultiple": {
@@ -9865,7 +10486,12 @@
           "InitializeBeforeStartDateUnits": {
             "type": "string",
             "description": "You can automatically create a Work Item before its Start date. Use this property to set the unit of delay between Start date and Work Item creation date.\n",
-            "enum": ["Days", "Weeks", "Months", "Years"],
+            "enum": [
+              "Days",
+              "Weeks",
+              "Months",
+              "Years"
+            ],
             "example": "Days"
           },
           "InitializeBeforeStartDateMultiple": {
@@ -9877,7 +10503,12 @@
           "InitializeTasksBeforeStartDateUnits": {
             "type": "string",
             "description": "You can automatically create budget and tasks for a Work Item before its Start date. Use this property to set the unit of delay between Start date and task creation date.",
-            "enum": ["Days", "Weeks", "Months", "Years"],
+            "enum": [
+              "Days",
+              "Weeks",
+              "Months",
+              "Years"
+            ],
             "example": "Days"
           },
           "InitializeTasksBeforeStartDateMultiple": {
@@ -9931,7 +10562,11 @@
           "ClientType": {
             "type": "string",
             "description": "The type of the Client",
-            "enum": ["Contact", "Organization", "ClientGroup"],
+            "enum": [
+              "Contact",
+              "Organization",
+              "ClientGroup"
+            ],
             "example": "Contact"
           },
           "CreatedFromWorkItemKey": {
@@ -9958,7 +10593,12 @@
             "type": "string",
             "nullable": true,
             "description": "The unit of time at which this Work Schedule should repeat. Once set, the value of this property can not be changed.\n\nThis property is only applicable if `RecurrenceFrequency` is set to `Custom`.\n",
-            "enum": ["Days", "Weeks", "Months", "Years"],
+            "enum": [
+              "Days",
+              "Weeks",
+              "Months",
+              "Years"
+            ],
             "example": "Days"
           },
           "CustomFrequencyMultiple": {
@@ -10028,7 +10668,12 @@
           "InitializeBeforeStartDateUnits": {
             "type": "string",
             "description": "You can automatically create a Work Item before its Start date. Use this property to set the unit of delay between Start date and Work Item creation date.\n",
-            "enum": ["Days", "Weeks", "Months", "Years"],
+            "enum": [
+              "Days",
+              "Weeks",
+              "Months",
+              "Years"
+            ],
             "example": "Days"
           },
           "InitializeBeforeStartDateMultiple": {
@@ -10050,7 +10695,12 @@
           "InitializeTasksBeforeStartDateUnits": {
             "type": "string",
             "description": "You can automatically create budget and tasks for a Work Item before its Start date. Use this property to set the unit of delay between Start date and task creation date.",
-            "enum": ["Days", "Weeks", "Months", "Years"],
+            "enum": [
+              "Days",
+              "Weeks",
+              "Months",
+              "Years"
+            ],
             "example": "Days"
           },
           "InitializeTasksBeforeStartDateMultiple": {
@@ -10162,7 +10812,11 @@
       },
       "GetWorkTemplates": {
         "description": "A collection of Work Templates",
-        "required": ["value", "@odata.context", "@odata.count"],
+        "required": [
+          "value",
+          "@odata.context",
+          "@odata.count"
+        ],
         "type": "object",
         "properties": {
           "@odata.context": {
@@ -10191,11 +10845,16 @@
       },
       "ErrorMessages": {
         "description": "The details of an error associated with an API request",
-        "required": ["error"],
+        "required": [
+          "error"
+        ],
         "type": "object",
         "properties": {
           "error": {
-            "required": ["code", "message"],
+            "required": [
+              "code",
+              "message"
+            ],
             "type": "object",
             "properties": {
               "code": {
@@ -10212,11 +10871,16 @@
       },
       "EnhancedErrorMessages": {
         "description": "The details of an error associated with an API request",
-        "required": ["error"],
+        "required": [
+          "error"
+        ],
         "type": "object",
         "properties": {
           "error": {
-            "required": ["code", "message"],
+            "required": [
+              "code",
+              "message"
+            ],
             "type": "object",
             "properties": {
               "code": {
@@ -10259,7 +10923,8 @@
           "statusCode": {
             "type": "string",
             "description": "The generic HTTP Error code",
-            "example": "404"
+            "example": "404",
+            "nullable": true
           },
           "message": {
             "type": "string",
@@ -10295,7 +10960,10 @@
           },
           "Type": {
             "type": "string",
-            "enum": ["Primary", "Secondary"],
+            "enum": [
+              "Primary",
+              "Secondary"
+            ],
             "description": "The type of status, expected to be Primary at this level",
             "example": "Primary"
           },
@@ -10311,7 +10979,10 @@
                 },
                 "Type": {
                   "type": "string",
-                  "enum": ["Primary", "Secondary"],
+                  "enum": [
+                    "Primary",
+                    "Secondary"
+                  ],
                   "example": "Secondary",
                   "description": "The type of Work Status, expected to always be Secondary at this level"
                 },
@@ -10326,7 +10997,7 @@
         }
       },
       "SettingWorkType": {
-        "description": "",
+        "description": "The schema for a single Work Type entry",
         "type": "object",
         "properties": {
           "Name": {
@@ -10373,14 +11044,20 @@
           },
           "ResourceType": {
             "type": "string",
-            "enum": ["Contact"],
+            "enum": [
+              "Contact"
+            ],
             "description": "The type of resource that has been created or updated",
             "example": "Contact"
           },
           "ActionType": {
             "type": "string",
             "description": "The key for the resource that has been created or updated",
-            "enum": ["Inserted", "Updated", "Deleted"],
+            "enum": [
+              "Inserted",
+              "Updated",
+              "Deleted"
+            ],
             "example": "Updated"
           },
           "TimeStamp": {
@@ -10402,14 +11079,18 @@
           },
           "ResourceType": {
             "type": "string",
-            "enum": ["Invoice"],
+            "enum": [
+              "Invoice"
+            ],
             "description": "The type of resource that has been created or updated",
             "example": "Invoice"
           },
           "ActionType": {
             "type": "string",
             "description": "The key for the resource that has been created or updated",
-            "enum": ["Updated"],
+            "enum": [
+              "Updated"
+            ],
             "example": "Updated"
           },
           "TimeStamp": {
@@ -10431,14 +11112,20 @@
           },
           "ResourceType": {
             "type": "string",
-            "enum": ["Note"],
+            "enum": [
+              "Note"
+            ],
             "description": "The type of resource that has been created or updated",
             "example": "Note"
           },
           "ActionType": {
             "type": "string",
             "description": "The key for the resource that has been created or updated",
-            "enum": ["Inserted", "Updated", "Deleted"],
+            "enum": [
+              "Inserted",
+              "Updated",
+              "Deleted"
+            ],
             "example": "Updated"
           },
           "TimeStamp": {
@@ -10460,14 +11147,18 @@
           },
           "ResourceType": {
             "type": "string",
-            "enum": ["User"],
+            "enum": [
+              "User"
+            ],
             "description": "The type of resource that has been created or updated",
             "example": "User"
           },
           "ActionType": {
             "type": "string",
             "description": "The key for the resource that has been created or updated",
-            "enum": ["Inserted"],
+            "enum": [
+              "Inserted"
+            ],
             "example": "Updated"
           },
           "TimeStamp": {
@@ -10489,14 +11180,20 @@
           },
           "ResourceType": {
             "type": "string",
-            "enum": ["Work"],
+            "enum": [
+              "Work"
+            ],
             "description": "The type of resource that has been created or updated",
             "example": "Work"
           },
           "ActionType": {
             "type": "string",
             "description": "The key for the resource that has been created or updated",
-            "enum": ["Inserted", "Updated", "Deleted"],
+            "enum": [
+              "Inserted",
+              "Updated",
+              "Deleted"
+            ],
             "example": "Updated"
           },
           "TimeStamp": {
@@ -10512,21 +11209,21 @@
       "ResourceNotFound": {
         "description": "A generic response shown when the API cannot find a requested path",
         "value": {
-          "statusCode": 404,
+          "statusCode": "404",
           "message": "Resource not found"
         }
       },
       "UnauthorizedAccess": {
         "description": "A generic response shown when the API cannot confirm the authentication creditials provided",
         "value": {
-          "statusCode": 401,
+          "statusCode": "401",
           "message": "JWT not present."
         }
       },
       "NotFound": {
         "description": "A generic response shown when the API cannot find a requested entity",
         "value": {
-          "code": 4004,
+          "code": "4004",
           "message": "Not Found"
         }
       },
@@ -10534,7 +11231,7 @@
         "description": "A response shown when the API encounters an exception",
         "value": {
           "error": {
-            "code": 5001,
+            "code": "5001",
             "message": "Unexpected Internal Error. Please contact Karbon HQ Technical support with API Request Id of 63792674374107265425."
           }
         }
@@ -10543,7 +11240,7 @@
         "description": "A response shown when the API encounters an exception",
         "value": {
           "error": {
-            "code": 5001,
+            "code": "5001",
             "message": "Internal Error."
           }
         }
@@ -10558,7 +11255,7 @@
         }
       },
       "FileEntityNotFound": {
-        "description": "",
+        "description": "The error returned when a file is not found",
         "value": {
           "error": {
             "code": "4004",
@@ -10570,7 +11267,7 @@
         "description": "A response shown when a badly formed Webhook Subscription request is sent",
         "value": {
           "error": {
-            "code": 4002,
+            "code": "4002",
             "message": "WebhookSubscription model cannot be null."
           }
         }
@@ -10579,7 +11276,7 @@
         "description": "A response shown when an invalid Client Type is provided when creating or updating a Work Item ",
         "value": {
           "error": {
-            "code": 4003,
+            "code": "4003",
             "message": "Invalid Model.",
             "details": {
               "code": "InvalidProperty",
@@ -10593,7 +11290,7 @@
         "description": "A response shown when a required field is not provided when creating or updating a Work Item ",
         "value": {
           "error": {
-            "code": 4003,
+            "code": "4003",
             "message": "Invalid Model.",
             "details": {
               "code": "InvalidProperty",
@@ -10607,7 +11304,7 @@
         "description": "A response shown when an invalid email is provided when creating or updating a Work Item ",
         "value": {
           "error": {
-            "code": 4003,
+            "code": "4003",
             "message": "Invalid Model.",
             "details": {
               "code": "InvalidProperty",
@@ -10621,7 +11318,7 @@
         "description": "A response shown when an invalid Contact key is provided when creating or updating a Work Item ",
         "value": {
           "error": {
-            "code": 4003,
+            "code": "4003",
             "message": "Invalid Model.",
             "details": {
               "code": "InvalidProperty",
@@ -10635,7 +11332,7 @@
         "description": "A response shown when an Work Type is provided when creating or updating a Work Item ",
         "value": {
           "error": {
-            "code": 4003,
+            "code": "4003",
             "message": "Invalid Model.",
             "details": {
               "code": "InvalidProperty",
@@ -10649,7 +11346,7 @@
         "description": "A response shown when an invalid Work Template is provided when creating a Work Item",
         "value": {
           "error": {
-            "code": 4003,
+            "code": "4003",
             "message": "Invalid Model.",
             "details": {
               "code": "InvalidProperty",
@@ -10663,7 +11360,7 @@
         "description": "A response shown when an invalid Client Group is provided when creating or updating a Work Item",
         "value": {
           "error": {
-            "code": 4003,
+            "code": "4003",
             "message": "Invalid Model.",
             "details": {
               "code": "InvalidProperty",
@@ -10677,7 +11374,7 @@
         "description": "A response shown when an required fields are missing or malformed when uploading a file",
         "value": {
           "error": {
-            "code": 4003,
+            "code": "4003",
             "message": "Invalid Model.",
             "details": [
               {
@@ -10703,7 +11400,7 @@
         "description": "A response shown when an required context fields are missing or malformed when uploading a file",
         "value": {
           "error": {
-            "code": 4003,
+            "code": "4003",
             "message": "Invalid Model.",
             "details": [
               {
@@ -10724,7 +11421,7 @@
         "description": "The error returned when a Client Group cannot be found using the requested Client Group Key",
         "value": {
           "error": {
-            "code": 4004,
+            "code": "4004",
             "message": "No Client Group found for provided key"
           }
         }
@@ -10733,7 +11430,7 @@
         "description": "The error returned when a Comment cannot be found for the provided Comment Key",
         "value": {
           "error": {
-            "code": 4004,
+            "code": "4004",
             "message": "Unable to find commentkey: <CommentKey>"
           }
         }
@@ -10742,7 +11439,7 @@
         "description": "The error returned when an Organization cannot be found for the provided Organization Key",
         "value": {
           "error": {
-            "code": 4004,
+            "code": "4004",
             "message": "No organization exists with a key of <OrganizationKey>."
           }
         }
@@ -10751,7 +11448,7 @@
         "description": "The error returned when a Work Item cannot be found for the provided Work Item Key",
         "value": {
           "error": {
-            "code": 4004,
+            "code": "4004",
             "message": "No Work Item found for provided key"
           }
         }
@@ -10760,7 +11457,7 @@
         "description": "The error returned when a Work Schedule cannot be found for the provided Work Schedule Key",
         "value": {
           "error": {
-            "code": 4004,
+            "code": "4004",
             "message": "No Work Schedule found for provided key"
           }
         }
@@ -10769,7 +11466,7 @@
         "description": "The error returned when a Work Template cannot be found for the provided Work Template Key",
         "value": {
           "error": {
-            "code": 4004,
+            "code": "4004",
             "message": "No Work Template found for provided key"
           }
         }
@@ -10778,7 +11475,7 @@
         "description": "The error returned when a Contact cannot be found for the provided Contact Key",
         "value": {
           "error": {
-            "code": 4004,
+            "code": "4004",
             "message": "No Contact found for provided key"
           }
         }
@@ -10787,7 +11484,7 @@
         "description": "The error returned when an Organization cannot be found for the provided Organization Key",
         "value": {
           "error": {
-            "code": 4002,
+            "code": "4002",
             "message": "No Organization found for provided key"
           }
         }
@@ -10796,7 +11493,7 @@
         "description": "The error returned when an Timesheet cannot be found for the provided Timesheet Key",
         "value": {
           "error": {
-            "code": 4004,
+            "code": "4004",
             "message": "No timesheet found for provided key"
           }
         }
@@ -10805,7 +11502,7 @@
         "description": "The error returned when a Webhook Subscription request cannot be fulfilled because there are no Webhook Subscriptions for the provided Webhook Type",
         "value": {
           "error": {
-            "code": 4004,
+            "code": "4004",
             "message": "No existing webhook subscription for Contact"
           }
         }
@@ -10814,7 +11511,7 @@
         "description": "The error returned when a Webhook Subscription request cannot be fulfilled because the provided Webhook Type is not one of the valid types",
         "value": {
           "error": {
-            "code": 4004,
+            "code": "4004",
             "message": "No Webhook Type found for the provided WebhookType input value : <Input type>. Valid WebhookTypes are Contact, Work, Note"
           }
         }
@@ -10823,7 +11520,7 @@
         "description": "The error returned when a Business Card request cannot be fulfilled because the provided Business Card Key does not exist",
         "value": {
           "error": {
-            "code": 4004,
+            "code": "4004",
             "message": "Invalid businessCardPermaKey <BusinessCardKey>"
           }
         }
@@ -10841,7 +11538,7 @@
         "description": "The error returned when a Client Group request cannot be fulfilled because the provided User Defined Idenfier does not exist",
         "value": {
           "error": {
-            "code": 4004,
+            "code": "4004",
             "message": "No Client Group found for provided UserDefinedIdentifer"
           }
         }
@@ -10850,7 +11547,7 @@
         "description": "The error returned when a Contact request cannot be fulfilled because the provided User Defined Idenfier does not exist",
         "value": {
           "error": {
-            "code": 4004,
+            "code": "4004",
             "message": "No Contact found for provided UserDefinedIdentifer"
           }
         }
@@ -10859,7 +11556,7 @@
         "description": "The error returned when a Organization request cannot be fulfilled because the provided User Defined Idenfier does not exist",
         "value": {
           "error": {
-            "code": 4004,
+            "code": "4004",
             "message": "No Organization found for provided UserDefinedIdentifer"
           }
         }
@@ -10868,7 +11565,7 @@
         "description": "The error returned when a Client Group request cannot be fulfilled because a User Defined Idenfier has not been provided",
         "value": {
           "error": {
-            "code": 4002,
+            "code": "4002",
             "message": "UserDefinedIdentifier is missing or empty"
           }
         }
@@ -10877,7 +11574,7 @@
         "description": "The error returned when the payload for an update is missing or invalid",
         "value": {
           "error": {
-            "code": 4005,
+            "code": "4005",
             "message": "Required payload data is missing: update"
           }
         }
@@ -10886,7 +11583,7 @@
         "description": "The error returned when the request payload includes a User Defined Identifier which is already in use",
         "value": {
           "error": {
-            "code": 5001,
+            "code": "5001",
             "message": "User defined identifier already in use"
           }
         }
@@ -10895,7 +11592,7 @@
         "description": "The error returned when the request payload is missing a required value",
         "value": {
           "error": {
-            "code": 4005,
+            "code": "4005",
             "message": "Required payload data is missing: <Entity>"
           }
         }
@@ -10904,7 +11601,7 @@
         "description": "The error returned when attempting to update a property on an Organization other than the FullName",
         "value": {
           "error": {
-            "code": 4002,
+            "code": "4002",
             "message": "Invalid property to update. Only FullName can be patched"
           }
         }
@@ -10913,7 +11610,7 @@
         "description": "The error returned when an unsupported sort order is used in a request",
         "value": {
           "error": {
-            "code": 4002,
+            "code": "4002",
             "message": "The property '<Property Name>' cannot be used in the $orderby query option."
           }
         }
@@ -10922,7 +11619,7 @@
         "description": "The error returned when an unsupported filter is used in a request",
         "value": {
           "error": {
-            "code": 4002,
+            "code": "4002",
             "message": "Could not find a property named '<Property Name>' on type 'KarbonService.<KarbonEntity>SummaryDTO'."
           }
         }
@@ -10931,7 +11628,7 @@
         "description": "The error returned when an unsupported operator is used in a request",
         "value": {
           "error": {
-            "code": 4002,
+            "code": "4002",
             "message": "Logical operator '<Operator Name>' is not allowed. To allow it, set the 'AllowedLogicalOperators' property on EnableQueryAttribute or QueryValidationSettings."
           }
         }
@@ -10940,7 +11637,7 @@
         "description": "The error returned when the limit is used in a request exceeds the maximum set for the API",
         "value": {
           "error": {
-            "code": 4002,
+            "code": "4002",
             "message": "The limit of '100' for Top query has been exceeded. The value from the incoming request is '130'."
           }
         }
@@ -10949,7 +11646,7 @@
         "description": "The error returned when the limit is used in a request exceeds the maximum set for the API",
         "value": {
           "error": {
-            "code": 4002,
+            "code": "4002",
             "message": "The limit of '10' for Top query has been exceeded. The value from the incoming request is '130'."
           }
         }
@@ -10958,7 +11655,7 @@
         "description": "The error returned when the query option in a request is not allowed for by the API",
         "value": {
           "error": {
-            "code": 4002,
+            "code": "4002",
             "message": "Query option '<Option Name>' is not allowed. To allow it, set the 'AllowedQueryOptions' property on EnableQueryAttribute or QueryValidationSettings."
           }
         }
@@ -10967,7 +11664,7 @@
         "description": "The error returned when attempting to use PATCH to update a property that can only be updated as part of a PUT",
         "value": {
           "error": {
-            "code": 4002,
+            "code": "4002",
             "message": "Invalid property to update. Only <Property name> can be patched."
           }
         }
@@ -10985,7 +11682,7 @@
         "description": "The error returned when the request for a Contact cannot be fulfilled because a Contact with the supplied Contact Key cannot be found",
         "value": {
           "error": {
-            "code": 4004,
+            "code": "4004",
             "message": "No Contact found for provided key"
           }
         }
@@ -10994,7 +11691,7 @@
         "description": "The error returned when attempting to upload an upsupported File Type",
         "value": {
           "error": {
-            "code": 5001,
+            "code": "5001",
             "message": "Unsupported file type"
           }
         }
@@ -11003,7 +11700,7 @@
         "description": "The error returned when attempting create a Note, but the request payload is missing or invalid",
         "value": {
           "error": {
-            "code": 4005,
+            "code": "4005",
             "message": "Required payload data is missing: note"
           }
         }
@@ -11012,7 +11709,7 @@
         "description": "The error returned when assign an entity to a user email that does not exist in Karbon",
         "value": {
           "error": {
-            "code": 5001,
+            "code": "5001",
             "message": "Assignee email address is not an active Karbon user"
           }
         }
@@ -11021,7 +11718,7 @@
         "description": "The error returned when specifying an author on an entity where the author email does not exist as a user in Karbon",
         "value": {
           "error": {
-            "code": 5001,
+            "code": "5001",
             "message": "Author email address is not an active Karbon user"
           }
         }
@@ -11030,7 +11727,7 @@
         "description": "The error returned when specifying an author on an entity where the author email is blank",
         "value": {
           "error": {
-            "code": 5001,
+            "code": "5001",
             "message": "Author email address must be provided"
           }
         }
@@ -11039,7 +11736,7 @@
         "description": "The error returned when a required Work Item Key is not provided when creating a new Work Schedule",
         "value": {
           "error": {
-            "code": 4002,
+            "code": "4002",
             "message": "CreatedFromWorkItemKey not provided."
           }
         }
@@ -11048,53 +11745,8 @@
         "description": "The error returned when creating a new Work Schedule with CustomFrequencyMultiple that is negative or not a number",
         "value": {
           "error": {
-            "code": 4002,
+            "code": "4002",
             "message": "CustomFrequencyMultiple should be greater than 0"
-          }
-        }
-      },
-      "Missing_Token": {
-        "description": "The error returned when requesting a Client Task Comment Attachment with an attachment token that does not exist",
-        "value": {
-          "error": {
-            "code": 4001,
-            "message": "Attachment token not provided"
-          }
-        }
-      },
-      "Invalid_Token": {
-        "description": "The error returned when requesting a Client Task Comment Attachment with an attachment token that is invalid",
-        "value": {
-          "error": {
-            "code": 4001,
-            "message": "Attachment token could not be validated."
-          }
-        }
-      },
-      "Could_not_upload_attachment": {
-        "description": "The error returned when uploading an attachment to a Client Task fails",
-        "value": {
-          "error": {
-            "code": 4002,
-            "message": "Could not upload any attachments"
-          }
-        }
-      },
-      "Invalid_Patch_Property": {
-        "description": "The error returned when attempting to update an unsupported property in a Client Task or Client Task Comment",
-        "value": {
-          "error": {
-            "code": 4002,
-            "message": "Invalid PATCH property. Only <FieldNames> can be patched."
-          }
-        }
-      },
-      "Comment_Not_Found": {
-        "description": "The error returned when a attempting to delete a Client Task Comment that does not exist",
-        "value": {
-          "error": {
-            "code": 4002,
-            "message": "No comment found for provided key"
           }
         }
       },
@@ -11102,7 +11754,7 @@
         "description": "The error returned when a Name and Email Address are not provided when creating a User",
         "value": {
           "error": {
-            "code": 5001,
+            "code": "5001",
             "message": "Name and Email Address can not be null or empty"
           }
         }
