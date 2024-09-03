@@ -3235,7 +3235,7 @@
                   "oneOf": [
                     {"$ref": "#/components/schemas/ResourceNotFound"},
                     {"$ref": "#/components/examples/File_key_not_present"},
-                    {"$ref": "#/components/examples/No_File_context"},
+                    {"$ref": "#/components/examples/No_File_context"}
                   ]
                 },
                 "examples": {
