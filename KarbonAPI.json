@@ -473,9 +473,11 @@
                     },
                     "TotalAmount": {},
                     "Reference": {
-                      "type": "string",
+                      "type": [
+                        "string",
+                        "null"
+                      ],
                       "example": "Payment made in cash.",
-                      "nullable": true,
                       "maxLength": 250,
                       "description": "An optional reference to include with the payment."
                     },
@@ -1005,8 +1007,10 @@
                       "type": "object",
                       "properties": {
                         "AccountingDetails": {
-                          "nullable": true,
-                          "type": "string",
+                          "type": [
+                            "string",
+                            "null"
+                          ],
                           "description": "The accounting details associated with the Client Group. This property will be `null`."
                         }
                       }
@@ -1134,8 +1138,10 @@
                     "type": "object",
                     "properties": {
                       "AccountingDetails": {
-                        "nullable": true,
-                        "type": "string",
+                        "type": [
+                          "string",
+                          "null"
+                        ],
                         "description": "The accounting details associated with the Client Group. This property will be `null`."
                       }
                     }
@@ -1238,8 +1244,10 @@
                       "type": "object",
                       "properties": {
                         "AccountingDetails": {
-                          "nullable": true,
-                          "type": "string",
+                          "type": [
+                            "string",
+                            "null"
+                          ],
                           "description": "The accounting details associated with the Client Group. This property will be `null`."
                         }
                       }
@@ -1442,8 +1450,10 @@
                       "type": "object",
                       "properties": {
                         "AccountingDetails": {
-                          "nullable": true,
-                          "type": "string",
+                          "type": [
+                            "string",
+                            "null"
+                          ],
                           "description": "The accounting details associated with the Client Group. This property will be `null`."
                         }
                       }
@@ -2984,8 +2994,10 @@
                       }
                     },
                     "AccountingDetail": {
-                      "nullable": true,
-                      "type": "string",
+                      "type": [
+                        "string",
+                        "null"
+                      ],
                       "description": "The accounting details associated with the Contact. This property will be `null`."
                     }
                   }
@@ -5137,8 +5149,10 @@
                       }
                     },
                     "AccountingDetail": {
-                      "type": "string",
-                      "nullable": true,
+                      "type": [
+                        "string",
+                        "null"
+                      ],
                       "description": "The accounting details associated with the Organization. This property will be `null`."
                     }
                   }
@@ -6444,9 +6458,11 @@
                     "example": "Contact"
                   },
                   "SigningKey": {
-                    "type": "string",
+                    "type": [
+                      "string",
+                      "null"
+                    ],
                     "description": "An optional key that will be used to sign webhook payloads, may contain letters, numbers, dashes or underscores",
-                    "nullable": true,
                     "minLength": 16,
                     "pattern": "^[A-Za-z0-9-_]+$",
                     "example": "96434E14-3C96-4F07-9FC2-CCC736827309"
@@ -7750,8 +7766,10 @@
             "example": "CAD"
           },
           "PaymentInstructions": {
-            "type": "string",
-            "nullable": true,
+            "type": [
+              "string",
+              "null"
+            ],
             "description": "Payment instructions added to the invoice",
             "example": "Payment due 7 days from invoice date"
           },
@@ -7824,14 +7842,18 @@
             "description": "The amount of the line item calculated as UnitPrice * Quantity, excluding taxes"
           },
           "TaxRate": {
-            "type": "number",
-            "description": "The percentage tax rate, expressed as an integer - e.g. 15% is rendered as 15.0000",
-            "nullable": true
+            "type": [
+              "number",
+              "null"
+            ],
+            "description": "The percentage tax rate, expressed as an integer - e.g. 15% is rendered as 15.0000"
           },
           "TaxRateName": {
-            "type": "string",
-            "description": "The user specified name of tax rate, e.g. GST, VAT, PST",
-            "nullable": true
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "The user specified name of tax rate, e.g. GST, VAT, PST"
           }
         }
       },
@@ -7911,10 +7933,12 @@
             "example": true
           },
           "OrganizationKey": {
-            "type": "string",
+            "type": [
+              "string",
+              "null"
+            ],
             "description": "Used on the Business Card for a Contact to specify the Organization that the Contact is related to. Will always be null for an Organization business card.",
-            "example": "7NN1ySxv89B",
-            "nullable": true
+            "example": "7NN1ySxv89B"
           },
           "WebSites": {
             "description": "The websites associated with this Business card.",
@@ -7939,10 +7963,12 @@
             ]
           },
           "RoleOrTitle": {
-            "type": "string",
+            "type": [
+              "string",
+              "null"
+            ],
             "description": "The business role or title of the contact this Business Cards belongs to",
-            "example": "COO",
-            "nullable": true
+            "example": "COO"
           },
           "FacebookLink": {
             "type": "string",
@@ -8239,8 +8265,10 @@
               ]
             },
             "RoleType": {
-              "type": "string",
-              "nullable": true,
+              "type": [
+                "string",
+                "null"
+              ],
               "example": "ClientOwner",
               "description": "The specific role the user or team is assigned to, can be null if a member of the client team without a specific role",
               "enum": [
@@ -8258,31 +8286,41 @@
         "description": "The details specific to the Accounting firm related to this entity",
         "properties": {
           "ContactPermaKey": {
-            "type": "string",
-            "nullable": true,
+            "type": [
+              "string",
+              "null"
+            ],
             "description": "A Karbon-generated key that is used to identify the Contact (if a person)."
           },
           "OrganizationPermaKey": {
-            "type": "string",
-            "nullable": true,
+            "type": [
+              "string",
+              "null"
+            ],
             "description": "A Karbon-generated key that is used to identify the Contact (if a business or an organization)."
           },
           "BirthDate": {
-            "type": "string",
+            "type": [
+              "string",
+              "null"
+            ],
             "format": "date-time",
-            "nullable": true,
             "description": "The day at which the contact (if a person) was born."
           },
           "DeathDate": {
-            "type": "string",
+            "type": [
+              "string",
+              "null"
+            ],
             "format": "date-time",
-            "nullable": true,
             "description": "The day at which the contact (if a person) died."
           },
           "Salutation": {
-            "type": "string",
+            "type": [
+              "string",
+              "null"
+            ],
             "description": "The title of the contact (if a person)",
-            "nullable": true,
             "enum": [
               "Mr",
               "Mrs",
@@ -8290,54 +8328,72 @@
               "Miss",
               "Dr",
               "Prof",
-              "Rev"
+              "Rev",
+              null
             ]
           },
           "Sex": {
-            "type": "string",
+            "type": [
+              "string",
+              "null"
+            ],
             "description": "The gender of the contact (if a person)",
-            "nullable": true,
             "enum": [
               "M",
-              "F"
+              "F",
+              null
             ]
           },
           "FinancialYearEndDay": {
-            "type": "integer",
+            "type": [
+              "integer",
+              "null"
+            ],
             "format": "int32",
-            "nullable": true,
             "description": "The day of month in which the fiscal year ends for the contact"
           },
           "FinancialYearEndMonth": {
-            "type": "integer",
+            "type": [
+              "integer",
+              "null"
+            ],
             "format": "int32",
-            "nullable": true,
             "description": "The month in which the fiscal year ends for the contact"
           },
           "IncorporationDate": {
-            "type": "string",
+            "type": [
+              "string",
+              "null"
+            ],
             "format": "date-time",
-            "nullable": true,
             "description": "The date at which the contact (if a business or an organization) was incorporated."
           },
           "IncorporationState": {
-            "type": "integer",
-            "nullable": true,
+            "type": [
+              "integer",
+              "null"
+            ],
             "description": "The state in which the contact (if a business or an organization) was incorporated."
           },
           "LegalName": {
-            "type": "string",
-            "nullable": true,
+            "type": [
+              "integer",
+              "null"
+            ],
             "description": "The legal name of the contact"
           },
           "LineOfBusiness": {
-            "type": "string",
-            "nullable": true,
+            "type": [
+              "string",
+              "null"
+            ],
             "description": "The industry this contact is associated with."
           },
           "EntityType": {
-            "type": "string",
-            "nullable": true,
+            "type": [
+              "string",
+              "null"
+            ],
             "description": "The entity type of the contact (if a business or an organization)",
             "enum": [
               "Corporation",
@@ -8359,13 +8415,16 @@
               "Pension Scheme",
               "Royal Charter",
               "Unincorporated Association",
-              "Other/None"
+              "Other/None",
+              null
             ]
           },
           "TaxCountryCode": {
-            "type": "string",
+            "type": [
+              "string",
+              "null"
+            ],
             "description": "The code of the country where the contact pays their tax.",
-            "nullable": true,
             "enum": [
               "US",
               "AU",
@@ -8386,81 +8445,109 @@
             ]
           },
           "TradingName": {
-            "nullable": true,
-            "type": "string",
+            "type": [
+              "string",
+              "null"
+            ],
             "description": "The trading name of the contact (if a business or an organization)"
           },
           "AnnualRevenue": {
-            "type": "number",
+            "type": [
+              "number",
+              "null"
+            ],
             "format": "decimal",
-            "nullable": true,
             "description": "The total annual revenue generated by the contact"
           },
           "BaseCurrency": {
-            "type": "string",
-            "nullable": true,
+            "type": [
+              "string",
+              "null"
+            ],
             "description": "The 3-letter code, denoting the currency of annual revenue"
           },
           "GstBasis": {
-            "type": "string",
-            "nullable": true,
+            "type": [
+              "string",
+              "null"
+            ],
             "description": "The method of accounting for GST/BAS",
             "enum": [
               "Cash",
               "Accruals",
               "None",
-              "Close"
+              "Close",
+              null
             ]
           },
           "GstPeriod": {
-            "nullable": true,
-            "type": "string",
+            "type": [
+              "string",
+              "null"
+            ],
             "description": "The GST period"
           },
           "IncomeTaxInstallmentPeriod": {
-            "type": "string",
-            "nullable": true,
+            "type": [
+              "string",
+              "null"
+            ],
             "description": "The income tax installment period",
             "enum": [
               "Monthly",
               "Quarterly",
-              "Yearly"
+              "Yearly",
+              null
             ]
           },
           "IsVATRegistered": {
-            "type": "boolean",
-            "nullable": true,
+            "type": [
+              "boolean",
+              "null"
+            ],
             "description": "Set to true if the business or organization is registered for VAT"
           },
           "OrganizationValuation": {
-            "type": "number",
+            "type": [
+              "number",
+              "null"
+            ],
             "format": "decimal",
-            "nullable": true,
             "description": "The present value of the company"
           },
           "PaysTax": {
-            "type": "boolean",
-            "nullable": true,
+            "type": [
+              "boolean",
+              "null"
+            ],
             "description": "Set to true, if the contact has to pay tax"
           },
           "PrepareGST": {
-            "type": "boolean",
-            "nullable": true,
+            "type": [
+              "boolean",
+              "null"
+            ],
             "description": "<>"
           },
           "ProvisionalTaxBasic": {
-            "type": "string",
-            "nullable": true,
+            "type": [
+              "string",
+              "null"
+            ],
             "description": "<>"
           },
           "ProvisionalTaxRatio": {
-            "type": "string",
-            "nullable": true,
+            "type": [
+              "string",
+              "null"
+            ],
             "description": "<>"
           },
           "RevenueModel": {
-            "type": "string",
-            "nullable": true,
+            "type": [
+              "string",
+              "null"
+            ],
             "description": "The revenue model of the business or organization",
             "enum": [
               "Advertising",
@@ -8470,41 +8557,52 @@
               "Licensing",
               "Markup",
               "Production",
-              "Subscription"
+              "Subscription",
+              null
             ]
           },
           "SalesTaxBasis": {
-            "type": "string",
-            "nullable": true,
+            "type": [
+              "string",
+              "null"
+            ],
             "description": "The tax method",
             "enum": [
               "Cash",
               "Accruals",
               "None",
-              "Close"
+              "Close",
+              null
             ]
           },
           "SalesTaxPeriod": {
-            "type": "string",
-            "nullable": true,
+            "type": [
+              "string",
+              "null"
+            ],
             "description": "The tax period"
           },
           "Sells": {
-            "type": "string",
-            "nullable": true,
+            "type": [
+              "string",
+              "null"
+            ],
             "description": "The item that is primarily supplied by the company",
             "enum": [
               "Services",
               "Products",
               "Products and Services",
-              "Other"
+              "Other",
+              null
             ]
           },
           "DateSignedEngagement": {
-            "type": "string",
+            "type": [
+              "string",
+              "null"
+            ],
             "format": "date-time",
-            "description": "",
-            "nullable": true
+            "description": ""
           },
           "RegistrationNumbers": {
             "type": "array",
@@ -8678,14 +8776,18 @@
                   "description": "The full name of the Client Group"
                 },
                 "PhoneNumber": {
-                  "nullable": true,
-                  "type": "string",
+                  "type": [
+                    "string",
+                    "null"
+                  ],
                   "example": "0987888686",
                   "description": "The phone number associated with the Client Group"
                 },
                 "Website": {
-                  "nullable": true,
-                  "type": "string",
+                  "type": [
+                    "string",
+                    "null"
+                  ],
                   "example": "www.samplemanagement.com",
                   "description": "The website associated with the Client Group"
                 },
@@ -8777,8 +8879,10 @@
                   "description": "The team member in your firm who manages the work for the clients in this Client Group. You can only use the UserKey or the email address of an existing team member"
                 },
                 "Address": {
-                  "nullable": true,
-                  "type": "string",
+                  "type": [
+                    "string",
+                    "null"
+                  ],
                   "example": "42 Galaxy Way, London",
                   "description": "The Address of the Contact"
                 },
@@ -8788,8 +8892,10 @@
                   "description": "The Email Address of the Contact"
                 },
                 "PhoneNumber": {
-                  "nullable": true,
-                  "type": "string",
+                  "type": [
+                    "string",
+                    "null"
+                  ],
                   "example": "0987888686",
                   "description": "The phone number associated with the Contact"
                 },
@@ -8895,8 +9001,10 @@
                   "description": "The full name of the Organization"
                 },
                 "PhoneNumber": {
-                  "nullable": true,
-                  "type": "string",
+                  "type": [
+                    "string",
+                    "null"
+                  ],
                   "example": "0987888686",
                   "description": "The phone number associated with the Organization"
                 },
@@ -9014,9 +9122,11 @@
             "example": "2022-01-30T00:00:00Z"
           },
           "DeadlineDate": {
-            "type": "string",
+            "type": [
+              "string",
+              "null"
+            ],
             "format": "date-time",
-            "nullable": true,
             "description": "The date and time by which the Work Item should be complete according to a party outside of your firm. e.g. A tax filing date or payroll processing cut-off date.",
             "example": "2022-01-31T00:00:00Z"
           },
@@ -9105,10 +9215,12 @@
                 "example": "FixedFee"
               },
               "FeeValue": {
-                "type": "number",
+                "type": [
+                  "number",
+                  "null"
+                ],
                 "description": "The value of the fee in the currency of the Karbon account, this value must be null if FeeType is not FixedFee",
-                "example": 5150.2,
-                "nullable": true
+                "example": 5150.2
               }
             }
           }
@@ -9179,17 +9291,22 @@
               "DeadlineDate": {
                 "oneOf": [
                   {
-                    "type": "string",
+                    "type": [
+                      "string",
+                      "null"
+                    ],
                     "example": "2024-02-01T00:00:00Z",
                     "format": "date-time"
                   },
                   {
-                    "type": "string",
+                    "type": [
+                      "string",
+                      "null"
+                    ],
                     "example": "2024-02-01",
                     "format": "date"
                   }
                 ],
-                "nullable": true,
                 "example": "2024-02-01T00:00:00Z",
                 "description": "The deadline of the workitem as ISO8601 formated datestamp or timestamp"
               }
@@ -9253,9 +9370,11 @@
                 "example": "2022-01-30T00:00:00Z"
               },
               "DeadlineDate": {
-                "type": "string",
+                "type": [
+                  "string",
+                  "null"
+                ],
                 "format": "date-time",
-                "nullable": true,
                 "description": "The date and time by which an external party has specified that the Work Item should be complete",
                 "example": "2022-01-31T00:00:00Z"
               },
@@ -9426,18 +9545,24 @@
             "description": "The members of the Client Group",
             "type": "array",
             "items": {
-              "type": "object",
-              "nullable": true,
+              "type": [
+                "object",
+                "null"
+              ],
               "properties": {
                 "ContactKey": {
-                  "type": "string",
-                  "nullable": true,
+                  "type": [
+                    "string",
+                    "null"
+                  ],
                   "description": "A Karbon-generated value that is used to identify the Contact",
                   "example": "34yxkY51knn7"
                 },
                 "OrganizationKey": {
-                  "type": "string",
-                  "nullable": true,
+                  "type": [
+                    "string",
+                    "null"
+                  ],
                   "description": "A Karbon-generated value that is used to identify the Organization",
                   "example": "4ncPZ7q96SGc"
                 }
@@ -9518,18 +9643,24 @@
             "description": "The members of the Client Group",
             "type": "array",
             "items": {
-              "type": "object",
-              "nullable": true,
+              "type": [
+                "object",
+                "null"
+              ],
               "properties": {
                 "ContactKey": {
-                  "type": "string",
-                  "nullable": true,
+                  "type": [
+                    "string",
+                    "null"
+                  ],
                   "description": "A Karbon-generated value that is used to identify the Contact",
                   "example": "34yxkY51knn7"
                 },
                 "OrganizationKey": {
-                  "type": "string",
-                  "nullable": true,
+                  "type": [
+                    "string",
+                    "null"
+                  ],
                   "description": "A Karbon-generated value that is used to identify the Organization",
                   "example": "4ncPZ7q96SGc"
                 }
@@ -9654,8 +9785,10 @@
             }
           },
           "ClientTeam": {
-            "type": "array",
-            "nullable": true,
+            "type": [
+              "array",
+              "null"
+            ],
             "items": {
               "$ref": "#/components/schemas/ClientTeam"
             }
@@ -9689,20 +9822,26 @@
               "description": "The title to address the Contact"
             },
             "ClientOwner": {
-              "type": "string",
-              "nullable": true,
+              "type": [
+                "string",
+                "null"
+              ],
               "example": "jessica.tse@samplecompany.com",
               "description": "The team member in your firm who looks after client relationship or is responsible for the vast majority of the work of the Contact. You can only use the UserKey or the email address of an existing team member."
             },
             "ClientManager": {
-              "type": "string",
-              "nullable": true,
+              "type": [
+                "string",
+                "null"
+              ],
               "example": "rodney.muller@samplecompany.com",
               "description": "The team member in your firm who manages the work for Contact. You can only use the UserKey or the email address of an existing team member."
             },
             "Address": {
-              "nullable": true,
-              "type": "string",
+              "type": [
+                "string",
+                "null"
+              ],
               "example": "",
               "description": "The Address of the Contact"
             },
@@ -9711,8 +9850,10 @@
               "description": "The Email Address of the Contact"
             },
             "PhoneNumber": {
-              "nullable": true,
-              "type": "string",
+              "type": [
+                "string",
+                "null"
+              ],
               "description": "The phone number associated with the Contact",
               "maxLength": 20
             },
@@ -10382,8 +10523,10 @@
                   "type": "array",
                   "description": "Free-form text that has more information about the Time Entry",
                   "items": {
-                    "type": "string",
-                    "nullable": true,
+                    "type": [
+                      "string",
+                      "null"
+                    ],
                     "example": "Continued working on the end-year accounting"
                   },
                   "example": [
@@ -10657,8 +10800,10 @@
             "example": "Custom"
           },
           "CustomFrequencyUnits": {
-            "type": "string",
-            "nullable": true,
+            "type": [
+              "string",
+              "null"
+            ],
             "description": "The unit of time at which this Work Schedule should repeat. Once set, the value of this property can not be changed.\n\nThis property is only applicable if `RecurrenceFrequency` is set to `Custom`.\n",
             "enum": [
               "Days",
@@ -10824,8 +10969,10 @@
             "example": "Custom"
           },
           "CustomFrequencyUnits": {
-            "type": "string",
-            "nullable": true,
+            "type": [
+              "string",
+              "null"
+            ],
             "description": "The unit of time at which this Work Schedule should repeat. Once set, the value of this property can not be changed.\n\nThis property is only applicable if `RecurrenceFrequency` is set to `Custom`.\n",
             "enum": [
               "Days",
@@ -10985,8 +11132,10 @@
             "example": false
           },
           "EstimatedBudget": {
-            "type": "string",
-            "nullable": true,
+            "type": [
+              "string",
+              "null"
+            ],
             "description": "The estimated budget for the Work Items generated using this Work Template. This property value will be `null`.",
             "example": null
           },
@@ -11157,10 +11306,12 @@
         "type": "object",
         "properties": {
           "statusCode": {
-            "type": "string",
+            "type": [
+              "string",
+              "null"
+            ],
             "description": "The generic HTTP Error code",
-            "example": "404",
-            "nullable": true
+            "example": "404"
           },
           "message": {
             "type": "string",
