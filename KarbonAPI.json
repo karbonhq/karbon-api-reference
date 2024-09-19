@@ -1010,6 +1010,22 @@
                           "description": "The accounting details associated with the Client Group. This property will be `null`."
                         }
                       }
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "BusinessCard": {
+                          "$ref": "#/components/schemas/BusinessCard"
+                        }
+                      }
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "ClientTeam": {
+                          "$ref": "#/components/schemas/ClientTeam"
+                        }
+                      }
                     }
                   ]
                 },
@@ -1025,7 +1041,16 @@
                   "RestrictionLevel": "Public",
                   "PrimaryContact": "Duncan Moore",
                   "LastModifiedDateTime": "2022-07-05T07:30:13.7188114Z",
-                  "Members": [],
+                  "Members": [
+                    {
+                      "ContactKey": null,
+                      "OrganizationKey": "X6Hm1D2Jvxf"
+                    },
+                    {
+                      "ContactKey": "CFbcmM5Lvzc",
+                      "OrganizationKey": null
+                    }
+                  ],
                   "EntityDescription": {
                     "Text": "Bicycle rental service in the New jersey area."
                   },
@@ -1101,7 +1126,37 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/CreateClientGroup"
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/CreateClientGroup"
+                  },
+                  {
+                    "type": "object",
+                    "properties": {
+                      "AccountingDetails": {
+                        "nullable": true,
+                        "type": "string",
+                        "description": "The accounting details associated with the Client Group. This property will be `null`."
+                      }
+                    }
+                  },
+                  {
+                    "type": "object",
+                    "properties": {
+                      "BusinessCard": {
+                        "$ref": "#/components/schemas/BusinessCard"
+                      }
+                    }
+                  },
+                  {
+                    "type": "object",
+                    "properties": {
+                      "ClientTeam": {
+                        "$ref": "#/components/schemas/ClientTeam"
+                      }
+                    }
+                  }
+                ]
               },
               "example": {
                 "FullName": "Abigail Silvers",
@@ -1113,7 +1168,24 @@
                 "PrimaryContact": "Duncan Moore",
                 "EntityDescription": {
                   "Text": "Bicycle rental service in the New jersey area."
-                }
+                },
+                "Members": [
+                  {
+                    "ContactKey": null,
+                    "OrganizationKey": "X6Hm1D2Jvxf"
+                  },
+                  {
+                    "ContactKey": "CFbcmM5Lvzc",
+                    "OrganizationKey": null
+                  }
+                ],
+                "ClientTeam": [
+                  {
+                      "MemberKey": "2q2wx44pTBNh",
+                      "MemberType": "User",
+                      "RoleType": "ClientManager"
+                  }
+                ]
               }
             }
           }
@@ -1179,6 +1251,14 @@
                           "$ref": "#/components/schemas/BusinessCard"
                         }
                       }
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "ClientTeam": {
+                          "$ref": "#/components/schemas/ClientTeam"
+                        }
+                      }
                     }
                   ]
                 },
@@ -1194,10 +1274,16 @@
                   "RestrictionLevel": "Public",
                   "PrimaryContact": "Duncan Moore",
                   "LastModifiedDateTime": "2022-07-05T07:30:13.7188114Z",
-                  "Members": {
-                    "ContactKey": "34yxkY51knn7",
-                    "OrganizationKey": "4ncPZ7q96SGc"
-                  },
+                  "Members": [
+                    {
+                      "ContactKey": "34yxkY51knn7",
+                      "OrganizationKey": null
+                    },
+                    {
+                      "ContactKey": null,
+                      "OrganizationKey": "4ncPZ7q96SGc"
+                    }
+                  ],
                   "EntityDescription": {
                     "Text": "Bicycle rental service in the New jersey area."
                   },
@@ -1230,8 +1316,8 @@
                     },
                     "PhoneNumbers": {
                       "PhoneNumberKey": "6e0b9ace-24b1-4328-a922-3b8be5ef5052",
-                      "Number": 1234567890,
-                      "CountryCode": 61,
+                      "Number": "1234567890",
+                      "CountryCode": "AU",
                       "Label": "Work"
                     }
                   }
@@ -1424,8 +1510,8 @@
                     },
                     "PhoneNumbers": {
                       "PhoneNumberKey": "6e0b9ace-24b1-4328-a922-3b8be5ef5052",
-                      "Number": 1234567890,
-                      "CountryCode": 61,
+                      "Number": "1234567890",
+                      "CountryCode": "AU",
                       "Label": "Work"
                     }
                   },
@@ -1667,8 +1753,8 @@
                     "Label": "Physical"
                   },
                   "PhoneNumbers": {
-                    "Number": 1234567890,
-                    "CountryCode": 61,
+                    "Number": "1234567890",
+                    "CountryCode": "AU",
                     "Label": "Work"
                   }
                 }
@@ -2119,8 +2205,8 @@
                     },
                     "PhoneNumbers": {
                       "PhoneNumberKey": "6e0b9ace-24b1-4328-a922-3b8be5ef5052",
-                      "Number": 1234567890,
-                      "CountryCode": 61,
+                      "Number": "1234567890",
+                      "CountryCode": "AU",
                       "Label": "Work"
                     }
                   }
@@ -2335,8 +2421,8 @@
                     },
                     "PhoneNumbers": {
                       "PhoneNumberKey": "6e0b9ace-24b1-4328-a922-3b8be5ef5052",
-                      "Number": 1234567890,
-                      "CountryCode": 61,
+                      "Number": "1234567890",
+                      "CountryCode": "AU",
                       "Label": "Work"
                     }
                   }
@@ -2542,8 +2628,8 @@
                       },
                       "PhoneNumbers": {
                         "PhoneNumberKey": "6e0b9ace-24b1-4328-a922-3b8be5ef5052",
-                        "Number": 1234567890,
-                        "CountryCode": 61,
+                        "Number": "1234567890",
+                        "CountryCode": "AU",
                         "Label": "Work"
                       }
                     }
@@ -3196,7 +3282,7 @@
                     "Size": {
                       "type": "string",
                       "description": "The size of the file (in bytes)",
-                      "example": 334565
+                      "example": "334565"
                     }
                   }
                 }
@@ -4183,9 +4269,16 @@
                     "PhoneNumbers": {
                       "PhoneNumberKey": "6e0b9ace-24b1-4328-a922-3b8be5ef5052",
                       "Number": "1234567890",
-                      "CountryCode": "61",
+                      "CountryCode": "AU",
                       "Label": "Work"
                     }
+                  }
+                ],
+                "ClientTeam": [
+                  {
+                      "MemberKey": "2q2wx44pTBNh",
+                      "MemberType": "User",
+                      "RoleType": "ClientManager"
                   }
                 ]
               }
@@ -4325,8 +4418,8 @@
                       },
                       "PhoneNumbers": {
                         "PhoneNumberKey": "6e0b9ace-24b1-4328-a922-3b8be5ef5052",
-                        "Number": 1234567890,
-                        "CountryCode": 61,
+                        "Number": "1234567890",
+                        "CountryCode": "AU",
                         "Label": "Work"
                       }
                     }
@@ -4554,8 +4647,8 @@
                       },
                       "PhoneNumbers": {
                         "PhoneNumberKey": "6e0b9ace-24b1-4328-a922-3b8be5ef5052",
-                        "Number": 1234567890,
-                        "CountryCode": 61,
+                        "Number": "1234567890",
+                        "CountryCode": "AU",
                         "Label": "Work"
                       }
                     }
@@ -4859,11 +4952,18 @@
                   },
                   "PhoneNumbers": {
                     "PhoneNumberKey": "6e0b9ace-24b1-4328-a922-3b8be5ef5052",
-                    "Number": 1234567890,
-                    "CountryCode": 61,
+                    "Number": "1234567890",
+                    "CountryCode": "AU",
                     "Label": "Work"
                   }
-                }
+                },
+                "ClientTeam": [
+                  {
+                      "MemberKey": "2q2wx44pTBNh",
+                      "MemberType": "User",
+                      "RoleType": "ClientManager"
+                  }
+                ]
               }
             }
           }
@@ -7817,7 +7917,7 @@
                 "ZipCode": {
                   "type": "string",
                   "description": "ZipCode / PostCode",
-                  "example": 2015,
+                  "example": "2015",
                   "maxLength": 20
                 },
                 "CountryCode": {
@@ -7848,13 +7948,13 @@
                 "Number": {
                   "type": "string",
                   "description": "The phone number of the entity",
-                  "example": 1234567890,
+                  "example": "1234567890",
                   "maxLength": 20
                 },
                 "CountryCode": {
                   "type": "string",
                   "description": "The phone number country code",
-                  "example": 61
+                  "example": "AU"
                 },
                 "Label": {
                   "type": "string",
@@ -7971,7 +8071,7 @@
                 "ZipCode": {
                   "type": "string",
                   "description": "ZipCode / PostCode",
-                  "example": 2015,
+                  "example": "2015",
                   "maxLength": 20
                 },
                 "CountryCode": {
@@ -8007,13 +8107,13 @@
                 "Number": {
                   "type": "string",
                   "description": "The phone number of the entity",
-                  "example": 1234567890,
+                  "example": "1234567890",
                   "maxLength": 20
                 },
                 "CountryCode": {
                   "type": "string",
                   "description": "The phone number country code",
-                  "example": 61
+                  "example": "AU"
                 },
                 "Label": {
                   "type": "string",
@@ -8087,15 +8187,18 @@
         "properties": {
           "ContactPermaKey": {
             "type": "string",
+            "nullable": true,
             "description": "A Karbon-generated key that is used to identify the Contact (if a person)."
           },
           "OrganizationPermaKey": {
             "type": "string",
+            "nullable": true,
             "description": "A Karbon-generated key that is used to identify the Contact (if a business or an organization)."
           },
           "BirthDate": {
             "type": "string",
             "format": "date-time",
+            "nullable": true,
             "description": "The day at which the contact (if a person) was born."
           },
           "DeathDate": {
@@ -8107,6 +8210,7 @@
           "Salutation": {
             "type": "string",
             "description": "The title of the contact (if a person)",
+            "nullable": true,
             "enum": [
               "Mr",
               "Mrs",
@@ -8120,6 +8224,7 @@
           "Sex": {
             "type": "string",
             "description": "The gender of the contact (if a person)",
+            "nullable": true,
             "enum": [
               "M",
               "F"
@@ -8128,32 +8233,39 @@
           "FinancialYearEndDay": {
             "type": "integer",
             "format": "int32",
+            "nullable": true,
             "description": "The day of month in which the fiscal year ends for the contact"
           },
           "FinancialYearEndMonth": {
             "type": "integer",
             "format": "int32",
+            "nullable": true,
             "description": "The month in which the fiscal year ends for the contact"
           },
           "IncorporationDate": {
             "type": "string",
             "format": "date-time",
+            "nullable": true,
             "description": "The date at which the contact (if a business or an organization) was incorporated."
           },
           "IncorporationState": {
             "type": "integer",
+            "nullable": true,
             "description": "The state in which the contact (if a business or an organization) was incorporated."
           },
           "LegalName": {
             "type": "string",
+            "nullable": true,
             "description": "The legal name of the contact"
           },
           "LineOfBusiness": {
             "type": "string",
+            "nullable": true,
             "description": "The industry this contact is associated with."
           },
           "EntityType": {
             "type": "string",
+            "nullable": true,
             "description": "The entity type of the contact (if a business or an organization)",
             "enum": [
               "Corporation",
@@ -8181,6 +8293,7 @@
           "TaxCountryCode": {
             "type": "string",
             "description": "The code of the country where the contact pays their tax.",
+            "nullable": true,
             "enum": [
               "US",
               "AU",
@@ -8208,14 +8321,17 @@
           "AnnualRevenue": {
             "type": "number",
             "format": "decimal",
+            "nullable": true,
             "description": "The total annual revenue generated by the contact"
           },
           "BaseCurrency": {
             "type": "string",
+            "nullable": true,
             "description": "The 3-letter code, denoting the currency of annual revenue"
           },
           "GstBasis": {
             "type": "string",
+            "nullable": true,
             "description": "The method of accounting for GST/BAS",
             "enum": [
               "Cash",
@@ -8231,6 +8347,7 @@
           },
           "IncomeTaxInstallmentPeriod": {
             "type": "string",
+            "nullable": true,
             "description": "The income tax installment period",
             "enum": [
               "Monthly",
@@ -8240,31 +8357,38 @@
           },
           "IsVATRegistered": {
             "type": "boolean",
+            "nullable": true,
             "description": "Set to true if the business or organization is registered for VAT"
           },
           "OrganizationValuation": {
             "type": "number",
             "format": "decimal",
+            "nullable": true,
             "description": "The present value of the company"
           },
           "PaysTax": {
             "type": "boolean",
+            "nullable": true,
             "description": "Set to true, if the contact has to pay tax"
           },
           "PrepareGST": {
             "type": "boolean",
+            "nullable": true,
             "description": "<>"
           },
           "ProvisionalTaxBasic": {
             "type": "string",
+            "nullable": true,
             "description": "<>"
           },
           "ProvisionalTaxRatio": {
             "type": "string",
+            "nullable": true,
             "description": "<>"
           },
           "RevenueModel": {
             "type": "string",
+            "nullable": true,
             "description": "The revenue model of the business or organization",
             "enum": [
               "Advertising",
@@ -8279,6 +8403,7 @@
           },
           "SalesTaxBasis": {
             "type": "string",
+            "nullable": true,
             "description": "The tax method",
             "enum": [
               "Cash",
@@ -8289,10 +8414,12 @@
           },
           "SalesTaxPeriod": {
             "type": "string",
+            "nullable": true,
             "description": "The tax period"
           },
           "Sells": {
             "type": "string",
+            "nullable": true,
             "description": "The item that is primarily supplied by the company",
             "enum": [
               "Services",
@@ -9045,20 +9172,20 @@
                 "type": "string",
                 "format": "date-time",
                 "description": "The date and time at which the Work Item should start",
-                "example": "2021-12-29"
+                "example": "2021-12-29T00:00:00Z"
               },
               "DueDate": {
                 "type": "string",
                 "format": "date-time",
                 "description": "The date and time by which the Work Item should be complete",
-                "example": "2022-01-30"
+                "example": "2022-01-30T00:00:00Z"
               },
               "DeadlineDate": {
                 "type": "string",
                 "format": "date-time",
                 "nullable": true,
                 "description": "The date and time by which an external party has specified that the Work Item should be complete",
-                "example": "2022-01-31"
+                "example": "2022-01-31T00:00:00Z"
               },
               "WorkType": {
                 "type": "string",
@@ -9232,11 +9359,13 @@
               "properties": {
                 "ContactKey": {
                   "type": "string",
+                  "nullable": true,
                   "description": "A Karbon-generated value that is used to identify the Contact",
                   "example": "34yxkY51knn7"
                 },
                 "OrganizationKey": {
                   "type": "string",
+                  "nullable": true,
                   "description": "A Karbon-generated value that is used to identify the Organization",
                   "example": "4ncPZ7q96SGc"
                 }
@@ -9310,6 +9439,28 @@
                 "type": "string",
                 "description": "Free-form text that can be used to add more information about the Client Group",
                 "example": "Bicycle rental service in the New jersey area."
+              }
+            }
+          },
+          "Members": {
+            "description": "The members of the Client Group",
+            "type": "array",
+            "items": {
+              "type": "object",
+              "nullable": true,
+              "properties": {
+                "ContactKey": {
+                  "type": "string",
+                  "nullable": true,
+                  "description": "A Karbon-generated value that is used to identify the Contact",
+                  "example": "34yxkY51knn7"
+                },
+                "OrganizationKey": {
+                  "type": "string",
+                  "nullable": true,
+                  "description": "A Karbon-generated value that is used to identify the Organization",
+                  "example": "4ncPZ7q96SGc"
+                }
               }
             }
           }
@@ -9582,6 +9733,9 @@
           },
           "AccountingDetail": {
             "$ref": "#/components/schemas/DetailsOfAccounting"
+          },
+          "ClientTeam": {
+            "$ref": "#/components/schemas/ClientTeam"
           }
         }
       },
@@ -9902,6 +10056,9 @@
           },
           "AccountingDetail": {
             "$ref": "#/components/schemas/DetailsOfAccounting"
+          },
+          "ClientTeam": {
+            "$ref": "#/components/schemas/ClientTeam"
           }
         }
       },
@@ -9959,6 +10116,9 @@
                 "description": "Free-form text that can be used to add more information about the Organization"
               }
             }
+          },
+          "ClientTeam": {
+            "$ref": "#/components/schemas/ClientTeam"
           }
         }
       },
@@ -10445,13 +10605,13 @@
             "type": "string",
             "format": "date-time",
             "description": "The date at which this Work Schedule should start running",
-            "example": "2021-07-01"
+            "example": "2021-07-01T00:00:00Z"
           },
           "ScheduleEndDate": {
             "type": "string",
             "format": "date-time",
             "description": "The date at which this Work Schedule should stop running\n\nTo set the Work Schedule to run forever, set the value of this property to `null`.",
-            "example": "2021-09-01"
+            "example": "2021-09-01T00:00:00Z"
           },
           "ScheduleDueDateMethod": {
             "type": "string",
@@ -10617,13 +10777,13 @@
             "type": "string",
             "format": "date-time",
             "description": "The date at which this Work Schedule should start running",
-            "example": "2021-07-01"
+            "example": "2021-07-01T00:00:00Z"
           },
           "ScheduleEndDate": {
             "type": "string",
             "format": "date-time",
             "description": "The date at which this Work Schedule should stop running\n\nTo set the Work Schedule to run forever, set the value of this property to `0001-01-01`.",
-            "example": "2021-09-01"
+            "example": "2021-09-01T00:00:00Z"
           },
           "ScheduleDueDateMethod": {
             "type": "string",
@@ -10773,7 +10933,8 @@
             "example": "2022-07-21T07:14:08Z"
           },
           "NumberOfWorkItemsCreated": {
-            "type": "string",
+            "type": "number",
+            "format": "int32",
             "description": "The number of Work Items created using this Work Template",
             "example": 2
           },
@@ -11142,7 +11303,7 @@
         "properties": {
           "ResourcePermaKey": {
             "type": "string",
-            "description": "The key for the resource that has been created or updated",
+            "description": "The key for the resource that has been created",
             "example": "kCsVf7svWQw"
           },
           "ResourceType": {
@@ -11150,16 +11311,16 @@
             "enum": [
               "User"
             ],
-            "description": "The type of resource that has been created or updated",
+            "description": "The type of resource that has been created",
             "example": "User"
           },
           "ActionType": {
             "type": "string",
-            "description": "The key for the resource that has been created or updated",
+            "description": "The key for the resource that has been created",
             "enum": [
               "Inserted"
             ],
-            "example": "Updated"
+            "example": "Inserted"
           },
           "TimeStamp": {
             "type": "string",
@@ -11216,15 +11377,19 @@
       "UnauthorizedAccess": {
         "description": "A generic response shown when the API cannot confirm the authentication creditials provided",
         "value": {
-          "statusCode": "401",
-          "message": "JWT not present."
+          "error": {
+            "statusCode": "401",
+            "message": "JWT not present."
+          }
         }
       },
       "NotFound": {
         "description": "A generic response shown when the API cannot find a requested entity",
         "value": {
-          "code": "4004",
-          "message": "Not Found"
+          "error": {
+            "code": "4004",
+            "message": "Not Found"
+          }
         }
       },
       "elongated_5001": {
