@@ -1181,9 +1181,9 @@
                 ],
                 "ClientTeam": [
                   {
-                      "MemberKey": "2q2wx44pTBNh",
-                      "MemberType": "User",
-                      "RoleType": "ClientManager"
+                    "MemberKey": "2q2wx44pTBNh",
+                    "MemberType": "User",
+                    "RoleType": "ClientManager"
                   }
                 ]
               }
@@ -1305,21 +1305,25 @@
                     "LinkedInLink": "linkedin.com/sampleName",
                     "TwitterLink": "twitter.com/sampleName",
                     "SkypeLink": "skype.com/sampleName",
-                    "Addresses": {
-                      "AddressKey": "e150a05a-2dea-4292-8bc8-03398c9384e4",
-                      "AddressLines": "45 Sample Street",
-                      "City": "Alexandria",
-                      "StateProvinceCounty": "NSW",
-                      "ZipCode": "2015",
-                      "CountryCode": "AU",
-                      "Label": "Physical"
-                    },
-                    "PhoneNumbers": {
-                      "PhoneNumberKey": "6e0b9ace-24b1-4328-a922-3b8be5ef5052",
-                      "Number": "1234567890",
-                      "CountryCode": "AU",
-                      "Label": "Work"
-                    }
+                    "Addresses": [
+                      {
+                        "AddressKey": "e150a05a-2dea-4292-8bc8-03398c9384e4",
+                        "AddressLines": "45 Sample Street",
+                        "City": "Alexandria",
+                        "StateProvinceCounty": "NSW",
+                        "ZipCode": "2015",
+                        "CountryCode": "AU",
+                        "Label": "Physical"
+                      }
+                    ],
+                    "PhoneNumbers": [
+                      {
+                        "PhoneNumberKey": "6e0b9ace-24b1-4328-a922-3b8be5ef5052",
+                        "Number": "1234567890",
+                        "CountryCode": "AU",
+                        "Label": "Work"
+                      }
+                    ]
                   }
                 }
               }
@@ -1499,21 +1503,25 @@
                     "LinkedInLink": "linkedin.com/sampleName",
                     "TwitterLink": "twitter.com/sampleName",
                     "SkypeLink": "skype.com/sampleName",
-                    "Addresses": {
-                      "AddressKey": "e150a05a-2dea-4292-8bc8-03398c9384e4",
-                      "AddressLines": "45 Sample Street",
-                      "City": "Alexandria",
-                      "StateProvinceCounty": "NSW",
-                      "ZipCode": "2015",
-                      "CountryCode": "AU",
-                      "Label": "Physical"
-                    },
-                    "PhoneNumbers": {
-                      "PhoneNumberKey": "6e0b9ace-24b1-4328-a922-3b8be5ef5052",
-                      "Number": "1234567890",
-                      "CountryCode": "AU",
-                      "Label": "Work"
-                    }
+                    "Addresses": [
+                      {
+                        "AddressKey": "e150a05a-2dea-4292-8bc8-03398c9384e4",
+                        "AddressLines": "45 Sample Street",
+                        "City": "Alexandria",
+                        "StateProvinceCounty": "NSW",
+                        "ZipCode": "2015",
+                        "CountryCode": "AU",
+                        "Label": "Physical"
+                      }
+                    ],
+                    "PhoneNumbers": [
+                      {
+                        "PhoneNumberKey": "6e0b9ace-24b1-4328-a922-3b8be5ef5052",
+                        "Number": "1234567890",
+                        "CountryCode": "AU",
+                        "Label": "Work"
+                      }
+                    ]
                   },
                   "ClientTeam": [
                     {
@@ -1744,19 +1752,23 @@
                   "LinkedInLink": "linkedin.com/sampleName",
                   "TwitterLink": "twitter.com/sampleName",
                   "SkypeLink": "skype.com/sampleName",
-                  "Addresses": {
-                    "AddressLines": "45 Sample Street",
-                    "City": "Alexandria",
-                    "StateProvinceCounty": "NSW",
-                    "ZipCode": "2015",
-                    "CountryCode": "AU",
-                    "Label": "Physical"
-                  },
-                  "PhoneNumbers": {
-                    "Number": "1234567890",
-                    "CountryCode": "AU",
-                    "Label": "Work"
-                  }
+                  "Addresses": [
+                    {
+                      "AddressLines": "45 Sample Street",
+                      "City": "Alexandria",
+                      "StateProvinceCounty": "NSW",
+                      "ZipCode": "2015",
+                      "CountryCode": "AU",
+                      "Label": "Physical"
+                    }
+                  ],
+                  "PhoneNumbers": [
+                    {
+                      "Number": "1234567890",
+                      "CountryCode": "AU",
+                      "Label": "Work"
+                    }
+                  ]
                 }
               }
             }
@@ -2168,10 +2180,12 @@
                     "SalesTaxBasis": null,
                     "SalesTaxPeriod": null,
                     "Sells": null,
-                    "RegistrationNumbers": {
-                      "RegistrationNumber": "12-3456789",
-                      "Type": "Social Security Number (SSN)"
-                    },
+                    "RegistrationNumbers": [
+                      {
+                        "RegistrationNumber": "12-3456789",
+                        "Type": "Social Security Number (SSN)"
+                      }
+                    ],
                     "Notes": {
                       "Body": "This is a sample note text.",
                       "Type": "Basic"
@@ -2194,21 +2208,25 @@
                     "LinkedInLink": "linkedin.com/sampleName",
                     "TwitterLink": "twitter.com/sampleName",
                     "SkypeLink": "skype.com/sampleName",
-                    "Addresses": {
-                      "AddressKey": "e150a05a-2dea-4292-8bc8-03398c9384e4",
-                      "AddressLines": "45 Sample Street",
-                      "City": "Alexandria",
-                      "StateProvinceCounty": "NSW",
-                      "ZipCode": "2015",
-                      "CountryCode": "AU",
-                      "Label": "Physical"
-                    },
-                    "PhoneNumbers": {
-                      "PhoneNumberKey": "6e0b9ace-24b1-4328-a922-3b8be5ef5052",
-                      "Number": "1234567890",
-                      "CountryCode": "AU",
-                      "Label": "Work"
-                    }
+                    "Addresses": [
+                      {
+                        "AddressKey": "e150a05a-2dea-4292-8bc8-03398c9384e4",
+                        "AddressLines": "45 Sample Street",
+                        "City": "Alexandria",
+                        "StateProvinceCounty": "NSW",
+                        "ZipCode": "2015",
+                        "CountryCode": "AU",
+                        "Label": "Physical"
+                      }
+                    ],
+                    "PhoneNumbers": [
+                      {
+                        "PhoneNumberKey": "6e0b9ace-24b1-4328-a922-3b8be5ef5052",
+                        "Number": "1234567890",
+                        "CountryCode": "AU",
+                        "Label": "Work"
+                      }
+                    ]
                   }
                 }
               }
@@ -2371,7 +2389,7 @@
                     "BaseCurrency": null,
                     "GstBasis": null,
                     "GstPeriod": null,
-                    "IncomeTaxInstallmentPeriod": "Quaterly",
+                    "IncomeTaxInstallmentPeriod": "Quarterly",
                     "IsVATRegistered": null,
                     "OrganizationValuation": null,
                     "PaysTax": null,
@@ -2382,10 +2400,12 @@
                     "SalesTaxBasis": null,
                     "SalesTaxPeriod": null,
                     "Sells": null,
-                    "RegistrationNumbers": {
-                      "RegistrationNumber": "12-3456789",
-                      "Type": "Social Security Number (SSN)"
-                    },
+                    "RegistrationNumbers": [
+                      {
+                        "RegistrationNumber": "12-3456789",
+                        "Type": "Social Security Number (SSN)"
+                      }
+                    ],
                     "Notes": {
                       "Body": "This is a sample note text.",
                       "Type": "Basic"
@@ -2410,21 +2430,25 @@
                     "LinkedInLink": "linkedin.com/sampleName",
                     "TwitterLink": "twitter.com/sampleName",
                     "SkypeLink": "skype.com/sampleName",
-                    "Addresses": {
-                      "AddressKey": "e150a05a-2dea-4292-8bc8-03398c9384e4",
-                      "AddressLines": "45 Sample Street",
-                      "City": "Alexandria",
-                      "StateProvinceCounty": "NSW",
-                      "ZipCode": "2015",
-                      "CountryCode": "AU",
-                      "Label": "Physical"
-                    },
-                    "PhoneNumbers": {
-                      "PhoneNumberKey": "6e0b9ace-24b1-4328-a922-3b8be5ef5052",
-                      "Number": "1234567890",
-                      "CountryCode": "AU",
-                      "Label": "Work"
-                    }
+                    "Addresses": [
+                      {
+                        "AddressKey": "e150a05a-2dea-4292-8bc8-03398c9384e4",
+                        "AddressLines": "45 Sample Street",
+                        "City": "Alexandria",
+                        "StateProvinceCounty": "NSW",
+                        "ZipCode": "2015",
+                        "CountryCode": "AU",
+                        "Label": "Physical"
+                      }
+                    ],
+                    "PhoneNumbers": [
+                      {
+                        "PhoneNumberKey": "6e0b9ace-24b1-4328-a922-3b8be5ef5052",
+                        "Number": "1234567890",
+                        "CountryCode": "AU",
+                        "Label": "Work"
+                      }
+                    ]
                   }
                 }
               }
@@ -2577,7 +2601,7 @@
                     "BaseCurrency": null,
                     "GstBasis": null,
                     "GstPeriod": null,
-                    "IncomeTaxInstallmentPeriod": "Quaterly",
+                    "IncomeTaxInstallmentPeriod": "Quarterly",
                     "IsVATRegistered": null,
                     "OrganizationValuation": null,
                     "PaysTax": null,
@@ -2588,10 +2612,12 @@
                     "SalesTaxBasis": null,
                     "SalesTaxPeriod": null,
                     "Sells": null,
-                    "RegistrationNumbers": {
-                      "RegistrationNumber": "12-3456789",
-                      "Type": "Social Security Number (SSN)"
-                    },
+                    "RegistrationNumbers": [
+                      {
+                        "RegistrationNumber": "12-3456789",
+                        "Type": "Social Security Number (SSN)"
+                      }
+                    ],
                     "Notes": {
                       "Body": "This is a sample note text.",
                       "Type": "Basic"
@@ -2617,21 +2643,25 @@
                       "LinkedInLink": "linkedin.com/sampleName",
                       "TwitterLink": "twitter.com/sampleName",
                       "SkypeLink": "skype.com/sampleName",
-                      "Addresses": {
-                        "AddressKey": "e150a05a-2dea-4292-8bc8-03398c9384e4",
-                        "AddressLines": "45 Sample Street",
-                        "City": "Alexandria",
-                        "StateProvinceCounty": "NSW",
-                        "ZipCode": "2015",
-                        "CountryCode": "AU",
-                        "Label": "Physical"
-                      },
-                      "PhoneNumbers": {
-                        "PhoneNumberKey": "6e0b9ace-24b1-4328-a922-3b8be5ef5052",
-                        "Number": "1234567890",
-                        "CountryCode": "AU",
-                        "Label": "Work"
-                      }
+                      "Addresses": [
+                        {
+                          "AddressKey": "e150a05a-2dea-4292-8bc8-03398c9384e4",
+                          "AddressLines": "45 Sample Street",
+                          "City": "Alexandria",
+                          "StateProvinceCounty": "NSW",
+                          "ZipCode": "2015",
+                          "CountryCode": "AU",
+                          "Label": "Physical"
+                        }
+                      ],
+                      "PhoneNumbers": [
+                        {
+                          "PhoneNumberKey": "6e0b9ace-24b1-4328-a922-3b8be5ef5052",
+                          "Number": "1234567890",
+                          "CountryCode": "AU",
+                          "Label": "Work"
+                        }
+                      ]
                     }
                   ],
                   "ClientTeam": [
@@ -3319,9 +3349,15 @@
               "application/json": {
                 "schema": {
                   "oneOf": [
-                    {"$ref": "#/components/schemas/ResourceNotFound"},
-                    {"$ref": "#/components/examples/File_key_not_present"},
-                    {"$ref": "#/components/examples/No_File_context"}
+                    {
+                      "$ref": "#/components/schemas/ResourceNotFound"
+                    },
+                    {
+                      "$ref": "#/components/examples/File_key_not_present"
+                    },
+                    {
+                      "$ref": "#/components/examples/No_File_context"
+                    }
                   ]
                 },
                 "examples": {
@@ -3913,7 +3949,7 @@
               ]
             },
             "examples": {
-              "fullName": {
+              "FullName": {
                 "value": "FullName eq 'Sample Company'",
                 "summary": "The full name of the organization equals 'Sample Company'"
               },
@@ -4086,7 +4122,7 @@
                     "TradingName": null,
                     "AnnualRevenue": 6000000.5,
                     "BaseCurrency": null,
-                    "GstBasis": "Invoice",
+                    "GstBasis": "Accruals",
                     "GstPeriod": "Monthly",
                     "IncomeTaxInstallmentPeriod": "Quarterly",
                     "IsVATRegistered": null,
@@ -4211,7 +4247,7 @@
                   "TradingName": null,
                   "AnnualRevenue": 6000000.5,
                   "BaseCurrency": null,
-                  "GstBasis": "Invoice",
+                  "GstBasis": "Accruals",
                   "GstPeriod": "Monthly",
                   "IncomeTaxInstallmentPeriod": "Quarterly",
                   "IsVATRegistered": null,
@@ -4257,28 +4293,32 @@
                     "LinkedInLink": "linkedin.com/sampleName",
                     "TwitterLink": "twitter.com/sampleName",
                     "SkypeLink": "skype.com/sampleName",
-                    "Addresses": {
-                      "AddressKey": "e150a05a-2dea-4292-8bc8-03398c9384e4",
-                      "AddressLines": "45 Sample Street",
-                      "City": "Alexandria",
-                      "StateProvinceCounty": "NSW",
-                      "ZipCode": "2015",
-                      "CountryCode": "AU",
-                      "Label": "Physical"
-                    },
-                    "PhoneNumbers": {
-                      "PhoneNumberKey": "6e0b9ace-24b1-4328-a922-3b8be5ef5052",
-                      "Number": "1234567890",
-                      "CountryCode": "AU",
-                      "Label": "Work"
-                    }
+                    "Addresses": [
+                      {
+                        "AddressKey": "e150a05a-2dea-4292-8bc8-03398c9384e4",
+                        "AddressLines": "45 Sample Street",
+                        "City": "Alexandria",
+                        "StateProvinceCounty": "NSW",
+                        "ZipCode": "2015",
+                        "CountryCode": "AU",
+                        "Label": "Physical"
+                      }
+                    ],
+                    "PhoneNumbers": [
+                      {
+                        "PhoneNumberKey": "6e0b9ace-24b1-4328-a922-3b8be5ef5052",
+                        "Number": "1234567890",
+                        "CountryCode": "AU",
+                        "Label": "Work"
+                      }
+                    ]
                   }
                 ],
                 "ClientTeam": [
                   {
-                      "MemberKey": "2q2wx44pTBNh",
-                      "MemberType": "User",
-                      "RoleType": "ClientManager"
+                    "MemberKey": "2q2wx44pTBNh",
+                    "MemberType": "User",
+                    "RoleType": "ClientManager"
                   }
                 ]
               }
@@ -4359,7 +4399,7 @@
                     "TradingName": null,
                     "AnnualRevenue": 6000000.5,
                     "BaseCurrency": null,
-                    "GstBasis": "Invoice",
+                    "GstBasis": "Accruals",
                     "GstPeriod": "Monthly",
                     "IncomeTaxInstallmentPeriod": "Quarterly",
                     "IsVATRegistered": null,
@@ -4407,21 +4447,25 @@
                       "LinkedInLink": "linkedin.com/samplecompany",
                       "TwitterLink": "twitter.com/samplecompany",
                       "SkypeLink": "skype.com/samplecompany",
-                      "Addresses": {
-                        "AddressKey": "e150a05a-2dea-4292-8bc8-03398c9384e4",
-                        "AddressLines": "45 Sample Street",
-                        "City": "Alexandria",
-                        "StateProvinceCounty": "NSW",
-                        "ZipCode": "2015",
-                        "CountryCode": "AU",
-                        "Label": "Physical"
-                      },
-                      "PhoneNumbers": {
-                        "PhoneNumberKey": "6e0b9ace-24b1-4328-a922-3b8be5ef5052",
-                        "Number": "1234567890",
-                        "CountryCode": "AU",
-                        "Label": "Work"
-                      }
+                      "Addresses": [
+                        {
+                          "AddressKey": "e150a05a-2dea-4292-8bc8-03398c9384e4",
+                          "AddressLines": "45 Sample Street",
+                          "City": "Alexandria",
+                          "StateProvinceCounty": "NSW",
+                          "ZipCode": "2015",
+                          "CountryCode": "AU",
+                          "Label": "Physical"
+                        }
+                      ],
+                      "PhoneNumbers": [
+                        {
+                          "PhoneNumberKey": "6e0b9ace-24b1-4328-a922-3b8be5ef5052",
+                          "Number": "1234567890",
+                          "CountryCode": "AU",
+                          "Label": "Work"
+                        }
+                      ]
                     }
                   ]
                 }
@@ -4588,7 +4632,7 @@
                     "TradingName": null,
                     "AnnualRevenue": 6000000.5,
                     "BaseCurrency": null,
-                    "GstBasis": "Invoice",
+                    "GstBasis": "Accruals",
                     "GstPeriod": "Monthly",
                     "IncomeTaxInstallmentPeriod": "Quarterly",
                     "IsVATRegistered": null,
@@ -4636,21 +4680,25 @@
                       "LinkedInLink": "linkedin.com/samplecompany",
                       "TwitterLink": "twitter.com/samplecompany",
                       "SkypeLink": "skype.com/samplecompany",
-                      "Addresses": {
-                        "AddressKey": "e150a05a-2dea-4292-8bc8-03398c9384e4",
-                        "AddressLines": "45 Sample Street",
-                        "City": "Alexandria",
-                        "StateProvinceCounty": "NSW",
-                        "ZipCode": "2015",
-                        "CountryCode": "AU",
-                        "Label": "Physical"
-                      },
-                      "PhoneNumbers": {
-                        "PhoneNumberKey": "6e0b9ace-24b1-4328-a922-3b8be5ef5052",
-                        "Number": "1234567890",
-                        "CountryCode": "AU",
-                        "Label": "Work"
-                      }
+                      "Addresses": [
+                        {
+                          "AddressKey": "e150a05a-2dea-4292-8bc8-03398c9384e4",
+                          "AddressLines": "45 Sample Street",
+                          "City": "Alexandria",
+                          "StateProvinceCounty": "NSW",
+                          "ZipCode": "2015",
+                          "CountryCode": "AU",
+                          "Label": "Physical"
+                        }
+                      ],
+                      "PhoneNumbers": [
+                        {
+                          "PhoneNumberKey": "6e0b9ace-24b1-4328-a922-3b8be5ef5052",
+                          "Number": "1234567890",
+                          "CountryCode": "AU",
+                          "Label": "Work"
+                        }
+                      ]
                     }
                   ],
                   "Contacts": [
@@ -4941,27 +4989,31 @@
                   "LinkedInLink": "linkedin.com/sampleName",
                   "TwitterLink": "twitter.com/sampleName",
                   "SkypeLink": "skype.com/sampleName",
-                  "Addresses": {
-                    "AddressKey": "e150a05a-2dea-4292-8bc8-03398c9384e4",
-                    "AddressLines": "45 Sample Street",
-                    "City": "Alexandria",
-                    "StateProvinceCounty": "NSW",
-                    "ZipCode": "2015",
-                    "CountryCode": "AU",
-                    "Label": "Physical"
-                  },
-                  "PhoneNumbers": {
-                    "PhoneNumberKey": "6e0b9ace-24b1-4328-a922-3b8be5ef5052",
-                    "Number": "1234567890",
-                    "CountryCode": "AU",
-                    "Label": "Work"
-                  }
+                  "Addresses": [
+                    {
+                      "AddressKey": "e150a05a-2dea-4292-8bc8-03398c9384e4",
+                      "AddressLines": "45 Sample Street",
+                      "City": "Alexandria",
+                      "StateProvinceCounty": "NSW",
+                      "ZipCode": "2015",
+                      "CountryCode": "AU",
+                      "Label": "Physical"
+                    }
+                  ],
+                  "PhoneNumbers": [
+                    {
+                      "PhoneNumberKey": "6e0b9ace-24b1-4328-a922-3b8be5ef5052",
+                      "Number": "1234567890",
+                      "CountryCode": "AU",
+                      "Label": "Work"
+                    }
+                  ]
                 },
                 "ClientTeam": [
                   {
-                      "MemberKey": "2q2wx44pTBNh",
-                      "MemberType": "User",
-                      "RoleType": "ClientManager"
+                    "MemberKey": "2q2wx44pTBNh",
+                    "MemberType": "User",
+                    "RoleType": "ClientManager"
                   }
                 ]
               }
@@ -8176,7 +8228,6 @@
                 "UserDefinedRole1",
                 "UserDefinedRole2"
               ]
-
             }
           }
         }
