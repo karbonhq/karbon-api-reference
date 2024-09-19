@@ -1478,10 +1478,16 @@
                   "RestrictionLevel": "Public",
                   "PrimaryContact": "Duncan Moore",
                   "LastModifiedDateTime": "2022-07-05T07:30:13.7188114Z",
-                  "Members": {
-                    "ContactKey": "34yxkY51knn7",
-                    "OrganizationKey": "4ncPZ7q96SGc"
-                  },
+                  "Members": [
+                    {
+                      "ContactKey": "34yxkY51knn7",
+                      "OrganizationKey": null
+                    },
+                    {
+                      "ContactKey": null,
+                      "OrganizationKey": "4ncPZ7q96SGc"
+                    }
+                  ],
                   "EntityDescription": {
                     "Text": "Bicycle rental service in the New jersey area."
                   },
@@ -2186,10 +2192,12 @@
                         "Type": "Social Security Number (SSN)"
                       }
                     ],
-                    "Notes": {
-                      "Body": "This is a sample note text.",
-                      "Type": "Basic"
-                    }
+                    "Notes": [
+                      {
+                        "Body": "This is a sample note text.",
+                        "Type": "Basic"
+                      }
+                    ]
                   },
                   "BusinessCards": {
                     "BusinessCardKey": "2tBHyXtJBxBy",
@@ -2406,10 +2414,12 @@
                         "Type": "Social Security Number (SSN)"
                       }
                     ],
-                    "Notes": {
-                      "Body": "This is a sample note text.",
-                      "Type": "Basic"
-                    }
+                    "Notes": [
+                      {
+                        "Body": "This is a sample note text.",
+                        "Type": "Basic"
+                      }
+                    ]
                   },
                   "BusinessCards": {
                     "BusinessCardKey": "2tBHyXtJBxBy",
@@ -2618,10 +2628,12 @@
                         "Type": "Social Security Number (SSN)"
                       }
                     ],
-                    "Notes": {
-                      "Body": "This is a sample note text.",
-                      "Type": "Basic"
-                    }
+                    "Notes": [
+                      {
+                        "Body": "This is a sample note text.",
+                        "Type": "Basic"
+                      }
+                    ]
                   },
                   "BusinessCards": [
                     {
@@ -4145,10 +4157,12 @@
                         "Type": "Australian Business Number (ABN)"
                       }
                     ],
-                    "Notes": {
-                      "Body": "This is a sample note text.",
-                      "Type": "Basic"
-                    }
+                    "Notes": [
+                      {
+                        "Body": "This is a sample note text.",
+                        "Type": "Basic"
+                      }
+                    ]
                   }
                 }
               }
@@ -4270,10 +4284,12 @@
                       "Type": "Australian Business Number (ABN)"
                     }
                   ],
-                  "Notes": {
-                    "Body": "This is a sample note text.",
-                    "Type": "Basic"
-                  }
+                  "Notes": [
+                    {
+                      "Body": "This is a sample note text.",
+                      "Type": "Basic"
+                    }
+                  ]
                 },
                 "BusinessCards": [
                   {
@@ -4422,10 +4438,12 @@
                         "Type": "Australian Business Number (ABN)"
                       }
                     ],
-                    "Notes": {
-                      "Body": "This is a sample note text.",
-                      "Type": "Basic"
-                    }
+                    "Notes": [
+                      {
+                        "Body": "This is a sample note text.",
+                        "Type": "Basic"
+                      }
+                    ]
                   },
                   "BusinessCards": [
                     {
@@ -4655,10 +4673,12 @@
                         "Type": "Australian Business Number (ABN)"
                       }
                     ],
-                    "Notes": {
-                      "Body": "This is a sample note text.",
-                      "Type": "Basic"
-                    }
+                    "Notes": [
+                      {
+                        "Body": "This is a sample note text.",
+                        "Type": "Basic"
+                      }
+                    ]
                   },
                   "BusinessCards": [
                     {
@@ -4926,7 +4946,7 @@
                 "EntityDescription": {
                   "Text": "John Doe is the Managing Director of this organization."
                 },
-                "AccountingDetails": {
+                "AccountingDetail": {
                   "ContactKey": null,
                   "OrganizationKey": "SCwCq2M9pFm",
                   "BirthDate": null,
@@ -6428,7 +6448,7 @@
                     "description": "An optional key that will be used to sign webhook payloads, may contain letters, numbers, dashes or underscores",
                     "nullable": true,
                     "minLength": 16,
-                    "pattern": "^[A-Za-z0-9-_]$",
+                    "pattern": "^[A-Za-z0-9-_]+$",
                     "example": "96434E14-3C96-4F07-9FC2-CCC736827309"
                   }
                 }
@@ -7921,7 +7941,8 @@
           "RoleOrTitle": {
             "type": "string",
             "description": "The business role or title of the contact this Business Cards belongs to",
-            "example": "COO"
+            "example": "COO",
+            "nullable": true
           },
           "FacebookLink": {
             "type": "string",
@@ -8253,9 +8274,9 @@
             "description": "The day at which the contact (if a person) was born."
           },
           "DeathDate": {
-            "nullable": true,
             "type": "string",
             "format": "date-time",
+            "nullable": true,
             "description": "The day at which the contact (if a person) died."
           },
           "Salutation": {
@@ -9669,11 +9690,13 @@
             },
             "ClientOwner": {
               "type": "string",
+              "nullable": true,
               "example": "jessica.tse@samplecompany.com",
               "description": "The team member in your firm who looks after client relationship or is responsible for the vast majority of the work of the Contact. You can only use the UserKey or the email address of an existing team member."
             },
             "ClientManager": {
               "type": "string",
+              "nullable": true,
               "example": "rodney.muller@samplecompany.com",
               "description": "The team member in your firm who manages the work for Contact. You can only use the UserKey or the email address of an existing team member."
             },
@@ -11091,7 +11114,8 @@
           "error": {
             "required": [
               "code",
-              "message"
+              "message",
+              "details"
             ],
             "type": "object",
             "properties": {
@@ -11889,7 +11913,7 @@
         "description": "The error returned when the request path and request method does not match any configured API path and method",
         "value": {
           "error": {
-            "code": null,
+            "code": "4002",
             "message": "No HTTP resource was found that matches the request URI 'http://api.karbonhq.com/v3/<endpoint>"
           }
         }
