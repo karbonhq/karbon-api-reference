@@ -8275,7 +8275,8 @@
                 "ClientOwner",
                 "ClientManager",
                 "UserDefinedRole1",
-                "UserDefinedRole2"
+                "UserDefinedRole2",
+                null
               ]
             }
           }
@@ -8370,14 +8371,14 @@
           },
           "IncorporationState": {
             "type": [
-              "integer",
+              "string",
               "null"
             ],
             "description": "The state in which the contact (if a business or an organization) was incorporated."
           },
           "LegalName": {
             "type": [
-              "integer",
+              "string",
               "null"
             ],
             "description": "The legal name of the contact"
