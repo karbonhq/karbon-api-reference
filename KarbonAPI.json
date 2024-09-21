@@ -2209,43 +2209,45 @@
                       }
                     ]
                   },
-                  "BusinessCards": {
-                    "BusinessCardKey": "2tBHyXtJBxBy",
-                    "IsPrimaryCard": true,
-                    "WebSites": [
-                      "www.website.one",
-                      "www.website.two"
-                    ],
-                    "EmailAddresses": [
-                      "sample@example.com",
-                      "sample.two@example.com"
-                    ],
-                    "OrganizationKey": "ZGNmtYyLm4z",
-                    "RoleOrTitle": "COO",
-                    "FacebookLink": "facebook.com/sampleName",
-                    "LinkedInLink": "linkedin.com/sampleName",
-                    "TwitterLink": "twitter.com/sampleName",
-                    "SkypeLink": "skype.com/sampleName",
-                    "Addresses": [
-                      {
-                        "AddressKey": "e150a05a-2dea-4292-8bc8-03398c9384e4",
-                        "AddressLines": "45 Sample Street",
-                        "City": "Alexandria",
-                        "StateProvinceCounty": "NSW",
-                        "ZipCode": "2015",
-                        "CountryCode": "AU",
-                        "Label": "Physical"
-                      }
-                    ],
-                    "PhoneNumbers": [
-                      {
-                        "PhoneNumberKey": "6e0b9ace-24b1-4328-a922-3b8be5ef5052",
-                        "Number": "1234567890",
-                        "CountryCode": "AU",
-                        "Label": "Work"
-                      }
-                    ]
-                  }
+                  "BusinessCards": [
+                    {
+                      "BusinessCardKey": "2tBHyXtJBxBy",
+                      "IsPrimaryCard": true,
+                      "WebSites": [
+                        "www.website.one",
+                        "www.website.two"
+                      ],
+                      "EmailAddresses": [
+                        "sample@example.com",
+                        "sample.two@example.com"
+                      ],
+                      "OrganizationKey": "ZGNmtYyLm4z",
+                      "RoleOrTitle": "COO",
+                      "FacebookLink": "facebook.com/sampleName",
+                      "LinkedInLink": "linkedin.com/sampleName",
+                      "TwitterLink": "twitter.com/sampleName",
+                      "SkypeLink": "skype.com/sampleName",
+                      "Addresses": [
+                        {
+                          "AddressKey": "e150a05a-2dea-4292-8bc8-03398c9384e4",
+                          "AddressLines": "45 Sample Street",
+                          "City": "Alexandria",
+                          "StateProvinceCounty": "NSW",
+                          "ZipCode": "2015",
+                          "CountryCode": "AU",
+                          "Label": "Physical"
+                        }
+                      ],
+                      "PhoneNumbers": [
+                        {
+                          "PhoneNumberKey": "6e0b9ace-24b1-4328-a922-3b8be5ef5052",
+                          "Number": "1234567890",
+                          "CountryCode": "AU",
+                          "Label": "Work"
+                        }
+                      ]
+                    }
+                  ]
                 }
               }
             },
@@ -2431,45 +2433,47 @@
                       }
                     ]
                   },
-                  "BusinessCards": {
-                    "BusinessCardKey": "2tBHyXtJBxBy",
-                    "EntityType": "Contact",
-                    "EntityKey": "67zlxNyJSr8e",
-                    "IsPrimaryCard": true,
-                    "WebSites": [
-                      "www.website.one",
-                      "www.website.two"
-                    ],
-                    "EmailAddresses": [
-                      "sample@example.com",
-                      "sample.two@example.com"
-                    ],
-                    "OrganizationKey": "ZGNmtYyLm4z",
-                    "RoleOrTitle": "COO",
-                    "FacebookLink": "facebook.com/sampleName",
-                    "LinkedInLink": "linkedin.com/sampleName",
-                    "TwitterLink": "twitter.com/sampleName",
-                    "SkypeLink": "skype.com/sampleName",
-                    "Addresses": [
-                      {
-                        "AddressKey": "e150a05a-2dea-4292-8bc8-03398c9384e4",
-                        "AddressLines": "45 Sample Street",
-                        "City": "Alexandria",
-                        "StateProvinceCounty": "NSW",
-                        "ZipCode": "2015",
-                        "CountryCode": "AU",
-                        "Label": "Physical"
-                      }
-                    ],
-                    "PhoneNumbers": [
-                      {
-                        "PhoneNumberKey": "6e0b9ace-24b1-4328-a922-3b8be5ef5052",
-                        "Number": "1234567890",
-                        "CountryCode": "AU",
-                        "Label": "Work"
-                      }
-                    ]
-                  }
+                  "BusinessCards": [
+                    {
+                      "BusinessCardKey": "2tBHyXtJBxBy",
+                      "EntityType": "Contact",
+                      "EntityKey": "67zlxNyJSr8e",
+                      "IsPrimaryCard": true,
+                      "WebSites": [
+                        "www.website.one",
+                        "www.website.two"
+                      ],
+                      "EmailAddresses": [
+                        "sample@example.com",
+                        "sample.two@example.com"
+                      ],
+                      "OrganizationKey": "ZGNmtYyLm4z",
+                      "RoleOrTitle": "COO",
+                      "FacebookLink": "facebook.com/sampleName",
+                      "LinkedInLink": "linkedin.com/sampleName",
+                      "TwitterLink": "twitter.com/sampleName",
+                      "SkypeLink": "skype.com/sampleName",
+                      "Addresses": [
+                        {
+                          "AddressKey": "e150a05a-2dea-4292-8bc8-03398c9384e4",
+                          "AddressLines": "45 Sample Street",
+                          "City": "Alexandria",
+                          "StateProvinceCounty": "NSW",
+                          "ZipCode": "2015",
+                          "CountryCode": "AU",
+                          "Label": "Physical"
+                        }
+                      ],
+                      "PhoneNumbers": [
+                        {
+                          "PhoneNumberKey": "6e0b9ace-24b1-4328-a922-3b8be5ef5052",
+                          "Number": "1234567890",
+                          "CountryCode": "AU",
+                          "Label": "Work"
+                        }
+                      ]
+                    }
+                  ]
                 }
               }
             }
@@ -3375,12 +3379,6 @@
                   "oneOf": [
                     {
                       "$ref": "#/components/schemas/ResourceNotFound"
-                    },
-                    {
-                      "$ref": "#/components/examples/File_key_not_present"
-                    },
-                    {
-                      "$ref": "#/components/examples/No_File_context"
                     }
                   ]
                 },
@@ -5002,45 +5000,47 @@
                     }
                   ]
                 },
-                "BusinessCards": {
-                  "BusinessCardKey": "2tBHyXtJBxBy",
-                  "EntityType": "Organization",
-                  "EntityKey": "SCwCq2M9pFm",
-                  "IsPrimaryCard": true,
-                  "WebSites": [
-                    "www.website.one",
-                    "www.website.two"
-                  ],
-                  "EmailAddresses": [
-                    "sample@example.com",
-                    "sample.two@example.com"
-                  ],
-                  "OrganizationKey": null,
-                  "RoleOrTitle": null,
-                  "FacebookLink": "facebook.com/sampleName",
-                  "LinkedInLink": "linkedin.com/sampleName",
-                  "TwitterLink": "twitter.com/sampleName",
-                  "SkypeLink": "skype.com/sampleName",
-                  "Addresses": [
-                    {
-                      "AddressKey": "e150a05a-2dea-4292-8bc8-03398c9384e4",
-                      "AddressLines": "45 Sample Street",
-                      "City": "Alexandria",
-                      "StateProvinceCounty": "NSW",
-                      "ZipCode": "2015",
-                      "CountryCode": "AU",
-                      "Label": "Physical"
-                    }
-                  ],
-                  "PhoneNumbers": [
-                    {
-                      "PhoneNumberKey": "6e0b9ace-24b1-4328-a922-3b8be5ef5052",
-                      "Number": "1234567890",
-                      "CountryCode": "AU",
-                      "Label": "Work"
-                    }
-                  ]
-                },
+                "BusinessCards": [
+                  {
+                    "BusinessCardKey": "2tBHyXtJBxBy",
+                    "EntityType": "Organization",
+                    "EntityKey": "SCwCq2M9pFm",
+                    "IsPrimaryCard": true,
+                    "WebSites": [
+                      "www.website.one",
+                      "www.website.two"
+                    ],
+                    "EmailAddresses": [
+                      "sample@example.com",
+                      "sample.two@example.com"
+                    ],
+                    "OrganizationKey": null,
+                    "RoleOrTitle": null,
+                    "FacebookLink": "facebook.com/sampleName",
+                    "LinkedInLink": "linkedin.com/sampleName",
+                    "TwitterLink": "twitter.com/sampleName",
+                    "SkypeLink": "skype.com/sampleName",
+                    "Addresses": [
+                      {
+                        "AddressKey": "e150a05a-2dea-4292-8bc8-03398c9384e4",
+                        "AddressLines": "45 Sample Street",
+                        "City": "Alexandria",
+                        "StateProvinceCounty": "NSW",
+                        "ZipCode": "2015",
+                        "CountryCode": "AU",
+                        "Label": "Physical"
+                      }
+                    ],
+                    "PhoneNumbers": [
+                      {
+                        "PhoneNumberKey": "6e0b9ace-24b1-4328-a922-3b8be5ef5052",
+                        "Number": "1234567890",
+                        "CountryCode": "AU",
+                        "Label": "Work"
+                      }
+                    ]
+                  }
+                ],
                 "ClientTeam": [
                   {
                     "MemberKey": "2q2wx44pTBNh",
@@ -8234,14 +8234,9 @@
       },
       "BusinessCardsRequestAsArray": {
         "description": "A collection of business cards",
-        "type": "object",
-        "properties": {
-          "BusinessCards": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/BusinessCardRequest"
-            }
-          }
+        "type": "array",
+        "items": {
+          "$ref": "#/components/schemas/BusinessCardRequest"
         }
       },
       "ClientTeam": {
@@ -9780,19 +9775,10 @@
             "$ref": "#/components/schemas/DetailsOfAccounting"
           },
           "BusinessCards": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/BusinessCard"
-            }
+            "$ref": "#/components/schemas/BusinessCardsRequestAsArray"
           },
           "ClientTeam": {
-            "type": [
-              "array",
-              "null"
-            ],
-            "items": {
-              "$ref": "#/components/schemas/ClientTeam"
-            }
+            "$ref": "#/components/schemas/ClientTeam"
           }
         }
       },
@@ -10345,7 +10331,9 @@
             "$ref": "#/components/schemas/CreateOrganizationResponse"
           },
           {
-            "$ref": "#/components/schemas/BusinessCardsRequestAsArray"
+            "BusinessCards": {
+              "$ref": "#/components/schemas/BusinessCardsRequestAsArray"
+            }
           }
         ]
       },
@@ -11759,53 +11747,6 @@
               "target": "workItem.<key>",
               "message": "Cannot assign Related Client Group as Client is not a member of this Group"
             }
-          }
-        }
-      },
-      "File_key_not_present": {
-        "description": "A response shown when an required fields are missing or malformed when uploading a file",
-        "value": {
-          "error": {
-            "code": "4003",
-            "message": "Invalid Model.",
-            "details": [
-              {
-                "code": "InvalidObject",
-                "target": "fileKey",
-                "message": null
-              },
-              {
-                "code": "InvalidProperty",
-                "target": "fileKey.String",
-                "message": "A value is required but was not present in the request."
-              },
-              {
-                "code": "InvalidProperty",
-                "target": "InvalidObject",
-                "message": "No File Context for the provided key"
-              }
-            ]
-          }
-        }
-      },
-      "No_File_context": {
-        "description": "A response shown when an required context fields are missing or malformed when uploading a file",
-        "value": {
-          "error": {
-            "code": "4003",
-            "message": "Invalid Model.",
-            "details": [
-              {
-                "code": "InvalidObject",
-                "target": "fileKey",
-                "message": null
-              },
-              {
-                "code": "InvalidProperty",
-                "target": "InvalidObject",
-                "message": "No File Context for the provided key"
-              }
-            ]
           }
         }
       },
