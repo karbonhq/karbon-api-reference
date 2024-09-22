@@ -126,7 +126,7 @@
         ],
         "description": "Invoice status updated",
         "requestBody": {
-          "description": "Information about the created or updated contact",
+          "description": "Information about the created or updated Invoice",
           "content": {
             "application/json": {
               "schema": {
@@ -144,7 +144,7 @@
         ],
         "description": "Note created or updated",
         "requestBody": {
-          "description": "Information about the created or updated contact",
+          "description": "Information about the created or updated Note",
           "content": {
             "application/json": {
               "schema": {
@@ -162,7 +162,7 @@
         ],
         "description": "User has accepted Karbon invite",
         "requestBody": {
-          "description": "Information about the created or updated contact",
+          "description": "Information about the user who has accepted their invite",
           "content": {
             "application/json": {
               "schema": {
@@ -180,7 +180,7 @@
         ],
         "description": "Work created or updated",
         "requestBody": {
-          "description": "Information about the created or updated contact",
+          "description": "Information about the created or updated WorkItem",
           "content": {
             "application/json": {
               "schema": {
@@ -202,28 +202,23 @@
         "summary": "Gets a list of Invoices",
         "parameters": [
           {
-            "in": "query",
-            "name": "$expand",
-            "example": "LineItems",
-            "schema": {
-              "type": "string",
-              "enum": [
-                "LineItems"
-              ]
-            },
-            "description": "Include additional invoice properties, such as lineitems"
+            "$ref": "#/components/parameters/ExpandLineItems"
           },
           {
             "in": "query",
-            "example": "InvoiceDate",
             "name": "$orderby",
             "schema": {
-              "type": "string",
-              "enum": [
-                "InvoiceDate",
-                "InvoiceDate asc",
-                "InvoiceDate desc"
-              ]
+              "type": "string"
+            },
+            "examples": {
+              "orderByInvoiceDate": {
+                "value": "InvoiceDate",
+                "summary": "Order results by InvoiceDate, oldest to newest"
+              },
+              "orderByInvoiceDateDesc": {
+                "value": "InvoiceDate desc",
+                "summary": "Order results by InvoiceDate, newest to oldest"
+              }
             },
             "description": "Order responses by invoice date"
           }
@@ -231,7 +226,7 @@
         "description": "Use the `GET` method on this endpoint to receive a list of Invoices",
         "responses": {
           "200": {
-            "description": "Successful operation",
+            "description": "Successful Invoices GET operation",
             "content": {
               "application/json": {
                 "schema": {
@@ -331,22 +326,13 @@
             "description": "The Karbon-generated Invoice key"
           },
           {
-            "in": "query",
-            "name": "$expand",
-            "example": "LineItems",
-            "schema": {
-              "type": "string",
-              "enum": [
-                "LineItems"
-              ]
-            },
-            "description": "Include additional invoice properties, such as lineitems"
+            "$ref": "#/components/parameters/ExpandLineItems"
           }
         ],
         "description": "Use the `GET` method on this endpoint to receive the details of an Invoice specified using the InvoiceKey.",
         "responses": {
           "200": {
-            "description": "Successful operation",
+            "description": "Successful Invoice GET operation",
             "content": {
               "application/json": {
                 "schema": {
@@ -886,13 +872,18 @@
             "name": "$orderby",
             "schema": {
               "type": "string",
-              "enum": [
-                "FullName",
-                "FullName desc"
-              ],
               "default": "ClientGroupKey"
             },
-            "example": "FullName",
+            "examples": {
+              "fullName": {
+                "value": "FullName",
+                "summary": "Order by Full name in ascending (A-Z) order"
+              },
+              "fullNameDesc": {
+                "value": "FullName desc",
+                "summary": "Order by Full name in descending (Z-A) order"
+              }
+            },
             "description": "When this parameter is combined with the URI, this endpoint will return a list of Client Groups, sorted by the available properties.\n"
           },
           {
@@ -1424,13 +1415,22 @@
             "in": "query",
             "name": "$expand",
             "schema": {
-              "type": "string",
-              "enum": [
-                "BusinessCard",
-                "ClientTeam"
-              ]
+              "type": "string"
             },
-            "example": "BusinessCard",
+            "examples": {
+              "BusinessCard" :{
+                "value": "BusinessCard",
+                "summary": "Include the Business Card for the Client Group the API response"
+              },
+              "ClientTeam": {
+                "value": "ClientTeam",
+                "summary": "Include the Client Team assigned to the Client Group in the API response"          
+              },
+              "BusinessCardAndClientTeam": {
+                "value": "BusinessCard,ClientTeam",
+                "summary": "Include the Business Card and the Client Team assigned to the Client Group in the API response"
+              }
+            },
             "description": "When this parameter is specified in the query string this endpoint will also return the Business Card and/or Client Team of the Client Group.\n"
           }
         ],
@@ -2012,15 +2012,26 @@
             "in": "query",
             "name": "$filter",
             "schema": {
-              "type": "string",
-              "enum": [
-                "FullName",
-                "EmailAddress",
-                "PhoneNumber",
-                "ContactType"
-              ]
+              "type": "string"
             },
-            "example": "FullName eq 'Sample Management Team'",
+            "examples": {
+              "FullName": {
+                "value": "FullName eq 'Sample Management Team",
+                "summary": "Return only the Contacts where the Full Name matches 'Sample Client Team'"
+              },
+              "EmailAddress": {
+                "value": "EmailAddress eq 'karbon@example.com'",
+                "summary": "Return only the Contacts where the Email Address matches 'karbon@example.com'"
+              },
+              "PhoneNumber": {
+                "value": "PhoneNumber eq '220114588'",
+                "summary": "Return only the Contacts where the Phone Number matches '220114588'"
+              },
+              "ContactType": {
+                "value": "ContactType eq 'Client'",
+                "summary": "Return only the Contacts where the Contact Type matches 'Client'"
+              }
+            },
             "description": "When this parameter is combined with the URI, this endpoint will return a subset of the Contacts that satisfy the `$filter` expression.\n"
           },
           {
@@ -3962,18 +3973,16 @@
             "in": "query",
             "name": "$filter",
             "schema": {
-              "type": "string",
-              "enum": [
-                "FullName",
-                "EmailAddress",
-                "Tags",
-                "ContactType"
-              ]
+              "type": "string"
             },
             "examples": {
-              "FullName": {
+              "fullName": {
                 "value": "FullName eq 'Sample Company'",
                 "summary": "The full name of the organization equals 'Sample Company'"
+              },
+              "emailAddress": {
+                "value": "ExmailAddress eq 'karbon@example.com'",
+                "summary": "The email address of the organization equals 'karbon@example.com'"
               },
               "contactTypeEquals": {
                 "value": "ContactType eq 'Prospect'",
@@ -4587,15 +4596,29 @@
             "in": "query",
             "name": "$expand",
             "schema": {
-              "type": "string",
-              "enum": [
-                "BusinessCards",
-                "ClientTeam",
-                "Contacts"
-              ]
+              "type": "string"
             },
-            "example": "BusinessCards,Contacts",
-            "description": "When this parameter is combined with the URI, this endpoint will also return Business Cards, Client Team and/or Contacts associated with the Organization.\n"
+            "examples": {
+              "examples": {
+                "BusinessCard" :{
+                  "value": "BusinessCard",
+                  "summary": "Include the Business Card for the Organization the API response"
+                },
+                "ClientTeam": {
+                  "value": "ClientTeam",
+                  "summary": "Include the Client Team assigned to the Organization in the API response"          
+                },
+                "Contacts": {
+                  "value": "Contacts",
+                  "summary": "Include the Contacts related to the Organization in the API response"          
+                },
+                "BusinessCardAndClientTeam": {
+                  "value": "BusinessCard,ClientTeam",
+                  "summary": "Include the Business Card and the Client Team assigned to the Organization in the API response"
+                }
+              }
+            },
+            "description": "When this parameter is combined with the URI, this endpoint will also return Business Cards, Client Team and/or Contacts associated with the Organization. Multiple properties can be returned by specifying a comma separated list.\n"
           }
         ],
         "description": "Use the `GET` method on this endpoint to receive the details of a Organization specified using the `Organizationkey`.\n\nUsing the query parameter available to this endpoint,  you can also include the Business Card details of the Organization in the response.\n",
@@ -5605,6 +5628,21 @@
                 }
               }
             }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResourceNotFound"
+                },
+                "examples": {
+                  "Unauthorized Access": {
+                    "$ref": "#/components/examples/UnauthorizedAccess"
+                  }
+                }
+              }
+            }
           }
         }
       }
@@ -5620,16 +5658,31 @@
             "in": "query",
             "name": "$filter",
             "schema": {
-              "type": "string",
-              "enum": [
-                "StartDate",
-                "EndDate",
-                "UserKey",
-                "WorkItemKeys",
-                "Status"
-              ]
+              "type": "string"
             },
-            "example": "Status eq 'Draft'",
+            "examples": {
+              "StartDate": {
+                "value": "StartDate gt 2024-01-01T00:00:00Z",
+                "summary": "Return Timesheets where the Timesheet Start Date after January 1, 2024"
+              },
+              "EndDate": {
+                "value": "EndDate lt 2024-03-01T00:00:00Z",
+                "summary": "Return Timesheets where the Timesheet End Date before March 1, 2024"
+              },
+              "UserKey": {
+                "value": "UserKey in ('2mYzTtly89Lq', '2Qy48WVCRBcP')",
+                "summary": "Return Timesheets where the UserKey is '2mYzTtly89Lq' or '2Qy48WVCRBcP'"
+              },
+              "WorkItemKeys": {
+                "value": "WorkItemKeys/any(x: x eq '5mGnTfly34Rf')",
+                "summary": "Return Timesheets where the Work Item key is '5mGnTfly34Rf' "
+              },
+              "Status": {
+                "value": "Status eq 'Draft'",
+                "summary": "Return Timesheets where the Timesheet status is 'Draft'"
+              }
+            },
+            
             "description": "When this parameter is combined with the URI, this endpoint will return a subset of the Timesheets that satisfy the `$filter` expression.\n"
           },
           {
@@ -5887,13 +5940,18 @@
             "in": "query",
             "name": "$filter",
             "schema": {
-              "type": "string",
-              "enum": [
-                "Name",
-                "EmailAddress"
-              ]
+              "type": "string"
             },
-            "example": "EmailAddress eq 'joe@samplecompany.com'",
+            "examples": {
+                "Name": {
+                  "value": "Name eq 'John Smith'",
+                  "summary": "Return the Users with the name 'John Smith'"
+                },
+                "EmailAddress": {
+                  "value": "EmailAddress eq 'joe@samplecompany.com'",
+                  "summary": "Return the Users with the Email Eddress 'joe@samplecompany.com'"
+                }
+            },
             "description": "When this parameter is combined with the URI, this endpoint will return a subset of the Users that satisfy the `$filter` expression.\n"
           },
           {
@@ -6528,19 +6586,38 @@
             "in": "query",
             "name": "$filter",
             "schema": {
-              "type": "string",
-              "enum": [
-                "AssigneeEmailAddress",
-                "ClientKey",
-                "DeadlineDate",
-                "PrimaryStatus",
-                "StartDate",
-                "Title",
-                "WorkStatus",
-                "WorkType"
-              ]
+              "type": "string"
             },
-            "example": "WorkType eq 'Payroll'",
+            "examples": {
+              "AssigneeEmailAddress": {
+                "value": "ClientKey eq 'karbon@example.com'",
+                "summary": "Returns only the Work Items where the Assignee Email is 'karbonhq@example.com'"
+              },
+              "ClientKey": {
+                "value": "ClientKey eq '2nvhdM1TmZk3'",
+                "summary": "Returns only the Work Items where the unqiue key of the Client Group, Contact, Organization or User is '2nvhdM1TmZk3'"
+              },
+              "PrimaryStatus": {
+                "value": "",
+                "summary": ""
+              },
+              "StartDate": {
+                "value": "StartDate ge 2024-01-01",
+                "summary": "Return only the Work Items where the Start Date is on or after January 1, 2024"
+              },
+              "Title": {
+                "value": "contains(ContactType, 'Client')",
+                "summary": "Return only the WorkItems which have a Title that contains the word 'Tax'"
+              },
+              "WorkStatus": {
+                "value": "WorkStatus eq 'InProgress'",
+                "summary": "Return only the Work Items with the Work Status 'In progress'"
+              },
+              "WorkType": {
+                "value": "WorkType eq 'Payroll'",
+                "summary": "Return only the Work Items with the Work Type 'Payroll'"
+              }
+            },
             "description": "When this parameter is combined with the URI, this endpoint will return a subset of the Work Items that satisfy the `$filter` expression.\n"
           },
           {
@@ -7453,19 +7530,42 @@
             "in": "query",
             "name": "$filter",
             "schema": {
-              "type": "string",
-              "enum": [
-                "Title",
-                "WorkTypeKey",
-                "HasScheduledClientTaskGroups",
-                "DraftHasChanges",
-                "PublishedDate",
-                "NumberOfWorkItemsCreated",
-                "DateLastWorkItemCreated",
-                "DateModified"
-              ]
+              "type": "string"
             },
-            "example": "Title eq 'Payroll processing'",
+            "examples": {
+              "Title": {
+                "value": "Title eq 'Payroll processing'",
+                "summary": "Return only Work Templates with the Title 'Payroll processing'"
+              },
+              "WorkTypeKey": {
+                "value": "WorkTypeKey eq '2Wj3ZqNzWtnQ'",
+                "summary": "Return only Work Templates with the WorkType key '2Wj3ZqNzWtnQ'"
+              },
+              "HasScheduledClientTaskGroups": {
+                "value": "HasScheduledClientTaskGroups eq false",
+                "summary": "Return only Work Templates without scheduled ClientTaskGroups"
+              },
+              "DraftHasChanges": {
+                "value": "DraftHasChanges eq false",
+                "summary": "Return only Work Templates without changes"
+              },
+              "PublishedDate": {
+                "value": "PublishedDate eq 2021-12-17T00:00:00Z",
+                "summary": "Return only Work Templates published on December 17, 2021"
+              },
+              "NumberOfWorkItemsCreated": {
+                "value": "NumberOfWorkItemsCreated eq 0",
+                "summary": "Return only Work Templates which have been used to create 0 Work Items"
+              },
+              "DateLastWorkItemCreated": {
+                "value": "DateLastWorkItemCreated eq 2022-11-07T00:00:00Z",
+                "summary": "Return only Work Templates where the Last Work Item created was November 7, 2022"
+              },
+              "DateModified": {
+                "value": "DateModified eq 2023-02-27T13:00:00Z",
+                "summary": "Return only Work Templates last modified at 1pm on 2023-02-27 (UTC)"
+              }
+            },            
             "description": "When this parameter is combined with the URI, this endpoint will return a subset of the Work Templates that satisfy the `$filter` expression.\n"
           },
           {
@@ -7696,6 +7796,20 @@
     "url": "https://developers.karbonhq.com/release-notes/"
   },
   "components": {
+    "parameters": {
+      "ExpandLineItems": {
+        "in": "query",
+        "name": "$expand",
+        "example": "LineItems",
+        "schema": {
+          "type": "string",
+          "enum": [
+            "LineItems"
+          ]
+        },
+        "description": "Include additional invoice properties, such as lineitems"
+      }
+    },
     "schemas": {
       "BillingInvoice": {
         "description": "A Karbon invoice",
