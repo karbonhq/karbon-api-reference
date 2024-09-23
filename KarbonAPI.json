@@ -126,7 +126,7 @@
         ],
         "description": "Invoice status updated",
         "requestBody": {
-          "description": "Information about the created or updated contact",
+          "description": "Information about the created or updated Invoice",
           "content": {
             "application/json": {
               "schema": {
@@ -144,7 +144,7 @@
         ],
         "description": "Note created or updated",
         "requestBody": {
-          "description": "Information about the created or updated contact",
+          "description": "Information about the created or updated Note",
           "content": {
             "application/json": {
               "schema": {
@@ -162,7 +162,7 @@
         ],
         "description": "User has accepted Karbon invite",
         "requestBody": {
-          "description": "Information about the created or updated contact",
+          "description": "Information about the user who has accepted their invite",
           "content": {
             "application/json": {
               "schema": {
@@ -180,7 +180,7 @@
         ],
         "description": "Work created or updated",
         "requestBody": {
-          "description": "Information about the created or updated contact",
+          "description": "Information about the created or updated WorkItem",
           "content": {
             "application/json": {
               "schema": {
@@ -202,28 +202,23 @@
         "summary": "Gets a list of Invoices",
         "parameters": [
           {
-            "in": "query",
-            "name": "$expand",
-            "example": "LineItems",
-            "schema": {
-              "type": "string",
-              "enum": [
-                "LineItems"
-              ]
-            },
-            "description": "Include additional invoice properties, such as lineitems"
+            "$ref": "#/components/parameters/ExpandLineItems"
           },
           {
             "in": "query",
-            "example": "InvoiceDate",
             "name": "$orderby",
             "schema": {
-              "type": "string",
-              "enum": [
-                "InvoiceDate",
-                "InvoiceDate asc",
-                "InvoiceDate desc"
-              ]
+              "type": "string"
+            },
+            "examples": {
+              "orderByInvoiceDate": {
+                "value": "InvoiceDate",
+                "summary": "Order results by InvoiceDate, oldest to newest"
+              },
+              "orderByInvoiceDateDesc": {
+                "value": "InvoiceDate desc",
+                "summary": "Order results by InvoiceDate, newest to oldest"
+              }
             },
             "description": "Order responses by invoice date"
           }
@@ -231,7 +226,7 @@
         "description": "Use the `GET` method on this endpoint to receive a list of Invoices",
         "responses": {
           "200": {
-            "description": "Successful operation",
+            "description": "Successful Invoices GET operation",
             "content": {
               "application/json": {
                 "schema": {
@@ -331,22 +326,13 @@
             "description": "The Karbon-generated Invoice key"
           },
           {
-            "in": "query",
-            "name": "$expand",
-            "example": "LineItems",
-            "schema": {
-              "type": "string",
-              "enum": [
-                "LineItems"
-              ]
-            },
-            "description": "Include additional invoice properties, such as lineitems"
+            "$ref": "#/components/parameters/ExpandLineItems"
           }
         ],
         "description": "Use the `GET` method on this endpoint to receive the details of an Invoice specified using the InvoiceKey.",
         "responses": {
           "200": {
-            "description": "Successful operation",
+            "description": "Successful Invoice GET operation",
             "content": {
               "application/json": {
                 "schema": {
@@ -473,9 +459,11 @@
                     },
                     "TotalAmount": {},
                     "Reference": {
-                      "type": "string",
+                      "type": [
+                        "string",
+                        "null"
+                      ],
                       "example": "Payment made in cash.",
-                      "nullable": true,
                       "maxLength": 250,
                       "description": "An optional reference to include with the payment."
                     },
@@ -884,13 +872,18 @@
             "name": "$orderby",
             "schema": {
               "type": "string",
-              "enum": [
-                "FullName",
-                "FullName desc"
-              ],
               "default": "ClientGroupKey"
             },
-            "example": "FullName",
+            "examples": {
+              "fullName": {
+                "value": "FullName",
+                "summary": "Order by Full name in ascending (A-Z) order"
+              },
+              "fullNameDesc": {
+                "value": "FullName desc",
+                "summary": "Order by Full name in descending (Z-A) order"
+              }
+            },
             "description": "When this parameter is combined with the URI, this endpoint will return a list of Client Groups, sorted by the available properties.\n"
           },
           {
@@ -1005,9 +998,27 @@
                       "type": "object",
                       "properties": {
                         "AccountingDetails": {
-                          "nullable": true,
-                          "type": "string",
+                          "type": [
+                            "string",
+                            "null"
+                          ],
                           "description": "The accounting details associated with the Client Group. This property will be `null`."
+                        }
+                      }
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "BusinessCard": {
+                          "$ref": "#/components/schemas/BusinessCard"
+                        }
+                      }
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "ClientTeam": {
+                          "$ref": "#/components/schemas/ClientTeam"
                         }
                       }
                     }
@@ -1025,7 +1036,16 @@
                   "RestrictionLevel": "Public",
                   "PrimaryContact": "Duncan Moore",
                   "LastModifiedDateTime": "2022-07-05T07:30:13.7188114Z",
-                  "Members": [],
+                  "Members": [
+                    {
+                      "ContactKey": null,
+                      "OrganizationKey": "X6Hm1D2Jvxf"
+                    },
+                    {
+                      "ContactKey": "CFbcmM5Lvzc",
+                      "OrganizationKey": null
+                    }
+                  ],
                   "EntityDescription": {
                     "Text": "Bicycle rental service in the New jersey area."
                   },
@@ -1101,7 +1121,39 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/CreateClientGroup"
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/CreateClientGroup"
+                  },
+                  {
+                    "type": "object",
+                    "properties": {
+                      "AccountingDetails": {
+                        "type": [
+                          "string",
+                          "null"
+                        ],
+                        "description": "The accounting details associated with the Client Group. This property will be `null`."
+                      }
+                    }
+                  },
+                  {
+                    "type": "object",
+                    "properties": {
+                      "BusinessCard": {
+                        "$ref": "#/components/schemas/BusinessCard"
+                      }
+                    }
+                  },
+                  {
+                    "type": "object",
+                    "properties": {
+                      "ClientTeam": {
+                        "$ref": "#/components/schemas/ClientTeam"
+                      }
+                    }
+                  }
+                ]
               },
               "example": {
                 "FullName": "Abigail Silvers",
@@ -1113,7 +1165,24 @@
                 "PrimaryContact": "Duncan Moore",
                 "EntityDescription": {
                   "Text": "Bicycle rental service in the New jersey area."
-                }
+                },
+                "Members": [
+                  {
+                    "ContactKey": null,
+                    "OrganizationKey": "X6Hm1D2Jvxf"
+                  },
+                  {
+                    "ContactKey": "CFbcmM5Lvzc",
+                    "OrganizationKey": null
+                  }
+                ],
+                "ClientTeam": [
+                  {
+                    "MemberKey": "2q2wx44pTBNh",
+                    "MemberType": "User",
+                    "RoleType": "ClientManager"
+                  }
+                ]
               }
             }
           }
@@ -1166,8 +1235,10 @@
                       "type": "object",
                       "properties": {
                         "AccountingDetails": {
-                          "nullable": true,
-                          "type": "string",
+                          "type": [
+                            "string",
+                            "null"
+                          ],
                           "description": "The accounting details associated with the Client Group. This property will be `null`."
                         }
                       }
@@ -1177,6 +1248,14 @@
                       "properties": {
                         "BusinessCard": {
                           "$ref": "#/components/schemas/BusinessCard"
+                        }
+                      }
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "ClientTeam": {
+                          "$ref": "#/components/schemas/ClientTeam"
                         }
                       }
                     }
@@ -1194,10 +1273,16 @@
                   "RestrictionLevel": "Public",
                   "PrimaryContact": "Duncan Moore",
                   "LastModifiedDateTime": "2022-07-05T07:30:13.7188114Z",
-                  "Members": {
-                    "ContactKey": "34yxkY51knn7",
-                    "OrganizationKey": "4ncPZ7q96SGc"
-                  },
+                  "Members": [
+                    {
+                      "ContactKey": "34yxkY51knn7",
+                      "OrganizationKey": null
+                    },
+                    {
+                      "ContactKey": null,
+                      "OrganizationKey": "4ncPZ7q96SGc"
+                    }
+                  ],
                   "EntityDescription": {
                     "Text": "Bicycle rental service in the New jersey area."
                   },
@@ -1219,21 +1304,25 @@
                     "LinkedInLink": "linkedin.com/sampleName",
                     "TwitterLink": "twitter.com/sampleName",
                     "SkypeLink": "skype.com/sampleName",
-                    "Addresses": {
-                      "AddressKey": "e150a05a-2dea-4292-8bc8-03398c9384e4",
-                      "AddressLines": "45 Sample Street",
-                      "City": "Alexandria",
-                      "StateProvinceCounty": "NSW",
-                      "ZipCode": "2015",
-                      "CountryCode": "AU",
-                      "Label": "Physical"
-                    },
-                    "PhoneNumbers": {
-                      "PhoneNumberKey": "6e0b9ace-24b1-4328-a922-3b8be5ef5052",
-                      "Number": 1234567890,
-                      "CountryCode": 61,
-                      "Label": "Work"
-                    }
+                    "Addresses": [
+                      {
+                        "AddressKey": "e150a05a-2dea-4292-8bc8-03398c9384e4",
+                        "AddressLines": "45 Sample Street",
+                        "City": "Alexandria",
+                        "StateProvinceCounty": "NSW",
+                        "ZipCode": "2015",
+                        "CountryCode": "AU",
+                        "Label": "Physical"
+                      }
+                    ],
+                    "PhoneNumbers": [
+                      {
+                        "PhoneNumberKey": "6e0b9ace-24b1-4328-a922-3b8be5ef5052",
+                        "Number": "1234567890",
+                        "CountryCode": "AU",
+                        "Label": "Work"
+                      }
+                    ]
                   }
                 }
               }
@@ -1326,13 +1415,22 @@
             "in": "query",
             "name": "$expand",
             "schema": {
-              "type": "string",
-              "enum": [
-                "BusinessCard",
-                "ClientTeam"
-              ]
+              "type": "string"
             },
-            "example": "BusinessCard",
+            "examples": {
+              "BusinessCard" :{
+                "value": "BusinessCard",
+                "summary": "Include the Business Card for the Client Group the API response"
+              },
+              "ClientTeam": {
+                "value": "ClientTeam",
+                "summary": "Include the Client Team assigned to the Client Group in the API response"          
+              },
+              "BusinessCardAndClientTeam": {
+                "value": "BusinessCard,ClientTeam",
+                "summary": "Include the Business Card and the Client Team assigned to the Client Group in the API response"
+              }
+            },
             "description": "When this parameter is specified in the query string this endpoint will also return the Business Card and/or Client Team of the Client Group.\n"
           }
         ],
@@ -1352,8 +1450,10 @@
                       "type": "object",
                       "properties": {
                         "AccountingDetails": {
-                          "nullable": true,
-                          "type": "string",
+                          "type": [
+                            "string",
+                            "null"
+                          ],
                           "description": "The accounting details associated with the Client Group. This property will be `null`."
                         }
                       }
@@ -1388,10 +1488,16 @@
                   "RestrictionLevel": "Public",
                   "PrimaryContact": "Duncan Moore",
                   "LastModifiedDateTime": "2022-07-05T07:30:13.7188114Z",
-                  "Members": {
-                    "ContactKey": "34yxkY51knn7",
-                    "OrganizationKey": "4ncPZ7q96SGc"
-                  },
+                  "Members": [
+                    {
+                      "ContactKey": "34yxkY51knn7",
+                      "OrganizationKey": null
+                    },
+                    {
+                      "ContactKey": null,
+                      "OrganizationKey": "4ncPZ7q96SGc"
+                    }
+                  ],
                   "EntityDescription": {
                     "Text": "Bicycle rental service in the New jersey area."
                   },
@@ -1413,21 +1519,25 @@
                     "LinkedInLink": "linkedin.com/sampleName",
                     "TwitterLink": "twitter.com/sampleName",
                     "SkypeLink": "skype.com/sampleName",
-                    "Addresses": {
-                      "AddressKey": "e150a05a-2dea-4292-8bc8-03398c9384e4",
-                      "AddressLines": "45 Sample Street",
-                      "City": "Alexandria",
-                      "StateProvinceCounty": "NSW",
-                      "ZipCode": "2015",
-                      "CountryCode": "AU",
-                      "Label": "Physical"
-                    },
-                    "PhoneNumbers": {
-                      "PhoneNumberKey": "6e0b9ace-24b1-4328-a922-3b8be5ef5052",
-                      "Number": 1234567890,
-                      "CountryCode": 61,
-                      "Label": "Work"
-                    }
+                    "Addresses": [
+                      {
+                        "AddressKey": "e150a05a-2dea-4292-8bc8-03398c9384e4",
+                        "AddressLines": "45 Sample Street",
+                        "City": "Alexandria",
+                        "StateProvinceCounty": "NSW",
+                        "ZipCode": "2015",
+                        "CountryCode": "AU",
+                        "Label": "Physical"
+                      }
+                    ],
+                    "PhoneNumbers": [
+                      {
+                        "PhoneNumberKey": "6e0b9ace-24b1-4328-a922-3b8be5ef5052",
+                        "Number": "1234567890",
+                        "CountryCode": "AU",
+                        "Label": "Work"
+                      }
+                    ]
                   },
                   "ClientTeam": [
                     {
@@ -1658,19 +1768,23 @@
                   "LinkedInLink": "linkedin.com/sampleName",
                   "TwitterLink": "twitter.com/sampleName",
                   "SkypeLink": "skype.com/sampleName",
-                  "Addresses": {
-                    "AddressLines": "45 Sample Street",
-                    "City": "Alexandria",
-                    "StateProvinceCounty": "NSW",
-                    "ZipCode": "2015",
-                    "CountryCode": "AU",
-                    "Label": "Physical"
-                  },
-                  "PhoneNumbers": {
-                    "Number": 1234567890,
-                    "CountryCode": 61,
-                    "Label": "Work"
-                  }
+                  "Addresses": [
+                    {
+                      "AddressLines": "45 Sample Street",
+                      "City": "Alexandria",
+                      "StateProvinceCounty": "NSW",
+                      "ZipCode": "2015",
+                      "CountryCode": "AU",
+                      "Label": "Physical"
+                    }
+                  ],
+                  "PhoneNumbers": [
+                    {
+                      "Number": "1234567890",
+                      "CountryCode": "AU",
+                      "Label": "Work"
+                    }
+                  ]
                 }
               }
             }
@@ -1898,15 +2012,26 @@
             "in": "query",
             "name": "$filter",
             "schema": {
-              "type": "string",
-              "enum": [
-                "FullName",
-                "EmailAddress",
-                "PhoneNumber",
-                "ContactType"
-              ]
+              "type": "string"
             },
-            "example": "FullName eq 'Sample Management Team'",
+            "examples": {
+              "FullName": {
+                "value": "FullName eq 'Sample Management Team",
+                "summary": "Return only the Contacts where the Full Name matches 'Sample Client Team'"
+              },
+              "EmailAddress": {
+                "value": "EmailAddress eq 'karbon@example.com'",
+                "summary": "Return only the Contacts where the Email Address matches 'karbon@example.com'"
+              },
+              "PhoneNumber": {
+                "value": "PhoneNumber eq '220114588'",
+                "summary": "Return only the Contacts where the Phone Number matches '220114588'"
+              },
+              "ContactType": {
+                "value": "ContactType eq 'Client'",
+                "summary": "Return only the Contacts where the Contact Type matches 'Client'"
+              }
+            },
             "description": "When this parameter is combined with the URI, this endpoint will return a subset of the Contacts that satisfy the `$filter` expression.\n"
           },
           {
@@ -2052,7 +2177,7 @@
                     "Text": "Birthday on June 23."
                   },
                   "AccountingDetail": {
-                    "ContactPermaKey": "4XHEn8T3J4Y6",
+                    "ContactPermaKey": "67zlxNyJSr8e",
                     "OrganizationPermaKey": null,
                     "BirthDate": "1969-08-05T00:00:00Z",
                     "DeathDate": null,
@@ -2082,48 +2207,58 @@
                     "SalesTaxBasis": null,
                     "SalesTaxPeriod": null,
                     "Sells": null,
-                    "RegistrationNumbers": {
-                      "RegistrationNumber": "12-3456789",
-                      "Type": "Social Security Number (SSN)"
-                    },
-                    "Notes": {
-                      "Body": "This is a sample note text.",
-                      "Type": "Basic"
-                    }
+                    "RegistrationNumbers": [
+                      {
+                        "RegistrationNumber": "12-3456789",
+                        "Type": "Social Security Number (SSN)"
+                      }
+                    ],
+                    "Notes": [
+                      {
+                        "Body": "This is a sample note text.",
+                        "Type": "Basic"
+                      }
+                    ]
                   },
-                  "BusinessCards": {
-                    "BusinessCardKey": "2tBHyXtJBxBy",
-                    "IsPrimaryCard": true,
-                    "WebSites": [
-                      "www.website.one",
-                      "www.website.two"
-                    ],
-                    "EmailAddresses": [
-                      "sample@example.com",
-                      "sample.two@example.com"
-                    ],
-                    "OrganizationKey": "ZGNmtYyLm4z",
-                    "RoleOrTitle": "COO",
-                    "FacebookLink": "facebook.com/sampleName",
-                    "LinkedInLink": "linkedin.com/sampleName",
-                    "TwitterLink": "twitter.com/sampleName",
-                    "SkypeLink": "skype.com/sampleName",
-                    "Addresses": {
-                      "AddressKey": "e150a05a-2dea-4292-8bc8-03398c9384e4",
-                      "AddressLines": "45 Sample Street",
-                      "City": "Alexandria",
-                      "StateProvinceCounty": "NSW",
-                      "ZipCode": "2015",
-                      "CountryCode": "AU",
-                      "Label": "Physical"
-                    },
-                    "PhoneNumbers": {
-                      "PhoneNumberKey": "6e0b9ace-24b1-4328-a922-3b8be5ef5052",
-                      "Number": 1234567890,
-                      "CountryCode": 61,
-                      "Label": "Work"
+                  "BusinessCards": [
+                    {
+                      "BusinessCardKey": "2tBHyXtJBxBy",
+                      "IsPrimaryCard": true,
+                      "WebSites": [
+                        "www.website.one",
+                        "www.website.two"
+                      ],
+                      "EmailAddresses": [
+                        "sample@example.com",
+                        "sample.two@example.com"
+                      ],
+                      "OrganizationKey": "ZGNmtYyLm4z",
+                      "RoleOrTitle": "COO",
+                      "FacebookLink": "facebook.com/sampleName",
+                      "LinkedInLink": "linkedin.com/sampleName",
+                      "TwitterLink": "twitter.com/sampleName",
+                      "SkypeLink": "skype.com/sampleName",
+                      "Addresses": [
+                        {
+                          "AddressKey": "e150a05a-2dea-4292-8bc8-03398c9384e4",
+                          "AddressLines": "45 Sample Street",
+                          "City": "Alexandria",
+                          "StateProvinceCounty": "NSW",
+                          "ZipCode": "2015",
+                          "CountryCode": "AU",
+                          "Label": "Physical"
+                        }
+                      ],
+                      "PhoneNumbers": [
+                        {
+                          "PhoneNumberKey": "6e0b9ace-24b1-4328-a922-3b8be5ef5052",
+                          "Number": "1234567890",
+                          "CountryCode": "AU",
+                          "Label": "Work"
+                        }
+                      ]
                     }
-                  }
+                  ]
                 }
               }
             },
@@ -2266,7 +2401,7 @@
                     "Text": "Birthday on June 23."
                   },
                   "AccountingDetail": {
-                    "ContactPermaKey": "4XHEn8T3J4Y6",
+                    "ContactPermaKey": "67zlxNyJSr8e",
                     "OrganizationPermaKey": null,
                     "BirthDate": "1969-08-05T00:00:00Z",
                     "DeathDate": null,
@@ -2285,7 +2420,7 @@
                     "BaseCurrency": null,
                     "GstBasis": null,
                     "GstPeriod": null,
-                    "IncomeTaxInstallmentPeriod": "Quaterly",
+                    "IncomeTaxInstallmentPeriod": "Quarterly",
                     "IsVATRegistered": null,
                     "OrganizationValuation": null,
                     "PaysTax": null,
@@ -2296,50 +2431,60 @@
                     "SalesTaxBasis": null,
                     "SalesTaxPeriod": null,
                     "Sells": null,
-                    "RegistrationNumbers": {
-                      "RegistrationNumber": "12-3456789",
-                      "Type": "Social Security Number (SSN)"
-                    },
-                    "Notes": {
-                      "Body": "This is a sample note text.",
-                      "Type": "Basic"
-                    }
+                    "RegistrationNumbers": [
+                      {
+                        "RegistrationNumber": "12-3456789",
+                        "Type": "Social Security Number (SSN)"
+                      }
+                    ],
+                    "Notes": [
+                      {
+                        "Body": "This is a sample note text.",
+                        "Type": "Basic"
+                      }
+                    ]
                   },
-                  "BusinessCards": {
-                    "BusinessCardKey": "2tBHyXtJBxBy",
-                    "EntityType": "Contact",
-                    "EntityKey": "67zlxNyJSr8e",
-                    "IsPrimaryCard": true,
-                    "WebSites": [
-                      "www.website.one",
-                      "www.website.two"
-                    ],
-                    "EmailAddresses": [
-                      "sample@example.com",
-                      "sample.two@example.com"
-                    ],
-                    "OrganizationKey": "ZGNmtYyLm4z",
-                    "RoleOrTitle": "COO",
-                    "FacebookLink": "facebook.com/sampleName",
-                    "LinkedInLink": "linkedin.com/sampleName",
-                    "TwitterLink": "twitter.com/sampleName",
-                    "SkypeLink": "skype.com/sampleName",
-                    "Addresses": {
-                      "AddressKey": "e150a05a-2dea-4292-8bc8-03398c9384e4",
-                      "AddressLines": "45 Sample Street",
-                      "City": "Alexandria",
-                      "StateProvinceCounty": "NSW",
-                      "ZipCode": "2015",
-                      "CountryCode": "AU",
-                      "Label": "Physical"
-                    },
-                    "PhoneNumbers": {
-                      "PhoneNumberKey": "6e0b9ace-24b1-4328-a922-3b8be5ef5052",
-                      "Number": 1234567890,
-                      "CountryCode": 61,
-                      "Label": "Work"
+                  "BusinessCards": [
+                    {
+                      "BusinessCardKey": "2tBHyXtJBxBy",
+                      "EntityType": "Contact",
+                      "EntityKey": "67zlxNyJSr8e",
+                      "IsPrimaryCard": true,
+                      "WebSites": [
+                        "www.website.one",
+                        "www.website.two"
+                      ],
+                      "EmailAddresses": [
+                        "sample@example.com",
+                        "sample.two@example.com"
+                      ],
+                      "OrganizationKey": "ZGNmtYyLm4z",
+                      "RoleOrTitle": "COO",
+                      "FacebookLink": "facebook.com/sampleName",
+                      "LinkedInLink": "linkedin.com/sampleName",
+                      "TwitterLink": "twitter.com/sampleName",
+                      "SkypeLink": "skype.com/sampleName",
+                      "Addresses": [
+                        {
+                          "AddressKey": "e150a05a-2dea-4292-8bc8-03398c9384e4",
+                          "AddressLines": "45 Sample Street",
+                          "City": "Alexandria",
+                          "StateProvinceCounty": "NSW",
+                          "ZipCode": "2015",
+                          "CountryCode": "AU",
+                          "Label": "Physical"
+                        }
+                      ],
+                      "PhoneNumbers": [
+                        {
+                          "PhoneNumberKey": "6e0b9ace-24b1-4328-a922-3b8be5ef5052",
+                          "Number": "1234567890",
+                          "CountryCode": "AU",
+                          "Label": "Work"
+                        }
+                      ]
                     }
-                  }
+                  ]
                 }
               }
             }
@@ -2472,7 +2617,7 @@
                     "Text": "Birthday on June 23."
                   },
                   "AccountingDetail": {
-                    "ContactPermaKey": "4XHEn8T3J4Y6",
+                    "ContactPermaKey": "67zlxNyJSr8e",
                     "OrganizationPermaKey": null,
                     "BirthDate": "1969-08-05T00:00:00Z",
                     "DeathDate": null,
@@ -2491,7 +2636,7 @@
                     "BaseCurrency": null,
                     "GstBasis": null,
                     "GstPeriod": null,
-                    "IncomeTaxInstallmentPeriod": "Quaterly",
+                    "IncomeTaxInstallmentPeriod": "Quarterly",
                     "IsVATRegistered": null,
                     "OrganizationValuation": null,
                     "PaysTax": null,
@@ -2502,14 +2647,18 @@
                     "SalesTaxBasis": null,
                     "SalesTaxPeriod": null,
                     "Sells": null,
-                    "RegistrationNumbers": {
-                      "RegistrationNumber": "12-3456789",
-                      "Type": "Social Security Number (SSN)"
-                    },
-                    "Notes": {
-                      "Body": "This is a sample note text.",
-                      "Type": "Basic"
-                    }
+                    "RegistrationNumbers": [
+                      {
+                        "RegistrationNumber": "12-3456789",
+                        "Type": "Social Security Number (SSN)"
+                      }
+                    ],
+                    "Notes": [
+                      {
+                        "Body": "This is a sample note text.",
+                        "Type": "Basic"
+                      }
+                    ]
                   },
                   "BusinessCards": [
                     {
@@ -2531,21 +2680,25 @@
                       "LinkedInLink": "linkedin.com/sampleName",
                       "TwitterLink": "twitter.com/sampleName",
                       "SkypeLink": "skype.com/sampleName",
-                      "Addresses": {
-                        "AddressKey": "e150a05a-2dea-4292-8bc8-03398c9384e4",
-                        "AddressLines": "45 Sample Street",
-                        "City": "Alexandria",
-                        "StateProvinceCounty": "NSW",
-                        "ZipCode": "2015",
-                        "CountryCode": "AU",
-                        "Label": "Physical"
-                      },
-                      "PhoneNumbers": {
-                        "PhoneNumberKey": "6e0b9ace-24b1-4328-a922-3b8be5ef5052",
-                        "Number": 1234567890,
-                        "CountryCode": 61,
-                        "Label": "Work"
-                      }
+                      "Addresses": [
+                        {
+                          "AddressKey": "e150a05a-2dea-4292-8bc8-03398c9384e4",
+                          "AddressLines": "45 Sample Street",
+                          "City": "Alexandria",
+                          "StateProvinceCounty": "NSW",
+                          "ZipCode": "2015",
+                          "CountryCode": "AU",
+                          "Label": "Physical"
+                        }
+                      ],
+                      "PhoneNumbers": [
+                        {
+                          "PhoneNumberKey": "6e0b9ace-24b1-4328-a922-3b8be5ef5052",
+                          "Number": "1234567890",
+                          "CountryCode": "AU",
+                          "Label": "Work"
+                        }
+                      ]
                     }
                   ],
                   "ClientTeam": [
@@ -2856,8 +3009,10 @@
                       }
                     },
                     "AccountingDetail": {
-                      "nullable": true,
-                      "type": "string",
+                      "type": [
+                        "string",
+                        "null"
+                      ],
                       "description": "The accounting details associated with the Contact. This property will be `null`."
                     }
                   }
@@ -3196,7 +3351,7 @@
                     "Size": {
                       "type": "string",
                       "description": "The size of the file (in bytes)",
-                      "example": 334565
+                      "example": "334565"
                     }
                   }
                 }
@@ -3233,9 +3388,9 @@
               "application/json": {
                 "schema": {
                   "oneOf": [
-                    {"$ref": "#/components/schemas/ResourceNotFound"},
-                    {"$ref": "#/components/examples/File_key_not_present"},
-                    {"$ref": "#/components/examples/No_File_context"}
+                    {
+                      "$ref": "#/components/schemas/ResourceNotFound"
+                    }
                   ]
                 },
                 "examples": {
@@ -3818,18 +3973,16 @@
             "in": "query",
             "name": "$filter",
             "schema": {
-              "type": "string",
-              "enum": [
-                "FullName",
-                "EmailAddress",
-                "Tags",
-                "ContactType"
-              ]
+              "type": "string"
             },
             "examples": {
               "fullName": {
                 "value": "FullName eq 'Sample Company'",
                 "summary": "The full name of the organization equals 'Sample Company'"
+              },
+              "emailAddress": {
+                "value": "ExmailAddress eq 'karbon@example.com'",
+                "summary": "The email address of the organization equals 'karbon@example.com'"
               },
               "contactTypeEquals": {
                 "value": "ContactType eq 'Prospect'",
@@ -4000,7 +4153,7 @@
                     "TradingName": null,
                     "AnnualRevenue": 6000000.5,
                     "BaseCurrency": null,
-                    "GstBasis": "Invoice",
+                    "GstBasis": "Accruals",
                     "GstPeriod": "Monthly",
                     "IncomeTaxInstallmentPeriod": "Quarterly",
                     "IsVATRegistered": null,
@@ -4023,10 +4176,12 @@
                         "Type": "Australian Business Number (ABN)"
                       }
                     ],
-                    "Notes": {
-                      "Body": "This is a sample note text.",
-                      "Type": "Basic"
-                    }
+                    "Notes": [
+                      {
+                        "Body": "This is a sample note text.",
+                        "Type": "Basic"
+                      }
+                    ]
                   }
                 }
               }
@@ -4125,7 +4280,7 @@
                   "TradingName": null,
                   "AnnualRevenue": 6000000.5,
                   "BaseCurrency": null,
-                  "GstBasis": "Invoice",
+                  "GstBasis": "Accruals",
                   "GstPeriod": "Monthly",
                   "IncomeTaxInstallmentPeriod": "Quarterly",
                   "IsVATRegistered": null,
@@ -4148,10 +4303,12 @@
                       "Type": "Australian Business Number (ABN)"
                     }
                   ],
-                  "Notes": {
-                    "Body": "This is a sample note text.",
-                    "Type": "Basic"
-                  }
+                  "Notes": [
+                    {
+                      "Body": "This is a sample note text.",
+                      "Type": "Basic"
+                    }
+                  ]
                 },
                 "BusinessCards": [
                   {
@@ -4171,21 +4328,32 @@
                     "LinkedInLink": "linkedin.com/sampleName",
                     "TwitterLink": "twitter.com/sampleName",
                     "SkypeLink": "skype.com/sampleName",
-                    "Addresses": {
-                      "AddressKey": "e150a05a-2dea-4292-8bc8-03398c9384e4",
-                      "AddressLines": "45 Sample Street",
-                      "City": "Alexandria",
-                      "StateProvinceCounty": "NSW",
-                      "ZipCode": "2015",
-                      "CountryCode": "AU",
-                      "Label": "Physical"
-                    },
-                    "PhoneNumbers": {
-                      "PhoneNumberKey": "6e0b9ace-24b1-4328-a922-3b8be5ef5052",
-                      "Number": "1234567890",
-                      "CountryCode": "61",
-                      "Label": "Work"
-                    }
+                    "Addresses": [
+                      {
+                        "AddressKey": "e150a05a-2dea-4292-8bc8-03398c9384e4",
+                        "AddressLines": "45 Sample Street",
+                        "City": "Alexandria",
+                        "StateProvinceCounty": "NSW",
+                        "ZipCode": "2015",
+                        "CountryCode": "AU",
+                        "Label": "Physical"
+                      }
+                    ],
+                    "PhoneNumbers": [
+                      {
+                        "PhoneNumberKey": "6e0b9ace-24b1-4328-a922-3b8be5ef5052",
+                        "Number": "1234567890",
+                        "CountryCode": "AU",
+                        "Label": "Work"
+                      }
+                    ]
+                  }
+                ],
+                "ClientTeam": [
+                  {
+                    "MemberKey": "2q2wx44pTBNh",
+                    "MemberType": "User",
+                    "RoleType": "ClientManager"
                   }
                 ]
               }
@@ -4266,7 +4434,7 @@
                     "TradingName": null,
                     "AnnualRevenue": 6000000.5,
                     "BaseCurrency": null,
-                    "GstBasis": "Invoice",
+                    "GstBasis": "Accruals",
                     "GstPeriod": "Monthly",
                     "IncomeTaxInstallmentPeriod": "Quarterly",
                     "IsVATRegistered": null,
@@ -4289,10 +4457,12 @@
                         "Type": "Australian Business Number (ABN)"
                       }
                     ],
-                    "Notes": {
-                      "Body": "This is a sample note text.",
-                      "Type": "Basic"
-                    }
+                    "Notes": [
+                      {
+                        "Body": "This is a sample note text.",
+                        "Type": "Basic"
+                      }
+                    ]
                   },
                   "BusinessCards": [
                     {
@@ -4314,21 +4484,25 @@
                       "LinkedInLink": "linkedin.com/samplecompany",
                       "TwitterLink": "twitter.com/samplecompany",
                       "SkypeLink": "skype.com/samplecompany",
-                      "Addresses": {
-                        "AddressKey": "e150a05a-2dea-4292-8bc8-03398c9384e4",
-                        "AddressLines": "45 Sample Street",
-                        "City": "Alexandria",
-                        "StateProvinceCounty": "NSW",
-                        "ZipCode": "2015",
-                        "CountryCode": "AU",
-                        "Label": "Physical"
-                      },
-                      "PhoneNumbers": {
-                        "PhoneNumberKey": "6e0b9ace-24b1-4328-a922-3b8be5ef5052",
-                        "Number": 1234567890,
-                        "CountryCode": 61,
-                        "Label": "Work"
-                      }
+                      "Addresses": [
+                        {
+                          "AddressKey": "e150a05a-2dea-4292-8bc8-03398c9384e4",
+                          "AddressLines": "45 Sample Street",
+                          "City": "Alexandria",
+                          "StateProvinceCounty": "NSW",
+                          "ZipCode": "2015",
+                          "CountryCode": "AU",
+                          "Label": "Physical"
+                        }
+                      ],
+                      "PhoneNumbers": [
+                        {
+                          "PhoneNumberKey": "6e0b9ace-24b1-4328-a922-3b8be5ef5052",
+                          "Number": "1234567890",
+                          "CountryCode": "AU",
+                          "Label": "Work"
+                        }
+                      ]
                     }
                   ]
                 }
@@ -4422,15 +4596,29 @@
             "in": "query",
             "name": "$expand",
             "schema": {
-              "type": "string",
-              "enum": [
-                "BusinessCards",
-                "ClientTeam",
-                "Contacts"
-              ]
+              "type": "string"
             },
-            "example": "BusinessCards,Contacts",
-            "description": "When this parameter is combined with the URI, this endpoint will also return Business Cards, Client Team and/or Contacts associated with the Organization.\n"
+            "examples": {
+              "examples": {
+                "BusinessCard" :{
+                  "value": "BusinessCard",
+                  "summary": "Include the Business Card for the Organization the API response"
+                },
+                "ClientTeam": {
+                  "value": "ClientTeam",
+                  "summary": "Include the Client Team assigned to the Organization in the API response"          
+                },
+                "Contacts": {
+                  "value": "Contacts",
+                  "summary": "Include the Contacts related to the Organization in the API response"          
+                },
+                "BusinessCardAndClientTeam": {
+                  "value": "BusinessCard,ClientTeam",
+                  "summary": "Include the Business Card and the Client Team assigned to the Organization in the API response"
+                }
+              }
+            },
+            "description": "When this parameter is combined with the URI, this endpoint will also return Business Cards, Client Team and/or Contacts associated with the Organization. Multiple properties can be returned by specifying a comma separated list.\n"
           }
         ],
         "description": "Use the `GET` method on this endpoint to receive the details of a Organization specified using the `Organizationkey`.\n\nUsing the query parameter available to this endpoint,  you can also include the Business Card details of the Organization in the response.\n",
@@ -4495,7 +4683,7 @@
                     "TradingName": null,
                     "AnnualRevenue": 6000000.5,
                     "BaseCurrency": null,
-                    "GstBasis": "Invoice",
+                    "GstBasis": "Accruals",
                     "GstPeriod": "Monthly",
                     "IncomeTaxInstallmentPeriod": "Quarterly",
                     "IsVATRegistered": null,
@@ -4518,10 +4706,12 @@
                         "Type": "Australian Business Number (ABN)"
                       }
                     ],
-                    "Notes": {
-                      "Body": "This is a sample note text.",
-                      "Type": "Basic"
-                    }
+                    "Notes": [
+                      {
+                        "Body": "This is a sample note text.",
+                        "Type": "Basic"
+                      }
+                    ]
                   },
                   "BusinessCards": [
                     {
@@ -4543,21 +4733,25 @@
                       "LinkedInLink": "linkedin.com/samplecompany",
                       "TwitterLink": "twitter.com/samplecompany",
                       "SkypeLink": "skype.com/samplecompany",
-                      "Addresses": {
-                        "AddressKey": "e150a05a-2dea-4292-8bc8-03398c9384e4",
-                        "AddressLines": "45 Sample Street",
-                        "City": "Alexandria",
-                        "StateProvinceCounty": "NSW",
-                        "ZipCode": "2015",
-                        "CountryCode": "AU",
-                        "Label": "Physical"
-                      },
-                      "PhoneNumbers": {
-                        "PhoneNumberKey": "6e0b9ace-24b1-4328-a922-3b8be5ef5052",
-                        "Number": 1234567890,
-                        "CountryCode": 61,
-                        "Label": "Work"
-                      }
+                      "Addresses": [
+                        {
+                          "AddressKey": "e150a05a-2dea-4292-8bc8-03398c9384e4",
+                          "AddressLines": "45 Sample Street",
+                          "City": "Alexandria",
+                          "StateProvinceCounty": "NSW",
+                          "ZipCode": "2015",
+                          "CountryCode": "AU",
+                          "Label": "Physical"
+                        }
+                      ],
+                      "PhoneNumbers": [
+                        {
+                          "PhoneNumberKey": "6e0b9ace-24b1-4328-a922-3b8be5ef5052",
+                          "Number": "1234567890",
+                          "CountryCode": "AU",
+                          "Label": "Work"
+                        }
+                      ]
                     }
                   ],
                   "Contacts": [
@@ -4785,7 +4979,7 @@
                 "EntityDescription": {
                   "Text": "John Doe is the Managing Director of this organization."
                 },
-                "AccountingDetails": {
+                "AccountingDetail": {
                   "ContactKey": null,
                   "OrganizationKey": "SCwCq2M9pFm",
                   "BirthDate": null,
@@ -4829,41 +5023,54 @@
                     }
                   ]
                 },
-                "BusinessCards": {
-                  "BusinessCardKey": "2tBHyXtJBxBy",
-                  "EntityType": "Organization",
-                  "EntityKey": "SCwCq2M9pFm",
-                  "IsPrimaryCard": true,
-                  "WebSites": [
-                    "www.website.one",
-                    "www.website.two"
-                  ],
-                  "EmailAddresses": [
-                    "sample@example.com",
-                    "sample.two@example.com"
-                  ],
-                  "OrganizationKey": null,
-                  "RoleOrTitle": null,
-                  "FacebookLink": "facebook.com/sampleName",
-                  "LinkedInLink": "linkedin.com/sampleName",
-                  "TwitterLink": "twitter.com/sampleName",
-                  "SkypeLink": "skype.com/sampleName",
-                  "Addresses": {
-                    "AddressKey": "e150a05a-2dea-4292-8bc8-03398c9384e4",
-                    "AddressLines": "45 Sample Street",
-                    "City": "Alexandria",
-                    "StateProvinceCounty": "NSW",
-                    "ZipCode": "2015",
-                    "CountryCode": "AU",
-                    "Label": "Physical"
-                  },
-                  "PhoneNumbers": {
-                    "PhoneNumberKey": "6e0b9ace-24b1-4328-a922-3b8be5ef5052",
-                    "Number": 1234567890,
-                    "CountryCode": 61,
-                    "Label": "Work"
+                "BusinessCards": [
+                  {
+                    "BusinessCardKey": "2tBHyXtJBxBy",
+                    "EntityType": "Organization",
+                    "EntityKey": "SCwCq2M9pFm",
+                    "IsPrimaryCard": true,
+                    "WebSites": [
+                      "www.website.one",
+                      "www.website.two"
+                    ],
+                    "EmailAddresses": [
+                      "sample@example.com",
+                      "sample.two@example.com"
+                    ],
+                    "OrganizationKey": null,
+                    "RoleOrTitle": null,
+                    "FacebookLink": "facebook.com/sampleName",
+                    "LinkedInLink": "linkedin.com/sampleName",
+                    "TwitterLink": "twitter.com/sampleName",
+                    "SkypeLink": "skype.com/sampleName",
+                    "Addresses": [
+                      {
+                        "AddressKey": "e150a05a-2dea-4292-8bc8-03398c9384e4",
+                        "AddressLines": "45 Sample Street",
+                        "City": "Alexandria",
+                        "StateProvinceCounty": "NSW",
+                        "ZipCode": "2015",
+                        "CountryCode": "AU",
+                        "Label": "Physical"
+                      }
+                    ],
+                    "PhoneNumbers": [
+                      {
+                        "PhoneNumberKey": "6e0b9ace-24b1-4328-a922-3b8be5ef5052",
+                        "Number": "1234567890",
+                        "CountryCode": "AU",
+                        "Label": "Work"
+                      }
+                    ]
                   }
-                }
+                ],
+                "ClientTeam": [
+                  {
+                    "MemberKey": "2q2wx44pTBNh",
+                    "MemberType": "User",
+                    "RoleType": "ClientManager"
+                  }
+                ]
               }
             }
           }
@@ -4965,8 +5172,10 @@
                       }
                     },
                     "AccountingDetail": {
-                      "type": "string",
-                      "nullable": true,
+                      "type": [
+                        "string",
+                        "null"
+                      ],
                       "description": "The accounting details associated with the Organization. This property will be `null`."
                     }
                   }
@@ -5419,6 +5628,21 @@
                 }
               }
             }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResourceNotFound"
+                },
+                "examples": {
+                  "Unauthorized Access": {
+                    "$ref": "#/components/examples/UnauthorizedAccess"
+                  }
+                }
+              }
+            }
           }
         }
       }
@@ -5434,16 +5658,31 @@
             "in": "query",
             "name": "$filter",
             "schema": {
-              "type": "string",
-              "enum": [
-                "StartDate",
-                "EndDate",
-                "UserKey",
-                "WorkItemKeys",
-                "Status"
-              ]
+              "type": "string"
             },
-            "example": "Status eq 'Draft'",
+            "examples": {
+              "StartDate": {
+                "value": "StartDate gt 2024-01-01T00:00:00Z",
+                "summary": "Return Timesheets where the Timesheet Start Date after January 1, 2024"
+              },
+              "EndDate": {
+                "value": "EndDate lt 2024-03-01T00:00:00Z",
+                "summary": "Return Timesheets where the Timesheet End Date before March 1, 2024"
+              },
+              "UserKey": {
+                "value": "UserKey in ('2mYzTtly89Lq', '2Qy48WVCRBcP')",
+                "summary": "Return Timesheets where the UserKey is '2mYzTtly89Lq' or '2Qy48WVCRBcP'"
+              },
+              "WorkItemKeys": {
+                "value": "WorkItemKeys/any(x: x eq '5mGnTfly34Rf')",
+                "summary": "Return Timesheets where the Work Item key is '5mGnTfly34Rf' "
+              },
+              "Status": {
+                "value": "Status eq 'Draft'",
+                "summary": "Return Timesheets where the Timesheet status is 'Draft'"
+              }
+            },
+            
             "description": "When this parameter is combined with the URI, this endpoint will return a subset of the Timesheets that satisfy the `$filter` expression.\n"
           },
           {
@@ -5701,13 +5940,18 @@
             "in": "query",
             "name": "$filter",
             "schema": {
-              "type": "string",
-              "enum": [
-                "Name",
-                "EmailAddress"
-              ]
+              "type": "string"
             },
-            "example": "EmailAddress eq 'joe@samplecompany.com'",
+            "examples": {
+                "Name": {
+                  "value": "Name eq 'John Smith'",
+                  "summary": "Return the Users with the name 'John Smith'"
+                },
+                "EmailAddress": {
+                  "value": "EmailAddress eq 'joe@samplecompany.com'",
+                  "summary": "Return the Users with the Email Eddress 'joe@samplecompany.com'"
+                }
+            },
             "description": "When this parameter is combined with the URI, this endpoint will return a subset of the Users that satisfy the `$filter` expression.\n"
           },
           {
@@ -6272,11 +6516,13 @@
                     "example": "Contact"
                   },
                   "SigningKey": {
-                    "type": "string",
+                    "type": [
+                      "string",
+                      "null"
+                    ],
                     "description": "An optional key that will be used to sign webhook payloads, may contain letters, numbers, dashes or underscores",
-                    "nullable": true,
                     "minLength": 16,
-                    "pattern": "^[A-Za-z0-9-_]$",
+                    "pattern": "^[A-Za-z0-9-_]+$",
                     "example": "96434E14-3C96-4F07-9FC2-CCC736827309"
                   }
                 }
@@ -6340,19 +6586,38 @@
             "in": "query",
             "name": "$filter",
             "schema": {
-              "type": "string",
-              "enum": [
-                "AssigneeEmailAddress",
-                "ClientKey",
-                "DeadlineDate",
-                "PrimaryStatus",
-                "StartDate",
-                "Title",
-                "WorkStatus",
-                "WorkType"
-              ]
+              "type": "string"
             },
-            "example": "WorkType eq 'Payroll'",
+            "examples": {
+              "AssigneeEmailAddress": {
+                "value": "ClientKey eq 'karbon@example.com'",
+                "summary": "Returns only the Work Items where the Assignee Email is 'karbonhq@example.com'"
+              },
+              "ClientKey": {
+                "value": "ClientKey eq '2nvhdM1TmZk3'",
+                "summary": "Returns only the Work Items where the unqiue key of the Client Group, Contact, Organization or User is '2nvhdM1TmZk3'"
+              },
+              "PrimaryStatus": {
+                "value": "",
+                "summary": ""
+              },
+              "StartDate": {
+                "value": "StartDate ge 2024-01-01",
+                "summary": "Return only the Work Items where the Start Date is on or after January 1, 2024"
+              },
+              "Title": {
+                "value": "contains(ContactType, 'Client')",
+                "summary": "Return only the WorkItems which have a Title that contains the word 'Tax'"
+              },
+              "WorkStatus": {
+                "value": "WorkStatus eq 'InProgress'",
+                "summary": "Return only the Work Items with the Work Status 'In progress'"
+              },
+              "WorkType": {
+                "value": "WorkType eq 'Payroll'",
+                "summary": "Return only the Work Items with the Work Type 'Payroll'"
+              }
+            },
             "description": "When this parameter is combined with the URI, this endpoint will return a subset of the Work Items that satisfy the `$filter` expression.\n"
           },
           {
@@ -7265,19 +7530,42 @@
             "in": "query",
             "name": "$filter",
             "schema": {
-              "type": "string",
-              "enum": [
-                "Title",
-                "WorkTypeKey",
-                "HasScheduledClientTaskGroups",
-                "DraftHasChanges",
-                "PublishedDate",
-                "NumberOfWorkItemsCreated",
-                "DateLastWorkItemCreated",
-                "DateModified"
-              ]
+              "type": "string"
             },
-            "example": "Title eq 'Payroll processing'",
+            "examples": {
+              "Title": {
+                "value": "Title eq 'Payroll processing'",
+                "summary": "Return only Work Templates with the Title 'Payroll processing'"
+              },
+              "WorkTypeKey": {
+                "value": "WorkTypeKey eq '2Wj3ZqNzWtnQ'",
+                "summary": "Return only Work Templates with the WorkType key '2Wj3ZqNzWtnQ'"
+              },
+              "HasScheduledClientTaskGroups": {
+                "value": "HasScheduledClientTaskGroups eq false",
+                "summary": "Return only Work Templates without scheduled ClientTaskGroups"
+              },
+              "DraftHasChanges": {
+                "value": "DraftHasChanges eq false",
+                "summary": "Return only Work Templates without changes"
+              },
+              "PublishedDate": {
+                "value": "PublishedDate eq 2021-12-17T00:00:00Z",
+                "summary": "Return only Work Templates published on December 17, 2021"
+              },
+              "NumberOfWorkItemsCreated": {
+                "value": "NumberOfWorkItemsCreated eq 0",
+                "summary": "Return only Work Templates which have been used to create 0 Work Items"
+              },
+              "DateLastWorkItemCreated": {
+                "value": "DateLastWorkItemCreated eq 2022-11-07T00:00:00Z",
+                "summary": "Return only Work Templates where the Last Work Item created was November 7, 2022"
+              },
+              "DateModified": {
+                "value": "DateModified eq 2023-02-27T13:00:00Z",
+                "summary": "Return only Work Templates last modified at 1pm on 2023-02-27 (UTC)"
+              }
+            },            
             "description": "When this parameter is combined with the URI, this endpoint will return a subset of the Work Templates that satisfy the `$filter` expression.\n"
           },
           {
@@ -7508,6 +7796,20 @@
     "url": "https://developers.karbonhq.com/release-notes/"
   },
   "components": {
+    "parameters": {
+      "ExpandLineItems": {
+        "in": "query",
+        "name": "$expand",
+        "example": "LineItems",
+        "schema": {
+          "type": "string",
+          "enum": [
+            "LineItems"
+          ]
+        },
+        "description": "Include additional invoice properties, such as lineitems"
+      }
+    },
     "schemas": {
       "BillingInvoice": {
         "description": "A Karbon invoice",
@@ -7578,8 +7880,10 @@
             "example": "CAD"
           },
           "PaymentInstructions": {
-            "type": "string",
-            "nullable": true,
+            "type": [
+              "string",
+              "null"
+            ],
             "description": "Payment instructions added to the invoice",
             "example": "Payment due 7 days from invoice date"
           },
@@ -7652,14 +7956,18 @@
             "description": "The amount of the line item calculated as UnitPrice * Quantity, excluding taxes"
           },
           "TaxRate": {
-            "type": "number",
-            "description": "The percentage tax rate, expressed as an integer - e.g. 15% is rendered as 15.0000",
-            "nullable": true
+            "type": [
+              "number",
+              "null"
+            ],
+            "description": "The percentage tax rate, expressed as an integer - e.g. 15% is rendered as 15.0000"
           },
           "TaxRateName": {
-            "type": "string",
-            "description": "The user specified name of tax rate, e.g. GST, VAT, PST",
-            "nullable": true
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "The user specified name of tax rate, e.g. GST, VAT, PST"
           }
         }
       },
@@ -7739,10 +8047,12 @@
             "example": true
           },
           "OrganizationKey": {
-            "type": "string",
+            "type": [
+              "string",
+              "null"
+            ],
             "description": "Used on the Business Card for a Contact to specify the Organization that the Contact is related to. Will always be null for an Organization business card.",
-            "example": "7NN1ySxv89B",
-            "nullable": true
+            "example": "7NN1ySxv89B"
           },
           "WebSites": {
             "description": "The websites associated with this Business card.",
@@ -7767,7 +8077,10 @@
             ]
           },
           "RoleOrTitle": {
-            "type": "string",
+            "type": [
+              "string",
+              "null"
+            ],
             "description": "The business role or title of the contact this Business Cards belongs to",
             "example": "COO"
           },
@@ -7817,7 +8130,7 @@
                 "ZipCode": {
                   "type": "string",
                   "description": "ZipCode / PostCode",
-                  "example": 2015,
+                  "example": "2015",
                   "maxLength": 20
                 },
                 "CountryCode": {
@@ -7848,13 +8161,13 @@
                 "Number": {
                   "type": "string",
                   "description": "The phone number of the entity",
-                  "example": 1234567890,
+                  "example": "1234567890",
                   "maxLength": 20
                 },
                 "CountryCode": {
                   "type": "string",
                   "description": "The phone number country code",
-                  "example": 61
+                  "example": "AU"
                 },
                 "Label": {
                   "type": "string",
@@ -7971,7 +8284,7 @@
                 "ZipCode": {
                   "type": "string",
                   "description": "ZipCode / PostCode",
-                  "example": 2015,
+                  "example": "2015",
                   "maxLength": 20
                 },
                 "CountryCode": {
@@ -8007,13 +8320,13 @@
                 "Number": {
                   "type": "string",
                   "description": "The phone number of the entity",
-                  "example": 1234567890,
+                  "example": "1234567890",
                   "maxLength": 20
                 },
                 "CountryCode": {
                   "type": "string",
                   "description": "The phone number country code",
-                  "example": 61
+                  "example": "AU"
                 },
                 "Label": {
                   "type": "string",
@@ -8035,14 +8348,9 @@
       },
       "BusinessCardsRequestAsArray": {
         "description": "A collection of business cards",
-        "type": "object",
-        "properties": {
-          "BusinessCards": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/BusinessCardRequest"
-            }
-          }
+        "type": "array",
+        "items": {
+          "$ref": "#/components/schemas/BusinessCardRequest"
         }
       },
       "ClientTeam": {
@@ -8066,17 +8374,19 @@
               ]
             },
             "RoleType": {
-              "type": "string",
-              "nullable": true,
+              "type": [
+                "string",
+                "null"
+              ],
               "example": "ClientOwner",
               "description": "The specific role the user or team is assigned to, can be null if a member of the client team without a specific role",
               "enum": [
                 "ClientOwner",
                 "ClientManager",
                 "UserDefinedRole1",
-                "UserDefinedRole2"
+                "UserDefinedRole2",
+                null
               ]
-
             }
           }
         }
@@ -8086,26 +8396,40 @@
         "description": "The details specific to the Accounting firm related to this entity",
         "properties": {
           "ContactPermaKey": {
-            "type": "string",
+            "type": [
+              "string",
+              "null"
+            ],
             "description": "A Karbon-generated key that is used to identify the Contact (if a person)."
           },
           "OrganizationPermaKey": {
-            "type": "string",
+            "type": [
+              "string",
+              "null"
+            ],
             "description": "A Karbon-generated key that is used to identify the Contact (if a business or an organization)."
           },
           "BirthDate": {
-            "type": "string",
+            "type": [
+              "string",
+              "null"
+            ],
             "format": "date-time",
             "description": "The day at which the contact (if a person) was born."
           },
           "DeathDate": {
-            "nullable": true,
-            "type": "string",
+            "type": [
+              "string",
+              "null"
+            ],
             "format": "date-time",
             "description": "The day at which the contact (if a person) died."
           },
           "Salutation": {
-            "type": "string",
+            "type": [
+              "string",
+              "null"
+            ],
             "description": "The title of the contact (if a person)",
             "enum": [
               "Mr",
@@ -8114,46 +8438,72 @@
               "Miss",
               "Dr",
               "Prof",
-              "Rev"
+              "Rev",
+              null
             ]
           },
           "Sex": {
-            "type": "string",
+            "type": [
+              "string",
+              "null"
+            ],
             "description": "The gender of the contact (if a person)",
             "enum": [
               "M",
-              "F"
+              "F",
+              null
             ]
           },
           "FinancialYearEndDay": {
-            "type": "integer",
+            "type": [
+              "integer",
+              "null"
+            ],
             "format": "int32",
             "description": "The day of month in which the fiscal year ends for the contact"
           },
           "FinancialYearEndMonth": {
-            "type": "integer",
+            "type": [
+              "integer",
+              "null"
+            ],
             "format": "int32",
             "description": "The month in which the fiscal year ends for the contact"
           },
           "IncorporationDate": {
-            "type": "string",
+            "type": [
+              "string",
+              "null"
+            ],
             "format": "date-time",
             "description": "The date at which the contact (if a business or an organization) was incorporated."
           },
           "IncorporationState": {
-            "type": "integer",
+            "type": [
+              "string",
+              "null"
+            ],
             "description": "The state in which the contact (if a business or an organization) was incorporated."
           },
           "LegalName": {
-            "type": "string",
+            "type": [
+              "string",
+              "null"
+            ],
             "description": "The legal name of the contact"
           },
           "LineOfBusiness": {
-            "type": "string",
+            "type": [
+              "string",
+              "null"
+            ],
             "description": "The industry this contact is associated with."
           },
           "EntityType": {
-            "type": "string",
+            "type": [
+              "string",
+              "null"
+            ],
             "description": "The entity type of the contact (if a business or an organization)",
             "enum": [
               "Corporation",
@@ -8175,11 +8525,15 @@
               "Pension Scheme",
               "Royal Charter",
               "Unincorporated Association",
-              "Other/None"
+              "Other/None",
+              null
             ]
           },
           "TaxCountryCode": {
-            "type": "string",
+            "type": [
+              "string",
+              "null"
+            ],
             "description": "The code of the country where the contact pays their tax.",
             "enum": [
               "US",
@@ -8201,70 +8555,109 @@
             ]
           },
           "TradingName": {
-            "nullable": true,
-            "type": "string",
+            "type": [
+              "string",
+              "null"
+            ],
             "description": "The trading name of the contact (if a business or an organization)"
           },
           "AnnualRevenue": {
-            "type": "number",
+            "type": [
+              "number",
+              "null"
+            ],
             "format": "decimal",
             "description": "The total annual revenue generated by the contact"
           },
           "BaseCurrency": {
-            "type": "string",
+            "type": [
+              "string",
+              "null"
+            ],
             "description": "The 3-letter code, denoting the currency of annual revenue"
           },
           "GstBasis": {
-            "type": "string",
+            "type": [
+              "string",
+              "null"
+            ],
             "description": "The method of accounting for GST/BAS",
             "enum": [
               "Cash",
               "Accruals",
               "None",
-              "Close"
+              "Close",
+              null
             ]
           },
           "GstPeriod": {
-            "nullable": true,
-            "type": "string",
+            "type": [
+              "string",
+              "null"
+            ],
             "description": "The GST period"
           },
           "IncomeTaxInstallmentPeriod": {
-            "type": "string",
+            "type": [
+              "string",
+              "null"
+            ],
             "description": "The income tax installment period",
             "enum": [
               "Monthly",
               "Quarterly",
-              "Yearly"
+              "Yearly",
+              null
             ]
           },
           "IsVATRegistered": {
-            "type": "boolean",
+            "type": [
+              "boolean",
+              "null"
+            ],
             "description": "Set to true if the business or organization is registered for VAT"
           },
           "OrganizationValuation": {
-            "type": "number",
+            "type": [
+              "number",
+              "null"
+            ],
             "format": "decimal",
             "description": "The present value of the company"
           },
           "PaysTax": {
-            "type": "boolean",
+            "type": [
+              "boolean",
+              "null"
+            ],
             "description": "Set to true, if the contact has to pay tax"
           },
           "PrepareGST": {
-            "type": "boolean",
+            "type": [
+              "boolean",
+              "null"
+            ],
             "description": "<>"
           },
           "ProvisionalTaxBasic": {
-            "type": "string",
+            "type": [
+              "string",
+              "null"
+            ],
             "description": "<>"
           },
           "ProvisionalTaxRatio": {
-            "type": "string",
+            "type": [
+              "string",
+              "null"
+            ],
             "description": "<>"
           },
           "RevenueModel": {
-            "type": "string",
+            "type": [
+              "string",
+              "null"
+            ],
             "description": "The revenue model of the business or organization",
             "enum": [
               "Advertising",
@@ -8274,38 +8667,52 @@
               "Licensing",
               "Markup",
               "Production",
-              "Subscription"
+              "Subscription",
+              null
             ]
           },
           "SalesTaxBasis": {
-            "type": "string",
+            "type": [
+              "string",
+              "null"
+            ],
             "description": "The tax method",
             "enum": [
               "Cash",
               "Accruals",
               "None",
-              "Close"
+              "Close",
+              null
             ]
           },
           "SalesTaxPeriod": {
-            "type": "string",
+            "type": [
+              "string",
+              "null"
+            ],
             "description": "The tax period"
           },
           "Sells": {
-            "type": "string",
+            "type": [
+              "string",
+              "null"
+            ],
             "description": "The item that is primarily supplied by the company",
             "enum": [
               "Services",
               "Products",
               "Products and Services",
-              "Other"
+              "Other",
+              null
             ]
           },
           "DateSignedEngagement": {
-            "type": "string",
+            "type": [
+              "string",
+              "null"
+            ],
             "format": "date-time",
-            "description": "",
-            "nullable": true
+            "description": ""
           },
           "RegistrationNumbers": {
             "type": "array",
@@ -8479,14 +8886,18 @@
                   "description": "The full name of the Client Group"
                 },
                 "PhoneNumber": {
-                  "nullable": true,
-                  "type": "string",
+                  "type": [
+                    "string",
+                    "null"
+                  ],
                   "example": "0987888686",
                   "description": "The phone number associated with the Client Group"
                 },
                 "Website": {
-                  "nullable": true,
-                  "type": "string",
+                  "type": [
+                    "string",
+                    "null"
+                  ],
                   "example": "www.samplemanagement.com",
                   "description": "The website associated with the Client Group"
                 },
@@ -8578,8 +8989,10 @@
                   "description": "The team member in your firm who manages the work for the clients in this Client Group. You can only use the UserKey or the email address of an existing team member"
                 },
                 "Address": {
-                  "nullable": true,
-                  "type": "string",
+                  "type": [
+                    "string",
+                    "null"
+                  ],
                   "example": "42 Galaxy Way, London",
                   "description": "The Address of the Contact"
                 },
@@ -8589,8 +9002,10 @@
                   "description": "The Email Address of the Contact"
                 },
                 "PhoneNumber": {
-                  "nullable": true,
-                  "type": "string",
+                  "type": [
+                    "string",
+                    "null"
+                  ],
                   "example": "0987888686",
                   "description": "The phone number associated with the Contact"
                 },
@@ -8696,8 +9111,10 @@
                   "description": "The full name of the Organization"
                 },
                 "PhoneNumber": {
-                  "nullable": true,
-                  "type": "string",
+                  "type": [
+                    "string",
+                    "null"
+                  ],
                   "example": "0987888686",
                   "description": "The phone number associated with the Organization"
                 },
@@ -8815,9 +9232,11 @@
             "example": "2022-01-30T00:00:00Z"
           },
           "DeadlineDate": {
-            "type": "string",
+            "type": [
+              "string",
+              "null"
+            ],
             "format": "date-time",
-            "nullable": true,
             "description": "The date and time by which the Work Item should be complete according to a party outside of your firm. e.g. A tax filing date or payroll processing cut-off date.",
             "example": "2022-01-31T00:00:00Z"
           },
@@ -8906,10 +9325,12 @@
                 "example": "FixedFee"
               },
               "FeeValue": {
-                "type": "number",
+                "type": [
+                  "number",
+                  "null"
+                ],
                 "description": "The value of the fee in the currency of the Karbon account, this value must be null if FeeType is not FixedFee",
-                "example": 5150.2,
-                "nullable": true
+                "example": 5150.2
               }
             }
           }
@@ -8980,17 +9401,22 @@
               "DeadlineDate": {
                 "oneOf": [
                   {
-                    "type": "string",
+                    "type": [
+                      "string",
+                      "null"
+                    ],
                     "example": "2024-02-01T00:00:00Z",
                     "format": "date-time"
                   },
                   {
-                    "type": "string",
+                    "type": [
+                      "string",
+                      "null"
+                    ],
                     "example": "2024-02-01",
                     "format": "date"
                   }
                 ],
-                "nullable": true,
                 "example": "2024-02-01T00:00:00Z",
                 "description": "The deadline of the workitem as ISO8601 formated datestamp or timestamp"
               }
@@ -9045,20 +9471,22 @@
                 "type": "string",
                 "format": "date-time",
                 "description": "The date and time at which the Work Item should start",
-                "example": "2021-12-29"
+                "example": "2021-12-29T00:00:00Z"
               },
               "DueDate": {
                 "type": "string",
                 "format": "date-time",
                 "description": "The date and time by which the Work Item should be complete",
-                "example": "2022-01-30"
+                "example": "2022-01-30T00:00:00Z"
               },
               "DeadlineDate": {
-                "type": "string",
+                "type": [
+                  "string",
+                  "null"
+                ],
                 "format": "date-time",
-                "nullable": true,
                 "description": "The date and time by which an external party has specified that the Work Item should be complete",
-                "example": "2022-01-31"
+                "example": "2022-01-31T00:00:00Z"
               },
               "WorkType": {
                 "type": "string",
@@ -9227,16 +9655,24 @@
             "description": "The members of the Client Group",
             "type": "array",
             "items": {
-              "type": "object",
-              "nullable": true,
+              "type": [
+                "object",
+                "null"
+              ],
               "properties": {
                 "ContactKey": {
-                  "type": "string",
+                  "type": [
+                    "string",
+                    "null"
+                  ],
                   "description": "A Karbon-generated value that is used to identify the Contact",
                   "example": "34yxkY51knn7"
                 },
                 "OrganizationKey": {
-                  "type": "string",
+                  "type": [
+                    "string",
+                    "null"
+                  ],
                   "description": "A Karbon-generated value that is used to identify the Organization",
                   "example": "4ncPZ7q96SGc"
                 }
@@ -9310,6 +9746,34 @@
                 "type": "string",
                 "description": "Free-form text that can be used to add more information about the Client Group",
                 "example": "Bicycle rental service in the New jersey area."
+              }
+            }
+          },
+          "Members": {
+            "description": "The members of the Client Group",
+            "type": "array",
+            "items": {
+              "type": [
+                "object",
+                "null"
+              ],
+              "properties": {
+                "ContactKey": {
+                  "type": [
+                    "string",
+                    "null"
+                  ],
+                  "description": "A Karbon-generated value that is used to identify the Contact",
+                  "example": "34yxkY51knn7"
+                },
+                "OrganizationKey": {
+                  "type": [
+                    "string",
+                    "null"
+                  ],
+                  "description": "A Karbon-generated value that is used to identify the Organization",
+                  "example": "4ncPZ7q96SGc"
+                }
               }
             }
           }
@@ -9425,17 +9889,10 @@
             "$ref": "#/components/schemas/DetailsOfAccounting"
           },
           "BusinessCards": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/BusinessCard"
-            }
+            "$ref": "#/components/schemas/BusinessCardsRequestAsArray"
           },
           "ClientTeam": {
-            "type": "array",
-            "nullable": true,
-            "items": {
-              "$ref": "#/components/schemas/ClientTeam"
-            }
+            "$ref": "#/components/schemas/ClientTeam"
           }
         }
       },
@@ -9466,18 +9923,26 @@
               "description": "The title to address the Contact"
             },
             "ClientOwner": {
-              "type": "string",
+              "type": [
+                "string",
+                "null"
+              ],
               "example": "jessica.tse@samplecompany.com",
               "description": "The team member in your firm who looks after client relationship or is responsible for the vast majority of the work of the Contact. You can only use the UserKey or the email address of an existing team member."
             },
             "ClientManager": {
-              "type": "string",
+              "type": [
+                "string",
+                "null"
+              ],
               "example": "rodney.muller@samplecompany.com",
               "description": "The team member in your firm who manages the work for Contact. You can only use the UserKey or the email address of an existing team member."
             },
             "Address": {
-              "nullable": true,
-              "type": "string",
+              "type": [
+                "string",
+                "null"
+              ],
               "example": "",
               "description": "The Address of the Contact"
             },
@@ -9486,8 +9951,10 @@
               "description": "The Email Address of the Contact"
             },
             "PhoneNumber": {
-              "nullable": true,
-              "type": "string",
+              "type": [
+                "string",
+                "null"
+              ],
               "description": "The phone number associated with the Contact",
               "maxLength": 20
             },
@@ -9582,6 +10049,9 @@
           },
           "AccountingDetail": {
             "$ref": "#/components/schemas/DetailsOfAccounting"
+          },
+          "ClientTeam": {
+            "$ref": "#/components/schemas/ClientTeam"
           }
         }
       },
@@ -9902,6 +10372,9 @@
           },
           "AccountingDetail": {
             "$ref": "#/components/schemas/DetailsOfAccounting"
+          },
+          "ClientTeam": {
+            "$ref": "#/components/schemas/ClientTeam"
           }
         }
       },
@@ -9959,6 +10432,9 @@
                 "description": "Free-form text that can be used to add more information about the Organization"
               }
             }
+          },
+          "ClientTeam": {
+            "$ref": "#/components/schemas/ClientTeam"
           }
         }
       },
@@ -9969,7 +10445,9 @@
             "$ref": "#/components/schemas/CreateOrganizationResponse"
           },
           {
-            "$ref": "#/components/schemas/BusinessCardsRequestAsArray"
+            "BusinessCards": {
+              "$ref": "#/components/schemas/BusinessCardsRequestAsArray"
+            }
           }
         ]
       },
@@ -10148,8 +10626,10 @@
                   "type": "array",
                   "description": "Free-form text that has more information about the Time Entry",
                   "items": {
-                    "type": "string",
-                    "nullable": true,
+                    "type": [
+                      "string",
+                      "null"
+                    ],
                     "example": "Continued working on the end-year accounting"
                   },
                   "example": [
@@ -10423,8 +10903,10 @@
             "example": "Custom"
           },
           "CustomFrequencyUnits": {
-            "type": "string",
-            "nullable": true,
+            "type": [
+              "string",
+              "null"
+            ],
             "description": "The unit of time at which this Work Schedule should repeat. Once set, the value of this property can not be changed.\n\nThis property is only applicable if `RecurrenceFrequency` is set to `Custom`.\n",
             "enum": [
               "Days",
@@ -10445,13 +10927,13 @@
             "type": "string",
             "format": "date-time",
             "description": "The date at which this Work Schedule should start running",
-            "example": "2021-07-01"
+            "example": "2021-07-01T00:00:00Z"
           },
           "ScheduleEndDate": {
             "type": "string",
             "format": "date-time",
             "description": "The date at which this Work Schedule should stop running\n\nTo set the Work Schedule to run forever, set the value of this property to `null`.",
-            "example": "2021-09-01"
+            "example": "2021-09-01T00:00:00Z"
           },
           "ScheduleDueDateMethod": {
             "type": "string",
@@ -10590,8 +11072,10 @@
             "example": "Custom"
           },
           "CustomFrequencyUnits": {
-            "type": "string",
-            "nullable": true,
+            "type": [
+              "string",
+              "null"
+            ],
             "description": "The unit of time at which this Work Schedule should repeat. Once set, the value of this property can not be changed.\n\nThis property is only applicable if `RecurrenceFrequency` is set to `Custom`.\n",
             "enum": [
               "Days",
@@ -10617,13 +11101,13 @@
             "type": "string",
             "format": "date-time",
             "description": "The date at which this Work Schedule should start running",
-            "example": "2021-07-01"
+            "example": "2021-07-01T00:00:00Z"
           },
           "ScheduleEndDate": {
             "type": "string",
             "format": "date-time",
             "description": "The date at which this Work Schedule should stop running\n\nTo set the Work Schedule to run forever, set the value of this property to `0001-01-01`.",
-            "example": "2021-09-01"
+            "example": "2021-09-01T00:00:00Z"
           },
           "ScheduleDueDateMethod": {
             "type": "string",
@@ -10751,8 +11235,10 @@
             "example": false
           },
           "EstimatedBudget": {
-            "type": "string",
-            "nullable": true,
+            "type": [
+              "string",
+              "null"
+            ],
             "description": "The estimated budget for the Work Items generated using this Work Template. This property value will be `null`.",
             "example": null
           },
@@ -10773,7 +11259,8 @@
             "example": "2022-07-21T07:14:08Z"
           },
           "NumberOfWorkItemsCreated": {
-            "type": "string",
+            "type": "number",
+            "format": "int32",
             "description": "The number of Work Items created using this Work Template",
             "example": 2
           },
@@ -10879,7 +11366,8 @@
           "error": {
             "required": [
               "code",
-              "message"
+              "message",
+              "details"
             ],
             "type": "object",
             "properties": {
@@ -10921,10 +11409,12 @@
         "type": "object",
         "properties": {
           "statusCode": {
-            "type": "string",
+            "type": [
+              "string",
+              "null"
+            ],
             "description": "The generic HTTP Error code",
-            "example": "404",
-            "nullable": true
+            "example": "404"
           },
           "message": {
             "type": "string",
@@ -11142,7 +11632,7 @@
         "properties": {
           "ResourcePermaKey": {
             "type": "string",
-            "description": "The key for the resource that has been created or updated",
+            "description": "The key for the resource that has been created",
             "example": "kCsVf7svWQw"
           },
           "ResourceType": {
@@ -11150,16 +11640,16 @@
             "enum": [
               "User"
             ],
-            "description": "The type of resource that has been created or updated",
+            "description": "The type of resource that has been created",
             "example": "User"
           },
           "ActionType": {
             "type": "string",
-            "description": "The key for the resource that has been created or updated",
+            "description": "The key for the resource that has been created",
             "enum": [
               "Inserted"
             ],
-            "example": "Updated"
+            "example": "Inserted"
           },
           "TimeStamp": {
             "type": "string",
@@ -11216,15 +11706,19 @@
       "UnauthorizedAccess": {
         "description": "A generic response shown when the API cannot confirm the authentication creditials provided",
         "value": {
-          "statusCode": "401",
-          "message": "JWT not present."
+          "error": {
+            "statusCode": "401",
+            "message": "JWT not present."
+          }
         }
       },
       "NotFound": {
         "description": "A generic response shown when the API cannot find a requested entity",
         "value": {
-          "code": "4004",
-          "message": "Not Found"
+          "error": {
+            "code": "4004",
+            "message": "Not Found"
+          }
         }
       },
       "elongated_5001": {
@@ -11367,53 +11861,6 @@
               "target": "workItem.<key>",
               "message": "Cannot assign Related Client Group as Client is not a member of this Group"
             }
-          }
-        }
-      },
-      "File_key_not_present": {
-        "description": "A response shown when an required fields are missing or malformed when uploading a file",
-        "value": {
-          "error": {
-            "code": "4003",
-            "message": "Invalid Model.",
-            "details": [
-              {
-                "code": "InvalidObject",
-                "target": "fileKey",
-                "message": null
-              },
-              {
-                "code": "InvalidProperty",
-                "target": "fileKey.String",
-                "message": "A value is required but was not present in the request."
-              },
-              {
-                "code": "InvalidProperty",
-                "target": "InvalidObject",
-                "message": "No File Context for the provided key"
-              }
-            ]
-          }
-        }
-      },
-      "No_File_context": {
-        "description": "A response shown when an required context fields are missing or malformed when uploading a file",
-        "value": {
-          "error": {
-            "code": "4003",
-            "message": "Invalid Model.",
-            "details": [
-              {
-                "code": "InvalidObject",
-                "target": "fileKey",
-                "message": null
-              },
-              {
-                "code": "InvalidProperty",
-                "target": "InvalidObject",
-                "message": "No File Context for the provided key"
-              }
-            ]
           }
         }
       },
@@ -11673,7 +12120,7 @@
         "description": "The error returned when the request path and request method does not match any configured API path and method",
         "value": {
           "error": {
-            "code": null,
+            "code": "4002",
             "message": "No HTTP resource was found that matches the request URI 'http://api.karbonhq.com/v3/<endpoint>"
           }
         }

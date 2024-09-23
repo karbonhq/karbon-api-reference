@@ -1,0 +1,6 @@
+extends: [[spectral:oas, recommended]]
+rules:
+  paths-kebab-case: false
+  description-duplication: false
+  severity: error
+  oas3-missing-example: false
