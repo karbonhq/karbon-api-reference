@@ -6918,7 +6918,7 @@
                       }
                     },
                     {
-                      "$ref": "#/components/schemas/WorkItemWithFeeSettings"
+                      "$ref": "#/components/schemas/WorkItemWithFeeSettingsAndUserRoleAssignments"
                     },
                     {
                       "type": "object",
@@ -9307,6 +9307,145 @@
           }
         ]
       },
+      "WorkItemWithFeeSettingsAndUserRoleAssignments": {
+        "description": "A Work Item with Fee Settings and User Role assignments",
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/WorkItem"
+          },
+          {
+            "$ref": "#/components/schemas/WorkFeeSettings"
+          },
+          {
+            "$ref": "#/components/schemas/WorkItemUserRoleAssignments"
+          }
+        ]
+      },
+      "WorkItemUpdate": {
+        "type": "object",
+        "description": "The core parameters when updating a Work Item",
+        "required": [
+          "AssigneeEmailAddress",
+          "Title",
+          "ClientKey",
+          "ClientType",
+          "StartDate"
+        ],
+        "properties": {
+          "AssigneeEmailAddress": {
+            "type": "string",
+            "example": "joe@samplecompany.com",
+            "description": "The email address of the user to whom the Work Item has been assigned"
+          },
+          "Title": {
+            "type": "string",
+            "example": "Payroll 31 Aug - 15 Sep 2022",
+            "description": "The title of the Work Item"
+          },
+          "ClientKey": {
+            "type": "string",
+            "example": "4ncPZ7q96SGc",
+            "description": "A Karbon-generated value used to identify the Client for whom the Work Item is prepared"
+          },
+          "ClientType": {
+            "type": "string",
+            "enum": [
+              "Contact",
+              "Organization",
+              "ClientGroup"
+            ],
+            "example": "Organization",
+            "description": "The type of the Client"
+          },
+          "RelatedClientGroupKey": {
+            "type": "string",
+            "example": "3LCPr987gNrc",
+            "description": "A Karbon-generated value used to identify the Client Group of the Client"
+          },
+          "StartDate": {
+            "type": "string",
+            "format": "date-time",
+            "description": "The date and time at which the Work Item should start",
+            "example": "2021-12-29T00:00:00Z"
+          },
+          "DueDate": {
+            "type": "string",
+            "format": "date-time",
+            "description": "The date and time by which the Work Item should be complete",
+            "example": "2022-01-30T00:00:00Z"
+          },
+          "DeadlineDate": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "format": "date-time",
+            "description": "The date and time by which an external party has specified that the Work Item should be complete",
+            "example": "2022-01-31T00:00:00Z"
+          },
+          "WorkType": {
+            "type": "string",
+            "description": "The type of work related to the Work Item. Enter an existing Work Type.",
+            "example": "Payroll"
+          },
+          "WorkStatus": {
+            "type": "string",
+            "description": "The current status of the Work Item",
+            "example": "Ready To Start - Send client requests"
+          },
+          "WorkTemplateKey": {
+            "type": "string",
+            "description": "A Karbon-generated value used to identify the Template that will be used to generate this Work Item",
+            "example": "p56mtcBhwb9"
+          },
+          "WorkScheduleKey": {
+            "type": "string",
+            "description": "A Karbon-generated value used to identify the Work Schedule for this Work Item",
+            "example": "4f3gHnLC323"
+          },
+          "EstimatedBudget": {
+            "deprecated": true,
+            "type": "number",
+            "format": "decimal",
+            "description": "The estimated budget for the Work Item",
+            "example": 1200.05
+          },
+          "Description": {
+            "type": "string",
+            "description": "A free form text field to add more information about the Work Item",
+            "example": "Send to Jo for review"
+          },
+          "ClientTaskRecipient": {
+            "type": "object",
+            "required": [
+              "RecipientKey",
+              "LinkType"
+            ],
+            "description": "The details about the recipient of the Client Tasks related to this Work Item.",
+            "properties": {
+              "RecipientKey": {
+                "type": "string",
+                "description": "A Karbon-generated value used to identify the Client",
+                "example": "4ncPZ7q96SGc"
+              },
+              "LinkType": {
+                "type": "string",
+                "enum": [
+                  "Contact",
+                  "Organization"
+                ],
+                "description": "The Karbon entity, from which to pull the email address in case the email address of the Client Task recipient is empty.",
+                "example": "Organization"
+              },
+              "EmailAddress": {
+                "type": "string",
+                "description": "The email address of the recipient.",
+                "example": "acme@corp.com"
+              }
+            }
+          }
+        }
+      },
       "WorkFeeSettings": {
         "description": "The Fee Settings for a Work Item",
         "properties": {
@@ -9331,6 +9470,34 @@
                 ],
                 "description": "The value of the fee in the currency of the Karbon account, this value must be null if FeeType is not FixedFee",
                 "example": 5150.2
+              }
+            }
+          }
+        }
+      },
+      "WorkItemUserRoleAssignments": {
+        "description": "The User assignments for specific Roles on a Work Item",
+        "properties": {
+          "UserRoleAssignments": {
+            "type": "array",
+            "description": "The array that describes the roles of the users associated with this Work Item.",
+            "items": {
+              "type": "object",
+              "required": [
+                "RoleKey",
+                "UserProfileKey"
+              ],
+              "properties": {
+                "RoleKey": {
+                  "type": "string",
+                  "description": "A Karbon-generated value used to identify the role of the user",
+                  "example": "2mYzTtly89Lq"
+                },
+                "UserProfileKey": {
+                  "type": "string",
+                  "description": "A Karbon-generated value used to identify the user",
+                  "example": "2Qy48WVCRBcP"
+                }
               }
             }
           }
@@ -9428,154 +9595,13 @@
         "description": "A single work item",
         "allOf": [
           {
-            "type": "object",
-            "required": [
-              "AssigneeEmailAddress",
-              "Title",
-              "ClientKey",
-              "ClientType",
-              "StartDate"
-            ],
-            "properties": {
-              "AssigneeEmailAddress": {
-                "type": "string",
-                "example": "joe@samplecompany.com",
-                "description": "The email address of the user to whom the Work Item has been assigned"
-              },
-              "Title": {
-                "type": "string",
-                "example": "Payroll 31 Aug - 15 Sep 2022",
-                "description": "The title of the Work Item"
-              },
-              "ClientKey": {
-                "type": "string",
-                "example": "4ncPZ7q96SGc",
-                "description": "A Karbon-generated value used to identify the Client for whom the Work Item is prepared"
-              },
-              "ClientType": {
-                "type": "string",
-                "enum": [
-                  "Contact",
-                  "Organization",
-                  "ClientGroup"
-                ],
-                "example": "Organization",
-                "description": "The type of the Client"
-              },
-              "RelatedClientGroupKey": {
-                "type": "string",
-                "example": "3LCPr987gNrc",
-                "description": "A Karbon-generated value used to identify the Client Group of the Client"
-              },
-              "StartDate": {
-                "type": "string",
-                "format": "date-time",
-                "description": "The date and time at which the Work Item should start",
-                "example": "2021-12-29T00:00:00Z"
-              },
-              "DueDate": {
-                "type": "string",
-                "format": "date-time",
-                "description": "The date and time by which the Work Item should be complete",
-                "example": "2022-01-30T00:00:00Z"
-              },
-              "DeadlineDate": {
-                "type": [
-                  "string",
-                  "null"
-                ],
-                "format": "date-time",
-                "description": "The date and time by which an external party has specified that the Work Item should be complete",
-                "example": "2022-01-31T00:00:00Z"
-              },
-              "WorkType": {
-                "type": "string",
-                "description": "The type of work related to the Work Item. Enter an existing Work Type.",
-                "example": "Payroll"
-              },
-              "WorkStatus": {
-                "type": "string",
-                "description": "The current status of the Work Item",
-                "example": "Ready To Start - Send client requests"
-              },
-              "WorkTemplateKey": {
-                "type": "string",
-                "description": "A Karbon-generated value used to identify the Template that will be used to generate this Work Item",
-                "example": "p56mtcBhwb9"
-              },
-              "WorkScheduleKey": {
-                "type": "string",
-                "description": "A Karbon-generated value used to identify the Work Schedule for this Work Item",
-                "example": "4f3gHnLC323"
-              },
-              "EstimatedBudget": {
-                "deprecated": true,
-                "type": "number",
-                "format": "decimal",
-                "description": "The estimated budget for the Work Item",
-                "example": 1200.05
-              },
-              "Description": {
-                "type": "string",
-                "description": "A free form text field to add more information about the Work Item",
-                "example": "Send to Jo for review"
-              },
-              "UserRoleAssignments": {
-                "type": "array",
-                "description": "The array that describes the roles of the users associated with this Work Item.",
-                "items": {
-                  "type": "object",
-                  "required": [
-                    "RoleKey",
-                    "UserProfileKey"
-                  ],
-                  "properties": {
-                    "RoleKey": {
-                      "type": "string",
-                      "description": "A Karbon-generated value used to identify the role of the user",
-                      "example": "2mYzTtly89Lq"
-                    },
-                    "UserProfileKey": {
-                      "type": "string",
-                      "description": "A Karbon-generated value used to identify the user",
-                      "example": "2Qy48WVCRBcP"
-                    }
-                  }
-                }
-              },
-              "ClientTaskRecipient": {
-                "type": "object",
-                "required": [
-                  "RecipientKey",
-                  "LinkType"
-                ],
-                "description": "The details about the recipient of the Client Tasks related to this Work Item.",
-                "properties": {
-                  "RecipientKey": {
-                    "type": "string",
-                    "description": "A Karbon-generated value used to identify the Client",
-                    "example": "4ncPZ7q96SGc"
-                  },
-                  "LinkType": {
-                    "type": "string",
-                    "enum": [
-                      "Contact",
-                      "Organization"
-                    ],
-                    "description": "The Karbon entity, from which to pull the email address in case the email address of the Client Task recipient is empty.",
-                    "example": "Organization"
-                  },
-                  "EmailAddress": {
-                    "type": "string",
-                    "description": "The email address of the recipient.",
-                    "example": "acme@corp.com"
-                  }
-                }
-              }
-            }
+            "$ref": "#/components/schemas/WorkItemUpdate"
           },
           {
             "$ref": "#/components/schemas/WorkFeeSettings"
+          },
+          {
+            "$ref": "#/components/schemas/WorkItemUserRoleAssignments"
           }
         ]
       },
