@@ -10073,6 +10073,21 @@
               "Hidden"
             ]
           },
+          "ClientOwner": {
+            "type": "string",
+            "description": "The team member in your firm who looks after client relationship or is responsible for the vast majority of the work of the Contact. You can only use the UserKey or the email address of an existing team member.",
+            "example": "rodney.muller@samplecompany.com"
+          },
+          "ClientManager": {
+            "type": "string",
+            "description": "The team member in your firm who manages the work for Contact. You can only use the UserKey or the email address of an existing team member.",
+            "example": "jessica.tse@samplecompany.com"
+          },
+          "ContactType": {
+            "type": "string",
+            "description": "The Contact Type for this Contact. You can only use existing Contact Type.",
+            "example": "Client"
+          },
           "UserDefinedIdentifier": {
             "type": "string",
             "description": "A unique key that you can create to identify this Contact.",
