@@ -2991,11 +2991,11 @@
                     },
                     "ContactType": {
                       "type": "string",
-                      "description": "The Contact Type for this Contact. You can only use existing Contact Type."
+                      "description": "The Contact Type for this Contact. You can only use existing Contact Types, these are available from the TenantSettings endpoint."
                     },
                     "UserDefinedIdentifier": {
                       "type": "string",
-                      "description": "A unique key that you can create to identify this Contact."
+                      "description": "A unique key that you can use to identify this Contact."
                     },
                     "RestrictionLevel": {
                       "type": "string",
@@ -5161,7 +5161,7 @@
                     },
                     "UserDefinedIdentifier": {
                       "type": "string",
-                      "description": "A unique key that you can create to identify this Organization."
+                      "description": "A unique key that you can use to identify this Organization."
                     },
                     "RestrictionLevel": {
                       "type": "string",
@@ -9038,7 +9038,7 @@
                 "UserDefinedIdentifier": {
                   "type": "string",
                   "example": "73YEnqFcqCf3",
-                  "description": "A unique key that you can create to identify this Contact."
+                  "description": "A unique key that you can use to identify this Contact."
                 },
                 "LastModifiedDateTime": {
                   "type": "string",
@@ -9673,7 +9673,7 @@
           },
           "UserDefinedIdentifier": {
             "type": "string",
-            "description": "A unique key that you can create to identify this Client Group.",
+            "description": "A unique key that you can use to identify this Client Group.",
             "example": "SILVERS"
           },
           "RestrictionLevel": {
@@ -9767,7 +9767,7 @@
           },
           "UserDefinedIdentifier": {
             "type": "string",
-            "description": "A unique key that you can create to identify this Client Group.",
+            "description": "A unique key that you can use to identify this Client Group.",
             "example": "SILV112"
           },
           "RestrictionLevel": {
@@ -9892,12 +9892,12 @@
           },
           "ContactType": {
             "type": "string",
-            "description": "The Contact Type for this Contact. You can only use existing Contact Type.",
+            "description": "The Contact Type for this Contact. You can only use existing Contact Types, these are available from the TenantSettings endpoint.",
             "example": "Client"
           },
           "UserDefinedIdentifier": {
             "type": "string",
-            "description": "A unique key that you can create to identify this Contact.",
+            "description": "A unique key that you can use to identify this Contact.",
             "example": "BILLJR"
           },
           "RestrictionLevel": {
@@ -10013,7 +10013,7 @@
             "UserDefinedIdentifier": {
               "type": "string",
               "example": "JR_1001_2022",
-              "description": "A unique key that you can create to identify this Contact."
+              "description": "A unique key that you can use to identify this Contact."
             },
             "LastModifiedDateTime": {
               "type": "string",
@@ -10085,12 +10085,12 @@
           },
           "ContactType": {
             "type": "string",
-            "description": "The Contact Type for this Contact. You can only use existing Contact Type.",
+            "description": "The Contact Type for this Contact. You can only use existing Contact Types, these are available from the TenantSettings endpoint.",
             "example": "Client"
           },
           "UserDefinedIdentifier": {
             "type": "string",
-            "description": "A unique key that you can create to identify this Contact.",
+            "description": "A unique key that you can use to identify this Contact.",
             "example": "BILLJR-001"
           },
           "BusinessCards": {
@@ -10339,7 +10339,7 @@
           },
           "UserDefinedIdentifier": {
             "type": "string",
-            "description": "A unique key that you can create to identify this Organization.",
+            "description": "A unique key that you can use to identify this Organization.",
             "example": "Example Business"
           },
           "RestrictionLevel": {
@@ -10402,7 +10402,7 @@
           },
           "UserDefinedIdentifier": {
             "type": "string",
-            "description": "A unique key that you can create to identify this Organization.",
+            "description": "A unique key that you can use to identify this Organization.",
             "example": "EXAMPLEB_001"
           },
           "RestrictionLevel": {
@@ -10465,7 +10465,7 @@
           },
           "UserDefinedIdentifier": {
             "type": "string",
-            "description": "A unique key that you can create to identify this Organization."
+            "description": "A unique key that you can use to identify this Organization."
           },
           "RestrictionLevel": {
             "type": "string",
