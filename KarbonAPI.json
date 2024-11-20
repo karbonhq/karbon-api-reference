@@ -119,6 +119,24 @@
         }
       }
     },
+    "estimate-summary": {
+      "post": {
+        "tags": [
+          "Webhook Payloads"
+        ],
+        "description": "Estimate Summary updated",
+        "requestBody": {
+          "description": "Information about the updated Estimate Summary",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/estimate-summary-webhook"
+              }
+            }
+          }
+        }
+      }
+    },
     "invoice": {
       "post": {
         "tags": [
@@ -6256,7 +6274,8 @@
                 "Work",
                 "Note",
                 "User",
-                "Invoice"
+                "Invoice",
+                "EstimateSummary"
               ]
             },
             "example": "Contact",
@@ -6346,7 +6365,8 @@
                 "Work",
                 "Note",
                 "User",
-                "Invoice"
+                "Invoice",
+                "EstimateSummary"
               ]
             },
             "example": "Contact",
@@ -6510,9 +6530,10 @@
                       "Work",
                       "Note",
                       "User",
-                      "Invoice"
+                      "Invoice",
+                      "EstimateSummary"
                     ],
-                    "description": "The type of Karbon entity which the Webhook Subscription is associated with. To receive ClientGroup, Contact and Organization updates, pass WebhookType as `Contact`. To receive WorkItem updates, pass WebhookType as `Work`. To receive Note and NoteComment updates, pass WebhookType as `Note`. To receive an update when a User has accepted an invite to Karbon, pass WebhookType as `User`. To receive an update when an Invoice changes status, pass WebhookType as `Invoice`.",
+                    "description": "The type of Karbon entity which the Webhook Subscription is associated with. To receive ClientGroup, Contact and Organization updates, pass WebhookType as `Contact`. To receive WorkItem updates, pass WebhookType as `Work`. To receive Note and NoteComment updates, pass WebhookType as `Note`. To receive an update when a User has accepted an invite to Karbon, pass WebhookType as `User`. To receive an update when an Invoice changes status, pass WebhookType as `Invoice`. To receive an update when an EstimateSummary is updated, pass WebhookType as `EstmateSummary`.",
                     "example": "Contact"
                   },
                   "SigningKey": {
@@ -10867,7 +10888,8 @@
               "Work",
               "Note",
               "User",
-              "Invoice"
+              "Invoice",
+              "EstimateSummary"
             ]
           }
         }
@@ -11550,7 +11572,7 @@
         }
       },
       "contact-webhook": {
-        "description": "The schema for webhook payloads",
+        "description": "The schema for Contact webhook payloads",
         "type": "object",
         "properties": {
           "ResourcePermaKey": {
@@ -11568,7 +11590,7 @@
           },
           "ActionType": {
             "type": "string",
-            "description": "The key for the resource that has been created or updated",
+            "description": "The action that triggered the webhook notifcation to be sent",
             "enum": [
               "Inserted",
               "Updated",
@@ -11579,13 +11601,46 @@
           "TimeStamp": {
             "type": "string",
             "format": "date-time",
-            "description": "The time stamp the associated resource was last altered",
+            "description": "The timestamp the associated resource was last altered",
+            "example": "2024-08-01T21:54:36Z"
+          }
+        }
+      },
+      "estimate-summary-webhook": {
+        "description": "The schema for EstimateSummary webhook payloads",
+        "type": "object",
+        "properties": {
+          "ResourcePermaKey": {
+            "type": "string",
+            "description": "The key for the resource that has been created or updated",
+            "example": "kCsVf7svWQw"
+          },
+          "ResourceType": {
+            "type": "string",
+            "enum": [
+              "EstimateSummary"
+            ],
+            "description": "The type of resource that has been created or updated",
+            "example": "EstimateSummary"
+          },
+          "ActionType": {
+            "type": "string",
+            "description": "The action that triggered the webhook notifcation to be sent",
+            "enum": [
+              "Updated"
+            ],
+            "example": "Updated"
+          },
+          "TimeStamp": {
+            "type": "string",
+            "format": "date-time",
+            "description": "The timestamp the associated resource was last altered",
             "example": "2024-08-01T21:54:36Z"
           }
         }
       },
       "invoice-webhook": {
-        "description": "The schema for invoice webhook payloads",
+        "description": "The schema for Invoice webhook payloads",
         "type": "object",
         "properties": {
           "ResourcePermaKey": {
@@ -11603,7 +11658,7 @@
           },
           "ActionType": {
             "type": "string",
-            "description": "The key for the resource that has been created or updated",
+            "description": "The action that triggered the webhook notifcation to be sent",
             "enum": [
               "Updated"
             ],
@@ -11612,13 +11667,13 @@
           "TimeStamp": {
             "type": "string",
             "format": "date-time",
-            "description": "The time stamp the associated resource was last altered",
+            "description": "The timestamp the associated resource was last altered",
             "example": "2024-08-01T21:54:36Z"
           }
         }
       },
       "note-webhook": {
-        "description": "The schema for webhook payloads",
+        "description": "The schema for Note webhook payloads",
         "type": "object",
         "properties": {
           "ResourcePermaKey": {
@@ -11636,7 +11691,7 @@
           },
           "ActionType": {
             "type": "string",
-            "description": "The key for the resource that has been created or updated",
+            "description": "The action that triggered the webhook notifcation to be sent",
             "enum": [
               "Inserted",
               "Updated",
@@ -11647,13 +11702,13 @@
           "TimeStamp": {
             "type": "string",
             "format": "date-time",
-            "description": "The time stamp the associated resource was last altered",
+            "description": "The timestamp the associated resource was last altered",
             "example": "2024-08-01T21:54:36Z"
           }
         }
       },
       "user-webhook": {
-        "description": "The schema for webhook payloads",
+        "description": "The schema for User webhook payloads",
         "type": "object",
         "properties": {
           "ResourcePermaKey": {
@@ -11671,7 +11726,7 @@
           },
           "ActionType": {
             "type": "string",
-            "description": "The key for the resource that has been created",
+            "description": "The action that triggered the webhook notifcation to be sent",
             "enum": [
               "Inserted"
             ],
@@ -11680,13 +11735,13 @@
           "TimeStamp": {
             "type": "string",
             "format": "date-time",
-            "description": "The time stamp the associated resource was last altered",
+            "description": "The timestamp the associated resource was last altered",
             "example": "2024-08-01T21:54:36Z"
           }
         }
       },
       "work-webhook": {
-        "description": "The schema for webhook payloads",
+        "description": "The schema for Work webhook payloads",
         "type": "object",
         "properties": {
           "ResourcePermaKey": {
@@ -11704,7 +11759,7 @@
           },
           "ActionType": {
             "type": "string",
-            "description": "The key for the resource that has been created or updated",
+            "description": "The action that triggered the webhook notifcation to be sent",
             "enum": [
               "Inserted",
               "Updated",
@@ -11715,7 +11770,7 @@
           "TimeStamp": {
             "type": "string",
             "format": "date-time",
-            "description": "The time stamp the associated resource was last altered",
+            "description": "The timestamp the associated resource was last altered",
             "example": "2024-08-01T21:54:36Z"
           }
         }
