@@ -458,6 +458,115 @@
         }
       }
     },
+    "/v3/Payments": {
+      "get": {
+        "operationId": "getPayments",
+        "tags": [
+          "Billing"
+        ],
+        "summary": "Gets a list of Payments",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "$top",
+            "schema": {
+              "type": "number"
+            },
+            "example": 1,
+            "description": "Limit the number of items returned"
+          },
+          {
+            "in": "query",
+            "name": "$skip",
+            "schema": {
+              "type": "number"
+            },
+            "example": 1,
+            "description": "Skip the first n items"
+          }
+        ],
+        "description": "Use the `GET` method on this endpoint to receive a list of Payments",
+        "responses": {
+          "200": {
+            "description": "Successful Payments GET operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "@odata.context": {
+                      "type": "string",
+                      "example": "https://api.karbonhq.com/v3/$metadata#Payments",
+                      "description": "The information about Karbon controllers generating this response."
+                    },
+                    "@odata.count": {
+                      "type": "integer",
+                      "example": 10,
+                      "description": "The total number of results"
+                    },
+                    "values": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/BillingPayment"
+                      }
+                    }
+                  }
+                },
+                "example": {
+                  "@odata.context": "https://api.karbonhq.com/v3/$metadata#Payments",
+                  "@odata.count": 1,
+                  "value": [
+                    {
+                      "InvoiceKey": "72dVb4dTRkH",
+                      "PaymentReference": "KPY-1000",
+                      "PaymentType": "ManualPayment",
+                      "PaymentDate": "2023-07-28T00:00:00Z",
+                      "GrossAmount": 1550.50,
+                      "PaymentMethod": "Check",
+                      "KarbonPayment": {
+                        "CardType": "",
+                        "CardCountry": null,
+                        "CardFunding": "",
+                        "PayoutStatus": "",
+                        "SurchargeAmount": 0.0000,
+                        "KarbonFeeAmount": 0.0000,
+                        "KarbonFeeTaxAmount": 0.0000,
+                        "NetAmount": 0.0000
+                      },
+                      "Client": null
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResourceNotFound"
+                },
+                "example": {
+                  "Unauthorized Access": {
+                    "$ref": "#/components/examples/UnauthorizedAccess"
+                  }
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Rate Limit Exceeded",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RateLimitErrorMessage"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/v3/ManualPayments": {
       "post": {
         "operationId": "createManualPayment",
@@ -8478,6 +8587,61 @@
           }
         }
       },
+      "BillingPayment": {
+        "description": "A Karbon payment",
+        "required": [
+          "PaymentKey",
+          "PaymentReference",
+          "PaymentType",
+          "PaymentDate",
+          "GrossAmount",
+          "PaymentMethod"
+        ],
+        "properties": {
+          "PaymentKey": {
+            "type": "string",
+            "description": "The unique key assigned to an payment by Karbon",
+            "example": "rE3qYC48lv"
+          },
+          "PaymentReference": {
+            "type": "string",
+            "description": "The Karbon reference number of the payment",
+            "example": "KPY-1001"
+          },
+          "PaymentType": {
+            "type": "string",
+            "description": "The type of payment",
+            "enum": [
+              "ManualPayment",
+              "ManualPaymentReversed",
+              "Payment"
+            ],
+            "example": "ManualPayment"
+          },
+          "PaymentDate": {
+            "type": "string",
+            "format": "date-time",
+            "description": "The timestamp the payment was made, for Manual Payments this will be a datestamp",
+            "example": "2024-12-21T00:00:00Z"
+          },
+          "GrossAmount": {
+            "type": "number",
+            "description": "The valeu of the payment, excluding fees and taxes",
+            "example": 2200.0
+          },
+          "PaymentMethod": {
+            "type": "string",
+            "description": "The method by which the payment was made",
+            "example": "Check"
+          },
+          "KarbonPayment": {
+            "$ref": "#/components/schemas/KarbonPayment"
+          },
+          "Client": {
+            "$ref": "#/components/schemas/BillingClient"
+          }
+        }
+      },
       "BillingInvoiceLineItem": {
         "description": "A line item on a Karbon invoice",
         "type": "object",
@@ -9737,6 +9901,61 @@
             "type": "string",
             "example": "https://api.karbonhq.com/v3/Organizations?$skip=100",
             "description": "The link to next set of Organizations. @odata.nextLink field will only appear if you have more than 100 Organizations."
+          }
+        }
+      },
+      "KarbonPayment": {
+        "description": "Data specific to Karbon Payments",
+        "type": "object",
+        "properties": {
+          "CardType": {
+            "type": "string",
+            "example": "",
+            "description": "The type of the paying card"
+          },
+          "CardCountry": {
+            "type": "string",
+            "example": null,
+            "description": "The country the paying card was issued in"
+          },
+          "CardFunding": {
+            "type": "string",
+            "example": "",
+            "description": ""
+          },
+          "PayoutStatus": {
+            "type": "string",
+            "example": "",
+            "description": "A status indicating whether the payment has been payed out"
+          },
+          "SurchargeAmount": {
+            "type": "number",
+            "example": 0.0000,
+            "description": "The amount of anr surcharge(s)"
+          },
+          "SurchargeTaxAmount": {
+            "type": "number",
+            "format": "float",
+            "example": 0.0000,
+            "description": "The tax on any surcharge(s)"
+          },
+          "KarbonFeeAmount": {
+            "type": "number",
+            "format": "float",
+            "example": 0.0000,
+            "description": "The amount of the Karbon fee"
+          },
+          "KarbonFeeTaxAmount": {
+            "type": "number",
+            "format": "float",
+            "example": 0.0000,
+            "description": "The tax on the Karbon fee"
+          },
+          "NetAmount": {
+            "type": "number",
+            "format": "float",
+            "example": 0.0000,
+            "description": "The gross amount less surcharges, fees and taxes"
           }
         }
       },
