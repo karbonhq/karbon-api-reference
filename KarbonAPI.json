@@ -354,7 +354,7 @@
             "description": "The Karbon-generated Invoice key"
           },
           {
-            "$ref": "#/components/parameters/ExpandLineItems"
+            "$ref": "#/components/parameters/ExpandLineItemsAndOrPayments"
           }
         ],
         "description": "Use the `GET` method on this endpoint to receive the details of an Invoice specified using the InvoiceKey.",
@@ -8349,6 +8349,18 @@
           ]
         },
         "description": "Include additional invoice properties, such as lineitems"
+      },
+      "ExpandLineItemsAndOrPayments": {
+        "in": "query",
+        "name": "$expand",
+        "example": "Payments",
+        "schema": {
+          "type": "string",
+          "enum": [
+            "LineItems", "Payments"
+          ]
+        },
+        "description": "Include additional invoice properties, such as lineitems or payments"
       }
     },
     "schemas": {
@@ -8456,6 +8468,13 @@
               "$ref": "#/components/schemas/BillingInvoiceLineItem"
             },
             "description": "An array of invoice line items"
+          },
+          "Payments": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/BillingInvoicePayment"
+            },
+            "description": "An array of invoice payments"
           }
         }
       },
@@ -8509,6 +8528,42 @@
               "null"
             ],
             "description": "The user specified name of tax rate, e.g. GST, VAT, PST"
+          }
+        }
+      },
+      "BillingInvoicePayment": {
+        "description": "A payment on a Karbon invoice",
+        "type": "object",
+        "properties": {
+          "PaymentKey": {
+            "type": "string",
+            "description": "A unique ID for the payment",
+            "example": "4n3mrlQPycxn"
+          },
+          "PaymentReference": {
+            "type": "string",
+            "description": "The Karbon reference number for the payment",
+            "example": "KPY-001"
+          },
+          "PaymentType": {
+            "type": "string",
+            "enum": [
+              "ManualPayment",
+              "ManualPaymentReversed",
+              "Payment"
+            ],
+            "description": "The type of payment"
+          },
+          "PaymentDate": {
+            "type": "string",
+            "format": "date-time",
+            "description": "The timestamp the payment was made, for manual payments this is the date only",
+            "example": "2025-01-07T00:00:00Z"
+          },
+          "Amount": {
+            "type": "number",
+            "description": "The value of the payment",
+            "example": 1100.50
           }
         }
       },
