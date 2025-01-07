@@ -784,25 +784,6 @@
                       "$ref": "#/components/schemas/BillingPayment"
                     }
                   ]
-                },
-                "example": {
-                  "PaymentKey": "72dVb4dTRkH",
-                  "PaymentReference": "KPY-1000",
-                  "PaymentType": "ManualPayment",
-                  "PaymentDate": "2023-07-28T00:00:00Z",
-                  "GrossAmount": 1550.50,
-                  "PaymentMethod": "Check",
-                  "KarbonPayment": {
-                    "CardType": "",
-                    "CardCountry": null,
-                    "CardFunding": "",
-                    "PayoutStatus": "",
-                    "SurchargeAmount": 0.0000,
-                    "KarbonFeeAmount": 0.0000,
-                    "KarbonFeeTaxAmount": 0.0000,
-                    "NetAmount": 0.0000
-                  },
-                  "Client": null
                 }
               }
             }
@@ -8679,6 +8660,7 @@
         }
       },
       "BillingPayment": {
+        "type": "object",
         "description": "A Karbon payment",
         "required": [
           "PaymentKey",
