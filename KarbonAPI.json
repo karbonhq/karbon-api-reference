@@ -744,6 +744,97 @@
         }
       }
     },
+    "/v3/Payments/{PaymentKey}": {
+      "get": {
+        "operationId": "getPaymentByPaymentKey",
+        "tags": [
+          "Billing"
+        ],
+        "summary": "Gets a single Payments",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "PaymentKey",
+            "schema": {
+              "type": "string"
+            },
+            "example": "72dVb4dTRkH",
+            "description": "The unique key of the payment"
+          }
+        ],
+        "description": "Use the `GET` method on this endpoint to receive details of a single Payment",
+        "responses": {
+          "200": {
+            "description": "Successful Payment GET operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "type": "object",
+                      "properties": {
+                        "@odata.context": {
+                          "type": "string",
+                          "example": "https://api.karbonhq.com/v3/$metadata#Payments/$entity",
+                          "description": "The information about Karbon controllers generating this response."
+                        }
+                      }
+                    },
+                    {
+                      "$ref": "#/components/schemas/BillingPayment"
+                    }
+                  ]
+                },
+                "example": {
+                  "PaymentKey": "72dVb4dTRkH",
+                  "PaymentReference": "KPY-1000",
+                  "PaymentType": "ManualPayment",
+                  "PaymentDate": "2023-07-28T00:00:00Z",
+                  "GrossAmount": 1550.50,
+                  "PaymentMethod": "Check",
+                  "KarbonPayment": {
+                    "CardType": "",
+                    "CardCountry": null,
+                    "CardFunding": "",
+                    "PayoutStatus": "",
+                    "SurchargeAmount": 0.0000,
+                    "KarbonFeeAmount": 0.0000,
+                    "KarbonFeeTaxAmount": 0.0000,
+                    "NetAmount": 0.0000
+                  },
+                  "Client": null
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResourceNotFound"
+                },
+                "example": {
+                  "Unauthorized Access": {
+                    "$ref": "#/components/examples/UnauthorizedAccess"
+                  }
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Rate Limit Exceeded",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RateLimitErrorMessage"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/v3/BusinessCards/{BusinessCardKey}": {
       "get": {
         "operationId": "getBusinessCardByKey",
@@ -8626,6 +8717,7 @@
           },
           "GrossAmount": {
             "type": "number",
+            "format": "double",
             "description": "The valeu of the payment, excluding fees and taxes",
             "example": 2200.0
           },
@@ -8732,7 +8824,10 @@
         }
       },
       "BillingClient": {
-        "type": "object",
+        "type": [
+          "object",
+          "null"
+        ],
         "description": "The details of the recipient of the invoice at the point in time the invoice was drafted",
         "properties": {
           "ClientKey": {
@@ -9914,7 +10009,10 @@
             "description": "The type of the paying card"
           },
           "CardCountry": {
-            "type": "string",
+            "type": [
+              "string",
+              "null"
+            ],
             "example": null,
             "description": "The country the paying card was issued in"
           },
@@ -9930,30 +10028,31 @@
           },
           "SurchargeAmount": {
             "type": "number",
+            "format": "double",
             "example": 0.0000,
             "description": "The amount of anr surcharge(s)"
           },
           "SurchargeTaxAmount": {
             "type": "number",
-            "format": "float",
+            "format": "double",
             "example": 0.0000,
             "description": "The tax on any surcharge(s)"
           },
           "KarbonFeeAmount": {
             "type": "number",
-            "format": "float",
+            "format": "double",
             "example": 0.0000,
             "description": "The amount of the Karbon fee"
           },
           "KarbonFeeTaxAmount": {
             "type": "number",
-            "format": "float",
+            "format": "double",
             "example": 0.0000,
             "description": "The tax on the Karbon fee"
           },
           "NetAmount": {
             "type": "number",
-            "format": "float",
+            "format": "double",
             "example": 0.0000,
             "description": "The gross amount less surcharges, fees and taxes"
           }
