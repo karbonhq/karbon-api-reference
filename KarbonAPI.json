@@ -12527,10 +12527,10 @@
           "ResourceType": {
             "type": "string",
             "enum": [
-              "EstimateSummary"
+              "Estimate"
             ],
             "description": "The type of resource that has been created or updated",
-            "example": "EstimateSummary"
+            "example": "Estimate"
           },
           "ActionType": {
             "type": "string",
