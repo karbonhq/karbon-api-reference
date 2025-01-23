@@ -223,6 +223,12 @@
             "$ref": "#/components/parameters/ExpandLineItems"
           },
           {
+            "$ref": "#/components/parameters/SkipRecords"
+          },
+          {
+            "$ref": "#/components/parameters/TopRecords"
+          },
+          {
             "in": "query",
             "name": "$orderby",
             "schema": {
@@ -376,7 +382,7 @@
                       }
                     },
                     {
-                      "$ref": "#/components/schemas/BillingInvoice"
+                      "$ref": "#/components/schemas/BillingInvoiceWithPayment"
                     }
                   ]
                 },
@@ -409,6 +415,28 @@
                     {
                       "TaxName": "GST",
                       "TaxValue": 209.63
+                    }
+                  ],
+                  "LineItems": [
+                    {
+                      "LineItemKey": "string",
+                      "BillableItemEntityKey": "string",
+                      "BillableItemType": "TimeEntry",
+                      "Description": "string",
+                      "Quantity": 0,
+                      "UnitPrice": "string",
+                      "Amount": 0,
+                      "TaxRate": 0,
+                      "TaxRateName": "string"
+                    }
+                  ],
+                  "Payments": [
+                    {
+                      "PaymentKey": "4n3mrlQPycxn",
+                      "PaymentReference": "KPY-001",
+                      "PaymentType": "ManualPayment",
+                      "PaymentDate": "2025-01-07T00:00:00Z",
+                      "Amount": 1100.5
                     }
                   ]
                 }
@@ -467,22 +495,10 @@
         "summary": "Gets a list of Payments",
         "parameters": [
           {
-            "in": "query",
-            "name": "$top",
-            "schema": {
-              "type": "number"
-            },
-            "example": 1,
-            "description": "Limit the number of items returned"
+            "$ref": "#/components/parameters/SkipRecords"
           },
           {
-            "in": "query",
-            "name": "$skip",
-            "schema": {
-              "type": "number"
-            },
-            "example": 1,
-            "description": "Skip the first n items"
+            "$ref": "#/components/parameters/TopRecords"
           }
         ],
         "description": "Use the `GET` method on this endpoint to receive a list of Payments",
@@ -1136,25 +1152,10 @@
             "description": "When this parameter is combined with the URI, this endpoint will return a list of Client Groups, sorted by the available properties.\n"
           },
           {
-            "in": "query",
-            "name": "$top",
-            "schema": {
-              "type": "integer",
-              "minimum": 0,
-              "maximum": 100
-            },
-            "example": 50,
-            "description": "When this parameter is combined with the URI and a value N is assigned to it, this endpoint will return only the first N Client Groups.\n"
+            "$ref": "#/components/parameters/SkipRecords"
           },
           {
-            "in": "query",
-            "name": "$skip",
-            "schema": {
-              "type": "integer",
-              "minimum": 0
-            },
-            "example": 100,
-            "description": "When this parameter is combined with the URI and a value N is assigned to it, this endpoint will return all but the first N Client Groups.\n"
+            "$ref": "#/components/parameters/TopRecords"
           }
         ],
         "description": "Use the `GET` method on this endpoint to receive a paginated list of Client Groups from your tenant.\nUsing the query parameters available to this endpoint, you can also filter the list of Client Groups by their full name.\n\n**Notes**\n\n* This endpoint returns a maximum of 100 Client Groups at once.\n* If the query results in more than 100 Client Groups, a link to the next set of the results will be given in the `@odata.nextLink` field of the response.\n* The `$filter` query parameter supports a logical operator - `eq` and a property to help you form an expression.\n\n",
@@ -2370,25 +2371,10 @@
             "description": "When this parameter is combined with the URI, this endpoint will return a list of Contacts, sorted by the available properties.\n"
           },
           {
-            "in": "query",
-            "name": "$top",
-            "schema": {
-              "type": "integer",
-              "minimum": 0,
-              "maximum": 100
-            },
-            "example": 50,
-            "description": "When this parameter is combined with the URI and a value N is assigned to it, this endpoint will return only the first N Contacts.\n"
+            "$ref": "#/components/parameters/SkipRecords"
           },
           {
-            "in": "query",
-            "name": "$skip",
-            "schema": {
-              "type": "integer",
-              "minimum": 0
-            },
-            "example": 100,
-            "description": "When this parameter is combined with the URI and a value N is assigned to it, this endpoint will return all but the first N Contacts.\n"
+            "$ref": "#/components/parameters/TopRecords"
           }
         ],
         "description": "Use the `GET` method on this endpoint to receive a paginated list of Contacts from your tenant.   Using the query parameters available to this endpoint,  you can also filter the list of Contacts by their full name, email address, or phone number.\n\n**Notes**  <ul>  <li>This endpoint returns a maximum of 100 Contacts at once.</li>  <li>If the query results in more than 100 Contacts, a link to the next set of the results will be given in the `@odata.nextLink` field of the response.</li>  <li>The `$filter` query parameter supports 3 logical operators (`eq`, `contains`, and `and`) and 3 properties to help you form an expression. Usage examples below</li> <table> <thead> <tr>\n<th>Logical Operators</th>\n<th>Purpose</th>\n<th>FullName</th>\n<th>EmailAddress</th>\n<th>PhoneNumber</th>\n</tr> </thead> <tbody>\n<tr>\n<td>eq</td>\n<td>Full-text search</td>\n<td>/v3/Contacts?$filter=FullName eq 'Sample Management\nTeam'</td>\n<td>/v3/Contacts?$filter=EmailAddress eq\n'sample@company.com'</td>\n<td>/v3/Contacts?$filter=PhoneNumber eq\n'1234567890'</td>\n</tr>\n<tr>\n<td>contains</td>\n<td>Partial-text search</td>\n<td>/v3/Contacts?$filter=(contains(FullName, 'Management\nTeam'))</td>\n<td>/v3/Contacts?$filter=(contains(EmailAddress,\n'sample@'))</td>\n<td>/v3/Contacts?$filter=(contains(PhoneNumber,\n'45678'))</td>\n</tr>\n<tr>\n<td>and</td>\n<td>Combines properties</td>\n<td colspan = \"2\">/v3/Contacts?$filter=PhoneNumber eq\n'1234567890' and (contains(FullName, 'Management Team'))</td>\n</tr>\n</tbody> </table>\n",
@@ -4455,25 +4441,10 @@
             "description": "When this parameter is combined with the URI, this endpoint will return a list of Organizations, sorted by the available properties.\n"
           },
           {
-            "in": "query",
-            "name": "$top",
-            "schema": {
-              "type": "integer",
-              "minimum": 0,
-              "maximum": 100
-            },
-            "example": 50,
-            "description": "When this parameter is combined with the URI and a value N is assigned to it, this endpoint will return only the first N Organizations.\n"
+            "$ref": "#/components/parameters/SkipRecords"
           },
           {
-            "in": "query",
-            "name": "$skip",
-            "schema": {
-              "type": "integer",
-              "minimum": 0
-            },
-            "example": 100,
-            "description": "When this parameter is combined with the URI and a value N is assigned to it, this endpoint will return all but the first N Organizations.\n"
+            "$ref": "#/components/parameters/TopRecords"
           }
         ],
         "description": "Use the `GET` method on this endpoint to receive a paginated list of Organizations from your tenant.   Using the query parameters available to this endpoint,  you can also filter the list of Organizations by their full name, or email address.\n\n**Notes**\n\n* This endpoint returns a maximum of 100 Organizations at once.\n* If the query results in more than 100 Organizations, a link to the next set of the results will be given in the `@odata.nextLink` field of the response.\n* The `$filter` query parameter supports 2 logical operators - `eq` and `and` - and 2 properties to help you form an expression. Usage examples below<\n\n<table>\n<thead>\n<tr>\n<th>Logical Operators</th>\n<th>Purpose</th>\n<th>FullName</th>\n<th>EmailAddress</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td>eq</td>\n<td>Full-text search</td>\n<td>/v3/Organizations?$filter=FullName eq 'Sample Company'</td>\n<td>/v3/Organizations?$filter=EmailAddress eq 'info@samplecompany.com'</td>\n</tr>\n<tr>\n<td>and</td>\n<td>Combines properties</td>\n<td colspan = \"2\">/v3/Organizations?$filter=FullName eq 'Sample Company' and EmailAddress eq 'info@samplecompany.com'</td>\n</tr>\n</tbody>\n</table>\n",
@@ -6232,25 +6203,10 @@
             "description": "When this parameter is combined with the URI, this endpoint will return a list of Timesheets, sorted by the available properties.\n"
           },
           {
-            "in": "query",
-            "name": "$top",
-            "schema": {
-              "type": "integer",
-              "minimum": 0,
-              "maximum": 100
-            },
-            "example": 50,
-            "description": "When this parameter is combined with the URI and a value N is assigned to it, this endpoint will return only the first N Timesheets.\n"
+            "$ref": "#/components/parameters/SkipRecords"
           },
           {
-            "in": "query",
-            "name": "$skip",
-            "schema": {
-              "type": "integer",
-              "minimum": 0
-            },
-            "example": 100,
-            "description": "When this parameter is combined with the URI and a value N is assigned to it, this endpoint will return all but the first N Timesheets.\n"
+            "$ref": "#/components/parameters/TopRecords"
           },
           {
             "in": "query",
@@ -6504,25 +6460,10 @@
             "description": "When this parameter is combined with the URI, this endpoint will return a subset of the Users that satisfy the `$filter` expression.\n"
           },
           {
-            "in": "query",
-            "name": "$top",
-            "schema": {
-              "type": "integer",
-              "minimum": 0,
-              "maximum": 100
-            },
-            "example": 50,
-            "description": "When this parameter is combined with the URI and a value N is assigned to it, this endpoint will return only the first N Users.\n"
+            "$ref": "#/components/parameters/SkipRecords"
           },
           {
-            "in": "query",
-            "name": "$skip",
-            "schema": {
-              "type": "integer",
-              "minimum": 0,
-              "example": 100
-            },
-            "description": "When this parameter is combined with the URI and a value N is assigned to it, this endpoint will return all but the first N Users.\n"
+            "$ref": "#/components/parameters/TopRecords"
           }
         ],
         "description": "Use the `GET` method on this endpoint to receive a paginated list of Users from your tenant.   Using the query parameters available to this endpoint, you can also filter the list of Users by their Name, and EmailAddress.\n\n**Notes**\n\n* This endpoint returns a maximum of 100 Users at once.\n* If the query results in more than 100 Users, a link to the next set of the results will be given in the `@odata.nextLink` field of the response.\n* The `$filter` query parameter supports 3 logical operators (`eq`, `contains`, and `and`), and 2 properties to help you  form an expression. They are listed below with examples of usage.\n\n<table>\n<thead>\n<tr>\n<th>Logical Operators</th>\n<th>Purpose</th>\n<th>Name</th>\n<th>EmailAddress</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td>eq</td>\n<td>Full-text search</td>\n<td>/v3/Users?$filter=Name eq 'Joe Min'</td>\n<td>/v3/Users?$filter=EmailAddress eq 'joe@samplecompany.com'</td>\n</tr>\n<tr>\n<td>contains</td>\n<td>Partial-text search</td>\n<td>/v3/Users?$filter=(contains(Name, 'Min'))</td>\n<td>/v3/Users?$filter=(contains(EmailAddress, 'joe'))</td>\n</tr>\n<tr>\n<td>and</td>\n<td>Combines properties</td>\n<td colspan = \"2\">/v3/Users?$filter=Name eq 'Joe Min' and (contains(EmailAddress, 'joe'))</td>\n</tr>\n</tbody>\n</table>\n",
@@ -7259,25 +7200,10 @@
             "description": "When this parameter is combined with the URI, this endpoint will return a list of Work Items, sorted by the available properties.\n"
           },
           {
-            "in": "query",
-            "name": "$top",
-            "schema": {
-              "type": "integer",
-              "minimum": 0,
-              "maximum": 1000
-            },
-            "example": 50,
-            "description": "When this parameter is combined with the URI and a value N is assigned to it, this endpoint will return only the first N Work Items.\n"
+            "$ref": "#/components/parameters/SkipRecords"
           },
           {
-            "in": "query",
-            "name": "$skip",
-            "schema": {
-              "type": "integer",
-              "minimum": 0
-            },
-            "example": 100,
-            "description": "When this parameter is combined with the URI and a value N is assigned to it, this endpoint will return all but the first N Work Items.\n"
+            "$ref": "#/components/parameters/TopRecords"
           }
         ],
         "description": "Use the `GET` method on this endpoint to receive a paginated list of Work Items from your tenant. Using the query parameters available to this endpoint, you can also filter the list of Work Items by their AssigneeEmailAddress, ClientKey, PrimaryStatus StartDate, Title, WorkStatus, and WorkType.\n\n**Notes**\n\n* This endpoint returns a maximum of 100 Work Items at once.\n* If the query results in more than 100 Work Items, a link to the next set of the results will be given in the `@odata.nextLink` field of the response.\n* The `$filter` query parameter supports multiple logical operators and 7 properties to help you form an expression. They are listed below with examples of usage.\n\n### $filter operators for StartDate property\n<table>\n<thead>\n<tr>\n<th>Operators</th>\n<th>Purpose</th>\n<th>StartDate</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td>ge</td>\n<td>Greater than and equals</td>\n<td>/v3/WorkItems?$filter=StartDate ge 2021-04-27T00:00:00Z</td>\n</tr>\n<tr>\n<td>le</td>\n<td>Lesser than and equals</td>\n<td>/v3/WorkItems?$filter=StartDate le 2021-04-27T00:00:00Z</td>\n</tr>\n<tr>\n<td>and</td>\n<td>Combines properties</td>\n<td>/v3/WorkItems?$filter=StartDate ge 2021-04-27T00:00:00Z and PrimaryStatus eq 'Planned'</td>\n</tr>\n</tbody>\n</table>\n\n### $filter operators for rest of the properties\n<table>\n<thead>\n<tr>\n<th>Property</th>\n<th>eq [For full-text search]</th>\n<th>and [For combined-property search]</th>\n<th>contains [For partial-text search]</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td>AssigneeEmailAddress</td>\n<td>/v3/WorkItems?$filter=AssigneeEmailAddress eq 'joe@samplecompany.com'</td>\n<td>/v3/WorkItems?$filter=AssigneeEmailAddress eq 'joe@samplecompany.com' and PrimaryStatus eq 'Planned'</td>\n<td>/v3/WorkItems?$filter=(contains(AssigneeEmailAddress , 'joe'))</td>\n</tr>\n<tr>\n<td>ClientKey</td>\n<td>/v3/WorkItems?$filter=ClientKey eq '2nvhdM1TmZk3'</td>\n<td>/v3/WorkItems?$filter=ClientKey eq '2nvhdM1TmZk3' and (contains(AssigneeEmailAddress , 'joe'))</td>\n<td>N/A</td>\n</tr>\n<tr>\n<td>PrimaryStatus</td>\n<td>/v3/WorkItems?$filter=PrimaryStatus eq 'Planned'</td>\n<td>/v3/WorkItems?$filter=AssigneeEmailAddress eq 'joe@samplecompany.com' and PrimaryStatus eq 'Planned'</td>\n<td>N/A</td>\n</tr>\n<tr>\n<td>Title</td>\n<td>/v3/WorkItems?$filter=Title eq 'Payroll 31 Aug - 15 Sep 2022'</td>\n<td>/v3/WorkItems?$filter=Title eq 'Payroll 31 Aug - 15 Sep 2022' and PrimaryStatus eq 'Planned'</td>\n<td>/v3/WorkItems?$filter=(contains(Title, 'pay'))</td>\n</tr>\n<tr>\n<td>WorkStatus</td>\n<td>/v3/WorkItems?$filter=WorkStatus eq 'Ready To Start'</td>\n<td>/v3/WorkItems?$filter=WorkStatus eq 'Ready To Start' and $filter=(contains(Title, 'Pay'))</td>\n<td>/v3/WorkItems?$filter=(contains(WorkStatus , 'joe'))</td>\n</tr>\n<tr>\n<td>WorkType</td>\n<td>/v3/WorkItems?$filter=WorkType eq 'Payroll'</td>\n<td>/v3/WorkItems?$filter=WorkType eq 'Payroll' and PrimaryStatus eq 'Planned'</td>\n<td>/v3/WorkItems?$filter=(contains(WorkType , 'pay'))</td>\n</tr>\n</tbody>\n</table>\n",
@@ -8293,25 +8219,10 @@
             "description": "When this parameter is combined with the URI, this endpoint will return a list of Work Templates, sorted by the available properties.\n"
           },
           {
-            "in": "query",
-            "name": "$top",
-            "schema": {
-              "type": "integer",
-              "minimum": 0,
-              "maximum": 10
-            },
-            "example": 10,
-            "description": "When this parameter is combined with the URI and a value N is assigned to it, this endpoint will return only the first N Work Templates.\n"
+            "$ref": "#/components/parameters/SkipRecords"
           },
           {
-            "in": "query",
-            "name": "$skip",
-            "schema": {
-              "type": "integer",
-              "minimum": 0
-            },
-            "example": 100,
-            "description": "When this parameter is combined with the URI and a value N is assigned to it, this endpoint will return all but the first N Work Templates.\n"
+            "$ref": "#/components/parameters/TopRecords"
           }
         ],
         "description": "Use the `GET` method on this endpoint to receive a paginated list of Work Templates from your tenant. Using the query parameters available to this endpoint, you can also filter the list of Work Templates by their Title, WorkTypeKey, HasScheduledClientTaskGroups, DraftHasChanges, PublishedDate, NumberOfWorkItemsCreated, DateLastWorkItemCreated, or DateModified.\n\n**Notes**\n\n* This endpoint returns a maximum of 100 Work Templates at once.\n* If the query results in more than 100 Work Templates, a link to the next set of the results will be given in the `@odata.nextLink` field of the response.\n* The `$filter` query parameter supports 3 logical operators (`eq`, `startswith` and `and`) and 8 properties to help you form an expression. Usage examples below:\n\n<table><thead><tr><th>Properties</th><th>eq\n\n[For full-text search]</th><th>startswith\n\n[For searching text that starts with specified characters]</th><th>and\n\n[For combined property search]</th></tr></thead><tbody><tr><td>Title</td><td>/v3/WorkTemplates?$filter=Title eq 'Payroll processing'</td><td>/v3/WorkTemplates?$filter=startswith(Title,'Payroll')</td><td rowspan = \"8\">/v3/WorkTemplates?$filter=startswith(Title,'Payroll') and WorkTypeKey eq '2Wj3ZqNzWtnQ'</td></tr><tr><td>WorkTypeKey</td><td>/v3/WorkTemplates?$filter=WorkTypeKey eq '2Wj3ZqNzWtnQ'</td><td>/v3/WorkTemplates?$filter=startswith(WorkTypeKey,'2W')</td></tr><tr><td>HasScheduledClientTaskGroups</td><td>/v3/WorkTemplates?$filter=HasScheduledClientTaskGroups eq false</td><td>N/A</td></tr><tr><td>DraftHasChanges</td><td>/v3/WorkTemplates?$filter=DraftHasChanges eq false</td><td>N/A</td></tr><tr><td>PublishedDate</td><td>/v3/WorkTemplates?$filter=PublishedDate eq 2021-12-17T01:02:25Z</td><td>N/A</td></tr><tr><td>NumberOfWorkItemsCreated</td><td>/v3/WorkTemplates?$filter=NumberOfWorkItemsCreated eq 24</td><td>N/A</td></tr><tr><td>DateLastWorkItemCreated</td><td>/v3/WorkTemplates?$filter=PublishedDate eq 2022-01-09T01:02:25Z</td><td>N/A</td></tr><tr><td>DateModified</td><td>/v3/WorkTemplates?$filter=PublishedDate eq 2022-01-09T01:02:25Z</td><td>N/A</td></tr></tbody></table>\n",
@@ -8531,6 +8442,27 @@
         },
         "description": "Include additional invoice properties, such as lineitems"
       },
+      "SkipRecords": {
+        "in": "query",
+        "name": "$top",
+        "schema": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 100
+        },
+        "example": 50,
+        "description": "Limit the number of items returned"
+      },
+      "TopRecords": {
+        "in": "query",
+        "name": "$skip",
+        "schema": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "example": 100,
+        "description": "Skip the first n items"
+      },
       "ExpandLineItemsAndOrPayments": {
         "in": "query",
         "name": "$expand",
@@ -8545,8 +8477,9 @@
       }
     },
     "schemas": {
-      "BillingInvoice": {
+      "BillingBaseInvoice": {
         "description": "A Karbon invoice",
+        "type": "object",
         "required": [
           "InvoiceKey",
           "InvoiceNumber",
@@ -8558,9 +8491,7 @@
           "PaymentDueDate",
           "UpdatedAt",
           "CurrencyCode",
-          "InvoiceStatus",
-          "Client",
-          "TaxLineItems"
+          "InvoiceStatus"
         ],
         "properties": {
           "InvoiceKey": {
@@ -8632,32 +8563,38 @@
             ],
             "description": "Current status of the invoice",
             "example": "AwaitingPayment"
-          },
-          "Client": {
-            "$ref": "#/components/schemas/BillingClient"
-          },
-          "TaxLineItems": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/BillingTaxLineItem"
-            },
-            "description": "An array of tax types and values from invoice line items"
-          },
-          "LineItems": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/BillingInvoiceLineItem"
-            },
-            "description": "An array of invoice line items"
-          },
-          "Payments": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/BillingInvoicePayment"
-            },
-            "description": "An array of invoice payments"
           }
         }
+      },
+      "BillingInvoice": {
+        "type": "object",
+        "description": "A Karbon Invoice record",
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/BillingBaseInvoice"
+          },
+          {
+            "$ref": "#/components/schemas/BillingClient"
+          },
+          {
+            "$ref": "#/components/schemas/BillingTaxLineItems"
+          },
+          {
+            "$ref": "#/components/schemas/BillingInvoiceLineItems"
+          }
+        ]
+      },
+      "BillingInvoiceWithPayment": {
+        "type": "object",
+        "description": "A Karbon invoice with associated payment records",
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/BillingInvoice"
+          },
+          {  
+            "$ref": "#/components/schemas/BillingInvoicePayments"
+          }
+        ]
       },
       "BillingPayment": {
         "type": "object",
@@ -8716,92 +8653,118 @@
           }
         }
       },
-      "BillingInvoiceLineItem": {
-        "description": "A line item on a Karbon invoice",
+      "BillingInvoiceLineItems": {
         "type": "object",
+        "required": [
+          "LineItems"
+        ],
+        "description": "A breakdown of line items from the invoice",
         "properties": {
-          "LineItemKey": {
-            "type": "string",
-            "description": "A unique GUID for the line item"
-          },
-          "BillableItemEntityKey": {
-            "type": "string",
-            "description": "The unique key of the related entity the line item was created from, could be a Contact, WorkItem or TimeEntry"
-          },
-          "BillableItemType": {
-            "type": "string",
-            "enum": [
-              "TimeEntry",
-              "Expense",
-              "Entity"
-            ],
-            "description": "The source type of the line item"
-          },
-          "Description": {
-            "type": "string",
-            "description": "The description of charge the line item covers"
-          },
-          "Quantity": {
-            "type": "number",
-            "description": "The quantity of units for a line item"
-          },
-          "UnitPrice": {
-            "type": "string",
-            "description": "The per unit price of the line item"
-          },
-          "Amount": {
-            "type": "number",
-            "description": "The amount of the line item calculated as UnitPrice * Quantity, excluding taxes"
-          },
-          "TaxRate": {
-            "type": [
-              "number",
-              "null"
-            ],
-            "description": "The percentage tax rate, expressed as an integer - e.g. 15% is rendered as 15.0000"
-          },
-          "TaxRateName": {
-            "type": [
-              "string",
-              "null"
-            ],
-            "description": "The user specified name of tax rate, e.g. GST, VAT, PST"
+          "LineItems": {
+            "description": "An array of invoice line items",
+            "type": "array",
+            "items": {
+              "description": "A line item on a Karbon invoice",
+              "type": "object",
+              "properties": {
+                "LineItemKey": {
+                  "type": "string",
+                  "description": "A unique GUID for the line item"
+                },
+                "BillableItemEntityKey": {
+                  "type": "string",
+                  "description": "The unique key of the related entity the line item was created from, could be a Contact, WorkItem or TimeEntry"
+                },
+                "BillableItemType": {
+                  "type": "string",
+                  "enum": [
+                    "TimeEntry",
+                    "Expense",
+                    "Entity"
+                  ],
+                  "description": "The source type of the line item"
+                },
+                "Description": {
+                  "type": "string",
+                  "description": "The description of charge the line item covers"
+                },
+                "Quantity": {
+                  "type": "number",
+                  "description": "The quantity of units for a line item"
+                },
+                "UnitPrice": {
+                  "type": "string",
+                  "description": "The per unit price of the line item"
+                },
+                "Amount": {
+                  "type": "number",
+                  "description": "The amount of the line item calculated as UnitPrice * Quantity, excluding taxes"
+                },
+                "TaxRate": {
+                  "type": [
+                    "number",
+                    "null"
+                  ],
+                  "description": "The percentage tax rate, expressed as an integer - e.g. 15% is rendered as 15.0000"
+                },
+                "TaxRateName": {
+                  "type": [
+                    "string",
+                    "null"
+                  ],
+                  "description": "The user specified name of tax rate, e.g. GST, VAT, PST"
+                }
+              }
+            }
           }
         }
       },
-      "BillingInvoicePayment": {
-        "description": "A payment on a Karbon invoice",
+      "BillingInvoicePayments": {
         "type": "object",
+        "required": [
+          "Payments"
+        ],
+        "description": "Details of the payments related to the invoice",
         "properties": {
-          "PaymentKey": {
-            "type": "string",
-            "description": "A unique ID for the payment",
-            "example": "4n3mrlQPycxn"
-          },
-          "PaymentReference": {
-            "type": "string",
-            "description": "The Karbon reference number for the payment",
-            "example": "KPY-001"
-          },
-          "PaymentType": {
-            "type": "string",
-            "enum": [
-              "ManualPayment",
-              "ManualPaymentReversed",
-              "Payment"
-            ],
-            "description": "The type of payment"
-          },
-          "PaymentDate": {
-            "type": "string",
-            "format": "date-time",
-            "description": "The timestamp the payment was made, for manual payments this is the date only",
-            "example": "2025-01-07T00:00:00Z"
-          },
-          "Amount": {
-            "type": "number",
-            "description": "The value of the payment",
-            "example": 1100.50
+          "Payments": {
+            "description": "An array of invoice payments",
+            "type": "array",
+            "items": {
+              "description": "A payment on a Karbon invoice",
+              "type": "object",
+              "properties": {
+                "PaymentKey": {
+                  "type": "string",
+                  "description": "A unique ID for the payment",
+                  "example": "4n3mrlQPycxn"
+                },
+                "PaymentReference": {
+                  "type": "string",
+                  "description": "The Karbon reference number for the payment",
+                  "example": "KPY-001"
+                },
+                "PaymentType": {
+                  "type": "string",
+                  "enum": [
+                    "ManualPayment",
+                    "ManualPaymentReversed",
+                    "Payment"
+                  ],
+                  "description": "The type of payment"
+                },
+                "PaymentDate": {
+                  "type": "string",
+                  "format": "date-time",
+                  "description": "The timestamp the payment was made, for manual payments this is the date only",
+                  "example": "2025-01-07T00:00:00Z"
+                },
+                "Amount": {
+                  "type": "number",
+                  "description": "The value of the payment",
+                  "example": 1100.50
+                }
+              }
+            }
           }
         }
       },
@@ -8810,67 +8773,86 @@
           "object",
           "null"
         ],
+        "required": [
+          "Client"
+        ],
         "description": "The details of the recipient of the invoice at the point in time the invoice was drafted",
         "properties": {
-          "ClientKey": {
-            "type": "string",
-            "description": "The unique key of the billed Client",
-            "example": "R2oFn56pC"
-          },
-          "ClientType": {
-            "type": "string",
-            "description": "The client type, e.g. Contact or Organization",
-            "example": "Contact"
-          },
-          "Name": {
-            "type": "string",
-            "description": "The name of the client at the point the invoice was drafted",
-            "example": "Georgia Davies"
-          },
-          "AddressLine": {
-            "type": "string",
-            "description": "The billing address of the cient at the point the invoice was drafted",
-            "example": "11 Example Blvd"
-          },
-          "City": {
-            "type": "string",
-            "description": "The billing address city of the cient at the point the invoice was drafted",
-            "example": "Los Angeles"
-          },
-          "StateProvinceCounty": {
-            "type": "string",
-            "description": "The billing address state/province/country of the cient at the point the invoice was drafted",
-            "example": "CA"
-          },
-          "ZipCode": {
-            "type": "string",
-            "description": "The billing address zip/postal code of the cient at the point the invoice was drafted",
-            "example": "90210"
-          },
-          "Country": {
-            "type": "string",
-            "description": "The billing address country of the cient at the point the invoice was drafted",
-            "example": "USA"
-          },
-          "EmailAddress": {
-            "type": "string",
-            "description": "The billing email address of the cient at the point the invoice was drafted",
-            "example": "recipient@example.com"
+          "Client": {
+            "type": "object",
+            "description": "The Karbon Client Billing Contact",
+            "properties": {
+              "ClientKey": {
+                "type": "string",
+                "description": "The unique key of the billed Client",
+                "example": "R2oFn56pC"
+              },
+              "ClientType": {
+                "type": "string",
+                "description": "The client type, e.g. Contact or Organization",
+                "example": "Contact"
+              },
+              "Name": {
+                "type": "string",
+                "description": "The name of the client at the point the invoice was drafted",
+                "example": "Georgia Davies"
+              },
+              "AddressLine": {
+                "type": "string",
+                "description": "The billing address of the cient at the point the invoice was drafted",
+                "example": "11 Example Blvd"
+              },
+              "City": {
+                "type": "string",
+                "description": "The billing address city of the cient at the point the invoice was drafted",
+                "example": "Los Angeles"
+              },
+              "StateProvinceCounty": {
+                "type": "string",
+                "description": "The billing address state/province/country of the cient at the point the invoice was drafted",
+                "example": "CA"
+              },
+              "ZipCode": {
+                "type": "string",
+                "description": "The billing address zip/postal code of the cient at the point the invoice was drafted",
+                "example": "90210"
+              },
+              "Country": {
+                "type": "string",
+                "description": "The billing address country of the cient at the point the invoice was drafted",
+                "example": "USA"
+              },
+              "EmailAddress": {
+                "type": "string",
+                "description": "The billing email address of the cient at the point the invoice was drafted",
+                "example": "recipient@example.com"
+              }
+            }
           }
         }
       },
-      "BillingTaxLineItem": {
-        "description": "A tax line item detailing the tax code and amount on Karbon invoice",
+      "BillingTaxLineItems": {
+        "type": "object",
+        "description": "Details of the tax components of the invoice",
         "properties": {
-          "TaxName": {
-            "type": "string",
-            "description": "The name of the tax",
-            "example": "GST"
-          },
-          "TaxValue": {
-            "type": "number",
-            "description": "The value of the tax in the invoice currency",
-            "example": 209.63
+          "TaxLineItems": {
+            "description": "An array of tax types and values from invoice line items",
+            "type": "array",
+            "items": {
+              "description": "A tax line item detailing the tax code and amount on Karbon invoice",
+              "properties": {
+                "TaxName": {
+                  "type": "string",
+                  "description": "The name of the tax",
+                  "example": "GST"
+                },
+                "TaxValue": {
+                  "type": "number",
+                  "description": "The value of the tax in the invoice currency",
+                  "example": 209.63
+                }
+              }
+            }
           }
         }
       },
