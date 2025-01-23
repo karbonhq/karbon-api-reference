@@ -590,7 +590,7 @@
           "Billing"
         ],
         "summary": "Create a manual payment against an Invoice",
-        "description": "Use the `GET` method on this endpoint to receive a list of Invoices",
+        "description": "Use the `POST` method on this endpoint to create a Manual Payment",
         "responses": {
           "201": {
             "description": "Manual Payment recorded successfully",
@@ -753,6 +753,68 @@
                     "example": "Payment in person",
                     "description": "An optional reference to include with the payment."
                   }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v3/ManualPayments/{ManualPaymentKey}": {
+      "delete": {
+        "operationId": "deleteManualPayment",
+        "tags": [
+          "Billing"
+        ],
+        "summary": "Delete a manual payment",
+        "description": "Use the `DELETE` method on this endpoint to reverse a Manual Payment",
+        "parameters": [
+          {
+            "required": true,
+            "in": "path",
+            "name": "ManualPaymentKey",
+            "example": "2Rz483jmtvzb",
+            "schema": {
+              "type": "string"
+            },
+            "description": "The Manual Payment key"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResourceNotFound"
+                },
+                "examples": {
+                  "Unauthorized Access": {
+                    "$ref": "#/components/examples/UnauthorizedAccess"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Manual Payment not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ManualPaymentNotFoundErrorMessage"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Rate Limit Exceeded",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RateLimitErrorMessage"
                 }
               }
             }
@@ -1698,13 +1760,13 @@
               "type": "string"
             },
             "examples": {
-              "BusinessCard" :{
+              "BusinessCard": {
                 "value": "BusinessCard",
                 "summary": "Include the Business Card for the Client Group the API response"
               },
               "ClientTeam": {
                 "value": "ClientTeam",
-                "summary": "Include the Client Team assigned to the Client Group in the API response"          
+                "summary": "Include the Client Team assigned to the Client Group in the API response"
               },
               "BusinessCardAndClientTeam": {
                 "value": "BusinessCard,ClientTeam",
@@ -5040,17 +5102,17 @@
             },
             "examples": {
               "examples": {
-                "BusinessCard" :{
+                "BusinessCard": {
                   "value": "BusinessCard",
                   "summary": "Include the Business Card for the Organization the API response"
                 },
                 "ClientTeam": {
                   "value": "ClientTeam",
-                  "summary": "Include the Client Team assigned to the Organization in the API response"          
+                  "summary": "Include the Client Team assigned to the Organization in the API response"
                 },
                 "Contacts": {
                   "value": "Contacts",
-                  "summary": "Include the Contacts related to the Organization in the API response"          
+                  "summary": "Include the Contacts related to the Organization in the API response"
                 },
                 "BusinessCardAndClientTeam": {
                   "value": "BusinessCard,ClientTeam",
@@ -6182,7 +6244,6 @@
                 "summary": "Return Timesheets where the Timesheet status is 'Draft'"
               }
             },
-            
             "description": "When this parameter is combined with the URI, this endpoint will return a subset of the Timesheets that satisfy the `$filter` expression.\n"
           },
           {
@@ -6448,14 +6509,14 @@
               "type": "string"
             },
             "examples": {
-                "Name": {
-                  "value": "Name eq 'John Smith'",
-                  "summary": "Return the Users with the name 'John Smith'"
-                },
-                "EmailAddress": {
-                  "value": "EmailAddress eq 'joe@samplecompany.com'",
-                  "summary": "Return the Users with the Email Eddress 'joe@samplecompany.com'"
-                }
+              "Name": {
+                "value": "Name eq 'John Smith'",
+                "summary": "Return the Users with the name 'John Smith'"
+              },
+              "EmailAddress": {
+                "value": "EmailAddress eq 'joe@samplecompany.com'",
+                "summary": "Return the Users with the Email Eddress 'joe@samplecompany.com'"
+              }
             },
             "description": "When this parameter is combined with the URI, this endpoint will return a subset of the Users that satisfy the `$filter` expression.\n"
           },
@@ -8193,7 +8254,7 @@
                 "value": "DateModified eq 2023-02-27T13:00:00Z",
                 "summary": "Return only Work Templates last modified at 1pm on 2023-02-27 (UTC)"
               }
-            },            
+            },
             "description": "When this parameter is combined with the URI, this endpoint will return a subset of the Work Templates that satisfy the `$filter` expression.\n"
           },
           {
@@ -8470,7 +8531,8 @@
         "schema": {
           "type": "string",
           "enum": [
-            "LineItems", "Payments"
+            "LineItems",
+            "Payments"
           ]
         },
         "description": "Include additional invoice properties, such as lineitems or payments"
@@ -8591,7 +8653,7 @@
           {
             "$ref": "#/components/schemas/BillingInvoice"
           },
-          {  
+          {
             "$ref": "#/components/schemas/BillingInvoicePayments"
           }
         ]
@@ -12340,6 +12402,28 @@
             "type": "string",
             "description": "The error message",
             "example": "Rate limit is exceeded. Try again in 10 seconds."
+          }
+        }
+      },
+      "ManualPaymentNotFoundErrorMessage": {
+        "description": "The error message returned when the API rate limit is hit",
+        "type": "object",
+        "properties": {
+          "error": {
+            "type": "object",
+            "description": "The error object",
+            "properties": {
+              "code": {
+                "type": "string",
+                "description": "The error code",
+                "example": "4004"
+              },
+              "message": {
+                "type": "string",
+                "description": "The error message",
+                "example": "Manual payment not found - 2Rz483jmtvzb"
+              }
+            }
           }
         }
       },
