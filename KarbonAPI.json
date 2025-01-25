@@ -767,7 +767,7 @@
           "Billing"
         ],
         "summary": "Delete a manual payment",
-        "description": "Use the `DELETE` method on this endpoint to reverse a Manual Payment",
+        "description": "Use the `DELETE` method on this endpoint to delete a Manual Payment",
         "parameters": [
           {
             "required": true,
@@ -8660,60 +8660,66 @@
       },
       "BillingPayment": {
         "type": "object",
-        "description": "A Karbon payment",
-        "required": [
-          "PaymentKey",
-          "PaymentReference",
-          "PaymentType",
-          "PaymentDate",
-          "GrossAmount",
-          "PaymentMethod"
-        ],
-        "properties": {
-          "PaymentKey": {
-            "type": "string",
-            "description": "The unique key assigned to an payment by Karbon",
-            "example": "rE3qYC48lv"
-          },
-          "PaymentReference": {
-            "type": "string",
-            "description": "The Karbon reference number of the payment",
-            "example": "KPY-1001"
-          },
-          "PaymentType": {
-            "type": "string",
-            "description": "The type of payment",
-            "enum": [
-              "ManualPayment",
-              "ManualPaymentReversed",
-              "Payment"
+        "description": "A Karbon Payment record",
+        "allOf": [
+          {
+            "type": "object",
+            "description": "A Karbon payment",
+            "required": [
+              "PaymentKey",
+              "PaymentReference",
+              "PaymentType",
+              "PaymentDate",
+              "GrossAmount",
+              "PaymentMethod"
             ],
-            "example": "ManualPayment"
+            "properties": {
+              "PaymentKey": {
+                "type": "string",
+                "description": "The unique key assigned to an payment by Karbon",
+                "example": "rE3qYC48lv"
+              },
+              "PaymentReference": {
+                "type": "string",
+                "description": "The Karbon reference number of the payment",
+                "example": "KPY-1001"
+              },
+              "PaymentType": {
+                "type": "string",
+                "description": "The type of payment",
+                "enum": [
+                  "ManualPayment",
+                  "ManualPaymentReversed",
+                  "Payment"
+                ],
+                "example": "ManualPayment"
+              },
+              "PaymentDate": {
+                "type": "string",
+                "format": "date-time",
+                "description": "The timestamp the payment was made, for Manual Payments this will be a datestamp",
+                "example": "2024-12-21T00:00:00Z"
+              },
+              "GrossAmount": {
+                "type": "number",
+                "format": "double",
+                "description": "The valeu of the payment, excluding fees and taxes",
+                "example": 2200.0
+              },
+              "PaymentMethod": {
+                "type": "string",
+                "description": "The method by which the payment was made",
+                "example": "Check"
+              }
+            }
           },
-          "PaymentDate": {
-            "type": "string",
-            "format": "date-time",
-            "description": "The timestamp the payment was made, for Manual Payments this will be a datestamp",
-            "example": "2024-12-21T00:00:00Z"
+          {
+            "$ref": "#/components/schemas/BillingKarbonPayment"
           },
-          "GrossAmount": {
-            "type": "number",
-            "format": "double",
-            "description": "The valeu of the payment, excluding fees and taxes",
-            "example": 2200.0
-          },
-          "PaymentMethod": {
-            "type": "string",
-            "description": "The method by which the payment was made",
-            "example": "Check"
-          },
-          "KarbonPayment": {
-            "$ref": "#/components/schemas/KarbonPayment"
-          },
-          "Client": {
+          { 
             "$ref": "#/components/schemas/BillingClient"
           }
-        }
+        ]
       },
       "BillingInvoiceLineItems": {
         "type": "object",
@@ -10025,62 +10031,68 @@
           }
         }
       },
-      "KarbonPayment": {
-        "description": "Data specific to Karbon Payments",
+      "BillingKarbonPayment": {
         "type": "object",
+        "description": "The Karbon Payment object",
         "properties": {
-          "CardType": {
-            "type": "string",
-            "example": "",
-            "description": "The type of the paying card"
-          },
-          "CardCountry": {
-            "type": [
-              "string",
-              "null"
-            ],
-            "example": null,
-            "description": "The country the paying card was issued in"
-          },
-          "CardFunding": {
-            "type": "string",
-            "example": "",
-            "description": ""
-          },
-          "PayoutStatus": {
-            "type": "string",
-            "example": "",
-            "description": "A status indicating whether the payment has been payed out"
-          },
-          "SurchargeAmount": {
-            "type": "number",
-            "format": "double",
-            "example": 0.0000,
-            "description": "The amount of anr surcharge(s)"
-          },
-          "SurchargeTaxAmount": {
-            "type": "number",
-            "format": "double",
-            "example": 0.0000,
-            "description": "The tax on any surcharge(s)"
-          },
-          "KarbonFeeAmount": {
-            "type": "number",
-            "format": "double",
-            "example": 0.0000,
-            "description": "The amount of the Karbon fee"
-          },
-          "KarbonFeeTaxAmount": {
-            "type": "number",
-            "format": "double",
-            "example": 0.0000,
-            "description": "The tax on the Karbon fee"
-          },
-          "NetAmount": {
-            "type": "number",
-            "format": "double",
-            "example": 0.0000,
-            "description": "The gross amount less surcharges, fees and taxes"
+          "KarbonPayment": {
+            "description": "Data specific to Karbon Payments",
+            "type": "object",
+            "properties": {
+              "CardType": {
+                "type": "string",
+                "example": "",
+                "description": "The type of the paying card"
+              },
+              "CardCountry": {
+                "type": [
+                  "string",
+                  "null"
+                ],
+                "example": null,
+                "description": "The country the paying card was issued in"
+              },
+              "CardFunding": {
+                "type": "string",
+                "example": "",
+                "description": ""
+              },
+              "PayoutStatus": {
+                "type": "string",
+                "example": "",
+                "description": "A status indicating whether the payment has been payed out"
+              },
+              "SurchargeAmount": {
+                "type": "number",
+                "format": "double",
+                "example": 0.0000,
+                "description": "The amount of anr surcharge(s)"
+              },
+              "SurchargeTaxAmount": {
+                "type": "number",
+                "format": "double",
+                "example": 0.0000,
+                "description": "The tax on any surcharge(s)"
+              },
+              "KarbonFeeAmount": {
+                "type": "number",
+                "format": "double",
+                "example": 0.0000,
+                "description": "The amount of the Karbon fee"
+              },
+              "KarbonFeeTaxAmount": {
+                "type": "number",
+                "format": "double",
+                "example": 0.0000,
+                "description": "The tax on the Karbon fee"
+              },
+              "NetAmount": {
+                "type": "number",
+                "format": "double",
+                "example": 0.0000,
+                "description": "The gross amount less surcharges, fees and taxes"
+              }
+            }
           }
         }
       },
