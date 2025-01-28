@@ -2560,8 +2560,8 @@
                     "DeathDate": null,
                     "Salutation": "Mr",
                     "Sex": "M",
-                    "FinancialYearEndDay": 8,
-                    "FinancialYearEndMonth": 30,
+                    "FinancialYearEndDay": 30,
+                    "FinancialYearEndMonth": 8,
                     "IncorporationDate": null,
                     "IncorporationState": null,
                     "LegalName": null,
@@ -2794,8 +2794,8 @@
                     "DeathDate": null,
                     "Salutation": "Mr",
                     "Sex": "M",
-                    "FinancialYearEndDay": 8,
-                    "FinancialYearEndMonth": 30,
+                    "FinancialYearEndDay": 30,
+                    "FinancialYearEndMonth": 8,
                     "IncorporationDate": null,
                     "IncorporationState": null,
                     "LegalName": null,
@@ -3020,8 +3020,8 @@
                     "DeathDate": null,
                     "Salutation": "Mr",
                     "Sex": "M",
-                    "FinancialYearEndDay": 8,
-                    "FinancialYearEndMonth": 30,
+                    "FinancialYearEndDay": 30,
+                    "FinancialYearEndMonth": 8,
                     "IncorporationDate": null,
                     "IncorporationState": null,
                     "LegalName": null,
@@ -5508,8 +5508,8 @@
                   "DeathDate": null,
                   "Salutation": null,
                   "Sex": null,
-                  "FinancialYearEndDay": 1,
-                  "FinancialYearEndMonth": 1,
+                  "FinancialYearEndDay": 31,
+                  "FinancialYearEndMonth": 3,
                   "IncorporationDate": null,
                   "IncorporationState": null,
                   "LegalName": "The Sample Company",
@@ -9355,7 +9355,7 @@
               "null"
             ],
             "format": "int32",
-            "description": "The month in which the fiscal year ends for the contact"
+            "description": "The month in which the fiscal year ends for the contact. Note that this is a 0 index value, so January is 0 and December is 11"
           },
           "IncorporationDate": {
             "type": [
