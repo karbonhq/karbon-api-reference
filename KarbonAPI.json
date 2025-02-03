@@ -7214,7 +7214,7 @@
             },
             "examples": {
               "AssigneeEmailAddress": {
-                "value": "ClientKey eq 'karbon@example.com'",
+                "value": "AssigneeEmailAddress eq 'karbon@example.com'",
                 "summary": "Returns only the Work Items where the Assignee Email is 'karbonhq@example.com'"
               },
               "ClientKey": {
@@ -7222,8 +7222,8 @@
                 "summary": "Returns only the Work Items where the unqiue key of the Client Group, Contact, Organization or User is '2nvhdM1TmZk3'"
               },
               "PrimaryStatus": {
-                "value": "",
-                "summary": ""
+                "value": "PrimaryStatus eq 'In Progress'",
+                "summary": "Returns only the Work Items where the Work Primary Status is 'In Progress', a complete list of Primary Status values can be retrieved the TenantSettings endpoint"
               },
               "StartDate": {
                 "value": "StartDate ge 2024-01-01",
