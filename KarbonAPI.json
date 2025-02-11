@@ -435,7 +435,7 @@
                       "PaymentKey": "4n3mrlQPycxn",
                       "PaymentReference": "KPY-001",
                       "PaymentType": "ManualPayment",
-                      "PaymentDate": "2025-01-07T00:00:00Z",
+                      "PaymentDate": "2025-01-07",
                       "Amount": 1100.5
                     }
                   ]
@@ -535,7 +535,7 @@
                       "InvoiceKey": "72dVb4dTRkH",
                       "PaymentReference": "KPY-1000",
                       "PaymentType": "ManualPayment",
-                      "PaymentDate": "2023-07-28T00:00:00Z",
+                      "PaymentDate": "2023-07-28",
                       "GrossAmount": 1550.50,
                       "PaymentMethod": "Check",
                       "KarbonPayment": {
@@ -616,8 +616,8 @@
                     },
                     "PaymentDate": {
                       "type": "string",
-                      "format": "date-time",
-                      "example": "2024-06-24T00:00:00Z",
+                      "format": "date",
+                      "example": "2024-06-24",
                       "description": "The date the payment made by the customer."
                     },
                     "TotalAmount": {},
@@ -641,7 +641,7 @@
                   "@odata.context": "https://api-stage.karbonhq.com/v3/$metadata#ManualPayments/$entity",
                   "InvoiceKey": "2F3pqz88T2hW",
                   "PaymentMethod": "Cash",
-                  "PaymentDate": "2024-06-06T00:00:00Z",
+                  "PaymentDate": "2024-06-06",
                   "TotalAmount": 1100.11,
                   "Reference": "Cash payment",
                   "PaymentProcessingKey": "2cmDVpGdCp99"
@@ -8696,9 +8696,9 @@
               },
               "PaymentDate": {
                 "type": "string",
-                "format": "date-time",
-                "description": "The timestamp the payment was made, for Manual Payments this will be a datestamp",
-                "example": "2024-12-21T00:00:00Z"
+                "format": "date",
+                "description": "The datestamp the payment was made, for Manual Payments this will be a datestamp",
+                "example": "2024-12-21"
               },
               "GrossAmount": {
                 "type": "number",
@@ -8710,6 +8710,11 @@
                 "type": "string",
                 "description": "The method by which the payment was made",
                 "example": "Check"
+              },
+              "ClientKey": {
+                "type": "string",
+                "description": "The unique key of the client that payment was by - could be a Person or Organization",
+                "example": "vTx6YRgMk4"
               }
             }
           },
@@ -8822,9 +8827,9 @@
                 },
                 "PaymentDate": {
                   "type": "string",
-                  "format": "date-time",
-                  "description": "The timestamp the payment was made, for manual payments this is the date only",
-                  "example": "2025-01-07T00:00:00Z"
+                  "format": "date",
+                  "description": "The datestamp the payment was made, for manual payments this is the date only",
+                  "example": "2025-01-07"
                 },
                 "Amount": {
                   "type": "number",
@@ -8837,17 +8842,17 @@
         }
       },
       "BillingClient": {
-        "type": [
-          "object",
-          "null"
-        ],
         "required": [
           "Client"
         ],
-        "description": "The details of the recipient of the invoice at the point in time the invoice was drafted",
+        "description": "The details of the invoice recipient at the point in time the invoice was drafted or payment creator at the point the payment was received",
         "properties": {
           "Client": {
-            "type": "object",
+            "type": [
+              "object",
+              "null"
+            ],
+            "example": null,
             "description": "The Karbon Client Billing Contact",
             "properties": {
               "ClientKey": {
