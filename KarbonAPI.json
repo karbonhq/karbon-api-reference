@@ -220,9 +220,6 @@
         "summary": "Gets a list of Invoices",
         "parameters": [
           {
-            "$ref": "#/components/parameters/ExpandLineItems"
-          },
-          {
             "$ref": "#/components/parameters/SkipRecords"
           },
           {
@@ -8640,9 +8637,6 @@
           },
           {
             "$ref": "#/components/schemas/BillingTaxLineItems"
-          },
-          {
-            "$ref": "#/components/schemas/BillingInvoiceLineItems"
           }
         ]
       },
@@ -8652,6 +8646,9 @@
         "allOf": [
           {
             "$ref": "#/components/schemas/BillingInvoice"
+          },
+          {
+            "$ref": "#/components/schemas/BillingInvoiceLineItems"
           },
           {
             "$ref": "#/components/schemas/BillingInvoicePayments"
