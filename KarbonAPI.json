@@ -8488,18 +8488,6 @@
   },
   "components": {
     "parameters": {
-      "ExpandLineItems": {
-        "in": "query",
-        "name": "$expand",
-        "example": "LineItems",
-        "schema": {
-          "type": "string",
-          "enum": [
-            "LineItems"
-          ]
-        },
-        "description": "Include additional invoice properties, such as lineitems"
-      },
       "SkipRecords": {
         "in": "query",
         "name": "$top",
