@@ -1,18 +1,26 @@
 name: OpenAPI Spec Linter
+concurrency:
+  group: ${{ github.workflow }}-pipeline-${{ github.ref }}
+  cancel-in-progress: true
+
 on:
   push:
     branches: ["WIP"]
   pull_request:
     branches: ["WIP"]
+
 jobs:
-  lint:
+  lint-api-spec:
     runs-on: ubuntu-latest
+
     steps:
       - name: Install Vacuum
         run: curl -fsSL https://quobix.com/scripts/install_vacuum.sh | sh > /dev/null
         shell: bash
+
       - name: Check out repository code
         uses: actions/checkout@v4
+
       - name: Lint API Spec
         run: vacuum lint -d ./KarbonAPI.json
         shell: bash
