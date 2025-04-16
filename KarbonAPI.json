@@ -42,6 +42,10 @@
       "description": "Manage your contacts and get the full overview over clients, whether they are individuals or organizations. [Read more](https://help.karbonhq.com/en/articles/5708609-overview-of-contacts)"
     },
     {
+      "name": "CustomFields",
+      "description": "Endpoints to manage Custom Fields on Contacts and Organizations in Karbon"
+    },
+    {
       "name": "Estimate Summaries",
       "description": "Estimate and track time to understand jobs that are on-budget, allocate resources, and uncover performance insights to transform your firm. [Read more](https://help.karbonhq.com/en/articles/4439115-overview-of-time-budgets)"
     },
@@ -3575,6 +3579,308 @@
                     "example": "Jr."
                   }
                 }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v3/CustomFields": {
+      "get": {
+        "tags": [
+          "CustomFields"
+        ],
+        "description": "Retrieve a list of all of the custom fields that have been created for a Karbon account",
+        "summary": "Gets all custom field definitions for the current tenant",
+        "operationId": "GetCustomFieldDefinitions",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CustomFieldDefinition"
+                },
+                "example": {
+                  "Key": "ZGNmtYyLm4z",
+                  "Name": "Industry Type",
+                  "Type": "Text",
+                  "IsVisibleToContacts": true,
+                  "IsVisibleToOrganizations": true,
+                  "ListOptions": []
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "CustomFields"
+        ],
+        "description": "Defines a new custom field that can be assigned to a Contact and/or Organization",
+        "summary": "Creates a new custom field definition",
+        "operationId": "CreateCustomFieldDefinition",
+        "responses": {
+          "201": {
+            "description": "Custom field definition successfully created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CustomFieldDefinition"
+                },
+                "headers": {
+                  "Location": {
+                    "description": "Location of the newly created Resource",
+                    "type": "string"
+                  }
+                },
+                "example": {
+                  "Key": "ZGNmtYyLm4z",
+                  "Name": "Industry Type",
+                  "Type": "Text",
+                  "IsVisibleToContacts": true,
+                  "IsVisibleToOrganizations": true,
+                  "ListOptions": []
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Incoming Model is invalid",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorMessages"
+                },
+                "examples": {
+                  "Unsupported Option": {
+                    "$ref": "#/components/examples/NotFound"
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Error processing Request"
+          }
+        },
+        "requestBody": {
+          "description": "The payload sent to create a new Custom Field",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CustomFieldDefinition"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v3/CustomFields/{key}": {
+      "delete": {
+        "tags": [
+          "CustomFields"
+        ],
+        "description": "Delete a custom field defintion by key",
+        "summary": "Deletes a custom field definition by key",
+        "operationId": "DeleteCustomFieldDefinition",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "key",
+            "in": "path",
+            "description": "The key of the custom field definition to delete",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "object"
+            }
+          },
+          "204": {
+            "description": "Custom field definition successfully deleted"
+          },
+          "404": {
+            "description": "Custom field definition not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorMessages"
+                },
+                "examples": {
+                  "Unsupported Option": {
+                    "$ref": "#/components/examples/NotFound"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v3/CustomFieldValues": {
+      "get": {
+        "tags": [
+          "CustomFields"
+        ],
+        "description": "Retrives the custom fields for a Contact or Organization",
+        "summary": "Gets custom field values for a specific entity",
+        "operationId": "GetCustomFieldValues",
+        "parameters": [
+          {
+            "name": "entityKey",
+            "in": "query",
+            "description": "The key of the entity to get custom field values for",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CustomFieldValues"
+                },
+                "examples": {
+                  "EntityKey": "ZGNmtYyLm4z",
+                  "CustomFieldValueDTOs": [
+                    {
+                      "Key": "ZGNGtYyLm4z",
+                      "Name": "Industry Type",
+                      "Type": "Text",
+                      "Value": [
+                        "Professional Services"
+                      ]
+                    },
+                    {
+                      "Key": "AFNGtYyLm4z",
+                      "Name": "Revenue",
+                      "Type": "Number",
+                      "Value": [
+                        "1000000"
+                      ]
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Entity not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorMessages"
+                },
+                "examples": {
+                  "Unsupported Option": {
+                    "$ref": "#/components/examples/NotFound"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "CustomFields"
+        ],
+        "description": "Performs an update of the complete set of custom field values for a Contact or Organization",
+        "summary": "Updates custom field values for a specific entity",
+        "operationId": "UpdateCustomFieldValues",
+        "parameters": [
+          {
+            "name": "customFieldValueDTO",
+            "in": "body",
+            "description": "The custom field values to update",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/CustomFieldValues"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Custom field values successfully updated",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CustomFieldValues"
+                },
+                "example": {
+                  "EntityKey": "Lm4zGNmtYyZ",
+                  "CustomFieldValueDTOs": [
+                    {
+                      "Key": "ZGNGtYyLm4z",
+                      "Name": "Industry Type",
+                      "Type": "Text",
+                      "Value": [
+                        "Professional Services"
+                      ]
+                    },
+                    {
+                      "Key": "AFNGtYyLm4z",
+                      "Name": "Revenue",
+                      "Type": "Number",
+                      "Value": [
+                        "1000000"
+                      ]
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid custom field values or entity key",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorMessages"
+                },
+                "examples": {
+                  "Unsupported Option": {
+                    "$ref": ""
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Entity not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorMessages"
+                },
+                "examples": {
+                  "Unsupported Option": {
+                    "$ref": "#/components/examples/NotFound"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "description": "The payload sent when updating the custom fields on a Contact or Organization",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CustomFieldValues"
               }
             }
           }
@@ -8706,7 +9012,7 @@
           {
             "$ref": "#/components/schemas/BillingKarbonPayment"
           },
-          { 
+          {
             "$ref": "#/components/schemas/BillingClient"
           }
         ]
@@ -9264,6 +9570,80 @@
                 "UserDefinedRole2",
                 null
               ]
+            }
+          }
+        }
+      },
+      "CustomFieldDefinition": {
+        "type": "object",
+        "description": "The structure that defines a Custom Field in Karbon",
+        "properties": {
+          "Key": {
+            "type": "string",
+            "example": "ZGNmtYyLm4z",
+            "required": true
+          },
+          "Name": {
+            "type": "string",
+            "example": "Industry Type"
+          },
+          "Type": {
+            "type": "string",
+            "example": "Text"
+          },
+          "IsVisibleToContacts": {
+            "type": "boolean",
+            "example": true
+          },
+          "IsVisibleToOrganizations": {
+            "type": "boolean",
+            "example": false
+          },
+          "ListOptions": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "CustomFieldValue": {
+        "type": "object",
+        "description": "A collection of Custom Fields",
+        "properties": {
+          "Key": {
+            "type": "string",
+            "example": "ZGNGtYyLm4z"
+          },
+          "Name": {
+            "type": "string",
+            "example": "Industry Type"
+          },
+          "Type": {
+            "type": "string",
+            "example": "Teaxt"
+          },
+          "Value": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "example": "Professional Services"
+            }
+          }
+        }
+      },
+      "CustomFieldValues": {
+        "type": "object",
+        "description": "A single custom field and it's associated values and options",
+        "properties": {
+          "EntityKey": {
+            "type": "string",
+            "example": "Lm4zGNmtYyZ"
+          },
+          "CustomFieldValueDTOs": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CustomFieldValue"
             }
           }
         }
