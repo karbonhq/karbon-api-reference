@@ -54,12 +54,16 @@
       "description": "Handle files and attachments. [Read more](https://help.karbonhq.com/en/articles/5714089-files-and-attachments)"
     },
     {
-      "name": "Notes",
-      "description": "Hold a conversation internally within your company. Unlike an email, Notes are viewed only by members of your team. [Read more](https://help.karbonhq.com/en/articles/5919746-use-notes)"
+      "name": "Integrated Workflows",
+      "description": "Endpoints that enable Karbon Integration Partners to manage integrated work flow tasks enabled for their integrations."
     },
     {
       "name": "Organizations",
       "description": "Create an organization to represent marriages and couples and client groups to represent families. [Read more](https://help.karbonhq.com/en/articles/5708609-overview-of-contacts#h_8ee87bfcc1)"
+    },
+    {
+      "name": "Notes",
+      "description": "Hold a conversation internally within your company. Unlike an email, Notes are viewed only by members of your team. [Read more](https://help.karbonhq.com/en/articles/5919746-use-notes)"
     },
     {
       "name": "Tags",
@@ -215,6 +219,128 @@
     }
   },
   "paths": {
+    "/v3/IntegrationTasksDefinitions": {
+      "get": {
+        "operationId": "ListIntegrationTaskDefintions",
+        "tags": [
+          "Integrated Workflows"
+        ],
+        "summary": "Get a list of integration task definitions",
+        "description": "Use the `GET` method on this endpoint to receive a list of the integration task types that have been defined for your integration",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/IntegrationTaskDefinitions"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v3/IntegrationTasks": {
+      "get": {
+        "operationId": "ListIntegrationTasks",
+        "tags": [
+          "Integrated Workflows"
+        ],
+        "summary": "Get a list of integration tasks",
+        "description": "Use the `GET` method on this endpoint to receive a list of the integration tasks created in the Karbon account which has connected your integration",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/IntegrationTasks"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v3/IntegrationTasks/{IntegrationTaskKey}": {
+      "get": {
+        "operationId": "GetIntegrationTask",
+        "tags": [
+          "Integrated Workflows"
+        ],
+        "summary": "Get an integration task details",
+        "description": "Use the `GET` method on this endpoint to retrieve the details of a single integration task",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/IntegrationTaskKey"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/IntegrationTask"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorMessages"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "operationId": "UpdateIntegrationTask",
+        "tags": [
+          "Integrated Workflows"
+        ],
+        "summary": "Update an integration task details",
+        "description": "Use the `PUT` method on this endpoint to update the details of a single integration task",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/IntegrationTaskKey"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content",
+            "content": {
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorMessages"
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "description": "A manual payment request body",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/IntegrationTaskWriteable"
+              }
+            }
+          }
+        }
+      }
+    },
     "/v3/Invoices": {
       "get": {
         "operationId": "getInvoices",
@@ -8796,6 +8922,16 @@
           ]
         },
         "description": "Include additional invoice properties, such as lineitems or payments"
+      },
+      "IntegrationTaskKey": {
+        "in": "path",
+        "name": "IntegrationTaskKey",
+        "schema": {
+          "type": "string"
+        },
+        "required": true,
+        "example": "zmMgWgPRqCy",
+        "description": "The unique key for a specific intergration task"
       }
     },
     "schemas": {
@@ -12894,6 +13030,231 @@
                 }
               }
             }
+          }
+        }
+      },
+      "IntegrationTaskDefinitions": {
+        "description": "A list of Integration Task Definitions",
+        "type": "object",
+        "properties": {
+          "@odata.context": {
+            "type": "string",
+            "format": "uri",
+            "example": "https://api.karbonhq.com/v3/$metadata#IntegrationTaskDefinitions"
+          },
+          "values": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/IntegrationTaskDefinition"
+            }
+          }
+        }
+      },
+      "IntegrationTaskDefinition": {
+        "description": "A list of Integration Task Definitions",
+        "type": "object",
+        "properties": {
+          "TaskDefinitionKey": {
+            "type": "string",
+            "example": "cc8628b6-b6cd-42f3-957a-c2cdb9d371a4",
+            "description": "The unique ID of the specific Integration Task Definition"
+          },
+          "TaskName": {
+            "type": "string",
+            "example": "Example Integration Task",
+            "description": "The name of the specific Integration Task Definition"
+          },
+          "TaskPrimaryLinkUrl": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "example": "https://app.example.com/create",
+            "description": "The optional default primary link URL of the specific Integration Task Definition",
+            "maxLength": 200
+          },
+          "TaskPrimaryLinkLabel": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "example": "Create",
+            "description": "The optional default label for the primary link URL of the specific Integration Task Definition",
+            "maxLength": 20
+          },
+          "TaskSecondaryLinkUrl": {
+            "type": "string",
+            "example": "https://app.example.com/update",
+            "description": "The optional default label for the secondary link URL of the specific Integration Task Definition",
+            "maxLength": 200
+          },
+          "TaskSecondaryLinkLabel": {
+            "type": "string",
+            "example": "Update",
+            "description": "The optional default label for the secondary link URL of the specific Integration Task Definition",
+            "maxLength": 20
+          },
+          "Locales": {
+            "description": "The list of locales and languages the integration task definition is suitable for use with, useful when different definitions are required for different languages or locales",
+            "type": "array",
+            "items": {
+              "type": "string",
+              "example": "en-US"
+            }
+          },
+          "AllowedTaskUrlHosts": {
+            "description": "The list of allowed hostnames that the primary and secondary link URLs must match",
+            "type": "array",
+            "items": {
+              "type": "string",
+              "example": "https://www.example.com"
+            }
+          }
+        }
+      },
+      "IntegrationTasks": {
+        "type": "object",
+        "description": "A list of Integration Tasks",
+        "properties": {
+          "@odata.context": {
+            "type": "string",
+            "format": "uri",
+            "example": "https://api-dev.karbonhq.com/v3/$metadata#IntegrationTasks"
+          },
+          "@odata.count": {
+            "type": "number",
+            "format": "int32",
+            "example": 3
+          },
+          "value": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/IntegrationTask"
+            }
+          }
+        }
+      },
+      "IntegrationTask": {
+        "description": "A single Integration Task",
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/IntegrationTaskReadOnly"
+          },
+          {
+            "$ref": "#/components/schemas/IntegrationTaskWriteable"
+          }
+        ]
+      },
+      "IntegrationTaskReadOnly": {
+        "type": "object",
+        "description": "The read-only properties of an Integration Task",
+        "properties": {
+          "CreatedAt": {
+            "type": "string",
+            "example": "2025-04-16T03:22:19Z"
+          },
+          "TaskKey": {
+            "type": "string",
+            "example": "yqjhtSrxQ6S",
+            "description": "The unique key of the specific Integration Task Definition for the associated Karbon account"
+          },
+          "Locale": {
+            "description": "The list of locales and languages the integration task definition is suitable for use with, useful when different definitions are required for different languages or locales",
+            "type": "string",
+            "example": "en-US"
+          },
+          "WorkItemKey": {
+            "type": "string",
+            "example": "3lHtWNMVcTVQ"
+          },
+          "WorkItemClientKey": {
+            "type": "string",
+            "example": "4f4gnvcDT2yQ"
+          },
+          "WorkType": {
+            "type": "string",
+            "example": "Tax"
+          }
+        }
+      },
+      "IntegrationTaskWriteable": {
+        "type": "object",
+        "description": "The writable properties of an Integration Task",
+        "properties": {
+          "TaskName": {
+            "type": "string",
+            "example": "Example Integration Task",
+            "description": "The name of the specific Integration Task Definition"
+          },
+          "TaskPrimaryLinkUrl": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "example": "https://app.example.com/create",
+            "description": "The optional default primary link URL of the specific Integration Task Definition",
+            "maxLength": 200
+          },
+          "TaskPrimaryLinkLabel": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "example": "Create",
+            "description": "The optional default label for the primary link URL of the specific Integration Task Definition",
+            "maxLength": 20
+          },
+          "TaskSecondaryLinkUrl": {
+            "type": "string",
+            "example": "https://app.example.com/update",
+            "description": "The optional default label for the secondary link URL of the specific Integration Task Definition",
+            "maxLength": 200
+          },
+          "TaskSecondaryLinkLabel": {
+            "type": "string",
+            "example": "Update",
+            "description": "The optional default label for the secondary link URL of the specific Integration Task Definition",
+            "maxLength": 20
+          },
+          "TaskStatus": {
+            "type": "string",
+            "example": "Viewed by Client"
+          },
+          "PrimaryStatus": {
+            "type": "string",
+            "example": "Waiting",
+            "enum": [
+              "Planned",
+              "ReadyToStart",
+              "InProgress",
+              "Waiting",
+              "Completed"
+            ]
+          },
+          "TaskDueDate": {
+            "type": "string",
+            "example": "2025-04-23T00:00:00Z"
+
+          },
+          "TaskData": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/IntegrationTaskData"
+            }
+          }
+        }
+      },
+      "IntegrationTaskData": {
+        "type": "object",
+        "description": "Optional integration task data key/value pairs",
+        "properties": {
+          "Key": {
+            "type": "string",
+            "example": "Last updated"
+          },
+          "Value": {
+            "type": "string",
+            "example": "17 hours ago by client"
           }
         }
       },
