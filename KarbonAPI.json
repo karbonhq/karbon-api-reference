@@ -3875,7 +3875,7 @@
                 },
                 "examples": {
                   "EntityKey": "ZGNmtYyLm4z",
-                  "CustomFieldValueDTOs": [
+                  "CustomFieldValues": [
                     {
                       "Key": "ZGNGtYyLm4z",
                       "Name": "Industry Type",
