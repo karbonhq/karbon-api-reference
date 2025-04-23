@@ -42,8 +42,8 @@
       "description": "Manage your contacts and get the full overview over clients, whether they are individuals or organizations. [Read more](https://help.karbonhq.com/en/articles/5708609-overview-of-contacts)"
     },
     {
-      "name": "CustomFields",
-      "description": "Endpoints to manage Custom Fields on Contacts and Organizations in Karbon"
+      "name": "Custom Fields",
+      "description": "Endpoints to manage Custom Fields on Contacts and Organizations in Karbon, refer to the Karbon help and supoprt content for more information on [creating custom fields](https://help.karbonhq.com/en/articles/10971113-create-a-new-custom-contact-field) and [frequently asked questions](https://help.karbonhq.com/en/articles/10971266-custom-contact-fields-faqs)"
     },
     {
       "name": "Estimate Summaries",
@@ -3714,7 +3714,7 @@
     "/v3/CustomFields": {
       "get": {
         "tags": [
-          "CustomFields"
+          "Custom Fields"
         ],
         "description": "Retrieve a list of all of the custom fields that have been created for a Karbon account",
         "summary": "Gets all custom field definitions for the current tenant",
@@ -3725,7 +3725,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/CustomFieldDefinition"
+                  "$ref": "#/components/schemas/CustomFieldDefinitions"
                 },
                 "example": {
                   "Key": "ZGNmtYyLm4z",
@@ -3742,9 +3742,9 @@
       },
       "post": {
         "tags": [
-          "CustomFields"
+          "Custom Fields"
         ],
-        "description": "Defines a new custom field that can be assigned to a Contact and/or Organization",
+        "description": "Defines a new custom field that can be assigned to a Contact and/or Organization - use the Karbon UI to create examples of how a new field with specific list options should be created",
         "summary": "Creates a new custom field definition",
         "operationId": "CreateCustomFieldDefinition",
         "responses": {
@@ -3806,7 +3806,7 @@
     "/v3/CustomFields/{CustomFieldDefinitionKey}": {
       "delete": {
         "tags": [
-          "CustomFields"
+          "Custom Fields"
         ],
         "description": "Delete a custom field defintion by key",
         "summary": "Deletes a custom field definition by key",
@@ -3848,7 +3848,7 @@
     "/v3/CustomFieldValues/{EntityKey}": {
       "get": {
         "tags": [
-          "CustomFields"
+          "Custom Fields"
         ],
         "description": "Retrives the custom fields for a Contact or Organization",
         "summary": "Gets custom field values for a specific entity",
@@ -3916,7 +3916,7 @@
       },
       "put": {
         "tags": [
-          "CustomFields"
+          "Custom Fields"
         ],
         "description": "Performs an update of the complete set of custom field values for a Contact or Organization",
         "summary": "Updates custom field values for a specific entity",
@@ -6221,6 +6221,7 @@
     },
     "/v3/Tags": {
       "post": {
+        "deprecated": true,
         "tags": [
           "Tags"
         ],
@@ -6322,6 +6323,7 @@
     },
     "/v3/Tags/{EntityKey}": {
       "delete": {
+        "deprecated": true,
         "tags": [
           "Tags"
         ],
@@ -9679,15 +9681,45 @@
           }
         }
       },
+      "CustomFieldDefinitions":{
+        "type": "object",
+        "description": "A list of the available custom fields in Karbon",
+        "properties": {
+          "@odata.context": {
+            "type": "string",
+            "example": "https://api.karbonhq.com/v3/$metadata#CustomFields"
+          },
+          "@odata.count": {
+            "type": "number",
+            "format": "int32",
+            "example": 3
+          },
+          "value": {
+            "type": "array",
+            "items": {
+              "allOf": [
+                {
+                  "type": "object",
+                  "properties": {
+                    "Key": {
+                      "type": "string",
+                      "example": "ZGNmtYyLm4z",
+                      "required": true
+                    }
+                  }
+                },
+                {
+                  "$ref": "#/components/schemas/CustomFieldDefinition"
+                }
+              ]
+            }
+          }  
+        }
+      },
       "CustomFieldDefinition": {
         "type": "object",
         "description": "The structure that defines a Custom Field in Karbon",
         "properties": {
-          "Key": {
-            "type": "string",
-            "example": "ZGNmtYyLm4z",
-            "required": true
-          },
           "Name": {
             "type": "string",
             "example": "Industry Type"
