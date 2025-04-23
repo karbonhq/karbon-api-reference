@@ -9726,7 +9726,16 @@
           },
           "Type": {
             "type": "string",
-            "example": "Text"
+            "example": "ListSingleSelect",
+            "enum": [
+              "Text",
+              "Number",
+              "Date",
+              "Boolean",
+              "Colleague",
+              "ListSingleSelect",
+              "ListMultipleSelect"
+            ]
           },
           "IsVisibleToContacts": {
             "type": "boolean",
@@ -9737,9 +9746,11 @@
             "example": false
           },
           "ListOptions": {
+            "descriptions": "A value or values assigned to the Custom Field, note that all values for all types are strings - this includes `number` and `boolean` types",
             "type": "array",
             "items": {
-              "type": "string"
+              "type": "string",
+              "example": ["Agriculture", "Manufacturing", "Professional, Scientific and Technical Services"]
             }
           }
         }
@@ -9758,7 +9769,16 @@
           },
           "Type": {
             "type": "string",
-            "example": "Text"
+            "example": "ListSingleSelect",
+            "enum": [
+              "Text",
+              "Number",
+              "Date",
+              "Boolean",
+              "Colleague",
+              "ListSingleSelect",
+              "ListMultipleSelect"
+            ]
           },
           "Value": {
             "type": "array",
