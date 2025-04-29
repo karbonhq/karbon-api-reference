@@ -9722,7 +9722,8 @@
         "properties": {
           "Name": {
             "type": "string",
-            "example": "Industry Type"
+            "example": "Industry Type",
+            "maxLength": 100
           },
           "Type": {
             "type": "string",
@@ -9750,6 +9751,7 @@
             "type": "array",
             "items": {
               "type": "string",
+              "maxLength": 256,
               "example": ["Agriculture", "Manufacturing", "Professional, Scientific and Technical Services"]
             }
           }
@@ -9765,7 +9767,8 @@
           },
           "Name": {
             "type": "string",
-            "example": "Industry Type"
+            "example": "Industry Type",
+            "maxLength": 100
           },
           "Type": {
             "type": "string",
@@ -9784,6 +9787,7 @@
             "type": "array",
             "items": {
               "type": "string",
+              "maxLength": 256,
               "example": "Professional Services"
             }
           }
