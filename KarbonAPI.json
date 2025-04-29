@@ -963,6 +963,7 @@
             "schema": {
               "type": "string"
             },
+            "required": true,
             "example": "72dVb4dTRkH",
             "description": "The unique key of the payment"
           }
@@ -3750,16 +3751,18 @@
         "responses": {
           "201": {
             "description": "Custom field definition successfully created",
+            "headers": {
+              "Location": {
+                "description": "Location of the newly created resource",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
             "content": {
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/CustomFieldDefinition"
-                },
-                "headers": {
-                  "Location": {
-                    "description": "Location of the newly created Resource",
-                    "type": "string"
-                  }
                 },
                 "example": {
                   "Key": "ZGNmtYyLm4z",
@@ -3873,7 +3876,7 @@
                 "schema": {
                   "$ref": "#/components/schemas/CustomFieldValues"
                 },
-                "examples": {
+                "example": {
                   "EntityKey": "ZGNmtYyLm4z",
                   "CustomFieldValues": [
                     {
@@ -5483,14 +5486,14 @@
         "summary": "Gets an Organization using Organizationkey",
         "parameters": [
           {
-            "required": true,
-            "in": "path",
             "name": "Organizationkey",
+            "in": "path",
+            "required": true,
+            "description": "The Karbon-generated Organization key",
             "schema": {
               "type": "string"
             },
-            "example": "2Nw8tnxwQCVf",
-            "description": "The Karbon-generated Organization key"
+            "example": "2Nw8tnxwQCVf"
           },
           {
             "in": "query",
@@ -5499,23 +5502,21 @@
               "type": "string"
             },
             "examples": {
-              "examples": {
-                "BusinessCard": {
-                  "value": "BusinessCard",
-                  "summary": "Include the Business Card for the Organization the API response"
-                },
-                "ClientTeam": {
-                  "value": "ClientTeam",
-                  "summary": "Include the Client Team assigned to the Organization in the API response"
-                },
-                "Contacts": {
-                  "value": "Contacts",
-                  "summary": "Include the Contacts related to the Organization in the API response"
-                },
-                "BusinessCardAndClientTeam": {
-                  "value": "BusinessCard,ClientTeam",
-                  "summary": "Include the Business Card and the Client Team assigned to the Organization in the API response"
-                }
+              "BusinessCard": {
+                "value": "BusinessCard",
+                "summary": "Include the Business Card for the Organization the API response"
+              },
+              "ClientTeam": {
+                "value": "ClientTeam",
+                "summary": "Include the Client Team assigned to the Organization in the API response"
+              },
+              "Contacts": {
+                "value": "Contacts",
+                "summary": "Include the Contacts related to the Organization in the API response"
+              },
+              "BusinessCardAndClientTeam": {
+                "value": "BusinessCard,ClientTeam",
+                "summary": "Include the Business Card and the Client Team assigned to the Organization in the API response"
               }
             },
             "description": "When this parameter is combined with the URI, this endpoint will also return Business Cards, Client Team and/or Contacts associated with the Organization. Multiple properties can be returned by specifying a comma separated list.\n"
@@ -9752,7 +9753,7 @@
             "items": {
               "type": "string",
               "maxLength": 256,
-              "example": ["Agriculture", "Manufacturing", "Professional, Scientific and Technical Services"]
+              "examples": ["Agriculture", "Manufacturing", "Professional, Scientific and Technical Services"]
             }
           }
         }
