@@ -42,6 +42,10 @@
       "description": "Manage your contacts and get the full overview over clients, whether they are individuals or organizations. [Read more](https://help.karbonhq.com/en/articles/5708609-overview-of-contacts)"
     },
     {
+      "name": "Custom Fields",
+      "description": "Endpoints to manage Custom Fields on Contacts and Organizations in Karbon, refer to the Karbon help and supoprt content for more information on [creating custom fields](https://help.karbonhq.com/en/articles/10971113-create-a-new-custom-contact-field) and [frequently asked questions](https://help.karbonhq.com/en/articles/10971266-custom-contact-fields-faqs)"
+    },
+    {
       "name": "Estimate Summaries",
       "description": "Estimate and track time to understand jobs that are on-budget, allocate resources, and uncover performance insights to transform your firm. [Read more](https://help.karbonhq.com/en/articles/4439115-overview-of-time-budgets)"
     },
@@ -50,12 +54,16 @@
       "description": "Handle files and attachments. [Read more](https://help.karbonhq.com/en/articles/5714089-files-and-attachments)"
     },
     {
-      "name": "Notes",
-      "description": "Hold a conversation internally within your company. Unlike an email, Notes are viewed only by members of your team. [Read more](https://help.karbonhq.com/en/articles/5919746-use-notes)"
+      "name": "Integrated Workflows",
+      "description": "Endpoints that enable Karbon Integration Partners to manage integrated work flow tasks enabled for their integrations."
     },
     {
       "name": "Organizations",
       "description": "Create an organization to represent marriages and couples and client groups to represent families. [Read more](https://help.karbonhq.com/en/articles/5708609-overview-of-contacts#h_8ee87bfcc1)"
+    },
+    {
+      "name": "Notes",
+      "description": "Hold a conversation internally within your company. Unlike an email, Notes are viewed only by members of your team. [Read more](https://help.karbonhq.com/en/articles/5919746-use-notes)"
     },
     {
       "name": "Tags",
@@ -211,6 +219,128 @@
     }
   },
   "paths": {
+    "/v3/IntegrationTasksDefinitions": {
+      "get": {
+        "operationId": "ListIntegrationTaskDefintions",
+        "tags": [
+          "Integrated Workflows"
+        ],
+        "summary": "Get a list of integration task definitions",
+        "description": "Use the `GET` method on this endpoint to receive a list of the integration task types that have been defined for your integration",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/IntegrationTaskDefinitions"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v3/IntegrationTasks": {
+      "get": {
+        "operationId": "ListIntegrationTasks",
+        "tags": [
+          "Integrated Workflows"
+        ],
+        "summary": "Get a list of integration tasks",
+        "description": "Use the `GET` method on this endpoint to receive a list of the integration tasks created in the Karbon account which has connected your integration",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/IntegrationTasks"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v3/IntegrationTasks/{IntegrationTaskKey}": {
+      "get": {
+        "operationId": "GetIntegrationTask",
+        "tags": [
+          "Integrated Workflows"
+        ],
+        "summary": "Get an integration task details",
+        "description": "Use the `GET` method on this endpoint to retrieve the details of a single integration task",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/IntegrationTaskKey"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/IntegrationTask"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorMessages"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "operationId": "UpdateIntegrationTask",
+        "tags": [
+          "Integrated Workflows"
+        ],
+        "summary": "Update an integration task details",
+        "description": "Use the `PUT` method on this endpoint to update the details of a single integration task",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/IntegrationTaskKey"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content",
+            "content": {
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorMessages"
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "description": "A manual payment request body",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/IntegrationTaskWriteable"
+              }
+            }
+          }
+        }
+      }
+    },
     "/v3/Invoices": {
       "get": {
         "operationId": "getInvoices",
@@ -833,6 +963,7 @@
             "schema": {
               "type": "string"
             },
+            "required": true,
             "example": "72dVb4dTRkH",
             "description": "The unique key of the payment"
           }
@@ -3581,6 +3712,279 @@
         }
       }
     },
+    "/v3/CustomFields": {
+      "get": {
+        "tags": [
+          "Custom Fields"
+        ],
+        "description": "Retrieve a list of all of the custom fields that have been created for a Karbon account",
+        "summary": "Gets all custom field definitions for the current tenant",
+        "operationId": "GetCustomFieldDefinitions",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CustomFieldDefinitions"
+                },
+                "example": {
+                  "Key": "ZGNmtYyLm4z",
+                  "Name": "Industry Type",
+                  "Type": "Text",
+                  "IsVisibleToContacts": true,
+                  "IsVisibleToOrganizations": true,
+                  "ListOptions": []
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Custom Fields"
+        ],
+        "description": "Defines a new custom field that can be assigned to a Contact and/or Organization - use the Karbon UI to create examples of how a new field with specific list options should be created",
+        "summary": "Creates a new custom field definition",
+        "operationId": "CreateCustomFieldDefinition",
+        "responses": {
+          "201": {
+            "description": "Custom field definition successfully created",
+            "headers": {
+              "Location": {
+                "description": "Location of the newly created resource",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CustomFieldDefinition"
+                },
+                "example": {
+                  "Key": "ZGNmtYyLm4z",
+                  "Name": "Industry Type",
+                  "Type": "Text",
+                  "IsVisibleToContacts": true,
+                  "IsVisibleToOrganizations": true,
+                  "ListOptions": []
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Incoming Model is invalid",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorMessages"
+                },
+                "examples": {
+                  "Unsupported Option": {
+                    "$ref": "#/components/examples/NotFound"
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Error processing Request"
+          }
+        },
+        "requestBody": {
+          "description": "The payload sent to create a new Custom Field",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CustomFieldDefinition"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v3/CustomFields/{CustomFieldDefinitionKey}": {
+      "delete": {
+        "tags": [
+          "Custom Fields"
+        ],
+        "description": "Delete a custom field defintion by key",
+        "summary": "Deletes a custom field definition by key",
+        "operationId": "DeleteCustomFieldDefinition",
+        "parameters": [
+          {
+            "name": "CustomFieldDefinitionKey",
+            "in": "path",
+            "description": "The key of the custom field definition to delete",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "example": "ZGNmtYyLm4z"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Custom field definition successfully deleted"
+          },
+          "404": {
+            "description": "Custom field definition not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorMessages"
+                },
+                "examples": {
+                  "Unsupported Option": {
+                    "$ref": "#/components/examples/NotFound"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v3/CustomFieldValues/{EntityKey}": {
+      "get": {
+        "tags": [
+          "Custom Fields"
+        ],
+        "description": "Retrives the custom fields for a Contact or Organization",
+        "summary": "Gets custom field values for a specific entity",
+        "operationId": "GetCustomFieldValues",
+        "parameters": [
+          {
+            "name": "EntityKey",
+            "in": "path",
+            "description": "The key of the Contact or Organization to get custom field values for",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "example": "Lm4zGNmtYyZ"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CustomFieldValues"
+                },
+                "example": {
+                  "EntityKey": "ZGNmtYyLm4z",
+                  "CustomFieldValues": [
+                    {
+                      "Key": "ZGNGtYyLm4z",
+                      "Name": "Industry Type",
+                      "Type": "Text",
+                      "Value": [
+                        "Professional Services"
+                      ]
+                    },
+                    {
+                      "Key": "AFNGtYyLm4z",
+                      "Name": "Revenue",
+                      "Type": "Number",
+                      "Value": [
+                        "1000000"
+                      ]
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Entity not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorMessages"
+                },
+                "examples": {
+                  "Unsupported Option": {
+                    "$ref": "#/components/examples/NotFound"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Custom Fields"
+        ],
+        "description": "Performs an update of the complete set of custom field values for a Contact or Organization",
+        "summary": "Updates custom field values for a specific entity",
+        "operationId": "UpdateCustomFieldValues",
+        "parameters": [
+          {
+            "name": "EntityKey",
+            "in": "path",
+            "description": "The key of the Contact or Organization to get custom field values for",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "example": "Lm4zGNmtYyZ"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Custom field values successfully updated",
+            "content": {
+            }
+          },
+          "400": {
+            "description": "Invalid custom field values or entity key",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorMessages"
+                },
+                "examples": {
+                  "Bad Request": {
+                    "$ref": "#/components/examples/Bad_Request_Update_Custom_Field_Values"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Entity not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorMessages"
+                },
+                "examples": {
+                  "Unsupported Option": {
+                    "$ref": "#/components/examples/NotFound"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "description": "The payload sent when updating the custom fields on a Contact or Organization",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CustomFieldValues"
+              }
+            }
+          }
+        }
+      }
+    },
     "/v3/EstimateSummaries/{WorkItemkey}": {
       "get": {
         "tags": [
@@ -5082,14 +5486,14 @@
         "summary": "Gets an Organization using Organizationkey",
         "parameters": [
           {
-            "required": true,
-            "in": "path",
             "name": "Organizationkey",
+            "in": "path",
+            "required": true,
+            "description": "The Karbon-generated Organization key",
             "schema": {
               "type": "string"
             },
-            "example": "2Nw8tnxwQCVf",
-            "description": "The Karbon-generated Organization key"
+            "example": "2Nw8tnxwQCVf"
           },
           {
             "in": "query",
@@ -5098,23 +5502,21 @@
               "type": "string"
             },
             "examples": {
-              "examples": {
-                "BusinessCard": {
-                  "value": "BusinessCard",
-                  "summary": "Include the Business Card for the Organization the API response"
-                },
-                "ClientTeam": {
-                  "value": "ClientTeam",
-                  "summary": "Include the Client Team assigned to the Organization in the API response"
-                },
-                "Contacts": {
-                  "value": "Contacts",
-                  "summary": "Include the Contacts related to the Organization in the API response"
-                },
-                "BusinessCardAndClientTeam": {
-                  "value": "BusinessCard,ClientTeam",
-                  "summary": "Include the Business Card and the Client Team assigned to the Organization in the API response"
-                }
+              "BusinessCard": {
+                "value": "BusinessCard",
+                "summary": "Include the Business Card for the Organization the API response"
+              },
+              "ClientTeam": {
+                "value": "ClientTeam",
+                "summary": "Include the Client Team assigned to the Organization in the API response"
+              },
+              "Contacts": {
+                "value": "Contacts",
+                "summary": "Include the Contacts related to the Organization in the API response"
+              },
+              "BusinessCardAndClientTeam": {
+                "value": "BusinessCard,ClientTeam",
+                "summary": "Include the Business Card and the Client Team assigned to the Organization in the API response"
               }
             },
             "description": "When this parameter is combined with the URI, this endpoint will also return Business Cards, Client Team and/or Contacts associated with the Organization. Multiple properties can be returned by specifying a comma separated list.\n"
@@ -5820,6 +6222,7 @@
     },
     "/v3/Tags": {
       "post": {
+        "deprecated": true,
         "tags": [
           "Tags"
         ],
@@ -5921,6 +6324,7 @@
     },
     "/v3/Tags/{EntityKey}": {
       "delete": {
+        "deprecated": true,
         "tags": [
           "Tags"
         ],
@@ -8521,6 +8925,16 @@
           ]
         },
         "description": "Include additional invoice properties, such as lineitems or payments"
+      },
+      "IntegrationTaskKey": {
+        "in": "path",
+        "name": "IntegrationTaskKey",
+        "schema": {
+          "type": "string"
+        },
+        "required": true,
+        "example": "zmMgWgPRqCy",
+        "description": "The unique key for a specific intergration task"
       }
     },
     "schemas": {
@@ -8706,7 +9120,7 @@
           {
             "$ref": "#/components/schemas/BillingKarbonPayment"
           },
-          { 
+          {
             "$ref": "#/components/schemas/BillingClient"
           }
         ]
@@ -9264,6 +9678,134 @@
                 "UserDefinedRole2",
                 null
               ]
+            }
+          }
+        }
+      },
+      "CustomFieldDefinitions":{
+        "type": "object",
+        "description": "A list of the available custom fields in Karbon",
+        "properties": {
+          "@odata.context": {
+            "type": "string",
+            "example": "https://api.karbonhq.com/v3/$metadata#CustomFields"
+          },
+          "@odata.count": {
+            "type": "number",
+            "format": "int32",
+            "example": 3
+          },
+          "value": {
+            "type": "array",
+            "items": {
+              "allOf": [
+                {
+                  "type": "object",
+                  "properties": {
+                    "Key": {
+                      "type": "string",
+                      "example": "ZGNmtYyLm4z",
+                      "required": true
+                    }
+                  }
+                },
+                {
+                  "$ref": "#/components/schemas/CustomFieldDefinition"
+                }
+              ]
+            }
+          }  
+        }
+      },
+      "CustomFieldDefinition": {
+        "type": "object",
+        "description": "The structure that defines a Custom Field in Karbon",
+        "properties": {
+          "Name": {
+            "type": "string",
+            "example": "Industry Type",
+            "maxLength": 100
+          },
+          "Type": {
+            "type": "string",
+            "example": "ListSingleSelect",
+            "enum": [
+              "Text",
+              "Number",
+              "Date",
+              "Boolean",
+              "Colleague",
+              "ListSingleSelect",
+              "ListMultipleSelect"
+            ]
+          },
+          "IsVisibleToContacts": {
+            "type": "boolean",
+            "example": true
+          },
+          "IsVisibleToOrganizations": {
+            "type": "boolean",
+            "example": false
+          },
+          "ListOptions": {
+            "descriptions": "A value or values assigned to the Custom Field, note that all values for all types are strings - this includes `number` and `boolean` types",
+            "type": "array",
+            "items": {
+              "type": "string",
+              "maxLength": 256,
+              "examples": ["Agriculture", "Manufacturing", "Professional, Scientific and Technical Services"]
+            }
+          }
+        }
+      },
+      "CustomFieldValue": {
+        "type": "object",
+        "description": "A collection of Custom Fields",
+        "properties": {
+          "Key": {
+            "type": "string",
+            "example": "ZGNGtYyLm4z"
+          },
+          "Name": {
+            "type": "string",
+            "example": "Industry Type",
+            "maxLength": 100
+          },
+          "Type": {
+            "type": "string",
+            "example": "ListSingleSelect",
+            "enum": [
+              "Text",
+              "Number",
+              "Date",
+              "Boolean",
+              "Colleague",
+              "ListSingleSelect",
+              "ListMultipleSelect"
+            ]
+          },
+          "Value": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "maxLength": 256,
+              "example": "Professional Services"
+            }
+          }
+        }
+      },
+      "CustomFieldValues": {
+        "type": "object",
+        "description": "The set custom fields for a contact or organization and the associated values and options",
+        "properties": {
+          "EntityKey": {
+            "type": "string",
+            "example": "Lm4zGNmtYyZ"
+          },
+          "CustomFieldValues": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CustomFieldValue"
             }
           }
         }
@@ -12548,6 +13090,231 @@
           }
         }
       },
+      "IntegrationTaskDefinitions": {
+        "description": "A list of Integration Task Definitions",
+        "type": "object",
+        "properties": {
+          "@odata.context": {
+            "type": "string",
+            "format": "uri",
+            "example": "https://api.karbonhq.com/v3/$metadata#IntegrationTaskDefinitions"
+          },
+          "values": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/IntegrationTaskDefinition"
+            }
+          }
+        }
+      },
+      "IntegrationTaskDefinition": {
+        "description": "A list of Integration Task Definitions",
+        "type": "object",
+        "properties": {
+          "TaskDefinitionKey": {
+            "type": "string",
+            "example": "cc8628b6-b6cd-42f3-957a-c2cdb9d371a4",
+            "description": "The unique ID of the specific Integration Task Definition"
+          },
+          "TaskName": {
+            "type": "string",
+            "example": "Example Integration Task",
+            "description": "The name of the specific Integration Task Definition"
+          },
+          "TaskPrimaryLinkUrl": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "example": "https://app.example.com/create",
+            "description": "The optional default primary link URL of the specific Integration Task Definition",
+            "maxLength": 200
+          },
+          "TaskPrimaryLinkLabel": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "example": "Create",
+            "description": "The optional default label for the primary link URL of the specific Integration Task Definition",
+            "maxLength": 20
+          },
+          "TaskSecondaryLinkUrl": {
+            "type": "string",
+            "example": "https://app.example.com/update",
+            "description": "The optional default label for the secondary link URL of the specific Integration Task Definition",
+            "maxLength": 200
+          },
+          "TaskSecondaryLinkLabel": {
+            "type": "string",
+            "example": "Update",
+            "description": "The optional default label for the secondary link URL of the specific Integration Task Definition",
+            "maxLength": 20
+          },
+          "Locales": {
+            "description": "The list of locales and languages the integration task definition is suitable for use with, useful when different definitions are required for different languages or locales",
+            "type": "array",
+            "items": {
+              "type": "string",
+              "example": "en-US"
+            }
+          },
+          "AllowedTaskUrlHosts": {
+            "description": "The list of allowed hostnames that the primary and secondary link URLs must match",
+            "type": "array",
+            "items": {
+              "type": "string",
+              "example": "https://www.example.com"
+            }
+          }
+        }
+      },
+      "IntegrationTasks": {
+        "type": "object",
+        "description": "A list of Integration Tasks",
+        "properties": {
+          "@odata.context": {
+            "type": "string",
+            "format": "uri",
+            "example": "https://api-dev.karbonhq.com/v3/$metadata#IntegrationTasks"
+          },
+          "@odata.count": {
+            "type": "number",
+            "format": "int32",
+            "example": 3
+          },
+          "value": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/IntegrationTask"
+            }
+          }
+        }
+      },
+      "IntegrationTask": {
+        "description": "A single Integration Task",
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/IntegrationTaskReadOnly"
+          },
+          {
+            "$ref": "#/components/schemas/IntegrationTaskWriteable"
+          }
+        ]
+      },
+      "IntegrationTaskReadOnly": {
+        "type": "object",
+        "description": "The read-only properties of an Integration Task",
+        "properties": {
+          "CreatedAt": {
+            "type": "string",
+            "example": "2025-04-16T03:22:19Z"
+          },
+          "TaskKey": {
+            "type": "string",
+            "example": "yqjhtSrxQ6S",
+            "description": "The unique key of the specific Integration Task Definition for the associated Karbon account"
+          },
+          "Locale": {
+            "description": "The list of locales and languages the integration task definition is suitable for use with, useful when different definitions are required for different languages or locales",
+            "type": "string",
+            "example": "en-US"
+          },
+          "WorkItemKey": {
+            "type": "string",
+            "example": "3lHtWNMVcTVQ"
+          },
+          "WorkItemClientKey": {
+            "type": "string",
+            "example": "4f4gnvcDT2yQ"
+          },
+          "WorkType": {
+            "type": "string",
+            "example": "Tax"
+          }
+        }
+      },
+      "IntegrationTaskWriteable": {
+        "type": "object",
+        "description": "The writable properties of an Integration Task",
+        "properties": {
+          "TaskName": {
+            "type": "string",
+            "example": "Example Integration Task",
+            "description": "The name of the specific Integration Task Definition"
+          },
+          "TaskPrimaryLinkUrl": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "example": "https://app.example.com/create",
+            "description": "The optional default primary link URL of the specific Integration Task Definition",
+            "maxLength": 200
+          },
+          "TaskPrimaryLinkLabel": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "example": "Create",
+            "description": "The optional default label for the primary link URL of the specific Integration Task Definition",
+            "maxLength": 20
+          },
+          "TaskSecondaryLinkUrl": {
+            "type": "string",
+            "example": "https://app.example.com/update",
+            "description": "The optional default label for the secondary link URL of the specific Integration Task Definition",
+            "maxLength": 200
+          },
+          "TaskSecondaryLinkLabel": {
+            "type": "string",
+            "example": "Update",
+            "description": "The optional default label for the secondary link URL of the specific Integration Task Definition",
+            "maxLength": 20
+          },
+          "TaskStatus": {
+            "type": "string",
+            "example": "Viewed by Client"
+          },
+          "PrimaryStatus": {
+            "type": "string",
+            "example": "Waiting",
+            "enum": [
+              "Planned",
+              "ReadyToStart",
+              "InProgress",
+              "Waiting",
+              "Completed"
+            ]
+          },
+          "TaskDueDate": {
+            "type": "string",
+            "example": "2025-04-23T00:00:00Z"
+
+          },
+          "TaskData": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/IntegrationTaskData"
+            }
+          }
+        }
+      },
+      "IntegrationTaskData": {
+        "type": "object",
+        "description": "Optional integration task data key/value pairs",
+        "properties": {
+          "Key": {
+            "type": "string",
+            "example": "Last updated"
+          },
+          "Value": {
+            "type": "string",
+            "example": "17 hours ago by client"
+          }
+        }
+      },
       "contact-webhook": {
         "description": "The schema for Contact webhook payloads",
         "type": "object",
@@ -12919,6 +13686,15 @@
               "target": "workItem.<key>",
               "message": "Cannot assign Related Client Group as Client is not a member of this Group"
             }
+          }
+        }
+      },
+      "Bad_Request_Update_Custom_Field_Values": {
+        "description": "There is an issue with the data or structure of the request that must be fixed before the request can be processed",
+        "value": {
+          "error": {
+            "code" : "4002",
+            "message" : "Only one value allowed for type Text"
           }
         }
       },
