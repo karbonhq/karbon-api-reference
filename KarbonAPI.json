@@ -4291,7 +4291,7 @@
           }
         },
         "requestBody": {
-          "description": "Refer to the table below for more information on each field in the request body.\n\nIn addition to the `file` property, at least one of the following properties is required. <ul> <li>`contact_keys`</li> <li>`organization_keys`</li> <li>`client_group_keys`</li> <li>`integration_task_keys`</li>  <li>`workitem_keys`</li> </ul>\n",
+          "description": "Refer to the table below for more information on each field in the request body.\n\nIn addition to the `file` property, at least one of the following properties is required. <ul> <li>`contact_keys`</li> <li>`organization_keys`</li> <li>`client_group_keys`</li> <li>`integration_task_key`</li>  <li>`workitem_keys`</li> </ul>\n",
           "required": true,
           "content": {
             "multipart/form-data": {
