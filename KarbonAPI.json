@@ -13266,6 +13266,11 @@
             "type": "string",
             "example": "2025-04-16T03:22:19Z"
           },
+          "TaskDefinitionKey": {
+            "type": "string",
+            "example": "b50e1712-2603-4707-b0d9-915050711267",
+            "description": "The unique ID of the integration task definition"
+          },
           "TaskKey": {
             "type": "string",
             "example": "yqjhtSrxQ6S",
