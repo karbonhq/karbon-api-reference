@@ -8958,6 +8958,18 @@
           "filterByCreatedAt": {
             "value": "CreatedAt ge 2025-05-30T00:00:00Z",
             "summary": "Return Integration tasks with a CreatedAt timestamp of 2025-05-30 00:00:00 UTC or more recent"
+          },
+          "filterByTaskDefinitionKey": {
+            "value": "TaskDefinitionKey eq 'b50e1712-2603-4707-b0d9-915050711267'",
+            "summary": "Return Integration that use a specific Task Definition"
+          },
+          "filterByWorkItemKey": {
+            "value": "WorkItemKey eq '3lHtWNMVcTVQ'",
+            "summary": "Return Integration tasks that relate to a specific Work Item"
+          },
+          "filterByWorkItemClientKey": {
+            "value": "WorkItemKey eq '4f4gnvcDT2yQ'",
+            "summary": "Return Integration tasks that relate to a specific client"
           }
         },
         "description": "The a filter applied to the list of integration tasks before they are returned"
