@@ -274,6 +274,10 @@
         "parameters": [
           {
             "$ref": "#/components/parameters/IntegrationTaskKey"
+          },          {
+            "$ref": "#/components/parameters/IntegrationTaskListFilter"
+          },          {
+            "$ref": "#/components/parameters/IntegrationTaskListOrderBy"
           }
         ],
         "responses": {
@@ -304,7 +308,7 @@
         "tags": [
           "Integrated Workflows"
         ],
-        "summary": "Update an integration task details",
+        "summary": "Update an integration task",
         "description": "Use the `PUT` method on this endpoint to update the details of a single integration task",
         "parameters": [
           {
@@ -4284,7 +4288,7 @@
           }
         },
         "requestBody": {
-          "description": "Refer to the table below for more information on each field in the request body.\n\nIn addition to the `file` property, at least one of the following properties is required. <ul> <li>`contact_keys`</li> <li>`organization_keys`</li> <li>`client_group_keys`</li> <li>`workitem_keys`</li> </ul>\n",
+          "description": "Refer to the table below for more information on each field in the request body.\n\nIn addition to the `file` property, at least one of the following properties is required. <ul> <li>`contact_keys`</li> <li>`organization_keys`</li> <li>`client_group_keys`</li> <li>`integration_task_keys`</li>  <li>`workitem_keys`</li> </ul>\n",
           "required": true,
           "content": {
             "multipart/form-data": {
@@ -4322,9 +4326,14 @@
                     "description": "A Karbon-generated unique identifier for the Client Group, which this file will be associated with",
                     "example": "3h5Tbh9RgLs7"
                   },
-                  "Workitem_keys": {
+                  "workitem_keys": {
                     "type": "string",
                     "description": "A Karbon-generated unique identifier for the Work Item, which this file will be associated with",
+                    "example": "RXq4mD62PXg"
+                  },
+                  "integration_task_key": {
+                    "type": "string",
+                    "description": "A Karbon-generated unique identifier for the Integration Task, which this file will be associated with",
                     "example": "RXq4mD62PXg"
                   },
                   "file": {
@@ -8935,7 +8944,39 @@
         "required": true,
         "example": "zmMgWgPRqCy",
         "description": "The unique key for a specific intergration task"
-      }
+      },
+      "IntegrationTaskListFilter": {
+        "in": "query",
+        "name": "$filter",
+        "schema": {
+          "type": "string"
+        },
+        "examples": {
+          "filterByCreatedAt": {
+            "value": "CreatedAt ge 2025-05-30T00:00:00Z",
+            "summary": "Return Integration tasks with a CreatedAt timestamp of 2025-05-30 00:00:00 UTC or more recent"
+          }
+        },
+        "description": "The a filter applied to the list of integration tasks before they are returned"
+      },
+      "IntegrationTaskListOrderBy": {
+            "in": "query",
+            "name": "$orderby",
+            "schema": {
+              "type": "string"
+            },
+            "examples": {
+              "orderByCreatedAtDesc": {
+                "value": "CreatedAt desc",
+                "summary": "Order results by CreatedAt timestamp, newest to oldest (default)"
+              },
+              "orderByCreatedAtAsc": {
+                "value": "CreatedAt",
+                "summary": "Order results by CreatedAt timestamp, oldest to newest"
+              }
+            },
+            "description": "Order responses by invoice date"
+          }
     },
     "schemas": {
       "BillingBaseInvoice": {
