@@ -249,6 +249,13 @@
         ],
         "summary": "Get a list of integration tasks",
         "description": "Use the `GET` method on this endpoint to receive a list of the integration tasks created in the Karbon account which has connected your integration",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/IntegrationTaskListFilter"
+          },          {
+            "$ref": "#/components/parameters/IntegrationTaskListOrderBy"
+          }
+        ],
         "responses": {
           "200": {
             "description": "Success",
@@ -274,10 +281,6 @@
         "parameters": [
           {
             "$ref": "#/components/parameters/IntegrationTaskKey"
-          },          {
-            "$ref": "#/components/parameters/IntegrationTaskListFilter"
-          },          {
-            "$ref": "#/components/parameters/IntegrationTaskListOrderBy"
           }
         ],
         "responses": {
