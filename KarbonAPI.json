@@ -13401,7 +13401,8 @@
           "ResourcePermaKey": {
             "type": "string",
             "description": "The key for the resource that has been created or updated",
-            "example": "kCsVf7svWQw"
+            "example": "kCsVf7svWQw",
+            "readOnly": true
           },
           "ResourceType": {
             "type": "string",
@@ -13409,7 +13410,8 @@
               "Contact"
             ],
             "description": "The type of resource that has been created or updated",
-            "example": "Contact"
+            "example": "Contact",
+            "readOnly": true
           },
           "ActionType": {
             "type": "string",
@@ -13419,13 +13421,15 @@
               "Updated",
               "Deleted"
             ],
-            "example": "Updated"
+            "example": "Updated",
+            "readOnly": true
           },
           "TimeStamp": {
             "type": "string",
             "format": "date-time",
             "description": "The timestamp the associated resource was last altered",
-            "example": "2024-08-01T21:54:36Z"
+            "example": "2024-08-01T21:54:36Z",
+            "readOnly": true
           }
         }
       },
@@ -13436,7 +13440,8 @@
           "ResourcePermaKey": {
             "type": "string",
             "description": "The key for the resource that has been created or updated",
-            "example": "kCsVf7svWQw"
+            "example": "kCsVf7svWQw",
+            "readOnly": true
           },
           "ResourceType": {
             "type": "string",
@@ -13444,7 +13449,8 @@
               "Estimate"
             ],
             "description": "The type of resource that has been created or updated",
-            "example": "Estimate"
+            "example": "Estimate",
+            "readOnly": true
           },
           "ActionType": {
             "type": "string",
@@ -13452,13 +13458,15 @@
             "enum": [
               "Updated"
             ],
-            "example": "Updated"
+            "example": "Updated",
+            "readOnly": true
           },
           "TimeStamp": {
             "type": "string",
             "format": "date-time",
             "description": "The timestamp the associated resource was last altered",
-            "example": "2024-08-01T21:54:36Z"
+            "example": "2024-08-01T21:54:36Z",
+            "readOnly": true
           }
         }
       },
@@ -13528,7 +13536,8 @@
           "ResourcePermaKey": {
             "type": "string",
             "description": "The key for the resource that has been created or updated",
-            "example": "kCsVf7svWQw"
+            "example": "kCsVf7svWQw",
+            "readOnly": true
           },
           "ResourceType": {
             "type": "string",
@@ -13536,7 +13545,8 @@
               "Invoice"
             ],
             "description": "The type of resource that has been created or updated",
-            "example": "Invoice"
+            "example": "Invoice",
+            "readOnly": true
           },
           "ActionType": {
             "type": "string",
@@ -13544,13 +13554,15 @@
             "enum": [
               "Updated"
             ],
-            "example": "Updated"
+            "example": "Updated",
+            "readOnly": true
           },
           "TimeStamp": {
             "type": "string",
             "format": "date-time",
             "description": "The timestamp the associated resource was last altered",
-            "example": "2024-08-01T21:54:36Z"
+            "example": "2024-08-01T21:54:36Z",
+            "readOnly": true
           }
         }
       },
@@ -13561,7 +13573,8 @@
           "ResourcePermaKey": {
             "type": "string",
             "description": "The key for the resource that has been created or updated",
-            "example": "kCsVf7svWQw"
+            "example": "kCsVf7svWQw",
+            "readOnly": true
           },
           "ResourceType": {
             "type": "string",
@@ -13569,7 +13582,8 @@
               "Note"
             ],
             "description": "The type of resource that has been created or updated",
-            "example": "Note"
+            "example": "Note",
+            "readOnly": true
           },
           "ActionType": {
             "type": "string",
@@ -13579,13 +13593,15 @@
               "Updated",
               "Deleted"
             ],
-            "example": "Updated"
+            "example": "Updated",
+            "readOnly": true
           },
           "TimeStamp": {
             "type": "string",
             "format": "date-time",
             "description": "The timestamp the associated resource was last altered",
-            "example": "2024-08-01T21:54:36Z"
+            "example": "2024-08-01T21:54:36Z",
+            "readOnly": true
           }
         }
       },
@@ -13596,7 +13612,8 @@
           "ResourcePermaKey": {
             "type": "string",
             "description": "The key for the resource that has been created",
-            "example": "kCsVf7svWQw"
+            "example": "kCsVf7svWQw",
+            "readOnly": true
           },
           "ResourceType": {
             "type": "string",
@@ -13604,7 +13621,8 @@
               "User"
             ],
             "description": "The type of resource that has been created",
-            "example": "User"
+            "example": "User",
+            "readOnly": true
           },
           "ActionType": {
             "type": "string",
@@ -13612,13 +13630,15 @@
             "enum": [
               "Inserted"
             ],
-            "example": "Inserted"
+            "example": "Inserted",
+            "readOnly": true
           },
           "TimeStamp": {
             "type": "string",
             "format": "date-time",
             "description": "The timestamp the associated resource was last altered",
-            "example": "2024-08-01T21:54:36Z"
+            "example": "2024-08-01T21:54:36Z",
+            "readOnly": true
           }
         }
       },
@@ -13629,7 +13649,8 @@
           "ResourcePermaKey": {
             "type": "string",
             "description": "The key for the resource that has been created or updated",
-            "example": "kCsVf7svWQw"
+            "example": "kCsVf7svWQw",
+            "readOnly": true
           },
           "ResourceType": {
             "type": "string",
@@ -13637,7 +13658,8 @@
               "Work"
             ],
             "description": "The type of resource that has been created or updated",
-            "example": "Work"
+            "example": "Work",
+            "readOnly": true
           },
           "ActionType": {
             "type": "string",
@@ -13647,13 +13669,15 @@
               "Updated",
               "Deleted"
             ],
-            "example": "Updated"
+            "example": "Updated",
+            "readOnly": true
           },
           "TimeStamp": {
             "type": "string",
             "format": "date-time",
             "description": "The timestamp the associated resource was last altered",
-            "example": "2024-08-01T21:54:36Z"
+            "example": "2024-08-01T21:54:36Z",
+            "readOnly": true
           }
         }
       }
