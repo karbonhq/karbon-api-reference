@@ -145,6 +145,24 @@
         }
       }
     },
+    "integration-task": {
+      "post": {
+        "tags": [
+          "Webhook Payloads"
+        ],
+        "description": "Integration Task created",
+        "requestBody": {
+          "description": "Information about an Integration Task that has been added to Work Item",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/integration-task-webhook"
+              }
+            }
+          }
+        }
+      }
+    },
     "invoice": {
       "post": {
         "tags": [
@@ -13441,6 +13459,65 @@
             "format": "date-time",
             "description": "The timestamp the associated resource was last altered",
             "example": "2024-08-01T21:54:36Z"
+          }
+        }
+      },
+      "integration-task-webhook": {
+        "description": "The schema for Integration Task webhook payloads",
+        "type": "object",
+        "properties": {
+          "ResourcePermaKey": {
+            "type": "string",
+            "description": "The key for the resource that has been created or updated",
+            "example": "kCsVf7svWQw",
+            "readOnly": true
+          },
+          "ResourceType": {
+            "type": "string",
+            "enum": [
+              "IntegrationTask"
+            ],
+            "description": "The type of resource that has been created or updated",
+            "example": "IntegrationTask",
+            "readOnly": true
+          },
+          "ActionType": {
+            "type": "string",
+            "description": "The action that triggered the webhook notifcation to be sent",
+            "enum": [
+              "Inserted"
+            ],
+            "example": "Inserted",
+            "readOnly": true
+          },
+          "TimeStamp": {
+            "type": "string",
+            "format": "date-time",
+            "description": "The timestamp the associated resource was last altered",
+            "example": "2024-08-01T21:54:36Z",
+            "readOnly": true
+          },
+            "ClientKey": {
+            "type": "string",
+            "description": "The key for the client related to the integration task",
+            "example": "44dSBb94ZXlR",
+            "readOnly": true
+          },
+          "ClientType": {
+            "type": "string",
+            "description": "The type of client related to the integration task ",
+            "enum": [
+              "Contact",
+              "Organization"
+            ],
+            "example": "Organization",
+            "readOnly": true
+          },
+          "WorkItemKey": {
+            "type": "string",
+            "description": "The key for the Work Item that the Integration Task was added to",
+            "example": "qkG7YMW541L",
+            "readOnly": true
           }
         }
       },
