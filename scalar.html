@@ -1,23 +1,59 @@
-<!DOCTYPE html>
+<!doctype html>
 <html>
   <head>
     <title>Karbon API Reference - v3</title>
     <meta charset="utf-8" />
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <style>
       body {
         margin: 0;
       }
+
+      .light-mode {
+        --scalar-color-1: #121212;
+        --scalar-color-2: rgb(43, 43, 43); 
+        --scalar-color-3: rgba(0, 0, 0, 0.4);
+        --scalar-color-accent: #0a85d1;
+        --scalar-background-1: #fff;
+        --scalar-background-2: rgb(248, 248, 242);
+        --scalar-background-3: #f1ede9;
+        --scalar-background-accent: #5369d20f;
+        --scalar-border-color: rgba(0, 0, 0, 0.08);
+      }
+
+      .light-mode .sidebar {
+        --scalar-sidebar-background-1: var(--scalar-background-1);
+        --scalar-sidebar-item-hover-color: currentColor;
+        --scalar-sidebar-item-hover-background: var(--scalar-background-2);
+        --scalar-sidebar-item-active-background: var(--scalar-background-2);
+        --scalar-sidebar-border-color: var(--scalar-border-color);
+        --scalar-sidebar-color-1: var(--scalar-color-1);
+        --scalar-sidebar-color-2: var(--scalar-color-2);
+        --scalar-sidebar-color-active: var(--scalar-color-2);
+        --scalar-sidebar-search-background: var(--scalar-background-2);
+        --scalar-sidebar-search-border-color: var(--scalar-border-color);
+        --scalar-sidebar-search-color: var(--scalar-color-3);
+      }
     </style>
-    <link rel="icon" href="./favicon.ico">
+    <link rel="icon" href="./favicon.ico" />
   </head>
   <body>
-    <!-- Add your own OpenAPI/Swagger spec file URL here: -->
     <script
       id="api-reference"
-      data-url="./KarbonAPI.json"></script>
-    <script src="https://www.unpkg.com/@scalar/api-reference"></script>
+      type="application/json"
+      data-url="./KarbonAPI.json"
+    ></script>
+
+    <script>
+      var configuration = {
+        hideClientButton: true,
+        theme: "laserwave",
+      };
+
+      document.getElementById("api-reference").dataset.configuration =
+        JSON.stringify(configuration);
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/@scalar/api-reference"></script>
   </body>
 </html>
