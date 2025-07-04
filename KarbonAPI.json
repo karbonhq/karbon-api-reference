@@ -354,7 +354,7 @@
           }
         },
         "requestBody": {
-          "description": "A manual payment request body",
+          "description": "An integration task request body",
           "required": true,
           "content": {
             "application/json": {
