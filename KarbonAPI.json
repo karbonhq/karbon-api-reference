@@ -5532,8 +5532,8 @@
               "type": "string"
             },
             "examples": {
-              "BusinessCard": {
-                "value": "BusinessCard",
+              "BusinessCards": {
+                "value": "BusinessCards",
                 "summary": "Include the Business Card for the Organization the API response"
               },
               "ClientTeam": {
