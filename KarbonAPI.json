@@ -10361,7 +10361,7 @@
             "properties": {
               "Name": {
                 "type": "string",
-                "example": "Polygon Legal",
+                "example": "Orbit Tax",
                 "description": "The name of the tax provider"
               },
               "OrganizationKey": {
