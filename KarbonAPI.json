@@ -10217,56 +10217,64 @@
             "type": "array",
             "description": "A user definable list of banks the client uses",
             "items": {
-              "type": "string"
+              "type": "string",
+              "example": "Commonwealth Bank"
             }
           },
           "Payroll": {
             "type": "array",
             "description": "A user definable list of payroll services the client uses",
             "items": {
-              "type": "string"
+              "type": "string",
+              "example": ""
             }
           },
           "BillPay": {
             "type": "array",
             "description": "A user definable list of bill payment services the client uses",
             "items": {
-              "type": "string"
+              "type": "string",
+              "example": ""
             }
           },
           "Benefits": {
             "type": "array",
             "description": "A user definable list of benefits services the client uses",
             "items": {
-              "type": "string"
+              "type": "string",
+              "example": ""
             }
           },
           "Revenue": {
             "type": "array",
             "description": "A user definable list of revenue management services the client uses",
             "items": {
-              "type": "string"
+              "type": "string",
+              "example": ""
             }
           },
           "Expenses": {
             "type": "array",
             "description": "A user definable list of expense management services the client uses",
             "items": {
-              "type": "string"
+              "type": "string",
+              "example": ""
             }
           },
           "FileManagement": {
             "type": "array",
             "description": "A user definable list of file management services the client uses",
             "items": {
-              "type": "string"
+              "type": "string",
+              "example": "SharePoint"
             }
           },
           "Accounting": {
             "type": "array",
             "description": "A user definable list of accounting tools and services the client uses",
             "items": {
-              "type": "string"
+              "type": "string",
+              "example": "QuickBooks Online"
             }
           },
           "RegistrationNumbers": {
