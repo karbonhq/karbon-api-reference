@@ -266,8 +266,7 @@
         "parameters": [
           {
             "$ref": "#/components/parameters/IntegrationTaskListFilter"
-          },
-          {
+          },          {
             "$ref": "#/components/parameters/IntegrationTaskListOrderBy"
           }
         ],
@@ -336,7 +335,8 @@
         "responses": {
           "204": {
             "description": "No Content",
-            "content": {}
+            "content": {
+            }
           },
           "404": {
             "description": "Not Found",
@@ -3960,7 +3960,8 @@
         "responses": {
           "204": {
             "description": "Custom field values successfully updated",
-            "content": {}
+            "content": {
+            }
           },
           "400": {
             "description": "Invalid custom field values or entity key",
@@ -8776,23 +8777,23 @@
         "description": "The a filter applied to the list of integration tasks before they are returned"
       },
       "IntegrationTaskListOrderBy": {
-        "in": "query",
-        "name": "$orderby",
-        "schema": {
-          "type": "string"
-        },
-        "examples": {
-          "orderByCreatedAtDesc": {
-            "value": "CreatedAt desc",
-            "summary": "Order results by CreatedAt timestamp, newest to oldest (default)"
-          },
-          "orderByCreatedAtAsc": {
-            "value": "CreatedAt",
-            "summary": "Order results by CreatedAt timestamp, oldest to newest"
+            "in": "query",
+            "name": "$orderby",
+            "schema": {
+              "type": "string"
+            },
+            "examples": {
+              "orderByCreatedAtDesc": {
+                "value": "CreatedAt desc",
+                "summary": "Order results by CreatedAt timestamp, newest to oldest (default)"
+              },
+              "orderByCreatedAtAsc": {
+                "value": "CreatedAt",
+                "summary": "Order results by CreatedAt timestamp, oldest to newest"
+              }
+            },
+            "description": "Order responses by invoice date"
           }
-        },
-        "description": "Order responses by invoice date"
-      }
     },
     "schemas": {
       "BillingBaseInvoice": {
@@ -9539,7 +9540,7 @@
           }
         }
       },
-      "CustomFieldDefinitions": {
+      "CustomFieldDefinitions":{
         "type": "object",
         "description": "A list of the available custom fields in Karbon",
         "properties": {
@@ -9571,7 +9572,7 @@
                 }
               ]
             }
-          }
+          }  
         }
       },
       "CustomFieldDefinition": {
@@ -9610,11 +9611,7 @@
             "items": {
               "type": "string",
               "maxLength": 256,
-              "examples": [
-                "Agriculture",
-                "Manufacturing",
-                "Professional, Scientific and Technical Services"
-              ]
+              "examples": ["Agriculture", "Manufacturing", "Professional, Scientific and Technical Services"]
             }
           }
         }
@@ -9994,62 +9991,6 @@
             "format": "date-time",
             "description": ""
           },
-          "Bank": {
-            "type": "array",
-            "description": "A user definable list of banks the client uses",
-            "items": {
-              "type": "string"
-            }
-          },
-          "Payroll": {
-            "type": "array",
-            "description": "A user definable list of payroll services the client uses",
-            "items": {
-              "type": "string"
-            }
-          },
-          "BillPay": {
-            "type": "array",
-            "description": "A user definable list of bill payment services the client uses",
-            "items": {
-              "type": "string"
-            }
-          },
-          "Benefits": {
-            "type": "array",
-            "description": "A user definable list of benefits services the client uses",
-            "items": {
-              "type": "string"
-            }
-          },
-          "Revenue": {
-            "type": "array",
-            "description": "A user definable list of revenue management services the client uses",
-            "items": {
-              "type": "string"
-            }
-          },
-          "Expenses": {
-            "type": "array",
-            "description": "A user definable list of expense management services the client uses",
-            "items": {
-              "type": "string"
-            }
-          },
-          "FileManagement": {
-            "type": "array",
-            "description": "A user definable list of file management services the client uses",
-            "items": {
-              "type": "string"
-            }
-          },
-          "Accounting": {
-            "type": "array",
-            "description": "A user definable list of accounting tools and services the client uses",
-            "items": {
-              "type": "string"
-            }
-          },
           "RegistrationNumbers": {
             "type": "array",
             "description": "The registration numbers associated with the contact.",
@@ -10108,50 +10049,6 @@
                     "Permanent Account Number (PAN)"
                   ]
                 }
-              }
-            }
-          },
-          "LegalFirm": {
-            "description": "The legal firm(s) that represent the client, these can be strings or references to Karbon organizations",
-            "types": [
-              "object",
-              "null"
-            ],
-            "properties": {
-              "Name": {
-                "type": "string",
-                "example": "Polygon Legal",
-                "description": "The name of the legal firm that represents the client"
-              },
-              "OrganizationKey": {
-                "types": [
-                  "string",
-                  "null"
-                ],
-                "description": "The Organization key of the Karbon organization client record",
-                "example": "4cYDk82rZDRn"
-              }
-            }
-          },
-          "TaxProvider": {
-            "description": "The provider of tax services to the client, these can be strings or references to Karbon organizations",
-            "types": [
-              "object",
-              "null"
-            ],
-            "properties": {
-              "Name": {
-                "type": "string",
-                "example": "Polygon Legal",
-                "description": "The name of the tax provider"
-              },
-              "OrganizationKey": {
-                "types": [
-                  "string",
-                  "null"
-                ],
-                "description": "The optional Organization key of the Tax Provider client record in Karbon",
-                "example": null
               }
             }
           },
@@ -12834,12 +12731,10 @@
             "properties": {
               "code": {
                 "type": "string",
-                "example": "4004",
                 "description": "A Karbon-generated code to identify the error"
               },
               "message": {
                 "type": "string",
-                "example": "The record could not be found",
                 "description": "The error message"
               }
             }
@@ -13260,13 +13155,10 @@
           "TaskDueDate": {
             "type": "string",
             "example": "2025-04-23T00:00:00Z"
+
           },
           "TaskData": {
             "type": "array",
-            "example": [{
-              "Key": "Progress",
-              "Value": "1/9 items complete"
-            }],
             "items": {
               "$ref": "#/components/schemas/IntegrationTaskData"
             }
@@ -13398,7 +13290,7 @@
             "example": "2024-08-01T21:54:36Z",
             "readOnly": true
           },
-          "ClientKey": {
+            "ClientKey": {
             "type": "string",
             "description": "The key for the client related to the integration task",
             "example": "44dSBb94ZXlR",
@@ -13748,8 +13640,8 @@
         "description": "There is an issue with the data or structure of the request that must be fixed before the request can be processed",
         "value": {
           "error": {
-            "code": "4002",
-            "message": "Only one value allowed for type Text"
+            "code" : "4002",
+            "message" : "Only one value allowed for type Text"
           }
         }
       },
