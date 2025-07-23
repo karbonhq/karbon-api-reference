@@ -237,7 +237,7 @@
     }
   },
   "paths": {
-    "/v3/IntegrationTasksDefinitions": {
+    "/v3/IntegrationTaskDefinitions": {
       "get": {
         "operationId": "ListIntegrationTaskDefintions",
         "tags": [
