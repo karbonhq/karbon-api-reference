@@ -890,7 +890,7 @@
                   "PaymentDate": {
                     "type": "string",
                     "example": "2024-06-30",
-                    "description": "The method used to pay the invoice",
+                    "description": "The date the Payment is to be Recorded using an ISO 8601 datestamp",
                     "format": "date"
                   },
                   "TotalAmount": {
@@ -967,6 +967,83 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/RateLimitErrorMessage"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v3/ReverseManualPayment" :{
+      "post": {
+        "operationId": "reverseManualPayment",
+        "tags": [
+          "Billing"
+        ],
+        "summary": "Reverse a manual payment",
+        "description": "Use the `POST` method on this endpoint to reverse a Manual Payment",
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResourceNotFound"
+                },
+                "examples": {
+                  "Unauthorized Access": {
+                    "$ref": "#/components/examples/UnauthorizedAccess"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Manual Payment not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ManualPaymentNotFoundErrorMessage"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Rate Limit Exceeded",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RateLimitErrorMessage"
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "description": "A reverse manual payment request body",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "required": [
+                  "PaymentKey",
+                  "ReversalDate"
+                ],
+                "properties": {
+                  "PaymentKey": {
+                    "type": "string",
+                    "example": "2NmwhRJXjHdH",
+                    "description": "The unique key of the Manual Paymeny to revser"
+                  },
+                  "ReversalDate": {
+                    "type": "string",
+                    "format": "date",
+                    "example": "2025-08-01",
+                    "description": "The date the Reversal is to be recorded using an ISO 8601 datestamp"
+                  }
                 }
               }
             }
