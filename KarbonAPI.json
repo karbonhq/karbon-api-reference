@@ -10820,7 +10820,7 @@
                 "ContactType": {
                   "type": "string",
                   "example": "Client",
-                  "description": "The Contact Type for this Contact. You can only use existing Contact Types, these are available from the TenantSettings endpoint."
+                  "description": "The Contact Type for this Organization. You can only use existing Contact Types, these are available from the TenantSettings endpoint."
                 },
                 "LastModifiedDateTime": {
                   "type": "string",
