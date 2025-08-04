@@ -10698,6 +10698,11 @@
                   "example": "COO",
                   "description": "The business role or title of the Contact"
                 },
+                "ContactType": {
+                  "type": "string",
+                  "example": "Client",
+                  "description": "The Contact Type for this Contact. You can only use existing Contact Types, these are available from the TenantSettings endpoint."
+                },
                 "UserDefinedIdentifier": {
                   "type": "string",
                   "example": "73YEnqFcqCf3",
@@ -10811,6 +10816,11 @@
                   "type": "string",
                   "example": "www.samplecompany.com",
                   "description": "The website of the Organization"
+                },
+                "ContactType": {
+                  "type": "string",
+                  "example": "Client",
+                  "description": "The Contact Type for this Contact. You can only use existing Contact Types, these are available from the TenantSettings endpoint."
                 },
                 "LastModifiedDateTime": {
                   "type": "string",
