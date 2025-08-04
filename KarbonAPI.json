@@ -1036,7 +1036,7 @@
                   "PaymentKey": {
                     "type": "string",
                     "example": "2NmwhRJXjHdH",
-                    "description": "The unique key of the Manual Paymeny to revser"
+                    "description": "The unique key of the Manual Payment to reverse"
                   },
                   "ReversalDate": {
                     "type": "string",
