@@ -12386,7 +12386,7 @@
                   "description": "A Karbon-generated key used to identify the entity this Time Entry is related to",
                   "example": "2m6pSFxRzcF2"
                 },
-                "WorkItemKeys": {
+                "WorkItemKey": {
                   "type": "string",
                   "description": "A Karbon-generated key used to identify the Work Item this Time Entry is related to",
                   "example": "2m6pSFxRzcF2"
