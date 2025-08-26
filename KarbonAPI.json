@@ -7768,7 +7768,7 @@
               "default": "WorkItemKey"
             },
             "example": "StartDate",
-            "description": "When this parameter is combined with the URI, this endpoint will return a list of Work Items, sorted by the available properties.\n"
+            "description": "When this parameter is combined with the URI, this endpoint will return a list of Work Items, sorted by the available properties. Using the `desc` variant will return items in most to least recent order.\n"
           },
           {
             "$ref": "#/components/parameters/SkipRecords"
