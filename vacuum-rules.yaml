@@ -4,3 +4,4 @@ rules:
   description-duplication: false
   severity: error
   oas3-missing-example: false
+  no-ambiguous-paths: false

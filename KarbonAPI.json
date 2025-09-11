@@ -512,7 +512,7 @@
             "description": "The Karbon-generated Invoice key"
           },
           {
-            "$ref": "#/components/parameters/ExpandLineItemsAndOrPayments"
+            "$ref": "#/components/parameters/InvoiceExpandParams"
           }
         ],
         "description": "Use the `GET` method on this endpoint to receive the details of an Invoice specified using the InvoiceKey.",
@@ -772,7 +772,12 @@
                       "example": "2024-06-24",
                       "description": "The date the payment made by the customer."
                     },
-                    "TotalAmount": {},
+                    "TotalAmount": {
+                      "type": "number",
+                      "format": "double",
+                      "example": 99.95,
+                      "description": "The amount of the payment"
+                    },
                     "Reference": {
                       "type": [
                         "string",
@@ -974,7 +979,7 @@
         }
       }
     },
-    "/v3/ReverseManualPayment" :{
+    "/v3/ReverseManualPayment": {
       "post": {
         "operationId": "reverseManualPayment",
         "tags": [
@@ -5644,7 +5649,7 @@
                       "type": "object",
                       "properties": {
                         "Contacts": {
-                          "$ref": "#/components/schemas/ContactsCardOrganization"
+                          "$ref": "#/components/schemas/ContactsCardList"
                         }
                       }
                     },
@@ -9022,18 +9027,36 @@
         "example": 100,
         "description": "Skip the first n items"
       },
-      "ExpandLineItemsAndOrPayments": {
+      "InvoiceExpandParams": {
         "in": "query",
         "name": "$expand",
-        "example": "Payments",
+        "examples": {
+          "paymentsOnly": {
+            "value": "Payments",
+            "summary": "Include the payments made on an invoice"
+          },
+          "lineItemsAndData": {
+            "value": "LineItems,Data",
+            "summary": "Include the line items and invoice data"
+          },
+          "limteItemsAndPayments": {
+            "value": "LineItems,Payments",
+            "summary": "Include the line items and payments made on an invoice"
+          }
+        },
         "schema": {
           "type": "string",
           "enum": [
             "LineItems",
-            "Payments"
+            "Payments",
+            "Data",
+            "LineItems,Data",
+            "LineItems,Payments",
+            "LineItems,Payments,Data",
+            "Payments,Data"
           ]
         },
-        "description": "Include additional invoice properties, such as lineitems or payments"
+        "description": "Include additional invoice properties, such as lineitems, payments or invoice data"
       },
       "IntegrationTaskKey": {
         "in": "path",
@@ -9065,7 +9088,7 @@
             "summary": "Return Integration tasks that relate to a specific Work Item"
           },
           "filterByWorkItemClientKey": {
-            "value": "WorkItemKey eq '4f4gnvcDT2yQ'",
+            "value": "WorkIteClientKey eq '4f4gnvcDT2yQ'",
             "summary": "Return Integration tasks that relate to a specific client"
           }
         },
@@ -9207,8 +9230,117 @@
           },
           {
             "$ref": "#/components/schemas/BillingInvoicePayments"
+          },
+          {
+            "$ref": "#/components/schemas/BillingInvoiceData"
           }
         ]
+      },
+      "BillingInvoiceData": {
+        "type": "object",
+        "description": "A collection of the data associated with an invoice",
+        "properties": {
+          "Data": {
+            "type": "array",
+            "description": "The collection of data that is used to create the rendered (HTML/PDF) invoice sent to the billing contact",
+            "items": {
+              "$ref": "#/components/schemas/BillingInvoiceDataItem"
+            }
+          }
+        }
+      },
+      "BillingInvoiceDataItem": {
+        "type": "object",
+        "description": "A single component of the data used to create the rendered (HTML/PDF) invoice",
+        "properties": {
+          "EntityKey": {
+            "type": "string",
+            "description": "The unique key of the source of the billing",
+            "example": "34jgMyYBTt4"
+          },
+          "EntityType": {
+            "type": "string",
+            "description": "The type of the source of the billing",
+            "example": "Work Item"
+          },
+          "Billed": {
+            "type": "number",
+            "format": "double",
+            "description": "The value of the billed amount",
+            "example": 440.50
+          },
+          "Service": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "The service type of the billing",
+            "example": null
+          },
+          "Work": {
+            "type": [
+              "object",
+              "null"
+            ],
+            "description": "The breakdown of the billing that stems from work",
+            "properties": {
+              "FeeType": {
+                "type": "string",
+                "description": "The fee type of the billed amount",
+                "example": "Fixed Fee"
+              },
+              "WorkType": {
+                "type": "string",
+                "description": "The tax rated applied to the billed amount",
+                "example": "Accounting"
+              },
+              "InvoiceType": {
+                "type": "string",
+                "description": "Denotes whether the invoice is final or not",
+                "example": "Final"
+              },
+              "Billed": {
+                "type": "number",
+                "format": "double",
+                "description": "The value of the billed amount",
+                "example": 440.50
+              },
+              "TaxRate": {
+                "type": [
+                  "number",
+                  "null"
+                ],
+                "format": "double",
+                "description": "The tax rated applied to the billed amount",
+                "example": 15.00
+              },
+              "TaxRateName": {
+                "type": [
+                  "string",
+                  "null"
+                ],
+                "description": "The name of the tax rate applied to the billed amount",
+                "example": "GST"
+              },
+              "TaxAmount": {
+                "type": [
+                  "number",
+                  "null"
+                ],
+                "format": "double",
+                "description": "The value of tax component in the billed amount",
+                "example": 440.50
+              }
+            }
+          },
+          "Expenses": {
+            "type": [
+              "array",
+              "null"
+            ],
+            "description": "Expenses related to the billed amount"
+          }
+        }
       },
       "BillingPayment": {
         "type": "object",
@@ -10417,7 +10549,7 @@
           },
           "LegalFirm": {
             "description": "The legal firm(s) that represent the client, these can be strings or references to Karbon organizations",
-            "types": [
+            "type": [
               "object",
               "null"
             ],
@@ -10428,7 +10560,7 @@
                 "description": "The name of the legal firm that represents the client"
               },
               "OrganizationKey": {
-                "types": [
+                "type": [
                   "string",
                   "null"
                 ],
@@ -10439,7 +10571,7 @@
           },
           "TaxProvider": {
             "description": "The provider of tax services to the client, these can be strings or references to Karbon organizations",
-            "types": [
+            "type": [
               "object",
               "null"
             ],
@@ -10450,7 +10582,7 @@
                 "description": "The name of the tax provider"
               },
               "OrganizationKey": {
-                "types": [
+                "type": [
                   "string",
                   "null"
                 ],
@@ -11681,84 +11813,88 @@
           }
         }
       },
-      "ContactsCardOrganization": {
-        "description": "A business card object for an Organization",
+      "ContactsCardList": {
         "type": "array",
         "items": {
-          "type": "object",
-          "properties": {
-            "ContactKey": {
-              "type": "string",
-              "example": "m29BvD0lyT",
-              "description": "A Karbon-generated value that is used to identify the Contact"
-            },
-            "FullName": {
-              "type": "string",
-              "example": "Jane River",
-              "description": "The full name of the Contact"
-            },
-            "PreferredName": {
-              "type": "string",
-              "example": "Jane",
-              "description": "The preferred name of the Contact"
-            },
-            "Salutation": {
-              "type": "string",
-              "example": "Ms",
-              "description": "The title to address the Contact"
-            },
-            "ClientOwner": {
-              "type": [
-                "string",
-                "null"
-              ],
-              "example": "jessica.tse@samplecompany.com",
-              "description": "The team member in your firm who looks after client relationship or is responsible for the vast majority of the work of the Contact. You can only use the UserKey or the email address of an existing team member."
-            },
-            "ClientManager": {
-              "type": [
-                "string",
-                "null"
-              ],
-              "example": "rodney.muller@samplecompany.com",
-              "description": "The team member in your firm who manages the work for Contact. You can only use the UserKey or the email address of an existing team member."
-            },
-            "Address": {
-              "type": [
-                "string",
-                "null"
-              ],
-              "example": "",
-              "description": "The Address of the Contact"
-            },
-            "EmailAddress": {
-              "type": "string",
-              "description": "The Email Address of the Contact"
-            },
-            "PhoneNumber": {
-              "type": [
-                "string",
-                "null"
-              ],
-              "description": "The phone number associated with the Contact",
-              "maxLength": 20
-            },
-            "RoleOrTitle": {
-              "type": "string",
-              "example": "COO",
-              "description": "The business role or title of the Contact"
-            },
-            "UserDefinedIdentifier": {
-              "type": "string",
-              "example": "JR_1001_2022",
-              "description": "A unique key that you can use to identify this Contact."
-            },
-            "LastModifiedDateTime": {
-              "type": "string",
-              "format": "date-time",
-              "example": "2023-06-12T14:00:00Z",
-              "description": "The date and time at which this Contact was last modified."
-            }
+          "$ref": "#/components/schemas/ContactsCardOrganization"
+        },
+        "Description": "A list of contacts related to an Organization via their Business Cards"
+      },
+      "ContactsCardOrganization": {
+        "description": "A contact related to an Organization",
+        "type": "object",
+        "properties": {
+          "ContactKey": {
+            "type": "string",
+            "example": "m29BvD0lyT",
+            "description": "A Karbon-generated value that is used to identify the Contact"
+          },
+          "FullName": {
+            "type": "string",
+            "example": "Jane River",
+            "description": "The full name of the Contact"
+          },
+          "PreferredName": {
+            "type": "string",
+            "example": "Jane",
+            "description": "The preferred name of the Contact"
+          },
+          "Salutation": {
+            "type": "string",
+            "example": "Ms",
+            "description": "The title to address the Contact"
+          },
+          "ClientOwner": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "example": "jessica.tse@samplecompany.com",
+            "description": "The team member in your firm who looks after client relationship or is responsible for the vast majority of the work of the Contact. You can only use the UserKey or the email address of an existing team member."
+          },
+          "ClientManager": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "example": "rodney.muller@samplecompany.com",
+            "description": "The team member in your firm who manages the work for Contact. You can only use the UserKey or the email address of an existing team member."
+          },
+          "Address": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "example": "",
+            "description": "The Address of the Contact"
+          },
+          "EmailAddress": {
+            "type": "string",
+            "description": "The Email Address of the Contact"
+          },
+          "PhoneNumber": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "The phone number associated with the Contact",
+            "maxLength": 20
+          },
+          "RoleOrTitle": {
+            "type": "string",
+            "example": "COO",
+            "description": "The business role or title of the Contact"
+          },
+          "UserDefinedIdentifier": {
+            "type": "string",
+            "example": "JR_1001_2022",
+            "description": "A unique key that you can use to identify this Contact."
+          },
+          "LastModifiedDateTime": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2023-06-12T14:00:00Z",
+            "description": "The date and time at which this Contact was last modified."
           }
         }
       },
@@ -12245,8 +12381,11 @@
             "$ref": "#/components/schemas/CreateOrganizationResponse"
           },
           {
-            "BusinessCards": {
-              "$ref": "#/components/schemas/BusinessCardsRequestAsArray"
+            "type": "object",
+            "properties": {
+              "BusinessCards": {
+                "$ref": "#/components/schemas/BusinessCardsRequestAsArray"
+              }
             }
           }
         ]
@@ -13577,10 +13716,12 @@
           },
           "TaskData": {
             "type": "array",
-            "example": [{
-              "Key": "Progress",
-              "Value": "1/9 items complete"
-            }],
+            "example": [
+              {
+                "Key": "Progress",
+                "Value": "1/9 items complete"
+              }
+            ],
             "items": {
               "$ref": "#/components/schemas/IntegrationTaskData"
             }
