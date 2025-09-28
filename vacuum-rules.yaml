@@ -5,3 +5,4 @@ rules:
   severity: error
   oas3-missing-example: false
   no-ambiguous-paths: false
+  camel-case-properties: false
