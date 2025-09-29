@@ -512,7 +512,7 @@
             "description": "The Karbon-generated Invoice key"
           },
           {
-            "$ref": "#/components/parameters/ExpandLineItemsAndOrPayments"
+            "$ref": "#/components/parameters/InvoiceExpandParams"
           }
         ],
         "description": "Use the `GET` method on this endpoint to receive the details of an Invoice specified using the InvoiceKey.",
@@ -9027,18 +9027,36 @@
         "example": 100,
         "description": "Skip the first n items"
       },
-      "ExpandLineItemsAndOrPayments": {
+      "InvoiceExpandParams": {
         "in": "query",
         "name": "$expand",
-        "example": "Payments",
+        "examples": {
+          "paymentsOnly": {
+            "value": "Payments",
+            "summary": "Include the payments made on an invoice"
+          },
+          "lineItemsAndData": {
+            "value": "LineItems,Data",
+            "summary": "Include the line items and invoice data"
+          },
+          "limteItemsAndPayments": {
+            "value": "LineItems,Payments",
+            "summary": "Include the line items and payments made on an invoice"
+          }
+        },
         "schema": {
           "type": "string",
           "enum": [
             "LineItems",
-            "Payments"
+            "Payments",
+            "Data",
+            "LineItems,Data",
+            "LineItems,Payments",
+            "LineItems,Payments,Data",
+            "Payments,Data"
           ]
         },
-        "description": "Include additional invoice properties, such as lineitems or payments"
+        "description": "Include additional invoice properties, such as lineitems, payments or invoice data"
       },
       "IntegrationTaskKey": {
         "in": "path",
@@ -9212,8 +9230,237 @@
           },
           {
             "$ref": "#/components/schemas/BillingInvoicePayments"
+          },
+          {
+            "$ref": "#/components/schemas/BillingInvoiceData"
           }
         ]
+      },
+      "BillingInvoiceData": {
+        "type": "object",
+        "description": "A collection of the data associated with an invoice",
+        "properties": {
+          "Data": {
+            "type": "array",
+            "description": "The collection of data that is used to create the rendered (HTML/PDF) invoice sent to the billing contact",
+            "items": {
+              "$ref": "#/components/schemas/BillingInvoiceDataItem"
+            }
+          }
+        }
+      },
+      "BillingInvoiceDataItem": {
+        "type": "object",
+        "description": "A single component of the data used to create the rendered (HTML/PDF) invoice",
+        "properties": {
+          "EntityKey": {
+            "type": "string",
+            "description": "The unique key of the source of the billing",
+            "example": "34jgMyYBTt4"
+          },
+          "EntityType": {
+            "type": "string",
+            "description": "The type of the source of the billing",
+            "example": "Work Item"
+          },
+          "Billed": {
+            "type": "number",
+            "format": "double",
+            "description": "The value of the billed amount",
+            "example": 440.50
+          },
+          "Expenses": {
+            "$ref": "#/components/schemas/BillingInvoiceDataExpense"
+          },
+          "Service": {
+            "$ref": "#/components/schemas/BillingInvoiceDataService"
+          },
+          "Work": {
+            "$ref": "#/components/schemas/BillingInvoiceDataWork"
+          }
+        }
+      },
+      "BillingInvoiceDataTax": {
+        "description": "A breakdown of tax related to invoice, lineitems and data",
+        "type": "object",
+        "properties": {
+          "TaxRate": {
+            "type": [
+              "number",
+              "null"
+            ],
+            "format": "double",
+            "description": "The tax rated applied to the billed amount",
+            "example": 15.00
+          },
+          "TaxRateName": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "The name of the tax rate applied to the billed amount",
+            "example": "GST"
+          },
+          "TaxAmount": {
+            "type": [
+              "number",
+              "null"
+            ],
+            "format": "double",
+            "description": "The value of tax component in the billed amount",
+            "example": 44.55
+          }
+        }
+      },
+      "BillingInvoiceDataExpense": {
+        "description": "A line item on a Karbon invoice",
+        "type": "object",
+        "properties": {
+          "Billed": {
+            "type": "number",
+            "description": "The total billed value of expenses",
+            "example": 200.00
+          },
+          "Expenses": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/BillingInvoiceDataExpenseItem"
+            }
+          }
+        }
+      },
+      "BillingInvoiceDataExpenseItem": {
+        "description": "An expense line item on a Karbon invoice",
+        "type": "object",
+        "allOf": [
+          {
+            "properties": {
+              "ExpenseKey": {
+                "type": "string",
+                "example": "26cd6f1b81d14be59f1e578c5fe160b5"
+              },
+              "Description": {
+                "type": "string",
+                "description": "The description of the expense",
+                "example": "Expense 1"
+              },
+              "Billed": {
+                "type": "number",
+                "description": "An the billed value of a specific expense",
+                "example": 100
+              }
+            }
+          },
+          {
+            "$ref": "#/components/schemas/BillingInvoiceDataTax"
+          }
+        ]
+      },
+      "BillingInvoiceDataService": {
+        "description": "A service line item on a Karbon invoice",
+        "type": [
+          "object",
+          "null"
+        ],
+        "allOf": [
+          {
+            "properties": {
+              "WorkType": {
+                "type": "string",
+                "description": "The work type associated with the service",
+                "example": "Accounting"
+              },
+              "Billed": {
+                "type": "number",
+                "description": "The billed value of the service",
+                "example": 150.00
+              }
+            }
+          },
+          {
+            "$ref": "#/components/schemas/BillingInvoiceDataTax"
+          }
+        ]
+      },
+      "BillingInvoiceDataWork": {
+        "type": [
+          "object",
+          "null"
+        ],
+        "description": "The breakdown of the billing that stems from work",
+        "allOf": [
+          {
+            "properties": {
+              "FeeType": {
+                "type": "string",
+                "description": "The fee type of the billed amount",
+                "example": "Fixed Fee"
+              },
+              "WorkType": {
+                "type": "string",
+                "description": "The tax rated applied to the billed amount",
+                "example": "Accounting"
+              },
+              "InvoiceType": {
+                "type": "string",
+                "description": "Denotes whether the invoice is final or not",
+                "example": "Final"
+              },
+              "Billed": {
+                "type": "number",
+                "format": "double",
+                "description": "The value of the billed amount",
+                "example": 440.50
+              },
+              "TimeEntries": {
+                "oneOf": [
+                  {
+                    "type": "array",
+                    "items": {
+                      "$ref": "#/components/schemas/BillingInvoiceDataWorkTimeEntry"
+                    }
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "$ref": "#/components/schemas/BillingInvoiceDataTax"
+          }
+        ]
+      },
+      "BillingInvoiceDataWorkTimeEntry": {
+        "description": "The details of an invoiced time entry",
+        "properties": {
+          "TimeEntryKey": {
+            "type": "string",
+            "description": "The unique identifier of the time entry",
+            "example": "c05db7badcc844b9a6c0d23c40928a87"
+          },
+          "ColleagueKey": {
+            "type": "string",
+            "description": "The unique ID of the user that logged the time",
+            "example": "YzTNXkxxq2W"
+          },
+          "RoleName": {
+            "type": "string",
+            "description": "The role on the time entry",
+            "example": "Bookkeeper"
+          },
+          "TaskTypeName": {
+            "type": "string",
+            "description": "The task ype on the time entry",
+            "example": "Bookkeeping"
+          },
+          "Billed": {
+            "type": "number",
+            "description": "The billed value of the time entry",
+            "example": 300.00
+          }
+        }
       },
       "BillingPayment": {
         "type": "object",
