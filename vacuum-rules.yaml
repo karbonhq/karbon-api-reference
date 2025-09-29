@@ -1,8 +1,9 @@
 extends: [[spectral:oas, recommended]]
 rules:
-  paths-kebab-case: false
-  description-duplication: false
   severity: error
-  oas3-missing-example: false
+  paths-kebab-case: false
   no-ambiguous-paths: false
   camel-case-properties: false
+  description-duplication: false
+  oas3-missing-example: false
+
