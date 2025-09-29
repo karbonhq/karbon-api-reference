@@ -4986,13 +4986,9 @@
               "contactTypeContains": {
                 "value": "contains(ContactType, 'Client')",
                 "summary": "The ContactType of the organization contains 'Client', would return Organizations with the ContactType 'Client', 'Client - VIP' and 'Inactive Client'"
-              },
-              "tags": {
-                "value": "Tags/any(tag: tag eq 'sync')",
-                "summary": "The list tags assigned to the Organization contains 'sync'"
               }
             },
-            "description": "When this parameter is combined with the URI, this endpoint will return a subset of the Organizations that satisfy the `$filter` expression.\nFiltering for Tags cannot be combined with other filters."
+            "description": "When this parameter is combined with the URI, this endpoint will return a subset of the Organizations that satisfy the `$filter` expression."
           },
           {
             "in": "query",
