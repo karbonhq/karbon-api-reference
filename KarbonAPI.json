@@ -11615,11 +11615,13 @@
           },
           "ContactKey": {
             "type": "string",
-            "description": "A Karbon-generated value that is used to identify the Contact"
+            "description": "A Karbon-generated value that is used to identify the Contact",
+            "example": "4t8LbR1QcbGS"
           },
           "FirstName": {
             "type": "string",
-            "description": "The first name of the Contact"
+            "description": "The first name of the Contact",
+            "example": "William"
           },
           "MiddleName": {
             "type": "string",
