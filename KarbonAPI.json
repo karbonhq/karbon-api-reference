@@ -394,9 +394,33 @@
               "orderByInvoiceDateDesc": {
                 "value": "InvoiceDate desc",
                 "summary": "Order results by InvoiceDate, newest to oldest"
+              },
+              "orderByInvoiceCreatedAt": {
+                "value": "CreatedAt",
+                "summary": "Order results by CreatedAt timestamp, oldest to newest"
+              },
+              "orderByInvoiceCreatedAtDesc": {
+                "value": "CreatedAt desc",
+                "summary": "Order results by CreatedAt timestamp, newest to oldest"
+              },
+              "orderByInvoiceUpdatedAt": {
+                "value": "UpdatedAt",
+                "summary": "Order results by UpdatedAt timestamp, oldest to newest"
+              },
+              "orderByInvoiceUpdatedAtDesc": {
+                "value": "UpdatedAt desc",
+                "summary": "Order results by UpdatedAt timestamp, newest to oldest"
+              },
+              "orderByInvoiceNumber": {
+                "value": "InvoiceNumber",
+                "summary": "Order results by InvoiceNumber, oldest to newest"
+              },
+              "orderByInvoiceNumberDesc": {
+                "value": "InvoiceNumber desc",
+                "summary": "Order results by InvoiceNumber, newest to oldest"
               }
             },
-            "description": "Order responses by invoice date"
+            "description": "Alter the sort order of the invoice list"
           }
         ],
         "description": "Use the `GET` method on this endpoint to receive a list of Invoices",
