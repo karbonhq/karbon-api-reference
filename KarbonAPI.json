@@ -55,7 +55,7 @@
     },
     {
       "name": "Integrated Workflows",
-      "description": "Endpoints that enable Karbon Integration Partners to manage integrated work flow tasks enabled for their integrations."
+      "description": "Endpoints that enable Karbon Integration Partners to manage integrated workflow tasks enabled for their integrations. Note that these endpoints cannot be used to access Tasks or Client Tasks. Access is limited to approved developers building apps that serve all Karbon customers."
     },
     {
       "name": "Organizations",
