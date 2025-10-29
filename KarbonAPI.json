@@ -12625,24 +12625,47 @@
           "Roles": {
             "type": "array",
             "items": {
-              "type": "string"
-            },
-            "description": "A list of the roles allocated to the User",
-            "example": [
-              "Accountant",
-              "Bookkeeper"
-            ]
+              "type": "object",
+              "properties": {
+                "Name": {
+                  "type": "string",
+                  "example": "Accountant",
+                  "description": "The name of the role"
+                },
+                "Key": {
+                  "type": "string",
+                  "example": "4vMnYgz2nx8w",
+                  "description": "The unique identifier of the role"
+                }
+              }
+            }
           },
           "Teams": {
             "type": "array",
-            "items": {
-              "type": "string"
-            },
             "description": "A list of the teams the User is member of",
-            "example": [
-              "Accountants",
-              "Bookkeepers"
-            ]
+            "items": {
+              "type": "object",
+              "properties": {
+                "Key": {
+                  "type": "string",
+                  "example": "2GnB2t83kzjj",
+                  "description": "The unique key of the team"
+                },
+                "Name": {
+                  "type": "string",
+                  "example": "Accountants",
+                  "description": "The name of the team"
+                },
+                "ParentTeamKey": {
+                  "type": [
+                    "string",
+                    "null"
+                  ],
+                  "example": null,
+                  "description": "The unique key of the parent team, if applicable"
+                }
+              }
+            }
           }
         }
       },
