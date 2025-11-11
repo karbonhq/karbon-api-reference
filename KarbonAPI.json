@@ -803,13 +803,18 @@
                       "description": "The amount of the payment"
                     },
                     "Reference": {
-                      "type": [
-                        "string",
-                        "null"
-                      ],
-                      "example": "Payment made in cash.",
-                      "maxLength": 250,
-                      "description": "An optional reference to include with the payment."
+                      "description": "An optional reference to include with the payment.",
+                      "oneOf": [
+                        {
+                          "type": "string",
+                          "maxLength": 250,
+                          "example": "Payment made in cash."
+                        },
+                        {
+                          "type": "null"
+                          
+                        }
+                      ]
                     },
                     "PaymentProcessingKey": {
                       "type": "string",
@@ -7446,14 +7451,18 @@
                     "example": "Contact"
                   },
                   "SigningKey": {
-                    "type": [
-                      "string",
-                      "null"
+                    "oneOf":[
+                      {
+                        "type": "string",
+                        "minLength": 16,
+                        "pattern": "^[A-Za-z0-9-_]+$",
+                        "example": "96434E14-3C96-4F07-9FC2-CCC736827309"
+                      },
+                      {
+                        "type": "null"
+                      }
                     ],
-                    "description": "An optional key that will be used to sign webhook payloads, may contain letters, numbers, dashes or underscores",
-                    "minLength": 16,
-                    "pattern": "^[A-Za-z0-9-_]+$",
-                    "example": "96434E14-3C96-4F07-9FC2-CCC736827309"
+                    "description": "An optional key that will be used to sign webhook payloads, may contain letters, numbers, dashes or underscores"
                   }
                 }
               }
@@ -10180,7 +10189,8 @@
               "DK",
               "NO",
               "IN",
-              "CH"
+              "CH",
+              null
             ]
           },
           "TradingName": {
@@ -11795,12 +11805,17 @@
             "description": "The Email Address of the Contact"
           },
           "PhoneNumber": {
-            "type": [
-              "string",
-              "null"
+            "oneOf": [
+              {
+                "type": "string",
+                "maxLength": 20,
+                "example": "555-1234"
+              },
+              {
+                "type": "null"
+              }
             ],
-            "description": "The phone number associated with the Contact",
-            "maxLength": 20
+            "description": "The phone number associated with the Contact"
           },
           "RoleOrTitle": {
             "type": "string",
@@ -12798,7 +12813,8 @@
               "Days",
               "Weeks",
               "Months",
-              "Years"
+              "Years",
+              null
             ],
             "example": "Days"
           },
@@ -12967,7 +12983,8 @@
               "Days",
               "Weeks",
               "Months",
-              "Years"
+              "Years",
+              null
             ],
             "example": "Days"
           },
@@ -13484,34 +13501,58 @@
             "description": "The name of the specific Integration Task Definition"
           },
           "TaskPrimaryLinkUrl": {
-            "type": [
-              "string",
-              "null"
+            "oneOf":[
+              {
+                "type": "string",
+                "format": "uri",
+                "maxLength": 200,
+                "example": "https://app.example.com/create"
+              },
+              {
+                "type": "null"
+              }
             ],
-            "example": "https://app.example.com/create",
-            "description": "The optional default primary link URL of the specific Integration Task Definition",
-            "maxLength": 200
+            "description": "The optional default primary link URL of the specific Integration Task Definition"
           },
           "TaskPrimaryLinkLabel": {
-            "type": [
-              "string",
-              "null"
+            "oneOf":[
+              {
+                "type": "string",
+                "example": "Create",
+                "maxLength": 20
+              },
+              {
+                "type": "null"
+              }
             ],
-            "example": "Create",
-            "description": "The optional default label for the primary link URL of the specific Integration Task Definition",
-            "maxLength": 20
+            "description": "The optional default label for the primary link URL of the specific Integration Task Definition"
           },
           "TaskSecondaryLinkUrl": {
-            "type": "string",
-            "example": "https://app.example.com/update",
-            "description": "The optional default label for the secondary link URL of the specific Integration Task Definition",
-            "maxLength": 200
+            "oneOf":[
+              {
+                "type": "string",
+                "format": "uri",
+                "maxLength": 200,
+                "example": "https://app.example.com/create"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "The optional default primary link URL of the specific Integration Task Definition"
           },
           "TaskSecondaryLinkLabel": {
-            "type": "string",
-            "example": "Update",
-            "description": "The optional default label for the secondary link URL of the specific Integration Task Definition",
-            "maxLength": 20
+            "oneOf":[
+              {
+                "type": "string",
+                "example": "Update",
+                "maxLength": 20
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "The optional default label for the primary link URL of the specific Integration Task Definition"
           },
           "Locales": {
             "description": "The list of locales and languages the integration task definition is suitable for use with, useful when different definitions are required for different languages or locales",
@@ -13611,34 +13652,58 @@
             "description": "The name of the specific Integration Task Definition"
           },
           "TaskPrimaryLinkUrl": {
-            "type": [
-              "string",
-              "null"
+            "oneOf":[
+              {
+                "type": "string",
+                "format": "uri",
+                "maxLength": 200,
+                "example": "https://app.example.com/create"
+              },
+              {
+                "type": "null"
+              }
             ],
-            "example": "https://app.example.com/create",
-            "description": "The optional default primary link URL of the specific Integration Task Definition",
-            "maxLength": 200
+            "description": "The optional default primary link URL of the specific Integration Task Definition"
           },
           "TaskPrimaryLinkLabel": {
-            "type": [
-              "string",
-              "null"
+            "oneOf":[
+              {
+                "type": "string",
+                "example": "Create",
+                "maxLength": 20
+              },
+              {
+                "type": "null"
+              }
             ],
-            "example": "Create",
-            "description": "The optional default label for the primary link URL of the specific Integration Task Definition",
-            "maxLength": 20
+            "description": "The optional default label for the primary link URL of the specific Integration Task Definition"
           },
           "TaskSecondaryLinkUrl": {
-            "type": "string",
-            "example": "https://app.example.com/update",
-            "description": "The optional default label for the secondary link URL of the specific Integration Task Definition",
-            "maxLength": 200
+            "oneOf":[
+              {
+                "type": "string",
+                "format": "uri",
+                "maxLength": 200,
+                "example": "https://app.example.com/update"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "The optional default label for the secondary link URL of the specific Integration Task Definition"
           },
           "TaskSecondaryLinkLabel": {
-            "type": "string",
-            "example": "Update",
-            "description": "The optional default label for the secondary link URL of the specific Integration Task Definition",
-            "maxLength": 20
+            "oneOf":[
+              {
+                "type": "string",
+                "example": "Update",
+                "maxLength": 20
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "The optional default label for the secondary link URL of the specific Integration Task Definition"
           },
           "TaskStatus": {
             "type": "string",
