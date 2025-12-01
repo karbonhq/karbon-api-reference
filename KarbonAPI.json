@@ -4466,7 +4466,7 @@
                   "file": {
                     "type": "string",
                     "format": "binary",
-                    "description": "The path of the file. Only works for file in your local computer."
+                    "description": "File to be uploaded"
                   }
                 }
               }
