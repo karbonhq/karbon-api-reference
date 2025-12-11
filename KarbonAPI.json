@@ -3989,7 +3989,7 @@
         "tags": [
           "Custom Fields"
         ],
-        "description": "Retrives the custom fields for a Contact or Organization",
+        "description": "Retrieves the custom fields for a Contact or Organization",
         "summary": "Gets custom field values for a specific entity",
         "operationId": "GetCustomFieldValues",
         "parameters": [
