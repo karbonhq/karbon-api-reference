@@ -43,7 +43,7 @@
     },
     {
       "name": "Custom Fields",
-      "description": "Endpoints to manage Custom Fields on Contacts and Organizations in Karbon, refer to the Karbon help and supoprt content for more information on [creating custom fields](https://help.karbonhq.com/en/articles/10971113-create-a-new-custom-contact-field) and [frequently asked questions](https://help.karbonhq.com/en/articles/10971266-custom-contact-fields-faqs)"
+      "description": "Endpoints to manage Custom Fields on Contacts and Organizations in Karbon, refer to the Karbon help and support content for more information on [creating custom fields](https://help.karbonhq.com/en/articles/10971113-create-a-new-custom-contact-field) and [frequently asked questions](https://help.karbonhq.com/en/articles/10971266-custom-contact-fields-faqs)"
     },
     {
       "name": "Estimate Summaries",
@@ -2040,7 +2040,7 @@
             "description": "When this parameter is specified in the query string this endpoint will also return the Business Card and/or Client Team of the Client Group.\n"
           }
         ],
-        "description": "Use the `GET` method on this endpoint to receive the details of a Client Group specified using the `ClientGroupkey`.\n\nUsing the query parameter available to this endpoint,  you can also include the Business Card details of the Client Group in the response.\n",
+        "description": "Use the `GET` method on this endpoint to receive the details of a Client Group specified using the `ClientGroupKey`.\n\nUsing the query parameter available to this endpoint,  you can also include the Business Card details of the Client Group in the response.\n",
         "operationId": "getClientGroupByID",
         "responses": {
           "200": {
@@ -3613,7 +3613,7 @@
                     },
                     "@odata.type": {
                       "type": "string",
-                      "description": "The information about Karbon Objects generating this reponse."
+                      "description": "The information about Karbon Objects generating this response."
                     },
                     "ContactKey": {
                       "type": "string",
@@ -3996,7 +3996,7 @@
           {
             "name": "EntityKey",
             "in": "path",
-            "description": "The key of the Contact or Organization to get custom field values for",
+            "description": "The key to get custom field values for a Contact or Organization",
             "required": true,
             "schema": {
               "type": "string"
@@ -4064,7 +4064,7 @@
           {
             "name": "EntityKey",
             "in": "path",
-            "description": "The key of the Contact or Organization to get custom field values for",
+            "description": "The key to get custom field values for a Contact or Organization",
             "required": true,
             "schema": {
               "type": "string"
@@ -4120,17 +4120,17 @@
         }
       }
     },
-    "/v3/EstimateSummaries/{WorkItemkey}": {
+    "/v3/EstimateSummaries/{WorkItemKey}": {
       "get": {
         "tags": [
           "Estimate Summaries"
         ],
-        "summary": "Gets estimate summaries using WorkItemkey",
+        "summary": "Gets estimate summaries using WorkItemKey",
         "parameters": [
           {
             "required": true,
             "in": "path",
-            "name": "WorkItemkey",
+            "name": "WorkItemKey",
             "schema": {
               "type": "string"
             },
@@ -4138,7 +4138,7 @@
             "description": "The Karbon-generated Work Item key"
           }
         ],
-        "description": "Use the `GET` method on this endpoint to receive the estimate summaries of a Work Item specified using the `WorkItemkey`.\n",
+        "description": "Use the `GET` method on this endpoint to receive the estimate summaries of a Work Item specified using the `WorkItemKey`.\n",
         "operationId": "getEstimateSummariesByWorkItemKey",
         "responses": {
           "200": {
@@ -5417,7 +5417,7 @@
             "description": "When this parameter is combined with the URI, this endpoint will also return the Business Cards of the Contact Organization.\n"
           }
         ],
-        "description": "Use the `GET` method on this endpoint to receive the details of a Organization specified using the UserDefinedIdentifier.\n\nUsing the query parameter available to this endpoint, you can also include Business Card details of the Organization in the response.\n",
+        "description": "Use the `GET` method on this endpoint to receive the details of an Organization specified using the UserDefinedIdentifier.\n\nUsing the query parameter available to this endpoint, you can also include Business Card details of the Organization in the response.\n",
         "operationId": "getOrganizationByUDI",
         "responses": {
           "200": {
@@ -5654,7 +5654,7 @@
             "description": "When this parameter is combined with the URI, this endpoint will also return Business Cards, Client Team and/or Contacts associated with the Organization. Multiple properties can be returned by specifying a comma separated list.\n"
           }
         ],
-        "description": "Use the `GET` method on this endpoint to receive the details of a Organization specified using the `Organizationkey`.\n\nUsing the query parameter available to this endpoint,  you can also include the Business Card details of the Organization in the response.\n",
+        "description": "Use the `GET` method on this endpoint to receive the details of an Organization specified using the `Organizationkey`.\n\nUsing the query parameter available to this endpoint,  you can also include the Business Card details of the Organization in the response.\n",
         "operationId": "getOrganizationByID",
         "responses": {
           "200": {
@@ -5929,7 +5929,7 @@
             "description": "The Karbon-generated Organization key"
           }
         ],
-        "description": "Use the `PUT` method on this endpoint to update full details of a Organization specified using the `Organizationkey`.\n\n\nUsing the query parameter `$expand` with this endpoint, you can also update the Business Card details of the Organization.\n\n**Note:** When updating business cards, you must include `BusinessCardKey`, `EntityType` and `EntityKey` properties for existing Business Cards - or the existing card and any associated Client Requests may be removed.",
+        "description": "Use the `PUT` method on this endpoint to update full details of an Organization specified using the `Organizationkey`.\n\n\nUsing the query parameter `$expand` with this endpoint, you can also update the Business Card details of the Organization.\n\n**Note:** When updating business cards, you must include `BusinessCardKey`, `EntityType` and `EntityKey` properties for existing Business Cards - or the existing card and any associated Client Requests may be removed.",
         "operationId": "putOrganizationByID",
         "responses": {
           "204": {
@@ -5948,9 +5948,6 @@
                   },
                   "Unsupported Option": {
                     "$ref": "#/components/examples/Unsupported_option"
-                  },
-                  "Key Not Found": {
-                    "$ref": "#/components/examples/Organization_Key_Not_Found_400"
                   }
                 }
               }
@@ -6156,7 +6153,7 @@
             "description": "Return the record after it has been updated"
           }
         ],
-        "description": "Use the `PATCH` method on this endpoint to update partial details of a Organization specified using the `Organizationkey`.\n\nThis method **only supports** editing the `FullName` property.\n",
+        "description": "Use the `PATCH` method on this endpoint to update partial details of an Organization specified using the `Organizationkey`.\n\nThis method **only supports** editing the `FullName` property.\n",
         "operationId": "patchOrganizationByID",
         "responses": {
           "200": {
@@ -6172,7 +6169,7 @@
                     },
                     "@odata.type": {
                       "type": "string",
-                      "description": "The information about Karbon Objects generating this reponse."
+                      "description": "The information about Karbon Objects generating this response."
                     },
                     "OrganizationKey": {
                       "type": "string",
@@ -7164,7 +7161,7 @@
             "description": "The type of Karbon entity, which the Webhook Subscription must be associated with"
           }
         ],
-        "description": "Use the `GET` method on this endpoint to receive the details of a Webhook Subscriptions associated with the Karbon entity specified using the `WebhookType`.\n\n**Only one** Webhook Subcription can exist per entity.\n",
+        "description": "Use the `GET` method on this endpoint to receive the details of a Webhook Subscriptions associated with the Karbon entity specified using the `WebhookType`.\n\n**Only one** Webhook Subscription can exist per entity.\n",
         "operationId": "getWebhookSubscriptionsByWebhookType",
         "responses": {
           "200": {
@@ -7450,7 +7447,7 @@
                       "Invoice",
                       "EstimateSummary"
                     ],
-                    "description": "The type of Karbon entity which the Webhook Subscription is associated with. To receive ClientGroup, Contact and Organization updates, pass WebhookType as `Contact`. To receive WorkItem updates, pass WebhookType as `Work`. To receive Note and NoteComment updates, pass WebhookType as `Note`. To receive an update when a User has accepted an invite to Karbon, pass WebhookType as `User`. To receive an update when an Invoice changes status, pass WebhookType as `Invoice`. To receive an update when an EstimateSummary is updated, pass WebhookType as `EstimateSummary`. Integration partners using the Integration Task feature can use `IntegrationTask` as the webhook subscription type to receive a notifcation when an integraiton task is added to a Work Item or a new Work Item is created from a Work Template that contains one or more Integraition Tasks.",
+                    "description": "The type of Karbon entity which the Webhook Subscription is associated with. To receive ClientGroup, Contact and Organization updates, pass WebhookType as `Contact`. To receive WorkItem updates, pass WebhookType as `Work`. To receive Note and NoteComment updates, pass WebhookType as `Note`. To receive an update when a User has accepted an invite to Karbon, pass WebhookType as `User`. To receive an update when an Invoice changes status, pass WebhookType as `Invoice`. To receive an update when an EstimateSummary is updated, pass WebhookType as `EstimateSummary`. Integration partners using the Integration Task feature can use `IntegrationTask` as the webhook subscription type to receive a notification when an integration task is added to a Work Item or a new Work Item is created from a Work Template that contains one or more Integraition Tasks.",
                     "example": "Contact",
                     "required": true
                   },
@@ -7699,7 +7696,7 @@
                         },
                         "@odata.type": {
                           "type": "string",
-                          "description": "The information about Karbon Objects generating this reponse.",
+                          "description": "The information about Karbon Objects generating this response.",
                           "example": "#KarbonService.WorkItemDTO"
                         }
                       }
@@ -7833,17 +7830,17 @@
         }
       }
     },
-    "/v3/WorkItems/{WorkItemkey}": {
+    "/v3/WorkItems/{WorkItemKey}": {
       "get": {
         "tags": [
           "Work Items"
         ],
-        "summary": "Gets a Work Item using WorkItemkey",
+        "summary": "Gets a Work Item using WorkItemKey",
         "parameters": [
           {
             "required": true,
             "in": "path",
-            "name": "WorkItemkey",
+            "name": "WorkItemKey",
             "schema": {
               "type": "string"
             },
@@ -7851,7 +7848,7 @@
             "description": "The Karbon-generated Work Item key"
           }
         ],
-        "description": "Use the `GET` method on this endpoint to receive the details of a Work Item specified using the WorkItemkey.\n",
+        "description": "Use the `GET` method on this endpoint to receive the details of a Work Item specified using the WorkItemKey.\n",
         "operationId": "getWorkItemByID",
         "responses": {
           "200": {
@@ -7870,7 +7867,7 @@
                         },
                         "@odata.type": {
                           "type": "string",
-                          "description": "The information about Karbon Objects generating this reponse.",
+                          "description": "The information about Karbon Objects generating this response.",
                           "example": "#KarbonService.WorkItemDTO"
                         }
                       }
@@ -7979,7 +7976,7 @@
           {
             "required": true,
             "in": "path",
-            "name": "WorkItemkey",
+            "name": "WorkItemKey",
             "schema": {
               "type": "string"
             },
@@ -7987,7 +7984,7 @@
             "description": "The Karbon-generated Work Item key"
           }
         ],
-        "description": "Use the `PUT` method on this endpoint to update full details of a Work Item (specified using the WorkItemkey).\n",
+        "description": "Use the `PUT` method on this endpoint to update full details of a Work Item (specified using the WorkItemKey).\n",
         "operationId": "putWorkItemByID",
         "responses": {
           "204": {
@@ -8118,7 +8115,7 @@
         "parameters": [
           {
             "in": "path",
-            "name": "WorkItemkey",
+            "name": "WorkItemKey",
             "schema": {
               "type": "string"
             },
@@ -8127,7 +8124,7 @@
             "description": "The Karbon-generated Work Item key"
           }
         ],
-        "description": "Use the `PATCH` method on this endpoint to update partial details of a Work Item (specified using the WorkItemkey).\n\nThis method **only supports** editing the `Description` and `DeadlineDate` properties.",
+        "description": "Use the `PATCH` method on this endpoint to update partial details of a Work Item (specified using the WorkItemKey).\n\nThis method **only supports** editing the `Description` and `DeadlineDate` properties.",
         "operationId": "patchWorkItemByID",
         "responses": {
           "204": {
@@ -8880,7 +8877,7 @@
         },
         "required": true,
         "example": "zmMgWgPRqCy",
-        "description": "The unique key for a specific intergration task"
+        "description": "The unique key for a specific integration task"
       },
       "IntegrationTaskListFilter": {
         "in": "query",
@@ -10629,7 +10626,7 @@
                 "@odata.type": {
                   "type": "string",
                   "example": "#KarbonService.ClientGroupSummaryDTO",
-                  "description": "The information about Karbon Objects generating this reponse."
+                  "description": "The information about Karbon Objects generating this response."
                 },
                 "FullName": {
                   "type": "string",
@@ -10707,7 +10704,7 @@
                 "@odata.type": {
                   "type": "string",
                   "example": "#KarbonService.ContactSummaryDTO",
-                  "description": "The information about Karbon Objects generating this reponse."
+                  "description": "The information about Karbon Objects generating this response."
                 },
                 "ContactKey": {
                   "type": "string",
@@ -10854,7 +10851,7 @@
                 "@odata.type": {
                   "type": "string",
                   "example": "#KarbonService.OrganizationSummaryDTO",
-                  "description": "The information about Karbon Objects generating this reponse."
+                  "description": "The information about Karbon Objects generating this response."
                 },
                 "OrganizationKey": {
                   "type": "string",
@@ -11359,7 +11356,7 @@
                     "@odata.type": {
                       "type": "string",
                       "example": "#KarbonService.WorkItemSummaryDTO",
-                      "description": "The information about Karbon Objects generating this reponse."
+                      "description": "The information about Karbon Objects generating this response."
                     }
                   }
                 },
@@ -11447,7 +11444,7 @@
           },
           "@odata.type": {
             "type": "string",
-            "description": "The information about Karbon Objects generating this reponse.",
+            "description": "The information about Karbon Objects generating this response.",
             "example": "#KarbonService.ClientGroupDTO"
           },
           "ClientGroupKey": {
@@ -11649,7 +11646,7 @@
           },
           "@odata.type": {
             "type": "string",
-            "description": "The information about Karbon Objects generating this reponse."
+            "description": "The information about Karbon Objects generating this response."
           },
           "ContactKey": {
             "type": "string",
@@ -12125,7 +12122,7 @@
           },
           "@odata.type": {
             "type": "string",
-            "description": "The information about Karbon Objects generating this reponse."
+            "description": "The information about Karbon Objects generating this response."
           },
           "OrganizationKey": {
             "type": "string",
@@ -13466,7 +13463,7 @@
                 "type": "array",
                 "items": {
                   "type": "string",
-                  "description": "The unique key of the scondary Work Status that can be used with this Work Type",
+                  "description": "The unique key of the secondary Work Status that can be used with this Work Type",
                   "example": "r2t4p6m72"
                 }
               }
@@ -13778,7 +13775,7 @@
           },
           "ActionType": {
             "type": "string",
-            "description": "The action that triggered the webhook notifcation to be sent",
+            "description": "The action that triggered the webhook notification to be sent",
             "enum": [
               "Inserted",
               "Updated",
@@ -13817,7 +13814,7 @@
           },
           "ActionType": {
             "type": "string",
-            "description": "The action that triggered the webhook notifcation to be sent",
+            "description": "The action that triggered the webhook notification to be sent",
             "enum": [
               "Updated"
             ],
@@ -13854,7 +13851,7 @@
           },
           "ActionType": {
             "type": "string",
-            "description": "The action that triggered the webhook notifcation to be sent",
+            "description": "The action that triggered the webhook notification to be sent",
             "enum": [
               "Inserted"
             ],
@@ -13913,7 +13910,7 @@
           },
           "ActionType": {
             "type": "string",
-            "description": "The action that triggered the webhook notifcation to be sent",
+            "description": "The action that triggered the webhook notification to be sent",
             "enum": [
               "Updated"
             ],
@@ -13950,7 +13947,7 @@
           },
           "ActionType": {
             "type": "string",
-            "description": "The action that triggered the webhook notifcation to be sent",
+            "description": "The action that triggered the webhook notification to be sent",
             "enum": [
               "Inserted",
               "Updated",
@@ -13989,7 +13986,7 @@
           },
           "ActionType": {
             "type": "string",
-            "description": "The action that triggered the webhook notifcation to be sent",
+            "description": "The action that triggered the webhook notification to be sent",
             "enum": [
               "Inserted"
             ],
@@ -14026,7 +14023,7 @@
           },
           "ActionType": {
             "type": "string",
-            "description": "The action that triggered the webhook notifcation to be sent",
+            "description": "The action that triggered the webhook notification to be sent",
             "enum": [
               "Inserted",
               "Updated",
@@ -14173,7 +14170,7 @@
         }
       },
       "Bad_Model_WorkItem_Incorrect_WorkType": {
-        "description": "A response shown when an Work Type is provided when creating or updating a Work Item ",
+        "description": "A response shown when a Work Type is provided when creating or updating a Work Item ",
         "value": {
           "error": {
             "code": "4003",
@@ -14286,17 +14283,8 @@
           }
         }
       },
-      "Organization_Key_Not_Found_400": {
-        "description": "The error returned when an Organization cannot be found for the provided Organization Key",
-        "value": {
-          "error": {
-            "code": "4002",
-            "message": "No Organization found for provided key"
-          }
-        }
-      },
       "Timesheet_Key_Not_Found_404": {
-        "description": "The error returned when an Timesheet cannot be found for the provided Timesheet Key",
+        "description": "The error returned when a Timesheet cannot be found for the provided Timesheet Key",
         "value": {
           "error": {
             "code": "4004",
@@ -14332,7 +14320,7 @@
         }
       },
       "Invoice_Not_Found": {
-        "description": "The error returned when a Invoice request cannot be fulfilled because the provided Invoice Id Key does not exist",
+        "description": "The error returned when an Invoice with the provided ID does not exist",
         "value": {
           "error": {
             "code": "4004",
@@ -14341,7 +14329,7 @@
         }
       },
       "UDI_Not_Found": {
-        "description": "The error returned when a Client Group request cannot be fulfilled because the provided User Defined Idenfier does not exist",
+        "description": "The error returned when a Client Group request cannot be fulfilled because the provided User Defined Identifier does not exist",
         "value": {
           "error": {
             "code": "4004",
@@ -14350,7 +14338,7 @@
         }
       },
       "UDI_Not_Found_Contact": {
-        "description": "The error returned when a Contact request cannot be fulfilled because the provided User Defined Idenfier does not exist",
+        "description": "The error returned when a Contact request cannot be fulfilled because the provided User Defined Identifier does not exist",
         "value": {
           "error": {
             "code": "4004",
@@ -14359,7 +14347,7 @@
         }
       },
       "UDI_Not_Found_Organization": {
-        "description": "The error returned when a Organization request cannot be fulfilled because the provided User Defined Idenfier does not exist",
+        "description": "The error returned when an Organization request cannot be fulfilled because the provided User Defined Identifier does not exist",
         "value": {
           "error": {
             "code": "4004",
@@ -14368,7 +14356,7 @@
         }
       },
       "UDI_Is_Empty": {
-        "description": "The error returned when a Client Group request cannot be fulfilled because a User Defined Idenfier has not been provided",
+        "description": "The error returned when a Client Group request cannot be fulfilled because a User Defined Identifier has not been provided",
         "value": {
           "error": {
             "code": "4002",
@@ -14485,7 +14473,7 @@
         }
       },
       "Generic_Key_Not_Found": {
-        "description": "The error returned when the request for a Contact cannot be fulfilled because a Contact with the supplied Contact Key cannot be found",
+        "description": "The error returned when a Contact with the supplied Contact Key cannot be found",
         "value": {
           "error": {
             "code": "4004",
@@ -14494,7 +14482,7 @@
         }
       },
       "Unsupported_File_Type": {
-        "description": "The error returned when attempting to upload an upsupported File Type",
+        "description": "The error returned when attempting to upload an unsupported File Type",
         "value": {
           "error": {
             "code": "5001",
@@ -14512,7 +14500,7 @@
         }
       },
       "Missing_Assignee_Email_Address": {
-        "description": "The error returned when assign an entity to a user email that does not exist in Karbon",
+        "description": "The error returned when assigning an entity to a user email that does not exist in Karbon",
         "value": {
           "error": {
             "code": "5001",
