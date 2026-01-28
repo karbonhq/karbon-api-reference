@@ -11932,7 +11932,6 @@
       "NoteRequest": {
         "description": "A single Note",
         "required": [
-          "AssigneeEmailAddress",
           "AuthorEmailAddress",
           "Subject",
           "Body"
@@ -11957,7 +11956,7 @@
           "AssigneeEmailAddress": {
             "type": "string",
             "example": "assignee@example.com",
-            "description": "The email address of the Note's reader"
+            "description": "The email address of the the Karbon user that the Note should be assigned to"
           },
           "DueDate": {
             "type": "string",
