@@ -810,8 +810,8 @@
                     },
                     "PaymentDate": {
                       "type": "string",
-                      "format": "date",
-                      "example": "2024-06-24",
+                      "format": "date-time",
+                      "example": "2024-06-24T00:00:00Z",
                       "description": "The date the payment made by the customer."
                     },
                     "TotalAmount": {
@@ -845,7 +845,7 @@
                   "@odata.context": "https://api-stage.karbonhq.com/v3/$metadata#ManualPayments/$entity",
                   "InvoiceKey": "2F3pqz88T2hW",
                   "PaymentMethod": "Cash",
-                  "PaymentDate": "2024-06-06",
+                  "PaymentDate": "2024-06-06T00:00:00Z",
                   "TotalAmount": 1100.11,
                   "Reference": "Cash payment",
                   "PaymentProcessingKey": "2cmDVpGdCp99"
@@ -1092,8 +1092,8 @@
                   },
                   "ReversalDate": {
                     "type": "string",
-                    "format": "date",
-                    "example": "2025-08-01",
+                    "format": "date-time",
+                    "example": "2025-08-01T00:00:00Z",
                     "description": "The date the Reversal is to be recorded using an ISO 8601 datestamp"
                   }
                 }
@@ -13833,7 +13833,7 @@
               "CustomFieldValue"
             ],
             "description": "The type of resource that has been created or updated",
-            "example": "CustomField",
+            "example": "CustomFieldValue",
             "readOnly": true
           },
           "ActionType": {
