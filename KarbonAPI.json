@@ -115,6 +115,11 @@
           "Webhook Payloads"
         ],
         "description": "Contact created or updated",
+        "parameters":[
+          {
+            "$ref": "#/components/parameters/WebhookRequestHeader"
+          }
+        ],
         "requestBody": {
           "description": "Information about the created or updated contact",
           "content": {
@@ -133,6 +138,11 @@
           "Webhook Payloads"
         ],
         "description": "Custom field value added or updated",
+         "parameters":[
+          {
+            "$ref": "#/components/parameters/WebhookRequestHeader"
+          }
+        ],
         "requestBody": {
           "description": "Information about the created or updated custom field value",
           "content": {
@@ -151,6 +161,11 @@
           "Webhook Payloads"
         ],
         "description": "Estimate Summary updated",
+        "parameters":[
+          {
+            "$ref": "#/components/parameters/WebhookRequestHeader"
+          }
+        ],
         "requestBody": {
           "description": "Information about the updated Estimate Summary",
           "content": {
@@ -169,6 +184,11 @@
           "Webhook Payloads"
         ],
         "description": "Integration Task created",
+        "parameters":[
+          {
+            "$ref": "#/components/parameters/WebhookRequestHeader"
+          }
+        ],
         "requestBody": {
           "description": "Information about an Integration Task that has been added to Work Item",
           "content": {
@@ -187,6 +207,11 @@
           "Webhook Payloads"
         ],
         "description": "Invoice status updated",
+        "parameters":[
+          {
+            "$ref": "#/components/parameters/WebhookRequestHeader"
+          }
+        ],
         "requestBody": {
           "description": "Information about the created or updated Invoice",
           "content": {
@@ -205,6 +230,11 @@
           "Webhook Payloads"
         ],
         "description": "Note created or updated",
+        "parameters":[
+          {
+            "$ref": "#/components/parameters/WebhookRequestHeader"
+          }
+        ],
         "requestBody": {
           "description": "Information about the created or updated Note",
           "content": {
@@ -223,6 +253,11 @@
           "Webhook Payloads"
         ],
         "description": "User has accepted Karbon invite",
+        "parameters":[
+          {
+            "$ref": "#/components/parameters/WebhookRequestHeader"
+          }
+        ],
         "requestBody": {
           "description": "Information about the user who has accepted their invite",
           "content": {
@@ -241,6 +276,11 @@
           "Webhook Payloads"
         ],
         "description": "Work created or updated",
+        "parameters":[
+          {
+            "$ref": "#/components/parameters/WebhookRequestHeader"
+          }
+        ],
         "requestBody": {
           "description": "Information about the created or updated WorkItem",
           "content": {
@@ -8946,6 +8986,20 @@
           }
         },
         "description": "Order responses by invoice date"
+      },
+      "WebhookRequestHeader": {
+        "in": "header",
+        "name": "Signature",
+        "schema": {
+          "type": "string"
+        },
+        "examples": {
+          "WebhookPayloadSignature": {
+            "value": "Signed webhook payload",
+            "summary": "8c42dd0e4779a2e8a56d3b8ef962238ca26f95ddc2d9abb0e76f04991a3442f3"
+          }
+        },
+        "description": "The HMAC signature generated when a webhook subscription payload includes the SigningKey property"
       }
     },
     "schemas": {
