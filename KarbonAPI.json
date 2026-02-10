@@ -11165,8 +11165,15 @@
           },
           "PrimaryStatus": {
             "type": "string",
+            "enum": [
+              "Planned",
+              "ReadyToStart",
+              "InProgress",
+              "Waiting",
+              "Completed"
+            ],
             "description": "The current parent-level Status of the Work Item. If `WorkStatus` and `PrimaryStatus` have different values, `PrimaryStatus` will be the source of truth for Work Item status.\n",
-            "example": "Ready To Start"
+            "example": "ReadyToStart"
           },
           "SecondaryStatus": {
             "type": "string",
@@ -11293,6 +11300,23 @@
             "type": "string",
             "description": "The current status of the Work Item",
             "example": "Ready To Start - Send client requests"
+          },
+                    "PrimaryStatus": {
+            "type": "string",
+            "enum": [
+              "Planned",
+              "ReadyToStart",
+              "InProgress",
+              "Waiting",
+              "Completed"
+            ],
+            "description": "The current parent-level Status of the Work Item. If `WorkStatus` and `PrimaryStatus` have different values, `PrimaryStatus` will be the source of truth for Work Item status.\n",
+            "example": "ReadyToStart"
+          },
+          "SecondaryStatus": {
+            "type": "string",
+            "description": "The current child-level Status of the Work Item",
+            "example": "Send client requests"
           },
           "WorkTemplateKey": {
             "type": "string",
