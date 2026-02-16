@@ -9985,6 +9985,7 @@
       },
       "ClientAccess": {
         "description": "A list of Organizations and People that the contact has been granted access to view in Karbon for Clients",
+        "readOnly": true,
         "type": "array",
         "items": {
           "type": "object",
