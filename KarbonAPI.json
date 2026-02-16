@@ -3297,11 +3297,12 @@
               "type": "string",
               "enum": [
                 "BusinessCards",
-                "ClientTeam"
+                "ClientTeam",
+                "ClientAccess"
               ]
             },
             "example": "BusinessCards",
-            "description": "When this parameter is combined with the URI, this endpoint will also return Business Card and/or the Client Team of the Contact.\n"
+            "description": "When this parameter is combined with the URI, this endpoint will also return one or more of the following: Business Cards for the Contact, the Client Team assigned to the Contact, or a list of other Contacts that can access this Contact in Karbon for Clients."
           }
         ],
         "description": "Use the `GET` method on this endpoint to receive the details of a Contact specified using the `Contactkey`.\n\nUsing the query parameter available to this endpoint,  you can also include the Business Card details of the Contacts in the response.\n",
@@ -3444,6 +3445,13 @@
                       "MemberKey": "3zdQh89xCmZM",
                       "MemberType": "User",
                       "RoleType": null
+                    }
+                  ],
+                  "ClientAccess": [
+                    {
+                      "ClientKey": "67zlxNyJSr8e",
+                      "ClientType": "Contact",
+                      "AccessLevel": "Limited"
                     }
                   ]
                 }
@@ -9946,7 +9954,7 @@
             "MemberKey": {
               "type": "string",
               "example": "JTphCpQqQYg",
-              "description": "The unique key or the user or team assigned to the client team role"
+              "description": "The unique key of the user or team assigned to the client team role"
             },
             "MemberType": {
               "type": "string",
@@ -9969,6 +9977,42 @@
                 "ClientManager",
                 "UserDefinedRole1",
                 "UserDefinedRole2",
+                null
+              ]
+            }
+          }
+        }
+      },
+      "ClientAccess": {
+        "description": "A list of Organizations and People that the contact has been granted access to view in Karbon for Clients",
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "ClientKey": {
+              "type": "string",
+              "example": "JTphCpQqQYg",
+              "description": "The unique key of the Client"
+            },
+            "ClientType": {
+              "type": "string",
+              "example": "Contact",
+              "description": "Whether the Client is an Organization or a Person",
+              "enum": [
+                "Contact",
+                "Organization"
+              ]
+            },
+            "AccessLevel": {
+              "type": [
+                "string",
+                "null"
+              ],
+              "example": "Limited",
+              "description": "The level of access this contact has when viewing the specified client in Karbon for Clients",
+              "enum": [
+                "Limited",
+                "FullAccess",
                 null
               ]
             }
@@ -11844,6 +11888,9 @@
           },
           "ClientTeam": {
             "$ref": "#/components/schemas/ClientTeam"
+          },
+          "ClientAccess": {
+            "$ref": "#/components/schemas/ClientAccess"
           }
         }
       },
