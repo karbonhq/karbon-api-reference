@@ -115,7 +115,7 @@
           "Webhook Payloads"
         ],
         "description": "Contact created or updated",
-        "parameters":[
+        "parameters": [
           {
             "$ref": "#/components/parameters/WebhookRequestHeader"
           }
@@ -138,7 +138,7 @@
           "Webhook Payloads"
         ],
         "description": "Custom field value added or updated",
-         "parameters":[
+        "parameters": [
           {
             "$ref": "#/components/parameters/WebhookRequestHeader"
           }
@@ -161,7 +161,7 @@
           "Webhook Payloads"
         ],
         "description": "Estimate Summary updated",
-        "parameters":[
+        "parameters": [
           {
             "$ref": "#/components/parameters/WebhookRequestHeader"
           }
@@ -184,7 +184,7 @@
           "Webhook Payloads"
         ],
         "description": "Integration Task created",
-        "parameters":[
+        "parameters": [
           {
             "$ref": "#/components/parameters/WebhookRequestHeader"
           }
@@ -207,7 +207,7 @@
           "Webhook Payloads"
         ],
         "description": "Invoice status updated",
-        "parameters":[
+        "parameters": [
           {
             "$ref": "#/components/parameters/WebhookRequestHeader"
           }
@@ -230,7 +230,7 @@
           "Webhook Payloads"
         ],
         "description": "Note created or updated",
-        "parameters":[
+        "parameters": [
           {
             "$ref": "#/components/parameters/WebhookRequestHeader"
           }
@@ -253,7 +253,7 @@
           "Webhook Payloads"
         ],
         "description": "User has accepted Karbon invite",
-        "parameters":[
+        "parameters": [
           {
             "$ref": "#/components/parameters/WebhookRequestHeader"
           }
@@ -276,7 +276,7 @@
           "Webhook Payloads"
         ],
         "description": "Work created or updated",
-        "parameters":[
+        "parameters": [
           {
             "$ref": "#/components/parameters/WebhookRequestHeader"
           }
@@ -870,7 +870,6 @@
                         },
                         {
                           "type": "null"
-                          
                         }
                       ]
                     },
@@ -7512,7 +7511,7 @@
                     "required": true
                   },
                   "SigningKey": {
-                    "oneOf":[
+                    "oneOf": [
                       {
                         "type": "string",
                         "minLength": 16,
@@ -11301,7 +11300,7 @@
             "description": "The current status of the Work Item",
             "example": "Ready To Start - Send client requests"
           },
-                    "PrimaryStatus": {
+          "PrimaryStatus": {
             "type": "string",
             "enum": [
               "Planned",
@@ -13605,7 +13604,7 @@
             "description": "The name of the specific Integration Task Definition"
           },
           "TaskPrimaryLinkUrl": {
-            "oneOf":[
+            "oneOf": [
               {
                 "type": "string",
                 "format": "uri",
@@ -13619,7 +13618,7 @@
             "description": "The optional default primary link URL of the specific Integration Task Definition"
           },
           "TaskPrimaryLinkLabel": {
-            "oneOf":[
+            "oneOf": [
               {
                 "type": "string",
                 "example": "Create",
@@ -13632,7 +13631,7 @@
             "description": "The optional default label for the primary link URL of the specific Integration Task Definition"
           },
           "TaskSecondaryLinkUrl": {
-            "oneOf":[
+            "oneOf": [
               {
                 "type": "string",
                 "format": "uri",
@@ -13646,7 +13645,7 @@
             "description": "The optional default primary link URL of the specific Integration Task Definition"
           },
           "TaskSecondaryLinkLabel": {
-            "oneOf":[
+            "oneOf": [
               {
                 "type": "string",
                 "example": "Update",
@@ -13756,7 +13755,7 @@
             "description": "The name of the specific Integration Task Definition"
           },
           "TaskPrimaryLinkUrl": {
-            "oneOf":[
+            "oneOf": [
               {
                 "type": "string",
                 "format": "uri",
@@ -13770,7 +13769,7 @@
             "description": "The optional default primary link URL of the specific Integration Task Definition"
           },
           "TaskPrimaryLinkLabel": {
-            "oneOf":[
+            "oneOf": [
               {
                 "type": "string",
                 "example": "Create",
@@ -13783,7 +13782,7 @@
             "description": "The optional default label for the primary link URL of the specific Integration Task Definition"
           },
           "TaskSecondaryLinkUrl": {
-            "oneOf":[
+            "oneOf": [
               {
                 "type": "string",
                 "format": "uri",
@@ -13797,7 +13796,7 @@
             "description": "The optional default label for the secondary link URL of the specific Integration Task Definition"
           },
           "TaskSecondaryLinkLabel": {
-            "oneOf":[
+            "oneOf": [
               {
                 "type": "string",
                 "example": "Update",
