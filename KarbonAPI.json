@@ -6433,6 +6433,7 @@
                 "example": {
                   "@odata.context": "https://api.karbonhq.com/v3/$metadata#TenantSettings/$entity",
                   "TenantKey": "2BzmMRkhbwBT",
+                  "ClientAccessActivated": true,
                   "WorkStatuses": [
                     {
                       "Name": "Planned",
@@ -10924,6 +10925,11 @@
             "type": "string",
             "description": "The unique key specific to the customer's Karbon account",
             "example": "2BzmMRkhbwBT"
+          },
+          "ClientAccessActivated": {
+            "type": "boolean",
+            "description": "Indicates whether the tenant has activated Karbon for Clients (K4C)",
+            "example": true
           },
           "WorkStatuses": {
             "type": "array",
