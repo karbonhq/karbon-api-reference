@@ -202,13 +202,13 @@ Hourly rates and time estimates (from `EstimateSummaries`) are **read-only** —
 
 Both exist on WorkItems. **Prefer `PrimaryStatus` and `SecondaryStatus`** — these are the recommended fields for tracking work progress. `WorkStatus` is a legacy field.
 
-**PrimaryStatus** values are fixed (not tenant-specific):
+**PrimaryStatus** values are fixed (not tenant-specific). Use the display format (with spaces) in both `$filter` and request bodies — the camelCase forms shown in the spec schema are not accepted by the API:
 
-| Value | Meaning |
-|-------|---------|
+| Value (use this) | Meaning |
+|------------------|---------|
 | `Planned` | Not yet started |
-| `ReadyToStart` | Ready to begin |
-| `InProgress` | Actively being worked on |
+| `Ready To Start` | Ready to begin |
+| `In Progress` | Actively being worked on |
 | `Waiting` | Blocked or waiting |
 | `Completed` | Done |
 
@@ -285,7 +285,7 @@ POST /v3/WorkItems
   "ClientKey": "{ContactKey}",
   "ClientType": "Contact",
   "StartDate": "2025-07-01T00:00:00Z",
-  "PrimaryStatus": "ReadyToStart"
+  "PrimaryStatus": "Ready To Start"
 }
 ```
 
@@ -297,8 +297,8 @@ POST /v3/WorkItems
 
 Run one paginated request per status — `PrimaryStatus` only supports `eq`:
 ```
-GET /v3/WorkItems?$filter=PrimaryStatus eq 'ReadyToStart'&$top=100
-GET /v3/WorkItems?$filter=PrimaryStatus eq 'InProgress'&$top=100
+GET /v3/WorkItems?$filter=PrimaryStatus eq 'Ready To Start'&$top=100
+GET /v3/WorkItems?$filter=PrimaryStatus eq 'In Progress'&$top=100
 GET /v3/WorkItems?$filter=PrimaryStatus eq 'Waiting'&$top=100
 ```
 Page each using `@odata.nextLink`. Collect all `WorkItemKey` values.
