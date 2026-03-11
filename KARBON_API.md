@@ -246,3 +246,240 @@ Flag in TenantSettings indicating if Karbon for Clients (K4C) is enabled. The `C
 - **Notes body supports HTML** — plain text is fine but HTML formatting is available.
 - **Tags are beta** — no API paths are currently exposed in the spec.
 - **Colleague custom field values** store a UserKey (same as UserID). To resolve to a name, call `GET /v3/Users/{UserKey}` as a second step — the custom field response does not expand user details.
+
+---
+
+## 7. Workflows
+
+### Workflow 1 — Onboard a new client
+
+**1. Create the Organization**
+```
+POST /v3/Organizations
+{ "FullName": "Acme Corp" }
+```
+Save the returned `OrganizationKey`.
+
+**2. Create the Contact**
+```
+POST /v3/Contacts
+{
+  "FirstName": "Jane",
+  "LastName": "Smith",
+  "BusinessCards": [{
+    "IsPrimaryCard": true,
+    "OrganizationKey": "{OrganizationKey}",
+    "RoleOrTitle": "CFO",
+    "EmailAddresses": ["jane@acme.com"]
+  }]
+}
+```
+Save the returned `ContactKey`.
+
+**3. Create a Work Item for the client**
+```
+POST /v3/WorkItems
+{
+  "Title": "2025 Tax Return",
+  "AssigneeEmailAddress": "advisor@firm.com",
+  "ClientKey": "{ContactKey}",
+  "ClientType": "Contact",
+  "StartDate": "2025-07-01T00:00:00Z",
+  "PrimaryStatus": "ReadyToStart"
+}
+```
+
+---
+
+### Workflow 2 — Pull timesheet data for active work
+
+**1. Collect WorkItem keys for all in-progress statuses**
+
+Run one paginated request per status — `PrimaryStatus` only supports `eq`:
+```
+GET /v3/WorkItems?$filter=PrimaryStatus eq 'ReadyToStart'&$top=100
+GET /v3/WorkItems?$filter=PrimaryStatus eq 'InProgress'&$top=100
+GET /v3/WorkItems?$filter=PrimaryStatus eq 'Waiting'&$top=100
+```
+Page each using `@odata.nextLink`. Collect all `WorkItemKey` values.
+
+**2. Fetch timesheets for those WorkItems (batched)**
+```
+GET /v3/Timesheets?$filter=WorkItemKeys/any(x: x in ('{key1}', '{key2}', ...))&$expand=TimeEntries&$top=100
+```
+Page using `@odata.nextLink`. If key count is very large, chunk into multiple requests.
+
+---
+
+### Workflow 3 — Create and assign a Colleague custom field
+
+**1. Create the field definition**
+```
+POST /v3/CustomFields
+{
+  "Name": "Relationship Manager",
+  "Type": "Colleague",
+  "IsVisibleToContacts": true
+}
+```
+Save the returned `Key` as `{CustomFieldKey}`.
+
+**2. Assign a value to a Contact**
+```
+PUT /v3/CustomFieldValues/{ContactKey}
+{
+  "EntityKey": "{ContactKey}",
+  "CustomFieldValues": [{
+    "Key": "{CustomFieldKey}",
+    "Name": "Relationship Manager",
+    "Type": "Colleague",
+    "Value": ["{UserKey}"]
+  }]
+}
+```
+
+**3. Read back and resolve the user's name**
+```
+GET /v3/CustomFieldValues/{ContactKey}
+```
+Extract the `Value[0]` (a UserKey), then:
+```
+GET /v3/Users/{UserKey}
+```
+
+---
+
+### Workflow 4 — Create a Work Item from a Work Template
+
+**1. Find the template key**
+```
+GET /v3/WorkTemplates?$filter=Title eq 'Annual Tax Return'
+```
+Save the returned `WorkTemplateKey`.
+
+**2. Create the Work Item referencing the template**
+```
+POST /v3/WorkItems
+{
+  "Title": "2025 Annual Tax Return — Acme Corp",
+  "AssigneeEmailAddress": "advisor@firm.com",
+  "ClientKey": "{ContactKey}",
+  "ClientType": "Contact",
+  "StartDate": "2025-07-01T00:00:00Z",
+  "WorkTemplateKey": "{WorkTemplateKey}"
+}
+```
+The template pre-populates tasks and structure. Required fields (`AssigneeEmailAddress`, `Title`, `ClientKey`, `ClientType`, `StartDate`) must still be provided.
+
+---
+
+### Workflow 5 — Add a monthly repeat schedule to a Work Item
+
+**1. Create the Work Schedule**
+```
+POST /v3/WorkSchedules
+{
+  "CreatedFromWorkItemKey": "{WorkItemKey}",
+  "RecurrenceFrequency": "Month",
+  "CustomFrequencyMultiple": 1,
+  "ScheduleStartDate": "2025-08-01T00:00:00Z",
+  "ScheduleEndDate": null,
+  "ScheduleDueDateMethod": "DaysFromStartDate",
+  "ScheduleDueDateDays": 30,
+  "PreventStartEndOnWeekend": true,
+  "InitializeTasksBeforeStartDateUnits": "Days",
+  "InitializeTasksBeforeStartDateMultiple": 7,
+  "WorkItemTitleDefinition": "[{\"Text\":\"Monthly Bookkeeping \",\"Variable\":null,\"Format\":null,\"Offset\":0},{\"Text\":null,\"Variable\":\"RepeatPeriod\",\"Format\":\"DD MMM, YYYY - DD MMM, YYYY\",\"Offset\":0}]"
+}
+```
+Save the returned `WorkScheduleKey`.
+
+**2. Link the schedule back to the Work Item**
+```
+PUT /v3/WorkItems/{WorkItemKey}
+{
+  "AssigneeEmailAddress": "advisor@firm.com",
+  "Title": "Monthly Bookkeeping — Acme Corp",
+  "ClientKey": "{ContactKey}",
+  "ClientType": "Contact",
+  "StartDate": "2025-08-01T00:00:00Z",
+  "WorkScheduleKey": "{WorkScheduleKey}"
+}
+```
+
+> **`WorkItemTitleDefinition`** is a JSON array serialized as a string. Each element is a segment with `Text` (literal string) or `Variable` (dynamic value), plus `Format` (date format) and `Offset`. The example above produces titles like `"Monthly Bookkeeping 01 Jul, 2025 - 31 Jul, 2025"`.
+
+---
+
+### Workflow 6 — Subscribe to Invoice webhook
+
+**1. Create the subscription**
+```
+POST /v3/WebhookSubscriptions
+{
+  "TargetUrl": "https://yourapp.example.com/webhooks/karbon",
+  "WebhookType": "Invoice",
+  "SigningKey": "your-signing-key-min-16-chars"
+}
+```
+Only one subscription per `WebhookType` is allowed. If one already exists, delete it first.
+
+**2. Handle incoming payloads**
+```json
+{
+  "ResourcePermaKey": "{InvoiceKey}",
+  "ResourceType": "Invoice",
+  "ActionType": "Updated",
+  "TimeStamp": "2025-07-01T10:00:00Z"
+}
+```
+Respond with HTTP 2xx within the timeout — 10 failed deliveries auto-cancels the subscription.
+
+**3. Check or remove the subscription**
+```
+GET    /v3/WebhookSubscriptions/Invoice
+DELETE /v3/WebhookSubscriptions/Invoice
+```
+
+**4. Re-subscribe if auto-cancelled**
+
+Poll `GET /v3/WebhookSubscriptions/Invoice` — a 404 means the subscription was cancelled. Re-POST to reinstate.
+
+---
+
+### Workflow 7 — Update contact information (email, phone, address)
+
+Contact details (email, phone, address) are stored on the Contact's **BusinessCard**, not directly on the Contact record.
+
+**1. Get the BusinessCardKey**
+```
+GET /v3/Contacts/{ContactKey}?$expand=BusinessCards
+```
+Find the relevant BusinessCard and save its `BusinessCardKey`.
+
+**2. Update the BusinessCard**
+```
+PUT /v3/BusinessCards/{BusinessCardKey}
+{
+  "EntityType": "Contact",
+  "EntityKey": "{ContactKey}",
+  "IsPrimaryCard": true,
+  "OrganizationKey": "{OrganizationKey}",
+  "EmailAddresses": ["jane.smith@acme.com"],
+  "PhoneNumbers": [
+    { "Number": "+14155550100", "CountryCode": "US", "Label": "Work" }
+  ],
+  "Addresses": [
+    {
+      "AddressLines": "123 Main St",
+      "City": "San Francisco",
+      "StateProvinceCounty": "CA",
+      "ZipCode": "94105",
+      "CountryCode": "US",
+      "Label": "Physical"
+    }
+  ]
+}
+```
+
+> PUT replaces the entire BusinessCard — include all existing fields you want to keep, not just the changed ones. Valid `PhoneNumbers.Label` values: `Work`, `Mobile`, `Office`, `Fax`, `Home`, `Other`. Valid `Addresses.Label` values: `Physical`, `Mailing`, `Legal`, `Home`. Country codes are ISO 3166-1 alpha-2 (e.g. `US`, `AU`, `GB`).
