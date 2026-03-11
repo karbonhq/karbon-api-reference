@@ -8891,24 +8891,24 @@
     "parameters": {
       "SkipRecords": {
         "in": "query",
-        "name": "$top",
+        "name": "$skip",
         "schema": {
           "type": "integer",
           "minimum": 0,
           "maximum": 100
         },
         "example": 50,
-        "description": "Limit the number of items returned"
+        "description": "Skip the first n items"
       },
       "TopRecords": {
         "in": "query",
-        "name": "$skip",
+        "name": "$top",
         "schema": {
           "type": "integer",
           "minimum": 0
         },
-        "example": 100,
-        "description": "Skip the first n items"
+        "example": 10,
+        "description": "Limit the number of items returned"
       },
       "InvoiceExpandParams": {
         "in": "query",
