@@ -1,7 +1,8 @@
 # Karbon API — Agent Quick Reference
 
 > **For agents and developers.** Concise patterns for making correct Karbon API calls.
-> Full spec: [KarbonAPI.json](./KarbonAPI.json)
+> Latest version of [this guide](https://karbonhq.github.io/karbon-api-reference/KARBON_API.md)
+> Full spec: [KarbonAPI.json](https://karbonhq.github.io/karbon-api-reference/KarbonAPI.json)
 
 ---
 
