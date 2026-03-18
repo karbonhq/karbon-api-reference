@@ -7,7 +7,7 @@
     }
   ],
   "info": {
-    "description": "> 📖 **Agent/developer quick-reference:** See [KARBON_API.md](./KARBON_API.md) in this repository.\n\nThis document covers Karbon API endpoints and data formats. You can find additional developer resources at [Karbon Developer Center](https://developers.karbonhq.com).\n\n**Please note the following:**\n\n- Karbon's APIs use the OData standard to help with resource searching. Use [OData's reference guide](https://www.odata.org/documentation/odata-version-2-0/uri-conventions/) to learn more about OData URI conventions.\n- OData's `$expand` option is only available where explicitly mentioned.\n- If an endpoint allows you to use multiple properties with the `$expand` option, you can assign a comma-separated list of the properties to the `$expand` option.\n- Wherever `$orderby` option is explicitly mentioned, you can also use allowed property name followed by space then `desc` keyword to receive the response in descending order.\n\n> ⚠️ The examples shown below are for **illustrative purposes only**. Attempting to call an API using the examples for request payload might result in unusual behaviour because the Karbon generated values for various entities' keys may differ from the values in your tenant.\n\n## Credentials for accessing Karbon APIs\n\nYou will need two credentials - an Authorization token and an AccessKey - to access Karbon APIs. If you don't already have these credentials, follow the steps below to receive them and access Karbon APIs:\n\n1. Karbon Customers can [Register for API Access](https://developers.karbonhq.com/register) to receive the Authorization (`Bearer`) token via an email.\n1. [Find your API Access Key](https://help.karbonhq.com/en/articles/4580888-karbon-api-integration#h_03a24631ea) under **Settings -> Connected Apps -> `{Your API Application}`** in Karbon.\n1. Assign the Authorization token to `Authorization` header and Karbon Tenant AccessKey to `AccessKey` header to send requests to Karbon APIs.\n",
+    "description": "> 📖 **Agent/developer quick-reference:** See [KARBON_API.md](./KARBON_API.md) in this repository.\n\nThis document covers Karbon API endpoints and data formats. You can find additional developer resources at [Karbon Developer Center](https://developers.karbonhq.com).\n\n**Please note the following:**\n\n- Karbon's APIs use the OData standard to help with resource searching. Use [OData's reference guide](https://www.odata.org/documentation/odata-version-2-0/uri-conventions/) to learn more about OData URI conventions.\n- OData's `$expand` option is only available where explicitly mentioned.\n- If an endpoint allows you to use multiple properties with the `$expand` option, you can assign a comma-separated list of the properties to the `$expand` option.\n- Wherever `$orderby` option is explicitly mentioned, you can also use allowed property name followed by space then `desc` keyword to receive the response in descending order.\n\n> ⚠️ The examples shown below are for **illustrative purposes only**. Attempting to call an API using the examples for request payload might result in unusual behaviour because the Karbon generated values for various entities' keys may differ from the values in your tenant.\n\n## Credentials for accessing Karbon APIs\n\nYou will need two credentials - an Authorization token and an AccessKey - to access Karbon APIs. If you don't already have these credentials, follow the steps below to receive them and access Karbon APIs:\n\n1. Karbon Customers can [Register for API Access](https://developers.karbonhq.com/register) to receive the Authorization (`Bearer`) token via an email.\n1. [Find your API Access Key](https://help.karbonhq.com/en/s/articles/4580888-accessing-the-karbon-api-using-postman#h_03a24631ea) under **Settings -> Connected Apps -> `{Your API Application}`** in Karbon.\n1. Assign the Authorization token to `Authorization` header and Karbon Tenant AccessKey to `AccessKey` header to send requests to Karbon APIs.\n",
     "version": "v3",
     "title": "Karbon API",
     "termsOfService": "https://karbonhq.com/terms-of-use/",
@@ -54,6 +54,10 @@
       "description": "Handle files and attachments. [Read more](https://help.karbonhq.com/en/articles/5714089-files-and-attachments)"
     },
     {
+      "name": "Individual Time Entries",
+      "description": "Retrieve individual (non-aggregated) time entries. Unlike the Timesheets endpoint, each record represents a single time entry for a specific day, user, and work item. [Read more](https://help.karbonhq.com/en/s/articles/6022358-managing-time-budgets-and-expenses-in-karbon)"
+    },
+    {
       "name": "Integrated Workflows",
       "description": "Endpoints that enable Karbon Integration Partners to manage integrated workflow tasks enabled for their integrations. Note that these endpoints cannot be used to access Tasks or Client Tasks. Access is limited to approved developers building apps that serve all Karbon customers."
     },
@@ -63,7 +67,7 @@
     },
     {
       "name": "Notes",
-      "description": "Hold a conversation internally within your company. Unlike an email, Notes are viewed only by members of your team. [Read more](https://help.karbonhq.com/en/articles/5919746-use-notes)"
+      "description": "Hold a conversation internally within your company. Unlike an email, Notes are viewed only by members of your team. [Read more](https://help.karbonhq.com/en/s/articles/5919746-use-notes)"
     },
     {
       "name": "Tags",
@@ -75,7 +79,7 @@
     },
     {
       "name": "Timesheets",
-      "description": "Review colleagues' weekly submitted timesheets. [Read more](https://help.karbonhq.com/en/articles/6022358-add-budget-estimates-track-time-and-submit-time-sheets)"
+      "description": "Review colleagues' weekly submitted timesheets. [Read more](https://help.karbonhq.com/en/s/articles/6022358-managing-time-budgets-and-expenses-in-karbon)"
     },
     {
       "name": "Users",
@@ -770,17 +774,17 @@
                       "PaymentReference": "KPY-1000",
                       "PaymentType": "ManualPayment",
                       "PaymentDate": "2023-07-28",
-                      "GrossAmount": 1550.50,
+                      "GrossAmount": 1550.5,
                       "PaymentMethod": "Check",
                       "KarbonPayment": {
                         "CardType": "",
                         "CardCountry": null,
                         "CardFunding": "",
                         "PayoutStatus": "",
-                        "SurchargeAmount": 0.0000,
-                        "KarbonFeeAmount": 0.0000,
-                        "KarbonFeeTaxAmount": 0.0000,
-                        "NetAmount": 0.0000
+                        "SurchargeAmount": 0,
+                        "KarbonFeeAmount": 0,
+                        "KarbonFeeTaxAmount": 0,
+                        "NetAmount": 0
                       },
                       "Client": null
                     }
@@ -6110,13 +6114,13 @@
                   "EntityType": "Corporation",
                   "TaxCountryCode": "US",
                   "TradingName": null,
-                  "AnnualRevenue": 10000000.00,
+                  "AnnualRevenue": 10000000,
                   "BaseCurrency": null,
                   "GstBasis": null,
                   "GstPeriod": null,
                   "IncomeTaxInstallmentPeriod": null,
                   "IsVATRegistered": null,
-                  "OrganizationValuation": 0.00,
+                  "OrganizationValuation": 0,
                   "PaysTax": null,
                   "PrepareGST": null,
                   "ProvisionalTaxBasis": null,
@@ -6843,6 +6847,272 @@
                 "examples": {
                   "Key Not Found": {
                     "$ref": "#/components/examples/Timesheet_Key_Not_Found_404"
+                  }
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Rate Limit Exceeded",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RateLimitErrorMessage"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorMessages"
+                },
+                "examples": {
+                  "Undefined Error": {
+                    "$ref": "#/components/examples/elongated_5001"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v3/IndividualTimeEntries": {
+      "get": {
+        "tags": [
+          "Individual Time Entries"
+        ],
+        "summary": "Gets a list of individual time entries",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "$filter",
+            "schema": {
+              "type": "string"
+            },
+            "examples": {
+              "StartDate": {
+                "value": "StartDate gt 2024-01-01T00:00:00Z",
+                "summary": "Return entries where StartDate is after January 1, 2024"
+              },
+              "DateRange": {
+                "value": "StartDate ge 2024-01-01T00:00:00Z and StartDate le 2024-03-31T00:00:00Z",
+                "summary": "Return entries within a date range"
+              },
+              "TimesheetKey": {
+                "value": "TimesheetKey eq '3TxlnQ4Pd8zJ'",
+                "summary": "Return all entries for a specific timesheet"
+              },
+              "UserKey": {
+                "value": "UserKey eq '2xfLMq5PFqb7'",
+                "summary": "Return entries for a specific user"
+              },
+              "WorkItemKey": {
+                "value": "WorkItemKey eq '3cC1vkWmhGb1'",
+                "summary": "Return entries for a specific work item"
+              }
+            },
+            "description": "When this parameter is combined with the URI, this endpoint will return a subset of the individual time entries that satisfy the `$filter` expression.\n"
+          },
+          {
+            "in": "query",
+            "name": "$orderby",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "StartDate",
+                "StartDate desc"
+              ],
+              "default": "StartDate"
+            },
+            "example": "StartDate desc",
+            "description": "Sort the results by StartDate.\n"
+          },
+          {
+            "$ref": "#/components/parameters/SkipRecords"
+          },
+          {
+            "$ref": "#/components/parameters/TopRecords"
+          },
+          {
+            "in": "query",
+            "name": "$count",
+            "schema": {
+              "type": "boolean"
+            },
+            "example": true,
+            "description": "When set to `true`, the response will include the total count of matching entries in `@odata.count` and will enable `@odata.nextLink` for pagination.\n"
+          }
+        ],
+        "description": "Use the `GET` method on this endpoint to receive a paginated list of individual (non-aggregated) time entries from your tenant. Using the query parameters available to this endpoint, you can also filter the list of individual time entries by their StartDate, TimesheetKey, UserKey, WorkItemKey, and more.\n\nUnlike the Timesheets endpoint, each record represents a single time entry for a specific day, user, and work item — not aggregated at the week level.\n\n**Notes**\n\n* This endpoint returns a maximum of 100 entries at once.\n* Pagination via `@odata.nextLink` requires `$count=true` to be specified.\n* The `$filter` query parameter supports 6 logical operators, 3 functions and 9 properties to help you form an expression. They are listed below with examples of usage.\n\n### $filter operators for DateTime properties\n\n<table><thead><tr><th>Logical Operators</th><th>Purpose</th><th>StartDate</th></tr></thead><tbody><tr><td>eq</td><td>Full-text search</td><td>/v3/IndividualTimeEntries?$filter=StartDate eq 2024-07-04T00:00:00Z</td></tr><tr><td>gt</td><td>Greater than</td><td>/v3/IndividualTimeEntries?$filter=StartDate gt 2024-01-01T00:00:00Z</td></tr><tr><td>ge</td><td>Greater than and equals</td><td>/v3/IndividualTimeEntries?$filter=StartDate ge 2024-01-01T00:00:00Z</td></tr><tr><td>lt</td><td>Lesser than</td><td>/v3/IndividualTimeEntries?$filter=StartDate lt 2024-03-31T00:00:00Z</td></tr><tr><td>le</td><td>Lesser than and equals</td><td>/v3/IndividualTimeEntries?$filter=StartDate le 2024-03-31T00:00:00Z</td></tr><tr><td>and</td><td>Combines properties</td><td>/v3/IndividualTimeEntries?$filter=StartDate ge 2024-01-01T00:00:00Z and StartDate lt 2024-04-01T00:00:00Z</td></tr></tbody></table></li>\n\n### Functions for DateTime properties\n\n<table><thead><tr><th>Functions</th><th>StartDate</th></tr></thead><tbody><tr><td>day</td><td>/v3/IndividualTimeEntries?$filter=day(StartDate) eq 4</td></tr><tr><td>month</td><td>/v3/IndividualTimeEntries?$filter=month(StartDate) eq 7</td></tr><tr><td>year</td><td>/v3/IndividualTimeEntries?$filter=year(StartDate) eq 2024</td></tr></tbody></table>\n\n### $filter operators for the rest of the properties\n\n<table><thead><tr><th>Logical Operators</th><th>Purpose</th><th>TimesheetKey</th><th>UserKey</th><th>WorkItemKey</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td>eq</td>\n<td>Full-text search</td>\n<td>/v3/IndividualTimeEntries?$filter=TimesheetKey eq '2xfLMq5PFqb7'</td>\n<td>/v3/IndividualTimeEntries?$filter=UserKey eq '2xfLMq5PFqb7'</td>\n<td>/v3/IndividualTimeEntries?$filter=WorkItemKey eq '3cC1vkWmhGb1'</td>\n</tr>\n</tbody>\n</table>\n",
+        "operationId": "getAllIndividualTimeEntries",
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetIndividualTimeEntries"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorMessages"
+                },
+                "examples": {
+                  "Unsupported Property": {
+                    "$ref": "#/components/examples/Unsupported_Property_Filter"
+                  },
+                  "Unsupported Logical Operator": {
+                    "$ref": "#/components/examples/Unsupported_Logical_Operator"
+                  },
+                  "$top limit exceeded": {
+                    "$ref": "#/components/examples/Limit_Exceeded_Top"
+                  },
+                  "Unsupported Option": {
+                    "$ref": "#/components/examples/Unsupported_option"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResourceNotFound"
+                },
+                "examples": {
+                  "Unauthorized Access": {
+                    "$ref": "#/components/examples/UnauthorizedAccess"
+                  }
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Rate Limit Exceeded",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RateLimitErrorMessage"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorMessages"
+                },
+                "examples": {
+                  "Undefined Error": {
+                    "$ref": "#/components/examples/elongated_5001"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v3/IndividualTimeEntries/{IndividualTimeEntryKey}": {
+      "get": {
+        "tags": [
+          "Individual Time Entries"
+        ],
+        "summary": "Gets an individual time entry by key",
+        "parameters": [
+          {
+            "required": true,
+            "in": "path",
+            "name": "IndividualTimeEntryKey",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "example": "a1b2c3d4-e5f6-7890-abcd-ef1234567890",
+            "description": "The Karbon-generated GUID key for the individual time entry"
+          }
+        ],
+        "description": "Use the `GET` method on this endpoint to receive the details of a single individual time entry specified using the `IndividualTimeEntryKey`.",
+        "operationId": "GetIndividualTimeEntryByKey",
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "type": "object",
+                      "properties": {
+                        "@odata.context": {
+                          "type": "string",
+                          "description": "The information about Karbon controllers generating this response.",
+                          "example": "https://api.karbonhq.com/v3/$metadata#IndividualTimeEntries/$entity"
+                        }
+                      }
+                    },
+                    {
+                      "$ref": "#/components/schemas/GetIndividualTimeEntry"
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorMessages"
+                },
+                "examples": {
+                  "Unsupported Option": {
+                    "$ref": "#/components/examples/Unsupported_option"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResourceNotFound"
+                },
+                "examples": {
+                  "Unauthorized Access": {
+                    "$ref": "#/components/examples/UnauthorizedAccess"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorMessages"
+                },
+                "examples": {
+                  "Key Not Found": {
+                    "$ref": "#/components/examples/IndividualTimeEntry_Key_Not_Found_404"
                   }
                 }
               }
@@ -9046,17 +9316,17 @@
           "InvoiceTotal": {
             "type": "number",
             "description": "Invoice total, including taxes",
-            "example": 24.0
+            "example": 24
           },
           "InvoiceSubTotal": {
             "type": "number",
             "description": "The sum of the line items of the invoice, excluding taxes",
-            "example": 22.0
+            "example": 22
           },
           "InvoiceTaxTotal": {
             "type": "number",
             "description": "Total of the taxes on the invoice",
-            "example": 2.0
+            "example": 2
           },
           "InvoiceDate": {
             "type": "string",
@@ -9164,7 +9434,7 @@
             "type": "number",
             "format": "double",
             "description": "The value of the billed amount",
-            "example": 440.50
+            "example": 440.5
           },
           "Expenses": {
             "$ref": "#/components/schemas/BillingInvoiceDataExpense"
@@ -9188,7 +9458,7 @@
             ],
             "format": "double",
             "description": "The tax rated applied to the billed amount",
-            "example": 15.00
+            "example": 15
           },
           "TaxRateName": {
             "type": [
@@ -9216,7 +9486,7 @@
           "Billed": {
             "type": "number",
             "description": "The total billed value of expenses",
-            "example": 200.00
+            "example": 200
           },
           "Expenses": {
             "type": "array",
@@ -9270,7 +9540,7 @@
               "Billed": {
                 "type": "number",
                 "description": "The billed value of the service",
-                "example": 150.00
+                "example": 150
               }
             }
           },
@@ -9307,7 +9577,7 @@
                 "type": "number",
                 "format": "double",
                 "description": "The value of the billed amount",
-                "example": 440.50
+                "example": 440.5
               },
               "TimeEntries": {
                 "oneOf": [
@@ -9355,7 +9625,7 @@
           "Billed": {
             "type": "number",
             "description": "The billed value of the time entry",
-            "example": 300.00
+            "example": 300
           }
         }
       },
@@ -9405,7 +9675,7 @@
                 "type": "number",
                 "format": "double",
                 "description": "The valeu of the payment, excluding fees and taxes",
-                "example": 2200.0
+                "example": 2200
               },
               "PaymentMethod": {
                 "type": "string",
@@ -9535,7 +9805,7 @@
                 "Amount": {
                   "type": "number",
                   "description": "The value of the payment",
-                  "example": 1100.50
+                  "example": 1100.5
                 }
               }
             }
@@ -11064,31 +11334,31 @@
               "SurchargeAmount": {
                 "type": "number",
                 "format": "double",
-                "example": 0.0000,
+                "example": 0,
                 "description": "The amount of anr surcharge(s)"
               },
               "SurchargeTaxAmount": {
                 "type": "number",
                 "format": "double",
-                "example": 0.0000,
+                "example": 0,
                 "description": "The tax on any surcharge(s)"
               },
               "KarbonFeeAmount": {
                 "type": "number",
                 "format": "double",
-                "example": 0.0000,
+                "example": 0,
                 "description": "The amount of the Karbon fee"
               },
               "KarbonFeeTaxAmount": {
                 "type": "number",
                 "format": "double",
-                "example": 0.0000,
+                "example": 0,
                 "description": "The tax on the Karbon fee"
               },
               "NetAmount": {
                 "type": "number",
                 "format": "double",
-                "example": 0.0000,
+                "example": 0,
                 "description": "The gross amount less surcharges, fees and taxes"
               }
             }
@@ -12713,6 +12983,153 @@
             "type": "string",
             "example": "https://api.karbonhq.com/v3/Timesheets?$skip=100",
             "description": "The link to next set of Timesheets. @odata.nextLink field will only appear if you have more than 100 Timesheets."
+          }
+        }
+      },
+      "GetIndividualTimeEntry": {
+        "description": "A single individual (non-aggregated) time entry",
+        "type": "object",
+        "required": [
+          "IndividualTimeEntryKey",
+          "TimeEntryKey",
+          "TimesheetKey",
+          "EntityKey",
+          "UserKey",
+          "StartDate",
+          "Minutes"
+        ],
+        "properties": {
+          "IndividualTimeEntryKey": {
+            "type": "string",
+            "format": "uuid",
+            "example": "a1b2c3d4-e5f6-7890-abcd-ef1234567890",
+            "description": "A Karbon-generated GUID key used to uniquely identify the individual time entry"
+          },
+          "TimeEntryKey": {
+            "type": "string",
+            "example": "3TxlnQ4Pd8zJ-3cC1vkWmhGb1-2xfLMq5PFqb7-NONE-NONE-3TxlnQ4Pd8zJ-1-250.00",
+            "description": "A composite key identifying this time entry within its timesheet"
+          },
+          "TimesheetKey": {
+            "type": "string",
+            "example": "3TxlnQ4Pd8zJ",
+            "description": "A Karbon-generated key used to identify the Timesheet this entry belongs to"
+          },
+          "EntityKey": {
+            "type": "string",
+            "example": "3cC1vkWmhGb1",
+            "description": "A Karbon-generated key used to identify the entity this time entry is related to"
+          },
+          "WorkItemKey": {
+            "type": "string",
+            "example": "3cC1vkWmhGb1",
+            "description": "A Karbon-generated key used to identify the Work Item this time entry is related to"
+          },
+          "ClientKey": {
+            "type": "string",
+            "example": "ZGNmtYyLm4z",
+            "description": "A Karbon-generated key used to identify the Client this time entry is related to"
+          },
+          "ClientType": {
+            "type": "string",
+            "example": "Organization",
+            "enum": [
+              "Contact",
+              "Organization",
+              "ClientGroup"
+            ],
+            "description": "The type of Client"
+          },
+          "UserKey": {
+            "type": "string",
+            "example": "2xfLMq5PFqb7",
+            "description": "A Karbon-generated key used to identify the user who logged this time entry"
+          },
+          "RoleName": {
+            "type": "string",
+            "example": "Director",
+            "description": "The role of the user for whom the time entry was created"
+          },
+          "TaskTypeName": {
+            "type": "string",
+            "example": "Tax Return",
+            "description": "The type of task performed by the user"
+          },
+          "StartDate": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2024-07-04T00:00:00Z",
+            "description": "The date on which the time was logged"
+          },
+          "Minutes": {
+            "type": "integer",
+            "example": 90,
+            "description": "The total time (in minutes) spent on the task"
+          },
+          "Description": {
+            "type": "string",
+            "example": "Reviewed draft tax return",
+            "description": "Free-form text providing more information about the time entry"
+          },
+          "HourlyRate": {
+            "type": "number",
+            "format": "decimal",
+            "example": 250,
+            "description": "The hourly rate of the user who worked on the task"
+          },
+          "BilledStatus": {
+            "type": "string",
+            "example": "Unbilled",
+            "enum": [
+              "Unbilled",
+              "Draft",
+              "InterimBilled",
+              "Billed"
+            ],
+            "description": "An indicator that represents whether the time entry has been or is in the process of being billed"
+          },
+          "ModifiedDate": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2024-07-05T09:30:00Z",
+            "description": "The date and time when this time entry was last modified"
+          },
+          "FeeType": {
+            "type": "string",
+            "example": "TimeAndMaterials",
+            "description": "The fee type associated with this time entry"
+          }
+        }
+      },
+      "GetIndividualTimeEntries": {
+        "description": "A collection of individual time entries",
+        "required": [
+          "value",
+          "@odata.context"
+        ],
+        "type": "object",
+        "properties": {
+          "@odata.context": {
+            "type": "string",
+            "description": "The information about Karbon controllers generating this response.",
+            "example": "https://api.karbonhq.com/v3/$metadata#IndividualTimeEntries"
+          },
+          "@odata.count": {
+            "type": "integer",
+            "format": "int64",
+            "example": 42,
+            "description": "The total number of individual time entries that satisfy the query criteria. Only present when `$count=true` is specified."
+          },
+          "value": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/GetIndividualTimeEntry"
+            }
+          },
+          "@odata.nextLink": {
+            "type": "string",
+            "example": "https://api.karbonhq.com/v3/IndividualTimeEntries?$skip=100",
+            "description": "The link to the next set of individual time entries. Only present when there are more than 100 results and `$count=true` was specified."
           }
         }
       },
@@ -14498,6 +14915,15 @@
           "error": {
             "code": "4004",
             "message": "No timesheet found for provided key"
+          }
+        }
+      },
+      "IndividualTimeEntry_Key_Not_Found_404": {
+        "description": "The error returned when an individual time entry cannot be found for the provided key",
+        "value": {
+          "error": {
+            "code": "4004",
+            "message": "No time entry found for provided key"
           }
         }
       },
