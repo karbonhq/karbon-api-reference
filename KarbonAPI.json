@@ -12436,7 +12436,7 @@
           "@odata.nextLink": {
             "type": "string",
             "example": "https://api.karbonhq.com/v3/IndividualTimeEntries?$count=true&$skip=100",
-            "description": "The link to the next set of individual time entries. Only present when there are more than 100 results and `$count=true` was specified."
+            "description": "The link to the next set of individual time entries. @odata.nextLink field will only appear if you have more than 100 individual time entries."
           }
         }
       },
