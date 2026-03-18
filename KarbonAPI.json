@@ -12392,6 +12392,12 @@
             "example": 250,
             "description": "The hourly rate of the user who worked on the task"
           },
+          "TotalCost": {
+            "type": "number",
+            "format": "decimal",
+            "example": 375,
+            "description": "The total cost of this time entry (Minutes / 60 × HourlyRate)"
+          },
           "BilledStatus": {
             "type": "string",
             "example": "Unbilled",
