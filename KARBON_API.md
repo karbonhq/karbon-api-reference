@@ -34,19 +34,20 @@ AccessKey: {key}
 
 All list endpoints support pagination. Max 100 items per request.
 
-| Parameter | Purpose |
-|-----------|---------|
-| `$top` | Items per page (max: 100) |
-| `$skip` | Items to skip |
+| Parameter | Purpose                   |
+| --------- | ------------------------- |
+| `$top`    | Items per page (max: 100) |
+| `$skip`   | Items to skip             |
 
 Response fields:
 
-| Field | Description |
-|-------|-------------|
-| `@odata.count` | Total matching records |
+| Field             | Description                                                                 |
+| ----------------- | --------------------------------------------------------------------------- |
+| `@odata.count`    | Total matching records                                                      |
 | `@odata.nextLink` | URL for the next page — use this directly, don't increment `$skip` manually |
 
 **Response envelope:**
+
 ```json
 {
   "@odata.context": "...",
@@ -62,32 +63,33 @@ Response fields:
 
 Supported operators vary by endpoint and field — not all operators work with all fields.
 
-| Operator | Meaning |
-|----------|---------|
-| `eq` | Exact match |
-| `contains(field, 'val')` | Partial string match |
-| `and` | Combine conditions |
+| Operator                  | Meaning                       |
+| ------------------------- | ----------------------------- |
+| `eq`                      | Exact match                   |
+| `contains(field, 'val')`  | Partial string match          |
+| `and`                     | Combine conditions            |
 | `ge` / `le` / `gt` / `lt` | ≥ / ≤ / > / < (dates/numbers) |
-| `in` | Set membership |
+| `in`                      | Set membership                |
 
 **Filterable fields by endpoint:**
 
-| Endpoint | Filterable fields | Supported operators |
-|----------|-------------------|---------------------|
-| `GET /v3/Contacts` | `FullName`, `EmailAddress`, `PhoneNumber`, `ContactType` | `eq`, `contains`, `and` |
-| `GET /v3/Organizations` | `FullName`, `EmailAddress`, `ContactType` | `eq`, `contains`, `and` |
-| `GET /v3/ClientGroups` | `FullName` | `eq` only |
-| `GET /v3/WorkItems` | `AssigneeEmailAddress`, `ClientKey`†, `PrimaryStatus`†, `Title`, `WorkScheduleKey`†, `WorkStatus`, `WorkType` | `eq`, `contains`†, `and` |
-| `GET /v3/WorkItems` | `StartDate` | `ge`, `le`, `and` |
-| `GET /v3/Timesheets` | `TimesheetKey` (eq), `StartDate` (gt), `EndDate` (lt), `Status` (eq), `UserKey` (in), `WorkItemKeys` (any/in) | mixed — see example below |
-| `GET /v3/IndividualTimeEntries` | `TimeEntryKey`, `TimesheetKey`, `EntityKey`, `WorkItemKey`, `ClientKey`, `UserKey`, `RoleName`, `TaskTypeName` (all eq) | `eq`, `and` |
-| `GET /v3/IndividualTimeEntries` | `StartDate` | `eq`, `gt`, `ge`, `lt`, `le`, `and` |
-| `GET /v3/Users` | `Name`, `EmailAddress` | `eq` |
-| `GET /v3/WorkTemplates` | `Title`, `WorkTypeKey`, `PublishedDate`, `DateModified`, `DateLastWorkItemCreated`, `NumberOfWorkItemsCreated`, `HasScheduledClientTaskGroups`, `DraftHasChanges` | `eq` |
+| Endpoint                        | Filterable fields                                                                                                                                                 | Supported operators                 |
+| ------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------- |
+| `GET /v3/Contacts`              | `FullName`, `EmailAddress`, `PhoneNumber`, `ContactType`                                                                                                          | `eq`, `contains`, `and`             |
+| `GET /v3/Organizations`         | `FullName`, `EmailAddress`, `ContactType`                                                                                                                         | `eq`, `contains`, `and`             |
+| `GET /v3/ClientGroups`          | `FullName`                                                                                                                                                        | `eq` only                           |
+| `GET /v3/WorkItems`             | `AssigneeEmailAddress`, `ClientKey`†, `PrimaryStatus`†, `Title`, `WorkScheduleKey`†, `WorkStatus`, `WorkType`                                                     | `eq`, `contains`†, `and`            |
+| `GET /v3/WorkItems`             | `StartDate`                                                                                                                                                       | `ge`, `le`, `and`                   |
+| `GET /v3/Timesheets`            | `TimesheetKey` (eq), `StartDate` (gt), `EndDate` (lt), `Status` (eq), `UserKey` (in), `WorkItemKeys` (any/in)                                                     | mixed — see example below           |
+| `GET /v3/IndividualTimeEntries` | `TimeEntryKey`, `TimesheetKey`, `EntityKey`, `WorkItemKey`, `ClientKey`, `UserKey`, `RoleName`, `TaskTypeName` (all eq)                                           | `eq`, `and`                         |
+| `GET /v3/IndividualTimeEntries` | `StartDate`                                                                                                                                                       | `eq`, `gt`, `ge`, `lt`, `le`, `and` |
+| `GET /v3/Users`                 | `Name`, `EmailAddress`                                                                                                                                            | `eq`                                |
+| `GET /v3/WorkTemplates`         | `Title`, `WorkTypeKey`, `PublishedDate`, `DateModified`, `DateLastWorkItemCreated`, `NumberOfWorkItemsCreated`, `HasScheduledClientTaskGroups`, `DraftHasChanges` | `eq`                                |
 
 † `contains` is not supported for `ClientKey`, `PrimaryStatus`, or `WorkScheduleKey`.
 
 **Timesheets `WorkItemKeys` filter example** (batch multiple keys):
+
 ```
 GET /v3/Timesheets?$filter=WorkItemKeys/any(x: x in ('2m6pSFxRzcF2', '2y7H6dhQL7mD'))
 ```
@@ -98,16 +100,16 @@ GET /v3/Timesheets?$filter=WorkItemKeys/any(x: x in ('2m6pSFxRzcF2', '2y7H6dhQL7
 
 Append ` desc` to any sortable field for descending order.
 
-| Endpoint | Sortable fields |
-|----------|----------------|
-| `GET /v3/Contacts` | `FullName`, `LastModifiedDateTime` |
-| `GET /v3/Organizations` | `FullName`, `LastModifiedDateTime` |
-| `GET /v3/ClientGroups` | `FullName` (default: `ClientGroupKey`) |
-| `GET /v3/WorkItems` | `StartDate`, `DeadlineDate` |
-| `GET /v3/Timesheets` | `StartDate`, `EndDate` |
-| `GET /v3/IndividualTimeEntries` | `StartDate` |
-| `GET /v3/Invoices` | `InvoiceDate`, `CreatedAt`, `UpdatedAt`, `InvoiceNumber` |
-| `GET /v3/WorkTemplates` | `WorkTypeKey`, `PublishedDate`, `NumberOfWorkItemsCreated`, `DateLastWorkItemCreated`, `DateModified` |
+| Endpoint                        | Sortable fields                                                                                       |
+| ------------------------------- | ----------------------------------------------------------------------------------------------------- |
+| `GET /v3/Contacts`              | `FullName`, `LastModifiedDateTime`                                                                    |
+| `GET /v3/Organizations`         | `FullName`, `LastModifiedDateTime`                                                                    |
+| `GET /v3/ClientGroups`          | `FullName` (default: `ClientGroupKey`)                                                                |
+| `GET /v3/WorkItems`             | `StartDate`, `DeadlineDate`                                                                           |
+| `GET /v3/Timesheets`            | `StartDate`, `EndDate`                                                                                |
+| `GET /v3/IndividualTimeEntries` | `StartDate`                                                                                           |
+| `GET /v3/Invoices`              | `InvoiceDate`, `CreatedAt`, `UpdatedAt`, `InvoiceNumber`                                              |
+| `GET /v3/WorkTemplates`         | `WorkTypeKey`, `PublishedDate`, `NumberOfWorkItemsCreated`, `DateLastWorkItemCreated`, `DateModified` |
 
 ---
 
@@ -115,15 +117,15 @@ Append ` desc` to any sortable field for descending order.
 
 Pass a comma-separated list where multiple values are supported. Only available on the endpoints listed below.
 
-| Endpoint | `$expand` options |
-|----------|-------------------|
-| `GET /v3/Contacts/{key}` | `BusinessCards`, `ClientTeam`, `ClientAccess` |
-| `GET /v3/Contacts/GetContactByUserDefinedIdentifier(...)` | `BusinessCards` |
-| `GET /v3/ClientGroups/GetClientGroupByUserDefinedIdentifier(...)` | `BusinessCard` |
-| `GET /v3/Organizations/{key}` | `BusinessCards` |
-| `GET /v3/Organizations/GetOrganizationByUserDefinedIdentifier(...)` | `BusinessCards` |
-| `GET /v3/Timesheets` | `TimeEntries` |
-| `GET /v3/Timesheets/{key}` | `TimeEntries` |
+| Endpoint                                                            | `$expand` options                             |
+| ------------------------------------------------------------------- | --------------------------------------------- |
+| `GET /v3/Contacts/{key}`                                            | `BusinessCards`, `ClientTeam`, `ClientAccess` |
+| `GET /v3/Contacts/GetContactByUserDefinedIdentifier(...)`           | `BusinessCards`                               |
+| `GET /v3/ClientGroups/GetClientGroupByUserDefinedIdentifier(...)`   | `BusinessCard`                                |
+| `GET /v3/Organizations/{key}`                                       | `BusinessCards`                               |
+| `GET /v3/Organizations/GetOrganizationByUserDefinedIdentifier(...)` | `BusinessCards`                               |
+| `GET /v3/Timesheets`                                                | `TimeEntries`                                 |
+| `GET /v3/Timesheets/{key}`                                          | `TimeEntries`                                 |
 
 ---
 
@@ -148,28 +150,28 @@ GET /v3/ClientGroups/GetClientGroupByUserDefinedIdentifier(UserDefinedIdentifier
 
 ## 4. Resource Quick Reference
 
-| Tag | Key Endpoints | Notes |
-|-----|---------------|-------|
-| **Billing** | `GET /v3/Invoices`, `GET /v3/Invoices/{key}`, `GET /v3/Payments`, `POST /v3/ManualPayments`, `DELETE /v3/ManualPayments/{key}`, `POST /v3/ReverseManualPayment` | Read-only for invoices/payments |
-| **Business Cards** | `GET /v3/BusinessCards/{key}`, `PUT /v3/BusinessCards/{key}` | Attached to Contact or Organization. Set `OrganizationKey` on a Contact's BusinessCard to associate the Contact with an Organization. Always `null` on Organization-side cards. |
-| **Client Groups** | `GET`, `POST /v3/ClientGroups`, `GET/PUT/PATCH /v3/ClientGroups/{key}` | Check `CreateClientGroup` schema for required fields |
-| **Comments** | `GET /v3/Comments('{key}')` | Read-only; OData-style key syntax |
-| **Contacts** | `GET`, `POST /v3/Contacts`, `GET/PUT/PATCH /v3/Contacts/{key}` | Required: `FirstName`, `LastName`. Associate with an Organization via `OrganizationKey` on a BusinessCard (see Business Cards). |
-| **Custom Fields** | `GET/PUT /v3/CustomFieldValues/{EntityKey}`, `GET/POST /v3/CustomFields`, `DELETE /v3/CustomFields/{key}` | EntityKey is the key of the Contact/Org. Field types: `Text`, `Number`, `Date`, `Boolean`, `Colleague`, `ListSingleSelect`, `ListMultipleSelect`. `Colleague` fields store/return a UserKey (also referred to as UserID elsewhere in the API). |
-| **Estimate Summaries** | `GET /v3/EstimateSummaries/{WorkItemKey}` | Read-only. Returns per-user `HourlyRate`, `EstimateMinutes`, `ActualMinutes`. Not writable via API. |
-| **Files** | `GET /v3/FileList/{EntityType}`, `GET /v3/Files`, `POST /v3/Files` | EntityType in path for listing |
-| **Integrated Workflows** | `GET /v3/IntegrationTaskDefinitions`, `GET/PUT /v3/IntegrationTasks/{key}` | Restricted to approved integration partners |
-| **Notes** | `POST /v3/Notes`, `GET /v3/Notes/{id}` | Required: `Subject`, `Body` (HTML supported), `AuthorEmailAddress` |
-| **Organizations** | `GET`, `POST /v3/Organizations`, `GET/PUT/PATCH /v3/Organizations/{key}` | Required: `FullName` |
-| **Tags** | _(no paths in spec — beta, not enabled for all users)_ | — |
-| **Tenant Settings** | `GET /v3/TenantSettings` | Returns valid `ContactTypes`, `WorkTypes`, `WorkStatuses`, `TenantKey`, `ClientAccessActivated` |
-| **Individual Time Entries** | `GET /v3/IndividualTimeEntries`, `GET /v3/IndividualTimeEntries/{key}` | Non-aggregated daily entries; use `$count=true` to enable pagination |
-| **Timesheets** | `GET /v3/Timesheets`, `GET /v3/Timesheets/{key}` | Expand `TimeEntries` for detail |
-| **Users** | `GET /v3/Users`, `POST /v3/Users`, `GET /v3/Users/{id}` | — |
-| **Webhook Subscriptions** | `POST/DELETE /v3/WebhookSubscriptions`, `GET/DELETE /v3/WebhookSubscriptions/{type}` | One subscription per entity type; 10 retries then auto-cancelled |
-| **Work Items** | `GET`, `POST /v3/WorkItems`, `GET/PUT/PATCH /v3/WorkItems/{key}` | Most filterable resource |
-| **Work Schedules** | `POST /v3/WorkSchedules`, `GET/PUT /v3/WorkSchedules/{key}` | For repeating work |
-| **Work Templates** | `GET /v3/WorkTemplates`, `GET /v3/WorkTemplates/{key}` | Read-only |
+| Tag                         | Key Endpoints                                                                                                                                                   | Notes                                                                                                                                                                                                                                          |
+| --------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Billing**                 | `GET /v3/Invoices`, `GET /v3/Invoices/{key}`, `GET /v3/Payments`, `POST /v3/ManualPayments`, `DELETE /v3/ManualPayments/{key}`, `POST /v3/ReverseManualPayment` | Read-only for invoices/payments                                                                                                                                                                                                                |
+| **Business Cards**          | `GET /v3/BusinessCards/{key}`, `PUT /v3/BusinessCards/{key}`                                                                                                    | Attached to Contact or Organization. Set `OrganizationKey` on a Contact's BusinessCard to associate the Contact with an Organization. Always `null` on Organization-side cards.                                                                |
+| **Client Groups**           | `GET`, `POST /v3/ClientGroups`, `GET/PUT/PATCH /v3/ClientGroups/{key}`                                                                                          | Check `CreateClientGroup` schema for required fields                                                                                                                                                                                           |
+| **Comments**                | `GET /v3/Comments('{key}')`                                                                                                                                     | Read-only; OData-style key syntax                                                                                                                                                                                                              |
+| **Contacts**                | `GET`, `POST /v3/Contacts`, `GET/PUT/PATCH /v3/Contacts/{key}`                                                                                                  | Required: `FirstName`, `LastName`. Associate with an Organization via `OrganizationKey` on a BusinessCard (see Business Cards).                                                                                                                |
+| **Custom Fields**           | `GET/PUT /v3/CustomFieldValues/{EntityKey}`, `GET/POST /v3/CustomFields`, `DELETE /v3/CustomFields/{key}`                                                       | EntityKey is the key of the Contact/Org. Field types: `Text`, `Number`, `Date`, `Boolean`, `Colleague`, `ListSingleSelect`, `ListMultipleSelect`. `Colleague` fields store/return a UserKey (also referred to as UserID elsewhere in the API). |
+| **Estimate Summaries**      | `GET /v3/EstimateSummaries/{WorkItemKey}`                                                                                                                       | Read-only. Returns per-user `HourlyRate`, `EstimateMinutes`, `ActualMinutes`. Not writable via API.                                                                                                                                            |
+| **Files**                   | `GET /v3/FileList/{EntityType}`, `GET /v3/Files`, `POST /v3/Files`                                                                                              | EntityType in path for listing                                                                                                                                                                                                                 |
+| **Integrated Workflows**    | `GET /v3/IntegrationTaskDefinitions`, `GET/PUT /v3/IntegrationTasks/{key}`                                                                                      | Restricted to approved integration partners                                                                                                                                                                                                    |
+| **Notes**                   | `POST /v3/Notes`, `GET /v3/Notes/{id}`                                                                                                                          | Required: `Subject`, `Body` (HTML supported), `AuthorEmailAddress`                                                                                                                                                                             |
+| **Organizations**           | `GET`, `POST /v3/Organizations`, `GET/PUT/PATCH /v3/Organizations/{key}`                                                                                        | Required: `FullName`                                                                                                                                                                                                                           |
+| **Tags**                    | _(no paths in spec — beta, not enabled for all users)_                                                                                                          | —                                                                                                                                                                                                                                              |
+| **Tenant Settings**         | `GET /v3/TenantSettings`                                                                                                                                        | Returns valid `ContactTypes`, `WorkTypes`, `WorkStatuses`, `TenantKey`, `ClientAccessActivated`                                                                                                                                                |
+| **Individual Time Entries** | `GET /v3/IndividualTimeEntries`, `GET /v3/IndividualTimeEntries/{key}`                                                                                          | Non-aggregated daily entries                                                                                                                                                                                                                   |
+| **Timesheets**              | `GET /v3/Timesheets`, `GET /v3/Timesheets/{key}`                                                                                                                | Expand `TimeEntries` for detail                                                                                                                                                                                                                |
+| **Users**                   | `GET /v3/Users`, `POST /v3/Users`, `GET /v3/Users/{id}`                                                                                                         | —                                                                                                                                                                                                                                              |
+| **Webhook Subscriptions**   | `POST/DELETE /v3/WebhookSubscriptions`, `GET/DELETE /v3/WebhookSubscriptions/{type}`                                                                            | One subscription per entity type; 10 retries then auto-cancelled                                                                                                                                                                               |
+| **Work Items**              | `GET`, `POST /v3/WorkItems`, `GET/PUT/PATCH /v3/WorkItems/{key}`                                                                                                | Most filterable resource                                                                                                                                                                                                                       |
+| **Work Schedules**          | `POST /v3/WorkSchedules`, `GET/PUT /v3/WorkSchedules/{key}`                                                                                                     | For repeating work                                                                                                                                                                                                                             |
+| **Work Templates**          | `GET /v3/WorkTemplates`, `GET /v3/WorkTemplates/{key}`                                                                                                          | Read-only                                                                                                                                                                                                                                      |
 
 ---
 
@@ -193,11 +195,11 @@ PATCH only supports `Description` and `DeadlineDate`.
 
 Set billing behaviour via `FeeSettings` in POST/PUT body:
 
-| `FeeType` | `FeeValue` |
-|-----------|-----------|
-| `FixedFee` | The fee amount (decimal) |
-| `TimeAndMaterials` | Must be `null` |
-| `NonBillable` | Must be `null` |
+| `FeeType`          | `FeeValue`               |
+| ------------------ | ------------------------ |
+| `FixedFee`         | The fee amount (decimal) |
+| `TimeAndMaterials` | Must be `null`           |
+| `NonBillable`      | Must be `null`           |
 
 Hourly rates and time estimates (from `EstimateSummaries`) are **read-only** — not writable via the API.
 
@@ -209,13 +211,13 @@ Both exist on WorkItems. **Prefer `PrimaryStatus` and `SecondaryStatus`** — th
 
 **PrimaryStatus** values are fixed (not tenant-specific). Use the display format (with spaces) in both `$filter` and request bodies — the camelCase forms shown in the spec schema are not accepted by the API:
 
-| Value (use this) | Meaning |
-|------------------|---------|
-| `Planned` | Not yet started |
-| `Ready To Start` | Ready to begin |
-| `In Progress` | Actively being worked on |
-| `Waiting` | Blocked or waiting |
-| `Completed` | Done |
+| Value (use this) | Meaning                  |
+| ---------------- | ------------------------ |
+| `Planned`        | Not yet started          |
+| `Ready To Start` | Ready to begin           |
+| `In Progress`    | Actively being worked on |
+| `Waiting`        | Blocked or waiting       |
+| `Completed`      | Done                     |
 
 **SecondaryStatus** values are tenant-customizable. Valid values come from `GET /v3/TenantSettings`.
 
@@ -259,13 +261,16 @@ Flag in TenantSettings indicating if Karbon for Clients (K4C) is enabled. The `C
 ### Workflow 1 — Onboard a new client
 
 **1. Create the Organization**
+
 ```
 POST /v3/Organizations
 { "FullName": "Acme Corp" }
 ```
+
 Save the returned `OrganizationKey`.
 
 **2. Create the Contact**
+
 ```
 POST /v3/Contacts
 {
@@ -279,9 +284,11 @@ POST /v3/Contacts
   }]
 }
 ```
+
 Save the returned `ContactKey`.
 
 **3. Create a Work Item for the client**
+
 ```
 POST /v3/WorkItems
 {
@@ -301,17 +308,21 @@ POST /v3/WorkItems
 **1. Collect WorkItem keys for all in-progress statuses**
 
 Run one paginated request per status — `PrimaryStatus` only supports `eq`:
+
 ```
 GET /v3/WorkItems?$filter=PrimaryStatus eq 'Ready To Start'&$top=100
 GET /v3/WorkItems?$filter=PrimaryStatus eq 'In Progress'&$top=100
 GET /v3/WorkItems?$filter=PrimaryStatus eq 'Waiting'&$top=100
 ```
+
 Page each using `@odata.nextLink`. Collect all `WorkItemKey` values.
 
 **2. Fetch timesheets for those WorkItems (batched)**
+
 ```
 GET /v3/Timesheets?$filter=WorkItemKeys/any(x: x in ('{key1}', '{key2}', ...))&$expand=TimeEntries&$top=100
 ```
+
 Page using `@odata.nextLink`. If key count is very large, chunk into multiple requests.
 
 ---
@@ -319,6 +330,7 @@ Page using `@odata.nextLink`. If key count is very large, chunk into multiple re
 ### Workflow 3 — Create and assign a Colleague custom field
 
 **1. Create the field definition**
+
 ```
 POST /v3/CustomFields
 {
@@ -327,9 +339,11 @@ POST /v3/CustomFields
   "IsVisibleToContacts": true
 }
 ```
+
 Save the returned `Key` as `{CustomFieldKey}`.
 
 **2. Assign a value to a Contact**
+
 ```
 PUT /v3/CustomFieldValues/{ContactKey}
 {
@@ -344,10 +358,13 @@ PUT /v3/CustomFieldValues/{ContactKey}
 ```
 
 **3. Read back and resolve the user's name**
+
 ```
 GET /v3/CustomFieldValues/{ContactKey}
 ```
+
 Extract the `Value[0]` (a UserKey), then:
+
 ```
 GET /v3/Users/{UserKey}
 ```
@@ -357,12 +374,15 @@ GET /v3/Users/{UserKey}
 ### Workflow 4 — Create a Work Item from a Work Template
 
 **1. Find the template key**
+
 ```
 GET /v3/WorkTemplates?$filter=Title eq 'Annual Tax Return'
 ```
+
 Save the returned `WorkTemplateKey`.
 
 **2. Create the Work Item referencing the template**
+
 ```
 POST /v3/WorkItems
 {
@@ -374,6 +394,7 @@ POST /v3/WorkItems
   "WorkTemplateKey": "{WorkTemplateKey}"
 }
 ```
+
 The template pre-populates tasks and structure. Required fields (`AssigneeEmailAddress`, `Title`, `ClientKey`, `ClientType`, `StartDate`) must still be provided.
 
 ---
@@ -381,6 +402,7 @@ The template pre-populates tasks and structure. Required fields (`AssigneeEmailA
 ### Workflow 5 — Add a monthly repeat schedule to a Work Item
 
 **1. Create the Work Schedule**
+
 ```
 POST /v3/WorkSchedules
 {
@@ -397,9 +419,11 @@ POST /v3/WorkSchedules
   "WorkItemTitleDefinition": "[{\"Text\":\"Monthly Bookkeeping \",\"Variable\":null,\"Format\":null,\"Offset\":0},{\"Text\":null,\"Variable\":\"RepeatPeriod\",\"Format\":\"DD MMM, YYYY - DD MMM, YYYY\",\"Offset\":0}]"
 }
 ```
+
 Save the returned `WorkScheduleKey`.
 
 **2. Link the schedule back to the Work Item**
+
 ```
 PUT /v3/WorkItems/{WorkItemKey}
 {
@@ -419,6 +443,7 @@ PUT /v3/WorkItems/{WorkItemKey}
 ### Workflow 6 — Subscribe to Invoice webhook
 
 **1. Create the subscription**
+
 ```
 POST /v3/WebhookSubscriptions
 {
@@ -427,9 +452,11 @@ POST /v3/WebhookSubscriptions
   "SigningKey": "your-signing-key-min-16-chars"
 }
 ```
+
 Only one subscription per `WebhookType` is allowed. If one already exists, delete it first.
 
 **2. Handle incoming payloads**
+
 ```json
 {
   "ResourcePermaKey": "{InvoiceKey}",
@@ -438,9 +465,11 @@ Only one subscription per `WebhookType` is allowed. If one already exists, delet
   "TimeStamp": "2025-07-01T10:00:00Z"
 }
 ```
+
 Respond with HTTP 2xx within the timeout — 10 failed deliveries auto-cancels the subscription.
 
 **3. Check or remove the subscription**
+
 ```
 GET    /v3/WebhookSubscriptions/Invoice
 DELETE /v3/WebhookSubscriptions/Invoice
@@ -457,12 +486,15 @@ Poll `GET /v3/WebhookSubscriptions/Invoice` — a 404 means the subscription was
 Contact details (email, phone, address) are stored on the Contact's **BusinessCard**, not directly on the Contact record.
 
 **1. Get the BusinessCardKey**
+
 ```
 GET /v3/Contacts/{ContactKey}?$expand=BusinessCards
 ```
+
 Find the relevant BusinessCard and save its `BusinessCardKey`.
 
 **2. Update the BusinessCard**
+
 ```
 PUT /v3/BusinessCards/{BusinessCardKey}
 {
