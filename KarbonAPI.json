@@ -6687,12 +6687,12 @@
               "type": "string"
             },
             "examples": {
-              "StartDate": {
-                "value": "StartDate gt 2024-01-01T00:00:00Z",
-                "summary": "Return entries where StartDate is after January 1, 2024"
+              "Date": {
+                "value": "Date gt 2024-01-01T00:00:00Z",
+                "summary": "Return entries where Date is after January 1, 2024"
               },
               "DateRange": {
-                "value": "StartDate ge 2024-01-01T00:00:00Z and StartDate le 2024-03-31T00:00:00Z",
+                "value": "Date ge 2024-01-01T00:00:00Z and Date le 2024-03-31T00:00:00Z",
                 "summary": "Return entries within a date range"
               },
               "TimesheetKey": {
@@ -6715,11 +6715,11 @@
             "name": "$orderby",
             "schema": {
               "type": "string",
-              "enum": ["StartDate", "StartDate desc"],
-              "default": "StartDate"
+              "enum": ["Date", "Date desc"],
+              "default": "Date"
             },
-            "example": "StartDate desc",
-            "description": "Sort the results by StartDate.\n"
+            "example": "Date desc",
+            "description": "Sort the results by Date.\n"
           },
           {
             "$ref": "#/components/parameters/SkipRecords"
@@ -6737,7 +6737,7 @@
             "description": "Default is `false` (`false` is recommended). When set to `true`, the response will include the total count of matching entries in `@odata.count`.\n"
           }
         ],
-        "description": "Use the `GET` method on this endpoint to receive a paginated list of individual (non-aggregated) time entries from your tenant. Using the query parameters available to this endpoint, you can also filter the list of individual time entries by their Date, TimesheetKey, UserKey, WorkItemKey, and more.\n\nUnlike the Timesheets endpoint, each record represents a single time entry for a specific day, user, and work item / contact — not aggregated in any way.\n\n**Notes**\n\n* This endpoint returns a maximum of 100 entries at once.\n* The `$filter` query parameter supports 6 logical operators, 3 functions and 9 properties to help you form an expression. They are listed below with examples of usage.\n\n### $filter operators for DateTime properties\n\n<table><thead><tr><th>Logical Operators</th><th>Purpose</th><th>Date</th></tr></thead><tbody><tr><td>eq</td><td>Full-text search</td><td>/v3/IndividualTimeEntries?$filter=Date eq 2024-07-04T00:00:00Z</td></tr><tr><td>gt</td><td>Greater than</td><td>/v3/IndividualTimeEntries?$filter=Date gt 2024-01-01T00:00:00Z</td></tr><tr><td>ge</td><td>Greater than and equals</td><td>/v3/IndividualTimeEntries?$filter=Date ge 2024-01-01T00:00:00Z</td></tr><tr><td>lt</td><td>Lesser than</td><td>/v3/IndividualTimeEntries?$filter=Date lt 2024-03-31T00:00:00Z</td></tr><tr><td>le</td><td>Lesser than and equals</td><td>/v3/IndividualTimeEntries?$filter=Date le 2024-03-31T00:00:00Z</td></tr><tr><td>and</td><td>Combines properties</td><td>/v3/IndividualTimeEntries?$filter=Date ge 2024-01-01T00:00:00Z and Date lt 2024-04-01T00:00:00Z</td></tr></tbody></table></li>\n\n### Functions for DateTime properties\n\n<table><thead><tr><th>Functions</th><th>Date</th></tr></thead><tbody><tr><td>day</td><td>/v3/IndividualTimeEntries?$filter=day(Date) eq 4</td></tr><tr><td>month</td><td>/v3/IndividualTimeEntries?$filter=month(Date) eq 7</td></tr><tr><td>year</td><td>/v3/IndividualTimeEntries?$filter=year(Date) eq 2024</td></tr></tbody></table>\n\n### $filter operators for the rest of the properties\n\n<table><thead><tr><th>Logical Operators</th><th>Purpose</th><th>TimesheetKey</th><th>UserKey</th><th>WorkItemKey</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td>eq</td>\n<td>Full-text search</td>\n<td>/v3/IndividualTimeEntries?$filter=TimesheetKey eq '2xfLMq5PFqb7'</td>\n<td>/v3/IndividualTimeEntries?$filter=UserKey eq '2xfLMq5PFqb7'</td>\n<td>/v3/IndividualTimeEntries?$filter=WorkItemKey eq '3cC1vkWmhGb1'</td>\n</tr>\n</tbody>\n</table>\n",
+        "description": "Use the `GET` method on this endpoint to receive a paginated list of individual (non-aggregated) time entries from your tenant. Using the query parameters available to this endpoint, you can also filter the list of individual time entries by their Date, TimesheetKey, EntityKey, WorkItemKey, ClientKey, UserKey, RoleName, and TaskTypeName.\n\nUnlike the Timesheets endpoint, each record represents a single time entry for a specific day, user, and work item / contact — not aggregated in any way.\n\n**Notes**\n\n* This endpoint returns a maximum of 100 entries at once.\n* The `$filter` query parameter supports 6 logical operators, 3 functions and 8 properties to help you form an expression. They are listed below with examples of usage.\n\n### $filter operators for DateTime properties\n\n<table><thead><tr><th>Logical Operators</th><th>Purpose</th><th>Date</th></tr></thead><tbody><tr><td>eq</td><td>Full-text search</td><td>/v3/IndividualTimeEntries?$filter=Date eq 2024-07-04T00:00:00Z</td></tr><tr><td>gt</td><td>Greater than</td><td>/v3/IndividualTimeEntries?$filter=Date gt 2024-01-01T00:00:00Z</td></tr><tr><td>ge</td><td>Greater than and equals</td><td>/v3/IndividualTimeEntries?$filter=Date ge 2024-01-01T00:00:00Z</td></tr><tr><td>lt</td><td>Lesser than</td><td>/v3/IndividualTimeEntries?$filter=Date lt 2024-03-31T00:00:00Z</td></tr><tr><td>le</td><td>Lesser than and equals</td><td>/v3/IndividualTimeEntries?$filter=Date le 2024-03-31T00:00:00Z</td></tr><tr><td>and</td><td>Combines properties</td><td>/v3/IndividualTimeEntries?$filter=Date ge 2024-01-01T00:00:00Z and Date lt 2024-04-01T00:00:00Z</td></tr></tbody></table></li>\n\n### Functions for DateTime properties\n\n<table><thead><tr><th>Functions</th><th>Date</th></tr></thead><tbody><tr><td>day</td><td>/v3/IndividualTimeEntries?$filter=day(Date) eq 4</td></tr><tr><td>month</td><td>/v3/IndividualTimeEntries?$filter=month(Date) eq 7</td></tr><tr><td>year</td><td>/v3/IndividualTimeEntries?$filter=year(Date) eq 2024</td></tr></tbody></table>\n\n### $filter operators for the rest of the properties\n\nAll of the following properties support `eq` (and `and` to combine conditions).\n\n<table><thead><tr><th>Property</th><th>Example</th></tr></thead><tbody><tr><td>TimesheetKey</td><td>/v3/IndividualTimeEntries?$filter=TimesheetKey eq '3TxlnQ4Pd8zJ'</td></tr><tr><td>EntityKey</td><td>/v3/IndividualTimeEntries?$filter=EntityKey eq '3cC1vkWmhGb1'</td></tr><tr><td>WorkItemKey</td><td>/v3/IndividualTimeEntries?$filter=WorkItemKey eq '3cC1vkWmhGb1'</td></tr><tr><td>ClientKey</td><td>/v3/IndividualTimeEntries?$filter=ClientKey eq 'ZGNmtYyLm4z'</td></tr><tr><td>UserKey</td><td>/v3/IndividualTimeEntries?$filter=UserKey eq '2xfLMq5PFqb7'</td></tr><tr><td>RoleName</td><td>/v3/IndividualTimeEntries?$filter=RoleName eq 'Director'</td></tr><tr><td>TaskTypeName</td><td>/v3/IndividualTimeEntries?$filter=TaskTypeName eq 'Tax Return'</td></tr></tbody></table>\n",
         "operationId": "getAllIndividualTimeEntries",
         "responses": {
           "200": {
@@ -12314,7 +12314,7 @@
           "TimesheetKey",
           "EntityKey",
           "UserKey",
-          "StartDate",
+          "Date",
           "Minutes"
         ],
         "properties": {
