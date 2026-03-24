@@ -32,19 +32,19 @@ AccessKey: {key}
 
 ### Pagination
 
-All list endpoints support pagination. Max 100 items per request.
+All list endpoints support pagination. Max 100 items per request (for most endpoints).
 
-| Parameter | Purpose                   |
-| --------- | ------------------------- |
-| `$top`    | Items per page (max: 100) |
-| `$skip`   | Items to skip             |
+| Parameter | Purpose                                      |
+| --------- | -------------------------------------------- |
+| `$top`    | Items per page (max: 100 for most endpoints) |
+| `$skip`   | Items to skip                                |
 
 Response fields:
 
-| Field             | Description                                                                 |
-| ----------------- | --------------------------------------------------------------------------- |
-| `@odata.count`    | Total matching records                                                      |
-| `@odata.nextLink` | URL for the next page — use this directly, don't increment `$skip` manually |
+| Field             | Description                                                                                           |
+| ----------------- | ----------------------------------------------------------------------------------------------------- |
+| `@odata.count`    | Total matching records (note that some endpoints require `$count=true` for this field to be included) |
+| `@odata.nextLink` | URL for the next page — use this directly, don't increment `$skip` manually                           |
 
 **Response envelope:**
 
@@ -165,7 +165,7 @@ GET /v3/ClientGroups/GetClientGroupByUserDefinedIdentifier(UserDefinedIdentifier
 | **Organizations**           | `GET`, `POST /v3/Organizations`, `GET/PUT/PATCH /v3/Organizations/{key}`                                                                                        | Required: `FullName`                                                                                                                                                                                                                           |
 | **Tags**                    | _(no paths in spec — beta, not enabled for all users)_                                                                                                          | —                                                                                                                                                                                                                                              |
 | **Tenant Settings**         | `GET /v3/TenantSettings`                                                                                                                                        | Returns valid `ContactTypes`, `WorkTypes`, `WorkStatuses`, `TenantKey`, `ClientAccessActivated`                                                                                                                                                |
-| **Individual Time Entries** | `GET /v3/IndividualTimeEntries`, `GET /v3/IndividualTimeEntries/{IndividualTimeEntryKey}`                                                                       | Non-aggregated daily entries                                                                                                                                                                                                                   |
+| **Individual Time Entries** | `GET /v3/IndividualTimeEntries`, `GET /v3/IndividualTimeEntries/{IndividualTimeEntryKey}`                                                                       | Non-aggregated time entries                                                                                                                                                                                                                    |
 | **Timesheets**              | `GET /v3/Timesheets`, `GET /v3/Timesheets/{key}`                                                                                                                | Expand `TimeEntries` for detail                                                                                                                                                                                                                |
 | **Users**                   | `GET /v3/Users`, `POST /v3/Users`, `GET /v3/Users/{id}`                                                                                                         | —                                                                                                                                                                                                                                              |
 | **Webhook Subscriptions**   | `POST/DELETE /v3/WebhookSubscriptions`, `GET/DELETE /v3/WebhookSubscriptions/{type}`                                                                            | One subscription per entity type; 10 retries then auto-cancelled                                                                                                                                                                               |
