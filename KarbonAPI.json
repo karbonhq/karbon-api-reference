@@ -12331,7 +12331,6 @@
         "type": "object",
         "required": [
           "IndividualTimeEntryKey",
-          "TimeEntryKey",
           "TimesheetKey",
           "EntityKey",
           "UserKey",
