@@ -12419,6 +12419,12 @@
             "enum": ["Unbilled", "Draft", "InterimBilled", "Billed"],
             "description": "An indicator that represents whether the time entry has been or is in the process of being billed"
           },
+          "CreatedDate": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2024-07-04T08:00:00Z",
+            "description": "The date and time when this time entry was created"
+          },
           "ModifiedDate": {
             "type": "string",
             "format": "date-time",
