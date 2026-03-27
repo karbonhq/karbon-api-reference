@@ -24,3 +24,11 @@ jobs:
       - name: Lint API Spec
         run: vacuum lint -d ./KarbonAPI.json
         shell: bash
+
+      - name: Setup Biome
+        uses: biomejs/setup-biome@v2
+        with:
+          version: latest
+
+      - name: Check formatting
+        run: biome format --write=false KarbonAPI.json
