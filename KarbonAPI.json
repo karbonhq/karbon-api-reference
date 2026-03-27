@@ -111,9 +111,7 @@
   "webhooks": {
     "contact": {
       "post": {
-        "tags": [
-          "Webhook Payloads"
-        ],
+        "tags": ["Webhook Payloads"],
         "description": "Contact created or updated",
         "parameters": [
           {
@@ -134,9 +132,7 @@
     },
     "customfield": {
       "post": {
-        "tags": [
-          "Webhook Payloads"
-        ],
+        "tags": ["Webhook Payloads"],
         "description": "Custom field value added or updated",
         "parameters": [
           {
@@ -157,9 +153,7 @@
     },
     "estimate-summary": {
       "post": {
-        "tags": [
-          "Webhook Payloads"
-        ],
+        "tags": ["Webhook Payloads"],
         "description": "Estimate Summary updated",
         "parameters": [
           {
@@ -180,9 +174,7 @@
     },
     "integration-task": {
       "post": {
-        "tags": [
-          "Webhook Payloads"
-        ],
+        "tags": ["Webhook Payloads"],
         "description": "Integration Task created",
         "parameters": [
           {
@@ -203,9 +195,7 @@
     },
     "invoice": {
       "post": {
-        "tags": [
-          "Webhook Payloads"
-        ],
+        "tags": ["Webhook Payloads"],
         "description": "Invoice status updated",
         "parameters": [
           {
@@ -226,9 +216,7 @@
     },
     "note": {
       "post": {
-        "tags": [
-          "Webhook Payloads"
-        ],
+        "tags": ["Webhook Payloads"],
         "description": "Note created or updated",
         "parameters": [
           {
@@ -249,9 +237,7 @@
     },
     "user": {
       "post": {
-        "tags": [
-          "Webhook Payloads"
-        ],
+        "tags": ["Webhook Payloads"],
         "description": "User has accepted Karbon invite",
         "parameters": [
           {
@@ -272,9 +258,7 @@
     },
     "work": {
       "post": {
-        "tags": [
-          "Webhook Payloads"
-        ],
+        "tags": ["Webhook Payloads"],
         "description": "Work created or updated",
         "parameters": [
           {
@@ -298,9 +282,7 @@
     "/v3/IntegrationTaskDefinitions": {
       "get": {
         "operationId": "ListIntegrationTaskDefintions",
-        "tags": [
-          "Integrated Workflows"
-        ],
+        "tags": ["Integrated Workflows"],
         "summary": "Get a list of integration task definitions",
         "description": "Use the `GET` method on this endpoint to receive a list of the integration task types that have been defined for your integration",
         "responses": {
@@ -320,9 +302,7 @@
     "/v3/IntegrationTasks": {
       "get": {
         "operationId": "ListIntegrationTasks",
-        "tags": [
-          "Integrated Workflows"
-        ],
+        "tags": ["Integrated Workflows"],
         "summary": "Get a list of integration tasks",
         "description": "Use the `GET` method on this endpoint to receive a list of the integration tasks created in the Karbon account which has connected your integration",
         "parameters": [
@@ -350,9 +330,7 @@
     "/v3/IntegrationTasks/{IntegrationTaskKey}": {
       "get": {
         "operationId": "GetIntegrationTask",
-        "tags": [
-          "Integrated Workflows"
-        ],
+        "tags": ["Integrated Workflows"],
         "summary": "Get an integration task details",
         "description": "Use the `GET` method on this endpoint to retrieve the details of a single integration task",
         "parameters": [
@@ -385,9 +363,7 @@
       },
       "put": {
         "operationId": "UpdateIntegrationTask",
-        "tags": [
-          "Integrated Workflows"
-        ],
+        "tags": ["Integrated Workflows"],
         "summary": "Update an integration task",
         "description": "Use the `PUT` method on this endpoint to update the details of a single integration task",
         "parameters": [
@@ -427,9 +403,7 @@
     "/v3/Invoices": {
       "get": {
         "operationId": "getInvoices",
-        "tags": [
-          "Billing"
-        ],
+        "tags": ["Billing"],
         "summary": "Gets a list of Invoices",
         "parameters": [
           {
@@ -578,9 +552,7 @@
     "/v3/Invoices/{InvoiceKey}": {
       "get": {
         "operationId": "getInvoiceByKey",
-        "tags": [
-          "Billing"
-        ],
+        "tags": ["Billing"],
         "summary": "Gets a single Invoice",
         "parameters": [
           {
@@ -723,9 +695,7 @@
     "/v3/Payments": {
       "get": {
         "operationId": "getPayments",
-        "tags": [
-          "Billing"
-        ],
+        "tags": ["Billing"],
         "summary": "Gets a list of Payments",
         "parameters": [
           {
@@ -820,9 +790,7 @@
     "/v3/ManualPayments": {
       "post": {
         "operationId": "createManualPayment",
-        "tags": [
-          "Billing"
-        ],
+        "tags": ["Billing"],
         "summary": "Create a manual payment against an Invoice",
         "description": "Use the `POST` method on this endpoint to create a Manual Payment",
         "responses": {
@@ -952,12 +920,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "required": [
-                  "InvoiceKey",
-                  "PaymentMethod",
-                  "PaymentDate",
-                  "TotalAmount"
-                ],
+                "required": ["InvoiceKey", "PaymentMethod", "PaymentDate", "TotalAmount"],
                 "properties": {
                   "InvoiceKey": {
                     "type": "string",
@@ -1006,9 +969,7 @@
     "/v3/ManualPayments/{ManualPaymentKey}": {
       "delete": {
         "operationId": "deleteManualPayment",
-        "tags": [
-          "Billing"
-        ],
+        "tags": ["Billing"],
         "summary": "Delete a manual payment",
         "description": "Use the `DELETE` method on this endpoint to delete a Manual Payment",
         "parameters": [
@@ -1068,9 +1029,7 @@
     "/v3/ReverseManualPayment": {
       "post": {
         "operationId": "reverseManualPayment",
-        "tags": [
-          "Billing"
-        ],
+        "tags": ["Billing"],
         "summary": "Reverse a manual payment",
         "description": "Use the `POST` method on this endpoint to reverse a Manual Payment",
         "responses": {
@@ -1119,10 +1078,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "required": [
-                  "PaymentKey",
-                  "ReversalDate"
-                ],
+                "required": ["PaymentKey", "ReversalDate"],
                 "properties": {
                   "PaymentKey": {
                     "type": "string",
@@ -1145,9 +1101,7 @@
     "/v3/Payments/{PaymentKey}": {
       "get": {
         "operationId": "getPaymentByPaymentKey",
-        "tags": [
-          "Billing"
-        ],
+        "tags": ["Billing"],
         "summary": "Gets a single Payment",
         "parameters": [
           {
@@ -1218,9 +1172,7 @@
     "/v3/BusinessCards/{BusinessCardKey}": {
       "get": {
         "operationId": "getBusinessCardByKey",
-        "tags": [
-          "Business Cards"
-        ],
+        "tags": ["Business Cards"],
         "summary": "Gets a single Business Card",
         "parameters": [
           {
@@ -1258,10 +1210,7 @@
                         "EntityType": {
                           "type": "string",
                           "example": "Organization",
-                          "enum": [
-                            "Contact",
-                            "Organization"
-                          ],
+                          "enum": ["Contact", "Organization"],
                           "description": "The type of entity that this business card is connected to."
                         },
                         "EntityKey": {
@@ -1283,14 +1232,8 @@
                   "EntityType": "Organization",
                   "EntityKey": "2jHPZngklwxQ",
                   "IsPrimaryCard": true,
-                  "WebSites": [
-                    "www.website.one",
-                    "www.website.two"
-                  ],
-                  "EmailAddresses": [
-                    "sample@example.com",
-                    "sample.two@example.com"
-                  ],
+                  "WebSites": ["www.website.one", "www.website.two"],
+                  "EmailAddresses": ["sample@example.com", "sample.two@example.com"],
                   "OrganizationKey": "ZGNmtYyLm4z",
                   "RoleOrTitle": "COO",
                   "FacebookLink": "facebook.com/sampleName",
@@ -1364,9 +1307,7 @@
       },
       "put": {
         "operationId": "updateBusinessCardByKey",
-        "tags": [
-          "Business Cards"
-        ],
+        "tags": ["Business Cards"],
         "summary": "Updates a single Business Card",
         "parameters": [
           {
@@ -1475,10 +1416,7 @@
                       "EntityType": {
                         "type": "string",
                         "example": "Organization",
-                        "enum": [
-                          "Contact",
-                          "Organization"
-                        ],
+                        "enum": ["Contact", "Organization"],
                         "description": "The type of entity that this business card is connected to."
                       },
                       "EntityKey": {
@@ -1500,9 +1438,7 @@
     },
     "/v3/ClientGroups": {
       "get": {
-        "tags": [
-          "Client Groups"
-        ],
+        "tags": ["Client Groups"],
         "summary": "Gets a list of Client Groups",
         "parameters": [
           {
@@ -1621,9 +1557,7 @@
         }
       },
       "post": {
-        "tags": [
-          "Client Groups"
-        ],
+        "tags": ["Client Groups"],
         "summary": "Creates a new Client Group",
         "description": "Use the `POST` method on this endpoint to create a new Client Group in your tenant.\n",
         "operationId": "createClientGroup",
@@ -1641,10 +1575,7 @@
                       "type": "object",
                       "properties": {
                         "AccountingDetails": {
-                          "type": [
-                            "string",
-                            "null"
-                          ],
+                          "type": ["string", "null"],
                           "description": "The accounting details associated with the Client Group. This property will be `null`."
                         }
                       }
@@ -1782,10 +1713,7 @@
                     "type": "object",
                     "properties": {
                       "AccountingDetails": {
-                        "type": [
-                          "string",
-                          "null"
-                        ],
+                        "type": ["string", "null"],
                         "description": "The accounting details associated with the Client Group. This property will be `null`."
                       }
                     }
@@ -1844,9 +1772,7 @@
     },
     "/v3/ClientGroups/GetClientGroupByUserDefinedIdentifier(UserDefinedIdentifier='{UserDefinedIdentifier}')": {
       "get": {
-        "tags": [
-          "Client Groups"
-        ],
+        "tags": ["Client Groups"],
         "summary": "Gets a Client Group using UserDefinedIdentifier",
         "parameters": [
           {
@@ -1864,9 +1790,7 @@
             "name": "$expand",
             "schema": {
               "type": "string",
-              "enum": [
-                "BusinessCard"
-              ]
+              "enum": ["BusinessCard"]
             },
             "example": "BusinessCard",
             "description": "When this parameter is combined with the URI, this endpoint will also return the Business Card of the Client Group.\n"
@@ -1888,10 +1812,7 @@
                       "type": "object",
                       "properties": {
                         "AccountingDetails": {
-                          "type": [
-                            "string",
-                            "null"
-                          ],
+                          "type": ["string", "null"],
                           "description": "The accounting details associated with the Client Group. This property will be `null`."
                         }
                       }
@@ -1943,14 +1864,8 @@
                   "BusinessCard": {
                     "BusinessCardKey": "2tBHyXtJBxBy",
                     "IsPrimaryCard": true,
-                    "WebSites": [
-                      "www.website.one",
-                      "www.website.two"
-                    ],
-                    "EmailAddresses": [
-                      "sample@example.com",
-                      "sample.two@example.com"
-                    ],
+                    "WebSites": ["www.website.one", "www.website.two"],
+                    "EmailAddresses": ["sample@example.com", "sample.two@example.com"],
                     "OrganizationKey": "ZGNmtYyLm4z",
                     "RoleOrTitle": "COO",
                     "FacebookLink": "facebook.com/sampleName",
@@ -2059,9 +1974,7 @@
     },
     "/v3/ClientGroups/{ClientGroupkey}": {
       "get": {
-        "tags": [
-          "Client Groups"
-        ],
+        "tags": ["Client Groups"],
         "summary": "Gets a Client Group using ClientGroupkey",
         "parameters": [
           {
@@ -2113,10 +2026,7 @@
                       "type": "object",
                       "properties": {
                         "AccountingDetails": {
-                          "type": [
-                            "string",
-                            "null"
-                          ],
+                          "type": ["string", "null"],
                           "description": "The accounting details associated with the Client Group. This property will be `null`."
                         }
                       }
@@ -2168,14 +2078,8 @@
                   "BusinessCard": {
                     "BusinessCardKey": "2tBHyXtJBxBy",
                     "IsPrimaryCard": true,
-                    "WebSites": [
-                      "www.website.one",
-                      "www.website.two"
-                    ],
-                    "EmailAddresses": [
-                      "sample@example.com",
-                      "sample.two@example.com"
-                    ],
+                    "WebSites": ["www.website.one", "www.website.two"],
+                    "EmailAddresses": ["sample@example.com", "sample.two@example.com"],
                     "OrganizationKey": "ZGNmtYyLm4z",
                     "RoleOrTitle": "COO",
                     "FacebookLink": "facebook.com/sampleName",
@@ -2306,9 +2210,7 @@
         }
       },
       "put": {
-        "tags": [
-          "Client Groups"
-        ],
+        "tags": ["Client Groups"],
         "summary": "Updates a Client Group (Full)",
         "parameters": [
           {
@@ -2438,14 +2340,8 @@
                 },
                 "BusinessCard": {
                   "IsPrimaryCard": true,
-                  "WebSites": [
-                    "www.website.one",
-                    "www.website.two"
-                  ],
-                  "EmailAddresses": [
-                    "sample@example.com",
-                    "sample.two@example.com"
-                  ],
+                  "WebSites": ["www.website.one", "www.website.two"],
+                  "EmailAddresses": ["sample@example.com", "sample.two@example.com"],
                   "RoleOrTitle": "COO",
                   "FacebookLink": "facebook.com/sampleName",
                   "LinkedInLink": "linkedin.com/sampleName",
@@ -2475,9 +2371,7 @@
         }
       },
       "patch": {
-        "tags": [
-          "Client Groups"
-        ],
+        "tags": ["Client Groups"],
         "summary": "Updates a Client Group (Partial)",
         "parameters": [
           {
@@ -2599,9 +2493,7 @@
     },
     "/v3/Comments('{Commentkey}')": {
       "get": {
-        "tags": [
-          "Comments"
-        ],
+        "tags": ["Comments"],
         "summary": "Gets a Comment using CommentKey",
         "description": "This endpoint can be used to get the comment attached to any Karbon entity (e.g., Work Item, Timesheet, Notes, Contacts).\n\n\nTo place a call using this endpoint, you will need the unique `Commentkey` that is used to identify a particular comment in Karbon.",
         "operationId": "getComment",
@@ -2706,9 +2598,7 @@
     },
     "/v3/Contacts": {
       "get": {
-        "tags": [
-          "Contacts"
-        ],
+        "tags": ["Contacts"],
         "summary": "Gets a list of Contacts",
         "parameters": [
           {
@@ -2742,12 +2632,7 @@
             "name": "$orderby",
             "schema": {
               "type": "string",
-              "enum": [
-                "FullName",
-                "FullName desc",
-                "LastModifiedDateTime",
-                "LastModifiedDateTime desc"
-              ],
+              "enum": ["FullName", "FullName desc", "LastModifiedDateTime", "LastModifiedDateTime desc"],
               "default": "ClientGroupKey"
             },
             "example": "FullName",
@@ -2840,9 +2725,7 @@
         }
       },
       "post": {
-        "tags": [
-          "Contacts"
-        ],
+        "tags": ["Contacts"],
         "summary": "Creates a new Contact",
         "description": "Use the `POST` method on this endpoint to create a new Contact in your tenant.\n",
         "operationId": "createContact",
@@ -2922,14 +2805,8 @@
                     {
                       "BusinessCardKey": "2tBHyXtJBxBy",
                       "IsPrimaryCard": true,
-                      "WebSites": [
-                        "www.website.one",
-                        "www.website.two"
-                      ],
-                      "EmailAddresses": [
-                        "sample@example.com",
-                        "sample.two@example.com"
-                      ],
+                      "WebSites": ["www.website.one", "www.website.two"],
+                      "EmailAddresses": ["sample@example.com", "sample.two@example.com"],
                       "OrganizationKey": "ZGNmtYyLm4z",
                       "RoleOrTitle": "COO",
                       "FacebookLink": "facebook.com/sampleName",
@@ -3050,9 +2927,7 @@
     },
     "/v3/Contacts/GetContactByUserDefinedIdentifier(UserDefinedIdentifier='{UserDefinedIdentifier}')": {
       "get": {
-        "tags": [
-          "Contacts"
-        ],
+        "tags": ["Contacts"],
         "summary": "Gets a Contact using UserDefinedIdentifier",
         "parameters": [
           {
@@ -3070,9 +2945,7 @@
             "name": "$expand",
             "schema": {
               "type": "string",
-              "enum": [
-                "BusinessCards"
-              ]
+              "enum": ["BusinessCards"]
             },
             "example": "BusinessCards",
             "description": "When this parameter is combined with the URI, this endpoint will also return the Business Cards of the Contact.\n"
@@ -3158,14 +3031,8 @@
                       "EntityType": "Contact",
                       "EntityKey": "67zlxNyJSr8e",
                       "IsPrimaryCard": true,
-                      "WebSites": [
-                        "www.website.one",
-                        "www.website.two"
-                      ],
-                      "EmailAddresses": [
-                        "sample@example.com",
-                        "sample.two@example.com"
-                      ],
+                      "WebSites": ["www.website.one", "www.website.two"],
+                      "EmailAddresses": ["sample@example.com", "sample.two@example.com"],
                       "OrganizationKey": "ZGNmtYyLm4z",
                       "RoleOrTitle": "COO",
                       "FacebookLink": "facebook.com/sampleName",
@@ -3275,9 +3142,7 @@
     },
     "/v3/Contacts/{Contactkey}": {
       "get": {
-        "tags": [
-          "Contacts"
-        ],
+        "tags": ["Contacts"],
         "summary": "Gets a Contact using Contactkey",
         "parameters": [
           {
@@ -3295,11 +3160,7 @@
             "name": "$expand",
             "schema": {
               "type": "string",
-              "enum": [
-                "BusinessCards",
-                "ClientTeam",
-                "ClientAccess"
-              ]
+              "enum": ["BusinessCards", "ClientTeam", "ClientAccess"]
             },
             "example": "BusinessCards",
             "description": "When this parameter is combined with the URI, this endpoint will also return one or more of the following: Business Cards for the Contact, the Client Team assigned to the Contact, or a list of other Contacts that can access this Contact in Karbon for Clients."
@@ -3385,14 +3246,8 @@
                       "EntityType": "Contact",
                       "EntityKey": "67zlxNyJSr8e",
                       "IsPrimaryCard": true,
-                      "WebSites": [
-                        "www.website.one",
-                        "www.website.two"
-                      ],
-                      "EmailAddresses": [
-                        "sample@example.com",
-                        "sample.two@example.com"
-                      ],
+                      "WebSites": ["www.website.one", "www.website.two"],
+                      "EmailAddresses": ["sample@example.com", "sample.two@example.com"],
                       "OrganizationKey": "ZGNmtYyLm4z",
                       "RoleOrTitle": "COO",
                       "FacebookLink": "facebook.com/sampleName",
@@ -3534,9 +3389,7 @@
         }
       },
       "put": {
-        "tags": [
-          "Contacts"
-        ],
+        "tags": ["Contacts"],
         "summary": "Updates a Contact (Full)",
         "parameters": [
           {
@@ -3646,9 +3499,7 @@
         }
       },
       "patch": {
-        "tags": [
-          "Contacts"
-        ],
+        "tags": ["Contacts"],
         "summary": "Updates a Contact (Partial)",
         "parameters": [
           {
@@ -3730,11 +3581,7 @@
                       "description": "The privacy level for this Client Group.\n\n<ul><li>Public Client Groups can be managed by anyone in the firm</li> <li>Private Client Groups can only be managed by the [Client Team](https://help.karbonhq.com/en/articles/1524707-create-a-client-team). Basic details (name of the Contacts and the Work Items) related to such Client Groups are visible to anyone in the firm.</li> <li>Hidden Client Groups are only be visible to and managed by the [Client Team](https://help.karbonhq.com/en/articles/1524707-create-a-client-team).</li>\n",
                       "example": "Public",
                       "default": "Public",
-                      "enum": [
-                        "Public",
-                        "Private",
-                        "Hidden"
-                      ]
+                      "enum": ["Public", "Private", "Hidden"]
                     },
                     "AvatarUrl": {
                       "type": "string",
@@ -3755,10 +3602,7 @@
                       }
                     },
                     "AccountingDetail": {
-                      "type": [
-                        "string",
-                        "null"
-                      ],
+                      "type": ["string", "null"],
                       "description": "The accounting details associated with the Contact. This property will be `null`."
                     }
                   }
@@ -3915,9 +3759,7 @@
     },
     "/v3/CustomFields": {
       "get": {
-        "tags": [
-          "Custom Fields"
-        ],
+        "tags": ["Custom Fields"],
         "description": "Retrieve a list of all of the custom fields that have been created for a Karbon account",
         "summary": "Gets all custom field definitions for the current tenant",
         "operationId": "GetCustomFieldDefinitions",
@@ -3943,9 +3785,7 @@
         }
       },
       "post": {
-        "tags": [
-          "Custom Fields"
-        ],
+        "tags": ["Custom Fields"],
         "description": "Defines a new custom field that can be assigned to a Contact and/or Organization - use the Karbon UI to create examples of how a new field with specific list options should be created",
         "summary": "Creates a new custom field definition",
         "operationId": "CreateCustomFieldDefinition",
@@ -4009,9 +3849,7 @@
     },
     "/v3/CustomFields/{CustomFieldDefinitionKey}": {
       "delete": {
-        "tags": [
-          "Custom Fields"
-        ],
+        "tags": ["Custom Fields"],
         "description": "Delete a custom field defintion by key",
         "summary": "Deletes a custom field definition by key",
         "operationId": "DeleteCustomFieldDefinition",
@@ -4051,9 +3889,7 @@
     },
     "/v3/CustomFieldValues/{EntityKey}": {
       "get": {
-        "tags": [
-          "Custom Fields"
-        ],
+        "tags": ["Custom Fields"],
         "description": "Retrieves the custom fields for a Contact or Organization",
         "summary": "Gets custom field values for a specific entity",
         "operationId": "GetCustomFieldValues",
@@ -4084,17 +3920,13 @@
                       "Key": "ZGNGtYyLm4z",
                       "Name": "Industry Type",
                       "Type": "Text",
-                      "Value": [
-                        "Professional Services"
-                      ]
+                      "Value": ["Professional Services"]
                     },
                     {
                       "Key": "AFNGtYyLm4z",
                       "Name": "Revenue",
                       "Type": "Number",
-                      "Value": [
-                        "1000000"
-                      ]
+                      "Value": ["1000000"]
                     }
                   ]
                 }
@@ -4119,9 +3951,7 @@
         }
       },
       "put": {
-        "tags": [
-          "Custom Fields"
-        ],
+        "tags": ["Custom Fields"],
         "description": "Performs an update of the complete set of custom field values for a Contact or Organization",
         "summary": "Updates custom field values for a specific entity",
         "operationId": "UpdateCustomFieldValues",
@@ -4187,9 +4017,7 @@
     },
     "/v3/EstimateSummaries/{WorkItemKey}": {
       "get": {
-        "tags": [
-          "Estimate Summaries"
-        ],
+        "tags": ["Estimate Summaries"],
         "summary": "Gets estimate summaries using WorkItemKey",
         "parameters": [
           {
@@ -4352,9 +4180,7 @@
     },
     "/v3/Files": {
       "post": {
-        "tags": [
-          "Files"
-        ],
+        "tags": ["Files"],
         "summary": "Uploads and links a file",
         "description": "Use the `POST` method on this endpoint to upload and link a file to an entity in your tenant.\n\nNote that this endpoint **only supports uploading files from the local network** but not from the web.\n",
         "operationId": "createFile",
@@ -4486,11 +4312,7 @@
             "multipart/form-data": {
               "schema": {
                 "type": "object",
-                "required": [
-                  "file",
-                  "FileName",
-                  "MimeType"
-                ],
+                "required": ["file", "FileName", "MimeType"],
                 "minProperties": 2,
                 "properties": {
                   "FileName": {
@@ -4540,9 +4362,7 @@
         }
       },
       "get": {
-        "tags": [
-          "Files"
-        ],
+        "tags": ["Files"],
         "summary": "Get a File using it's token",
         "description": "Use the `GET` method on this endpoint with the `token` query string parameter to retrieve a file. Note: download tokens are only valid for 15 minutes from the moment of issue.",
         "operationId": "downloadFile",
@@ -4643,9 +4463,7 @@
     },
     "/v3/FileList/{EntityType}": {
       "get": {
-        "tags": [
-          "Files"
-        ],
+        "tags": ["Files"],
         "summary": "Get a list of Files for a given entity",
         "description": "Use the `GET` method on this endpoint to list files associated with a specific Entity Type and Entity Key",
         "operationId": "listFiles",
@@ -4657,11 +4475,7 @@
             "required": true,
             "schema": {
               "type": "string",
-              "enum": [
-                "WorkItem",
-                "Contact",
-                "Organization"
-              ]
+              "enum": ["WorkItem", "Contact", "Organization"]
             },
             "example": "WorkItem"
           },
@@ -4765,9 +4579,7 @@
     },
     "/v3/Notes/{NoteID}": {
       "get": {
-        "tags": [
-          "Notes"
-        ],
+        "tags": ["Notes"],
         "summary": "Gets a Note using NoteID",
         "parameters": [
           {
@@ -4897,9 +4709,7 @@
     },
     "/v3/Notes": {
       "post": {
-        "tags": [
-          "Notes"
-        ],
+        "tags": ["Notes"],
         "summary": "Creates a new Note",
         "description": "Use the `POST` method on this endpoint to create a new Note and associate it with a Karbon entity (e.g., WorkItem, Contact, Organization, or ClientGroup) in your tenant.\n",
         "operationId": "createNote",
@@ -5053,9 +4863,7 @@
     },
     "/v3/Organizations": {
       "get": {
-        "tags": [
-          "Organizations"
-        ],
+        "tags": ["Organizations"],
         "summary": "Gets a list of Organizations",
         "parameters": [
           {
@@ -5089,12 +4897,7 @@
             "name": "$orderby",
             "schema": {
               "type": "string",
-              "enum": [
-                "FullName",
-                "FullName desc",
-                "LastModifiedDateTime",
-                "LastModifiedDateTime desc"
-              ],
+              "enum": ["FullName", "FullName desc", "LastModifiedDateTime", "LastModifiedDateTime desc"],
               "default": "OrganizationKey"
             },
             "example": "FullName",
@@ -5187,9 +4990,7 @@
         }
       },
       "post": {
-        "tags": [
-          "Organizations"
-        ],
+        "tags": ["Organizations"],
         "summary": "Creates a new Organization",
         "description": "Use the `POST` method on this endpoint to create a new Organization in your tenant.\n",
         "operationId": "createOrganization",
@@ -5404,14 +5205,8 @@
                   {
                     "BusinessCardKey": "2tBHyXtJBxBy",
                     "IsPrimaryCard": true,
-                    "WebSites": [
-                      "www.website.one",
-                      "www.website.two"
-                    ],
-                    "EmailAddresses": [
-                      "sample@example.com",
-                      "sample.two@example.com"
-                    ],
+                    "WebSites": ["www.website.one", "www.website.two"],
+                    "EmailAddresses": ["sample@example.com", "sample.two@example.com"],
                     "OrganizationKey": "ZGNmtYyLm4z",
                     "RoleOrTitle": "COO",
                     "FacebookLink": "facebook.com/sampleName",
@@ -5454,9 +5249,7 @@
     },
     "/v3/Organizations/GetOrganizationByUserDefinedIdentifier(UserDefinedIdentifier='{UserDefinedIdentifier}')": {
       "get": {
-        "tags": [
-          "Organizations"
-        ],
+        "tags": ["Organizations"],
         "summary": "Gets an Organization using UserDefinedIdentifier",
         "parameters": [
           {
@@ -5474,9 +5267,7 @@
             "name": "$expand",
             "schema": {
               "type": "string",
-              "enum": [
-                "BusinessCards"
-              ]
+              "enum": ["BusinessCards"]
             },
             "example": "BusinessCards",
             "description": "When this parameter is combined with the URI, this endpoint will also return the Business Cards of the Contact Organization.\n"
@@ -5560,14 +5351,8 @@
                       "EntityType": "Organization",
                       "EntityKey": "2Nw8tnxwQCVf",
                       "IsPrimaryCard": true,
-                      "WebSites": [
-                        "www.website.one",
-                        "www.website.two"
-                      ],
-                      "EmailAddresses": [
-                        "sample@example.com",
-                        "sample.two@example.com"
-                      ],
+                      "WebSites": ["www.website.one", "www.website.two"],
+                      "EmailAddresses": ["sample@example.com", "sample.two@example.com"],
                       "OrganizationKey": null,
                       "RoleOrTitle": null,
                       "FacebookLink": "facebook.com/samplecompany",
@@ -5677,9 +5462,7 @@
     },
     "/v3/Organizations/{Organizationkey}": {
       "get": {
-        "tags": [
-          "Organizations"
-        ],
+        "tags": ["Organizations"],
         "summary": "Gets an Organization using Organizationkey",
         "parameters": [
           {
@@ -5817,14 +5600,8 @@
                       "EntityType": "Organization",
                       "EntityKey": "2Nw8tnxwQCVf",
                       "IsPrimaryCard": true,
-                      "WebSites": [
-                        "www.website.one",
-                        "www.website.two"
-                      ],
-                      "EmailAddresses": [
-                        "sample@example.com",
-                        "sample.two@example.com"
-                      ],
+                      "WebSites": ["www.website.one", "www.website.two"],
+                      "EmailAddresses": ["sample@example.com", "sample.two@example.com"],
                       "OrganizationKey": null,
                       "RoleOrTitle": null,
                       "FacebookLink": "facebook.com/samplecompany",
@@ -5978,9 +5755,7 @@
         }
       },
       "put": {
-        "tags": [
-          "Organizations"
-        ],
+        "tags": ["Organizations"],
         "summary": "Updates an Organization (Full)",
         "parameters": [
           {
@@ -6144,14 +5919,8 @@
                     "EntityType": "Organization",
                     "EntityKey": "SCwCq2M9pFm",
                     "IsPrimaryCard": true,
-                    "WebSites": [
-                      "www.website.one",
-                      "www.website.two"
-                    ],
-                    "EmailAddresses": [
-                      "sample@example.com",
-                      "sample.two@example.com"
-                    ],
+                    "WebSites": ["www.website.one", "www.website.two"],
+                    "EmailAddresses": ["sample@example.com", "sample.two@example.com"],
                     "OrganizationKey": null,
                     "RoleOrTitle": null,
                     "FacebookLink": "facebook.com/sampleName",
@@ -6192,9 +5961,7 @@
         }
       },
       "patch": {
-        "tags": [
-          "Organizations"
-        ],
+        "tags": ["Organizations"],
         "summary": "Updates an Organization (Partial)",
         "parameters": [
           {
@@ -6264,11 +6031,7 @@
                       "type": "string",
                       "description": "The privacy level for this Organization.\n\n<ul><li>Public Organization can be managed by anyone in the firm</li> <li>Private Organization can only be managed by the [Client Team](https://help.karbonhq.com/en/articles/1524707-create-a-client-team). Basic details (name of the Organization and the Work Items) related to such Organization are visible to anyone in the firm.</li> <li>Hidden Organization are only be visible to and managed by the [Client Team](https://help.karbonhq.com/en/articles/1524707-create-a-client-team).</li>\n",
                       "default": "Public",
-                      "enum": [
-                        "Public",
-                        "Private",
-                        "Hidden"
-                      ]
+                      "enum": ["Public", "Private", "Hidden"]
                     },
                     "LastModifiedDateTime": {
                       "type": "string",
@@ -6287,10 +6050,7 @@
                       }
                     },
                     "AccountingDetail": {
-                      "type": [
-                        "string",
-                        "null"
-                      ],
+                      "type": ["string", "null"],
                       "description": "The accounting details associated with the Organization. This property will be `null`."
                     }
                   }
@@ -6416,9 +6176,7 @@
     },
     "/v3/TenantSettings": {
       "get": {
-        "tags": [
-          "Tenant Settings"
-        ],
+        "tags": ["Tenant Settings"],
         "summary": "Gets lists of customer specific Contact and Work settings",
         "description": "Get specific settings for a tenant, including the valid work statuses, work types and client types",
         "operationId": "getTenantSettings",
@@ -6509,34 +6267,16 @@
                       "Name": "Accounting",
                       "WorkTypeKey": "nTlQkTQnNz7",
                       "AvailableStatuses": {
-                        "Primary": [
-                          "In Progress",
-                          "Ready To Start",
-                          "Waiting",
-                          "Completed"
-                        ],
-                        "Secondary": [
-                          "2mwflHRTqsdv",
-                          "3sDb8y6mgzrz",
-                          "GrZfvNMt49q",
-                          "nJ8jJDwF6l"
-                        ]
+                        "Primary": ["In Progress", "Ready To Start", "Waiting", "Completed"],
+                        "Secondary": ["2mwflHRTqsdv", "3sDb8y6mgzrz", "GrZfvNMt49q", "nJ8jJDwF6l"]
                       }
                     },
                     {
                       "Name": "Bookkeeping",
                       "WorkTypeKey": "3RJgJSgq5xz",
                       "AvailableStatuses": {
-                        "Primary": [
-                          "In Progress",
-                          "Ready To Start",
-                          "Waiting",
-                          "Completed"
-                        ],
-                        "Secondary": [
-                          "GrZfvNMt49q",
-                          "nJ8jJDwF6l"
-                        ]
+                        "Primary": ["In Progress", "Ready To Start", "Waiting", "Completed"],
+                        "Secondary": ["GrZfvNMt49q", "nJ8jJDwF6l"]
                       }
                     }
                   ],
@@ -6593,9 +6333,7 @@
     "/v3/Timesheets": {
       "get": {
         "deprecated": true,
-        "tags": [
-          "Timesheets and Time Entries"
-        ],
+        "tags": ["Timesheets and Time Entries"],
         "summary": "Gets a list of Timesheets",
         "parameters": [
           {
@@ -6634,12 +6372,7 @@
             "schema": {
               "example": "StartDate desc",
               "type": "string",
-              "enum": [
-                "StartDate",
-                "StartDate desc",
-                "EndDate",
-                "EndDate desc"
-              ],
+              "enum": ["StartDate", "StartDate desc", "EndDate", "EndDate desc"],
               "default": "TimesheetKey"
             },
             "example": "StartDate",
@@ -6656,9 +6389,7 @@
             "name": "$expand",
             "schema": {
               "type": "string",
-              "enum": [
-                "TimeEntries"
-              ]
+              "enum": ["TimeEntries"]
             },
             "example": "TimeEntries",
             "description": "When this parameter is combined with the URI, this endpoint will also return the Time Entries associated with the Timesheets.\n"
@@ -6750,9 +6481,7 @@
     "/v3/Timesheets/{Timesheetkey}": {
       "get": {
         "deprecated": true,
-        "tags": [
-          "Timesheets and Time Entries"
-        ],
+        "tags": ["Timesheets and Time Entries"],
         "summary": "Gets a Timesheets using Timesheetkey",
         "parameters": [
           {
@@ -6770,9 +6499,7 @@
             "name": "$expand",
             "schema": {
               "type": "string",
-              "enum": [
-                "TimeEntries"
-              ]
+              "enum": ["TimeEntries"]
             },
             "example": "TimeEntries",
             "description": "When this parameter is combined with the URI, this endpoint will also return the Time Entries associated with the Timesheets.\n"
@@ -6880,9 +6607,7 @@
     },
     "/v3/IndividualTimeEntries": {
       "get": {
-        "tags": [
-          "Timesheets and Time Entries"
-        ],
+        "tags": ["Timesheets and Time Entries"],
         "summary": "Gets a list of individual time entries",
         "parameters": [
           {
@@ -6920,10 +6645,7 @@
             "name": "$orderby",
             "schema": {
               "type": "string",
-              "enum": [
-                "Date",
-                "Date desc"
-              ],
+              "enum": ["Date", "Date desc"],
               "default": "Date"
             },
             "example": "Date desc",
@@ -7027,9 +6749,7 @@
     },
     "/v3/IndividualTimeEntries/{IndividualTimeEntryKey}": {
       "get": {
-        "tags": [
-          "Timesheets and Time Entries"
-        ],
+        "tags": ["Timesheets and Time Entries"],
         "summary": "Gets an individual time entry by key",
         "parameters": [
           {
@@ -7146,9 +6866,7 @@
     },
     "/v3/Users": {
       "get": {
-        "tags": [
-          "Users"
-        ],
+        "tags": ["Users"],
         "summary": "Gets a list of Users",
         "parameters": [
           {
@@ -7253,9 +6971,7 @@
         }
       },
       "post": {
-        "tags": [
-          "Users"
-        ],
+        "tags": ["Users"],
         "summary": "Creates a new User",
         "description": "Use the `POST` method on this endpoint to create a new User in your tenant.",
         "operationId": "createUser",
@@ -7362,10 +7078,7 @@
             "application/json": {
               "schema": {
                 "type": "object",
-                "required": [
-                  "Name",
-                  "EmailAddress"
-                ],
+                "required": ["Name", "EmailAddress"],
                 "properties": {
                   "Name": {
                     "type": "string",
@@ -7386,9 +7099,7 @@
     },
     "/v3/Users/{UserId}": {
       "get": {
-        "tags": [
-          "Users"
-        ],
+        "tags": ["Users"],
         "summary": "Gets the details of a single User",
         "parameters": [
           {
@@ -7470,9 +7181,7 @@
     },
     "/v3/WebhookSubscriptions/{WebhookType}": {
       "get": {
-        "tags": [
-          "Webhook Subscriptions"
-        ],
+        "tags": ["Webhook Subscriptions"],
         "summary": "Gets a Webhook Subscription",
         "parameters": [
           {
@@ -7573,9 +7282,7 @@
         }
       },
       "delete": {
-        "tags": [
-          "Webhook Subscriptions"
-        ],
+        "tags": ["Webhook Subscriptions"],
         "summary": "Deletes a Webhook Subscription",
         "parameters": [
           {
@@ -7665,9 +7372,7 @@
     },
     "/v3/WebhookSubscriptions": {
       "post": {
-        "tags": [
-          "Webhook Subscriptions"
-        ],
+        "tags": ["Webhook Subscriptions"],
         "summary": "Creates a new Webhook Subscription",
         "description": "\n\nUse the `POST` method on create and associate a Webhook Subscriptions with a Karbon entity.\n\nYou can create **only one** Webhook Subcription per entity.\n\nPayload delivery for a webhook subscription will be retried 10 times, with increasing delays. If unsuccessful after 10 tries (no 2xx HTTP response), the subscription ends and needs to be recreated to receive further updates.\n",
         "operationId": "createWebhookSubscription",
@@ -7774,15 +7479,7 @@
                   },
                   "WebhookType": {
                     "type": "string",
-                    "enum": [
-                      "Contact",
-                      "Work",
-                      "Note",
-                      "User",
-                      "IntegrationTask",
-                      "Invoice",
-                      "EstimateSummary"
-                    ],
+                    "enum": ["Contact", "Work", "Note", "User", "IntegrationTask", "Invoice", "EstimateSummary"],
                     "description": "The type of Karbon entity which the Webhook Subscription is associated with. To receive ClientGroup, Contact and Organization updates, pass WebhookType as `Contact`. To receive Custom Field value updates, pass WebhookType as `CustomField`. To receive WorkItem updates, pass WebhookType as `Work`. To receive Note and NoteComment updates, pass WebhookType as `Note`. To receive an update when a User has accepted an invite to Karbon, pass WebhookType as `User`. To receive an update when an Invoice changes status, pass WebhookType as `Invoice`. To receive an update when an EstimateSummary is updated, pass WebhookType as `EstimateSummary`. Integration partners using the Integration Task feature can use `IntegrationTask` as the webhook subscription type to receive a notification when an integration task is added to a Work Item or a new Work Item is created from a Work Template that contains one or more Integraition Tasks.",
                     "example": "Contact",
                     "required": true
@@ -7808,9 +7505,7 @@
         }
       },
       "delete": {
-        "tags": [
-          "Webhook Subscriptions"
-        ],
+        "tags": ["Webhook Subscriptions"],
         "summary": "Deletes all Webhook Subscriptions",
         "description": "Use the `DELETE` method on this endpoint to delete all Webhook Subscriptions associated with Contact, Work, and Note.\n\n\n",
         "operationId": "delAllWebhookSubscriptions",
@@ -7863,9 +7558,7 @@
     },
     "/v3/WorkItems": {
       "get": {
-        "tags": [
-          "Work Items"
-        ],
+        "tags": ["Work Items"],
         "summary": "Gets a list of Work Items",
         "parameters": [
           {
@@ -7915,12 +7608,7 @@
             "name": "$orderby",
             "schema": {
               "type": "string",
-              "enum": [
-                "StartDate",
-                "StartDate desc",
-                "DeadlineDate",
-                "DeadlineDate desc"
-              ],
+              "enum": ["StartDate", "StartDate desc", "DeadlineDate", "DeadlineDate desc"],
               "default": "WorkItemKey"
             },
             "example": "StartDate",
@@ -8013,9 +7701,7 @@
         }
       },
       "post": {
-        "tags": [
-          "Work Items"
-        ],
+        "tags": ["Work Items"],
         "summary": "Creates a new Work Item",
         "description": "Use the `POST` method on this endpoint to create a new Work Item in your tenant.\n",
         "operationId": "createWorkItem",
@@ -8172,9 +7858,7 @@
     },
     "/v3/WorkItems/{WorkItemKey}": {
       "get": {
-        "tags": [
-          "Work Items"
-        ],
+        "tags": ["Work Items"],
         "summary": "Gets a Work Item using WorkItemKey",
         "parameters": [
           {
@@ -8308,9 +7992,7 @@
         }
       },
       "put": {
-        "tags": [
-          "Work Items"
-        ],
+        "tags": ["Work Items"],
         "summary": "Updates a Work Item (Full)",
         "parameters": [
           {
@@ -8448,9 +8130,7 @@
         }
       },
       "patch": {
-        "tags": [
-          "Work Items"
-        ],
+        "tags": ["Work Items"],
         "summary": "Updates a Work Item (Partial)",
         "parameters": [
           {
@@ -8563,9 +8243,7 @@
     },
     "/v3/WorkSchedules": {
       "post": {
-        "tags": [
-          "Work Schedules"
-        ],
+        "tags": ["Work Schedules"],
         "summary": "Creates a new Work Schedule",
         "description": "Use the `POST` method on this endpoint to create a new Work Schedule in your tenant.\n",
         "operationId": "createWorkSchedule",
@@ -8666,9 +8344,7 @@
     },
     "/v3/WorkSchedules/{WorkSchedulekey}": {
       "get": {
-        "tags": [
-          "Work Schedules"
-        ],
+        "tags": ["Work Schedules"],
         "summary": "Gets a Work Schedule using WorkSchedulekey",
         "parameters": [
           {
@@ -8768,9 +8444,7 @@
         }
       },
       "put": {
-        "tags": [
-          "Work Schedules"
-        ],
+        "tags": ["Work Schedules"],
         "summary": "Updates a Work Schedule (Full)",
         "parameters": [
           {
@@ -8876,9 +8550,7 @@
     },
     "/v3/WorkTemplates": {
       "get": {
-        "tags": [
-          "Work Templates"
-        ],
+        "tags": ["Work Templates"],
         "summary": "Gets a list of Work Templates",
         "parameters": [
           {
@@ -9034,9 +8706,7 @@
     },
     "/v3/WorkTemplates/{WorkTemplatekey}": {
       "get": {
-        "tags": [
-          "Work Templates"
-        ],
+        "tags": ["Work Templates"],
         "summary": "Gets a Work Template using WorkTemplatekey",
         "parameters": [
           {
@@ -9368,22 +9038,13 @@
             "example": "CAD"
           },
           "PaymentInstructions": {
-            "type": [
-              "string",
-              "null"
-            ],
+            "type": ["string", "null"],
             "description": "Payment instructions added to the invoice",
             "example": "Payment due 7 days from invoice date"
           },
           "InvoiceStatus": {
             "type": "string",
-            "enum": [
-              "Approved",
-              "AwaitingPayment",
-              "Paid",
-              "Exported",
-              "Voided"
-            ],
+            "enum": ["Approved", "AwaitingPayment", "Paid", "Exported", "Voided"],
             "description": "Current status of the invoice",
             "example": "AwaitingPayment"
           }
@@ -9471,27 +9132,18 @@
         "type": "object",
         "properties": {
           "TaxRate": {
-            "type": [
-              "number",
-              "null"
-            ],
+            "type": ["number", "null"],
             "format": "double",
             "description": "The tax rated applied to the billed amount",
             "example": 15
           },
           "TaxRateName": {
-            "type": [
-              "string",
-              "null"
-            ],
+            "type": ["string", "null"],
             "description": "The name of the tax rate applied to the billed amount",
             "example": "GST"
           },
           "TaxAmount": {
-            "type": [
-              "number",
-              "null"
-            ],
+            "type": ["number", "null"],
             "format": "double",
             "description": "The value of tax component in the billed amount",
             "example": 44.55
@@ -9544,10 +9196,7 @@
       },
       "BillingInvoiceDataService": {
         "description": "A service line item on a Karbon invoice",
-        "type": [
-          "object",
-          "null"
-        ],
+        "type": ["object", "null"],
         "allOf": [
           {
             "properties": {
@@ -9569,10 +9218,7 @@
         ]
       },
       "BillingInvoiceDataWork": {
-        "type": [
-          "object",
-          "null"
-        ],
+        "type": ["object", "null"],
         "description": "The breakdown of the billing that stems from work",
         "allOf": [
           {
@@ -9677,11 +9323,7 @@
               "PaymentType": {
                 "type": "string",
                 "description": "The type of payment",
-                "enum": [
-                  "ManualPayment",
-                  "ManualPaymentReversed",
-                  "Payment"
-                ],
+                "enum": ["ManualPayment", "ManualPaymentReversed", "Payment"],
                 "example": "ManualPayment"
               },
               "PaymentDate": {
@@ -9718,9 +9360,7 @@
       },
       "BillingInvoiceLineItems": {
         "type": "object",
-        "required": [
-          "LineItems"
-        ],
+        "required": ["LineItems"],
         "description": "A breakdown of line items from the invoice",
         "properties": {
           "LineItems": {
@@ -9740,11 +9380,7 @@
                 },
                 "BillableItemType": {
                   "type": "string",
-                  "enum": [
-                    "TimeEntry",
-                    "Expense",
-                    "Entity"
-                  ],
+                  "enum": ["TimeEntry", "Expense", "Entity"],
                   "description": "The source type of the line item"
                 },
                 "Description": {
@@ -9764,17 +9400,11 @@
                   "description": "The amount of the line item calculated as UnitPrice * Quantity, excluding taxes"
                 },
                 "TaxRate": {
-                  "type": [
-                    "number",
-                    "null"
-                  ],
+                  "type": ["number", "null"],
                   "description": "The percentage tax rate, expressed as an integer - e.g. 15% is rendered as 15.0000"
                 },
                 "TaxRateName": {
-                  "type": [
-                    "string",
-                    "null"
-                  ],
+                  "type": ["string", "null"],
                   "description": "The user specified name of tax rate, e.g. GST, VAT, PST"
                 }
               }
@@ -9784,9 +9414,7 @@
       },
       "BillingInvoicePayments": {
         "type": "object",
-        "required": [
-          "Payments"
-        ],
+        "required": ["Payments"],
         "description": "Details of the payments related to the invoice",
         "properties": {
           "Payments": {
@@ -9808,11 +9436,7 @@
                 },
                 "PaymentType": {
                   "type": "string",
-                  "enum": [
-                    "ManualPayment",
-                    "ManualPaymentReversed",
-                    "Payment"
-                  ],
+                  "enum": ["ManualPayment", "ManualPaymentReversed", "Payment"],
                   "description": "The type of payment"
                 },
                 "PaymentDate": {
@@ -9832,16 +9456,11 @@
         }
       },
       "BillingClient": {
-        "required": [
-          "Client"
-        ],
+        "required": ["Client"],
         "description": "The details of the invoice recipient at the point in time the invoice was drafted or payment creator at the point the payment was received",
         "properties": {
           "Client": {
-            "type": [
-              "object",
-              "null"
-            ],
+            "type": ["object", "null"],
             "example": null,
             "description": "The Karbon Client Billing Contact",
             "properties": {
@@ -9929,10 +9548,7 @@
             "example": true
           },
           "OrganizationKey": {
-            "type": [
-              "string",
-              "null"
-            ],
+            "type": ["string", "null"],
             "description": "Used on the Business Card for a Contact to specify the Organization that the Contact is related to. Will always be null for an Organization business card.",
             "example": "7NN1ySxv89B"
           },
@@ -9942,10 +9558,7 @@
             "items": {
               "type": "string"
             },
-            "example": [
-              "www.website.one",
-              "www.website.two"
-            ]
+            "example": ["www.website.one", "www.website.two"]
           },
           "EmailAddresses": {
             "description": "The email addresses associated with this Business card.",
@@ -9953,16 +9566,10 @@
             "items": {
               "type": "string"
             },
-            "example": [
-              "sample@example.com",
-              "sample.two@example.com"
-            ]
+            "example": ["sample@example.com", "sample.two@example.com"]
           },
           "RoleOrTitle": {
-            "type": [
-              "string",
-              "null"
-            ],
+            "type": ["string", "null"],
             "description": "The business role or title of the contact this Business Cards belongs to",
             "example": "COO"
           },
@@ -10025,12 +9632,7 @@
                   "type": "string",
                   "description": "The tag to indicate the type of Address",
                   "example": "Physical",
-                  "enum": [
-                    "Physical",
-                    "Mailing",
-                    "Legal",
-                    "Home"
-                  ]
+                  "enum": ["Physical", "Mailing", "Legal", "Home"]
                 }
               }
             }
@@ -10055,14 +9657,7 @@
                   "type": "string",
                   "description": "The tag to indicate the type of phone number",
                   "example": "Work",
-                  "enum": [
-                    "Work",
-                    "Mobile",
-                    "Office",
-                    "Fax",
-                    "Home",
-                    "Other"
-                  ]
+                  "enum": ["Work", "Mobile", "Office", "Fax", "Home", "Other"]
                 }
               }
             }
@@ -10089,10 +9684,7 @@
             "items": {
               "type": "string"
             },
-            "example": [
-              "www.website.one",
-              "www.website.two"
-            ]
+            "example": ["www.website.one", "www.website.two"]
           },
           "EmailAddresses": {
             "description": "The email addresses associated with this Business card.",
@@ -10100,10 +9692,7 @@
             "items": {
               "type": "string"
             },
-            "example": [
-              "sample@example.com",
-              "sample.two@example.com"
-            ]
+            "example": ["sample@example.com", "sample.two@example.com"]
           },
           "OrganizationKey": {
             "type": "string",
@@ -10179,12 +9768,7 @@
                   "type": "string",
                   "description": "The tag to indicate the type of Address",
                   "example": "Physical",
-                  "enum": [
-                    "Physical",
-                    "Mailing",
-                    "Legal",
-                    "Home"
-                  ]
+                  "enum": ["Physical", "Mailing", "Legal", "Home"]
                 }
               }
             }
@@ -10214,14 +9798,7 @@
                   "type": "string",
                   "description": "The tag to indicate the type of phone number",
                   "example": "Work",
-                  "enum": [
-                    "Work",
-                    "Mobile",
-                    "Office",
-                    "Fax",
-                    "Home",
-                    "Other"
-                  ]
+                  "enum": ["Work", "Mobile", "Office", "Fax", "Home", "Other"]
                 }
               }
             }
@@ -10250,25 +9827,13 @@
               "type": "string",
               "example": "User",
               "description": "The type of member assigned to the client team, can be either User or Team",
-              "enum": [
-                "User",
-                "Team"
-              ]
+              "enum": ["User", "Team"]
             },
             "RoleType": {
-              "type": [
-                "string",
-                "null"
-              ],
+              "type": ["string", "null"],
               "example": "ClientOwner",
               "description": "The specific role the user or team is assigned to, can be null if a member of the client team without a specific role",
-              "enum": [
-                "ClientOwner",
-                "ClientManager",
-                "UserDefinedRole1",
-                "UserDefinedRole2",
-                null
-              ]
+              "enum": ["ClientOwner", "ClientManager", "UserDefinedRole1", "UserDefinedRole2", null]
             }
           }
         }
@@ -10289,23 +9854,13 @@
               "type": "string",
               "example": "Contact",
               "description": "Whether the Client is an Organization or a Person",
-              "enum": [
-                "Contact",
-                "Organization"
-              ]
+              "enum": ["Contact", "Organization"]
             },
             "AccessLevel": {
-              "type": [
-                "string",
-                "null"
-              ],
+              "type": ["string", "null"],
               "example": "Limited",
               "description": "The level of access this contact has when viewing the specified client in Karbon for Clients",
-              "enum": [
-                "Limited",
-                "FullAccess",
-                null
-              ]
+              "enum": ["Limited", "FullAccess", null]
             }
           }
         }
@@ -10357,15 +9912,7 @@
           "Type": {
             "type": "string",
             "example": "ListSingleSelect",
-            "enum": [
-              "Text",
-              "Number",
-              "Date",
-              "Boolean",
-              "Colleague",
-              "ListSingleSelect",
-              "ListMultipleSelect"
-            ]
+            "enum": ["Text", "Number", "Date", "Boolean", "Colleague", "ListSingleSelect", "ListMultipleSelect"]
           },
           "IsVisibleToContacts": {
             "type": "boolean",
@@ -10381,11 +9928,7 @@
             "items": {
               "type": "string",
               "maxLength": 256,
-              "examples": [
-                "Agriculture",
-                "Manufacturing",
-                "Professional, Scientific and Technical Services"
-              ]
+              "examples": ["Agriculture", "Manufacturing", "Professional, Scientific and Technical Services"]
             }
           }
         }
@@ -10406,15 +9949,7 @@
           "Type": {
             "type": "string",
             "example": "ListSingleSelect",
-            "enum": [
-              "Text",
-              "Number",
-              "Date",
-              "Boolean",
-              "Colleague",
-              "ListSingleSelect",
-              "ListMultipleSelect"
-            ]
+            "enum": ["Text", "Number", "Date", "Boolean", "Colleague", "ListSingleSelect", "ListMultipleSelect"]
           },
           "Value": {
             "type": "array",
@@ -10447,114 +9982,62 @@
         "description": "The details specific to the Accounting firm related to this entity",
         "properties": {
           "ContactPermaKey": {
-            "type": [
-              "string",
-              "null"
-            ],
+            "type": ["string", "null"],
             "description": "A Karbon-generated key that is used to identify the Contact (if a person)."
           },
           "OrganizationPermaKey": {
-            "type": [
-              "string",
-              "null"
-            ],
+            "type": ["string", "null"],
             "description": "A Karbon-generated key that is used to identify the Contact (if a business or an organization)."
           },
           "BirthDate": {
-            "type": [
-              "string",
-              "null"
-            ],
+            "type": ["string", "null"],
             "format": "date-time",
             "description": "The day at which the contact (if a person) was born."
           },
           "DeathDate": {
-            "type": [
-              "string",
-              "null"
-            ],
+            "type": ["string", "null"],
             "format": "date-time",
             "description": "The day at which the contact (if a person) died."
           },
           "Salutation": {
-            "type": [
-              "string",
-              "null"
-            ],
+            "type": ["string", "null"],
             "description": "The title of the contact (if a person)",
-            "enum": [
-              "Mr",
-              "Mrs",
-              "Ms",
-              "Miss",
-              "Dr",
-              "Prof",
-              "Rev",
-              null
-            ]
+            "enum": ["Mr", "Mrs", "Ms", "Miss", "Dr", "Prof", "Rev", null]
           },
           "Sex": {
-            "type": [
-              "string",
-              "null"
-            ],
+            "type": ["string", "null"],
             "description": "The gender of the contact (if a person)",
-            "enum": [
-              "M",
-              "F",
-              null
-            ]
+            "enum": ["M", "F", null]
           },
           "FinancialYearEndDay": {
-            "type": [
-              "integer",
-              "null"
-            ],
+            "type": ["integer", "null"],
             "format": "int32",
             "description": "The day of month in which the fiscal year ends for the contact"
           },
           "FinancialYearEndMonth": {
-            "type": [
-              "integer",
-              "null"
-            ],
+            "type": ["integer", "null"],
             "format": "int32",
             "description": "The month in which the fiscal year ends for the contact. Note that this is a 0 index value, so January is 0 and December is 11"
           },
           "IncorporationDate": {
-            "type": [
-              "string",
-              "null"
-            ],
+            "type": ["string", "null"],
             "format": "date-time",
             "description": "The date at which the contact (if a business or an organization) was incorporated."
           },
           "IncorporationState": {
-            "type": [
-              "string",
-              "null"
-            ],
+            "type": ["string", "null"],
             "description": "The state in which the contact (if a business or an organization) was incorporated."
           },
           "LegalName": {
-            "type": [
-              "string",
-              "null"
-            ],
+            "type": ["string", "null"],
             "description": "The legal name of the contact"
           },
           "LineOfBusiness": {
-            "type": [
-              "string",
-              "null"
-            ],
+            "type": ["string", "null"],
             "description": "The industry this contact is associated with."
           },
           "EntityType": {
-            "type": [
-              "string",
-              "null"
-            ],
+            "type": ["string", "null"],
             "description": "The entity type of the contact (if a business or an organization)",
             "enum": [
               "Corporation",
@@ -10581,10 +10064,7 @@
             ]
           },
           "TaxCountryCode": {
-            "type": [
-              "string",
-              "null"
-            ],
+            "type": ["string", "null"],
             "description": "The code of the country where the contact pays their tax.",
             "enum": [
               "US",
@@ -10607,109 +10087,59 @@
             ]
           },
           "TradingName": {
-            "type": [
-              "string",
-              "null"
-            ],
+            "type": ["string", "null"],
             "description": "The trading name of the contact (if a business or an organization)"
           },
           "AnnualRevenue": {
-            "type": [
-              "number",
-              "null"
-            ],
+            "type": ["number", "null"],
             "format": "decimal",
             "description": "The total annual revenue generated by the contact"
           },
           "BaseCurrency": {
-            "type": [
-              "string",
-              "null"
-            ],
+            "type": ["string", "null"],
             "description": "The 3-letter code, denoting the currency of annual revenue"
           },
           "GstBasis": {
-            "type": [
-              "string",
-              "null"
-            ],
+            "type": ["string", "null"],
             "description": "The method of accounting for GST/BAS",
-            "enum": [
-              "Cash",
-              "Accruals",
-              "None",
-              "Close",
-              null
-            ]
+            "enum": ["Cash", "Accruals", "None", "Close", null]
           },
           "GstPeriod": {
-            "type": [
-              "string",
-              "null"
-            ],
+            "type": ["string", "null"],
             "description": "The GST period"
           },
           "IncomeTaxInstallmentPeriod": {
-            "type": [
-              "string",
-              "null"
-            ],
+            "type": ["string", "null"],
             "description": "The income tax installment period",
-            "enum": [
-              "Monthly",
-              "Quarterly",
-              "Yearly",
-              null
-            ]
+            "enum": ["Monthly", "Quarterly", "Yearly", null]
           },
           "IsVATRegistered": {
-            "type": [
-              "boolean",
-              "null"
-            ],
+            "type": ["boolean", "null"],
             "description": "Set to true if the business or organization is registered for VAT"
           },
           "OrganizationValuation": {
-            "type": [
-              "number",
-              "null"
-            ],
+            "type": ["number", "null"],
             "format": "decimal",
             "description": "The present value of the company"
           },
           "PaysTax": {
-            "type": [
-              "boolean",
-              "null"
-            ],
+            "type": ["boolean", "null"],
             "description": "Set to true, if the contact has to pay tax"
           },
           "PrepareGST": {
-            "type": [
-              "boolean",
-              "null"
-            ],
+            "type": ["boolean", "null"],
             "description": "<>"
           },
           "ProvisionalTaxBasic": {
-            "type": [
-              "string",
-              "null"
-            ],
+            "type": ["string", "null"],
             "description": "<>"
           },
           "ProvisionalTaxRatio": {
-            "type": [
-              "string",
-              "null"
-            ],
+            "type": ["string", "null"],
             "description": "<>"
           },
           "RevenueModel": {
-            "type": [
-              "string",
-              "null"
-            ],
+            "type": ["string", "null"],
             "description": "The revenue model of the business or organization",
             "enum": [
               "Advertising",
@@ -10724,45 +10154,21 @@
             ]
           },
           "SalesTaxBasis": {
-            "type": [
-              "string",
-              "null"
-            ],
+            "type": ["string", "null"],
             "description": "The tax method",
-            "enum": [
-              "Cash",
-              "Accruals",
-              "None",
-              "Close",
-              null
-            ]
+            "enum": ["Cash", "Accruals", "None", "Close", null]
           },
           "SalesTaxPeriod": {
-            "type": [
-              "string",
-              "null"
-            ],
+            "type": ["string", "null"],
             "description": "The tax period"
           },
           "Sells": {
-            "type": [
-              "string",
-              "null"
-            ],
+            "type": ["string", "null"],
             "description": "The item that is primarily supplied by the company",
-            "enum": [
-              "Services",
-              "Products",
-              "Products and Services",
-              "Other",
-              null
-            ]
+            "enum": ["Services", "Products", "Products and Services", "Other", null]
           },
           "DateSignedEngagement": {
-            "type": [
-              "string",
-              "null"
-            ],
+            "type": ["string", "null"],
             "format": "date-time",
             "description": ""
           },
@@ -10834,10 +10240,7 @@
             "type": "array",
             "description": "The registration numbers associated with the contact.",
             "items": {
-              "required": [
-                "RegistrationNumber",
-                "Type"
-              ],
+              "required": ["RegistrationNumber", "Type"],
               "type": "object",
               "properties": {
                 "RegistrationNumber": {
@@ -10893,10 +10296,7 @@
           },
           "LegalFirm": {
             "description": "The legal firm(s) that represent the client, these can be strings or references to Karbon organizations",
-            "type": [
-              "object",
-              "null"
-            ],
+            "type": ["object", "null"],
             "properties": {
               "Name": {
                 "type": "string",
@@ -10904,10 +10304,7 @@
                 "description": "The name of the legal firm that represents the client"
               },
               "OrganizationKey": {
-                "type": [
-                  "string",
-                  "null"
-                ],
+                "type": ["string", "null"],
                 "description": "The Organization key of the Karbon organization client record",
                 "example": "4cYDk82rZDRn"
               }
@@ -10915,10 +10312,7 @@
           },
           "TaxProvider": {
             "description": "The provider of tax services to the client, these can be strings or references to Karbon organizations",
-            "type": [
-              "object",
-              "null"
-            ],
+            "type": ["object", "null"],
             "properties": {
               "Name": {
                 "type": "string",
@@ -10926,10 +10320,7 @@
                 "description": "The name of the tax provider"
               },
               "OrganizationKey": {
-                "type": [
-                  "string",
-                  "null"
-                ],
+                "type": ["string", "null"],
                 "description": "The optional Organization key of the Tax Provider client record in Karbon",
                 "example": null
               }
@@ -10938,10 +10329,7 @@
           "Notes": {
             "type": "array",
             "items": {
-              "required": [
-                "Body",
-                "Type"
-              ],
+              "required": ["Body", "Type"],
               "type": "object",
               "properties": {
                 "Body": {
@@ -10951,13 +10339,7 @@
                 "Type": {
                   "type": "string",
                   "description": "The section (within the accounting details) where the note resides",
-                  "enum": [
-                    "Basic",
-                    "Tax",
-                    "System",
-                    "Owner",
-                    "Officer"
-                  ]
+                  "enum": ["Basic", "Tax", "System", "Owner", "Officer"]
                 }
               }
             }
@@ -10966,11 +10348,7 @@
       },
       "GetComment": {
         "description": "A comment on a Work Item, Note or Contact",
-        "required": [
-          "CommentBody",
-          "AuthorKey",
-          "CreatedDate"
-        ],
+        "required": ["CommentBody", "AuthorKey", "CreatedDate"],
         "properties": {
           "@odata.context": {
             "type": "string",
@@ -11006,11 +10384,7 @@
       },
       "GetClientGroup": {
         "description": "A list of Client Groups",
-        "required": [
-          "value",
-          "@odata.context",
-          "@odata.count"
-        ],
+        "required": ["value", "@odata.context", "@odata.count"],
         "type": "object",
         "properties": {
           "@odata.context": {
@@ -11027,12 +10401,7 @@
           "value": {
             "type": "array",
             "items": {
-              "required": [
-                "FullName",
-                "LastModifiedDateTime",
-                "ClientGroupKey",
-                "@odata.type"
-              ],
+              "required": ["FullName", "LastModifiedDateTime", "ClientGroupKey", "@odata.type"],
               "type": "object",
               "properties": {
                 "@odata.type": {
@@ -11046,18 +10415,12 @@
                   "description": "The full name of the Client Group"
                 },
                 "PhoneNumber": {
-                  "type": [
-                    "string",
-                    "null"
-                  ],
+                  "type": ["string", "null"],
                   "example": "0987888686",
                   "description": "The phone number associated with the Client Group"
                 },
                 "Website": {
-                  "type": [
-                    "string",
-                    "null"
-                  ],
+                  "type": ["string", "null"],
                   "example": "www.samplemanagement.com",
                   "description": "The website associated with the Client Group"
                 },
@@ -11084,11 +10447,7 @@
       },
       "GetContacts": {
         "description": "A list of Contacts",
-        "required": [
-          "value",
-          "@odata.context",
-          "@odata.count"
-        ],
+        "required": ["value", "@odata.context", "@odata.count"],
         "type": "object",
         "properties": {
           "@odata.context": {
@@ -11105,12 +10464,7 @@
           "value": {
             "type": "array",
             "items": {
-              "required": [
-                "FullName",
-                "LastModifiedDateTime",
-                "ContactKey",
-                "@odata.type"
-              ],
+              "required": ["FullName", "LastModifiedDateTime", "ContactKey", "@odata.type"],
               "type": "object",
               "properties": {
                 "@odata.type": {
@@ -11149,10 +10503,7 @@
                   "description": "The team member in your firm who manages the work for the clients in this Client Group. You can only use the UserKey or the email address of an existing team member"
                 },
                 "Address": {
-                  "type": [
-                    "string",
-                    "null"
-                  ],
+                  "type": ["string", "null"],
                   "example": "42 Galaxy Way, London",
                   "description": "The Address of the Contact"
                 },
@@ -11162,10 +10513,7 @@
                   "description": "The Email Address of the Contact"
                 },
                 "PhoneNumber": {
-                  "type": [
-                    "string",
-                    "null"
-                  ],
+                  "type": ["string", "null"],
                   "example": "0987888686",
                   "description": "The phone number associated with the Contact"
                 },
@@ -11236,11 +10584,7 @@
       },
       "GetOrganizations": {
         "description": "A list of Organizations",
-        "required": [
-          "value",
-          "@odata.context",
-          "@odata.count"
-        ],
+        "required": ["value", "@odata.context", "@odata.count"],
         "type": "object",
         "properties": {
           "@odata.context": {
@@ -11257,12 +10601,7 @@
           "value": {
             "type": "array",
             "items": {
-              "required": [
-                "FullName",
-                "LastModifiedDateTime",
-                "OrganizationKey",
-                "@odata.type"
-              ],
+              "required": ["FullName", "LastModifiedDateTime", "OrganizationKey", "@odata.type"],
               "type": "object",
               "properties": {
                 "@odata.type": {
@@ -11281,10 +10620,7 @@
                   "description": "The full name of the Organization"
                 },
                 "PhoneNumber": {
-                  "type": [
-                    "string",
-                    "null"
-                  ],
+                  "type": ["string", "null"],
                   "example": "0987888686",
                   "description": "The phone number associated with the Organization"
                 },
@@ -11333,10 +10669,7 @@
                 "description": "The type of the paying card"
               },
               "CardCountry": {
-                "type": [
-                  "string",
-                  "null"
-                ],
+                "type": ["string", "null"],
                 "example": null,
                 "description": "The country the paying card was issued in"
               },
@@ -11386,12 +10719,7 @@
       },
       "WorkItem": {
         "description": "The base data for a Work Item",
-        "required": [
-          "ClientKey",
-          "StartDate",
-          "Title",
-          "WorkItemKey"
-        ],
+        "required": ["ClientKey", "StartDate", "Title", "WorkItemKey"],
         "type": "object",
         "properties": {
           "WorkItemKey": {
@@ -11431,11 +10759,7 @@
           },
           "ClientType": {
             "type": "string",
-            "enum": [
-              "Contact",
-              "Organization",
-              "ClientGroup"
-            ],
+            "enum": ["Contact", "Organization", "ClientGroup"],
             "example": "Organization",
             "description": "The type of the Client"
           },
@@ -11472,10 +10796,7 @@
             "example": "2022-01-30T00:00:00Z"
           },
           "DeadlineDate": {
-            "type": [
-              "string",
-              "null"
-            ],
+            "type": ["string", "null"],
             "format": "date-time",
             "description": "The date and time by which the Work Item should be complete according to a party outside of your firm. e.g. A tax filing date or payroll processing cut-off date.",
             "example": "2022-01-31T00:00:00Z"
@@ -11504,13 +10825,7 @@
           },
           "PrimaryStatus": {
             "type": "string",
-            "enum": [
-              "Planned",
-              "ReadyToStart",
-              "InProgress",
-              "Waiting",
-              "Completed"
-            ],
+            "enum": ["Planned", "ReadyToStart", "InProgress", "Waiting", "Completed"],
             "description": "The current parent-level Status of the Work Item. If `WorkStatus` and `PrimaryStatus` have different values, `PrimaryStatus` will be the source of truth for Work Item status.\n",
             "example": "ReadyToStart"
           },
@@ -11571,13 +10886,7 @@
       "WorkItemUpdate": {
         "type": "object",
         "description": "The core parameters when updating a Work Item",
-        "required": [
-          "AssigneeEmailAddress",
-          "Title",
-          "ClientKey",
-          "ClientType",
-          "StartDate"
-        ],
+        "required": ["AssigneeEmailAddress", "Title", "ClientKey", "ClientType", "StartDate"],
         "properties": {
           "AssigneeEmailAddress": {
             "type": "string",
@@ -11596,11 +10905,7 @@
           },
           "ClientType": {
             "type": "string",
-            "enum": [
-              "Contact",
-              "Organization",
-              "ClientGroup"
-            ],
+            "enum": ["Contact", "Organization", "ClientGroup"],
             "example": "Organization",
             "description": "The type of the Client"
           },
@@ -11622,10 +10927,7 @@
             "example": "2022-01-30T00:00:00Z"
           },
           "DeadlineDate": {
-            "type": [
-              "string",
-              "null"
-            ],
+            "type": ["string", "null"],
             "format": "date-time",
             "description": "The date and time by which an external party has specified that the Work Item should be complete",
             "example": "2022-01-31T00:00:00Z"
@@ -11642,13 +10944,7 @@
           },
           "PrimaryStatus": {
             "type": "string",
-            "enum": [
-              "Planned",
-              "ReadyToStart",
-              "InProgress",
-              "Waiting",
-              "Completed"
-            ],
+            "enum": ["Planned", "ReadyToStart", "InProgress", "Waiting", "Completed"],
             "description": "The current parent-level Status of the Work Item. If `WorkStatus` and `PrimaryStatus` have different values, `PrimaryStatus` will be the source of truth for Work Item status.\n",
             "example": "ReadyToStart"
           },
@@ -11681,10 +10977,7 @@
           },
           "ClientTaskRecipient": {
             "type": "object",
-            "required": [
-              "RecipientKey",
-              "LinkType"
-            ],
+            "required": ["RecipientKey", "LinkType"],
             "description": "The details about the recipient of the Client Tasks related to this Work Item.",
             "properties": {
               "RecipientKey": {
@@ -11694,10 +10987,7 @@
               },
               "LinkType": {
                 "type": "string",
-                "enum": [
-                  "Contact",
-                  "Organization"
-                ],
+                "enum": ["Contact", "Organization"],
                 "description": "The Karbon entity, from which to pull the email address in case the email address of the Client Task recipient is empty.",
                 "example": "Organization"
               },
@@ -11720,18 +11010,11 @@
               "FeeType": {
                 "type": "string",
                 "description": "The way the fee is calculated for the Work Item",
-                "enum": [
-                  "FixedFee",
-                  "TimeAndMaterials",
-                  "NonBillable"
-                ],
+                "enum": ["FixedFee", "TimeAndMaterials", "NonBillable"],
                 "example": "FixedFee"
               },
               "FeeValue": {
-                "type": [
-                  "number",
-                  "null"
-                ],
+                "type": ["number", "null"],
                 "description": "The value of the fee in the currency of the Karbon account, this value must be null if FeeType is not FixedFee",
                 "example": 5150.2
               }
@@ -11747,10 +11030,7 @@
             "description": "The array that describes the roles of the users associated with this Work Item.",
             "items": {
               "type": "object",
-              "required": [
-                "RoleKey",
-                "UserProfileKey"
-              ],
+              "required": ["RoleKey", "UserProfileKey"],
               "properties": {
                 "RoleKey": {
                   "type": "string",
@@ -11769,11 +11049,7 @@
       },
       "GetWorkItems": {
         "description": "A collection of work items",
-        "required": [
-          "value",
-          "@odata.context",
-          "@odata.count"
-        ],
+        "required": ["value", "@odata.context", "@odata.count"],
         "type": "object",
         "properties": {
           "@odata.context": {
@@ -11832,18 +11108,12 @@
               "DeadlineDate": {
                 "oneOf": [
                   {
-                    "type": [
-                      "string",
-                      "null"
-                    ],
+                    "type": ["string", "null"],
                     "example": "2024-02-01T00:00:00Z",
                     "format": "date-time"
                   },
                   {
-                    "type": [
-                      "string",
-                      "null"
-                    ],
+                    "type": ["string", "null"],
                     "example": "2024-02-01",
                     "format": "date"
                   }
@@ -11870,12 +11140,7 @@
       },
       "ResponseCreateClientGroup": {
         "description": "A single Client Group",
-        "required": [
-          "ClientGroupKey",
-          "FullName",
-          "RestrictionLevel",
-          "UserDefinedIdentifier"
-        ],
+        "required": ["ClientGroupKey", "FullName", "RestrictionLevel", "UserDefinedIdentifier"],
         "type": "object",
         "properties": {
           "@odata.context": {
@@ -11923,11 +11188,7 @@
             "description": "The privacy level for this Client Group.\n\n<ul><li>Public Client Groups can be managed by anyone in the firm</li> <li>Private Client Groups can only be managed by the [Client Team](https://help.karbonhq.com/en/articles/1524707-create-a-client-team). Basic details (name of the Contacts and the Work Items) related to such Client Groups are visible to anyone in the firm.</li> <li>Hidden Client Groups are only be visible to and managed by the [Client Team](https://help.karbonhq.com/en/articles/1524707-create-a-client-team).</li>\n",
             "example": "Public",
             "default": "Public",
-            "enum": [
-              "Public",
-              "Private",
-              "Hidden"
-            ]
+            "enum": ["Public", "Private", "Hidden"]
           },
           "PrimaryContact": {
             "type": "string",
@@ -11944,24 +11205,15 @@
             "description": "The members of the Client Group",
             "type": "array",
             "items": {
-              "type": [
-                "object",
-                "null"
-              ],
+              "type": ["object", "null"],
               "properties": {
                 "ContactKey": {
-                  "type": [
-                    "string",
-                    "null"
-                  ],
+                  "type": ["string", "null"],
                   "description": "A Karbon-generated value that is used to identify the Contact",
                   "example": "34yxkY51knn7"
                 },
                 "OrganizationKey": {
-                  "type": [
-                    "string",
-                    "null"
-                  ],
+                  "type": ["string", "null"],
                   "description": "A Karbon-generated value that is used to identify the Organization",
                   "example": "4ncPZ7q96SGc"
                 }
@@ -11982,9 +11234,7 @@
       },
       "CreateClientGroup": {
         "description": "A single Client Group",
-        "required": [
-          "FullName"
-        ],
+        "required": ["FullName"],
         "type": "object",
         "properties": {
           "FullName": {
@@ -12017,11 +11267,7 @@
             "description": "The privacy level for this Client Group.\n\n<ul><li>Public Client Groups can be managed by anyone in the firm</li> <li>Private Client Groups can only be managed by the [Client Team](https://help.karbonhq.com/en/articles/1524707-create-a-client-team). Basic details (name of the Contacts and the Work Items) related to such Client Groups are visible to anyone in the firm.</li> <li>Hidden Client Groups are only be visible to and managed by the [Client Team](https://help.karbonhq.com/en/articles/1524707-create-a-client-team).</li>\n",
             "example": "Public",
             "default": "Public",
-            "enum": [
-              "Public",
-              "Private",
-              "Hidden"
-            ]
+            "enum": ["Public", "Private", "Hidden"]
           },
           "PrimaryContact": {
             "type": "string",
@@ -12042,24 +11288,15 @@
             "description": "The members of the Client Group",
             "type": "array",
             "items": {
-              "type": [
-                "object",
-                "null"
-              ],
+              "type": ["object", "null"],
               "properties": {
                 "ContactKey": {
-                  "type": [
-                    "string",
-                    "null"
-                  ],
+                  "type": ["string", "null"],
                   "description": "A Karbon-generated value that is used to identify the Contact",
                   "example": "34yxkY51knn7"
                 },
                 "OrganizationKey": {
-                  "type": [
-                    "string",
-                    "null"
-                  ],
+                  "type": ["string", "null"],
                   "description": "A Karbon-generated value that is used to identify the Organization",
                   "example": "4ncPZ7q96SGc"
                 }
@@ -12149,11 +11386,7 @@
             "description": "The privacy level for this Client Group.\n\n<ul><li>Public Client Groups can be managed by anyone in the firm</li> <li>Private Client Groups can only be managed by the [Client Team](https://help.karbonhq.com/en/articles/1524707-create-a-client-team). Basic details (name of the Contacts and the Work Items) related to such Client Groups are visible to anyone in the firm.</li> <li>Hidden Client Groups are only be visible to and managed by the [Client Team](https://help.karbonhq.com/en/articles/1524707-create-a-client-team).</li>\n",
             "example": "Public",
             "default": "Public",
-            "enum": [
-              "Public",
-              "Private",
-              "Hidden"
-            ]
+            "enum": ["Public", "Private", "Hidden"]
           },
           "AvatarUrl": {
             "type": "string",
@@ -12222,26 +11455,17 @@
             "description": "The title to address the Contact"
           },
           "ClientOwner": {
-            "type": [
-              "string",
-              "null"
-            ],
+            "type": ["string", "null"],
             "example": "jessica.tse@samplecompany.com",
             "description": "The team member in your firm who looks after client relationship or is responsible for the vast majority of the work of the Contact. You can only use the UserKey or the email address of an existing team member."
           },
           "ClientManager": {
-            "type": [
-              "string",
-              "null"
-            ],
+            "type": ["string", "null"],
             "example": "rodney.muller@samplecompany.com",
             "description": "The team member in your firm who manages the work for Contact. You can only use the UserKey or the email address of an existing team member."
           },
           "Address": {
-            "type": [
-              "string",
-              "null"
-            ],
+            "type": ["string", "null"],
             "example": "",
             "description": "The Address of the Contact"
           },
@@ -12282,10 +11506,7 @@
       },
       "CreateContact": {
         "description": "A single Contact",
-        "required": [
-          "FirstName",
-          "LastName"
-        ],
+        "required": ["FirstName", "LastName"],
         "type": "object",
         "properties": {
           "FirstName": {
@@ -12323,11 +11544,7 @@
             "description": "The privacy level for this Contact.\n\n<ul><li>Public Contacts can be managed by anyone in the firm</li> <li>Private Contacts can only be managed by the [Client Team](https://help.karbonhq.com/en/articles/1524707-create-a-client-team). Basic details (name of the Contacts and the Work Items) related to such Contacts are visible to anyone in the firm.</li> <li>Hidden Contacts are only be visible to and managed by the [Client Team](https://help.karbonhq.com/en/articles/1524707-create-a-client-team).</li>\n",
             "example": "Public",
             "default": "Public",
-            "enum": [
-              "Public",
-              "Private",
-              "Hidden"
-            ]
+            "enum": ["Public", "Private", "Hidden"]
           },
           "ClientOwner": {
             "type": "string",
@@ -12375,11 +11592,7 @@
       },
       "NoteRequest": {
         "description": "A single Note",
-        "required": [
-          "AuthorEmailAddress",
-          "Subject",
-          "Body"
-        ],
+        "required": ["AuthorEmailAddress", "Subject", "Body"],
         "type": "object",
         "properties": {
           "Subject": {
@@ -12423,12 +11636,7 @@
                 "EntityType": {
                   "type": "string",
                   "description": "The type of entity this note will be linked to",
-                  "enum": [
-                    "WorkItem",
-                    "Contact",
-                    "Organization",
-                    "ClientGroup"
-                  ]
+                  "enum": ["WorkItem", "Contact", "Organization", "ClientGroup"]
                 },
                 "EntityKey": {
                   "type": "string",
@@ -12441,12 +11649,7 @@
       },
       "NoteResponse": {
         "description": "A single Contact",
-        "required": [
-          "AssigneeEmailAddress",
-          "AuthorEmailAddress",
-          "Subject",
-          "Body"
-        ],
+        "required": ["AssigneeEmailAddress", "AuthorEmailAddress", "Subject", "Body"],
         "type": "object",
         "properties": {
           "@odata.context": {
@@ -12500,12 +11703,7 @@
                   "type": "string",
                   "example": "Contact",
                   "description": "The type of entity this note will be linked to",
-                  "enum": [
-                    "WorkItem",
-                    "Contact",
-                    "Organization",
-                    "ClientGroup"
-                  ]
+                  "enum": ["WorkItem", "Contact", "Organization", "ClientGroup"]
                 },
                 "EntityKey": {
                   "type": "string",
@@ -12601,11 +11799,7 @@
             "type": "string",
             "description": "The privacy level for this Organization.\n\n<ul><li>Public Organization can be managed by anyone in the firm</li> <li>Private Organization can only be managed by the [Client Team](https://help.karbonhq.com/en/articles/1524707-create-a-client-team). Basic details (name of the Organization and the Work Items) related to such Organization are visible to anyone in the firm.</li> <li>Hidden Organization are only be visible to and managed by the [Client Team](https://help.karbonhq.com/en/articles/1524707-create-a-client-team).</li>\n",
             "default": "Public",
-            "enum": [
-              "Public",
-              "Private",
-              "Hidden"
-            ]
+            "enum": ["Public", "Private", "Hidden"]
           },
           "LastModifiedDateTime": {
             "type": "string",
@@ -12630,9 +11824,7 @@
       },
       "CreateOrganization": {
         "description": "A single Organization",
-        "required": [
-          "FullName"
-        ],
+        "required": ["FullName"],
         "type": "object",
         "properties": {
           "FullName": {
@@ -12664,11 +11856,7 @@
             "type": "string",
             "description": "The privacy level for this Organization.\n\n<ul><li>Public Organization can be managed by anyone in the firm</li> <li>Private Organization can only be managed by the [Client Team](https://help.karbonhq.com/en/articles/1524707-create-a-client-team). Basic details (name of the Organization and the Work Items) related to such Organization are visible to anyone in the firm.</li> <li>Hidden Organization are only be visible to and managed by the [Client Team](https://help.karbonhq.com/en/articles/1524707-create-a-client-team).</li>\n",
             "default": "Public",
-            "enum": [
-              "Public",
-              "Private",
-              "Hidden"
-            ],
+            "enum": ["Public", "Private", "Hidden"],
             "example": "Public"
           },
           "BusinessCards": {
@@ -12697,9 +11885,7 @@
       },
       "UpdateOrganization": {
         "description": "A single Organization",
-        "required": [
-          "FullName"
-        ],
+        "required": ["FullName"],
         "type": "object",
         "properties": {
           "FullName": {
@@ -12726,11 +11912,7 @@
             "type": "string",
             "description": "The privacy level for this Organization.\n\n<ul><li>Public Organization can be managed by anyone in the firm</li> <li>Private Organization can only be managed by the [Client Team](https://help.karbonhq.com/en/articles/1524707-create-a-client-team). Basic details (name of the Organization and the Work Items) related to such Organization are visible to anyone in the firm.</li> <li>Hidden Organization are only be visible to and managed by the [Client Team](https://help.karbonhq.com/en/articles/1524707-create-a-client-team).</li>\n",
             "default": "Public",
-            "enum": [
-              "Public",
-              "Private",
-              "Hidden"
-            ]
+            "enum": ["Public", "Private", "Hidden"]
           },
           "AccountingDetail": {
             "$ref": "#/components/schemas/DetailsOfAccounting"
@@ -12783,11 +11965,7 @@
           "EntityType": {
             "type": "string",
             "example": "WorkItem",
-            "enum": [
-              "WorkItem",
-              "Contact",
-              "Organization"
-            ],
+            "enum": ["WorkItem", "Contact", "Organization"],
             "description": "The type of entity the file list is associated with"
           },
           "Attachments": {
@@ -12839,13 +12017,7 @@
       "GetSingleTimeSheet": {
         "description": "A single TimeSheet with TimeEntries",
         "type": "object",
-        "required": [
-          "TimesheetKey",
-          "StartDate",
-          "EndDate",
-          "UserKey",
-          "Status"
-        ],
+        "required": ["TimesheetKey", "StartDate", "EndDate", "UserKey", "Status"],
         "properties": {
           "TimesheetKey": {
             "type": "string",
@@ -12872,12 +12044,7 @@
           "Status": {
             "type": "string",
             "example": "Draft",
-            "enum": [
-              "Approved",
-              "Declined",
-              "Draft",
-              "Submitted"
-            ],
+            "enum": ["Approved", "Declined", "Draft", "Submitted"],
             "description": "The approval status of the Timesheet"
           },
           "WorkItemKeys": {
@@ -12886,9 +12053,7 @@
             "items": {
               "type": "string"
             },
-            "example": [
-              "2m6pSFxRzcF2"
-            ]
+            "example": ["2m6pSFxRzcF2"]
           },
           "TimeEntries": {
             "type": "array",
@@ -12946,26 +12111,16 @@
                   "type": "array",
                   "description": "Free-form text that has more information about the Time Entry",
                   "items": {
-                    "type": [
-                      "string",
-                      "null"
-                    ],
+                    "type": ["string", "null"],
                     "example": "Continued working on the end-year accounting"
                   },
-                  "example": [
-                    "Continued working on the end-year accounting"
-                  ]
+                  "example": ["Continued working on the end-year accounting"]
                 },
                 "BilledStatus": {
                   "type": "string",
                   "description": "An indicator that represents whether the time entry has been or is in the process of being billed",
                   "example": "Draft",
-                  "enum": [
-                    "Unbilled",
-                    "Draft",
-                    "InterimBilled",
-                    "Billed"
-                  ]
+                  "enum": ["Unbilled", "Draft", "InterimBilled", "Billed"]
                 }
               }
             }
@@ -12974,11 +12129,7 @@
       },
       "GetTimeSheets": {
         "description": "A collection of TimeSheets",
-        "required": [
-          "value",
-          "@odata.context",
-          "@odata.count"
-        ],
+        "required": ["value", "@odata.context", "@odata.count"],
         "type": "object",
         "properties": {
           "@odata.context": {
@@ -13008,14 +12159,7 @@
       "GetIndividualTimeEntry": {
         "description": "A single individual (non-aggregated) time entry",
         "type": "object",
-        "required": [
-          "IndividualTimeEntryKey",
-          "TimesheetKey",
-          "EntityKey",
-          "UserKey",
-          "Date",
-          "Minutes"
-        ],
+        "required": ["IndividualTimeEntryKey", "TimesheetKey", "EntityKey", "UserKey", "Date", "Minutes"],
         "properties": {
           "IndividualTimeEntryKey": {
             "type": "string",
@@ -13046,11 +12190,7 @@
           "ClientType": {
             "type": "string",
             "example": "Organization",
-            "enum": [
-              "Contact",
-              "Organization",
-              "ClientGroup"
-            ],
+            "enum": ["Contact", "Organization", "ClientGroup"],
             "description": "The type of Client"
           },
           "UserKey": {
@@ -13099,12 +12239,7 @@
           "BilledStatus": {
             "type": "string",
             "example": "Unbilled",
-            "enum": [
-              "Unbilled",
-              "Draft",
-              "InterimBilled",
-              "Billed"
-            ],
+            "enum": ["Unbilled", "Draft", "InterimBilled", "Billed"],
             "description": "An indicator that represents whether the time entry has been or is in the process of being billed"
           },
           "CreatedDate": {
@@ -13128,10 +12263,7 @@
       },
       "GetIndividualTimeEntries": {
         "description": "A collection of individual time entries",
-        "required": [
-          "value",
-          "@odata.context"
-        ],
+        "required": ["value", "@odata.context"],
         "type": "object",
         "properties": {
           "@odata.context": {
@@ -13160,11 +12292,7 @@
       },
       "GetSingleUser": {
         "description": "The unique id, name and email address for a single User",
-        "required": [
-          "Id",
-          "Name",
-          "EmailAddress"
-        ],
+        "required": ["Id", "Name", "EmailAddress"],
         "type": "object",
         "properties": {
           "Id": {
@@ -13230,9 +12358,7 @@
               "type": "string"
             },
             "description": "A list of the permissions allocated to the User",
-            "example": [
-              "User"
-            ]
+            "example": ["User"]
           },
           "Roles": {
             "type": "array",
@@ -13269,10 +12395,7 @@
                   "description": "The name of the team"
                 },
                 "ParentTeamKey": {
-                  "type": [
-                    "string",
-                    "null"
-                  ],
+                  "type": ["string", "null"],
                   "example": null,
                   "description": "The unique key of the parent team, if applicable"
                 }
@@ -13283,11 +12406,7 @@
       },
       "GetUsers": {
         "description": "A collection of Users",
-        "required": [
-          "value",
-          "@odata.context",
-          "@odata.count"
-        ],
+        "required": ["value", "@odata.context", "@odata.count"],
         "type": "object",
         "properties": {
           "@odata.context": {
@@ -13333,16 +12452,7 @@
             "type": "string",
             "description": "The type of Karbon entity, which the Webhook Subscription is associated with",
             "example": "Contact",
-            "enum": [
-              "Contact",
-              "CustomField",
-              "Work",
-              "Note",
-              "User",
-              "IntegrationTask",
-              "Invoice",
-              "EstimateSummary"
-            ]
+            "enum": ["Contact", "CustomField", "Work", "Note", "User", "IntegrationTask", "Invoice", "EstimateSummary"]
           }
         }
       },
@@ -13351,9 +12461,7 @@
         "allOf": [
           {
             "type": "object",
-            "required": [
-              "WorkScheduleKey"
-            ],
+            "required": ["WorkScheduleKey"],
             "properties": {
               "WorkScheduleKey": {
                 "type": "string",
@@ -13390,31 +12498,13 @@
           "RecurrenceFrequency": {
             "type": "string",
             "description": "The unit of time at which this Work Schedule should repeat. Once set, the value of this property can not be changed.",
-            "enum": [
-              "Day",
-              "Week",
-              "SemiMonth",
-              "Fortnight",
-              "Month",
-              "Quarter",
-              "Year",
-              "Custom"
-            ],
+            "enum": ["Day", "Week", "SemiMonth", "Fortnight", "Month", "Quarter", "Year", "Custom"],
             "example": "Custom"
           },
           "CustomFrequencyUnits": {
-            "type": [
-              "string",
-              "null"
-            ],
+            "type": ["string", "null"],
             "description": "The unit of time at which this Work Schedule should repeat. Once set, the value of this property can not be changed.\n\nThis property is only applicable if `RecurrenceFrequency` is set to `Custom`.\n",
-            "enum": [
-              "Days",
-              "Weeks",
-              "Months",
-              "Years",
-              null
-            ],
+            "enum": ["Days", "Weeks", "Months", "Years", null],
             "example": "Days"
           },
           "CustomFrequencyMultiple": {
@@ -13469,12 +12559,7 @@
           "InitializeBeforeStartDateUnits": {
             "type": "string",
             "description": "You can automatically create a Work Item before its Start date. Use this property to set the unit of delay between Start date and Work Item creation date.\n",
-            "enum": [
-              "Days",
-              "Weeks",
-              "Months",
-              "Years"
-            ],
+            "enum": ["Days", "Weeks", "Months", "Years"],
             "example": "Days"
           },
           "InitializeBeforeStartDateMultiple": {
@@ -13486,12 +12571,7 @@
           "InitializeTasksBeforeStartDateUnits": {
             "type": "string",
             "description": "You can automatically create budget and tasks for a Work Item before its Start date. Use this property to set the unit of delay between Start date and task creation date.",
-            "enum": [
-              "Days",
-              "Weeks",
-              "Months",
-              "Years"
-            ],
+            "enum": ["Days", "Weeks", "Months", "Years"],
             "example": "Days"
           },
           "InitializeTasksBeforeStartDateMultiple": {
@@ -13545,11 +12625,7 @@
           "ClientType": {
             "type": "string",
             "description": "The type of the Client",
-            "enum": [
-              "Contact",
-              "Organization",
-              "ClientGroup"
-            ],
+            "enum": ["Contact", "Organization", "ClientGroup"],
             "example": "Contact"
           },
           "CreatedFromWorkItemKey": {
@@ -13560,31 +12636,13 @@
           "RecurrenceFrequency": {
             "type": "string",
             "description": "The denominator of time period at which this Work Schedule should repeat. Once set, the value of this property can not be changed.",
-            "enum": [
-              "Day",
-              "Week",
-              "SemiMonth",
-              "Fortnight",
-              "Month",
-              "Quarter",
-              "Year",
-              "Custom"
-            ],
+            "enum": ["Day", "Week", "SemiMonth", "Fortnight", "Month", "Quarter", "Year", "Custom"],
             "example": "Custom"
           },
           "CustomFrequencyUnits": {
-            "type": [
-              "string",
-              "null"
-            ],
+            "type": ["string", "null"],
             "description": "The unit of time at which this Work Schedule should repeat. Once set, the value of this property can not be changed.\n\nThis property is only applicable if `RecurrenceFrequency` is set to `Custom`.\n",
-            "enum": [
-              "Days",
-              "Weeks",
-              "Months",
-              "Years",
-              null
-            ],
+            "enum": ["Days", "Weeks", "Months", "Years", null],
             "example": "Days"
           },
           "CustomFrequencyMultiple": {
@@ -13654,12 +12712,7 @@
           "InitializeBeforeStartDateUnits": {
             "type": "string",
             "description": "You can automatically create a Work Item before its Start date. Use this property to set the unit of delay between Start date and Work Item creation date.\n",
-            "enum": [
-              "Days",
-              "Weeks",
-              "Months",
-              "Years"
-            ],
+            "enum": ["Days", "Weeks", "Months", "Years"],
             "example": "Days"
           },
           "InitializeBeforeStartDateMultiple": {
@@ -13681,12 +12734,7 @@
           "InitializeTasksBeforeStartDateUnits": {
             "type": "string",
             "description": "You can automatically create budget and tasks for a Work Item before its Start date. Use this property to set the unit of delay between Start date and task creation date.",
-            "enum": [
-              "Days",
-              "Weeks",
-              "Months",
-              "Years"
-            ],
+            "enum": ["Days", "Weeks", "Months", "Years"],
             "example": "Days"
           },
           "InitializeTasksBeforeStartDateMultiple": {
@@ -13737,10 +12785,7 @@
             "example": false
           },
           "EstimatedBudget": {
-            "type": [
-              "string",
-              "null"
-            ],
+            "type": ["string", "null"],
             "description": "The estimated budget for the Work Items generated using this Work Template. This property value will be `null`.",
             "example": null
           },
@@ -13801,11 +12846,7 @@
       },
       "GetWorkTemplates": {
         "description": "A collection of Work Templates",
-        "required": [
-          "value",
-          "@odata.context",
-          "@odata.count"
-        ],
+        "required": ["value", "@odata.context", "@odata.count"],
         "type": "object",
         "properties": {
           "@odata.context": {
@@ -13834,16 +12875,11 @@
       },
       "ErrorMessages": {
         "description": "The details of an error associated with an API request",
-        "required": [
-          "error"
-        ],
+        "required": ["error"],
         "type": "object",
         "properties": {
           "error": {
-            "required": [
-              "code",
-              "message"
-            ],
+            "required": ["code", "message"],
             "type": "object",
             "properties": {
               "code": {
@@ -13862,17 +12898,11 @@
       },
       "EnhancedErrorMessages": {
         "description": "The details of an error associated with an API request",
-        "required": [
-          "error"
-        ],
+        "required": ["error"],
         "type": "object",
         "properties": {
           "error": {
-            "required": [
-              "code",
-              "message",
-              "details"
-            ],
+            "required": ["code", "message", "details"],
             "type": "object",
             "properties": {
               "code": {
@@ -13913,10 +12943,7 @@
         "type": "object",
         "properties": {
           "statusCode": {
-            "type": [
-              "string",
-              "null"
-            ],
+            "type": ["string", "null"],
             "description": "The generic HTTP Error code",
             "example": "429"
           },
@@ -13954,10 +12981,7 @@
         "type": "object",
         "properties": {
           "statusCode": {
-            "type": [
-              "string",
-              "null"
-            ],
+            "type": ["string", "null"],
             "description": "The generic HTTP Error code",
             "example": "404"
           },
@@ -13995,10 +13019,7 @@
           },
           "Type": {
             "type": "string",
-            "enum": [
-              "Primary",
-              "Secondary"
-            ],
+            "enum": ["Primary", "Secondary"],
             "description": "The type of status, expected to be Primary at this level",
             "example": "Primary"
           },
@@ -14014,10 +13035,7 @@
                 },
                 "Type": {
                   "type": "string",
-                  "enum": [
-                    "Primary",
-                    "Secondary"
-                  ],
+                  "enum": ["Primary", "Secondary"],
                   "example": "Secondary",
                   "description": "The type of Work Status, expected to always be Secondary at this level"
                 },
@@ -14311,13 +13329,7 @@
           "PrimaryStatus": {
             "type": "string",
             "example": "Waiting",
-            "enum": [
-              "Planned",
-              "ReadyToStart",
-              "InProgress",
-              "Waiting",
-              "Completed"
-            ]
+            "enum": ["Planned", "ReadyToStart", "InProgress", "Waiting", "Completed"]
           },
           "TaskDueDate": {
             "type": "string",
@@ -14363,9 +13375,7 @@
           },
           "ResourceType": {
             "type": "string",
-            "enum": [
-              "Contact"
-            ],
+            "enum": ["Contact"],
             "description": "The type of resource that has been created or updated",
             "example": "Contact",
             "readOnly": true
@@ -14373,11 +13383,7 @@
           "ActionType": {
             "type": "string",
             "description": "The action that triggered the webhook notification to be sent",
-            "enum": [
-              "Inserted",
-              "Updated",
-              "Deleted"
-            ],
+            "enum": ["Inserted", "Updated", "Deleted"],
             "example": "Updated",
             "readOnly": true
           },
@@ -14402,9 +13408,7 @@
           },
           "ResourceType": {
             "type": "string",
-            "enum": [
-              "CustomFieldValue"
-            ],
+            "enum": ["CustomFieldValue"],
             "description": "The type of resource that has been created or updated",
             "example": "CustomFieldValue",
             "readOnly": true
@@ -14412,10 +13416,7 @@
           "ActionType": {
             "type": "string",
             "description": "The action that triggered the webhook notification to be sent",
-            "enum": [
-              "Inserted",
-              "Updated"
-            ],
+            "enum": ["Inserted", "Updated"],
             "example": "Updated",
             "readOnly": true
           },
@@ -14435,10 +13436,7 @@
           "ClientType": {
             "type": "string",
             "description": "Indicates whether the custom field value belongs to a Contact or an Organization",
-            "enum": [
-              "Contact",
-              "Organization"
-            ],
+            "enum": ["Contact", "Organization"],
             "example": "Organization",
             "readOnly": true
           }
@@ -14456,9 +13454,7 @@
           },
           "ResourceType": {
             "type": "string",
-            "enum": [
-              "Estimate"
-            ],
+            "enum": ["Estimate"],
             "description": "The type of resource that has been created or updated",
             "example": "Estimate",
             "readOnly": true
@@ -14466,9 +13462,7 @@
           "ActionType": {
             "type": "string",
             "description": "The action that triggered the webhook notification to be sent",
-            "enum": [
-              "Updated"
-            ],
+            "enum": ["Updated"],
             "example": "Updated",
             "readOnly": true
           },
@@ -14493,9 +13487,7 @@
           },
           "ResourceType": {
             "type": "string",
-            "enum": [
-              "IntegrationTask"
-            ],
+            "enum": ["IntegrationTask"],
             "description": "The type of resource that has been created or updated",
             "example": "IntegrationTask",
             "readOnly": true
@@ -14503,9 +13495,7 @@
           "ActionType": {
             "type": "string",
             "description": "The action that triggered the webhook notification to be sent",
-            "enum": [
-              "Inserted"
-            ],
+            "enum": ["Inserted"],
             "example": "Inserted",
             "readOnly": true
           },
@@ -14525,10 +13515,7 @@
           "ClientType": {
             "type": "string",
             "description": "The type of client related to the integration task ",
-            "enum": [
-              "Contact",
-              "Organization"
-            ],
+            "enum": ["Contact", "Organization"],
             "example": "Organization",
             "readOnly": true
           },
@@ -14552,9 +13539,7 @@
           },
           "ResourceType": {
             "type": "string",
-            "enum": [
-              "Invoice"
-            ],
+            "enum": ["Invoice"],
             "description": "The type of resource that has been created or updated",
             "example": "Invoice",
             "readOnly": true
@@ -14562,9 +13547,7 @@
           "ActionType": {
             "type": "string",
             "description": "The action that triggered the webhook notification to be sent",
-            "enum": [
-              "Updated"
-            ],
+            "enum": ["Updated"],
             "example": "Updated",
             "readOnly": true
           },
@@ -14589,9 +13572,7 @@
           },
           "ResourceType": {
             "type": "string",
-            "enum": [
-              "Note"
-            ],
+            "enum": ["Note"],
             "description": "The type of resource that has been created or updated",
             "example": "Note",
             "readOnly": true
@@ -14599,11 +13580,7 @@
           "ActionType": {
             "type": "string",
             "description": "The action that triggered the webhook notification to be sent",
-            "enum": [
-              "Inserted",
-              "Updated",
-              "Deleted"
-            ],
+            "enum": ["Inserted", "Updated", "Deleted"],
             "example": "Updated",
             "readOnly": true
           },
@@ -14628,9 +13605,7 @@
           },
           "ResourceType": {
             "type": "string",
-            "enum": [
-              "User"
-            ],
+            "enum": ["User"],
             "description": "The type of resource that has been created",
             "example": "User",
             "readOnly": true
@@ -14638,9 +13613,7 @@
           "ActionType": {
             "type": "string",
             "description": "The action that triggered the webhook notification to be sent",
-            "enum": [
-              "Inserted"
-            ],
+            "enum": ["Inserted"],
             "example": "Inserted",
             "readOnly": true
           },
@@ -14665,9 +13638,7 @@
           },
           "ResourceType": {
             "type": "string",
-            "enum": [
-              "Work"
-            ],
+            "enum": ["Work"],
             "description": "The type of resource that has been created or updated",
             "example": "Work",
             "readOnly": true
@@ -14675,11 +13646,7 @@
           "ActionType": {
             "type": "string",
             "description": "The action that triggered the webhook notification to be sent",
-            "enum": [
-              "Inserted",
-              "Updated",
-              "Deleted"
-            ],
+            "enum": ["Inserted", "Updated", "Deleted"],
             "example": "Updated",
             "readOnly": true
           },
