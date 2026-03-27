@@ -31,4 +31,4 @@ jobs:
           version: latest
 
       - name: Check formatting
-        run: biome format --write=false KarbonAPI.json
+        run: biome ci KarbonAPI.json
