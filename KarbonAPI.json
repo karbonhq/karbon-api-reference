@@ -4058,6 +4058,54 @@
         }
       }
     },
+    "/v3/DMSConnectedFolders/{key}": {
+      "get": {
+        "operationId": "GetConnectedFolder",
+        "tags": ["DMS"],
+        "summary": "Get the DMS folder connected to a Karbon entity",
+        "description": "Returns the Document Management System folder connected to a specific Karbon entity.",
+        "parameters": [
+          {
+            "name": "key",
+            "in": "path",
+            "required": true,
+            "description": "Entity type. Supported values: Contact, ClientGroup, Organization, WorkItem, WorkItemSchedule.",
+            "schema": {
+              "type": "string"
+            },
+            "example": "Contact"
+          },
+          {
+            "name": "entityKey",
+            "in": "query",
+            "required": true,
+            "description": "12-character PermaKey of the entity.",
+            "schema": {
+              "type": "string"
+            },
+            "example": "M2dVbCt4RHk1"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Connected folder",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DMSConnectedFolderResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid entityType"
+          },
+          "404": {
+            "description": "No connected folder found"
+          }
+        }
+      }
+    },
     "/v3/EstimateSummaries/{WorkItemKey}": {
       "get": {
         "tags": ["Estimate Summaries"],
