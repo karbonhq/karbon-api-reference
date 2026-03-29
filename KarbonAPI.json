@@ -4104,6 +4104,42 @@
             "description": "No connected folder found"
           }
         }
+      },
+      "delete": {
+        "operationId": "DisconnectConnectedFolder",
+        "tags": ["DMS"],
+        "summary": "Disconnect the DMS folder from a Karbon entity",
+        "description": "Removes the Document Management System folder connection from a Karbon entity.",
+        "parameters": [
+          {
+            "name": "key",
+            "in": "path",
+            "required": true,
+            "description": "Entity type. Supported values: Contact, ClientGroup, Organization, WorkItem, WorkItemSchedule.",
+            "schema": {
+              "type": "string"
+            },
+            "example": "Contact"
+          },
+          {
+            "name": "entityKey",
+            "in": "query",
+            "required": true,
+            "description": "12-character PermaKey of the entity.",
+            "schema": {
+              "type": "string"
+            },
+            "example": "M2dVbCt4RHk1"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Folder disconnected"
+          },
+          "400": {
+            "description": "Invalid entityType"
+          }
+        }
       }
     },
     "/v3/EstimateSummaries/{WorkItemKey}": {
