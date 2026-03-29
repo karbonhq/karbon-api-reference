@@ -46,6 +46,10 @@
       "description": "Endpoints to manage Custom Fields on Contacts and Organizations in Karbon, refer to the Karbon help and support content for more information on [creating custom fields](https://help.karbonhq.com/en/articles/10971113-create-a-new-custom-contact-field) and [frequently asked questions](https://help.karbonhq.com/en/articles/10971266-custom-contact-fields-faqs)"
     },
     {
+      "name": "DMS",
+      "description": "Connect and manage Document Management System folders linked to Karbon entities"
+    },
+    {
       "name": "Estimate Summaries",
       "description": "Estimate and track time to understand jobs that are on-budget, allocate resources, and uncover performance insights to transform your firm. [Read more](https://help.karbonhq.com/en/articles/4439115-overview-of-time-budgets)"
     },
@@ -4011,6 +4015,45 @@
                 "$ref": "#/components/schemas/CustomFieldValues"
               }
             }
+          }
+        }
+      }
+    },
+    "/v3/DMSConnectedFolders": {
+      "put": {
+        "operationId": "ConnectFolder",
+        "tags": ["DMS"],
+        "summary": "Connect a DMS folder to a Karbon entity",
+        "description": "Connects a Document Management System folder to a Karbon entity. If the entity already has a connected folder, it will be replaced.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DMSConnectedFolderRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Folder connected successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DMSConnectedFolderResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid entityType, provider, folderId, or driveId"
+          },
+          "401": {
+            "description": "Access denied"
+          },
+          "404": {
+            "description": "Entity not found"
           }
         }
       }
@@ -8970,6 +9013,72 @@
       }
     },
     "schemas": {
+      "DMSConnectedFolderRequest": {
+        "type": "object",
+        "required": ["provider", "folderId", "entityType", "entityKey"],
+        "properties": {
+          "provider": {
+            "type": "string",
+            "description": "DMS provider. Supported values: SharePoint, OneDrive, GoogleDrive, GoogleSharedDrive, Dropbox.",
+            "example": "SharePoint"
+          },
+          "folderId": {
+            "type": "string",
+            "description": "Provider-native folder ID.",
+            "example": "01ABC123"
+          },
+          "driveId": {
+            "type": "string",
+            "description": "Drive or document library ID. Required for SharePoint and OneDrive.",
+            "example": "b!abc123"
+          },
+          "entityType": {
+            "type": "string",
+            "description": "Entity type. Supported values: Contact, ClientGroup, Organization, WorkItem, WorkItemSchedule.",
+            "example": "Contact"
+          },
+          "entityKey": {
+            "type": "string",
+            "description": "12-character PermaKey of the entity to connect the folder to.",
+            "example": "M2dVbCt4RHk1"
+          },
+          "hasDecoratedName": {
+            "type": "boolean",
+            "description": "When true, auto-created child folders for work items will have a numeric suffix appended if a folder with the same name already exists. Relevant when connecting to a WorkItemSchedule.",
+            "default": true
+          }
+        }
+      },
+      "DMSConnectedFolderResponse": {
+        "type": "object",
+        "properties": {
+          "provider": {
+            "type": "string",
+            "description": "DMS provider (echo of request.provider).",
+            "example": "SharePoint"
+          },
+          "folderId": {
+            "type": "string",
+            "description": "Provider-native folder ID (echo of request.folderId).",
+            "example": "01ABC123"
+          },
+          "driveId": {
+            "type": "string",
+            "description": "Drive or document library ID (echo of request.driveId).",
+            "example": "b!abc123"
+          },
+          "entityType": {
+            "type": "string",
+            "description": "Entity type string (echo of request.entityType).",
+            "example": "Contact"
+          },
+          "entityKey": {
+            "type": "string",
+            "description": "12-character PermaKey of the connected entity (echo of request.entityKey).",
+            "example": "M2dVbCt4RHk1"
+          }
+        }
+      },
       "BillingBaseInvoice": {
         "description": "A Karbon invoice",
         "type": "object",
