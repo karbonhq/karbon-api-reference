@@ -235,6 +235,27 @@
         }
       }
     },
+    "note-comment": {
+      "post": {
+        "tags": ["Webhook Payloads"],
+        "description": "Note Comment created or updated",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/WebhookRequestHeader"
+          }
+        ],
+        "requestBody": {
+          "description": "Information about the created or updated Note Comment",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/note-comment-webhook"
+              }
+            }
+          }
+        }
+      }
+    },
     "user": {
       "post": {
         "tags": ["Webhook Payloads"],
@@ -13592,6 +13613,52 @@
             "format": "date-time",
             "description": "The timestamp the associated resource was last altered",
             "example": "2024-08-01T21:54:36Z",
+            "readOnly": true
+          }
+        }
+      },
+      "note-comment-webhook": {
+        "description": "The schema for Note webhook payloads",
+        "type": "object",
+        "properties": {
+          "ResourcePermaKey": {
+            "type": "string",
+            "description": "The key for the resource that has been created or updated",
+            "example": "kCsVf7svWQw",
+            "readOnly": true
+          },
+          "ResourceType": {
+            "type": "string",
+            "enum": ["NoteComment"],
+            "description": "The type of resource that has been created or updated",
+            "example": "NoteComment",
+            "readOnly": true
+          },
+          "ActionType": {
+            "type": "string",
+            "description": "The action that triggered the webhook notification to be sent",
+            "enum": ["Inserted", "Updated", "Deleted"],
+            "example": "Updated",
+            "readOnly": true
+          },
+          "TimeStamp": {
+            "type": "string",
+            "format": "date-time",
+            "description": "The timestamp the associated resource was last altered",
+            "example": "2024-08-01T21:54:36Z",
+            "readOnly": true
+          },
+          "ParentEntityType": {
+            "type": "string",
+            "enum": ["Note"],
+            "description": "The resource type of the parent entity the note comment was created on",
+            "example": "Note",
+            "readOnly": true
+          },
+          "ParentEntityKey": {
+            "type": "string",
+            "description": "The key for the parent of the resource that has been created or updated",
+            "example": "2TTFWz8L5SSt",
             "readOnly": true
           }
         }
