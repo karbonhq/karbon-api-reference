@@ -4019,18 +4019,30 @@
         }
       }
     },
-    "/v3/DMSConnectedFolders": {
+    "/v3/DMSConnectedFolders/{key}": {
       "put": {
         "operationId": "ConnectFolder",
         "tags": ["DMS"],
         "summary": "Connect a DMS folder to a Karbon entity",
         "description": "Connects a Document Management System folder to a Karbon entity. If the entity already has a connected folder, it will be replaced.",
+        "parameters": [
+          {
+            "name": "key",
+            "in": "path",
+            "required": true,
+            "description": "Entity type. Supported values: Contact, ClientGroup, Organization, WorkItem, WorkItemSchedule.",
+            "schema": {
+              "type": "string"
+            },
+            "example": "Contact"
+          }
+        ],
         "requestBody": {
           "required": true,
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/DMSConnectedFolderRequest"
+                "$ref": "#/components/schemas/DMSConnectedFolder"
               }
             }
           }
@@ -4041,24 +4053,22 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/DMSConnectedFolderResponse"
+                  "$ref": "#/components/schemas/DMSConnectedFolder"
                 }
               }
             }
           },
           "400": {
-            "description": "Invalid entityType, provider, folderId, or driveId"
+            "description": "Invalid entityType or folderIdentifier"
           },
           "401": {
             "description": "Access denied"
           },
           "404": {
             "description": "Entity not found"
-          }
+          },
         }
-      }
-    },
-    "/v3/DMSConnectedFolders/{key}": {
+      },
       "get": {
         "operationId": "GetConnectedFolder",
         "tags": ["DMS"],
@@ -4092,7 +4102,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/DMSConnectedFolderResponse"
+                  "$ref": "#/components/schemas/DMSConnectedFolder"
                 }
               }
             }
@@ -9097,69 +9107,183 @@
       }
     },
     "schemas": {
-      "DMSConnectedFolderRequest": {
+      "DMSConnectedFolder": {
+        "description": "Provider-specific connected folder. Set `@odata.type` to the appropriate provider type.",
+        "discriminator": {
+          "propertyName": "@odata.type",
+          "mapping": {
+            "#KarbonService.SharePointConnectedFolderDTO": "#/components/schemas/SharePointConnectedFolder",
+            "#KarbonService.OneDriveConnectedFolderDTO": "#/components/schemas/OneDriveConnectedFolder",
+            "#KarbonService.GoogleDriveConnectedFolderDTO": "#/components/schemas/GoogleDriveConnectedFolder",
+            "#KarbonService.GoogleSharedDriveConnectedFolderDTO": "#/components/schemas/GoogleSharedDriveConnectedFolder",
+            "#KarbonService.DropboxConnectedFolderDTO": "#/components/schemas/DropboxConnectedFolder"
+          }
+        },
+        "oneOf": [
+          { "$ref": "#/components/schemas/SharePointConnectedFolder" },
+          { "$ref": "#/components/schemas/OneDriveConnectedFolder" },
+          { "$ref": "#/components/schemas/GoogleDriveConnectedFolder" },
+          { "$ref": "#/components/schemas/GoogleSharedDriveConnectedFolder" },
+          { "$ref": "#/components/schemas/DropboxConnectedFolder" }
+        ]
+      },
+      "SharePointConnectedFolder": {
         "type": "object",
-        "required": ["provider", "folderId", "entityType", "entityKey"],
+        "required": ["@odata.type", "entityKey", "folderId", "libraryId"],
         "properties": {
-          "provider": {
+          "@odata.type": {
             "type": "string",
-            "description": "DMS provider. Supported values: SharePoint, OneDrive, GoogleDrive, GoogleSharedDrive, Dropbox.",
-            "example": "SharePoint"
-          },
-          "folderId": {
-            "type": "string",
-            "description": "Provider-native folder ID.",
-            "example": "01ABC123"
-          },
-          "driveId": {
-            "type": "string",
-            "description": "Drive or document library ID. Required for SharePoint and OneDrive.",
-            "example": "b!abc123"
+            "enum": ["#KarbonService.SharePointConnectedFolderDTO"]
           },
           "entityType": {
             "type": "string",
-            "description": "Entity type. Supported values: Contact, ClientGroup, Organization, WorkItem, WorkItemSchedule.",
+            "description": "Entity type (e.g. \"Contact\", \"WorkItem\").",
             "example": "Contact"
           },
           "entityKey": {
             "type": "string",
-            "description": "12-character PermaKey of the entity to connect the folder to.",
+            "description": "12-character PermaKey of the entity.",
             "example": "M2dVbCt4RHk1"
           },
           "hasDecoratedName": {
             "type": "boolean",
             "description": "When true, auto-created child folders for work items will have a numeric suffix appended if a folder with the same name already exists. Relevant when connecting to a WorkItemSchedule.",
             "default": true
-          }
-        }
-      },
-      "DMSConnectedFolderResponse": {
-        "type": "object",
-        "properties": {
-          "provider": {
+          },
+          "libraryId": {
             "type": "string",
-            "description": "DMS provider (echo of request.provider).",
-            "example": "SharePoint"
+            "description": "SharePoint document library ID.",
+            "example": "b!abc123"
           },
           "folderId": {
             "type": "string",
-            "description": "Provider-native folder ID (echo of request.folderId).",
+            "description": "Provider-native folder ID.",
             "example": "01ABC123"
-          },
-          "driveId": {
+          }
+        }
+      },
+      "OneDriveConnectedFolder": {
+        "type": "object",
+        "required": ["@odata.type", "entityKey", "folderId", "driveId"],
+        "properties": {
+          "@odata.type": {
             "type": "string",
-            "description": "Drive or document library ID (echo of request.driveId).",
-            "example": "b!abc123"
+            "enum": ["#KarbonService.OneDriveConnectedFolderDTO"]
           },
           "entityType": {
             "type": "string",
-            "description": "Entity type string (echo of request.entityType).",
+            "description": "Entity type (e.g. \"Contact\", \"WorkItem\").",
             "example": "Contact"
           },
           "entityKey": {
             "type": "string",
-            "description": "12-character PermaKey of the connected entity (echo of request.entityKey).",
+            "description": "12-character PermaKey of the entity.",
             "example": "M2dVbCt4RHk1"
+          },
+          "hasDecoratedName": {
+            "type": "boolean",
+            "description": "When true, auto-created child folders for work items will have a numeric suffix appended if a folder with the same name already exists. Relevant when connecting to a WorkItemSchedule.",
+            "default": true
+          },
+          "driveId": {
+            "type": "string",
+            "description": "OneDrive drive ID.",
+            "example": "b!abc123"
+          },
+          "folderId": {
+            "type": "string",
+            "description": "Provider-native folder ID.",
+            "example": "01ABC123"
+          }
+        }
+      },
+      "GoogleDriveConnectedFolder": {
+        "type": "object",
+        "required": ["@odata.type", "entityKey", "folderId"],
+        "properties": {
+          "@odata.type": {
+            "type": "string",
+            "enum": ["#KarbonService.GoogleDriveConnectedFolderDTO"]
+          },
+          "entityType": {
+            "type": "string",
+            "description": "Entity type (e.g. \"Contact\", \"WorkItem\").",
+            "example": "Contact"
+          },
+          "entityKey": {
+            "type": "string",
+            "description": "12-character PermaKey of the entity.",
+            "example": "M2dVbCt4RHk1"
+          },
+          "hasDecoratedName": {
+            "type": "boolean",
+            "description": "When true, auto-created child folders for work items will have a numeric suffix appended if a folder with the same name already exists. Relevant when connecting to a WorkItemSchedule.",
+            "default": true
+          },
+          "folderId": {
+            "type": "string",
+            "description": "Provider-native folder ID.",
+            "example": "1aBcDeFgHiJk"
+          }
+        }
+      },
+      "GoogleSharedDriveConnectedFolder": {
+        "type": "object",
+        "required": ["@odata.type", "entityKey", "folderId"],
+        "properties": {
+          "@odata.type": {
+            "type": "string",
+            "enum": ["#KarbonService.GoogleSharedDriveConnectedFolderDTO"]
+          },
+          "entityType": {
+            "type": "string",
+            "description": "Entity type (e.g. \"Contact\", \"WorkItem\").",
+            "example": "Contact"
+          },
+          "entityKey": {
+            "type": "string",
+            "description": "12-character PermaKey of the entity.",
+            "example": "M2dVbCt4RHk1"
+          },
+          "hasDecoratedName": {
+            "type": "boolean",
+            "description": "When true, auto-created child folders for work items will have a numeric suffix appended if a folder with the same name already exists. Relevant when connecting to a WorkItemSchedule.",
+            "default": true
+          },
+          "folderId": {
+            "type": "string",
+            "description": "Provider-native folder ID.",
+            "example": "1aBcDeFgHiJk"
+          }
+        }
+      },
+      "DropboxConnectedFolder": {
+        "type": "object",
+        "required": ["@odata.type", "entityKey", "folderId"],
+        "properties": {
+          "@odata.type": {
+            "type": "string",
+            "enum": ["#KarbonService.DropboxConnectedFolderDTO"]
+          },
+          "entityType": {
+            "type": "string",
+            "description": "Entity type (e.g. \"Contact\", \"WorkItem\").",
+            "example": "Contact"
+          },
+          "entityKey": {
+            "type": "string",
+            "description": "12-character PermaKey of the entity.",
+            "example": "M2dVbCt4RHk1"
+          },
+          "hasDecoratedName": {
+            "type": "boolean",
+            "description": "When true, auto-created child folders for work items will have a numeric suffix appended if a folder with the same name already exists. Relevant when connecting to a WorkItemSchedule.",
+            "default": true
+          },
+          "folderId": {
+            "type": "string",
+            "description": "Provider-native folder ID.",
+            "example": "id:abc123xyz"
           }
         }
       },
