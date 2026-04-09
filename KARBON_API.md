@@ -122,7 +122,7 @@ Pass a comma-separated list where multiple values are supported. Only available 
 | `GET /v3/Contacts/{key}`                                            | `BusinessCards`, `ClientTeam`, `ClientAccess` |
 | `GET /v3/Contacts/GetContactByUserDefinedIdentifier(...)`           | `BusinessCards`                               |
 | `GET /v3/ClientGroups/GetClientGroupByUserDefinedIdentifier(...)`   | `BusinessCard`                                |
-| `GET /v3/Organizations/{key}`                                       | `BusinessCards`                               |
+| `GET /v3/Organizations/{key}`                                       | `BusinessCards`,`ClientTeam`,`Contacts`       |
 | `GET /v3/Organizations/GetOrganizationByUserDefinedIdentifier(...)` | `BusinessCards`                               |
 | `GET /v3/Timesheets`                                                | `TimeEntries`                                 |
 | `GET /v3/Timesheets/{key}`                                          | `TimeEntries`                                 |
