@@ -1,3 +1,11 @@
+---
+slug: webhooks
+sortOrder: 7
+seo:
+  title: Webhooks
+  description: Subscribe to Karbon webhook events to receive real-time push notifications when contacts, work items, invoices, and other entities change—eliminating the need to poll—then fetch the full updated record using the ResourcePermaKey in the payload.
+---
+
 # Webhooks
 
 Webhooks let Karbon push notifications to your server when data changes, eliminating the need to poll for updates.
@@ -25,16 +33,16 @@ When a subscribed event occurs, Karbon sends a `POST` request to your endpoint w
 
 ## Available Webhook Types
 
-| Type | Triggers on |
-|---|---|
-| `Contact` | Contacts, Organizations, and ClientGroups |
-| `Work` | Work items |
-| `Note` | Notes |
-| `User` | Users |
-| `Invoice` | Invoices |
-| `EstimateSummary` | Estimate summaries |
-| `CustomField` | Custom field definitions |
-| `IntegrationTask` | Integration tasks (partners only) |
+| Type              | Triggers on                               |
+| ----------------- | ----------------------------------------- |
+| `Contact`         | Contacts, Organizations, and ClientGroups |
+| `Work`            | Work items                                |
+| `Note`            | Notes                                     |
+| `User`            | Users                                     |
+| `Invoice`         | Invoices                                  |
+| `EstimateSummary` | Estimate summaries                        |
+| `CustomField`     | Custom field definitions                  |
+| `IntegrationTask` | Integration tasks (partners only)         |
 
 ## Creating a Subscription
 

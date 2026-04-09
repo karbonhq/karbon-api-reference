@@ -1,3 +1,11 @@
+---
+slug: pagination
+sortOrder: 6
+seo:
+  title: Pagination
+  description: Retrieve full result sets from Karbon's list endpoints by requesting pages of up to 100 items and following the @odata.nextLink cursor in each response, combining pagination with $filter and $orderby for consistent, efficient data retrieval.
+---
+
 # Pagination
 
 Most list endpoints return a maximum of 100 items per request. Use pagination to retrieve full result sets.
@@ -82,6 +90,16 @@ GET /v3/Contacts?$filter=ContactType eq 'Individual'&$orderby=FullName&$top=100
 ```
 
 Without a sort order, the page boundaries can shift between requests if records are added or modified mid-pagination.
+
+## Incremental Sync with `LastModifiedDateTime`
+
+When syncing records incrementally, sort by `LastModifiedDateTime desc` so the most recently changed records appear first. On each page, check whether the last record's `LastModifiedDateTime` is older than your previous sync timestamp — if so, you can stop paginating early rather than fetching the rest of the result set:
+
+```http
+GET /v3/Contacts?$orderby=LastModifiedDateTime desc&$top=100
+```
+
+You can also compare `LastModifiedDateTime` on individual records against what you have stored to skip writes for records that haven't actually changed.
 
 ## Practical Tips
 

@@ -1,3 +1,11 @@
+---
+slug: custom-fields
+sortOrder: 8
+seo:
+  title: Working with Custom Fields
+  description: Define and manage custom fields on Contacts and Organizations to store structured data across types including text, numbers, dates, booleans, list selections, and Karbon user references, then read and update values per entity via the CustomFieldValues endpoint.
+---
+
 # Working with Custom Fields
 
 Custom fields let you store additional structured data against Contacts and Organizations. They support several data types including free text, numbers, dates, booleans, lists, and references to Karbon users (Colleague fields).
@@ -6,15 +14,15 @@ Custom fields let you store additional structured data against Contacts and Orga
 
 ## Field Types
 
-| Type | Description |
-|---|---|
-| `Text` | Free text string |
-| `Number` | Decimal number |
-| `Date` | ISO 8601 date |
-| `Boolean` | `true` or `false` |
-| `Colleague` | Reference to a Karbon user (stores a `UserKey`) |
-| `ListSingleSelect` | One value from a predefined list |
-| `ListMultipleSelect` | Multiple values from a predefined list |
+| Type                 | Description                                     |
+| -------------------- | ----------------------------------------------- |
+| `Text`               | Free text string                                |
+| `Number`             | Decimal number                                  |
+| `Date`               | ISO 8601 date                                   |
+| `Boolean`            | `true` or `false`                               |
+| `Colleague`          | Reference to a Karbon user (stores a `UserKey`) |
+| `ListSingleSelect`   | One value from a predefined list                |
+| `ListMultipleSelect` | Multiple values from a predefined list          |
 
 ## Listing Custom Field Definitions
 

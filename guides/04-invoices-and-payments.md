@@ -1,3 +1,11 @@
+---
+slug: invoices-and-payments
+sortOrder: 4
+seo:
+  title: Retrieving Invoices and Recording Payments
+  description: List, sort, and retrieve invoices using the Karbon API, then record manual payments against them by specifying a payment method, date, and amount—with support for reversals, deletions, and webhook subscriptions for real-time invoice change notifications.
+---
+
 # Retrieving Invoices and Recording Payments
 
 This guide covers listing and retrieving invoices, then recording a manual payment against one.
@@ -84,12 +92,12 @@ Content-Type: application/json
 
 **Required fields:**
 
-| Field | Description |
-|---|---|
-| `InvoiceKey` | The key of the invoice being paid |
+| Field           | Description                                                                           |
+| --------------- | ------------------------------------------------------------------------------------- |
+| `InvoiceKey`    | The key of the invoice being paid                                                     |
 | `PaymentMethod` | One of: `Check`, `Cash`, `EFT`, `Credit Card`, `BankTransfer`, `DirectDebit`, `Other` |
-| `PaymentDate` | ISO 8601 date (e.g., `2026-03-31`) |
-| `TotalAmount` | The amount being paid (decimal) |
+| `PaymentDate`   | ISO 8601 date (e.g., `2026-03-31`)                                                    |
+| `TotalAmount`   | The amount being paid (decimal)                                                       |
 
 A successful `201 Created` response returns the new payment record including its `PaymentKey`.
 

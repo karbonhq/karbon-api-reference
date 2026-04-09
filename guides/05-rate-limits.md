@@ -1,3 +1,11 @@
+---
+slug: rate-limits
+sortOrder: 5
+seo:
+  title: Handling Rate Limits
+  description: Understand Karbon's API rate limit of 120 requests per minute, handle 429 Too Many Requests responses using exponential backoff with the Retry-After header, and reduce overall request volume through gzip compression, server-side filtering, and webhooks.
+---
+
 # Handling Rate Limits
 
 The Karbon API enforces rate limits per account per API application. Exceeding the limit returns a `429 Too Many Requests` response.
@@ -100,9 +108,9 @@ Instead of polling for changes on a schedule, subscribe to webhooks for the reso
 
 ## Summary
 
-| Situation | Action |
-|---|---|
-| Received `429` | Wait `Retry-After` seconds, then retry with backoff |
-| Building a sync/import | Add delays between requests, target ≤ 2 req/sec |
-| Pulling large datasets | Use `$top=100`, filter aggressively, enable gzip |
-| Monitoring for changes | Use webhooks rather than polling |
+| Situation              | Action                                              |
+| ---------------------- | --------------------------------------------------- |
+| Received `429`         | Wait `Retry-After` seconds, then retry with backoff |
+| Building a sync/import | Add delays between requests, target ≤ 2 req/sec     |
+| Pulling large datasets | Use `$top=100`, filter aggressively, enable gzip    |
+| Monitoring for changes | Use webhooks rather than polling                    |

@@ -1,3 +1,11 @@
+---
+slug: searching-clients
+sortOrder: 2
+seo:
+  title: Searching for and Retrieving Client Details
+  description: Search and filter across Karbon's three client entity types—Contacts, Organizations, and ClientGroups—using OData-style queries, retrieve full contact details including emails and phone numbers via $expand=BusinessCards, and update client records or look them up by your own identifiers.
+---
+
 # Searching for and Retrieving Client Details
 
 Karbon has three client entity types: **Contacts** (individuals), **Organizations** (businesses), and **ClientGroups** (collections of contacts/orgs). This guide covers searching across all three and fetching full client details including contact information.
@@ -68,11 +76,13 @@ GET /v3/Organizations?$filter=contains(FullName, 'Meridian')
 
 ## Supported Filter Fields
 
-| Endpoint | Fields | Operators |
-|---|---|---|
-| `/v3/Contacts` | `FullName`, `EmailAddress`, `PhoneNumber`, `ContactType` | `eq`, `contains`, `and` |
-| `/v3/Organizations` | `FullName`, `EmailAddress`, `ContactType` | `eq`, `contains`, `and` |
-| `/v3/ClientGroups` | `FullName` | `eq` only |
+| Endpoint            | Fields                                                   | Operators               |
+| ------------------- | -------------------------------------------------------- | ----------------------- |
+| `/v3/Contacts`      | `FullName`, `EmailAddress`, `PhoneNumber`, `ContactType` | `eq`, `contains`, `and` |
+| `/v3/Organizations` | `FullName`, `EmailAddress`, `ContactType`                | `eq`, `contains`, `and` |
+| `/v3/ClientGroups`  | `FullName`                                               | `eq` only               |
+
+**Note:** Filters on `FullName` and `EmailAddress` are case insensitive for both Contacts and Organizations.
 
 ## Sorting Results
 
@@ -82,6 +92,8 @@ Append `$orderby` to control sort order:
 GET /v3/Contacts?$orderby=FullName
 GET /v3/Contacts?$orderby=LastModifiedDateTime desc
 ```
+
+Sorting by `LastModifiedDateTime desc` is useful for incremental sync — it puts the most recently changed records first. You can compare the `LastModifiedDateTime` on each record against what you last stored to skip unnecessary updates, and check the `LastModifiedDateTime` of the last record on a page to decide whether older records (on subsequent pages) are worth fetching at all.
 
 ## Retrieving a Single Client
 
@@ -145,6 +157,12 @@ The same `$expand=BusinessCards` pattern works on Organizations:
 
 ```http
 GET /v3/Organizations/7wPqXnT4mBjK?$expand=BusinessCards
+```
+
+To retrieve all Contacts associated with an Organization, use `$expand=Contacts`:
+
+```http
+GET /v3/Organizations/7wPqXnT4mBjK?$expand=Contacts
 ```
 
 ## Updating Contact Details

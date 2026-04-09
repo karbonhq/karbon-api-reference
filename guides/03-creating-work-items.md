@@ -1,3 +1,11 @@
+---
+slug: creating-work-items
+sortOrder: 3
+seo:
+  title: Creating a New Work Item
+  description: Create work items from scratch or from pre-configured templates by providing a title, assignee, client, and start date, with support for setting work types, statuses, and fee structures, plus filtering and updating existing work items via the API.
+---
+
 # Creating a New Work Item
 
 Work items represent the tasks and engagements you manage for clients. You can create them from scratch or from a work template that pre-populates tasks and settings.
@@ -6,13 +14,13 @@ Work items represent the tasks and engagements you manage for clients. You can c
 
 Every work item requires these fields:
 
-| Field | Description |
-|---|---|
-| `Title` | Name of the work item |
-| `AssigneeEmailAddress` | Email of the Karbon user responsible |
-| `ClientKey` | Key of the associated Contact, Organization, or ClientGroup |
-| `ClientType` | `Contact`, `Organization`, or `ClientGroup` |
-| `StartDate` | ISO 8601 datetime string (e.g., `2026-04-01T00:00:00Z`) |
+| Field                  | Description                                                 |
+| ---------------------- | ----------------------------------------------------------- |
+| `Title`                | Name of the work item                                       |
+| `AssigneeEmailAddress` | Email of the Karbon user responsible                        |
+| `ClientKey`            | Key of the associated Contact, Organization, or ClientGroup |
+| `ClientType`           | `Contact`, `Organization`, or `ClientGroup`                 |
+| `StartDate`            | ISO 8601 datetime string (e.g., `2026-04-01T00:00:00Z`)     |
 
 ## Creating a Basic Work Item
 
@@ -46,13 +54,13 @@ The response includes available `WorkTypes` and `WorkStatuses`. Use the exact st
 
 The built-in `PrimaryStatus` values are:
 
-| Value | Meaning |
-|---|---|
-| `Planned` | Not yet started |
-| `Ready To Start` | Ready to begin |
-| `In Progress` | Actively being worked on |
-| `Waiting` | Blocked or awaiting external input |
-| `Completed` | Done |
+| Value            | Meaning                            |
+| ---------------- | ---------------------------------- |
+| `Planned`        | Not yet started                    |
+| `Ready To Start` | Ready to begin                     |
+| `In Progress`    | Actively being worked on           |
+| `Waiting`        | Blocked or awaiting external input |
+| `Completed`      | Done                               |
 
 ## Setting Fees
 
