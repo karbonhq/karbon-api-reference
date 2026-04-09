@@ -92,7 +92,9 @@ Response:
 
 ## Setting Custom Field Values
 
-PUT the entire set of custom field values for an entity. Omitting a field clears it:
+> **Warning:** PUT replaces all custom field values for the entity. Any field you omit will be cleared. Always GET the current values first, apply your changes, then PUT the full set back.
+
+PUT the entire set of custom field values for an entity:
 
 ```http
 PUT https://api.karbonhq.com/v3/CustomFieldValues/3Nb8jKpL5tQR

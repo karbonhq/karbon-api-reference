@@ -24,7 +24,7 @@ Every request must include both of the following headers:
 | `AccessKey`     | JWT (starts with `eyJ...`) | Karbon UI → Settings → Connected Apps → your application |
 
 The `Authorization` token is a 36 character long GUID. The `AccessKey` is a JWT with three
-Base64URL-encoded segments separated by dots.
+Base64URL-encoded segments separated by dots. **These two values are not interchangeable** — swapping them results in a `401`.
 
 This guide contains example values for Authorization and AccessKey, you'll need to substitute in
 your own values in order to make a successful API request.

@@ -88,7 +88,7 @@ If your endpoint fails to respond with an HTTP `2xx` status **10 consecutive tim
 1. Fix whatever caused your endpoint to fail
 2. Re-create the subscription with a new `POST`
 
-Build monitoring into your webhook endpoint to detect and alert on delivery failures before you hit the 10-failure threshold.
+Build monitoring into your webhook endpoint to detect and alert on delivery failures before you hit the 10-failure threshold. You can call `GET /v3/WebhookSubscriptions/{Type}` on a schedule to verify if a webhook subscription is still active — a `404` response means the subscription was cancelled.
 
 ## Handling Incoming Webhooks
 
@@ -146,8 +146,17 @@ def fetch_changed_resource(resource_type, resource_key):
 
 ## Webhook Security
 
-Validate that incoming requests are genuinely from Karbon before processing them. Consider:
+Validate that incoming requests are genuinely from Karbon before processing them.
 
-- Setting a `SigningKey` when creating the subscription — Karbon uses it to sign payloads so you can verify authenticity
-- Restricting your webhook endpoint to Karbon's IP ranges (check Developer Center documentation for current ranges)
-- Checking the `Content-Type` header is `application/json`
+### Signature Verification
+
+When you set a `SigningKey`, Karbon includes a `Signature` header on every delivery. The value is a lowercase hex-encoded HMAC-SHA256 digest of the raw JSON request body, keyed with your `SigningKey`.
+
+Verifying this signature before processing a payload ensures the request genuinely came from Karbon and that the payload has not been tampered with in transit. Without verification, your endpoint will process any `POST` request sent to it, making it a potential vector for spoofed or malicious payloads.
+
+> **Note:** The `SigningKey` is not returned when you GET a subscription — store it securely at the time you create the subscription.
+
+### Additional measures
+
+- Restrict your webhook endpoint to Karbon's IP ranges (check Developer Center documentation for current ranges)
+- Check the `Content-Type` header is `application/json`

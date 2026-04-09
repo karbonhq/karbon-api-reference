@@ -165,6 +165,35 @@ To retrieve all Contacts associated with an Organization, use `$expand=Contacts`
 GET /v3/Organizations/7wPqXnT4mBjK?$expand=Contacts
 ```
 
+## Retrieving Client Team Members
+
+Client team membership is separate from custom fields and contact details. For Organizations, use `$expand=ClientTeam` to retrieve the assigned team members and their roles. For ClientGroups, the `ClientTeam` array is included inline in the response.
+
+```http
+GET /v3/Organizations/7wPqXnT4mBjK?$expand=ClientTeam
+```
+
+The `ClientTeam` array returns each member's `MemberKey` (a `UserKey`), `MemberType`, and `RoleType` (excerpt):
+
+```json
+{
+  "ClientTeam": [
+    {
+      "MemberKey": "JTphCpQqQYg",
+      "MemberType": "User",
+      "RoleType": "ClientOwner"
+    },
+    {
+      "MemberKey": "nRML2ngs7WJ",
+      "MemberType": "User",
+      "RoleType": "UserDefinedRole1"
+    }
+  ]
+}
+```
+
+`RoleType` values include `ClientOwner`, `ClientManager`, `UserDefinedRole1`, and `UserDefinedRole2`.
+
 ## Updating Contact Details
 
 To update a phone number, email, or address, you PUT the entire BusinessCard. First get the `BusinessCardKey` from the expanded contact, then:
