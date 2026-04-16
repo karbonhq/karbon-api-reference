@@ -4066,7 +4066,7 @@
           },
           "404": {
             "description": "Entity not found"
-          },
+          }
         }
       },
       "get": {
