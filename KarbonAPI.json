@@ -4909,6 +4909,10 @@
               "contactTypeContains": {
                 "value": "contains(ContactType, 'Client')",
                 "summary": "The ContactType of the organization contains 'Client', would return Organizations with the ContactType 'Client', 'Client - VIP' and 'Inactive Client'"
+              },
+              "externalId": {
+                "value": "ExternalId eq '123987456'",
+                "summary": "The ExternalId of the organization equals '123987456'. ExternalId is the identifier from an integrated external system - XPM Client ID, Xero Contact ID, or QuickBooks Online Intuit Customer ID."
               }
             },
             "description": "When this parameter is combined with the URI, this endpoint will return a subset of the Organizations that satisfy the `$filter` expression."
@@ -4931,7 +4935,7 @@
             "$ref": "#/components/parameters/TopRecords"
           }
         ],
-        "description": "Use the `GET` method on this endpoint to receive a paginated list of Organizations from your tenant.   Using the query parameters available to this endpoint,  you can also filter the list of Organizations by their full name, or email address.\n\n**Notes**\n\n* This endpoint returns a maximum of 100 Organizations at once.\n* If the query results in more than 100 Organizations, a link to the next set of the results will be given in the `@odata.nextLink` field of the response.\n* The `$filter` query parameter supports 2 logical operators - `eq` and `and` - and 2 properties to help you form an expression. Usage examples below<\n\n<table>\n<thead>\n<tr>\n<th>Logical Operators</th>\n<th>Purpose</th>\n<th>FullName</th>\n<th>EmailAddress</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td>eq</td>\n<td>Full-text search</td>\n<td>/v3/Organizations?$filter=FullName eq 'Sample Company'</td>\n<td>/v3/Organizations?$filter=EmailAddress eq 'info@samplecompany.com'</td>\n</tr>\n<tr>\n<td>and</td>\n<td>Combines properties</td>\n<td colspan = \"2\">/v3/Organizations?$filter=FullName eq 'Sample Company' and EmailAddress eq 'info@samplecompany.com'</td>\n</tr>\n</tbody>\n</table>\n",
+        "description": "Use the `GET` method on this endpoint to receive a paginated list of Organizations from your tenant.   Using the query parameters available to this endpoint,  you can also filter the list of Organizations by their full name, email address, or external ID.\n\n**Notes**\n\n* This endpoint returns a maximum of 100 Organizations at once.\n* If the query results in more than 100 Organizations, a link to the next set of the results will be given in the `@odata.nextLink` field of the response.\n* The `$filter` query parameter supports 2 logical operators - `eq` and `and` - and 3 properties to help you form an expression. Usage examples below<\n\n<table>\n<thead>\n<tr>\n<th>Logical Operators</th>\n<th>Purpose</th>\n<th>FullName</th>\n<th>EmailAddress</th>\n<th>ExternalId</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td>eq</td>\n<td>Full-text search</td>\n<td>/v3/Organizations?$filter=FullName eq 'Sample Company'</td>\n<td>/v3/Organizations?$filter=EmailAddress eq 'info@samplecompany.com'</td>\n<td>/v3/Organizations?$filter=ExternalId eq '123987456'</td>\n</tr>\n<tr>\n<td>and</td>\n<td>Combines properties</td>\n<td colspan = \"3\">/v3/Organizations?$filter=FullName eq 'Sample Company' and EmailAddress eq 'info@samplecompany.com'</td>\n</tr>\n</tbody>\n</table>\n",
         "operationId": "getAllOrganizations",
         "responses": {
           "200": {
