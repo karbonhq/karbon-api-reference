@@ -435,6 +435,36 @@
           },
           {
             "in": "query",
+            "name": "$filter",
+            "schema": {
+              "type": "string"
+            },
+            "examples": {
+              "invoiceStatusApproved": {
+                "value": "InvoiceStatus eq 'Approved'",
+                "summary": "Invoices with the status 'Approved'"
+              },
+              "invoiceStatusAwaitingPayment": {
+                "value": "InvoiceStatus eq 'AwaitingPayment'",
+                "summary": "Invoices with the status 'AwaitingPayment'"
+              },
+              "invoiceStatusPaid": {
+                "value": "InvoiceStatus eq 'Paid'",
+                "summary": "Invoices with the status 'Paid'"
+              },
+              "invoiceStatusExported": {
+                "value": "InvoiceStatus eq 'Exported'",
+                "summary": "Invoices with the status 'Exported'"
+              },
+              "invoiceStatusVoided": {
+                "value": "InvoiceStatus eq 'Voided'",
+                "summary": "Invoices with the status 'Voided'"
+              }
+            },
+            "description": "When this parameter is combined with the URI, this endpoint will return a subset of the Invoices that satisfy the `$filter` expression. The `InvoiceStatus` property supports the `eq` operator."
+          },
+          {
+            "in": "query",
             "name": "$orderby",
             "schema": {
               "type": "string"
@@ -3424,7 +3454,7 @@
             "description": "The Karbon-generated Contact key"
           }
         ],
-        "description": "Use the `PUT` method on this endpoint to update full details of a Contact specified using the `Contactkey`.\n\nUsing the query parameter `$expand` with this endpoint, you can also update the Business Card details of the Contact.\n\n**Note:** When updating business cards, you must include `BusinessCardKey`, `EntityType` and `EntityKey` properties for existing Business Cards - or the existing card and any associated Client Requests may be removed.",
+        "description": "Use the `PUT` method on this endpoint to update full details of a Contact specified using the `Contactkey`.\n\nUsing the query parameter `$expand` with this endpoint, you can also update the Business Card details of the Contact.\n\n**Note:** When updating business cards, you must include `BusinessCardKey`, `EntityType` and `EntityKey` properties for existing Business Cards - or the existing card and any associated Client Requests may be removed.\n\n**BusinessCards is optional:** If the `BusinessCards` array is omitted from the request body, the existing Business Cards on the Contact are left untouched. Include the `BusinessCards` array only when you intend to update it.",
         "operationId": "putContactByID",
         "responses": {
           "204": {
@@ -5794,7 +5824,7 @@
             "description": "The Karbon-generated Organization key"
           }
         ],
-        "description": "Use the `PUT` method on this endpoint to update full details of an Organization specified using the `Organizationkey`.\n\n\nUsing the query parameter `$expand` with this endpoint, you can also update the Business Card details of the Organization.\n\n**Note:** When updating business cards, you must include `BusinessCardKey`, `EntityType` and `EntityKey` properties for existing Business Cards - or the existing card and any associated Client Requests may be removed.",
+        "description": "Use the `PUT` method on this endpoint to update full details of an Organization specified using the `Organizationkey`.\n\n\nUsing the query parameter `$expand` with this endpoint, you can also update the Business Card details of the Organization.\n\n**Note:** When updating business cards, you must include `BusinessCardKey`, `EntityType` and `EntityKey` properties for existing Business Cards - or the existing card and any associated Client Requests may be removed.\n\n**BusinessCards is optional:** If the `BusinessCards` array is omitted from the request body, the existing Business Cards on the Organization are left untouched. Include the `BusinessCards` array only when you intend to update it.",
         "operationId": "putOrganizationByID",
         "responses": {
           "204": {

@@ -84,6 +84,7 @@ Supported operators vary by endpoint and field — not all operators work with a
 | `GET /v3/IndividualTimeEntries` | `TimesheetKey`, `EntityKey`, `WorkItemKey`, `ClientKey`, `UserKey`, `RoleName`, `TaskTypeName` (all eq)                                                           | `eq`, `and`                         |
 | `GET /v3/IndividualTimeEntries` | `Date`                                                                                                                                                            | `eq`, `gt`, `ge`, `lt`, `le`, `and` |
 | `GET /v3/Users`                 | `Name`, `EmailAddress`                                                                                                                                            | `eq`                                |
+| `GET /v3/Invoices`              | `InvoiceStatus` (one of `Approved`, `AwaitingPayment`, `Paid`, `Exported`, `Voided`)                                                                              | `eq`                                |
 | `GET /v3/WorkTemplates`         | `Title`, `WorkTypeKey`, `PublishedDate`, `DateModified`, `DateLastWorkItemCreated`, `NumberOfWorkItemsCreated`, `HasScheduledClientTaskGroups`, `DraftHasChanges` | `eq`                                |
 
 † `contains` is not supported for `ClientKey`, `PrimaryStatus`, or `WorkScheduleKey`.
@@ -520,3 +521,5 @@ PUT /v3/BusinessCards/{BusinessCardKey}
 ```
 
 > PUT replaces the entire BusinessCard — include all existing fields you want to keep, not just the changed ones. Valid `PhoneNumbers.Label` values: `Work`, `Mobile`, `Office`, `Fax`, `Home`, `Other`. Valid `Addresses.Label` values: `Physical`, `Mailing`, `Legal`, `Home`. Country codes are ISO 3166-1 alpha-2 (e.g. `US`, `AU`, `GB`).
+
+> When `PUT`-ing to `/v3/Contacts/{ContactKey}` or `/v3/Organizations/{OrganizationKey}` to update other fields, the `BusinessCards` array is optional — omit it to leave the existing Business Cards untouched.
