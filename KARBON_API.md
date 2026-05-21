@@ -78,7 +78,7 @@ Supported operators vary by endpoint and field — not all operators work with a
 | `GET /v3/Contacts`              | `FullName`, `EmailAddress`, `PhoneNumber`, `ContactType`                                                                                                          | `eq`, `contains`, `and`             |
 | `GET /v3/Organizations`         | `FullName`, `EmailAddress`, `ContactType`                                                                                                                         | `eq`, `contains`, `and`             |
 | `GET /v3/ClientGroups`          | `FullName`                                                                                                                                                        | `eq` only                           |
-| `GET /v3/WorkItems`             | `AssigneeEmailAddress`, `ClientKey`†, `PrimaryStatus`†, `Title`, `WorkScheduleKey`†, `WorkStatus`, `WorkType`                                                     | `eq`, `contains`†, `and`            |
+| `GET /v3/WorkItems`             | `AssigneeEmailAddress`, `ClientKey`†, `PrimaryStatus`†, `Title`, `WorkScheduleKey`†, `WorkStatus`, `WorkTemplateKey`†, `WorkType`                                 | `eq`, `contains`†, `and`            |
 | `GET /v3/WorkItems`             | `StartDate`                                                                                                                                                       | `ge`, `le`, `and`                   |
 | `GET /v3/Timesheets`            | `TimesheetKey` (eq), `StartDate` (gt), `EndDate` (lt), `Status` (eq), `UserKey` (in), `WorkItemKeys` (any/in)                                                     | mixed — see example below           |
 | `GET /v3/IndividualTimeEntries` | `TimesheetKey`, `EntityKey`, `WorkItemKey`, `ClientKey`, `UserKey`, `RoleName`, `TaskTypeName` (all eq)                                                           | `eq`, `and`                         |
@@ -87,7 +87,7 @@ Supported operators vary by endpoint and field — not all operators work with a
 | `GET /v3/Invoices`              | `InvoiceStatus` (one of `Approved`, `AwaitingPayment`, `Paid`, `Exported`, `Voided`)                                                                              | `eq`                                |
 | `GET /v3/WorkTemplates`         | `Title`, `WorkTypeKey`, `PublishedDate`, `DateModified`, `DateLastWorkItemCreated`, `NumberOfWorkItemsCreated`, `HasScheduledClientTaskGroups`, `DraftHasChanges` | `eq`                                |
 
-† `contains` is not supported for `ClientKey`, `PrimaryStatus`, or `WorkScheduleKey`.
+† `contains` is not supported for `ClientKey`, `PrimaryStatus`, `WorkScheduleKey`, or `WorkTemplateKey`.
 
 **Timesheets `WorkItemKeys` filter example** (batch multiple keys):
 
