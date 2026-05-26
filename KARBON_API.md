@@ -23,8 +23,10 @@ Authorization: Bearer {token}
 AccessKey: {key}
 ```
 
-- **`Authorization` token** — GUID format: `550e8400-e29b-41d4-a716-446655440000`. Obtained by registering at the Karbon Developer Center.
-- **`AccessKey`** — JWT format: three Base64URL parts separated by dots, starts with `eyJ...`. Found in Karbon under **Settings → Connected Apps → {Your API Application}**.
+Both values are issued together from the same API Application in Karbon. Find them under **Settings → Connected Apps → API Applications → {Your API Application}**.
+
+- **`Authorization` token** — GUID format: `550e8400-e29b-41d4-a716-446655440000`.
+- **`AccessKey`** — JWT format: three Base64URL parts separated by dots, starts with `eyJ...`.
 
 ---
 
