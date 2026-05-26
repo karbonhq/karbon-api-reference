@@ -8608,6 +8608,116 @@
             }
           }
         }
+      },
+      "patch": {
+        "tags": ["Work Schedules"],
+        "summary": "Updates a Work Schedule (Partial)",
+        "parameters": [
+          {
+            "required": true,
+            "in": "path",
+            "name": "WorkSchedulekey",
+            "schema": {
+              "type": "string"
+            },
+            "example": "Bm6CGxrWp8W",
+            "description": "The Karbon-generated Work Schedule key"
+          }
+        ],
+        "description": "Use the `PATCH` method on this endpoint to update partial details of a Work Schedule specified using the WorkSchedulekey.\n\nThis method **only supports** editing the `ScheduleEndDate` property. Pass `null` to clear an existing end date.",
+        "operationId": "patchWorkScheduleByID",
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorMessages"
+                },
+                "examples": {
+                  "Incorrect or Missing Data": {
+                    "$ref": "#/components/examples/Missing_Update_Data"
+                  },
+                  "Unsupported Option": {
+                    "$ref": "#/components/examples/Unsupported_option"
+                  },
+                  "Invalid Property": {
+                    "$ref": "#/components/examples/Invalid_Property"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResourceNotFound"
+                },
+                "examples": {
+                  "Unauthorized Access": {
+                    "$ref": "#/components/examples/UnauthorizedAccess"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Resource Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorMessages"
+                },
+                "examples": {
+                  "Key Not Found": {
+                    "$ref": "#/components/examples/WorkSchedule_Key_Not_Found_404"
+                  }
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Rate Limit Exceeded",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RateLimitErrorMessage"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorMessages"
+                },
+                "examples": {
+                  "Undefined Error": {
+                    "$ref": "#/components/examples/elongated_5001"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "description": "Refer to the table below for more information on each field in the request body.",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateWorkSchedule"
+              }
+            }
+          }
+        }
       }
     },
     "/v3/WorkTemplates": {
@@ -12536,6 +12646,27 @@
             "$ref": "#/components/schemas/WorkScheduleRequest"
           }
         ]
+      },
+      "UpdateWorkSchedule": {
+        "description": "The properties that can be updated on a Work Schedule with the PATCH method",
+        "type": "object",
+        "properties": {
+          "ScheduleEndDate": {
+            "oneOf": [
+              {
+                "type": ["string", "null"],
+                "example": "2026-12-31T00:00:00Z",
+                "format": "date-time"
+              },
+              {
+                "type": ["string", "null"],
+                "example": "2026-12-31",
+                "format": "date"
+              }
+            ],
+            "description": "The date the Work Schedule should stop producing new Work Items, as an ISO8601 formatted datestamp or timestamp. Pass `null` to clear an existing end date."
+          }
+        }
       },
       "WorkScheduleRequest": {
         "description": "A single Work Schedule",
