@@ -4363,19 +4363,9 @@
             "multipart/form-data": {
               "schema": {
                 "type": "object",
-                "required": ["file", "FileName", "MimeType"],
+                "required": ["file"],
                 "minProperties": 2,
                 "properties": {
-                  "FileName": {
-                    "type": "string",
-                    "description": "The name of the file",
-                    "example": "ProposalName.pdf"
-                  },
-                  "MimeType": {
-                    "type": "string",
-                    "description": "The MIME type of valid media file as per RFC 6838. See a list of common MIME types [here](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types/Common_types).",
-                    "example": "application/pdf"
-                  },
                   "contact_keys": {
                     "type": "string",
                     "description": "A Karbon-generated unique identifier for the Contact, which this file will be associated with",
