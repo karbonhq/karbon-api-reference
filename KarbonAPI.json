@@ -438,7 +438,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ConflictError"
+                  "$ref": "#/components/schemas/ErrorMessages"
                 },
                 "examples": {
                   "Stale Object State": {
@@ -1534,7 +1534,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ConflictError"
+                  "$ref": "#/components/schemas/ErrorMessages"
                 },
                 "examples": {
                   "Stale Object State": {
@@ -2492,7 +2492,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ConflictError"
+                  "$ref": "#/components/schemas/ErrorMessages"
                 },
                 "examples": {
                   "Stale Object State": {
@@ -2676,7 +2676,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ConflictError"
+                  "$ref": "#/components/schemas/ErrorMessages"
                 },
                 "examples": {
                   "Stale Object State": {
@@ -3750,7 +3750,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ConflictError"
+                  "$ref": "#/components/schemas/ErrorMessages"
                 },
                 "examples": {
                   "Stale Object State": {
@@ -4000,7 +4000,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ConflictError"
+                  "$ref": "#/components/schemas/ErrorMessages"
                 },
                 "examples": {
                   "Stale Object State": {
@@ -4320,7 +4320,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ConflictError"
+                  "$ref": "#/components/schemas/ErrorMessages"
                 },
                 "examples": {
                   "Stale Object State": {
@@ -6231,7 +6231,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ConflictError"
+                  "$ref": "#/components/schemas/ErrorMessages"
                 },
                 "examples": {
                   "Stale Object State": {
@@ -6563,7 +6563,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ConflictError"
+                  "$ref": "#/components/schemas/ErrorMessages"
                 },
                 "examples": {
                   "Stale Object State": {
@@ -8626,7 +8626,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ConflictError"
+                  "$ref": "#/components/schemas/ErrorMessages"
                 },
                 "examples": {
                   "Stale Object State": {
@@ -8754,7 +8754,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ConflictError"
+                  "$ref": "#/components/schemas/ErrorMessages"
                 },
                 "examples": {
                   "Stale Object State": {
@@ -9082,7 +9082,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ConflictError"
+                  "$ref": "#/components/schemas/ErrorMessages"
                 },
                 "examples": {
                   "Stale Object State": {
@@ -9209,7 +9209,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ConflictError"
+                  "$ref": "#/components/schemas/ErrorMessages"
                 },
                 "examples": {
                   "Stale Object State": {
@@ -15204,26 +15204,6 @@
             "readOnly": true
           }
         }
-      },
-      "ConflictError": {
-        "description": "The response body returned when an update is rejected because the resource was modified concurrently by another request.",
-        "required": [
-          "code",
-          "message"
-        ],
-        "type": "object",
-        "properties": {
-          "code": {
-            "type": "string",
-            "example": "4020",
-            "description": "A Karbon-generated code to identify the error"
-          },
-          "message": {
-            "type": "string",
-            "example": "The resource was modified by another request. Refetch the latest version and retry.",
-            "description": "The error message"
-          }
-        }
       }
     },
     "examples": {
@@ -15758,8 +15738,10 @@
       "Conflict_StaleObjectState": {
         "description": "The error returned when two requests race to update the same resource and the later commit is rejected by optimistic concurrency control.",
         "value": {
-          "code": "4020",
-          "message": "The resource was modified by another request. Refetch the latest version and retry."
+          "error": {
+            "code": "4020",
+            "message": "The resource was modified by another request. Refetch the latest version and retry."
+          }
         }
       }
     },

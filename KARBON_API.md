@@ -142,7 +142,7 @@ Pass a comma-separated list where multiple values are supported. Only available 
 ### Concurrent Update Conflicts
 
 - **HTTP 409:** Any `PUT` or `PATCH` that loses an optimistic-concurrency race against another writer.
-- Body: `{ "code": "4020", "message": "The resource was modified by another request. Refetch the latest version and retry." }`
+- Body: `{ "error": { "code": "4020", "message": "The resource was modified by another request. Refetch the latest version and retry." } }`
 - Treat as retryable: re-fetch the resource, reapply the change, resubmit.
 
 ---
