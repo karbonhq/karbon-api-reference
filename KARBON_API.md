@@ -139,6 +139,14 @@ Pass a comma-separated list where multiple values are supported. Only available 
 
 ---
 
+### Concurrent Update Conflicts
+
+- **HTTP 409:** Any `PUT` or `PATCH` that loses an optimistic-concurrency race against another writer.
+- Body: `{ "code": "4020", "message": "The resource was modified by another request. Refetch the latest version and retry." }`
+- Treat as retryable: re-fetch the resource, reapply the change, resubmit.
+
+---
+
 ### UserDefinedIdentifier Lookups
 
 Contacts, Organizations, and ClientGroups support lookup by a custom identifier:
@@ -192,7 +200,7 @@ Used when creating or referencing Work Items:
 
 `AssigneeEmailAddress`, `Title`, `ClientKey`, `ClientType`, `StartDate`
 
-PATCH only supports `Description` and `DeadlineDate`.
+PATCH supports `Title`, `Description`, `StartDate`, `DueDate`, `DeadlineDate`, `AssigneeEmailAddress`, and `WorkType`. Any other property in the request body returns a `400`.
 
 ### WorkItem fee settings
 
