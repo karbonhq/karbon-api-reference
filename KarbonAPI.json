@@ -12632,6 +12632,11 @@
             "example": "Tax Return",
             "description": "The type of task performed by the user"
           },
+          "TaskTypeIsBillable": {
+            "type": "boolean",
+            "example": true,
+            "description": "Indicates whether the task type is configured as billable. A value of false means the time entry will not be billed regardless of the entity's billing type or the entry's BilledStatus."
+          },
           "Date": {
             "type": "string",
             "format": "date-time",
