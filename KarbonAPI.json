@@ -6390,7 +6390,12 @@
           },
           "401": {
             "description": "Unauthorized",
-            "content": { "application/json": { "schema": { "$ref": "#/components/schemas/ResourceNotFound" }, "examples": { "Unauthorized Access": { "$ref": "#/components/examples/UnauthorizedAccess" } } } }
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ResourceNotFound" },
+                "examples": { "Unauthorized Access": { "$ref": "#/components/examples/UnauthorizedAccess" } }
+              }
+            }
           },
           "429": {
             "description": "Rate Limit Exceeded",
@@ -6398,7 +6403,12 @@
           },
           "500": {
             "description": "Internal Server Error",
-            "content": { "application/json": { "schema": { "$ref": "#/components/schemas/ErrorMessages" }, "examples": { "Undefined Error": { "$ref": "#/components/examples/elongated_5001" } } } }
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ErrorMessages" },
+                "examples": { "Undefined Error": { "$ref": "#/components/examples/elongated_5001" } }
+              }
+            }
           }
         }
       }
@@ -6424,7 +6434,12 @@
           },
           "401": {
             "description": "Unauthorized",
-            "content": { "application/json": { "schema": { "$ref": "#/components/schemas/ResourceNotFound" }, "examples": { "Unauthorized Access": { "$ref": "#/components/examples/UnauthorizedAccess" } } } }
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ResourceNotFound" },
+                "examples": { "Unauthorized Access": { "$ref": "#/components/examples/UnauthorizedAccess" } }
+              }
+            }
           },
           "404": {
             "description": "Not Found",
@@ -6436,7 +6451,12 @@
           },
           "500": {
             "description": "Internal Server Error",
-            "content": { "application/json": { "schema": { "$ref": "#/components/schemas/ErrorMessages" }, "examples": { "Undefined Error": { "$ref": "#/components/examples/elongated_5001" } } } }
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ErrorMessages" },
+                "examples": { "Undefined Error": { "$ref": "#/components/examples/elongated_5001" } }
+              }
+            }
           }
         }
       }
@@ -13143,17 +13163,38 @@
         "type": "object",
         "required": ["TeamKey", "Name"],
         "properties": {
-          "TeamKey": { "type": "string", "example": "2Nw8tnxwQCVf", "description": "A Karbon-generated unique identifier for the Team." },
+          "TeamKey": {
+            "type": "string",
+            "example": "2Nw8tnxwQCVf",
+            "description": "A Karbon-generated unique identifier for the Team."
+          },
           "Name": { "type": "string", "example": "Audit", "description": "The name of the Team." },
-          "Description": { "type": ["string", "null"], "example": "Audit and assurance team", "description": "An optional description of the Team." },
-          "ParentTeamKey": { "type": ["string", "null"], "example": null, "description": "The key of the parent Team when this Team is a sub-team; otherwise null." }
+          "Description": {
+            "type": ["string", "null"],
+            "example": "Audit and assurance team",
+            "description": "An optional description of the Team."
+          },
+          "ParentTeamKey": {
+            "type": ["string", "null"],
+            "example": null,
+            "description": "The key of the parent Team when this Team is a sub-team; otherwise null."
+          }
         }
       },
       "TeamMember": {
         "type": "object",
         "properties": {
-          "Key": { "type": "string", "example": "3VQ8Qrq944NW", "description": "The key of the member — a UserKey when Type is 'User', or a TeamKey when Type is 'Team'." },
-          "Type": { "type": "string", "enum": ["User", "Team"], "example": "User", "description": "The kind of member: an individual user, or a sub-team." },
+          "Key": {
+            "type": "string",
+            "example": "3VQ8Qrq944NW",
+            "description": "The key of the member — a UserKey when Type is 'User', or a TeamKey when Type is 'Team'."
+          },
+          "Type": {
+            "type": "string",
+            "enum": ["User", "Team"],
+            "example": "User",
+            "description": "The kind of member: an individual user, or a sub-team."
+          },
           "Name": { "type": "string", "example": "Alex Smith", "description": "The display name of the member." }
         }
       },
