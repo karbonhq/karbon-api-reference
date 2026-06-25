@@ -6360,7 +6360,7 @@
     },
     "/v3/Teams": {
       "get": {
-        "tags": ["Teams"],
+        "tags": ["Users"],
         "summary": "Gets a list of Teams",
         "operationId": "getAllTeams",
         "parameters": [
@@ -6415,7 +6415,7 @@
     },
     "/v3/Teams/{TeamKey}": {
       "get": {
-        "tags": ["Teams"],
+        "tags": ["Users"],
         "summary": "Gets a single Team, including its members",
         "operationId": "getTeamByKey",
         "parameters": [
@@ -13161,6 +13161,7 @@
       },
       "Team": {
         "type": "object",
+        "description": "A Karbon team containing a list of member Users and Teams.",
         "required": ["TeamKey", "Name"],
         "properties": {
           "TeamKey": {
@@ -13183,6 +13184,7 @@
       },
       "TeamMember": {
         "type": "object",
+        "description": "A Karbon team member details, either a User or another Team.",
         "properties": {
           "Key": {
             "type": "string",
@@ -13216,6 +13218,7 @@
       },
       "GetTeams": {
         "type": "object",
+        "description": "The API response containing a list of Teams in Karbon.",
         "properties": {
           "@odata.context": { "type": "string", "example": "https://api.karbonhq.com/v3/$metadata#Teams" },
           "@odata.count": { "type": "integer", "example": 1 },
