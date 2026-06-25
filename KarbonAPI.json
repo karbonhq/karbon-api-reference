@@ -2734,6 +2734,10 @@
               "ContactType": {
                 "value": "ContactType eq 'Client'",
                 "summary": "Return only the Contacts where the Contact Type matches 'Client'"
+              },
+              "externalKey": {
+                "value": "ExternalKey eq '123987456'",
+                "summary": "Return only the Contacts whose ExternalKey matches '123987456'. ExternalKey is the identifier from an integrated external system - XPM Client ID, Xero Contact ID, or QuickBooks Online Intuit Customer ID. Only the eq operator is supported."
               }
             },
             "description": "When this parameter is combined with the URI, this endpoint will return a subset of the Contacts that satisfy the `$filter` expression.\n"
@@ -5035,9 +5039,9 @@
                 "value": "contains(ContactType, 'Client')",
                 "summary": "The ContactType of the organization contains 'Client', would return Organizations with the ContactType 'Client', 'Client - VIP' and 'Inactive Client'"
               },
-              "externalId": {
-                "value": "ExternalId eq '123987456'",
-                "summary": "The ExternalId of the organization equals '123987456'. ExternalId is the identifier from an integrated external system - XPM Client ID, Xero Contact ID, or QuickBooks Online Intuit Customer ID."
+              "externalKey": {
+                "value": "ExternalKey eq '123987456'",
+                "summary": "The ExternalKey of the organization equals '123987456'. ExternalKey is the identifier from an integrated external system - XPM Client ID, Xero Contact ID, or QuickBooks Online Intuit Customer ID."
               }
             },
             "description": "When this parameter is combined with the URI, this endpoint will return a subset of the Organizations that satisfy the `$filter` expression."
@@ -5060,7 +5064,7 @@
             "$ref": "#/components/parameters/TopRecords"
           }
         ],
-        "description": "Use the `GET` method on this endpoint to receive a paginated list of Organizations from your tenant.   Using the query parameters available to this endpoint,  you can also filter the list of Organizations by their full name, email address, or external ID.\n\n**Notes**\n\n* This endpoint returns a maximum of 100 Organizations at once.\n* If the query results in more than 100 Organizations, a link to the next set of the results will be given in the `@odata.nextLink` field of the response.\n* The `$filter` query parameter supports 2 logical operators - `eq` and `and` - and 3 properties to help you form an expression. Usage examples below<\n\n<table>\n<thead>\n<tr>\n<th>Logical Operators</th>\n<th>Purpose</th>\n<th>FullName</th>\n<th>EmailAddress</th>\n<th>ExternalId</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td>eq</td>\n<td>Full-text search</td>\n<td>/v3/Organizations?$filter=FullName eq 'Sample Company'</td>\n<td>/v3/Organizations?$filter=EmailAddress eq 'info@samplecompany.com'</td>\n<td>/v3/Organizations?$filter=ExternalId eq '123987456'</td>\n</tr>\n<tr>\n<td>and</td>\n<td>Combines properties</td>\n<td colspan = \"3\">/v3/Organizations?$filter=FullName eq 'Sample Company' and EmailAddress eq 'info@samplecompany.com'</td>\n</tr>\n</tbody>\n</table>\n",
+        "description": "Use the `GET` method on this endpoint to receive a paginated list of Organizations from your tenant.   Using the query parameters available to this endpoint,  you can also filter the list of Organizations by their full name, email address, or external key.\n\n**Notes**\n\n* This endpoint returns a maximum of 100 Organizations at once.\n* If the query results in more than 100 Organizations, a link to the next set of the results will be given in the `@odata.nextLink` field of the response.\n* The `$filter` query parameter supports 2 logical operators - `eq` and `and` - and 3 properties to help you form an expression. Usage examples below<\n\n<table>\n<thead>\n<tr>\n<th>Logical Operators</th>\n<th>Purpose</th>\n<th>FullName</th>\n<th>EmailAddress</th>\n<th>ExternalKey</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td>eq</td>\n<td>Full-text search</td>\n<td>/v3/Organizations?$filter=FullName eq 'Sample Company'</td>\n<td>/v3/Organizations?$filter=EmailAddress eq 'info@samplecompany.com'</td>\n<td>/v3/Organizations?$filter=ExternalKey eq '123987456'</td>\n</tr>\n<tr>\n<td>and</td>\n<td>Combines properties</td>\n<td colspan = \"3\">/v3/Organizations?$filter=FullName eq 'Sample Company' and EmailAddress eq 'info@samplecompany.com'</td>\n</tr>\n</tbody>\n</table>\n",
         "operationId": "getAllOrganizations",
         "responses": {
           "200": {
@@ -6350,6 +6354,89 @@
                 }
               }
             }
+          }
+        }
+      }
+    },
+    "/v3/Teams": {
+      "get": {
+        "tags": ["Teams"],
+        "summary": "Gets a list of Teams",
+        "operationId": "getAllTeams",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "$filter",
+            "schema": { "type": "string" },
+            "examples": {
+              "name": {
+                "value": "Name eq 'Audit'",
+                "summary": "Return only the Team whose Name matches 'Audit'."
+              }
+            },
+            "description": "When this parameter is combined with the URI, this endpoint will return a subset of the Teams that satisfy the `$filter` expression. Only `Name` with the `eq` operator is supported."
+          },
+          { "$ref": "#/components/parameters/SkipRecords" },
+          { "$ref": "#/components/parameters/TopRecords" }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": { "application/json": { "schema": { "$ref": "#/components/schemas/GetTeams" } } }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": { "application/json": { "schema": { "$ref": "#/components/schemas/ErrorMessages" } } }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": { "application/json": { "schema": { "$ref": "#/components/schemas/ResourceNotFound" }, "examples": { "Unauthorized Access": { "$ref": "#/components/examples/UnauthorizedAccess" } } } }
+          },
+          "429": {
+            "description": "Rate Limit Exceeded",
+            "content": { "application/json": { "schema": { "$ref": "#/components/schemas/RateLimitErrorMessage" } } }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": { "application/json": { "schema": { "$ref": "#/components/schemas/ErrorMessages" }, "examples": { "Undefined Error": { "$ref": "#/components/examples/elongated_5001" } } } }
+          }
+        }
+      }
+    },
+    "/v3/Teams/{TeamKey}": {
+      "get": {
+        "tags": ["Teams"],
+        "summary": "Gets a single Team, including its members",
+        "operationId": "getTeamByKey",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "TeamKey",
+            "required": true,
+            "schema": { "type": "string" },
+            "description": "The key of the Team to retrieve."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": { "application/json": { "schema": { "$ref": "#/components/schemas/TeamProfile" } } }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": { "application/json": { "schema": { "$ref": "#/components/schemas/ResourceNotFound" }, "examples": { "Unauthorized Access": { "$ref": "#/components/examples/UnauthorizedAccess" } } } }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": { "application/json": { "schema": { "$ref": "#/components/schemas/ErrorMessages" } } }
+          },
+          "429": {
+            "description": "Rate Limit Exceeded",
+            "content": { "application/json": { "schema": { "$ref": "#/components/schemas/RateLimitErrorMessage" } } }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": { "application/json": { "schema": { "$ref": "#/components/schemas/ErrorMessages" }, "examples": { "Undefined Error": { "$ref": "#/components/examples/elongated_5001" } } } }
           }
         }
       }
@@ -11001,6 +11088,11 @@
                   "format": "date-time",
                   "description": "The date and time at which the Organization was most recently modified.",
                   "example": "2021-12-29T07:01:53Z"
+                },
+                "UserDefinedIdentifier": {
+                  "type": ["string", "null"],
+                  "example": "ACME-001",
+                  "description": "Your own identifier for the Organization, if one has been set. This matches the behaviour already available on /v3/Contacts."
                 }
               }
             }
@@ -12922,6 +13014,11 @@
               }
             ],
             "description": "The date the Work Schedule should stop producing new Work Items, as an ISO8601 formatted datestamp or timestamp. Pass `null` to clear an existing end date."
+          },
+          "AssigneeUserKey": {
+            "type": ["string", "null"],
+            "example": "3VQ8Qrq944NW",
+            "description": "The key of an existing Karbon user to assign the Work Schedule's generated Work Items to. Changing this reassigns every incomplete Work Item in the series; completed Work Items are unchanged. Once set, assignee cannot be cleared."
           }
         }
       },
@@ -12940,6 +13037,11 @@
         ],
         "type": "object",
         "properties": {
+          "AssigneeUserKey": {
+            "type": ["string", "null"],
+            "example": "3VQ8Qrq944NW",
+            "description": "The key of an existing Karbon user to assign the Work Schedule's generated Work Items to. On PUT, a null or omitted value leaves the current assignee unchanged. Once set, assignee cannot be cleared. Changing the assignee reassigns every incomplete Work Item in the series; completed Work Items are unchanged."
+          },
           "CreatedFromWorkItemKey": {
             "type": "string",
             "description": "The key of the Work Item, which the Work Schedule will be assigned to. This value will be `null`.",
@@ -13034,6 +13136,52 @@
             "type": "string",
             "description": "Use this property to define the format of the Work Item title. Karbon offers a series of object that you can use to construct Work Item Title. For more information, see Technical Guide to Work Item Title Definition.\n",
             "example": "[{\"Text\":\"Payroll\",\"Variable\":null,\"Format\":null,\"Offset\":0},{\"Text\":null,\"Variable\":\"RepeatPeriod\",\"Format\":\"DD MMM, YYYY - DD MMM, YYYY\",\"Offset\":0}]"
+          }
+        }
+      },
+      "Team": {
+        "type": "object",
+        "required": ["TeamKey", "Name"],
+        "properties": {
+          "TeamKey": { "type": "string", "example": "2Nw8tnxwQCVf", "description": "A Karbon-generated unique identifier for the Team." },
+          "Name": { "type": "string", "example": "Audit", "description": "The name of the Team." },
+          "Description": { "type": ["string", "null"], "example": "Audit and assurance team", "description": "An optional description of the Team." },
+          "ParentTeamKey": { "type": ["string", "null"], "example": null, "description": "The key of the parent Team when this Team is a sub-team; otherwise null." }
+        }
+      },
+      "TeamMember": {
+        "type": "object",
+        "properties": {
+          "Key": { "type": "string", "example": "3VQ8Qrq944NW", "description": "The key of the member — a UserKey when Type is 'User', or a TeamKey when Type is 'Team'." },
+          "Type": { "type": "string", "enum": ["User", "Team"], "example": "User", "description": "The kind of member: an individual user, or a sub-team." },
+          "Name": { "type": "string", "example": "Alex Smith", "description": "The display name of the member." }
+        }
+      },
+      "TeamProfile": {
+        "description": "A single Team including its members.",
+        "allOf": [
+          { "$ref": "#/components/schemas/Team" },
+          {
+            "type": "object",
+            "properties": {
+              "Members": {
+                "type": "array",
+                "description": "The Team's members. Active users and sub-teams only; archived users are excluded.",
+                "items": { "$ref": "#/components/schemas/TeamMember" }
+              }
+            }
+          }
+        ]
+      },
+      "GetTeams": {
+        "type": "object",
+        "properties": {
+          "@odata.context": { "type": "string", "example": "https://api.karbonhq.com/v3/$metadata#Teams" },
+          "@odata.count": { "type": "integer", "example": 1 },
+          "@odata.nextLink": { "type": "string", "example": "https://api.karbonhq.com/v3/Teams?$skip=200&$top=200" },
+          "value": {
+            "type": "array",
+            "items": { "$ref": "#/components/schemas/Team" }
           }
         }
       },
