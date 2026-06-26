@@ -1,6 +1,6 @@
 # Karbon API Reference
 
-This repository contains the OpenAPI 3.1.0 specification for the [Karbon](https://www.karbonhq.com) API (v3), along with hosted documentation and developer resources.
+This repository contains the OpenAPI 3.1.0 specification for the [Karbon](https://www.karbonhq.com) API (v3), along with hosted documentation and developer resources. API release notes and guides can be found at [developers.karbonhq.com](https://developers.karbonhq.com).
 
 ## Contents
 
