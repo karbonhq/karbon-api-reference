@@ -13907,6 +13907,7 @@
         "properties": {
           "TaskName": {
             "type": "string",
+            "maxLength": 200,
             "example": "Example Integration Task",
             "description": "The name of the specific Integration Task Definition"
           },
@@ -13966,6 +13967,7 @@
           },
           "TaskStatus": {
             "type": "string",
+            "maxLength": 50,
             "example": "Viewed by Client"
           },
           "PrimaryStatus": {
@@ -13979,6 +13981,7 @@
           },
           "TaskData": {
             "type": "array",
+            "description": "Key/value metadata for the task. The combined serialized content must not exceed 4000 characters.",
             "example": [
               {
                 "Key": "Progress",
