@@ -1276,7 +1276,7 @@
                         "EntityType": {
                           "type": "string",
                           "example": "Organization",
-                          "enum": ["Contact", "Organization"],
+                          "enum": ["Contact", "Organization", "ClientGroup"],
                           "description": "The type of entity that this business card is connected to."
                         },
                         "EntityKey": {
@@ -1497,7 +1497,7 @@
                       "EntityType": {
                         "type": "string",
                         "example": "Organization",
-                        "enum": ["Contact", "Organization"],
+                        "enum": ["Contact", "Organization", "ClientGroup"],
                         "description": "The type of entity that this business card is connected to."
                       },
                       "EntityKey": {
@@ -1944,6 +1944,8 @@
                   "AccountingDetails": null,
                   "BusinessCard": {
                     "BusinessCardKey": "2tBHyXtJBxBy",
+                    "EntityType": "ClientGroup",
+                    "EntityKey": "38zlxNyJSr8y",
                     "IsPrimaryCard": true,
                     "WebSites": ["www.website.one", "www.website.two"],
                     "EmailAddresses": ["sample@example.com", "sample.two@example.com"],
@@ -2158,6 +2160,8 @@
                   "AccountingDetails": null,
                   "BusinessCard": {
                     "BusinessCardKey": "2tBHyXtJBxBy",
+                    "EntityType": "ClientGroup",
+                    "EntityKey": "38zlxNyJSr8y",
                     "IsPrimaryCard": true,
                     "WebSites": ["www.website.one", "www.website.two"],
                     "EmailAddresses": ["sample@example.com", "sample.two@example.com"],
@@ -2919,6 +2923,8 @@
                   "BusinessCards": [
                     {
                       "BusinessCardKey": "2tBHyXtJBxBy",
+                      "EntityType": "Contact",
+                      "EntityKey": "67zlxNyJSr8e",
                       "IsPrimaryCard": true,
                       "WebSites": ["www.website.one", "www.website.two"],
                       "EmailAddresses": ["sample@example.com", "sample.two@example.com"],
@@ -5358,6 +5364,8 @@
                 "BusinessCards": [
                   {
                     "BusinessCardKey": "2tBHyXtJBxBy",
+                    "EntityType": "Organization",
+                    "EntityKey": "2Nw8tnxwQCVf",
                     "IsPrimaryCard": true,
                     "WebSites": ["www.website.one", "www.website.two"],
                     "EmailAddresses": ["sample@example.com", "sample.two@example.com"],
@@ -10006,6 +10014,23 @@
         "description": "A business card associated with a contact or organization",
         "type": "object",
         "properties": {
+          "BusinessCardKey": {
+            "type": "string",
+            "description": "A Karbon-generated unique identifier for the Business Card",
+            "example": "",
+            "required": true
+          },
+          "EntityType": {
+            "type": "string",
+            "description": "The type of entity this Business Card belongs to.",
+            "example": "Contact",
+            "enum": ["Contact", "Organization", "ClientGroup"]
+          },
+          "EntityKey": {
+            "type": "string",
+            "description": "A Karbon-generated key to indicate the entity (Contact, Organization, or ClientGroup) this Business Card belongs to.",
+            "example": "67zlxNyJSr8e"
+          },
           "IsPrimaryCard": {
             "type": "boolean",
             "description": "Set to true, if this business card is also the primary business card for this entity.",
@@ -10136,6 +10161,17 @@
             "type": "string",
             "description": "A Karbon-generated unique identifier for the Business Card",
             "example": "2tBHyXtJBxBy"
+          },
+          "EntityType": {
+            "type": "string",
+            "description": "The type of entity this Business Card belongs to.",
+            "example": "Contact",
+            "enum": ["Contact", "Organization", "ClientGroup"]
+          },
+          "EntityKey": {
+            "type": "string",
+            "description": "A Karbon-generated key to indicate the entity (Contact, Organization, or ClientGroup) this Business Card belongs to.",
+            "example": "67zlxNyJSr8e"
           },
           "IsPrimaryCard": {
             "type": "boolean",
