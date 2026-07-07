@@ -6469,6 +6469,130 @@
         }
       }
     },
+    "/v3/Teams/{TeamKey}/AddMembers": {
+      "post": {
+        "tags": ["Users"],
+        "summary": "Adds one or more members to a Team",
+        "description": "Adds one or more existing, active users to a Team. Users who are already members are skipped, so this endpoint is safe to call again with the same `UserKeys`.\n\nOnly individual users can be added. A Team can contain another Team as a sub-team, but adding a sub-team is not supported here — that can only be done in the Karbon app.\n\nThis is invoked as a bound OData action; despite the URL shape, it is always a `POST`.",
+        "operationId": "addTeamMembers",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "TeamKey",
+            "required": true,
+            "schema": { "type": "string" },
+            "example": "2Nw8tnxwQCVf",
+            "description": "The key of the Team to add members to."
+          }
+        ],
+        "requestBody": {
+          "description": "The user profile keys to add as members of the Team.",
+          "required": true,
+          "content": {
+            "application/json": { "schema": { "$ref": "#/components/schemas/AddTeamMembers" } }
+          }
+        },
+        "responses": {
+          "204": { "description": "No Content" },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ErrorMessages" },
+                "examples": {
+                  "Inactive Or Unknown User": {
+                    "value": { "error": { "code": "4002", "message": "Cannot find an active user for 3VQ8Qrq944NW" } }
+                  },
+                  "Empty UserKeys": {
+                    "value": { "error": { "code": "4002", "message": "'User Keys' must not be empty." } }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ResourceNotFound" },
+                "examples": { "Unauthorized Access": { "$ref": "#/components/examples/UnauthorizedAccess" } }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": { "application/json": { "schema": { "$ref": "#/components/schemas/ErrorMessages" } } }
+          },
+          "429": {
+            "description": "Rate Limit Exceeded",
+            "content": { "application/json": { "schema": { "$ref": "#/components/schemas/RateLimitErrorMessage" } } }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ErrorMessages" },
+                "examples": { "Undefined Error": { "$ref": "#/components/examples/elongated_5001" } }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v3/Teams/{TeamKey}/RemoveMember": {
+      "post": {
+        "tags": ["Users"],
+        "summary": "Removes a member from a Team",
+        "description": "Removes a single user from a Team. Returns `204 No Content` whether or not the user was a member, so this endpoint is safe to retry.\n\nOnly individual users can be removed this way. Removing a sub-team from a Team is not supported here — that can only be done in the Karbon app.\n\nThis is invoked as a bound OData action; despite the URL shape, it is always a `POST`.",
+        "operationId": "removeTeamMember",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "TeamKey",
+            "required": true,
+            "schema": { "type": "string" },
+            "example": "2Nw8tnxwQCVf",
+            "description": "The key of the Team to remove a member from."
+          }
+        ],
+        "requestBody": {
+          "description": "The user profile key to remove from the Team.",
+          "required": true,
+          "content": {
+            "application/json": { "schema": { "$ref": "#/components/schemas/RemoveTeamMember" } }
+          }
+        },
+        "responses": {
+          "204": { "description": "No Content" },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ResourceNotFound" },
+                "examples": { "Unauthorized Access": { "$ref": "#/components/examples/UnauthorizedAccess" } }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": { "application/json": { "schema": { "$ref": "#/components/schemas/ErrorMessages" } } }
+          },
+          "429": {
+            "description": "Rate Limit Exceeded",
+            "content": { "application/json": { "schema": { "$ref": "#/components/schemas/RateLimitErrorMessage" } } }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ErrorMessages" },
+                "examples": { "Undefined Error": { "$ref": "#/components/examples/elongated_5001" } }
+              }
+            }
+          }
+        }
+      }
+    },
     "/v3/TenantSettings": {
       "get": {
         "tags": ["Tenant Settings"],
@@ -13262,6 +13386,31 @@
           "value": {
             "type": "array",
             "items": { "$ref": "#/components/schemas/Team" }
+          }
+        }
+      },
+      "AddTeamMembers": {
+        "type": "object",
+        "description": "The user profile keys to add as members of a Team.",
+        "required": ["UserKeys"],
+        "properties": {
+          "UserKeys": {
+            "type": "array",
+            "items": { "type": "string" },
+            "example": ["3VQ8Qrq944NW", "4WR9Srq055PX"],
+            "description": "The keys of the users to add. Must be non-empty. Users already on the Team are skipped."
+          }
+        }
+      },
+      "RemoveTeamMember": {
+        "type": "object",
+        "description": "The user profile key to remove from a Team.",
+        "required": ["UserKey"],
+        "properties": {
+          "UserKey": {
+            "type": "string",
+            "example": "3VQ8Qrq944NW",
+            "description": "The key of the user to remove."
           }
         }
       },
