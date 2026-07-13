@@ -4617,6 +4617,182 @@
         }
       }
     },
+    "/v3/FileDetails/{key}": {
+      "get": {
+        "tags": ["Files"],
+        "summary": "Get the details of a single File",
+        "description": "Use the `GET` method on this endpoint to retrieve the current details of a single file, using the `FileContextKey` returned by `GET /v3/FileList/{EntityType}`.",
+        "operationId": "getFileDetailsByKey",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "key",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "The FileContextKey of the file to retrieve.",
+            "example": "S8bsBjvCRJ3"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FileDetails"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResourceNotFound"
+                },
+                "examples": {
+                  "Unauthorized Access": {
+                    "$ref": "#/components/examples/UnauthorizedAccess"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorMessages"
+                },
+                "examples": {
+                  "Resource Not Found": {
+                    "$ref": "#/components/examples/HTTP_Resource_Not_Found"
+                  }
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Rate Limit Exceeded",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RateLimitErrorMessage"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorMessages"
+                },
+                "examples": {
+                  "Undefined Error": {
+                    "$ref": "#/components/examples/elongated_5001"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v3/FileDetails/{key}/Download": {
+      "get": {
+        "tags": ["Files"],
+        "summary": "Redirect to download a single File",
+        "description": "Use the `GET` method on this endpoint to be redirected to a freshly-tokened download URL for the file identified by `key` (the `FileContextKey` returned by `GET /v3/FileList/{EntityType}`). Runs the same tenant/existence check as `GET /v3/FileDetails/{key}`, so it can't be used to mint tokens for another tenant's keys.",
+        "operationId": "downloadFileDetailsByKey",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "key",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "The FileContextKey of the file to download.",
+            "example": "S8bsBjvCRJ3"
+          }
+        ],
+        "responses": {
+          "302": {
+            "description": "Found — redirects to a freshly-tokened download URL for the file.",
+            "headers": {
+              "Location": {
+                "description": "The download URL to fetch the file's bytes from, valid for 15 minutes.",
+                "schema": {
+                  "type": "string",
+                  "example": "https://api.karbonhq.com/v3/Files?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9..."
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResourceNotFound"
+                },
+                "examples": {
+                  "Unauthorized Access": {
+                    "$ref": "#/components/examples/UnauthorizedAccess"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorMessages"
+                },
+                "examples": {
+                  "Resource Not Found": {
+                    "$ref": "#/components/examples/HTTP_Resource_Not_Found"
+                  }
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Rate Limit Exceeded",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RateLimitErrorMessage"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorMessages"
+                },
+                "examples": {
+                  "Undefined Error": {
+                    "$ref": "#/components/examples/elongated_5001"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/v3/FileList/{EntityType}": {
       "get": {
         "tags": ["Files"],
@@ -6358,6 +6534,98 @@
                     "type": "string",
                     "description": "The full name of the Organization",
                     "example": "Sample Company Pty. Ltd."
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v3/Roles": {
+      "get": {
+        "tags": ["Users"],
+        "summary": "Gets a list of Roles",
+        "description": "Returns the active, non-default Roles configured for your tenant, sorted by `Name` ascending. Returns a maximum of 200 Roles per page.",
+        "operationId": "getAllRoles",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "$filter",
+            "schema": {
+              "type": "string"
+            },
+            "examples": {
+              "name": {
+                "value": "Name eq 'Manager'",
+                "summary": "Return only the Role whose Name matches 'Manager'."
+              }
+            },
+            "description": "When this parameter is combined with the URI, this endpoint will return a subset of the Roles that satisfy the `$filter` expression. Only `Name` with the `eq` operator is supported."
+          },
+          {
+            "$ref": "#/components/parameters/SkipRecords"
+          },
+          {
+            "$ref": "#/components/parameters/TopRecords"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetRoles"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorMessages"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResourceNotFound"
+                },
+                "examples": {
+                  "Unauthorized Access": {
+                    "$ref": "#/components/examples/UnauthorizedAccess"
+                  }
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Rate Limit Exceeded",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RateLimitErrorMessage"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorMessages"
+                },
+                "examples": {
+                  "Undefined Error": {
+                    "$ref": "#/components/examples/elongated_5001"
                   }
                 }
               }
@@ -12710,6 +12978,22 @@
           }
         }
       },
+      "FileDetails": {
+        "description": "The current details of a single File",
+        "allOf": [
+          { "$ref": "#/components/schemas/FileListItem" },
+          {
+            "type": "object",
+            "properties": {
+              "IsArchived": {
+                "type": "boolean",
+                "example": false,
+                "description": "Whether the file has been archived"
+              }
+            }
+          }
+        ]
+      },
       "GetSingleTimeSheet": {
         "description": "A single TimeSheet with TimeEntries",
         "type": "object",
@@ -13342,6 +13626,19 @@
           }
         }
       },
+      "Role": {
+        "type": "object",
+        "description": "A Karbon Role (internally an Actor in the Tenant pillar).",
+        "required": ["Key", "Name"],
+        "properties": {
+          "Key": {
+            "type": "string",
+            "example": "abc123",
+            "description": "A Karbon-generated unique identifier for the Role."
+          },
+          "Name": { "type": "string", "example": "Manager", "description": "The name of the Role." }
+        }
+      },
       "TeamMember": {
         "type": "object",
         "description": "A Karbon team member details, either a User or another Team.",
@@ -13386,6 +13683,19 @@
           "value": {
             "type": "array",
             "items": { "$ref": "#/components/schemas/Team" }
+          }
+        }
+      },
+      "GetRoles": {
+        "type": "object",
+        "description": "The API response containing a list of Roles in Karbon.",
+        "properties": {
+          "@odata.context": { "type": "string", "example": "https://api.karbonhq.com/v3/$metadata#Roles" },
+          "@odata.count": { "type": "integer", "example": 1 },
+          "@odata.nextLink": { "type": "string", "example": "https://api.karbonhq.com/v3/Roles?$skip=200&$top=200" },
+          "value": {
+            "type": "array",
+            "items": { "$ref": "#/components/schemas/Role" }
           }
         }
       },
