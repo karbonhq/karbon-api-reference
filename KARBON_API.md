@@ -224,9 +224,9 @@ Hourly rates and time estimates (from `EstimateSummaries`) are **read-only** —
 
 Both exist on WorkItems. **Prefer `PrimaryStatus` and `SecondaryStatus`** — these are the recommended fields for tracking work progress. `WorkStatus` is a legacy field.
 
-**PrimaryStatus** values are fixed (not tenant-specific). Use the display format (with spaces) in both `$filter` and request bodies — the camelCase forms shown in the spec schema are not accepted by the API:
+**PrimaryStatus** values are fixed (not tenant-specific):
 
-| Value (use this) | Meaning                  |
+| Value            | Meaning                  |
 | ---------------- | ------------------------ |
 | `Planned`        | Not yet started          |
 | `Ready To Start` | Ready to begin           |
@@ -234,7 +234,13 @@ Both exist on WorkItems. **Prefer `PrimaryStatus` and `SecondaryStatus`** — th
 | `Waiting`        | Blocked or waiting       |
 | `Completed`      | Done                     |
 
-**SecondaryStatus** values are tenant-customizable. Valid values come from `GET /v3/TenantSettings`.
+Accepted format differs by where the value is used:
+
+- **Request bodies (POST/PUT):** either form works — `"In Progress"` and `"InProgress"` are both accepted.
+- **`$filter`:** only the spaced form (`In Progress`, `Ready To Start`) matches. The no-space form isn't rejected — it silently returns zero rows.
+- **Responses:** format is inconsistent by endpoint. `GET /v3/WorkItems` (list) returns the spaced form (`"In Progress"`); `GET /v3/WorkItems/{key}`, and POST/PUT response bodies, return the no-space form (`"InProgress"`). Don't assume one canonical format when parsing responses — check which endpoint produced the value.
+
+**SecondaryStatus** values are tenant-customizable. Valid values come from `GET /v3/TenantSettings`, scoped to a `PrimaryStatus` **and** to a specific `WorkType` — a value valid for the same `PrimaryStatus` under a different `WorkType` will be accepted by the API but silently dropped (comes back `null`), not rejected. Always check the value is listed for the WorkItem's actual `WorkType`, not just its `PrimaryStatus`.
 
 ---
 
