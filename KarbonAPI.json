@@ -564,7 +564,6 @@
                       "CurrencyCode": "AUD",
                       "PaymentInstructions": null,
                       "InvoiceStatus": "AwaitingPayment",
-                      "InvoiceMagicLink": "https://karbonhq.com/invoice-link?token=abc123",
                       "Client": {
                         "ClientKey": "2xxnBLyCP4Ts",
                         "ClientType": "Organization",
