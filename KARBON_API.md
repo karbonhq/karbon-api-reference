@@ -81,6 +81,7 @@ Supported operators vary by endpoint and field — not all operators work with a
 | `GET /v3/Organizations`         | `FullName`, `EmailAddress`, `ContactType`, `ExternalKey`†                                                                                                                         | `eq`, `contains`, `and`             |
 | `GET /v3/ClientGroups`          | `FullName`                                                                                                                                                        | `eq` only                           |
 | `GET /v3/Teams`                 | `Name`                                                                                                                                                            | `eq` only                           |
+| `GET /v3/Roles`                 | `Name`                                                                                                                                                            | `eq` only                           |
 | `GET /v3/WorkItems`             | `AssigneeEmailAddress`, `ClientKey`†, `PrimaryStatus`†, `Title`, `WorkScheduleKey`†, `WorkStatus`, `WorkTemplateKey`†, `WorkType`                                 | `eq`, `contains`†, `and`            |
 | `GET /v3/WorkItems`             | `StartDate`                                                                                                                                                       | `ge`, `le`, `and`                   |
 | `GET /v3/Timesheets`            | `TimesheetKey` (eq), `StartDate` (gt), `EndDate` (lt), `Status` (eq), `UserKey` (in), `WorkItemKeys` (any/in)                                                     | mixed — see example below           |
@@ -171,10 +172,11 @@ GET /v3/ClientGroups/GetClientGroupByUserDefinedIdentifier(UserDefinedIdentifier
 | **Contacts**                | `GET`, `POST /v3/Contacts`, `GET/PUT/PATCH /v3/Contacts/{key}`                                                                                                  | Required: `FirstName`, `LastName`. Associate with an Organization via `OrganizationKey` on a BusinessCard (see Business Cards).                                                                                                                |
 | **Custom Fields**           | `GET/PUT /v3/CustomFieldValues/{EntityKey}`, `GET/POST /v3/CustomFields`, `DELETE /v3/CustomFields/{key}`                                                       | EntityKey is the key of the Contact/Org. Field types: `Text`, `Number`, `Date`, `Boolean`, `Colleague`, `ListSingleSelect`, `ListMultipleSelect`. `Colleague` fields store/return a UserKey (also referred to as UserID elsewhere in the API). |
 | **Estimate Summaries**      | `GET /v3/EstimateSummaries/{WorkItemKey}`                                                                                                                       | Read-only. Returns per-user `HourlyRate`, `EstimateMinutes`, `ActualMinutes`. Not writable via API.                                                                                                                                            |
-| **Files**                   | `GET /v3/FileList/{EntityType}`, `GET /v3/Files`, `POST /v3/Files`                                                                                              | EntityType in path for listing                                                                                                                                                                                                                 |
+| **Files**                   | `GET /v3/FileList/{EntityType}`, `GET /v3/Files`, `POST /v3/Files`, `GET /v3/FileDetails/{key}`, `GET /v3/FileDetails/{key}/Download`                          | EntityType in path for listing. `FileDetails` looks up a single file by the `FileContextKey` from `FileList`; `Download` redirects (302) to a freshly-tokened download URL.                                                                   |
 | **Integrated Workflows**    | `GET /v3/IntegrationTaskDefinitions`, `GET/PUT /v3/IntegrationTasks/{key}`                                                                                      | Restricted to approved integration partners                                                                                                                                                                                                    |
 | **Notes**                   | `POST /v3/Notes`, `GET /v3/Notes/{id}`                                                                                                                          | Required: `Subject`, `Body` (HTML supported), `AuthorEmailAddress`                                                                                                                                                                             |
 | **Organizations**           | `GET`, `POST /v3/Organizations`, `GET/PUT/PATCH /v3/Organizations/{key}`                                                                                        | Required: `FullName`                                                                                                                                                                                                                           |
+| **Roles**                   | `GET /v3/Roles`                                                                                                                                                  | Read-only. Active, non-default Roles only, sorted by `Name` then `Key`. Max 200 per page.                                                                                                                                                      |
 | **Tags**                    | _(no paths in spec — beta, not enabled for all users)_                                                                                                          | —                                                                                                                                                                                                                                              |
 | **Teams**                   | `GET /v3/Teams`, `GET /v3/Teams/{TeamKey}`, `POST /v3/Teams/{TeamKey}/AddMembers`, `POST /v3/Teams/{TeamKey}/RemoveMember`                                      | Single-team response includes `Members` (users and sub-teams). `AddMembers`/`RemoveMember` are bound OData actions (always `POST`), idempotent, and users-only — adding/removing a sub-team, or creating/editing a Team itself, is still Karbon-app-only.                          |
 | **Tenant Settings**         | `GET /v3/TenantSettings`                                                                                                                                        | Returns valid `ContactTypes`, `WorkTypes`, `WorkStatuses`, `TenantKey`, `ClientAccessActivated`                                                                                                                                                |
@@ -222,9 +224,9 @@ Hourly rates and time estimates (from `EstimateSummaries`) are **read-only** —
 
 Both exist on WorkItems. **Prefer `PrimaryStatus` and `SecondaryStatus`** — these are the recommended fields for tracking work progress. `WorkStatus` is a legacy field.
 
-**PrimaryStatus** values are fixed (not tenant-specific). Use the display format (with spaces) in both `$filter` and request bodies — the camelCase forms shown in the spec schema are not accepted by the API:
+**PrimaryStatus** values are fixed (not tenant-specific):
 
-| Value (use this) | Meaning                  |
+| Value            | Meaning                  |
 | ---------------- | ------------------------ |
 | `Planned`        | Not yet started          |
 | `Ready To Start` | Ready to begin           |
@@ -232,7 +234,13 @@ Both exist on WorkItems. **Prefer `PrimaryStatus` and `SecondaryStatus`** — th
 | `Waiting`        | Blocked or waiting       |
 | `Completed`      | Done                     |
 
-**SecondaryStatus** values are tenant-customizable. Valid values come from `GET /v3/TenantSettings`.
+Accepted format differs by where the value is used:
+
+- **Request bodies (POST/PUT):** either form works — `"In Progress"` and `"InProgress"` are both accepted.
+- **`$filter`:** only the spaced form (`In Progress`, `Ready To Start`) matches. The no-space form isn't rejected — it silently returns zero rows.
+- **Responses:** format is inconsistent by endpoint. `GET /v3/WorkItems` (list) returns the spaced form (`"In Progress"`); `GET /v3/WorkItems/{key}`, and POST/PUT response bodies, return the no-space form (`"InProgress"`). Don't assume one canonical format when parsing responses — check which endpoint produced the value.
+
+**SecondaryStatus** values are tenant-customizable. Valid values come from `GET /v3/TenantSettings`, scoped to a `PrimaryStatus` **and** to a specific `WorkType` — a value valid for the same `PrimaryStatus` under a different `WorkType` will be accepted by the API but silently dropped (comes back `null`), not rejected. Always check the value is listed for the WorkItem's actual `WorkType`, not just its `PrimaryStatus`.
 
 ---
 
