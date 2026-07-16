@@ -564,6 +564,7 @@
                       "CurrencyCode": "AUD",
                       "PaymentInstructions": null,
                       "InvoiceStatus": "AwaitingPayment",
+                      "InvoiceMagicLink": "https://karbonhq.com/invoice-link?token=abc123",
                       "Client": {
                         "ClientKey": "2xxnBLyCP4Ts",
                         "ClientType": "Organization",
@@ -672,6 +673,7 @@
                   "CurrencyCode": "AUD",
                   "PaymentInstructions": "Payment due 7 days from invoice date",
                   "InvoiceStatus": "AwaitingPayment",
+                  "InvoiceMagicLink": "https://clientportal.karbonhq.com/invoice-link?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9...",
                   "Client": {
                     "ClientKey": "2xxnBLyCP4Ts",
                     "ClientType": "Organization",
