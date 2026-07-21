@@ -635,7 +635,7 @@
             "$ref": "#/components/parameters/InvoiceExpandParams"
           }
         ],
-        "description": "Use the `GET` method on this endpoint to receive the details of an Invoice specified using the InvoiceKey.",
+        "description": "Use the `GET` method on this endpoint to receive the details of an Invoice specified using the InvoiceKey. The response includes `InvoiceMagicLink`, a link for the client to pay the invoice through Karbon Payments, returned once the invoice has been posted.",
         "responses": {
           "200": {
             "description": "Successful Invoice GET operation",
@@ -672,6 +672,7 @@
                   "CurrencyCode": "AUD",
                   "PaymentInstructions": "Payment due 7 days from invoice date",
                   "InvoiceStatus": "AwaitingPayment",
+                  "InvoiceMagicLink": "https://clientportal.karbonhq.com/invoice-link?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9...",
                   "Client": {
                     "ClientKey": "2xxnBLyCP4Ts",
                     "ClientType": "Organization",
@@ -3004,6 +3005,21 @@
               }
             }
           },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorMessages"
+                },
+                "examples": {
+                  "Permission Denied": {
+                    "$ref": "#/components/examples/RestrictionLevel_Permission_Denied"
+                  }
+                }
+              }
+            }
+          },
           "429": {
             "description": "Rate Limit Exceeded",
             "content": {
@@ -3563,6 +3579,21 @@
               }
             }
           },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorMessages"
+                },
+                "examples": {
+                  "Permission Denied": {
+                    "$ref": "#/components/examples/RestrictionLevel_Permission_Denied"
+                  }
+                }
+              }
+            }
+          },
           "404": {
             "description": "Resource Not Found",
             "content": {
@@ -3649,7 +3680,7 @@
             "description": "The Karbon-generated Contact key"
           }
         ],
-        "description": "Use the `PATCH` method on this endpoint to update partial details of a Contact specified using the `Contactkey`.\n\nThis method **only supports** editing the `FirstName`, `MiddleName`, `LastName`, `PreferredName`, `Salutation` and `Suffix` properties.\n",
+        "description": "Use the `PATCH` method on this endpoint to update partial details of a Contact specified using the `Contactkey`.\n\nThis method **only supports** editing the `FirstName`, `MiddleName`, `LastName`, `PreferredName`, `Salutation`, `Suffix` and `RestrictionLevel` properties.\n",
         "operationId": "patchContactsByID",
         "responses": {
           "200": {
@@ -3799,6 +3830,21 @@
                 "examples": {
                   "Unauthorized Access": {
                     "$ref": "#/components/examples/UnauthorizedAccess"
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorMessages"
+                },
+                "examples": {
+                  "Permission Denied": {
+                    "$ref": "#/components/examples/RestrictionLevel_Permission_Denied"
                   }
                 }
               }
@@ -5443,6 +5489,21 @@
               }
             }
           },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorMessages"
+                },
+                "examples": {
+                  "Permission Denied": {
+                    "$ref": "#/components/examples/RestrictionLevel_Permission_Denied"
+                  }
+                }
+              }
+            }
+          },
           "429": {
             "description": "Rate Limit Exceeded",
             "content": {
@@ -6146,6 +6207,21 @@
               }
             }
           },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorMessages"
+                },
+                "examples": {
+                  "Permission Denied": {
+                    "$ref": "#/components/examples/RestrictionLevel_Permission_Denied"
+                  }
+                }
+              }
+            }
+          },
           "404": {
             "description": "Resource Not Found",
             "content": {
@@ -6338,7 +6414,7 @@
             "description": "Return the record after it has been updated"
           }
         ],
-        "description": "Use the `PATCH` method on this endpoint to update partial details of an Organization specified using the `Organizationkey`.\n\nThis method **only supports** editing the `FullName` property.\n",
+        "description": "Use the `PATCH` method on this endpoint to update partial details of an Organization specified using the `Organizationkey`.\n\nThis method **only supports** editing the `FullName` and `RestrictionLevel` properties.\n",
         "operationId": "patchOrganizationByID",
         "responses": {
           "200": {
@@ -6458,6 +6534,21 @@
                 "examples": {
                   "Unauthorized Access": {
                     "$ref": "#/components/examples/UnauthorizedAccess"
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorMessages"
+                },
+                "examples": {
+                  "Permission Denied": {
+                    "$ref": "#/components/examples/RestrictionLevel_Permission_Denied"
                   }
                 }
               }
@@ -9945,7 +10036,14 @@
           {
             "$ref": "#/components/schemas/BillingInvoiceData"
           }
-        ]
+        ],
+        "properties": {
+          "InvoiceMagicLink": {
+            "type": ["string", "null"],
+            "description": "A link firms can send to clients to pay the invoice through Karbon Payments. Only returned once the invoice has been posted; otherwise `null`.",
+            "example": "https://clientportal.karbonhq.com/invoice-link?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9..."
+          }
+        }
       },
       "BillingInvoiceData": {
         "type": "object",
@@ -12505,7 +12603,7 @@
           },
           "RestrictionLevel": {
             "type": "string",
-            "description": "The privacy level for this Contact.\n\n<ul><li>Public Contacts can be managed by anyone in the firm</li> <li>Private Contacts can only be managed by the [Client Team](https://help.karbonhq.com/en/articles/1524707-create-a-client-team). Basic details (name of the Contacts and the Work Items) related to such Contacts are visible to anyone in the firm.</li> <li>Hidden Contacts are only be visible to and managed by the [Client Team](https://help.karbonhq.com/en/articles/1524707-create-a-client-team).</li>\n",
+            "description": "The privacy level for this Contact.\n\n<ul><li>Public Contacts can be managed by anyone in the firm</li> <li>Private Contacts can only be managed by the [Client Team](https://help.karbonhq.com/en/articles/1524707-create-a-client-team). Basic details (name of the Contacts and the Work Items) related to such Contacts are visible to anyone in the firm.</li> <li>Hidden Contacts are only be visible to and managed by the [Client Team](https://help.karbonhq.com/en/articles/1524707-create-a-client-team).</li>\nSetting `Private` requires the calling API application to have the `IncludePrivate` permission; setting `Hidden` requires `IncludeHidden`. `Public` is always allowed. Omitting this field on a PUT leaves the existing value unchanged.\n",
             "example": "Public",
             "default": "Public",
             "enum": ["Public", "Private", "Hidden"]
@@ -12818,7 +12916,7 @@
           },
           "RestrictionLevel": {
             "type": "string",
-            "description": "The privacy level for this Organization.\n\n<ul><li>Public Organization can be managed by anyone in the firm</li> <li>Private Organization can only be managed by the [Client Team](https://help.karbonhq.com/en/articles/1524707-create-a-client-team). Basic details (name of the Organization and the Work Items) related to such Organization are visible to anyone in the firm.</li> <li>Hidden Organization are only be visible to and managed by the [Client Team](https://help.karbonhq.com/en/articles/1524707-create-a-client-team).</li>\n",
+            "description": "The privacy level for this Organization.\n\n<ul><li>Public Organization can be managed by anyone in the firm</li> <li>Private Organization can only be managed by the [Client Team](https://help.karbonhq.com/en/articles/1524707-create-a-client-team). Basic details (name of the Organization and the Work Items) related to such Organization are visible to anyone in the firm.</li> <li>Hidden Organization are only be visible to and managed by the [Client Team](https://help.karbonhq.com/en/articles/1524707-create-a-client-team).</li>\nSetting `Private` requires the calling API application to have the `IncludePrivate` permission; setting `Hidden` requires `IncludeHidden`. `Public` is always allowed. Omitting this field on a PUT leaves the existing value unchanged.\n",
             "default": "Public",
             "enum": ["Public", "Private", "Hidden"],
             "example": "Public"
@@ -12874,7 +12972,7 @@
           },
           "RestrictionLevel": {
             "type": "string",
-            "description": "The privacy level for this Organization.\n\n<ul><li>Public Organization can be managed by anyone in the firm</li> <li>Private Organization can only be managed by the [Client Team](https://help.karbonhq.com/en/articles/1524707-create-a-client-team). Basic details (name of the Organization and the Work Items) related to such Organization are visible to anyone in the firm.</li> <li>Hidden Organization are only be visible to and managed by the [Client Team](https://help.karbonhq.com/en/articles/1524707-create-a-client-team).</li>\n",
+            "description": "The privacy level for this Organization.\n\n<ul><li>Public Organization can be managed by anyone in the firm</li> <li>Private Organization can only be managed by the [Client Team](https://help.karbonhq.com/en/articles/1524707-create-a-client-team). Basic details (name of the Organization and the Work Items) related to such Organization are visible to anyone in the firm.</li> <li>Hidden Organization are only be visible to and managed by the [Client Team](https://help.karbonhq.com/en/articles/1524707-create-a-client-team).</li>\nSetting `Private` requires the calling API application to have the `IncludePrivate` permission; setting `Hidden` requires `IncludeHidden`. `Public` is always allowed. Omitting this field leaves the existing value unchanged.\n",
             "default": "Public",
             "enum": ["Public", "Private", "Hidden"]
           },
@@ -15219,6 +15317,15 @@
           "error": {
             "code": "4002",
             "message": "Invalid property to update. Only FullName can be patched"
+          }
+        }
+      },
+      "RestrictionLevel_Permission_Denied": {
+        "description": "The error returned when a request sets RestrictionLevel to a value the calling API application does not have permission to use",
+        "value": {
+          "error": {
+            "code": "4021",
+            "message": "This API application does not have permission to set RestrictionLevel to Hidden."
           }
         }
       },
