@@ -6956,7 +6956,7 @@
       "get": {
         "tags": ["Tenant Settings"],
         "summary": "Gets lists of customer specific Contact and Work settings",
-        "description": "Get specific settings for a tenant, including the valid work statuses, work types and client types",
+        "description": "Get specific settings for a tenant, including the valid work statuses, work types, service types and client types",
         "operationId": "getTenantSettings",
         "responses": {
           "200": {
@@ -7074,6 +7074,18 @@
                     {
                       "Name": "Other",
                       "ContactTypeKey": "478pf88jbnQr"
+                    }
+                  ],
+                  "ServiceTypes": [
+                    {
+                      "Name": "Tax Compliance",
+                      "ServiceTypeKey": "5kQr8VtLm2xP",
+                      "WorkTypeKeys": ["nTlQkTQnNz7", "3RJgJSgq5xz"]
+                    },
+                    {
+                      "Name": "Advisory",
+                      "ServiceTypeKey": "7hMn3WdKp9zR",
+                      "WorkTypeKeys": ["3RJgJSgq5xz"]
                     }
                   ]
                 }
@@ -11569,6 +11581,12 @@
             "items": {
               "$ref": "#/components/schemas/SettingWorkType"
             }
+          },
+          "ServiceTypes": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SettingServiceType"
+            }
           }
         }
       },
@@ -14317,6 +14335,30 @@
                   "example": "r2t4p6m72"
                 }
               }
+            }
+          }
+        }
+      },
+      "SettingServiceType": {
+        "description": "The schema for a single Service Type entry",
+        "type": "object",
+        "properties": {
+          "Name": {
+            "type": "string",
+            "description": "The name assigned to the Service Type",
+            "example": "Tax Compliance"
+          },
+          "ServiceTypeKey": {
+            "type": "string",
+            "description": "The unique key assigned to the Service Type",
+            "example": "5kQr8VtLm2xP"
+          },
+          "WorkTypeKeys": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "description": "The unique key of a Work Type belonging to this Service Type, matching a WorkTypeKey in the WorkTypes array",
+              "example": "nTlQkTQnNz7"
             }
           }
         }
