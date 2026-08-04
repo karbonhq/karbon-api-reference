@@ -635,7 +635,7 @@
             "$ref": "#/components/parameters/InvoiceExpandParams"
           }
         ],
-        "description": "Use the `GET` method on this endpoint to receive the details of an Invoice specified using the InvoiceKey. The response includes `InvoiceMagicLink`, a link for the client to pay the invoice through Karbon Payments, returned once the invoice has been posted.",
+        "description": "Use the `GET` method on this endpoint to receive the details of an Invoice specified using the InvoiceKey. The response includes `InvoiceMagicLink`, a link for the client to pay the invoice through Karbon Payments, and `InvoicePdfUrl`, a link to the rendered invoice PDF. Both are returned once the invoice has been posted or sent.",
         "responses": {
           "200": {
             "description": "Successful Invoice GET operation",
@@ -673,6 +673,7 @@
                   "PaymentInstructions": "Payment due 7 days from invoice date",
                   "InvoiceStatus": "AwaitingPayment",
                   "InvoiceMagicLink": "https://clientportal.karbonhq.com/invoice-link?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9...",
+                  "InvoicePdfUrl": "/v3/Files?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9...",
                   "Client": {
                     "ClientKey": "2xxnBLyCP4Ts",
                     "ClientType": "Organization",
@@ -10054,6 +10055,11 @@
             "type": ["string", "null"],
             "description": "A link firms can send to clients to pay the invoice through Karbon Payments. Only returned once the invoice has been posted; otherwise `null`.",
             "example": "https://clientportal.karbonhq.com/invoice-link?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9..."
+          },
+          "InvoicePdfUrl": {
+            "type": ["string", "null"],
+            "description": "A link to the rendered invoice PDF, which firms can use to preview the invoice, download it, or send it to their clients. The token in the URL is valid for 15 minutes. Only returned once the invoice has been posted or sent; otherwise `null`.",
+            "example": "/v3/Files?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9..."
           }
         }
       },
