@@ -4309,6 +4309,12 @@
                             "type": "integer",
                             "description": "The actual time (in minutes) spent on the task",
                             "example": 14
+                          },
+                          "EstimateAmount": {
+                            "type": "number",
+                            "format": "decimal",
+                            "description": "The estimated cost of the task, calculated from the estimated time at the user's hourly rate",
+                            "example": 37.5
                           }
                         }
                       }
