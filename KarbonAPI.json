@@ -635,7 +635,7 @@
             "$ref": "#/components/parameters/InvoiceExpandParams"
           }
         ],
-        "description": "Use the `GET` method on this endpoint to receive the details of an Invoice specified using the InvoiceKey.",
+        "description": "Use the `GET` method on this endpoint to receive the details of an Invoice specified using the InvoiceKey. The response includes `InvoiceMagicLink`, a link for the client to pay the invoice through Karbon Payments, and `InvoicePdfUrl`, a link to the rendered invoice PDF. Both are returned once the invoice has been posted or sent.",
         "responses": {
           "200": {
             "description": "Successful Invoice GET operation",
@@ -672,6 +672,8 @@
                   "CurrencyCode": "AUD",
                   "PaymentInstructions": "Payment due 7 days from invoice date",
                   "InvoiceStatus": "AwaitingPayment",
+                  "InvoiceMagicLink": "https://clientportal.karbonhq.com/invoice-link?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9...",
+                  "InvoicePdfUrl": "/v3/Files?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9...",
                   "Client": {
                     "ClientKey": "2xxnBLyCP4Ts",
                     "ClientType": "Organization",
@@ -3004,6 +3006,21 @@
               }
             }
           },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorMessages"
+                },
+                "examples": {
+                  "Permission Denied": {
+                    "$ref": "#/components/examples/RestrictionLevel_Permission_Denied"
+                  }
+                }
+              }
+            }
+          },
           "429": {
             "description": "Rate Limit Exceeded",
             "content": {
@@ -3563,6 +3580,21 @@
               }
             }
           },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorMessages"
+                },
+                "examples": {
+                  "Permission Denied": {
+                    "$ref": "#/components/examples/RestrictionLevel_Permission_Denied"
+                  }
+                }
+              }
+            }
+          },
           "404": {
             "description": "Resource Not Found",
             "content": {
@@ -3649,7 +3681,7 @@
             "description": "The Karbon-generated Contact key"
           }
         ],
-        "description": "Use the `PATCH` method on this endpoint to update partial details of a Contact specified using the `Contactkey`.\n\nThis method **only supports** editing the `FirstName`, `MiddleName`, `LastName`, `PreferredName`, `Salutation` and `Suffix` properties.\n",
+        "description": "Use the `PATCH` method on this endpoint to update partial details of a Contact specified using the `Contactkey`.\n\nThis method **only supports** editing the `FirstName`, `MiddleName`, `LastName`, `PreferredName`, `Salutation`, `Suffix` and `RestrictionLevel` properties.\n",
         "operationId": "patchContactsByID",
         "responses": {
           "200": {
@@ -3799,6 +3831,21 @@
                 "examples": {
                   "Unauthorized Access": {
                     "$ref": "#/components/examples/UnauthorizedAccess"
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorMessages"
+                },
+                "examples": {
+                  "Permission Denied": {
+                    "$ref": "#/components/examples/RestrictionLevel_Permission_Denied"
                   }
                 }
               }
@@ -4262,6 +4309,12 @@
                             "type": "integer",
                             "description": "The actual time (in minutes) spent on the task",
                             "example": 14
+                          },
+                          "EstimateAmount": {
+                            "type": "number",
+                            "format": "decimal",
+                            "description": "The estimated cost of the task, calculated from the estimated time at the user's hourly rate",
+                            "example": 37.5
                           }
                         }
                       }
@@ -4607,6 +4660,182 @@
                   "Unsupported File Type": {
                     "$ref": "#/components/examples/Unsupported_File_Type"
                   },
+                  "Undefined Error": {
+                    "$ref": "#/components/examples/elongated_5001"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v3/FileDetails/{key}": {
+      "get": {
+        "tags": ["Files"],
+        "summary": "Get the details of a single File",
+        "description": "Use the `GET` method on this endpoint to retrieve the current details of a single file, using the `FileContextKey` returned by `GET /v3/FileList/{EntityType}`.",
+        "operationId": "getFileDetailsByKey",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "key",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "The FileContextKey of the file to retrieve.",
+            "example": "S8bsBjvCRJ3"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FileDetails"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResourceNotFound"
+                },
+                "examples": {
+                  "Unauthorized Access": {
+                    "$ref": "#/components/examples/UnauthorizedAccess"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorMessages"
+                },
+                "examples": {
+                  "Resource Not Found": {
+                    "$ref": "#/components/examples/HTTP_Resource_Not_Found"
+                  }
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Rate Limit Exceeded",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RateLimitErrorMessage"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorMessages"
+                },
+                "examples": {
+                  "Undefined Error": {
+                    "$ref": "#/components/examples/elongated_5001"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v3/FileDetails/{key}/Download": {
+      "get": {
+        "tags": ["Files"],
+        "summary": "Redirect to download a single File",
+        "description": "Use the `GET` method on this endpoint to be redirected to a freshly-tokened download URL for the file identified by `key` (the `FileContextKey` returned by `GET /v3/FileList/{EntityType}`). Runs the same tenant/existence check as `GET /v3/FileDetails/{key}`, so it can't be used to mint tokens for another tenant's keys.",
+        "operationId": "downloadFileDetailsByKey",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "key",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "The FileContextKey of the file to download.",
+            "example": "S8bsBjvCRJ3"
+          }
+        ],
+        "responses": {
+          "302": {
+            "description": "Found — redirects to a freshly-tokened download URL for the file.",
+            "headers": {
+              "Location": {
+                "description": "The download URL to fetch the file's bytes from, valid for 15 minutes.",
+                "schema": {
+                  "type": "string",
+                  "example": "https://api.karbonhq.com/v3/Files?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9..."
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResourceNotFound"
+                },
+                "examples": {
+                  "Unauthorized Access": {
+                    "$ref": "#/components/examples/UnauthorizedAccess"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorMessages"
+                },
+                "examples": {
+                  "Resource Not Found": {
+                    "$ref": "#/components/examples/HTTP_Resource_Not_Found"
+                  }
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Rate Limit Exceeded",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RateLimitErrorMessage"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorMessages"
+                },
+                "examples": {
                   "Undefined Error": {
                     "$ref": "#/components/examples/elongated_5001"
                   }
@@ -5262,6 +5491,21 @@
                 "examples": {
                   "Unauthorized Access": {
                     "$ref": "#/components/examples/UnauthorizedAccess"
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorMessages"
+                },
+                "examples": {
+                  "Permission Denied": {
+                    "$ref": "#/components/examples/RestrictionLevel_Permission_Denied"
                   }
                 }
               }
@@ -5970,6 +6214,21 @@
               }
             }
           },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorMessages"
+                },
+                "examples": {
+                  "Permission Denied": {
+                    "$ref": "#/components/examples/RestrictionLevel_Permission_Denied"
+                  }
+                }
+              }
+            }
+          },
           "404": {
             "description": "Resource Not Found",
             "content": {
@@ -6162,7 +6421,7 @@
             "description": "Return the record after it has been updated"
           }
         ],
-        "description": "Use the `PATCH` method on this endpoint to update partial details of an Organization specified using the `Organizationkey`.\n\nThis method **only supports** editing the `FullName` property.\n",
+        "description": "Use the `PATCH` method on this endpoint to update partial details of an Organization specified using the `Organizationkey`.\n\nThis method **only supports** editing the `FullName` and `RestrictionLevel` properties.\n",
         "operationId": "patchOrganizationByID",
         "responses": {
           "200": {
@@ -6287,6 +6546,21 @@
               }
             }
           },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorMessages"
+                },
+                "examples": {
+                  "Permission Denied": {
+                    "$ref": "#/components/examples/RestrictionLevel_Permission_Denied"
+                  }
+                }
+              }
+            }
+          },
           "404": {
             "description": "Resource Not Found",
             "content": {
@@ -6358,6 +6632,98 @@
                     "type": "string",
                     "description": "The full name of the Organization",
                     "example": "Sample Company Pty. Ltd."
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v3/Roles": {
+      "get": {
+        "tags": ["Users"],
+        "summary": "Gets a list of Roles",
+        "description": "Returns the active, non-default Roles configured for your tenant, sorted by `Name` ascending. Returns a maximum of 200 Roles per page.",
+        "operationId": "getAllRoles",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "$filter",
+            "schema": {
+              "type": "string"
+            },
+            "examples": {
+              "name": {
+                "value": "Name eq 'Manager'",
+                "summary": "Return only the Role whose Name matches 'Manager'."
+              }
+            },
+            "description": "When this parameter is combined with the URI, this endpoint will return a subset of the Roles that satisfy the `$filter` expression. Only `Name` with the `eq` operator is supported."
+          },
+          {
+            "$ref": "#/components/parameters/SkipRecords"
+          },
+          {
+            "$ref": "#/components/parameters/TopRecords"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetRoles"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorMessages"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResourceNotFound"
+                },
+                "examples": {
+                  "Unauthorized Access": {
+                    "$ref": "#/components/examples/UnauthorizedAccess"
+                  }
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Rate Limit Exceeded",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RateLimitErrorMessage"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorMessages"
+                },
+                "examples": {
+                  "Undefined Error": {
+                    "$ref": "#/components/examples/elongated_5001"
                   }
                 }
               }
@@ -6469,11 +6835,135 @@
         }
       }
     },
+    "/v3/Teams/{TeamKey}/AddMembers": {
+      "post": {
+        "tags": ["Users"],
+        "summary": "Adds one or more members to a Team",
+        "description": "Adds one or more existing, active users to a Team. Users who are already members are skipped, so this endpoint is safe to call again with the same `UserKeys`.\n\nOnly individual users can be added. A Team can contain another Team as a sub-team, but adding a sub-team is not supported here — that can only be done in the Karbon app.\n\nThis is invoked as a bound OData action; despite the URL shape, it is always a `POST`.",
+        "operationId": "addTeamMembers",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "TeamKey",
+            "required": true,
+            "schema": { "type": "string" },
+            "example": "2Nw8tnxwQCVf",
+            "description": "The key of the Team to add members to."
+          }
+        ],
+        "requestBody": {
+          "description": "The user profile keys to add as members of the Team.",
+          "required": true,
+          "content": {
+            "application/json": { "schema": { "$ref": "#/components/schemas/AddTeamMembers" } }
+          }
+        },
+        "responses": {
+          "204": { "description": "No Content" },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ErrorMessages" },
+                "examples": {
+                  "Inactive Or Unknown User": {
+                    "value": { "error": { "code": "4002", "message": "Cannot find an active user for 3VQ8Qrq944NW" } }
+                  },
+                  "Empty UserKeys": {
+                    "value": { "error": { "code": "4002", "message": "'User Keys' must not be empty." } }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ResourceNotFound" },
+                "examples": { "Unauthorized Access": { "$ref": "#/components/examples/UnauthorizedAccess" } }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": { "application/json": { "schema": { "$ref": "#/components/schemas/ErrorMessages" } } }
+          },
+          "429": {
+            "description": "Rate Limit Exceeded",
+            "content": { "application/json": { "schema": { "$ref": "#/components/schemas/RateLimitErrorMessage" } } }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ErrorMessages" },
+                "examples": { "Undefined Error": { "$ref": "#/components/examples/elongated_5001" } }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v3/Teams/{TeamKey}/RemoveMember": {
+      "post": {
+        "tags": ["Users"],
+        "summary": "Removes a member from a Team",
+        "description": "Removes a single user from a Team. Returns `204 No Content` whether or not the user was a member, so this endpoint is safe to retry.\n\nOnly individual users can be removed this way. Removing a sub-team from a Team is not supported here — that can only be done in the Karbon app.\n\nThis is invoked as a bound OData action; despite the URL shape, it is always a `POST`.",
+        "operationId": "removeTeamMember",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "TeamKey",
+            "required": true,
+            "schema": { "type": "string" },
+            "example": "2Nw8tnxwQCVf",
+            "description": "The key of the Team to remove a member from."
+          }
+        ],
+        "requestBody": {
+          "description": "The user profile key to remove from the Team.",
+          "required": true,
+          "content": {
+            "application/json": { "schema": { "$ref": "#/components/schemas/RemoveTeamMember" } }
+          }
+        },
+        "responses": {
+          "204": { "description": "No Content" },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ResourceNotFound" },
+                "examples": { "Unauthorized Access": { "$ref": "#/components/examples/UnauthorizedAccess" } }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": { "application/json": { "schema": { "$ref": "#/components/schemas/ErrorMessages" } } }
+          },
+          "429": {
+            "description": "Rate Limit Exceeded",
+            "content": { "application/json": { "schema": { "$ref": "#/components/schemas/RateLimitErrorMessage" } } }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ErrorMessages" },
+                "examples": { "Undefined Error": { "$ref": "#/components/examples/elongated_5001" } }
+              }
+            }
+          }
+        }
+      }
+    },
     "/v3/TenantSettings": {
       "get": {
         "tags": ["Tenant Settings"],
         "summary": "Gets lists of customer specific Contact and Work settings",
-        "description": "Get specific settings for a tenant, including the valid work statuses, work types and client types",
+        "description": "Get specific settings for a tenant, including the valid work statuses, work types, service types and client types",
         "operationId": "getTenantSettings",
         "responses": {
           "200": {
@@ -6591,6 +7081,18 @@
                     {
                       "Name": "Other",
                       "ContactTypeKey": "478pf88jbnQr"
+                    }
+                  ],
+                  "ServiceTypes": [
+                    {
+                      "Name": "Tax Compliance",
+                      "ServiceTypeKey": "5kQr8VtLm2xP",
+                      "WorkTypeKeys": ["nTlQkTQnNz7", "3RJgJSgq5xz"]
+                    },
+                    {
+                      "Name": "Advisory",
+                      "ServiceTypeKey": "7hMn3WdKp9zR",
+                      "WorkTypeKeys": ["3RJgJSgq5xz"]
                     }
                   ]
                 }
@@ -9553,7 +10055,19 @@
           {
             "$ref": "#/components/schemas/BillingInvoiceData"
           }
-        ]
+        ],
+        "properties": {
+          "InvoiceMagicLink": {
+            "type": ["string", "null"],
+            "description": "A link firms can send to clients to pay the invoice through Karbon Payments. Only returned once the invoice has been posted; otherwise `null`.",
+            "example": "https://clientportal.karbonhq.com/invoice-link?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9..."
+          },
+          "InvoicePdfUrl": {
+            "type": ["string", "null"],
+            "description": "A link to the rendered invoice PDF, which firms can use to preview the invoice, download it, or send it to their clients. The token in the URL is valid for 15 minutes. Only returned once the invoice has been posted or sent; otherwise `null`.",
+            "example": "/v3/Files?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9..."
+          }
+        }
       },
       "BillingInvoiceData": {
         "type": "object",
@@ -11079,6 +11593,12 @@
             "items": {
               "$ref": "#/components/schemas/SettingWorkType"
             }
+          },
+          "ServiceTypes": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SettingServiceType"
+            }
           }
         }
       },
@@ -12113,7 +12633,7 @@
           },
           "RestrictionLevel": {
             "type": "string",
-            "description": "The privacy level for this Contact.\n\n<ul><li>Public Contacts can be managed by anyone in the firm</li> <li>Private Contacts can only be managed by the [Client Team](https://help.karbonhq.com/en/articles/1524707-create-a-client-team). Basic details (name of the Contacts and the Work Items) related to such Contacts are visible to anyone in the firm.</li> <li>Hidden Contacts are only be visible to and managed by the [Client Team](https://help.karbonhq.com/en/articles/1524707-create-a-client-team).</li>\n",
+            "description": "The privacy level for this Contact.\n\n<ul><li>Public Contacts can be managed by anyone in the firm</li> <li>Private Contacts can only be managed by the [Client Team](https://help.karbonhq.com/en/articles/1524707-create-a-client-team). Basic details (name of the Contacts and the Work Items) related to such Contacts are visible to anyone in the firm.</li> <li>Hidden Contacts are only be visible to and managed by the [Client Team](https://help.karbonhq.com/en/articles/1524707-create-a-client-team).</li>\nSetting `Private` requires the calling API application to have the `IncludePrivate` permission; setting `Hidden` requires `IncludeHidden`. `Public` is always allowed. Omitting this field on a PUT leaves the existing value unchanged.\n",
             "example": "Public",
             "default": "Public",
             "enum": ["Public", "Private", "Hidden"]
@@ -12426,7 +12946,7 @@
           },
           "RestrictionLevel": {
             "type": "string",
-            "description": "The privacy level for this Organization.\n\n<ul><li>Public Organization can be managed by anyone in the firm</li> <li>Private Organization can only be managed by the [Client Team](https://help.karbonhq.com/en/articles/1524707-create-a-client-team). Basic details (name of the Organization and the Work Items) related to such Organization are visible to anyone in the firm.</li> <li>Hidden Organization are only be visible to and managed by the [Client Team](https://help.karbonhq.com/en/articles/1524707-create-a-client-team).</li>\n",
+            "description": "The privacy level for this Organization.\n\n<ul><li>Public Organization can be managed by anyone in the firm</li> <li>Private Organization can only be managed by the [Client Team](https://help.karbonhq.com/en/articles/1524707-create-a-client-team). Basic details (name of the Organization and the Work Items) related to such Organization are visible to anyone in the firm.</li> <li>Hidden Organization are only be visible to and managed by the [Client Team](https://help.karbonhq.com/en/articles/1524707-create-a-client-team).</li>\nSetting `Private` requires the calling API application to have the `IncludePrivate` permission; setting `Hidden` requires `IncludeHidden`. `Public` is always allowed. Omitting this field on a PUT leaves the existing value unchanged.\n",
             "default": "Public",
             "enum": ["Public", "Private", "Hidden"],
             "example": "Public"
@@ -12482,7 +13002,7 @@
           },
           "RestrictionLevel": {
             "type": "string",
-            "description": "The privacy level for this Organization.\n\n<ul><li>Public Organization can be managed by anyone in the firm</li> <li>Private Organization can only be managed by the [Client Team](https://help.karbonhq.com/en/articles/1524707-create-a-client-team). Basic details (name of the Organization and the Work Items) related to such Organization are visible to anyone in the firm.</li> <li>Hidden Organization are only be visible to and managed by the [Client Team](https://help.karbonhq.com/en/articles/1524707-create-a-client-team).</li>\n",
+            "description": "The privacy level for this Organization.\n\n<ul><li>Public Organization can be managed by anyone in the firm</li> <li>Private Organization can only be managed by the [Client Team](https://help.karbonhq.com/en/articles/1524707-create-a-client-team). Basic details (name of the Organization and the Work Items) related to such Organization are visible to anyone in the firm.</li> <li>Hidden Organization are only be visible to and managed by the [Client Team](https://help.karbonhq.com/en/articles/1524707-create-a-client-team).</li>\nSetting `Private` requires the calling API application to have the `IncludePrivate` permission; setting `Hidden` requires `IncludeHidden`. `Public` is always allowed. Omitting this field leaves the existing value unchanged.\n",
             "default": "Public",
             "enum": ["Public", "Private", "Hidden"]
           },
@@ -12585,6 +13105,22 @@
             "description": "The timestamp of when the file was created"
           }
         }
+      },
+      "FileDetails": {
+        "description": "The current details of a single File",
+        "allOf": [
+          { "$ref": "#/components/schemas/FileListItem" },
+          {
+            "type": "object",
+            "properties": {
+              "IsArchived": {
+                "type": "boolean",
+                "example": false,
+                "description": "Whether the file has been archived"
+              }
+            }
+          }
+        ]
       },
       "GetSingleTimeSheet": {
         "description": "A single TimeSheet with TimeEntries",
@@ -13218,6 +13754,19 @@
           }
         }
       },
+      "Role": {
+        "type": "object",
+        "description": "A Karbon Role (internally an Actor in the Tenant pillar).",
+        "required": ["Key", "Name"],
+        "properties": {
+          "Key": {
+            "type": "string",
+            "example": "abc123",
+            "description": "A Karbon-generated unique identifier for the Role."
+          },
+          "Name": { "type": "string", "example": "Manager", "description": "The name of the Role." }
+        }
+      },
       "TeamMember": {
         "type": "object",
         "description": "A Karbon team member details, either a User or another Team.",
@@ -13262,6 +13811,44 @@
           "value": {
             "type": "array",
             "items": { "$ref": "#/components/schemas/Team" }
+          }
+        }
+      },
+      "GetRoles": {
+        "type": "object",
+        "description": "The API response containing a list of Roles in Karbon.",
+        "properties": {
+          "@odata.context": { "type": "string", "example": "https://api.karbonhq.com/v3/$metadata#Roles" },
+          "@odata.count": { "type": "integer", "example": 1 },
+          "@odata.nextLink": { "type": "string", "example": "https://api.karbonhq.com/v3/Roles?$skip=200&$top=200" },
+          "value": {
+            "type": "array",
+            "items": { "$ref": "#/components/schemas/Role" }
+          }
+        }
+      },
+      "AddTeamMembers": {
+        "type": "object",
+        "description": "The user profile keys to add as members of a Team.",
+        "required": ["UserKeys"],
+        "properties": {
+          "UserKeys": {
+            "type": "array",
+            "items": { "type": "string" },
+            "example": ["3VQ8Qrq944NW", "4WR9Srq055PX"],
+            "description": "The keys of the users to add. Must be non-empty. Users already on the Team are skipped."
+          }
+        }
+      },
+      "RemoveTeamMember": {
+        "type": "object",
+        "description": "The user profile key to remove from a Team.",
+        "required": ["UserKey"],
+        "properties": {
+          "UserKey": {
+            "type": "string",
+            "example": "3VQ8Qrq944NW",
+            "description": "The key of the user to remove."
           }
         }
       },
@@ -13760,6 +14347,30 @@
                   "example": "r2t4p6m72"
                 }
               }
+            }
+          }
+        }
+      },
+      "SettingServiceType": {
+        "description": "The schema for a single Service Type entry",
+        "type": "object",
+        "properties": {
+          "Name": {
+            "type": "string",
+            "description": "The name assigned to the Service Type",
+            "example": "Tax Compliance"
+          },
+          "ServiceTypeKey": {
+            "type": "string",
+            "description": "The unique key assigned to the Service Type",
+            "example": "5kQr8VtLm2xP"
+          },
+          "WorkTypeKeys": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "description": "The unique key of a Work Type belonging to this Service Type, matching a WorkTypeKey in the WorkTypes array",
+              "example": "nTlQkTQnNz7"
             }
           }
         }
@@ -14760,6 +15371,15 @@
           "error": {
             "code": "4002",
             "message": "Invalid property to update. Only FullName can be patched"
+          }
+        }
+      },
+      "RestrictionLevel_Permission_Denied": {
+        "description": "The error returned when a request sets RestrictionLevel to a value the calling API application does not have permission to use",
+        "value": {
+          "error": {
+            "code": "4021",
+            "message": "This API application does not have permission to set RestrictionLevel to Hidden."
           }
         }
       },
