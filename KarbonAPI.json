@@ -50,6 +50,10 @@
       "description": "Estimate and track time to understand jobs that are on-budget, allocate resources, and uncover performance insights to transform your firm. [Read more](https://help.karbonhq.com/en/articles/4439115-overview-of-time-budgets)"
     },
     {
+      "name": "Expenses",
+      "description": "Record client expenses against work items and clients so they can be billed. [Read more](https://help.karbonhq.com/en/s/articles/6022358-managing-time-budgets-and-expenses-in-karbon)"
+    },
+    {
       "name": "Files",
       "description": "Handle files and attachments. [Read more](https://help.karbonhq.com/en/articles/5714089-files-and-attachments)"
     },
@@ -4391,6 +4395,129 @@
                     "$ref": "#/components/examples/elongated_5001"
                   }
                 }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v3/Expenses": {
+      "post": {
+        "tags": ["Expenses"],
+        "summary": "Creates a new Expense",
+        "description": "Use the `POST` method on this endpoint to create an Expense and associate it with a WorkItem, Contact or Organization in your tenant.\n\nExpenses cannot be listed, updated or deleted through the API.\n",
+        "operationId": "createExpense",
+        "responses": {
+          "201": {
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ExpenseResponse"
+                },
+                "example": {
+                  "@odata.context": "https://api.karbonhq.com/v3/$metadata#Expenses/$entity",
+                  "ExpenseKey": "3nB7kQvXLmT",
+                  "Timeline": {
+                    "EntityType": "WorkItem",
+                    "EntityKey": "2m6pSFxRzcF2"
+                  },
+                  "ExpenseDate": "2026-08-14T00:00:00Z",
+                  "Value": 240.5,
+                  "BillableValue": 240.5,
+                  "Description": "Courier fees for year-end documents"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorMessages"
+                },
+                "examples": {
+                  "Unsupported Option": {
+                    "$ref": "#/components/examples/Unsupported_option"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResourceNotFound"
+                },
+                "examples": {
+                  "Unauthorized Access": {
+                    "$ref": "#/components/examples/UnauthorizedAccess"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorMessages"
+                },
+                "examples": {
+                  "Resource Not Found": {
+                    "$ref": "#/components/examples/HTTP_Resource_Not_Found"
+                  }
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Rate Limit Exceeded",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RateLimitErrorMessage"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorMessages"
+                },
+                "examples": {
+                  "Undefined Error": {
+                    "$ref": "#/components/examples/elongated_5001"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "description": "Refer to the table below for more information on each field in the request body.",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ExpenseRequest"
+              },
+              "example": {
+                "Timeline": {
+                  "EntityType": "WorkItem",
+                  "EntityKey": "2m6pSFxRzcF2"
+                },
+                "ExpenseDate": "2026-08-14T00:00:00Z",
+                "Value": 240.5,
+                "BillableValue": 240.5,
+                "Description": "Courier fees for year-end documents"
               }
             }
           }
@@ -12681,6 +12808,71 @@
             "$ref": "#/components/schemas/ClientTeam"
           }
         }
+      },
+      "ExpenseRequest": {
+        "description": "A single Expense",
+        "required": ["Timeline", "ExpenseDate", "Value", "BillableValue", "Description"],
+        "type": "object",
+        "properties": {
+          "Timeline": {
+            "type": "object",
+            "description": "The entity the Expense is recorded against",
+            "properties": {
+              "EntityType": {
+                "type": "string",
+                "description": "The type of entity this Expense will be linked to",
+                "enum": ["WorkItem", "Contact", "Organization"]
+              },
+              "EntityKey": {
+                "type": "string",
+                "example": "2m6pSFxRzcF2",
+                "description": "A Karbon-generated value to indicate the entity"
+              }
+            }
+          },
+          "ExpenseDate": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2026-08-14T00:00:00Z",
+            "description": "The date the Expense was incurred"
+          },
+          "Value": {
+            "type": "number",
+            "format": "double",
+            "example": 240.5,
+            "description": "The cost of the Expense. Cannot be negative."
+          },
+          "BillableValue": {
+            "type": "number",
+            "format": "double",
+            "example": 240.5,
+            "description": "The portion of the Expense that is billable to the client. Cannot be negative. Use 0 for an Expense that will not be billed on."
+          },
+          "Description": {
+            "type": "string",
+            "example": "Courier fees for year-end documents",
+            "description": "A description of the Expense. Limited to 250 characters."
+          }
+        }
+      },
+      "ExpenseResponse": {
+        "description": "A single Expense",
+        "type": "object",
+        "allOf": [
+          {
+            "type": "object",
+            "properties": {
+              "ExpenseKey": {
+                "type": "string",
+                "example": "3nB7kQvXLmT",
+                "description": "The unique identifier of the Expense"
+              }
+            }
+          },
+          {
+            "$ref": "#/components/schemas/ExpenseRequest"
+          }
+        ]
       },
       "NoteRequest": {
         "description": "A single Note",
