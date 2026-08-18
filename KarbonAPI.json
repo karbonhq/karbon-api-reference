@@ -50,10 +50,6 @@
       "description": "Estimate and track time to understand jobs that are on-budget, allocate resources, and uncover performance insights to transform your firm. [Read more](https://help.karbonhq.com/en/articles/4439115-overview-of-time-budgets)"
     },
     {
-      "name": "Expenses",
-      "description": "Record client expenses against work items and clients so they can be billed. [Read more](https://help.karbonhq.com/en/s/articles/6022358-managing-time-budgets-and-expenses-in-karbon)"
-    },
-    {
       "name": "Files",
       "description": "Handle files and attachments. [Read more](https://help.karbonhq.com/en/articles/5714089-files-and-attachments)"
     },
@@ -4403,7 +4399,7 @@
     },
     "/v3/Expenses": {
       "post": {
-        "tags": ["Expenses"],
+        "tags": ["Billing"],
         "summary": "Creates a new Expense",
         "description": "Use the `POST` method on this endpoint to create an Expense and associate it with a WorkItem, Contact or Organization in your tenant.\n\nExpenses cannot be listed, updated or deleted through the API.\n",
         "operationId": "createExpense",
