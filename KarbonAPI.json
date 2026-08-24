@@ -4397,6 +4397,326 @@
         }
       }
     },
+    "/v3/WorkItems/{WorkItemKey}/EstimateSummaries/{EstimateSummaryKey}": {
+      "get": {
+        "tags": ["Estimate Summaries"],
+        "summary": "Gets a single Estimate Summary using WorkItemKey and EstimateSummaryKey",
+        "parameters": [
+          {
+            "required": true,
+            "in": "path",
+            "name": "WorkItemKey",
+            "schema": {
+              "type": "string"
+            },
+            "example": "4jgPTtcXxwC2",
+            "description": "The Karbon-generated Work Item key"
+          },
+          {
+            "required": true,
+            "in": "path",
+            "name": "EstimateSummaryKey",
+            "schema": {
+              "type": "string"
+            },
+            "example": "160F79F6-E650-40C3-8BD9-F70C287B7476-0",
+            "description": "The Karbon-generated Estimate Summary key, as returned by GET /v3/EstimateSummaries/{WorkItemKey}"
+          }
+        ],
+        "description": "Use the `GET` method on this endpoint to receive a single estimate summary on a Work Item, specified using the `WorkItemKey` and `EstimateSummaryKey`.\n\nAn EstimateSummaryKey starting with `0-` represents time recorded against a task with no estimate assigned, rather than an actual estimate. It can be retrieved but not updated.\n",
+        "operationId": "getEstimateSummaryByKey",
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "EstimateSummaryKey": {
+                      "type": "string",
+                      "description": "A randomly generated GUID. Changing HourlyRate on a PATCH can reissue this key — use the OData-EntityId response header to get the current one.",
+                      "example": "160F79F6-E650-40C3-8BD9-F70C287B7476-0"
+                    },
+                    "UserKey": {
+                      "type": "string",
+                      "description": "A Karbon-generated unique identifier for the Karbon user",
+                      "example": "RXq4mB32PXg"
+                    },
+                    "RoleKey": {
+                      "type": "string",
+                      "description": "A Karbon-generated unique identifier for the user's role",
+                      "example": "qTLmJpG85Ng"
+                    },
+                    "RoleName": {
+                      "type": "string",
+                      "description": "The Role of the user",
+                      "example": "Accountant"
+                    },
+                    "TaskTypeKey": {
+                      "type": "string",
+                      "description": "A Karbon-generated unique identifier for the task",
+                      "example": "3h5Tbh9GgLs7"
+                    },
+                    "TaskTypeName": {
+                      "type": "string",
+                      "description": "The name of the task",
+                      "example": "Admin"
+                    },
+                    "EstimateMinutes": {
+                      "type": "integer",
+                      "description": "The total estimated time (in minutes) for the task to be completed",
+                      "example": 15
+                    },
+                    "HourlyRate": {
+                      "type": "number",
+                      "format": "decimal",
+                      "description": "The hourly rate of the user",
+                      "example": 150
+                    },
+                    "ActualMinutes": {
+                      "type": "integer",
+                      "description": "The actual time (in minutes) spent on the task",
+                      "example": 14
+                    },
+                    "EstimateAmount": {
+                      "type": "number",
+                      "format": "decimal",
+                      "description": "The estimated cost of the task, calculated from the estimated time at the user's hourly rate",
+                      "example": 37.5
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorMessages"
+                },
+                "examples": {
+                  "Unsupported Option": {
+                    "$ref": "#/components/examples/Unsupported_option"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResourceNotFound"
+                },
+                "examples": {
+                  "Unauthorized Access": {
+                    "$ref": "#/components/examples/UnauthorizedAccess"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorMessages"
+                },
+                "examples": {
+                  "Resource Not Found": {
+                    "$ref": "#/components/examples/HTTP_Resource_Not_Found"
+                  }
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Rate Limit Exceeded",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RateLimitErrorMessage"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorMessages"
+                },
+                "examples": {
+                  "Undefined Error": {
+                    "$ref": "#/components/examples/elongated_5001"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "patch": {
+        "tags": ["Estimate Summaries"],
+        "summary": "Updates a single Estimate Summary",
+        "parameters": [
+          {
+            "required": true,
+            "in": "path",
+            "name": "WorkItemKey",
+            "schema": {
+              "type": "string"
+            },
+            "example": "4jgPTtcXxwC2",
+            "description": "The Karbon-generated Work Item key"
+          },
+          {
+            "required": true,
+            "in": "path",
+            "name": "EstimateSummaryKey",
+            "schema": {
+              "type": "string"
+            },
+            "example": "160F79F6-E650-40C3-8BD9-F70C287B7476-0",
+            "description": "The Karbon-generated Estimate Summary key, as returned by GET /v3/EstimateSummaries/{WorkItemKey}"
+          }
+        ],
+        "description": "Use the `PATCH` method on this endpoint to update the estimated minutes or amount, and/or the hourly rate, for an estimate summary. Only `EstimateMinutes`, `EstimateAmount` and `HourlyRate` are accepted, and each is optional.\n\nAn EstimateSummaryKey starting with `0-` represents time recorded against a task with no estimate assigned, rather than an actual estimate, and cannot be updated through this endpoint — assign an estimate to the task in Karbon first.\n\nEach Karbon account's Time and Budget settings choose whether estimates are controlled by time or by amount, and this setting cannot be changed through the API. Only the field matching that setting can be set, and `EstimateMinutes` and `EstimateAmount` cannot be supplied together.\n\nA successful update returns `204 No Content`. Changing `HourlyRate` can reissue the `EstimateSummaryKey`, so the response always includes an `OData-EntityId` header with the estimate summary's location after the update — use that URL for subsequent requests rather than the key you sent.\n",
+        "operationId": "updateEstimateSummary",
+        "requestBody": {
+          "description": "The fields to update. Only EstimateMinutes, EstimateAmount and HourlyRate are accepted, and EstimateMinutes and EstimateAmount cannot be supplied together. Refer to the table below for more information on each field in the request body.",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "EstimateMinutes": {
+                    "type": "integer",
+                    "description": "The total estimated time (in minutes) for the task. Between 0 and 599,999,940. Cannot be supplied together with EstimateAmount.",
+                    "example": 90
+                  },
+                  "EstimateAmount": {
+                    "type": "number",
+                    "format": "decimal",
+                    "description": "The estimated cost of the task. Between 0 and 99,999,999. Cannot be supplied together with EstimateMinutes.",
+                    "example": 250.0
+                  },
+                  "HourlyRate": {
+                    "type": "number",
+                    "format": "decimal",
+                    "description": "The hourly rate to estimate the task at. Between 0 and 99,999,999.",
+                    "example": 150
+                  }
+                }
+              },
+              "example": {
+                "EstimateAmount": 250.0
+              }
+            }
+          }
+        },
+        "responses": {
+          "204": {
+            "description": "Estimate summary successfully updated",
+            "headers": {
+              "OData-EntityId": {
+                "description": "The estimate summary's location after the update, as a URL you can GET. Changing the hourly rate can reissue the EstimateSummaryKey, so use this location for subsequent requests.",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request. Returned for an invalid request body, an unsupported PATCH property, or when the EstimateSummaryKey does not belong to the WorkItem.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorMessages"
+                },
+                "examples": {
+                  "Unsupported Option": {
+                    "$ref": "#/components/examples/Unsupported_option"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResourceNotFound"
+                },
+                "examples": {
+                  "Unauthorized Access": {
+                    "$ref": "#/components/examples/UnauthorizedAccess"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorMessages"
+                },
+                "examples": {
+                  "Resource Not Found": {
+                    "$ref": "#/components/examples/HTTP_Resource_Not_Found"
+                  }
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Unprocessable Entity. Returned when the Work Item is completed, the rate change is blocked by the firm's WIP lock date, rate plans are not enabled for the firm, or the estimate cannot hold the field supplied (for example, setting HourlyRate on a non-billable estimate, or EstimateMinutes on an estimate budgeted by amount).",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorMessages"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Rate Limit Exceeded",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RateLimitErrorMessage"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorMessages"
+                },
+                "examples": {
+                  "Undefined Error": {
+                    "$ref": "#/components/examples/elongated_5001"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/v3/Expenses": {
       "post": {
         "tags": ["Billing"],
