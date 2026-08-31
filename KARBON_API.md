@@ -124,11 +124,11 @@ Pass a comma-separated list where multiple values are supported. Only available 
 
 | Endpoint                                                            | `$expand` options                             |
 | ------------------------------------------------------------------- | --------------------------------------------- |
-| `GET /v3/Contacts/{key}`                                            | `BusinessCards`, `ClientTeam`, `ClientAccess` |
-| `GET /v3/Contacts/GetContactByUserDefinedIdentifier(...)`           | `BusinessCards`                               |
+| `GET /v3/Contacts/{key}`                                            | `BusinessCards`, `ClientTeam`, `ClientAccess`, `ServiceTypes` |
+| `GET /v3/Contacts/GetContactByUserDefinedIdentifier(...)`           | `BusinessCards`, `ServiceTypes`               |
 | `GET /v3/ClientGroups/GetClientGroupByUserDefinedIdentifier(...)`   | `BusinessCard`                                |
-| `GET /v3/Organizations/{key}`                                       | `BusinessCards`,`ClientTeam`,`Contacts`       |
-| `GET /v3/Organizations/GetOrganizationByUserDefinedIdentifier(...)` | `BusinessCards`                               |
+| `GET /v3/Organizations/{key}`                                       | `BusinessCards`,`ClientTeam`,`Contacts`,`ServiceTypes` |
+| `GET /v3/Organizations/GetOrganizationByUserDefinedIdentifier(...)` | `BusinessCards`, `ServiceTypes`               |
 | `GET /v3/Timesheets`                                                | `TimeEntries`                                 |
 | `GET /v3/Timesheets/{key}`                                          | `TimeEntries`                                 |
 
@@ -194,7 +194,7 @@ GET /v3/ClientGroups/GetClientGroupByUserDefinedIdentifier(UserDefinedIdentifier
 | **Users**                   | `GET /v3/Users`, `POST /v3/Users`, `GET /v3/Users/{id}`                                                                                                         | —                                                                                                                                                                                                                                              |
 | **Webhook Subscriptions**   | `POST/DELETE /v3/WebhookSubscriptions`, `GET/DELETE /v3/WebhookSubscriptions/{type}`                                                                            | One subscription per entity type; 10 retries then auto-cancelled                                                                                                                                                                               |
 | **Work Items**              | `GET`, `POST /v3/WorkItems`, `GET/PUT/PATCH /v3/WorkItems/{key}`                                                                                                | Most filterable resource                                                                                                                                                                                                                       |
-| **Work Schedules**          | `POST /v3/WorkSchedules`, `GET/PUT/PATCH /v3/WorkSchedules/{key}`                                                                                               | For repeating work. `PATCH` supports `ScheduleEndDate` and `AssigneeUserKey`                                                                                                                                                                                    |
+| **Work Schedules**          | `POST /v3/WorkSchedules`, `GET/PUT/PATCH /v3/WorkSchedules/{key}`                                                                                               | For repeating work. `PATCH` supports `ScheduleEndDate` and `AssigneeUserKey` only. `ScheduleDeadlineDateMethod`/`Days`/`MonthMultiple` (GET/POST/PUT only) set a deadline date alongside the existing `ScheduleDueDate*` fields                                                                                                                                                                                    |
 | **Work Templates**          | `GET /v3/WorkTemplates`, `GET /v3/WorkTemplates/{key}`                                                                                                          | Read-only                                                                                                                                                                                                                                      |
 
 ---

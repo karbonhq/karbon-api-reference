@@ -3083,10 +3083,10 @@
             "name": "$expand",
             "schema": {
               "type": "string",
-              "enum": ["BusinessCards"]
+              "enum": ["BusinessCards", "ServiceTypes"]
             },
             "example": "BusinessCards",
-            "description": "When this parameter is combined with the URI, this endpoint will also return the Business Cards of the Contact.\n"
+            "description": "When this parameter is combined with the URI, this endpoint will also return the Business Cards or Service Types of the Contact.\n"
           }
         ],
         "description": "Use the `GET` method on this endpoint to receive the details of a Contact specified using the UserDefinedIdentifier.\n\nUsing the query parameter available to this endpoint, you can also include Business Card details of the Contact in the response.\n",
@@ -3298,10 +3298,10 @@
             "name": "$expand",
             "schema": {
               "type": "string",
-              "enum": ["BusinessCards", "ClientTeam", "ClientAccess"]
+              "enum": ["BusinessCards", "ClientTeam", "ClientAccess", "ServiceTypes"]
             },
             "example": "BusinessCards",
-            "description": "When this parameter is combined with the URI, this endpoint will also return one or more of the following: Business Cards for the Contact, the Client Team assigned to the Contact, or a list of other Contacts that can access this Contact in Karbon for Clients."
+            "description": "When this parameter is combined with the URI, this endpoint will also return one or more of the following: Business Cards for the Contact, the Client Team assigned to the Contact, a list of other Contacts that can access this Contact in Karbon for Clients, or the Service Types assigned to the Contact."
           }
         ],
         "description": "Use the `GET` method on this endpoint to receive the details of a Contact specified using the `Contactkey`.\n\nUsing the query parameter available to this endpoint,  you can also include the Business Card details of the Contacts in the response.\n",
@@ -5137,7 +5137,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/FileDetails"
+                  "$ref": "#/components/schemas/FileListItem"
                 }
               }
             }
@@ -6116,10 +6116,10 @@
             "name": "$expand",
             "schema": {
               "type": "string",
-              "enum": ["BusinessCards"]
+              "enum": ["BusinessCards", "ServiceTypes"]
             },
             "example": "BusinessCards",
-            "description": "When this parameter is combined with the URI, this endpoint will also return the Business Cards of the Contact Organization.\n"
+            "description": "When this parameter is combined with the URI, this endpoint will also return the Business Cards or Service Types of the Contact Organization.\n"
           }
         ],
         "description": "Use the `GET` method on this endpoint to receive the details of an Organization specified using the UserDefinedIdentifier.\n\nUsing the query parameter available to this endpoint, you can also include Business Card details of the Organization in the response.\n",
@@ -6343,12 +6343,16 @@
                 "value": "Contacts",
                 "summary": "Include the Contacts related to the Organization in the API response"
               },
+              "ServiceTypes": {
+                "value": "ServiceTypes",
+                "summary": "Include the Service Types assigned to the Organization in the API response"
+              },
               "BusinessCardAndClientTeam": {
                 "value": "BusinessCard,ClientTeam",
                 "summary": "Include the Business Card and the Client Team assigned to the Organization in the API response"
               }
             },
-            "description": "When this parameter is combined with the URI, this endpoint will also return Business Cards, Client Team and/or Contacts associated with the Organization. Multiple properties can be returned by specifying a comma separated list.\n"
+            "description": "When this parameter is combined with the URI, this endpoint will also return Business Cards, Client Team, Contacts and/or Service Types associated with the Organization. Multiple properties can be returned by specifying a comma separated list.\n"
           }
         ],
         "description": "Use the `GET` method on this endpoint to receive the details of an Organization specified using the `Organizationkey`.\n\nUsing the query parameter available to this endpoint,  you can also include the Business Card details of the Organization in the response.\n",
@@ -13586,6 +13590,12 @@
             "example": "S8bsBjvCRJ3",
             "description": "The unique key of the file"
           },
+          "Source": {
+            "type": "string",
+            "example": "Organization",
+            "enum": ["WorkItem", "Contact", "Organization"],
+            "description": "The type of entity the file was uploaded against"
+          },
           "FileName": {
             "type": "string",
             "example": "image.jpeg",
@@ -13611,24 +13621,13 @@
             "format": "date-time",
             "example": "2024-07-18T23:44:26Z",
             "description": "The timestamp of when the file was created"
+          },
+          "IsArchived": {
+            "type": "boolean",
+            "example": false,
+            "description": "Whether the file has been archived"
           }
         }
-      },
-      "FileDetails": {
-        "description": "The current details of a single File",
-        "allOf": [
-          { "$ref": "#/components/schemas/FileListItem" },
-          {
-            "type": "object",
-            "properties": {
-              "IsArchived": {
-                "type": "boolean",
-                "example": false,
-                "description": "Whether the file has been archived"
-              }
-            }
-          }
-        ]
       },
       "GetSingleTimeSheet": {
         "description": "A single TimeSheet with TimeEntries",
@@ -14203,6 +14202,31 @@
             "description": "The value to denote the number of the months, if the due date is after 2 months.\n\nThis property is only applicable if `ScheduleDueDateMethod` is set to `DayOfSubsequentMonth`.\n\nExample of usage: <table> <thead>\n<th>ScheduleDueDateMethod</th>\n<th>ScheduleDueDateDays</th>\n<th>ScheduleDueDateMonthMultiple</th>\n<th>Read Due Date as</th>\n</thead> <tbody>\n<tr>\n<td>DaysFromStartDate</td>\n<td>7</td>\n<td>3</td>\n<td>7th day of the 3rd month after start date</td>\n</tr>\n</tbody> </table>\n",
             "example": 3
           },
+          "ScheduleDeadlineDateMethod": {
+            "type": "string",
+            "description": "The method that should be used to count the Deadline Date for the Work Item.\n\nCompanies House-driven and filing-date-driven deadline methods are not available through the API; setting `ScheduleDeadlineDateMethod` to `CompaniesHouseAccountsDueDate`, `CompaniesHouseConfirmationStatementDueDate` or `OnFilingDate` returns a `400`.\n\nOn `PUT`, omitting this property leaves the existing deadline date configuration unchanged. To remove a deadline date, set this to `NoDeadlineDate` explicitly.\n",
+            "enum": [
+              "DaysFromStartDate",
+              "DayOfMonth",
+              "LastDayOfMonth",
+              "DayOfNextMonth",
+              "DayOfSubsequentMonth",
+              "NoDeadlineDate"
+            ],
+            "example": "DaysFromStartDate"
+          },
+          "ScheduleDeadlineDateDays": {
+            "type": "integer",
+            "format": "int32",
+            "description": "The value of the count for the Deadline Date\n\nThis property is not applicable if `ScheduleDeadlineDateMethod` is set to `LastDayOfMonth` or `NoDeadlineDate`.\n\nExample of usage: <table> <thead>\n<th>ScheduleDeadlineDateMethod</th>\n<th>ScheduleDeadlineDateDays</th>\n<th>Read Deadline Date as</th>\n</thead> <tbody>\n<tr>\n<td>DaysFromStartDate</td>\n<td>7</td>\n<td>7 days after start date</td>\n</tr>\n<tr>\n<td>DayOfMonth</td>\n<td>7</td>\n<td>7th day of the current month</td>\n</tr>\n<tr>\n<td>LastDayOfMonth</td>\n<td>N/A</td>\n<td>Last day of the current month</td>\n</tr>\n<tr>\n<td>DayOfNextMonth</td>\n<td>7</td>\n<td>7th day of the next month</td>\n</tr>\n<tr>\n<td>NoDeadlineDate</td>\n<td>N/A</td>\n<td>Work has no deadline date</td>\n</tr>\n</tbody> </table>\n",
+            "example": 7
+          },
+          "ScheduleDeadlineDateMonthMultiple": {
+            "type": "integer",
+            "format": "int32",
+            "description": "The value to denote the number of the months, if the deadline date is after 2 months.\n\nThis property is only applicable if `ScheduleDeadlineDateMethod` is set to `DayOfSubsequentMonth`.\n\nExample of usage: <table> <thead>\n<th>ScheduleDeadlineDateMethod</th>\n<th>ScheduleDeadlineDateDays</th>\n<th>ScheduleDeadlineDateMonthMultiple</th>\n<th>Read Deadline Date as</th>\n</thead> <tbody>\n<tr>\n<td>DaysFromStartDate</td>\n<td>7</td>\n<td>3</td>\n<td>7th day of the 3rd month after start date</td>\n</tr>\n</tbody> </table>\n",
+            "example": 3
+          },
           "PreventStartEndOnWeekend": {
             "type": "boolean",
             "description": "If the value of this property is set to `true`, the Work Item will not start on Weekends.",
@@ -14465,6 +14489,31 @@
             "type": "integer",
             "format": "int32",
             "description": "The value to denote the number of the months, if the due date is after 2 months.\n\nThis property is only applicable if `ScheduleDueDateMethod` is set to `DayOfSubsequentMonth`.\n\nExample of usage: <table> <thead>\n<th>ScheduleDueDateMethod</th>\n<th>ScheduleDueDateDays</th>\n<th>ScheduleDueDateMonthMultiple</th>\n<th>Read Due Date as</th>\n</thead> <tbody>\n<tr>\n<td>DaysFromStartDate</td>\n<td>7</td>\n<td>3</td>\n<td>7th day of the 3rd month after start\ndate</td>\n</tr>\n</tbody> </table>\n",
+            "example": 3
+          },
+          "ScheduleDeadlineDateMethod": {
+            "type": "string",
+            "description": "The method that should be used to count the Deadline Date for the Work Item.\n\nCompanies House-driven and filing-date-driven deadline methods are not available through the API; setting `ScheduleDeadlineDateMethod` to `CompaniesHouseAccountsDueDate`, `CompaniesHouseConfirmationStatementDueDate` or `OnFilingDate` returns a `400`.\n",
+            "enum": [
+              "DaysFromStartDate",
+              "DayOfMonth",
+              "LastDayOfMonth",
+              "DayOfNextMonth",
+              "DayOfSubsequentMonth",
+              "NoDeadlineDate"
+            ],
+            "example": "DaysFromStartDate"
+          },
+          "ScheduleDeadlineDateDays": {
+            "type": "integer",
+            "format": "int32",
+            "description": "The value of the count for the Deadline Date\n\nThis property is not applicable if `ScheduleDeadlineDateMethod` is set to `LastDayOfMonth` or `NoDeadlineDate`.\n\nExample of usage:  <table>\n<th>ScheduleDeadlineDateMethod</th>\n<th>ScheduleDeadlineDateDays</th>\n<th>Read Deadline Date as</th>\n<tr>\n<td>DaysFromStartDate</td>\n<td>7</td>\n<td>7 days after start date</td>\n</tr>\n<tr>\n<td>DayOfMonth</td>\n<td>7</td>\n<td>7th day of the current month</td>\n</tr>\n<tr>\n<td>LastDayOfMonth</td>\n<td>N/A</td>\n<td>Last day of the current month</td>\n</tr>\n<tr>\n<td>DayOfNextMonth</td>\n<td>7</td>\n<td>7th day of the next month</td>\n</tr>\n<tr>\n<td>NoDeadlineDate</td>\n<td>N/A</td>\n<td>Work has no deadline date</td>\n</tr>\n</table>\n",
+            "example": 7
+          },
+          "ScheduleDeadlineDateMonthMultiple": {
+            "type": "integer",
+            "format": "int32",
+            "description": "The value to denote the number of the months, if the deadline date is after 2 months.\n\nThis property is only applicable if `ScheduleDeadlineDateMethod` is set to `DayOfSubsequentMonth`.\n\nExample of usage: <table> <thead>\n<th>ScheduleDeadlineDateMethod</th>\n<th>ScheduleDeadlineDateDays</th>\n<th>ScheduleDeadlineDateMonthMultiple</th>\n<th>Read Deadline Date as</th>\n</thead> <tbody>\n<tr>\n<td>DaysFromStartDate</td>\n<td>7</td>\n<td>3</td>\n<td>7th day of the 3rd month after start\ndate</td>\n</tr>\n</tbody> </table>\n",
             "example": 3
           },
           "AssigneeUserKey": {
