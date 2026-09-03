@@ -297,6 +297,27 @@
           }
         }
       }
+    },
+    "batch": {
+      "post": {
+        "tags": ["Webhook Payloads"],
+        "description": "Batch of resource changes",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/WebhookRequestHeader"
+          }
+        ],
+        "requestBody": {
+          "description": "A batch of resource-change events",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/webhook-batch"
+              }
+            }
+          }
+        }
+      }
     }
   },
   "paths": {
@@ -8445,11 +8466,12 @@
                 "User",
                 "IntegrationTask",
                 "Invoice",
-                "EstimateSummary"
+                "EstimateSummary",
+                "Multi"
               ]
             },
             "example": "Contact",
-            "description": "The type of Karbon entity, which the Webhook Subscription must be associated with"
+            "description": "The type of Karbon entity, which the Webhook Subscription must be associated with. Use `Multi` to retrieve the multi-type subscription created via `WebhookTypes`."
           }
         ],
         "description": "Use the `GET` method on this endpoint to receive the details of a Webhook Subscriptions associated with the Karbon entity specified using the `WebhookType`.\n\n**Only one** Webhook Subscription can exist per entity.\n",
@@ -8546,11 +8568,12 @@
                 "User",
                 "IntegrationTask",
                 "Invoice",
-                "EstimateSummary"
+                "EstimateSummary",
+                "Multi"
               ]
             },
             "example": "Contact",
-            "description": "The type of Karbon entity, which the Webhook Subscription must be associated with"
+            "description": "The type of Karbon entity, which the Webhook Subscription must be associated with. Use `Multi` to delete the multi-type subscription created via `WebhookTypes`."
           }
         ],
         "description": "Use the `DELETE` method on this endpoint to delete a Webhook Subscription associated with the Karbon entity specified using the `WebhookType`.\n\n\n",
@@ -8615,6 +8638,116 @@
             }
           }
         }
+      },
+      "patch": {
+        "tags": ["Webhook Subscriptions"],
+        "summary": "Updates the multi-type Webhook Subscription's subscribed types",
+        "description": "Use the `PATCH` method on this endpoint to replace the full set of `WebhookTypes` on the multi-type Webhook Subscription. This is a whole-list replace, not a merge. Only applies to the multi-type subscription addressed at `/v3/WebhookSubscriptions/Multi`.",
+        "operationId": "patchWebhookSubscription",
+        "parameters": [
+          {
+            "required": true,
+            "in": "path",
+            "name": "WebhookType",
+            "schema": {
+              "type": "string",
+              "enum": ["Multi"]
+            },
+            "example": "Multi",
+            "description": "Must be `Multi` — this action only applies to the multi-type Webhook Subscription."
+          }
+        ],
+        "requestBody": {
+          "description": "The full replacement set of subscribed resource types.",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "WebhookTypes": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "enum": [
+                        "Contact",
+                        "CustomField",
+                        "Work",
+                        "Note",
+                        "User",
+                        "IntegrationTask",
+                        "Invoice",
+                        "EstimateSummary"
+                      ]
+                    },
+                    "description": "The full replacement set of resource types this subscription receives notifications for.",
+                    "example": ["Contact", "Work", "Note"]
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResourceNotFound"
+                },
+                "examples": {
+                  "Unauthorized Access": {
+                    "$ref": "#/components/examples/UnauthorizedAccess"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorMessages"
+                },
+                "examples": {
+                  "No existing multi-type subscription": {
+                    "value": {
+                      "error": {
+                        "code": "4004",
+                        "message": "No existing multi-type webhook subscription. Create one via WebhookTypes first."
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Rate Limit Exceeded",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RateLimitErrorMessage"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorMessages"
+                }
+              }
+            }
+          }
+        }
       }
     },
     "/v3/WebhookSubscriptions": {
@@ -8662,6 +8795,14 @@
                   },
                   "Invalid Subscription Type": {
                     "$ref": "#/components/examples/Webhook_Subscription_Type_Not_Found_404"
+                  },
+                  "WebhookType and WebhookTypes both provided": {
+                    "value": {
+                      "error": {
+                        "code": "4002",
+                        "message": "Provide either WebhookType or WebhookTypes, not both"
+                      }
+                    }
                   }
                 }
               }
@@ -8709,7 +8850,7 @@
           }
         },
         "requestBody": {
-          "description": "Refer to the table below for more information on each field in the request body.",
+          "description": "Refer to the table below for more information on each field in the request body. Provide either `WebhookType` (single-type subscription) or `WebhookTypes` (multi-type subscription) — not both.",
           "required": true,
           "content": {
             "application/json": {
@@ -8726,10 +8867,36 @@
                   },
                   "WebhookType": {
                     "type": "string",
-                    "enum": ["Contact", "Work", "Note", "User", "IntegrationTask", "Invoice", "EstimateSummary"],
-                    "description": "The type of Karbon entity which the Webhook Subscription is associated with. To receive ClientGroup, Contact and Organization updates, pass WebhookType as `Contact`. To receive Custom Field value updates, pass WebhookType as `CustomField`. To receive WorkItem updates, pass WebhookType as `Work`. To receive Note and NoteComment updates, pass WebhookType as `Note`. To receive an update when a User has accepted an invite to Karbon, pass WebhookType as `User`. To receive an update when an Invoice changes status, pass WebhookType as `Invoice`. To receive an update when an EstimateSummary is updated, pass WebhookType as `EstimateSummary`. Integration partners using the Integration Task feature can use `IntegrationTask` as the webhook subscription type to receive a notification when an integration task is added to a Work Item or a new Work Item is created from a Work Template that contains one or more Integraition Tasks.",
-                    "example": "Contact",
-                    "required": true
+                    "enum": [
+                      "Contact",
+                      "CustomField",
+                      "Work",
+                      "Note",
+                      "User",
+                      "IntegrationTask",
+                      "Invoice",
+                      "EstimateSummary"
+                    ],
+                    "description": "The type of Karbon entity which the Webhook Subscription is associated with. To receive ClientGroup, Contact and Organization updates, pass WebhookType as `Contact`. To receive Custom Field value updates, pass WebhookType as `CustomField`. To receive WorkItem updates, pass WebhookType as `Work`. To receive Note and NoteComment updates, pass WebhookType as `Note`. To receive an update when a User has accepted an invite to Karbon, pass WebhookType as `User`. To receive an update when an Invoice changes status, pass WebhookType as `Invoice`. To receive an update when an EstimateSummary is updated, pass WebhookType as `EstimateSummary`. Integration partners using the Integration Task feature can use `IntegrationTask` as the webhook subscription type to receive a notification when an integration task is added to a Work Item or a new Work Item is created from a Work Template that contains one or more Integraition Tasks. Mutually exclusive with `WebhookTypes`.",
+                    "example": "Contact"
+                  },
+                  "WebhookTypes": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "enum": [
+                        "Contact",
+                        "CustomField",
+                        "Work",
+                        "Note",
+                        "User",
+                        "IntegrationTask",
+                        "Invoice",
+                        "EstimateSummary"
+                      ]
+                    },
+                    "description": "Creates a multi-type subscription covering this set of resource types under one subscription with one `TargetUrl`, addressed afterwards at `/v3/WebhookSubscriptions/Multi`. Mutually exclusive with `WebhookType` — providing both returns a 400. There can only be one multi-type subscription per API application.",
+                    "example": ["Contact", "Work"]
                   },
                   "SigningKey": {
                     "oneOf": [
@@ -8744,6 +8911,18 @@
                       }
                     ],
                     "description": "An optional key that will be used to sign webhook payloads, may contain letters, numbers, dashes or underscores"
+                  },
+                  "BatchSize": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "maximum": 100,
+                    "description": "The number of notifications to accumulate before delivering them together as a JSON array in a single `POST`. A hard cap — once a batch reaches this size, further events start a new batch. Omit, or set to `1`, to keep the existing payload format of one notification object per `POST`. Applies to both single-type and multi-type subscriptions.",
+                    "example": 10
+                  },
+                  "BatchMaxDelaySeconds": {
+                    "type": "integer",
+                    "description": "An additional delay, in seconds, added on top of the standard 60-second dispatch window before a batch is sent. `0` means no extra delay beyond that window. Only applies when `BatchSize` is set to more than `1`.",
+                    "example": 0
                   }
                 }
               }
@@ -14069,10 +14248,37 @@
             "maxLength": 2000
           },
           "WebhookType": {
-            "type": "string",
-            "description": "The type of Karbon entity, which the Webhook Subscription is associated with",
+            "type": ["string", "null"],
+            "description": "The type of Karbon entity, which the Webhook Subscription is associated with. `Multi` on the response to the `POST` that created a multi-type subscription; `null` when that same subscription is retrieved afterwards via `GET` — use `WebhookTypes` instead.",
             "example": "Contact",
-            "enum": ["Contact", "CustomField", "Work", "Note", "User", "IntegrationTask", "Invoice", "EstimateSummary"]
+            "enum": [
+              "Contact",
+              "CustomField",
+              "Work",
+              "Note",
+              "User",
+              "IntegrationTask",
+              "Invoice",
+              "EstimateSummary",
+              "Multi",
+              null
+            ]
+          },
+          "WebhookTypes": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Present on a multi-type subscription. The set of resource types this subscription receives notifications for.",
+            "example": ["Contact", "Work"]
+          },
+          "BatchSize": {
+            "type": "integer",
+            "description": "The number of notifications accumulated before delivery as a single batch."
+          },
+          "BatchMaxDelaySeconds": {
+            "type": "integer",
+            "description": "The additional delay, in seconds, applied on top of the standard 60-second dispatch window before a batch is sent."
           }
         }
       },
@@ -15551,6 +15757,64 @@
             "description": "The timestamp the associated resource was last altered",
             "example": "2024-08-01T21:54:36Z",
             "readOnly": true
+          }
+        }
+      },
+      "webhook-batch-event": {
+        "description": "A single resource-change event within a batched webhook delivery",
+        "type": "object",
+        "properties": {
+          "ResourcePermaKey": {
+            "type": "string",
+            "description": "The key for the resource that has been created or updated",
+            "example": "3GBF6TnYRc7C",
+            "readOnly": true
+          },
+          "ResourceType": {
+            "type": "string",
+            "description": "The type of resource that has been created or updated. Note this uses `WorkItem`, not `Work` as used elsewhere for this resource type.",
+            "example": "WorkItem",
+            "readOnly": true
+          },
+          "ActionType": {
+            "type": "string",
+            "description": "The action that triggered the event",
+            "enum": ["Inserted", "Updated", "Deleted"],
+            "example": "Inserted",
+            "readOnly": true
+          },
+          "Timestamp": {
+            "type": "string",
+            "format": "date-time",
+            "description": "The timestamp the associated resource was altered. Note the casing differs from `TimeStamp` on the single-event payloads above.",
+            "example": "2026-09-02T03:49:42Z",
+            "readOnly": true
+          }
+        }
+      },
+      "webhook-batch": {
+        "description": "The schema for a batched webhook delivery, sent instead of a single-event payload when a Webhook Subscription has `BatchSize` set to more than 1",
+        "type": "object",
+        "properties": {
+          "BatchId": {
+            "type": "string",
+            "format": "uuid",
+            "description": "A unique identifier for this batch",
+            "example": "70575b82-9a31-4576-a4e7-61e20c42189d",
+            "readOnly": true
+          },
+          "Count": {
+            "type": "integer",
+            "description": "The number of events in this batch",
+            "example": 3,
+            "readOnly": true
+          },
+          "Events": {
+            "type": "array",
+            "description": "The events in this batch, in the order they occurred",
+            "items": {
+              "$ref": "#/components/schemas/webhook-batch-event"
+            }
           }
         }
       }

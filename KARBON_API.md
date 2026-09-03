@@ -192,7 +192,7 @@ GET /v3/ClientGroups/GetClientGroupByUserDefinedIdentifier(UserDefinedIdentifier
 | **Individual Time Entries** | `GET /v3/IndividualTimeEntries`, `GET /v3/IndividualTimeEntries/{IndividualTimeEntryKey}`                                                                       | Non-aggregated time entries                                                                                                                                                                                                                    |
 | **Timesheets**              | `GET /v3/Timesheets`, `GET /v3/Timesheets/{key}`                                                                                                                | Expand `TimeEntries` for detail                                                                                                                                                                                                                |
 | **Users**                   | `GET /v3/Users`, `POST /v3/Users`, `GET /v3/Users/{id}`                                                                                                         | —                                                                                                                                                                                                                                              |
-| **Webhook Subscriptions**   | `POST/DELETE /v3/WebhookSubscriptions`, `GET/DELETE /v3/WebhookSubscriptions/{type}`                                                                            | One subscription per entity type; 10 retries then auto-cancelled                                                                                                                                                                               |
+| **Webhook Subscriptions**   | `POST/DELETE /v3/WebhookSubscriptions`, `GET/PATCH/DELETE /v3/WebhookSubscriptions/{type}`                                                                      | One subscription per entity type; 10 retries then auto-cancelled. `WebhookTypes` (instead of `WebhookType`) creates a multi-type subscription at `/v3/WebhookSubscriptions/Multi` — `PATCH` there replaces the full type list. `BatchSize`/`BatchMaxDelaySeconds` on any subscription batch deliveries into one `POST` |
 | **Work Items**              | `GET`, `POST /v3/WorkItems`, `GET/PUT/PATCH /v3/WorkItems/{key}`                                                                                                | Most filterable resource                                                                                                                                                                                                                       |
 | **Work Schedules**          | `POST /v3/WorkSchedules`, `GET/PUT/PATCH /v3/WorkSchedules/{key}`                                                                                               | For repeating work. `PATCH` supports `ScheduleEndDate` and `AssigneeUserKey` only. `ScheduleDeadlineDateMethod`/`Days`/`MonthMultiple` (GET/POST/PUT only) set a deadline date alongside the existing `ScheduleDueDate*` fields                                                                                                                                                                                    |
 | **Work Templates**          | `GET /v3/WorkTemplates`, `GET /v3/WorkTemplates/{key}`                                                                                                          | Read-only                                                                                                                                                                                                                                      |
@@ -265,6 +265,24 @@ Accepted format differs by where the value is used:
 ```
 
 Webhook entity types: `Contact` (also covers ClientGroups, Organizations), `Work`, `Note`, `User`, `IntegrationTask`, `Invoice`, `EstimateSummary`, `CustomField`
+
+### Multi-type and batched webhook subscriptions
+
+Pass `WebhookTypes` (array) instead of `WebhookType` on `POST /v3/WebhookSubscriptions` to subscribe to a set of types under one subscription — mutually exclusive with `WebhookType` (400 if both given). Addressed afterwards at `/v3/WebhookSubscriptions/Multi` for `GET`/`PATCH`/`DELETE`; `PATCH` there does a whole-list replace of `WebhookTypes` and returns `404` if no multi-type subscription exists yet.
+
+`BatchSize` (max `100`) and `BatchMaxDelaySeconds` work on single-type or multi-type subscriptions. With `BatchSize > 1`, delivery wraps events in a batch envelope instead of the single-notification payload above:
+
+```json
+{
+  "BatchId": "70575b82-9a31-4576-a4e7-61e20c42189d",
+  "Count": 3,
+  "Events": [
+    { "ResourcePermaKey": "3GBF6TnYRc7C", "ResourceType": "WorkItem", "ActionType": "Inserted", "Timestamp": "2026-09-02T03:49:42Z" }
+  ]
+}
+```
+
+`BatchSize` is a hard cap. `BatchMaxDelaySeconds` adds extra delay on top of the standard 60-second dispatch window (`0` = no extra delay). Note `ResourceType` for a Work event in a batch is `WorkItem`, not `Work`.
 
 ---
 
