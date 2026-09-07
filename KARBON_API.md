@@ -493,7 +493,38 @@ PUT /v3/WorkItems/{WorkItemKey}
 
 ---
 
-### Workflow 6 — Subscribe to Invoice webhook
+### Workflow 6 — Update a Work Item's Primary and Secondary status
+
+`PUT` replaces the whole Work Item, so the [required fields](#workitem-required-fields-post-and-put) must be sent alongside the status change, not just the status fields.
+
+**1. Look up valid SecondaryStatus values for the WorkType**
+
+```
+GET /v3/TenantSettings
+```
+
+Find the entry for the Work Item's `WorkType` (e.g. `"Payroll"`) and note the SecondaryStatus values listed under the target `PrimaryStatus`.
+
+**2. Send the update**
+
+```
+PUT /v3/WorkItems/{WorkItemKey}
+{
+  "AssigneeEmailAddress": "advisor@firm.com",
+  "Title": "Payroll 31 Aug - 15 Sep 2025",
+  "ClientKey": "{ContactKey}",
+  "ClientType": "Contact",
+  "StartDate": "2025-08-31T00:00:00Z",
+  "PrimaryStatus": "InProgress",
+  "SecondaryStatus": "Send client requests"
+}
+```
+
+`PrimaryStatus` accepts either `"InProgress"` or `"In Progress"` in the request body — see [PrimaryStatus vs WorkStatus](#primarystatus-vs-workstatus). `SecondaryStatus` must be one of the values TenantSettings lists for **both** this `PrimaryStatus` and this Work Item's `WorkType` — a value valid under a different WorkType is accepted but silently dropped (`null` in the response), not rejected.
+
+---
+
+### Workflow 7 — Subscribe to Invoice webhook
 
 **1. Create the subscription**
 
@@ -534,7 +565,7 @@ Poll `GET /v3/WebhookSubscriptions/Invoice` — a 404 means the subscription was
 
 ---
 
-### Workflow 7 — Update contact information (email, phone, address)
+### Workflow 8 — Update contact information (email, phone, address)
 
 Contact details (email, phone, address) are stored on the Contact's **BusinessCard**, not directly on the Contact record.
 
