@@ -297,6 +297,27 @@
           }
         }
       }
+    },
+    "batch": {
+      "post": {
+        "tags": ["Webhook Payloads"],
+        "description": "Batch of resource changes",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/WebhookRequestHeader"
+          }
+        ],
+        "requestBody": {
+          "description": "A batch of resource-change events",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/webhook-batch"
+              }
+            }
+          }
+        }
+      }
     }
   },
   "paths": {
@@ -3083,10 +3104,10 @@
             "name": "$expand",
             "schema": {
               "type": "string",
-              "enum": ["BusinessCards"]
+              "enum": ["BusinessCards", "ServiceTypes"]
             },
             "example": "BusinessCards",
-            "description": "When this parameter is combined with the URI, this endpoint will also return the Business Cards of the Contact.\n"
+            "description": "When this parameter is combined with the URI, this endpoint will also return the Business Cards or Service Types of the Contact.\n"
           }
         ],
         "description": "Use the `GET` method on this endpoint to receive the details of a Contact specified using the UserDefinedIdentifier.\n\nUsing the query parameter available to this endpoint, you can also include Business Card details of the Contact in the response.\n",
@@ -3298,10 +3319,10 @@
             "name": "$expand",
             "schema": {
               "type": "string",
-              "enum": ["BusinessCards", "ClientTeam", "ClientAccess"]
+              "enum": ["BusinessCards", "ClientTeam", "ClientAccess", "ServiceTypes"]
             },
             "example": "BusinessCards",
-            "description": "When this parameter is combined with the URI, this endpoint will also return one or more of the following: Business Cards for the Contact, the Client Team assigned to the Contact, or a list of other Contacts that can access this Contact in Karbon for Clients."
+            "description": "When this parameter is combined with the URI, this endpoint will also return one or more of the following: Business Cards for the Contact, the Client Team assigned to the Contact, a list of other Contacts that can access this Contact in Karbon for Clients, or the Service Types assigned to the Contact."
           }
         ],
         "description": "Use the `GET` method on this endpoint to receive the details of a Contact specified using the `Contactkey`.\n\nUsing the query parameter available to this endpoint,  you can also include the Business Card details of the Contacts in the response.\n",
@@ -4397,6 +4418,326 @@
         }
       }
     },
+    "/v3/WorkItems/{WorkItemKey}/EstimateSummaries/{EstimateSummaryKey}": {
+      "get": {
+        "tags": ["Estimate Summaries"],
+        "summary": "Gets a single Estimate Summary using WorkItemKey and EstimateSummaryKey",
+        "parameters": [
+          {
+            "required": true,
+            "in": "path",
+            "name": "WorkItemKey",
+            "schema": {
+              "type": "string"
+            },
+            "example": "4jgPTtcXxwC2",
+            "description": "The Karbon-generated Work Item key"
+          },
+          {
+            "required": true,
+            "in": "path",
+            "name": "EstimateSummaryKey",
+            "schema": {
+              "type": "string"
+            },
+            "example": "160F79F6-E650-40C3-8BD9-F70C287B7476-0",
+            "description": "The Karbon-generated Estimate Summary key, as returned by GET /v3/EstimateSummaries/{WorkItemKey}"
+          }
+        ],
+        "description": "Use the `GET` method on this endpoint to receive a single estimate summary on a Work Item, specified using the `WorkItemKey` and `EstimateSummaryKey`.\n\nAn EstimateSummaryKey starting with `0-` represents time recorded against a task with no estimate assigned, rather than an actual estimate. It can be retrieved but not updated.\n",
+        "operationId": "getEstimateSummaryByKey",
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "EstimateSummaryKey": {
+                      "type": "string",
+                      "description": "A randomly generated GUID. Changing HourlyRate on a PATCH can reissue this key — use the OData-EntityId response header to get the current one.",
+                      "example": "160F79F6-E650-40C3-8BD9-F70C287B7476-0"
+                    },
+                    "UserKey": {
+                      "type": "string",
+                      "description": "A Karbon-generated unique identifier for the Karbon user",
+                      "example": "RXq4mB32PXg"
+                    },
+                    "RoleKey": {
+                      "type": "string",
+                      "description": "A Karbon-generated unique identifier for the user's role",
+                      "example": "qTLmJpG85Ng"
+                    },
+                    "RoleName": {
+                      "type": "string",
+                      "description": "The Role of the user",
+                      "example": "Accountant"
+                    },
+                    "TaskTypeKey": {
+                      "type": "string",
+                      "description": "A Karbon-generated unique identifier for the task",
+                      "example": "3h5Tbh9GgLs7"
+                    },
+                    "TaskTypeName": {
+                      "type": "string",
+                      "description": "The name of the task",
+                      "example": "Admin"
+                    },
+                    "EstimateMinutes": {
+                      "type": "integer",
+                      "description": "The total estimated time (in minutes) for the task to be completed",
+                      "example": 15
+                    },
+                    "HourlyRate": {
+                      "type": "number",
+                      "format": "decimal",
+                      "description": "The hourly rate of the user",
+                      "example": 150
+                    },
+                    "ActualMinutes": {
+                      "type": "integer",
+                      "description": "The actual time (in minutes) spent on the task",
+                      "example": 14
+                    },
+                    "EstimateAmount": {
+                      "type": "number",
+                      "format": "decimal",
+                      "description": "The estimated cost of the task, calculated from the estimated time at the user's hourly rate",
+                      "example": 37.5
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorMessages"
+                },
+                "examples": {
+                  "Unsupported Option": {
+                    "$ref": "#/components/examples/Unsupported_option"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResourceNotFound"
+                },
+                "examples": {
+                  "Unauthorized Access": {
+                    "$ref": "#/components/examples/UnauthorizedAccess"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorMessages"
+                },
+                "examples": {
+                  "Resource Not Found": {
+                    "$ref": "#/components/examples/HTTP_Resource_Not_Found"
+                  }
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Rate Limit Exceeded",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RateLimitErrorMessage"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorMessages"
+                },
+                "examples": {
+                  "Undefined Error": {
+                    "$ref": "#/components/examples/elongated_5001"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "patch": {
+        "tags": ["Estimate Summaries"],
+        "summary": "Updates a single Estimate Summary",
+        "parameters": [
+          {
+            "required": true,
+            "in": "path",
+            "name": "WorkItemKey",
+            "schema": {
+              "type": "string"
+            },
+            "example": "4jgPTtcXxwC2",
+            "description": "The Karbon-generated Work Item key"
+          },
+          {
+            "required": true,
+            "in": "path",
+            "name": "EstimateSummaryKey",
+            "schema": {
+              "type": "string"
+            },
+            "example": "160F79F6-E650-40C3-8BD9-F70C287B7476-0",
+            "description": "The Karbon-generated Estimate Summary key, as returned by GET /v3/EstimateSummaries/{WorkItemKey}"
+          }
+        ],
+        "description": "Use the `PATCH` method on this endpoint to update the estimated minutes or amount, and/or the hourly rate, for an estimate summary. Only `EstimateMinutes`, `EstimateAmount` and `HourlyRate` are accepted, and each is optional.\n\nAn EstimateSummaryKey starting with `0-` represents time recorded against a task with no estimate assigned, rather than an actual estimate, and cannot be updated through this endpoint — assign an estimate to the task in Karbon first.\n\nEach Karbon account's Time and Budget settings choose whether estimates are controlled by time or by amount, and this setting cannot be changed through the API. Only the field matching that setting can be set, and `EstimateMinutes` and `EstimateAmount` cannot be supplied together.\n\nA successful update returns `204 No Content`. Changing `HourlyRate` can reissue the `EstimateSummaryKey`, so the response always includes an `OData-EntityId` header with the estimate summary's location after the update — use that URL for subsequent requests rather than the key you sent.\n",
+        "operationId": "updateEstimateSummary",
+        "requestBody": {
+          "description": "The fields to update. Only EstimateMinutes, EstimateAmount and HourlyRate are accepted, and EstimateMinutes and EstimateAmount cannot be supplied together. Refer to the table below for more information on each field in the request body.",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "EstimateMinutes": {
+                    "type": "integer",
+                    "description": "The total estimated time (in minutes) for the task. Between 0 and 599,999,940. Cannot be supplied together with EstimateAmount.",
+                    "example": 90
+                  },
+                  "EstimateAmount": {
+                    "type": "number",
+                    "format": "decimal",
+                    "description": "The estimated cost of the task. Between 0 and 99,999,999. Cannot be supplied together with EstimateMinutes.",
+                    "example": 250.0
+                  },
+                  "HourlyRate": {
+                    "type": "number",
+                    "format": "decimal",
+                    "description": "The hourly rate to estimate the task at. Between 0 and 99,999,999.",
+                    "example": 150
+                  }
+                }
+              },
+              "example": {
+                "EstimateAmount": 250.0
+              }
+            }
+          }
+        },
+        "responses": {
+          "204": {
+            "description": "Estimate summary successfully updated",
+            "headers": {
+              "OData-EntityId": {
+                "description": "The estimate summary's location after the update, as a URL you can GET. Changing the hourly rate can reissue the EstimateSummaryKey, so use this location for subsequent requests.",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request. Returned for an invalid request body, an unsupported PATCH property, or when the EstimateSummaryKey does not belong to the WorkItem.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorMessages"
+                },
+                "examples": {
+                  "Unsupported Option": {
+                    "$ref": "#/components/examples/Unsupported_option"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResourceNotFound"
+                },
+                "examples": {
+                  "Unauthorized Access": {
+                    "$ref": "#/components/examples/UnauthorizedAccess"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorMessages"
+                },
+                "examples": {
+                  "Resource Not Found": {
+                    "$ref": "#/components/examples/HTTP_Resource_Not_Found"
+                  }
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Unprocessable Entity. Returned when the Work Item is completed, the rate change is blocked by the firm's WIP lock date, rate plans are not enabled for the firm, or the estimate cannot hold the field supplied (for example, setting HourlyRate on a non-billable estimate, or EstimateMinutes on an estimate budgeted by amount).",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorMessages"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Rate Limit Exceeded",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RateLimitErrorMessage"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorMessages"
+                },
+                "examples": {
+                  "Undefined Error": {
+                    "$ref": "#/components/examples/elongated_5001"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/v3/Expenses": {
       "post": {
         "tags": ["Billing"],
@@ -4817,7 +5158,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/FileDetails"
+                  "$ref": "#/components/schemas/FileListItem"
                 }
               }
             }
@@ -5796,10 +6137,10 @@
             "name": "$expand",
             "schema": {
               "type": "string",
-              "enum": ["BusinessCards"]
+              "enum": ["BusinessCards", "ServiceTypes"]
             },
             "example": "BusinessCards",
-            "description": "When this parameter is combined with the URI, this endpoint will also return the Business Cards of the Contact Organization.\n"
+            "description": "When this parameter is combined with the URI, this endpoint will also return the Business Cards or Service Types of the Contact Organization.\n"
           }
         ],
         "description": "Use the `GET` method on this endpoint to receive the details of an Organization specified using the UserDefinedIdentifier.\n\nUsing the query parameter available to this endpoint, you can also include Business Card details of the Organization in the response.\n",
@@ -6023,12 +6364,16 @@
                 "value": "Contacts",
                 "summary": "Include the Contacts related to the Organization in the API response"
               },
+              "ServiceTypes": {
+                "value": "ServiceTypes",
+                "summary": "Include the Service Types assigned to the Organization in the API response"
+              },
               "BusinessCardAndClientTeam": {
                 "value": "BusinessCard,ClientTeam",
                 "summary": "Include the Business Card and the Client Team assigned to the Organization in the API response"
               }
             },
-            "description": "When this parameter is combined with the URI, this endpoint will also return Business Cards, Client Team and/or Contacts associated with the Organization. Multiple properties can be returned by specifying a comma separated list.\n"
+            "description": "When this parameter is combined with the URI, this endpoint will also return Business Cards, Client Team, Contacts and/or Service Types associated with the Organization. Multiple properties can be returned by specifying a comma separated list.\n"
           }
         ],
         "description": "Use the `GET` method on this endpoint to receive the details of an Organization specified using the `Organizationkey`.\n\nUsing the query parameter available to this endpoint,  you can also include the Business Card details of the Organization in the response.\n",
@@ -8121,11 +8466,12 @@
                 "User",
                 "IntegrationTask",
                 "Invoice",
-                "EstimateSummary"
+                "EstimateSummary",
+                "Multi"
               ]
             },
             "example": "Contact",
-            "description": "The type of Karbon entity, which the Webhook Subscription must be associated with"
+            "description": "The type of Karbon entity, which the Webhook Subscription must be associated with. Use `Multi` to retrieve the multi-type subscription created via `WebhookTypes`."
           }
         ],
         "description": "Use the `GET` method on this endpoint to receive the details of a Webhook Subscriptions associated with the Karbon entity specified using the `WebhookType`.\n\n**Only one** Webhook Subscription can exist per entity.\n",
@@ -8222,11 +8568,12 @@
                 "User",
                 "IntegrationTask",
                 "Invoice",
-                "EstimateSummary"
+                "EstimateSummary",
+                "Multi"
               ]
             },
             "example": "Contact",
-            "description": "The type of Karbon entity, which the Webhook Subscription must be associated with"
+            "description": "The type of Karbon entity, which the Webhook Subscription must be associated with. Use `Multi` to delete the multi-type subscription created via `WebhookTypes`."
           }
         ],
         "description": "Use the `DELETE` method on this endpoint to delete a Webhook Subscription associated with the Karbon entity specified using the `WebhookType`.\n\n\n",
@@ -8291,6 +8638,116 @@
             }
           }
         }
+      },
+      "patch": {
+        "tags": ["Webhook Subscriptions"],
+        "summary": "Updates the multi-type Webhook Subscription's subscribed types",
+        "description": "Use the `PATCH` method on this endpoint to replace the full set of `WebhookTypes` on the multi-type Webhook Subscription. This is a whole-list replace, not a merge. Only applies to the multi-type subscription addressed at `/v3/WebhookSubscriptions/Multi`.",
+        "operationId": "patchWebhookSubscription",
+        "parameters": [
+          {
+            "required": true,
+            "in": "path",
+            "name": "WebhookType",
+            "schema": {
+              "type": "string",
+              "enum": ["Multi"]
+            },
+            "example": "Multi",
+            "description": "Must be `Multi` — this action only applies to the multi-type Webhook Subscription."
+          }
+        ],
+        "requestBody": {
+          "description": "The full replacement set of subscribed resource types.",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "WebhookTypes": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "enum": [
+                        "Contact",
+                        "CustomField",
+                        "Work",
+                        "Note",
+                        "User",
+                        "IntegrationTask",
+                        "Invoice",
+                        "EstimateSummary"
+                      ]
+                    },
+                    "description": "The full replacement set of resource types this subscription receives notifications for.",
+                    "example": ["Contact", "Work", "Note"]
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResourceNotFound"
+                },
+                "examples": {
+                  "Unauthorized Access": {
+                    "$ref": "#/components/examples/UnauthorizedAccess"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorMessages"
+                },
+                "examples": {
+                  "No existing multi-type subscription": {
+                    "value": {
+                      "error": {
+                        "code": "4004",
+                        "message": "No existing multi-type webhook subscription. Create one via WebhookTypes first."
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Rate Limit Exceeded",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RateLimitErrorMessage"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorMessages"
+                }
+              }
+            }
+          }
+        }
       }
     },
     "/v3/WebhookSubscriptions": {
@@ -8338,6 +8795,14 @@
                   },
                   "Invalid Subscription Type": {
                     "$ref": "#/components/examples/Webhook_Subscription_Type_Not_Found_404"
+                  },
+                  "WebhookType and WebhookTypes both provided": {
+                    "value": {
+                      "error": {
+                        "code": "4002",
+                        "message": "Provide either WebhookType or WebhookTypes, not both"
+                      }
+                    }
                   }
                 }
               }
@@ -8385,7 +8850,7 @@
           }
         },
         "requestBody": {
-          "description": "Refer to the table below for more information on each field in the request body.",
+          "description": "Refer to the table below for more information on each field in the request body. Provide either `WebhookType` (single-type subscription) or `WebhookTypes` (multi-type subscription) — not both.",
           "required": true,
           "content": {
             "application/json": {
@@ -8402,10 +8867,36 @@
                   },
                   "WebhookType": {
                     "type": "string",
-                    "enum": ["Contact", "Work", "Note", "User", "IntegrationTask", "Invoice", "EstimateSummary"],
-                    "description": "The type of Karbon entity which the Webhook Subscription is associated with. To receive ClientGroup, Contact and Organization updates, pass WebhookType as `Contact`. To receive Custom Field value updates, pass WebhookType as `CustomField`. To receive WorkItem updates, pass WebhookType as `Work`. To receive Note and NoteComment updates, pass WebhookType as `Note`. To receive an update when a User has accepted an invite to Karbon, pass WebhookType as `User`. To receive an update when an Invoice changes status, pass WebhookType as `Invoice`. To receive an update when an EstimateSummary is updated, pass WebhookType as `EstimateSummary`. Integration partners using the Integration Task feature can use `IntegrationTask` as the webhook subscription type to receive a notification when an integration task is added to a Work Item or a new Work Item is created from a Work Template that contains one or more Integraition Tasks.",
-                    "example": "Contact",
-                    "required": true
+                    "enum": [
+                      "Contact",
+                      "CustomField",
+                      "Work",
+                      "Note",
+                      "User",
+                      "IntegrationTask",
+                      "Invoice",
+                      "EstimateSummary"
+                    ],
+                    "description": "The type of Karbon entity which the Webhook Subscription is associated with. To receive ClientGroup, Contact and Organization updates, pass WebhookType as `Contact`. To receive Custom Field value updates, pass WebhookType as `CustomField`. To receive WorkItem updates, pass WebhookType as `Work`. To receive Note and NoteComment updates, pass WebhookType as `Note`. To receive an update when a User has accepted an invite to Karbon, pass WebhookType as `User`. To receive an update when an Invoice changes status, pass WebhookType as `Invoice`. To receive an update when an EstimateSummary is updated, pass WebhookType as `EstimateSummary`. Integration partners using the Integration Task feature can use `IntegrationTask` as the webhook subscription type to receive a notification when an integration task is added to a Work Item or a new Work Item is created from a Work Template that contains one or more Integraition Tasks. Mutually exclusive with `WebhookTypes`.",
+                    "example": "Contact"
+                  },
+                  "WebhookTypes": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "enum": [
+                        "Contact",
+                        "CustomField",
+                        "Work",
+                        "Note",
+                        "User",
+                        "IntegrationTask",
+                        "Invoice",
+                        "EstimateSummary"
+                      ]
+                    },
+                    "description": "Creates a multi-type subscription covering this set of resource types under one subscription with one `TargetUrl`, addressed afterwards at `/v3/WebhookSubscriptions/Multi`. Mutually exclusive with `WebhookType` — providing both returns a 400. There can only be one multi-type subscription per API application.",
+                    "example": ["Contact", "Work"]
                   },
                   "SigningKey": {
                     "oneOf": [
@@ -8420,6 +8911,18 @@
                       }
                     ],
                     "description": "An optional key that will be used to sign webhook payloads, may contain letters, numbers, dashes or underscores"
+                  },
+                  "BatchSize": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "maximum": 100,
+                    "description": "The number of notifications to accumulate before delivering them together as a JSON array in a single `POST`. A hard cap — once a batch reaches this size, further events start a new batch. Omit, or set to `1`, to keep the existing payload format of one notification object per `POST`. Applies to both single-type and multi-type subscriptions.",
+                    "example": 10
+                  },
+                  "BatchMaxDelaySeconds": {
+                    "type": "integer",
+                    "description": "An additional delay, in seconds, added on top of the standard 60-second dispatch window before a batch is sent. `0` means no extra delay beyond that window. Only applies when `BatchSize` is set to more than `1`.",
+                    "example": 0
                   }
                 }
               }
@@ -13266,6 +13769,12 @@
             "example": "S8bsBjvCRJ3",
             "description": "The unique key of the file"
           },
+          "Source": {
+            "type": "string",
+            "example": "Organization",
+            "enum": ["WorkItem", "Contact", "Organization"],
+            "description": "The type of entity the file was uploaded against"
+          },
           "FileName": {
             "type": "string",
             "example": "image.jpeg",
@@ -13291,24 +13800,13 @@
             "format": "date-time",
             "example": "2024-07-18T23:44:26Z",
             "description": "The timestamp of when the file was created"
+          },
+          "IsArchived": {
+            "type": "boolean",
+            "example": false,
+            "description": "Whether the file has been archived"
           }
         }
-      },
-      "FileDetails": {
-        "description": "The current details of a single File",
-        "allOf": [
-          { "$ref": "#/components/schemas/FileListItem" },
-          {
-            "type": "object",
-            "properties": {
-              "IsArchived": {
-                "type": "boolean",
-                "example": false,
-                "description": "Whether the file has been archived"
-              }
-            }
-          }
-        ]
       },
       "GetSingleTimeSheet": {
         "description": "A single TimeSheet with TimeEntries",
@@ -13750,10 +14248,37 @@
             "maxLength": 2000
           },
           "WebhookType": {
-            "type": "string",
-            "description": "The type of Karbon entity, which the Webhook Subscription is associated with",
+            "type": ["string", "null"],
+            "description": "The type of Karbon entity, which the Webhook Subscription is associated with. `Multi` on the response to the `POST` that created a multi-type subscription; `null` when that same subscription is retrieved afterwards via `GET` — use `WebhookTypes` instead.",
             "example": "Contact",
-            "enum": ["Contact", "CustomField", "Work", "Note", "User", "IntegrationTask", "Invoice", "EstimateSummary"]
+            "enum": [
+              "Contact",
+              "CustomField",
+              "Work",
+              "Note",
+              "User",
+              "IntegrationTask",
+              "Invoice",
+              "EstimateSummary",
+              "Multi",
+              null
+            ]
+          },
+          "WebhookTypes": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Present on a multi-type subscription. The set of resource types this subscription receives notifications for.",
+            "example": ["Contact", "Work"]
+          },
+          "BatchSize": {
+            "type": "integer",
+            "description": "The number of notifications accumulated before delivery as a single batch."
+          },
+          "BatchMaxDelaySeconds": {
+            "type": "integer",
+            "description": "The additional delay, in seconds, applied on top of the standard 60-second dispatch window before a batch is sent."
           }
         }
       },
@@ -13881,6 +14406,31 @@
             "type": "integer",
             "format": "int32",
             "description": "The value to denote the number of the months, if the due date is after 2 months.\n\nThis property is only applicable if `ScheduleDueDateMethod` is set to `DayOfSubsequentMonth`.\n\nExample of usage: <table> <thead>\n<th>ScheduleDueDateMethod</th>\n<th>ScheduleDueDateDays</th>\n<th>ScheduleDueDateMonthMultiple</th>\n<th>Read Due Date as</th>\n</thead> <tbody>\n<tr>\n<td>DaysFromStartDate</td>\n<td>7</td>\n<td>3</td>\n<td>7th day of the 3rd month after start date</td>\n</tr>\n</tbody> </table>\n",
+            "example": 3
+          },
+          "ScheduleDeadlineDateMethod": {
+            "type": "string",
+            "description": "The method that should be used to count the Deadline Date for the Work Item.\n\nCompanies House-driven and filing-date-driven deadline methods are not available through the API; setting `ScheduleDeadlineDateMethod` to `CompaniesHouseAccountsDueDate`, `CompaniesHouseConfirmationStatementDueDate` or `OnFilingDate` returns a `400`.\n\nOn `PUT`, omitting this property leaves the existing deadline date configuration unchanged. To remove a deadline date, set this to `NoDeadlineDate` explicitly.\n",
+            "enum": [
+              "DaysFromStartDate",
+              "DayOfMonth",
+              "LastDayOfMonth",
+              "DayOfNextMonth",
+              "DayOfSubsequentMonth",
+              "NoDeadlineDate"
+            ],
+            "example": "DaysFromStartDate"
+          },
+          "ScheduleDeadlineDateDays": {
+            "type": "integer",
+            "format": "int32",
+            "description": "The value of the count for the Deadline Date\n\nThis property is not applicable if `ScheduleDeadlineDateMethod` is set to `LastDayOfMonth` or `NoDeadlineDate`.\n\nExample of usage: <table> <thead>\n<th>ScheduleDeadlineDateMethod</th>\n<th>ScheduleDeadlineDateDays</th>\n<th>Read Deadline Date as</th>\n</thead> <tbody>\n<tr>\n<td>DaysFromStartDate</td>\n<td>7</td>\n<td>7 days after start date</td>\n</tr>\n<tr>\n<td>DayOfMonth</td>\n<td>7</td>\n<td>7th day of the current month</td>\n</tr>\n<tr>\n<td>LastDayOfMonth</td>\n<td>N/A</td>\n<td>Last day of the current month</td>\n</tr>\n<tr>\n<td>DayOfNextMonth</td>\n<td>7</td>\n<td>7th day of the next month</td>\n</tr>\n<tr>\n<td>NoDeadlineDate</td>\n<td>N/A</td>\n<td>Work has no deadline date</td>\n</tr>\n</tbody> </table>\n",
+            "example": 7
+          },
+          "ScheduleDeadlineDateMonthMultiple": {
+            "type": "integer",
+            "format": "int32",
+            "description": "The value to denote the number of the months, if the deadline date is after 2 months.\n\nThis property is only applicable if `ScheduleDeadlineDateMethod` is set to `DayOfSubsequentMonth`.\n\nExample of usage: <table> <thead>\n<th>ScheduleDeadlineDateMethod</th>\n<th>ScheduleDeadlineDateDays</th>\n<th>ScheduleDeadlineDateMonthMultiple</th>\n<th>Read Deadline Date as</th>\n</thead> <tbody>\n<tr>\n<td>DaysFromStartDate</td>\n<td>7</td>\n<td>3</td>\n<td>7th day of the 3rd month after start date</td>\n</tr>\n</tbody> </table>\n",
             "example": 3
           },
           "PreventStartEndOnWeekend": {
@@ -14145,6 +14695,31 @@
             "type": "integer",
             "format": "int32",
             "description": "The value to denote the number of the months, if the due date is after 2 months.\n\nThis property is only applicable if `ScheduleDueDateMethod` is set to `DayOfSubsequentMonth`.\n\nExample of usage: <table> <thead>\n<th>ScheduleDueDateMethod</th>\n<th>ScheduleDueDateDays</th>\n<th>ScheduleDueDateMonthMultiple</th>\n<th>Read Due Date as</th>\n</thead> <tbody>\n<tr>\n<td>DaysFromStartDate</td>\n<td>7</td>\n<td>3</td>\n<td>7th day of the 3rd month after start\ndate</td>\n</tr>\n</tbody> </table>\n",
+            "example": 3
+          },
+          "ScheduleDeadlineDateMethod": {
+            "type": "string",
+            "description": "The method that should be used to count the Deadline Date for the Work Item.\n\nCompanies House-driven and filing-date-driven deadline methods are not available through the API; setting `ScheduleDeadlineDateMethod` to `CompaniesHouseAccountsDueDate`, `CompaniesHouseConfirmationStatementDueDate` or `OnFilingDate` returns a `400`.\n",
+            "enum": [
+              "DaysFromStartDate",
+              "DayOfMonth",
+              "LastDayOfMonth",
+              "DayOfNextMonth",
+              "DayOfSubsequentMonth",
+              "NoDeadlineDate"
+            ],
+            "example": "DaysFromStartDate"
+          },
+          "ScheduleDeadlineDateDays": {
+            "type": "integer",
+            "format": "int32",
+            "description": "The value of the count for the Deadline Date\n\nThis property is not applicable if `ScheduleDeadlineDateMethod` is set to `LastDayOfMonth` or `NoDeadlineDate`.\n\nExample of usage:  <table>\n<th>ScheduleDeadlineDateMethod</th>\n<th>ScheduleDeadlineDateDays</th>\n<th>Read Deadline Date as</th>\n<tr>\n<td>DaysFromStartDate</td>\n<td>7</td>\n<td>7 days after start date</td>\n</tr>\n<tr>\n<td>DayOfMonth</td>\n<td>7</td>\n<td>7th day of the current month</td>\n</tr>\n<tr>\n<td>LastDayOfMonth</td>\n<td>N/A</td>\n<td>Last day of the current month</td>\n</tr>\n<tr>\n<td>DayOfNextMonth</td>\n<td>7</td>\n<td>7th day of the next month</td>\n</tr>\n<tr>\n<td>NoDeadlineDate</td>\n<td>N/A</td>\n<td>Work has no deadline date</td>\n</tr>\n</table>\n",
+            "example": 7
+          },
+          "ScheduleDeadlineDateMonthMultiple": {
+            "type": "integer",
+            "format": "int32",
+            "description": "The value to denote the number of the months, if the deadline date is after 2 months.\n\nThis property is only applicable if `ScheduleDeadlineDateMethod` is set to `DayOfSubsequentMonth`.\n\nExample of usage: <table> <thead>\n<th>ScheduleDeadlineDateMethod</th>\n<th>ScheduleDeadlineDateDays</th>\n<th>ScheduleDeadlineDateMonthMultiple</th>\n<th>Read Deadline Date as</th>\n</thead> <tbody>\n<tr>\n<td>DaysFromStartDate</td>\n<td>7</td>\n<td>3</td>\n<td>7th day of the 3rd month after start\ndate</td>\n</tr>\n</tbody> </table>\n",
             "example": 3
           },
           "AssigneeUserKey": {
@@ -15182,6 +15757,64 @@
             "description": "The timestamp the associated resource was last altered",
             "example": "2024-08-01T21:54:36Z",
             "readOnly": true
+          }
+        }
+      },
+      "webhook-batch-event": {
+        "description": "A single resource-change event within a batched webhook delivery",
+        "type": "object",
+        "properties": {
+          "ResourcePermaKey": {
+            "type": "string",
+            "description": "The key for the resource that has been created or updated",
+            "example": "3GBF6TnYRc7C",
+            "readOnly": true
+          },
+          "ResourceType": {
+            "type": "string",
+            "description": "The type of resource that has been created or updated. Note this uses `WorkItem`, not `Work` as used elsewhere for this resource type.",
+            "example": "WorkItem",
+            "readOnly": true
+          },
+          "ActionType": {
+            "type": "string",
+            "description": "The action that triggered the event",
+            "enum": ["Inserted", "Updated", "Deleted"],
+            "example": "Inserted",
+            "readOnly": true
+          },
+          "Timestamp": {
+            "type": "string",
+            "format": "date-time",
+            "description": "The timestamp the associated resource was altered. Note the casing differs from `TimeStamp` on the single-event payloads above.",
+            "example": "2026-09-02T03:49:42Z",
+            "readOnly": true
+          }
+        }
+      },
+      "webhook-batch": {
+        "description": "The schema for a batched webhook delivery, sent instead of a single-event payload when a Webhook Subscription has `BatchSize` set to more than 1",
+        "type": "object",
+        "properties": {
+          "BatchId": {
+            "type": "string",
+            "format": "uuid",
+            "description": "A unique identifier for this batch",
+            "example": "70575b82-9a31-4576-a4e7-61e20c42189d",
+            "readOnly": true
+          },
+          "Count": {
+            "type": "integer",
+            "description": "The number of events in this batch",
+            "example": 3,
+            "readOnly": true
+          },
+          "Events": {
+            "type": "array",
+            "description": "The events in this batch, in the order they occurred",
+            "items": {
+              "$ref": "#/components/schemas/webhook-batch-event"
+            }
           }
         }
       }
