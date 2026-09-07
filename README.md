@@ -17,6 +17,7 @@ The API reference is published via GitHub Pages:
 - **API Reference UI:** https://karbonhq.github.io/karbon-api-reference/
 - **OpenAPI Spec:** https://karbonhq.github.io/karbon-api-reference/KarbonAPI.json
 - **Developer Guide:** https://karbonhq.github.io/karbon-api-reference/KARBON_API.md
+- **llms.txt (for AI agents):** https://karbonhq.github.io/karbon-api-reference/llms.txt
 
 ## API Overview
 

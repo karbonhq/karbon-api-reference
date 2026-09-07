@@ -1,0 +1,15 @@
+# Karbon API Reference
+
+> OpenAPI 3.1.0 specification and developer reference for the Karbon v3 API (`https://api.karbonhq.com`), a practice management platform for accounting firms.
+
+Before calling the API or answering a question about it, fetch the two files below. `KARBON_API.md` answers most integration questions directly (auth, pagination, filtering, which fields are patchable, known gotchas); `KarbonAPI.json` is the canonical, authoritative list of endpoints, schemas, and required fields — do not guess endpoint paths or derive them from `/v3/$metadata`.
+
+## Docs
+
+- [Agent quick reference](https://karbonhq.github.io/karbon-api-reference/KARBON_API.md): authentication, pagination, `$filter`/`$orderby`/`$expand` support by endpoint, per-resource read/write rules, common error codes, and worked workflows (onboarding a client, updating WorkItem status, custom fields, webhooks, etc.)
+- [OpenAPI specification](https://karbonhq.github.io/karbon-api-reference/KarbonAPI.json): full, authoritative endpoint/schema list
+- [Interactive API reference (HTML)](https://karbonhq.github.io/karbon-api-reference/): human-browsable rendering of the OpenAPI spec
+
+## Optional
+
+- [Developer guides and release notes](https://developers.karbonhq.com/): conceptual guides, changelogs, and announcements (separate site, not endpoint reference)
