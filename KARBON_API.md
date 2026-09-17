@@ -39,8 +39,10 @@ All list endpoints support pagination. Max 100 items per request (for most endpo
 
 | Parameter | Purpose                                      |
 | --------- | -------------------------------------------- |
-| `$top`    | Items per page (max: 100 for most endpoints) |
+| `$top`    | Items per page (max: 100 for most endpoints; must be ≥ 1 — `$top=0` returns `400`) |
 | `$skip`   | Items to skip                                |
+
+`GET /v3/FileList/{EntityType}` is the exception: `$top` up to 500, omitting `$top` returns every matching file, and the total is `TotalCount` in the body rather than `@odata.count`.
 
 Response fields:
 
@@ -91,6 +93,7 @@ Supported operators vary by endpoint and field — not all operators work with a
 | `GET /v3/Users`                 | `Name`, `EmailAddress`                                                                                                                                            | `eq`                                |
 | `GET /v3/Invoices`              | `InvoiceStatus` (one of `Approved`, `AwaitingPayment`, `Paid`, `Exported`, `Voided`)                                                                              | `eq`                                |
 | `GET /v3/WorkTemplates`         | `Title`, `WorkTypeKey`, `PublishedDate`, `DateModified`, `DateLastWorkItemCreated`, `NumberOfWorkItemsCreated`, `HasScheduledClientTaskGroups`, `DraftHasChanges` | `eq`                                |
+| `GET /v3/FileList/{EntityType}` | `IsArchived`, `IsShared`, `Source`, `MimeType`                                                                                                                    | `eq`, `and`                         |
 
 † `contains` is not supported for `ClientKey`, `PrimaryStatus`, `WorkScheduleKey`, `WorkTemplateKey`, or `ExternalKey`.
 
@@ -116,6 +119,7 @@ Append ` desc` to any sortable field for descending order.
 | `GET /v3/IndividualTimeEntries` | `Date`                                                                                                |
 | `GET /v3/Invoices`              | `InvoiceDate`, `CreatedAt`, `UpdatedAt`, `InvoiceNumber`                                              |
 | `GET /v3/WorkTemplates`         | `WorkTypeKey`, `PublishedDate`, `NumberOfWorkItemsCreated`, `DateLastWorkItemCreated`, `DateModified` |
+| `GET /v3/FileList/{EntityType}` | `DateCreated` only (default: `DateCreated desc`)                                                      |
 
 ---
 
@@ -182,7 +186,7 @@ GET /v3/ClientGroups/GetClientGroupByUserDefinedIdentifier(UserDefinedIdentifier
 | **Custom Fields**           | `GET/PUT /v3/CustomFieldValues/{EntityKey}`, `GET/POST /v3/CustomFields`, `DELETE /v3/CustomFields/{key}`                                                       | EntityKey is the key of the Contact/Org. Field types: `Text`, `Number`, `Date`, `Boolean`, `Colleague`, `ListSingleSelect`, `ListMultipleSelect`. `Colleague` fields store/return a UserKey (also referred to as UserID elsewhere in the API). |
 | **Estimate Summaries** (aka Budgets) | `GET /v3/EstimateSummaries/{WorkItemKey}`, `GET/PATCH /v3/WorkItems/{WorkItemKey}/EstimateSummaries/{EstimateSummaryKey}`                                       | This IS the "budget" endpoint — there is no `/v3/Budget*` path. List is read-only. Single-summary GET/PATCH work per-user: `HourlyRate`, `EstimateMinutes`, `ActualMinutes`, `EstimateAmount` (estimated cost). `EstimateSummaryKey` starting with `0-` is time with no estimate assigned, not a real estimate — GET-only, assign an estimate in-app before it's patchable. `PATCH` supports `EstimateMinutes`, `EstimateAmount`, `HourlyRate` — only one of `EstimateMinutes`/`EstimateAmount` per firm's Time and Budget setting (time vs. amount), not settable via API. Changing `HourlyRate` can reissue `EstimateSummaryKey`; always follow the `OData-EntityId` response header. |
 | **Expenses**                | `POST /v3/Expenses`                                                                                                                                             | Create-only — no list, update or delete. All fields required: `Timeline` (`EntityType` one of `WorkItem`/`Contact`/`Organization`, plus `EntityKey`), `ExpenseDate`, `Value`, `BillableValue` (both `>= 0`), `Description` (max 250 chars). No expense type on create.                                                              |
-| **Files**                   | `GET /v3/FileList/{EntityType}`, `GET /v3/Files`, `POST /v3/Files`, `GET /v3/FileDetails/{key}`, `GET /v3/FileDetails/{key}/Download`                          | EntityType in path for listing. `FileDetails` looks up a single file by the `FileContextKey` from `FileList`; `Download` redirects (302) to a freshly-tokened download URL.                                                                   |
+| **Files**                   | `GET /v3/FileList/{EntityType}`, `GET /v3/Files`, `POST /v3/Files`, `GET /v3/FileDetails/{key}`, `GET /v3/FileDetails/{key}/Download`                          | EntityType in path for listing. `FileList` supports `$filter` (`IsArchived`, `IsShared`, `Source`, `MimeType` — `eq`/`and`), `$orderby` on `DateCreated`, `$skip`/`$top` (max 500, omit for all), and returns `TotalCount`; each file has `IsShared` (read-only, true when the client can see it). `FileDetails` looks up a single file by the `FileContextKey` from `FileList`; `Download` redirects (302) to a freshly-tokened download URL.                                                                   |
 | **Integrated Workflows**    | `GET /v3/IntegrationTaskDefinitions`, `GET/PUT /v3/IntegrationTasks/{key}`                                                                                      | Restricted to approved integration partners                                                                                                                                                                                                    |
 | **Notes**                   | `POST /v3/Notes`, `GET /v3/Notes/{id}`                                                                                                                          | Required: `Subject`, `Body` (HTML supported), `AuthorEmailAddress`                                                                                                                                                                             |
 | **Organizations**           | `GET`, `POST /v3/Organizations`, `GET/PUT/PATCH /v3/Organizations/{key}`                                                                                        | Required: `FullName`. `RestrictionLevel` (`Public`/`Private`/`Hidden`) is writable on POST/PUT/PATCH — Private/Hidden require the app's `IncludePrivate`/`IncludeHidden` permission, otherwise `403`. `PATCH` supports `FullName`, `RestrictionLevel`.                                                                                                                                           |
@@ -193,7 +197,7 @@ GET /v3/ClientGroups/GetClientGroupByUserDefinedIdentifier(UserDefinedIdentifier
 | **Individual Time Entries** | `GET /v3/IndividualTimeEntries`, `GET /v3/IndividualTimeEntries/{IndividualTimeEntryKey}`                                                                       | This is the "logged time" / "hours worked" endpoint — non-aggregated, one record per user/day/task. Prefer this over Timesheets below.                                                                                                                                                                                                                    |
 | **Timesheets**              | `GET /v3/Timesheets`, `GET /v3/Timesheets/{key}`                                                                                                                | **Deprecated** — both operations. Returns time aggregated to the tenant's timesheet period (weekly by default), not per-day. Use Individual Time Entries instead. Expand `TimeEntries` for detail if you must use this.                                                                                                                                                                                                                |
 | **Users**                   | `GET /v3/Users`, `POST /v3/Users`, `GET /v3/Users/{id}`                                                                                                         | —                                                                                                                                                                                                                                              |
-| **Webhook Subscriptions**   | `POST/DELETE /v3/WebhookSubscriptions`, `GET/PATCH/DELETE /v3/WebhookSubscriptions/{type}`                                                                      | One subscription per entity type; 10 retries then auto-cancelled. `WebhookTypes` (instead of `WebhookType`) creates a multi-type subscription at `/v3/WebhookSubscriptions/Multi` — `PATCH` there replaces the full type list. `BatchSize`/`BatchMaxDelaySeconds` on any subscription batch deliveries into one `POST` |
+| **Webhook Subscriptions**   | `POST/DELETE /v3/WebhookSubscriptions`, `GET/PATCH/DELETE /v3/WebhookSubscriptions/{type}`                                                                      | One subscription per entity type; 10 retries then auto-cancelled. Check with `GET` at most every 3-4 hours and only `POST` when it 404s — don't re-`POST` on every request. `WebhookTypes` (instead of `WebhookType`) creates a multi-type subscription at `/v3/WebhookSubscriptions/Multi` — `PATCH` there replaces the full type list. `BatchSize`/`BatchMaxDelaySeconds` on any subscription batch deliveries into one `POST` |
 | **Work Items**              | `GET`, `POST /v3/WorkItems`, `GET/PUT/PATCH /v3/WorkItems/{key}`                                                                                                | Most filterable resource                                                                                                                                                                                                                       |
 | **Work Schedules**          | `POST /v3/WorkSchedules`, `GET/PUT/PATCH /v3/WorkSchedules/{key}`                                                                                               | For repeating work. `PATCH` supports `ScheduleEndDate` and `AssigneeUserKey` only. `ScheduleDeadlineDateMethod`/`Days`/`MonthMultiple` (GET/POST/PUT only) set a deadline date alongside the existing `ScheduleDueDate*` fields                                                                                                                                                                                    |
 | **Work Templates**          | `GET /v3/WorkTemplates`, `GET /v3/WorkTemplates/{key}`                                                                                                          | Read-only                                                                                                                                                                                                                                      |
@@ -214,7 +218,7 @@ Used when creating or referencing Work Items:
 
 `AssigneeEmailAddress`, `Title`, `ClientKey`, `ClientType`, `StartDate`
 
-PATCH supports `Title`, `Description`, `StartDate`, `DueDate`, `DeadlineDate`, `AssigneeEmailAddress`, and `WorkType`. Any other property in the request body returns a `400`.
+PATCH supports `Title`, `Description`, `StartDate`, `DueDate`, `DeadlineDate`, `AssigneeEmailAddress`, `WorkType`, and `UserRoleAssignments`. Any other property in the request body returns a `400`. `UserRoleAssignments` (`[{ RoleKey, UserProfileKey }]`) replaces the full set of role assignments; reassigning a role moves its time estimates to the new user.
 
 ### WorkItem fee settings
 
@@ -266,6 +270,15 @@ Accepted format differs by where the value is used:
 ```
 
 Webhook entity types: `Contact` (also covers ClientGroups, Organizations), `Work`, `Note`, `User`, `IntegrationTask`, `Invoice`, `EstimateSummary`, `CustomField`
+
+### Polling cadence — don't re-create subscriptions on every request
+
+A subscription persists until it's deleted or auto-cancelled (10 failed deliveries). It does not need to be checked or recreated often:
+
+- `GET /v3/WebhookSubscriptions/{type}` to check a subscription still exists — **at most every 3-4 hours**.
+- `POST /v3/WebhookSubscriptions` only when that `GET` returns `404`.
+
+Calling `POST` on every request (hundreds/thousands of times a day) just creates and immediately replaces the same subscription — it doesn't improve delivery and adds needless load.
 
 ### Multi-type and batched webhook subscriptions
 
@@ -561,7 +574,7 @@ DELETE /v3/WebhookSubscriptions/Invoice
 
 **4. Re-subscribe if auto-cancelled**
 
-Poll `GET /v3/WebhookSubscriptions/Invoice` — a 404 means the subscription was cancelled. Re-POST to reinstate.
+Check `GET /v3/WebhookSubscriptions/Invoice` **at most every 3-4 hours** — a 404 means the subscription was cancelled. Re-POST only then to reinstate; don't POST on every check.
 
 ---
 
