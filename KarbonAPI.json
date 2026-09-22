@@ -5314,7 +5314,7 @@
       "get": {
         "tags": ["Files"],
         "summary": "Get a list of Files for a given entity",
-        "description": "Use the `GET` method on this endpoint to list files associated with a specific Entity Type and Entity Key",
+        "description": "Use the `GET` method on this endpoint to list files associated with a specific Entity Type and Entity Key.\n\nThe list supports `$filter` on `IsArchived`, `IsShared`, `Source` and `MimeType` (`eq` only, combined with `and`). Files are returned newest first when `$orderby` is omitted. `TotalCount` in the response is the number of files matching the filter before paging.\n\nFiltering or sorting on any other property, or using other operators such as `or` or `contains`, returns a `400`.",
         "operationId": "listFiles",
         "parameters": [
           {
@@ -5337,6 +5337,68 @@
               "type": "string"
             },
             "example": "3bXVhdMHgc9P"
+          },
+          {
+            "in": "query",
+            "name": "$filter",
+            "schema": {
+              "type": "string"
+            },
+            "examples": {
+              "isArchived": {
+                "value": "IsArchived eq false",
+                "summary": "Only files that have not been archived"
+              },
+              "isShared": {
+                "value": "IsShared eq true",
+                "summary": "Only files the client can see"
+              },
+              "source": {
+                "value": "Source eq 'WorkItem'",
+                "summary": "Only files uploaded against a Work Item"
+              },
+              "mimeType": {
+                "value": "MimeType eq 'application/pdf'",
+                "summary": "Only PDF files"
+              },
+              "combined": {
+                "value": "IsArchived eq false and IsShared eq true and MimeType eq 'application/pdf'",
+                "summary": "Conditions combined with `and`"
+              }
+            },
+            "description": "When this parameter is combined with the URI, this endpoint will return a subset of the files that satisfy the `$filter` expression. Supports `IsArchived`, `IsShared`, `Source` and `MimeType` with the `eq` operator, combined with `and`."
+          },
+          {
+            "in": "query",
+            "name": "$orderby",
+            "schema": {
+              "type": "string",
+              "enum": ["DateCreated", "DateCreated desc"],
+              "default": "DateCreated desc"
+            },
+            "example": "DateCreated",
+            "description": "Sort the files by upload date. Newest first when omitted."
+          },
+          {
+            "in": "query",
+            "name": "$skip",
+            "schema": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "example": 50,
+            "description": "Skip the first n files after filtering and sorting."
+          },
+          {
+            "in": "query",
+            "name": "$top",
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 100
+            },
+            "example": 50,
+            "description": "Limit the number of files returned, up to 100."
           }
         ],
         "responses": {
@@ -8474,7 +8536,7 @@
             "description": "The type of Karbon entity, which the Webhook Subscription must be associated with. Use `Multi` to retrieve the multi-type subscription created via `WebhookTypes`."
           }
         ],
-        "description": "Use the `GET` method on this endpoint to receive the details of a Webhook Subscriptions associated with the Karbon entity specified using the `WebhookType`.\n\n**Only one** Webhook Subscription can exist per entity.\n",
+        "description": "Use the `GET` method on this endpoint to receive the details of a Webhook Subscriptions associated with the Karbon entity specified using the `WebhookType`.\n\n**Only one** Webhook Subscription can exist per entity.\n\n**Polling cadence:** a subscription is not expected to be recreated regularly. Check it exists with `GET` at most every 3-4 hours, and only `POST` a replacement if that check returns `404`.\n",
         "operationId": "getWebhookSubscriptionsByWebhookType",
         "responses": {
           "200": {
@@ -8754,7 +8816,7 @@
       "post": {
         "tags": ["Webhook Subscriptions"],
         "summary": "Creates a new Webhook Subscription",
-        "description": "\n\nUse the `POST` method on create and associate a Webhook Subscriptions with a Karbon entity.\n\nYou can create **only one** Webhook Subcription per entity.\n\nPayload delivery for a webhook subscription will be retried 10 times, with increasing delays. If unsuccessful after 10 tries (no 2xx HTTP response), the subscription ends and needs to be recreated to receive further updates.\n",
+        "description": "\n\nUse the `POST` method on create and associate a Webhook Subscriptions with a Karbon entity.\n\nYou can create **only one** Webhook Subcription per entity.\n\nPayload delivery for a webhook subscription will be retried 10 times, with increasing delays. If unsuccessful after 10 tries (no 2xx HTTP response), the subscription ends and needs to be recreated to receive further updates.\n\n**Do not call this on every poll.** A subscription lasts until it's deleted or auto-cancelled after 10 failed deliveries — check with `GET /v3/WebhookSubscriptions/{WebhookType}` at most every 3-4 hours and only `POST` here when that check returns `404`. Repeatedly recreating an already-active subscription is unnecessary load on both sides.\n",
         "operationId": "createWebhookSubscription",
         "responses": {
           "201": {
@@ -9589,7 +9651,7 @@
             "description": "The Karbon-generated Work Item key"
           }
         ],
-        "description": "Use the `PATCH` method on this endpoint to update partial details of a Work Item (specified using the WorkItemKey).\n\nThis method supports editing the `Title`, `Description`, `StartDate`, `DueDate`, `DeadlineDate`, `AssigneeEmailAddress`, and `WorkType` properties. Sending any other property in the request body returns a `400`.",
+        "description": "Use the `PATCH` method on this endpoint to update partial details of a Work Item (specified using the WorkItemKey).\n\nThis method supports editing the `Title`, `Description`, `StartDate`, `DueDate`, `DeadlineDate`, `AssigneeEmailAddress`, `WorkType`, and `UserRoleAssignments` properties. Sending any other property in the request body returns a `400`.\n\n`UserRoleAssignments` replaces the full set of role assignments on the Work Item. Reassigning a role also moves any time estimates on that role to the new user.",
         "operationId": "patchWorkItemByID",
         "responses": {
           "204": {
@@ -12839,6 +12901,30 @@
                 "example": "Tax Return"
               }
             }
+          },
+          {
+            "properties": {
+              "UserRoleAssignments": {
+                "type": "array",
+                "description": "The full set of user role assignments for the Work Item. Replaces the existing assignments. Reassigning a role also moves any time estimates on that role to the new user.",
+                "items": {
+                  "type": "object",
+                  "required": ["RoleKey", "UserProfileKey"],
+                  "properties": {
+                    "RoleKey": {
+                      "type": "string",
+                      "description": "A Karbon-generated value used to identify the role of the user",
+                      "example": "2mYzTtly89Lq"
+                    },
+                    "UserProfileKey": {
+                      "type": "string",
+                      "description": "A Karbon-generated value used to identify the user",
+                      "example": "2Qy48WVCRBcP"
+                    }
+                  }
+                }
+              }
+            }
           }
         ]
       },
@@ -13751,6 +13837,11 @@
             "enum": ["WorkItem", "Contact", "Organization"],
             "description": "The type of entity the file list is associated with"
           },
+          "TotalCount": {
+            "type": "integer",
+            "example": 128,
+            "description": "The number of files matching the `$filter` expression, before `$skip` and `$top` are applied"
+          },
           "Attachments": {
             "type": "array",
             "description": "An array of Files including a name, mimetype, size, creation timestamp and download url",
@@ -13805,6 +13896,11 @@
             "type": "boolean",
             "example": false,
             "description": "Whether the file has been archived"
+          },
+          "IsShared": {
+            "type": "boolean",
+            "example": true,
+            "description": "Whether the client can see the file. Files uploaded by a client, or attached to a Client Task, External Comment, Approval or eSignature, are always shared. Read-only."
           }
         }
       },
