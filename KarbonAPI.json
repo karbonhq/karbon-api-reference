@@ -830,17 +830,9 @@
                       "PaymentType": "ManualPayment",
                       "PaymentDate": "2023-07-28",
                       "GrossAmount": 1550.5,
+                      "CreditAmount": 0,
                       "PaymentMethod": "Check",
-                      "KarbonPayment": {
-                        "CardType": "",
-                        "CardCountry": null,
-                        "CardFunding": "",
-                        "PayoutStatus": "",
-                        "SurchargeAmount": 0,
-                        "KarbonFeeAmount": 0,
-                        "KarbonFeeTaxAmount": 0,
-                        "NetAmount": 0
-                      },
+                      "KarbonPayment": null,
                       "Client": null
                     }
                   ]
@@ -11012,6 +11004,12 @@
                 "description": "The valeu of the payment, excluding fees and taxes",
                 "example": 2200
               },
+              "CreditAmount": {
+                "type": "number",
+                "format": "double",
+                "description": "The credit still available on the payment: the payment amount before surcharges (`KarbonPayment.BasePaymentAmount`, or `GrossAmount` for manual payments) less any amounts applied to invoices. Always `0` for reversed or deleted payments",
+                "example": 100
+              },
               "PaymentMethod": {
                 "type": "string",
                 "description": "The method by which the payment was made",
@@ -12395,6 +12393,12 @@
                 "type": "string",
                 "example": "",
                 "description": "A status indicating whether the payment has been payed out"
+              },
+              "BasePaymentAmount": {
+                "type": ["number", "null"],
+                "format": "double",
+                "example": 2200,
+                "description": "The payment amount before surcharges: `GrossAmount` less `SurchargeAmount` and `SurchargeTaxAmount`"
               },
               "SurchargeAmount": {
                 "type": "number",
