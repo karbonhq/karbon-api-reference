@@ -191,15 +191,16 @@ GET /v3/ClientGroups/GetClientGroupByUserDefinedIdentifier(UserDefinedIdentifier
 | **Notes**                   | `POST /v3/Notes`, `GET /v3/Notes/{id}`                                                                                                                          | Required: `Subject`, `Body` (HTML supported), `AuthorEmailAddress`                                                                                                                                                                             |
 | **Organizations**           | `GET`, `POST /v3/Organizations`, `GET/PUT/PATCH /v3/Organizations/{key}`                                                                                        | Required: `FullName`. `RestrictionLevel` (`Public`/`Private`/`Hidden`) is writable on POST/PUT/PATCH — Private/Hidden require the app's `IncludePrivate`/`IncludeHidden` permission, otherwise `403`. `PATCH` supports `FullName`, `RestrictionLevel`.                                                                                                                                           |
 | **Roles**                   | `GET /v3/Roles`                                                                                                                                                  | Read-only. Active, non-default Roles only, sorted by `Name` then `Key`. Max 200 per page.                                                                                                                                                      |
+| **Segments** (preview)      | `GET /v3/Segments`, `GET /v3/Segments/{key}`, `GET /v3/Segments/{key}/Members`                                                                                  | **Preview, available on request.** Shared Contact Segments only. List takes no query options. `Members` returns `EntityKey` + `EntityType` (`Contact`/`Organization`) only, ordered by name, `$top` max 100 with `$skip`; Private/Hidden clients need the app's `IncludePrivate`/`IncludeHidden` permission. |
 | **Tags**                    | _(no paths in spec — beta, not enabled for all users)_                                                                                                          | —                                                                                                                                                                                                                                              |
 | **Teams**                   | `GET /v3/Teams`, `GET /v3/Teams/{TeamKey}`, `POST /v3/Teams/{TeamKey}/AddMembers`, `POST /v3/Teams/{TeamKey}/RemoveMember`                                      | Single-team response includes `Members` (users and sub-teams). `AddMembers`/`RemoveMember` are bound OData actions (always `POST`), idempotent, and users-only — adding/removing a sub-team, or creating/editing a Team itself, is still Karbon-app-only.                          |
-| **Tenant Settings**         | `GET /v3/TenantSettings`                                                                                                                                        | Returns valid `ContactTypes`, `WorkTypes`, `WorkStatuses`, `ServiceTypes`, `TenantKey`, `ClientAccessActivated`. Each `ServiceTypes` entry (`Name`, `ServiceTypeKey`, `WorkTypeKeys[]`) groups work types — `WorkTypeKeys` cross-references `WorkTypes[].WorkTypeKey`                                                                                                                                                |
+| **Tenant Settings**         | `GET /v3/TenantSettings`                                                                                                                                        | Returns valid `ContactTypes`, `WorkTypes`, `WorkStatuses`, `ServiceTypes`, `FilingDeadlines`, `TenantKey`, `ClientAccessActivated`. Each `ServiceTypes` entry (`Name`, `ServiceTypeKey`, `WorkTypeKeys[]`) groups work types — `WorkTypeKeys` cross-references `WorkTypes[].WorkTypeKey`. `FilingDeadlines[].FilingDeadlineKey` feeds the Work Schedule `OnFilingDate` methods                                                                                                                                                |
 | **Individual Time Entries** | `GET /v3/IndividualTimeEntries`, `GET /v3/IndividualTimeEntries/{IndividualTimeEntryKey}`                                                                       | This is the "logged time" / "hours worked" endpoint — non-aggregated, one record per user/day/task. Prefer this over Timesheets below.                                                                                                                                                                                                                    |
 | **Timesheets**              | `GET /v3/Timesheets`, `GET /v3/Timesheets/{key}`                                                                                                                | **Deprecated** — both operations. Returns time aggregated to the tenant's timesheet period (weekly by default), not per-day. Use Individual Time Entries instead. Expand `TimeEntries` for detail if you must use this.                                                                                                                                                                                                                |
 | **Users**                   | `GET /v3/Users`, `POST /v3/Users`, `GET /v3/Users/{id}`                                                                                                         | —                                                                                                                                                                                                                                              |
 | **Webhook Subscriptions**   | `POST/DELETE /v3/WebhookSubscriptions`, `GET/PATCH/DELETE /v3/WebhookSubscriptions/{type}`                                                                      | One subscription per entity type; 10 retries then auto-cancelled. Check with `GET` at most every 3-4 hours and only `POST` when it 404s — don't re-`POST` on every request. `WebhookTypes` (instead of `WebhookType`) creates a multi-type subscription at `/v3/WebhookSubscriptions/Multi` — `PATCH` there replaces the full type list. `BatchSize`/`BatchMaxDelaySeconds` on any subscription batch deliveries into one `POST` |
-| **Work Items**              | `GET`, `POST /v3/WorkItems`, `GET/PUT/PATCH /v3/WorkItems/{key}`                                                                                                | Most filterable resource                                                                                                                                                                                                                       |
-| **Work Schedules**          | `POST /v3/WorkSchedules`, `GET/PUT/PATCH /v3/WorkSchedules/{key}`                                                                                               | For repeating work. `PATCH` supports `ScheduleEndDate` and `AssigneeUserKey` only. `ScheduleDeadlineDateMethod`/`Days`/`MonthMultiple` (GET/POST/PUT only) set a deadline date alongside the existing `ScheduleDueDate*` fields                                                                                                                                                                                    |
+| **Work Items**              | `GET`, `POST /v3/WorkItems`, `GET/PUT/PATCH /v3/WorkItems/{key}`                                                                                                | Most filterable resource. `LastModifiedDateTime` is read-only and can't be used in `$filter` or `$orderby`                                                                                                                                      |
+| **Work Schedules**          | `POST /v3/WorkSchedules`, `GET/PUT/PATCH /v3/WorkSchedules/{key}`                                                                                               | For repeating work. `PATCH` supports `ScheduleEndDate` and `AssigneeUserKey` only. `ScheduleDeadlineDateMethod`/`Days`/`MonthMultiple` (GET/POST/PUT only) set a deadline date alongside the existing `ScheduleDueDate*` fields. `OnFilingDate` (due or deadline) needs `Schedule{Due\|Deadline}DateFilingDeadlineKey` (from `TenantSettings.FilingDeadlines`) plus `Schedule{Due\|Deadline}DateResolveType` (`FilingDeadline`/`FilingDeadlineExtension`); on `PUT`, omitting the key keeps the existing one                                                                                                                                                                                    |
 | **Work Templates**          | `GET /v3/WorkTemplates`, `GET /v3/WorkTemplates/{key}`                                                                                                          | Read-only                                                                                                                                                                                                                                      |
 
 ---
@@ -218,7 +219,7 @@ Used when creating or referencing Work Items:
 
 `AssigneeEmailAddress`, `Title`, `ClientKey`, `ClientType`, `StartDate`
 
-PATCH supports `Title`, `Description`, `StartDate`, `DueDate`, `DeadlineDate`, `AssigneeEmailAddress`, `WorkType`, and `UserRoleAssignments`. Any other property in the request body returns a `400`. `UserRoleAssignments` (`[{ RoleKey, UserProfileKey }]`) replaces the full set of role assignments; reassigning a role moves its time estimates to the new user.
+PATCH supports `Title`, `Description`, `StartDate`, `DueDate`, `DeadlineDate`, `AssigneeEmailAddress`, `WorkType`, `UserRoleAssignments`, `PrimaryStatus`, and `SecondaryStatus`. Any other property in the request body returns a `400`. `UserRoleAssignments` (`[{ RoleKey, UserProfileKey }]`) replaces the full set of role assignments; reassigning a role moves its time estimates to the new user. `SecondaryStatus` requires `PrimaryStatus` in the same request; `PrimaryStatus` alone clears the secondary status.
 
 ### WorkItem fee settings
 
@@ -254,7 +255,7 @@ Accepted format differs by where the value is used:
 - **`$filter`:** only the spaced form (`In Progress`, `Ready To Start`) matches. The no-space form isn't rejected — it silently returns zero rows.
 - **Responses:** format is inconsistent by endpoint. `GET /v3/WorkItems` (list) returns the spaced form (`"In Progress"`); `GET /v3/WorkItems/{key}`, and POST/PUT response bodies, return the no-space form (`"InProgress"`). Don't assume one canonical format when parsing responses — check which endpoint produced the value.
 
-**SecondaryStatus** values are tenant-customizable. Valid values come from `GET /v3/TenantSettings`, scoped to a `PrimaryStatus` **and** to a specific `WorkType` — a value valid for the same `PrimaryStatus` under a different `WorkType` will be accepted by the API but silently dropped (comes back `null`), not rejected. Always check the value is listed for the WorkItem's actual `WorkType`, not just its `PrimaryStatus`.
+**SecondaryStatus** values are tenant-customizable. Valid values come from `GET /v3/TenantSettings`, scoped to a `PrimaryStatus` **and** to a specific `WorkType` — on `PUT`, a value valid for the same `PrimaryStatus` under a different `WorkType` will be accepted by the API but silently dropped (comes back `null`), not rejected. `PATCH` is stricter and returns a `400` instead. Always check the value is listed for the WorkItem's actual `WorkType`, not just its `PrimaryStatus`.
 
 ---
 
@@ -508,7 +509,7 @@ PUT /v3/WorkItems/{WorkItemKey}
 
 ### Workflow 6 — Update a Work Item's Primary and Secondary status
 
-`PUT` replaces the whole Work Item, so the [required fields](#workitem-required-fields-post-and-put) must be sent alongside the status change, not just the status fields.
+Prefer `PATCH`: it takes just the status fields, and rejects an invalid `SecondaryStatus` with a `400` instead of silently dropping it. `PUT` replaces the whole Work Item, so the [required fields](#workitem-required-fields-post-and-put) must be sent alongside the status change.
 
 **1. Look up valid SecondaryStatus values for the WorkType**
 
@@ -519,6 +520,16 @@ GET /v3/TenantSettings
 Find the entry for the Work Item's `WorkType` (e.g. `"Payroll"`) and note the SecondaryStatus values listed under the target `PrimaryStatus`.
 
 **2. Send the update**
+
+```
+PATCH /v3/WorkItems/{WorkItemKey}
+{
+  "PrimaryStatus": "InProgress",
+  "SecondaryStatus": "Send client requests"
+}
+```
+
+Or, with `PUT`:
 
 ```
 PUT /v3/WorkItems/{WorkItemKey}
@@ -533,7 +544,7 @@ PUT /v3/WorkItems/{WorkItemKey}
 }
 ```
 
-`PrimaryStatus` accepts either `"InProgress"` or `"In Progress"` in the request body — see [PrimaryStatus vs WorkStatus](#primarystatus-vs-workstatus). `SecondaryStatus` must be one of the values TenantSettings lists for **both** this `PrimaryStatus` and this Work Item's `WorkType` — a value valid under a different WorkType is accepted but silently dropped (`null` in the response), not rejected.
+`PrimaryStatus` accepts either `"InProgress"` or `"In Progress"` in the request body — see [PrimaryStatus vs WorkStatus](#primarystatus-vs-workstatus). `SecondaryStatus` must be one of the values TenantSettings lists for **both** this `PrimaryStatus` and this Work Item's `WorkType` — `PATCH` returns a `400` otherwise, while `PUT` accepts a value valid under a different WorkType but silently drops it (`null` in the response).
 
 ---
 

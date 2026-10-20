@@ -7254,6 +7254,270 @@
         }
       }
     },
+    "/v3/Segments": {
+      "get": {
+        "tags": ["Contacts"],
+        "summary": "Gets a list of Segments",
+        "description": "**Preview:** Segments are available on request and may change based on feedback.\n\nReturns the shared Contact Segments on the account. Personal (unshared) Segments are not returned. Query options such as `$filter`, `$top` and `$skip` are not supported.",
+        "operationId": "listSegments",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetSegments"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorMessages"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResourceNotFound"
+                },
+                "examples": {
+                  "Unauthorized Access": {
+                    "$ref": "#/components/examples/UnauthorizedAccess"
+                  }
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Rate Limit Exceeded",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RateLimitErrorMessage"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorMessages"
+                },
+                "examples": {
+                  "Undefined Error": {
+                    "$ref": "#/components/examples/elongated_5001"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v3/Segments/{SegmentKey}": {
+      "get": {
+        "tags": ["Contacts"],
+        "summary": "Gets a single Segment",
+        "description": "**Preview:** Segments are available on request and may change based on feedback.\n\nReturns a single shared Contact Segment. Returns a `404` if the key doesn't match a shared Contact Segment on the account.",
+        "operationId": "getSegmentByKey",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "SegmentKey",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "The key of the Segment to retrieve."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Segment"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResourceNotFound"
+                },
+                "examples": {
+                  "Unauthorized Access": {
+                    "$ref": "#/components/examples/UnauthorizedAccess"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorMessages"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Rate Limit Exceeded",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RateLimitErrorMessage"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorMessages"
+                },
+                "examples": {
+                  "Undefined Error": {
+                    "$ref": "#/components/examples/elongated_5001"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v3/Segments/{SegmentKey}/Members": {
+      "get": {
+        "tags": ["Contacts"],
+        "summary": "Gets the members of a Segment",
+        "description": "**Preview:** Segments are available on request and may change based on feedback.\n\nReturns a paged list of the Contacts and Organizations in a shared Contact Segment, ordered by name. Each member is returned as a key and type; retrieve full details from `GET /v3/Contacts/{ContactKey}` or `GET /v3/Organizations/{OrganizationKey}`.\n\nPrivate and Hidden clients are only included when the app has the matching `IncludePrivate`/`IncludeHidden` permission. Follow `@odata.nextLink` to fetch the next page.",
+        "operationId": "listSegmentMembers",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "SegmentKey",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "The key of the Segment whose members to retrieve."
+          },
+          {
+            "in": "query",
+            "name": "$top",
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 100,
+              "default": 100
+            },
+            "example": 100,
+            "description": "The number of members to return. Maximum `100`."
+          },
+          {
+            "in": "query",
+            "name": "$skip",
+            "schema": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "example": 100,
+            "description": "Skip the first n members"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetSegmentMembers"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request — `$top` exceeds 100 or `$skip` is negative",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorMessages"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResourceNotFound"
+                },
+                "examples": {
+                  "Unauthorized Access": {
+                    "$ref": "#/components/examples/UnauthorizedAccess"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorMessages"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Rate Limit Exceeded",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RateLimitErrorMessage"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorMessages"
+                },
+                "examples": {
+                  "Undefined Error": {
+                    "$ref": "#/components/examples/elongated_5001"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/v3/Teams": {
       "get": {
         "tags": ["Users"],
@@ -9643,7 +9907,7 @@
             "description": "The Karbon-generated Work Item key"
           }
         ],
-        "description": "Use the `PATCH` method on this endpoint to update partial details of a Work Item (specified using the WorkItemKey).\n\nThis method supports editing the `Title`, `Description`, `StartDate`, `DueDate`, `DeadlineDate`, `AssigneeEmailAddress`, `WorkType`, and `UserRoleAssignments` properties. Sending any other property in the request body returns a `400`.\n\n`UserRoleAssignments` replaces the full set of role assignments on the Work Item. Reassigning a role also moves any time estimates on that role to the new user.",
+        "description": "Use the `PATCH` method on this endpoint to update partial details of a Work Item (specified using the WorkItemKey).\n\nThis method supports editing the `Title`, `Description`, `StartDate`, `DueDate`, `DeadlineDate`, `AssigneeEmailAddress`, `WorkType`, `UserRoleAssignments`, `PrimaryStatus`, and `SecondaryStatus` properties. Sending any other property in the request body returns a `400`.\n\n`UserRoleAssignments` replaces the full set of role assignments on the Work Item. Reassigning a role also moves any time estimates on that role to the new user.\n\n`PrimaryStatus` is required when `SecondaryStatus` is sent. Sending `PrimaryStatus` on its own clears the existing `SecondaryStatus`. `SecondaryStatus` must belong to the `PrimaryStatus` and be enabled for the Work Item's `WorkType`; otherwise the request returns a `400`.",
         "operationId": "patchWorkItemByID",
         "responses": {
           "204": {
@@ -12285,6 +12549,25 @@
             "items": {
               "$ref": "#/components/schemas/SettingServiceType"
             }
+          },
+          "FilingDeadlines": {
+            "type": "array",
+            "description": "The filing deadlines configured on the account. Use `FilingDeadlineKey` with the `OnFilingDate` due and deadline date methods on Work Schedules.",
+            "items": {
+              "type": "object",
+              "properties": {
+                "Name": {
+                  "type": "string",
+                  "description": "The name of the filing deadline",
+                  "example": "Form 1040"
+                },
+                "FilingDeadlineKey": {
+                  "type": "string",
+                  "description": "A Karbon-generated value used to identify the filing deadline",
+                  "example": "2kTn7wQpXc4R"
+                }
+              }
+            }
           }
         }
       },
@@ -12522,6 +12805,13 @@
             "type": "string",
             "format": "date-time",
             "description": "The date and time at which the Work Item was completed",
+            "example": "2022-02-01T00:00:00Z"
+          },
+          "LastModifiedDateTime": {
+            "type": "string",
+            "format": "date-time",
+            "readOnly": true,
+            "description": "The date and time at which this Work Item was last modified.",
             "example": "2022-02-01T00:00:00Z"
           },
           "ToDoPeriod": {
@@ -12927,6 +13217,25 @@
                     }
                   }
                 }
+              }
+            }
+          },
+          {
+            "properties": {
+              "PrimaryStatus": {
+                "type": "string",
+                "enum": ["Planned", "ReadyToStart", "InProgress", "Waiting", "Completed"],
+                "description": "The parent-level Status of the Work Item. Case-insensitive, and spaces are ignored, so `In Progress` is also accepted. Required when `SecondaryStatus` is included. Sending `PrimaryStatus` without `SecondaryStatus` clears the existing `SecondaryStatus`.",
+                "example": "InProgress"
+              }
+            }
+          },
+          {
+            "properties": {
+              "SecondaryStatus": {
+                "type": "string",
+                "description": "The name of the child-level Status of the Work Item. Must belong to the `PrimaryStatus` sent in the same request and be enabled for the Work Item's `WorkType`; otherwise returns a `400`. Valid values are listed under `WorkStatuses` in `GET /v3/TenantSettings`.",
+                "example": "Send client requests"
               }
             }
           }
@@ -14485,13 +14794,14 @@
           },
           "ScheduleDueDateMethod": {
             "type": "string",
-            "description": "The method that should be used to count the Due Date for the Work Item",
+            "description": "The method that should be used to count the Due Date for the Work Item.\n\n`OnFilingDate` sets the Due Date from a filing deadline, and requires `ScheduleDueDateFilingDeadlineKey` and `ScheduleDueDateResolveType`.\n",
             "enum": [
               "DaysFromStartDate",
               "DayOfMonth",
               "LastDayOfMonth",
               "DayOfNextMonth",
               "DayOfSubsequentMonth",
+              "OnFilingDate",
               "NoDueDate"
             ],
             "example": "DaysFromStartDate"
@@ -14510,13 +14820,14 @@
           },
           "ScheduleDeadlineDateMethod": {
             "type": "string",
-            "description": "The method that should be used to count the Deadline Date for the Work Item.\n\nCompanies House-driven and filing-date-driven deadline methods are not available through the API; setting `ScheduleDeadlineDateMethod` to `CompaniesHouseAccountsDueDate`, `CompaniesHouseConfirmationStatementDueDate` or `OnFilingDate` returns a `400`.\n\nOn `PUT`, omitting this property leaves the existing deadline date configuration unchanged. To remove a deadline date, set this to `NoDeadlineDate` explicitly.\n",
+            "description": "The method that should be used to count the Deadline Date for the Work Item.\n\n`OnFilingDate` sets the Deadline Date from a filing deadline, and requires `ScheduleDeadlineDateFilingDeadlineKey` and `ScheduleDeadlineDateResolveType`.\n\nCompanies House-driven deadline methods are not available through the API; setting `ScheduleDeadlineDateMethod` to `CompaniesHouseAccountsDueDate` or `CompaniesHouseConfirmationStatementDueDate` returns a `400`.\n\nOn `PUT`, omitting this property leaves the existing deadline date configuration unchanged. To remove a deadline date, set this to `NoDeadlineDate` explicitly.\n",
             "enum": [
               "DaysFromStartDate",
               "DayOfMonth",
               "LastDayOfMonth",
               "DayOfNextMonth",
               "DayOfSubsequentMonth",
+              "OnFilingDate",
               "NoDeadlineDate"
             ],
             "example": "DaysFromStartDate"
@@ -14532,6 +14843,28 @@
             "format": "int32",
             "description": "The value to denote the number of the months, if the deadline date is after 2 months.\n\nThis property is only applicable if `ScheduleDeadlineDateMethod` is set to `DayOfSubsequentMonth`.\n\nExample of usage: <table> <thead>\n<th>ScheduleDeadlineDateMethod</th>\n<th>ScheduleDeadlineDateDays</th>\n<th>ScheduleDeadlineDateMonthMultiple</th>\n<th>Read Deadline Date as</th>\n</thead> <tbody>\n<tr>\n<td>DaysFromStartDate</td>\n<td>7</td>\n<td>3</td>\n<td>7th day of the 3rd month after start date</td>\n</tr>\n</tbody> </table>\n",
             "example": 3
+          },
+          "ScheduleDueDateFilingDeadlineKey": {
+            "type": "string",
+            "description": "The key of the filing deadline the Due Date is based on. Valid keys are listed under `FilingDeadlines` in `GET /v3/TenantSettings`.\n\nRequired when `ScheduleDueDateMethod` is `OnFilingDate`, and can only be set with that method. On `PUT`, omitting this property keeps the schedule's existing filing deadline.\n",
+            "example": "2kTn7wQpXc4R"
+          },
+          "ScheduleDueDateResolveType": {
+            "type": "string",
+            "description": "Whether the Due Date uses the filing deadline's date (`FilingDeadline`) or its extension date (`FilingDeadlineExtension`). Required when `ScheduleDueDateFilingDeadlineKey` is set.",
+            "enum": ["FilingDeadline", "FilingDeadlineExtension"],
+            "example": "FilingDeadline"
+          },
+          "ScheduleDeadlineDateFilingDeadlineKey": {
+            "type": "string",
+            "description": "The key of the filing deadline the Deadline Date is based on. Valid keys are listed under `FilingDeadlines` in `GET /v3/TenantSettings`.\n\nRequired when `ScheduleDeadlineDateMethod` is `OnFilingDate`, and can only be set with that method. On `PUT`, omitting this property keeps the schedule's existing filing deadline.\n",
+            "example": "2kTn7wQpXc4R"
+          },
+          "ScheduleDeadlineDateResolveType": {
+            "type": "string",
+            "description": "Whether the Deadline Date uses the filing deadline's date (`FilingDeadline`) or its extension date (`FilingDeadlineExtension`). Required when `ScheduleDeadlineDateFilingDeadlineKey` is set.",
+            "enum": ["FilingDeadline", "FilingDeadlineExtension"],
+            "example": "FilingDeadlineExtension"
           },
           "PreventStartEndOnWeekend": {
             "type": "boolean",
@@ -14638,6 +14971,89 @@
             }
           }
         ]
+      },
+      "Segment": {
+        "type": "object",
+        "description": "A shared Contact Segment",
+        "properties": {
+          "SegmentKey": {
+            "type": "string",
+            "description": "A Karbon-generated value used to identify the Segment",
+            "example": "4fGh7JkL2mNp"
+          },
+          "Name": {
+            "type": "string",
+            "description": "The name of the Segment",
+            "example": "Monthly bookkeeping clients"
+          },
+          "SegmentType": {
+            "type": "string",
+            "description": "The type of the Segment. Only Contact Segments are returned.",
+            "enum": ["Contacts"],
+            "example": "Contacts"
+          },
+          "ModifiedDate": {
+            "type": ["string", "null"],
+            "format": "date-time",
+            "description": "The date and time at which the Segment was last modified",
+            "example": "2026-09-14T03:21:00Z"
+          }
+        }
+      },
+      "GetSegments": {
+        "type": "object",
+        "description": "The API response containing the shared Contact Segments on the account.",
+        "properties": {
+          "@odata.context": {
+            "type": "string",
+            "example": "https://api.karbonhq.com/v3/$metadata#Segments"
+          },
+          "value": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Segment"
+            }
+          }
+        }
+      },
+      "GetSegmentMembers": {
+        "type": "object",
+        "description": "A page of the Contacts and Organizations in a Segment.",
+        "properties": {
+          "@odata.context": {
+            "type": "string",
+            "example": "https://api.karbonhq.com/v3/$metadata#Segments('4fGh7JkL2mNp')/Members"
+          },
+          "@odata.count": {
+            "type": "integer",
+            "description": "The total number of members in the Segment",
+            "example": 248
+          },
+          "@odata.nextLink": {
+            "type": "string",
+            "description": "The URL of the next page. Omitted on the last page.",
+            "example": "https://api.karbonhq.com/v3/Segments/4fGh7JkL2mNp/Members?$skip=100"
+          },
+          "value": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "EntityKey": {
+                  "type": "string",
+                  "description": "The key of the Contact or Organization",
+                  "example": "7wPqXnT4mBjK"
+                },
+                "EntityType": {
+                  "type": "string",
+                  "description": "Whether the member is a Contact or an Organization",
+                  "enum": ["Contact", "Organization"],
+                  "example": "Organization"
+                }
+              }
+            }
+          }
+        }
       },
       "GetTeams": {
         "type": "object",
@@ -14781,6 +15197,7 @@
               "LastDayOfMonth",
               "DayOfNextMonth",
               "DayOfSubsequentMonth",
+              "OnFilingDate",
               "NoDueDate"
             ],
             "example": "DaysFromStartDate"
@@ -14799,13 +15216,14 @@
           },
           "ScheduleDeadlineDateMethod": {
             "type": "string",
-            "description": "The method that should be used to count the Deadline Date for the Work Item.\n\nCompanies House-driven and filing-date-driven deadline methods are not available through the API; setting `ScheduleDeadlineDateMethod` to `CompaniesHouseAccountsDueDate`, `CompaniesHouseConfirmationStatementDueDate` or `OnFilingDate` returns a `400`.\n",
+            "description": "The method that should be used to count the Deadline Date for the Work Item.\n\nCompanies House-driven deadline methods are not available through the API; setting `ScheduleDeadlineDateMethod` to `CompaniesHouseAccountsDueDate` or `CompaniesHouseConfirmationStatementDueDate` returns a `400`.\n",
             "enum": [
               "DaysFromStartDate",
               "DayOfMonth",
               "LastDayOfMonth",
               "DayOfNextMonth",
               "DayOfSubsequentMonth",
+              "OnFilingDate",
               "NoDeadlineDate"
             ],
             "example": "DaysFromStartDate"
@@ -14821,6 +15239,28 @@
             "format": "int32",
             "description": "The value to denote the number of the months, if the deadline date is after 2 months.\n\nThis property is only applicable if `ScheduleDeadlineDateMethod` is set to `DayOfSubsequentMonth`.\n\nExample of usage: <table> <thead>\n<th>ScheduleDeadlineDateMethod</th>\n<th>ScheduleDeadlineDateDays</th>\n<th>ScheduleDeadlineDateMonthMultiple</th>\n<th>Read Deadline Date as</th>\n</thead> <tbody>\n<tr>\n<td>DaysFromStartDate</td>\n<td>7</td>\n<td>3</td>\n<td>7th day of the 3rd month after start\ndate</td>\n</tr>\n</tbody> </table>\n",
             "example": 3
+          },
+          "ScheduleDueDateFilingDeadlineKey": {
+            "type": ["string", "null"],
+            "description": "The key of the filing deadline the Due Date is based on. `null` unless `ScheduleDueDateMethod` is `OnFilingDate`.",
+            "example": "2kTn7wQpXc4R"
+          },
+          "ScheduleDueDateResolveType": {
+            "type": ["string", "null"],
+            "description": "Whether the Due Date uses the filing deadline's date (`FilingDeadline`) or its extension date (`FilingDeadlineExtension`). `null` unless `ScheduleDueDateMethod` is `OnFilingDate`.",
+            "enum": ["FilingDeadline", "FilingDeadlineExtension", null],
+            "example": "FilingDeadline"
+          },
+          "ScheduleDeadlineDateFilingDeadlineKey": {
+            "type": ["string", "null"],
+            "description": "The key of the filing deadline the Deadline Date is based on. `null` unless `ScheduleDeadlineDateMethod` is `OnFilingDate`.",
+            "example": null
+          },
+          "ScheduleDeadlineDateResolveType": {
+            "type": ["string", "null"],
+            "description": "Whether the Deadline Date uses the filing deadline's date (`FilingDeadline`) or its extension date (`FilingDeadlineExtension`). `null` unless `ScheduleDeadlineDateMethod` is `OnFilingDate`.",
+            "enum": ["FilingDeadline", "FilingDeadlineExtension", null],
+            "example": null
           },
           "AssigneeUserKey": {
             "type": "string",
