@@ -4245,21 +4245,29 @@
         }
       }
     },
-    "/v3/DMSConnectedFolders/{key}": {
+    "/v3/DMSConnectedFolders/{EntityType}": {
       "put": {
         "operationId": "ConnectFolder",
-        "tags": ["DMS"],
+        "tags": [
+          "DMS"
+        ],
         "summary": "Connect a DMS folder to a Karbon entity",
-        "description": "Connects a Document Management System folder to a Karbon entity. Set `@odata.type` in the body to the provider-specific type and supply that provider's identifiers:\n\n- `#KarbonService.SharePointConnectedFolderDTO` — `LibraryId` + `FolderId`\n- `#KarbonService.OneDriveConnectedFolderDTO` — `DriveId` + `FolderId`\n- `#KarbonService.GoogleDriveConnectedFolderDTO` — `FolderId`\n- `#KarbonService.GoogleSharedDriveConnectedFolderDTO` — `FolderId`\n\nDropbox is not supported; any other folder type returns `400`. The provider must already be connected to the tenant in Karbon, otherwise the request returns `400` with `No connected {Provider} integration`.\n\nThis is a replace operation: any folder already connected to the entity is disconnected before the new one is connected. Requests rejected up front (invalid or unsupported entity type, unsupported folder type, missing `EntityKey` or `FolderId`) leave the existing connection untouched. If the connect itself then fails with `400`, `401` or `404`, the previous connection has already been removed and the entity is left with no connected folder.",
+        "description": "Connects a Document Management System folder to a Karbon entity. Set `@odata.type` in the body to the provider-specific type and supply that provider's identifiers:\n\n- `#KarbonService.SharePointConnectedFolderDTO` — `LibraryId` + `FolderId`\n- `#KarbonService.OneDriveConnectedFolderDTO` — `DriveId` + `FolderId`\n- `#KarbonService.GoogleDriveConnectedFolderDTO` — `FolderId`\n- `#KarbonService.GoogleSharedDriveConnectedFolderDTO` — `FolderId`\n\n`@odata.type` is mandatory and must be one of the four types above; a missing or unknown type (including Dropbox) fails deserialization and returns `400`. Only the properties defined for the chosen type are accepted — sending, for example, `DriveId` with a Google Drive type returns `400`. A required identifier that is missing or blank returns `400` with the `4003` model-state envelope. OData query options (`$select`, `$expand`, …) are not supported on this endpoint.\n\nThe provider must already be connected to the tenant in Karbon, otherwise the request returns `400` with `No connected {Provider} integration`. The entity must exist and be accessible to the tenant, otherwise the request returns `401` (`Access was denied for entityType '{EntityType}'`). The folder must exist and be accessible to the tenant's provider account, otherwise `404` (`Resource not found`) or `401` (`Access denied to resource`).\n\nThis is a replace operation: any folder already connected to the entity is disconnected before the new one is connected. Requests rejected up front (invalid or unsupported entity type, invalid body, missing required fields) leave the existing connection untouched. If the connect itself then fails (`400`, `401`, `404` or `500`), the previous connection has already been removed and the entity is left with no connected folder.",
         "parameters": [
           {
-            "name": "key",
+            "name": "EntityType",
             "in": "path",
             "required": true,
-            "description": "Entity type the folder is connected to. Supported values: `Contact`, `ClientGroup`, `Organization`, `WorkItem`, `WorkItemSchedule` (case-insensitive). Any other value returns `400`.",
+            "description": "Entity type the folder is connected to. Supported values: `Contact`, `ClientGroup`, `Organization`, `WorkItem`, `WorkItemSchedule` (case-insensitive). Any other value returns `400`. The OData key form `/v3/DMSConnectedFolders('Contact')` is also accepted.",
             "schema": {
               "type": "string",
-              "enum": ["Contact", "ClientGroup", "Organization", "WorkItem", "WorkItemSchedule"]
+              "enum": [
+                "Contact",
+                "ClientGroup",
+                "Organization",
+                "WorkItem",
+                "WorkItemSchedule"
+              ]
             },
             "example": "Contact"
           }
@@ -4312,7 +4320,7 @@
         },
         "responses": {
           "200": {
-            "description": "Folder connected successfully",
+            "description": "Folder connected successfully. `EntityType` echoes the path, `EntityKey` echoes the request, and `HasDecoratedName` reflects the stored connection.",
             "content": {
               "application/json": {
                 "schema": {
@@ -4335,64 +4343,148 @@
             }
           },
           "400": {
-            "description": "Bad Request — invalid or unsupported entity type, missing `EntityKey` or `FolderId`, unsupported folder type (for example Dropbox), or the storage provider is not connected to the tenant.",
+            "description": "Bad Request — invalid or unsupported entity type, missing body, missing/unknown `@odata.type`, a property that does not belong to the chosen type, a missing or blank required field, or the storage provider is not connected to the tenant.",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/ErrorMessages" },
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorMessages"
+                },
                 "examples": {
                   "Invalid Entity Type": {
-                    "value": { "error": { "code": "4002", "message": "entityType 'Banana' is not a valid value" } }
+                    "value": {
+                      "error": {
+                        "code": "4002",
+                        "message": "entityType 'Banana' is not a valid value"
+                      }
+                    }
                   },
                   "Unsupported Entity Type": {
-                    "value": { "error": { "code": "4002", "message": "entityType 'Note' is not supported" } }
+                    "value": {
+                      "error": {
+                        "code": "4002",
+                        "message": "entityType 'Note' is not supported"
+                      }
+                    }
                   },
-                  "Unsupported Folder Type": {
-                    "value": { "error": { "code": "4002", "message": "The requested folder type is not supported" } }
+                  "Missing Required Field": {
+                    "value": {
+                      "error": {
+                        "code": "4003",
+                        "message": "Invalid Model.",
+                        "details": [
+                          {
+                            "code": "InvalidObject",
+                            "target": "FolderId",
+                            "message": "The FolderId field is required."
+                          }
+                        ]
+                      }
+                    }
                   },
-                  "Missing FolderId": {
-                    "value": { "error": { "code": "4002", "message": "folderId is required" } }
+                  "Missing Body": {
+                    "value": {
+                      "error": {
+                        "code": "4005",
+                        "message": "Required payload data is missing: request"
+                      }
+                    }
                   },
                   "Provider Not Connected": {
-                    "value": { "error": { "code": "4002", "message": "No connected SharePoint integration" } }
+                    "value": {
+                      "error": {
+                        "code": "4002",
+                        "message": "No connected SharePoint integration"
+                      }
+                    }
                   }
                 }
               }
             }
           },
           "401": {
-            "description": "Unauthorized — the request could not be authenticated, or the tenant's provider account does not have access to the requested folder.",
+            "description": "Unauthorized — the request could not be authenticated; the entity does not exist or is not accessible to the tenant; or the tenant's provider account does not have access to the requested folder. The DMS access failures return the message as an OData string value rather than the standard `error` envelope.",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/ResourceNotFound" },
-                "examples": { "Unauthorized Access": { "$ref": "#/components/examples/UnauthorizedAccess" } }
+                "schema": {
+                  "$ref": "#/components/schemas/ResourceNotFound"
+                },
+                "examples": {
+                  "Unauthorized Access": {
+                    "$ref": "#/components/examples/UnauthorizedAccess"
+                  },
+                  "Entity Not Accessible": {
+                    "value": {
+                      "@odata.context": "https://api.karbonhq.com/v3/$metadata#Edm.String",
+                      "value": "Access was denied for entityType 'Contact'"
+                    }
+                  },
+                  "Folder Not Accessible": {
+                    "value": {
+                      "@odata.context": "https://api.karbonhq.com/v3/$metadata#Edm.String",
+                      "value": "Access denied to resource"
+                    }
+                  }
+                }
               }
             }
           },
           "404": {
-            "description": "Not Found — the entity or the requested folder could not be found.",
+            "description": "Not Found — the provider could not find the requested folder.",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/ErrorMessages" }
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorMessages"
+                },
+                "examples": {
+                  "Folder Not Found": {
+                    "value": {
+                      "error": {
+                        "code": "4004",
+                        "message": "Resource not found"
+                      }
+                    }
+                  }
+                }
               }
             }
           },
           "422": {
-            "description": "Unprocessable Entity — the folder was connected, but it uses a storage provider that cannot be represented by this API. The response body is the message `The connected folder uses a storage provider that is not supported by this API`."
+            "description": "Unprocessable Entity — the folder was connected, but it uses a storage provider that cannot be represented by this API. The message is returned as an OData string value rather than the standard `error` envelope.",
+            "content": {
+              "application/json": {
+                "examples": {
+                  "Unsupported Provider": {
+                    "value": {
+                      "@odata.context": "https://api.karbonhq.com/v3/$metadata#Edm.String",
+                      "value": "The connected folder uses a storage provider that is not supported by this API"
+                    }
+                  }
+                }
+              }
+            }
           },
           "429": {
             "description": "Rate Limit Exceeded",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/RateLimitErrorMessage" }
+                "schema": {
+                  "$ref": "#/components/schemas/RateLimitErrorMessage"
+                }
               }
             }
           },
           "500": {
-            "description": "Internal Server Error",
+            "description": "Internal Server Error. Also returned when the provider reports the item cannot be connected (for example the identifier is not a folder), or when a folder was connected to the entity by a concurrent request.",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/ErrorMessages" },
-                "examples": { "Undefined Error": { "$ref": "#/components/examples/elongated_5001" } }
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorMessages"
+                },
+                "examples": {
+                  "Undefined Error": {
+                    "$ref": "#/components/examples/elongated_5001"
+                  }
+                }
               }
             }
           }
@@ -4400,18 +4492,26 @@
       },
       "get": {
         "operationId": "GetConnectedFolder",
-        "tags": ["DMS"],
+        "tags": [
+          "DMS"
+        ],
         "summary": "Get the DMS folder connected to a Karbon entity",
-        "description": "Returns the Document Management System folder connected to a specific Karbon entity. The `@odata.type` of the response identifies the provider (SharePoint, OneDrive, Google Drive or Google Shared Drive) and which identifier fields are present.\n\nReturns `404` when the entity has no connected folder, and `422` when the connected folder uses a provider this API cannot represent (for example a Dropbox folder connected in the Karbon app).",
+        "description": "Returns the Document Management System folder connected to a specific Karbon entity. The `@odata.type` of the response identifies the provider (SharePoint, OneDrive, Google Drive or Google Shared Drive) and which identifier fields are present. OData query options (`$select`, `$expand`, …) are not supported on this endpoint.\n\nReturns `404` when the entity has no connected folder, and `422` when the connected folder uses a provider this API cannot represent (for example a Dropbox folder connected in the Karbon app).",
         "parameters": [
           {
-            "name": "key",
+            "name": "EntityType",
             "in": "path",
             "required": true,
-            "description": "Entity type the folder is connected to. Supported values: `Contact`, `ClientGroup`, `Organization`, `WorkItem`, `WorkItemSchedule` (case-insensitive). Any other value returns `400`.",
+            "description": "Entity type the folder is connected to. Supported values: `Contact`, `ClientGroup`, `Organization`, `WorkItem`, `WorkItemSchedule` (case-insensitive). Any other value returns `400`. The OData key form `/v3/DMSConnectedFolders('Contact')` is also accepted.",
             "schema": {
               "type": "string",
-              "enum": ["Contact", "ClientGroup", "Organization", "WorkItem", "WorkItemSchedule"]
+              "enum": [
+                "Contact",
+                "ClientGroup",
+                "Organization",
+                "WorkItem",
+                "WorkItemSchedule"
+              ]
             },
             "example": "Contact"
           },
@@ -4464,13 +4564,40 @@
             "description": "Bad Request — invalid or unsupported entity type, or `entityKey` is missing.",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/ErrorMessages" },
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorMessages"
+                },
                 "examples": {
                   "Invalid Entity Type": {
-                    "value": { "error": { "code": "4002", "message": "entityType 'Banana' is not a valid value" } }
+                    "value": {
+                      "error": {
+                        "code": "4002",
+                        "message": "entityType 'Banana' is not a valid value"
+                      }
+                    }
                   },
                   "Unsupported Entity Type": {
-                    "value": { "error": { "code": "4002", "message": "entityType 'Note' is not supported" } }
+                    "value": {
+                      "error": {
+                        "code": "4002",
+                        "message": "entityType 'Note' is not supported"
+                      }
+                    }
+                  },
+                  "Missing Entity Key": {
+                    "value": {
+                      "error": {
+                        "code": "4003",
+                        "message": "Invalid Model.",
+                        "details": [
+                          {
+                            "code": "InvalidObject",
+                            "target": "entityKey",
+                            "message": "The entityKey field is required."
+                          }
+                        ]
+                      }
+                    }
                   }
                 }
               }
@@ -4480,8 +4607,14 @@
             "description": "Unauthorized",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/ResourceNotFound" },
-                "examples": { "Unauthorized Access": { "$ref": "#/components/examples/UnauthorizedAccess" } }
+                "schema": {
+                  "$ref": "#/components/schemas/ResourceNotFound"
+                },
+                "examples": {
+                  "Unauthorized Access": {
+                    "$ref": "#/components/examples/UnauthorizedAccess"
+                  }
+                }
               }
             }
           },
@@ -4489,19 +4622,39 @@
             "description": "Not Found — the entity has no connected folder.",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/ErrorMessages" },
-                "examples": { "No Connected Folder": { "$ref": "#/components/examples/NotFound" } }
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorMessages"
+                },
+                "examples": {
+                  "No Connected Folder": {
+                    "$ref": "#/components/examples/NotFound"
+                  }
+                }
               }
             }
           },
           "422": {
-            "description": "Unprocessable Entity — the connected folder uses a storage provider that cannot be represented by this API (for example Dropbox). The response body is the message `The connected folder uses a storage provider that is not supported by this API`."
+            "description": "Unprocessable Entity — the connected folder uses a storage provider that cannot be represented by this API (for example Dropbox). The message is returned as an OData string value rather than the standard `error` envelope.",
+            "content": {
+              "application/json": {
+                "examples": {
+                  "Unsupported Provider": {
+                    "value": {
+                      "@odata.context": "https://api.karbonhq.com/v3/$metadata#Edm.String",
+                      "value": "The connected folder uses a storage provider that is not supported by this API"
+                    }
+                  }
+                }
+              }
+            }
           },
           "429": {
             "description": "Rate Limit Exceeded",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/RateLimitErrorMessage" }
+                "schema": {
+                  "$ref": "#/components/schemas/RateLimitErrorMessage"
+                }
               }
             }
           },
@@ -4509,8 +4662,14 @@
             "description": "Internal Server Error",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/ErrorMessages" },
-                "examples": { "Undefined Error": { "$ref": "#/components/examples/elongated_5001" } }
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorMessages"
+                },
+                "examples": {
+                  "Undefined Error": {
+                    "$ref": "#/components/examples/elongated_5001"
+                  }
+                }
               }
             }
           }
@@ -4518,18 +4677,26 @@
       },
       "delete": {
         "operationId": "DisconnectConnectedFolder",
-        "tags": ["DMS"],
+        "tags": [
+          "DMS"
+        ],
         "summary": "Disconnect the DMS folder from a Karbon entity",
         "description": "Removes the Document Management System folder connection from a Karbon entity. The folder itself is not deleted from the provider.\n\nThis operation is idempotent: it returns `204` whether or not a folder was connected.",
         "parameters": [
           {
-            "name": "key",
+            "name": "EntityType",
             "in": "path",
             "required": true,
-            "description": "Entity type the folder is connected to. Supported values: `Contact`, `ClientGroup`, `Organization`, `WorkItem`, `WorkItemSchedule` (case-insensitive). Any other value returns `400`.",
+            "description": "Entity type the folder is connected to. Supported values: `Contact`, `ClientGroup`, `Organization`, `WorkItem`, `WorkItemSchedule` (case-insensitive). Any other value returns `400`. The OData key form `/v3/DMSConnectedFolders('Contact')` is also accepted.",
             "schema": {
               "type": "string",
-              "enum": ["Contact", "ClientGroup", "Organization", "WorkItem", "WorkItemSchedule"]
+              "enum": [
+                "Contact",
+                "ClientGroup",
+                "Organization",
+                "WorkItem",
+                "WorkItemSchedule"
+              ]
             },
             "example": "Contact"
           },
@@ -4552,16 +4719,33 @@
             "description": "Bad Request — invalid or unsupported entity type, or `entityKey` is missing.",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/ErrorMessages" },
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorMessages"
+                },
                 "examples": {
                   "Invalid Entity Type": {
-                    "value": { "error": { "code": "4002", "message": "entityType 'Banana' is not a valid value" } }
+                    "value": {
+                      "error": {
+                        "code": "4002",
+                        "message": "entityType 'Banana' is not a valid value"
+                      }
+                    }
                   },
                   "Unsupported Entity Type": {
-                    "value": { "error": { "code": "4002", "message": "entityType 'Note' is not supported" } }
+                    "value": {
+                      "error": {
+                        "code": "4002",
+                        "message": "entityType 'Note' is not supported"
+                      }
+                    }
                   },
                   "Missing Entity Key": {
-                    "value": { "error": { "code": "4002", "message": "entityKey is required" } }
+                    "value": {
+                      "error": {
+                        "code": "4002",
+                        "message": "entityKey is required"
+                      }
+                    }
                   }
                 }
               }
@@ -4571,8 +4755,14 @@
             "description": "Unauthorized",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/ResourceNotFound" },
-                "examples": { "Unauthorized Access": { "$ref": "#/components/examples/UnauthorizedAccess" } }
+                "schema": {
+                  "$ref": "#/components/schemas/ResourceNotFound"
+                },
+                "examples": {
+                  "Unauthorized Access": {
+                    "$ref": "#/components/examples/UnauthorizedAccess"
+                  }
+                }
               }
             }
           },
@@ -4580,7 +4770,9 @@
             "description": "Rate Limit Exceeded",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/RateLimitErrorMessage" }
+                "schema": {
+                  "$ref": "#/components/schemas/RateLimitErrorMessage"
+                }
               }
             }
           },
@@ -4588,8 +4780,14 @@
             "description": "Internal Server Error",
             "content": {
               "application/json": {
-                "schema": { "$ref": "#/components/schemas/ErrorMessages" },
-                "examples": { "Undefined Error": { "$ref": "#/components/examples/elongated_5001" } }
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorMessages"
+                },
+                "examples": {
+                  "Undefined Error": {
+                    "$ref": "#/components/examples/elongated_5001"
+                  }
+                }
               }
             }
           }
