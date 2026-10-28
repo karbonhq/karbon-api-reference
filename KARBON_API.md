@@ -11,6 +11,7 @@
 - **Base URL:** `https://api.karbonhq.com`
 - **Version:** v3
 - **Standard:** OData (v2 URI conventions)
+- **Canonical source of available endpoints:** [`KarbonAPI.json`](https://karbonhq.github.io/karbon-api-reference/KarbonAPI.json) (this OpenAPI specification). `/v3/$metadata` is **not** a suitable source for discovering endpoints — see Tips for Agents below.
 
 ---
 
@@ -23,8 +24,10 @@ Authorization: Bearer {token}
 AccessKey: {key}
 ```
 
-- **`Authorization` token** — GUID format: `550e8400-e29b-41d4-a716-446655440000`. Obtained by registering at the Karbon Developer Center.
-- **`AccessKey`** — JWT format: three Base64URL parts separated by dots, starts with `eyJ...`. Found in Karbon under **Settings → Connected Apps → {Your API Application}**.
+Both values are issued together from the same API Application in Karbon. Find them under **Settings → Connected Apps → API Applications → {Your API Application}**.
+
+- **`Authorization` token** — GUID format: `550e8400-e29b-41d4-a716-446655440000`.
+- **`AccessKey`** — JWT format: three Base64URL parts separated by dots, starts with `eyJ...`.
 
 ---
 
@@ -36,8 +39,10 @@ All list endpoints support pagination. Max 100 items per request (for most endpo
 
 | Parameter | Purpose                                      |
 | --------- | -------------------------------------------- |
-| `$top`    | Items per page (max: 100 for most endpoints) |
+| `$top`    | Items per page (max: 100 for most endpoints; must be ≥ 1 — `$top=0` returns `400`) |
 | `$skip`   | Items to skip                                |
+
+`GET /v3/FileList/{EntityType}` is the exception: `$top` up to 500, omitting `$top` returns every matching file, and the total is `TotalCount` in the body rather than `@odata.count`.
 
 Response fields:
 
@@ -75,18 +80,22 @@ Supported operators vary by endpoint and field — not all operators work with a
 
 | Endpoint                        | Filterable fields                                                                                                                                                 | Supported operators                 |
 | ------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------- |
-| `GET /v3/Contacts`              | `FullName`, `EmailAddress`, `PhoneNumber`, `ContactType`                                                                                                          | `eq`, `contains`, `and`             |
-| `GET /v3/Organizations`         | `FullName`, `EmailAddress`, `ContactType`                                                                                                                         | `eq`, `contains`, `and`             |
+| `GET /v3/Contacts`              | `FullName`, `EmailAddress`, `PhoneNumber`, `ContactType`, `ExternalKey`†                                                                                                          | `eq`, `contains`, `and`             |
+| `GET /v3/Organizations`         | `FullName`, `EmailAddress`, `ContactType`, `ExternalKey`†                                                                                                                         | `eq`, `contains`, `and`             |
 | `GET /v3/ClientGroups`          | `FullName`                                                                                                                                                        | `eq` only                           |
-| `GET /v3/WorkItems`             | `AssigneeEmailAddress`, `ClientKey`†, `PrimaryStatus`†, `Title`, `WorkScheduleKey`†, `WorkStatus`, `WorkType`                                                     | `eq`, `contains`†, `and`            |
+| `GET /v3/Teams`                 | `Name`                                                                                                                                                            | `eq` only                           |
+| `GET /v3/Roles`                 | `Name`                                                                                                                                                            | `eq` only                           |
+| `GET /v3/WorkItems`             | `AssigneeEmailAddress`, `ClientKey`†, `PrimaryStatus`†, `Title`, `WorkScheduleKey`†, `WorkStatus`, `WorkTemplateKey`†, `WorkType`                                 | `eq`, `contains`†, `and`            |
 | `GET /v3/WorkItems`             | `StartDate`                                                                                                                                                       | `ge`, `le`, `and`                   |
 | `GET /v3/Timesheets`            | `TimesheetKey` (eq), `StartDate` (gt), `EndDate` (lt), `Status` (eq), `UserKey` (in), `WorkItemKeys` (any/in)                                                     | mixed — see example below           |
 | `GET /v3/IndividualTimeEntries` | `TimesheetKey`, `EntityKey`, `WorkItemKey`, `ClientKey`, `UserKey`, `RoleName`, `TaskTypeName` (all eq)                                                           | `eq`, `and`                         |
 | `GET /v3/IndividualTimeEntries` | `Date`                                                                                                                                                            | `eq`, `gt`, `ge`, `lt`, `le`, `and` |
 | `GET /v3/Users`                 | `Name`, `EmailAddress`                                                                                                                                            | `eq`                                |
+| `GET /v3/Invoices`              | `InvoiceStatus` (one of `Approved`, `AwaitingPayment`, `Paid`, `Exported`, `Voided`)                                                                              | `eq`                                |
 | `GET /v3/WorkTemplates`         | `Title`, `WorkTypeKey`, `PublishedDate`, `DateModified`, `DateLastWorkItemCreated`, `NumberOfWorkItemsCreated`, `HasScheduledClientTaskGroups`, `DraftHasChanges` | `eq`                                |
+| `GET /v3/FileList/{EntityType}` | `IsArchived`, `IsShared`, `Source`, `MimeType`                                                                                                                    | `eq`, `and`                         |
 
-† `contains` is not supported for `ClientKey`, `PrimaryStatus`, or `WorkScheduleKey`.
+† `contains` is not supported for `ClientKey`, `PrimaryStatus`, `WorkScheduleKey`, `WorkTemplateKey`, or `ExternalKey`.
 
 **Timesheets `WorkItemKeys` filter example** (batch multiple keys):
 
@@ -110,6 +119,7 @@ Append ` desc` to any sortable field for descending order.
 | `GET /v3/IndividualTimeEntries` | `Date`                                                                                                |
 | `GET /v3/Invoices`              | `InvoiceDate`, `CreatedAt`, `UpdatedAt`, `InvoiceNumber`                                              |
 | `GET /v3/WorkTemplates`         | `WorkTypeKey`, `PublishedDate`, `NumberOfWorkItemsCreated`, `DateLastWorkItemCreated`, `DateModified` |
+| `GET /v3/FileList/{EntityType}` | `DateCreated` only (default: `DateCreated desc`)                                                      |
 
 ---
 
@@ -119,11 +129,11 @@ Pass a comma-separated list where multiple values are supported. Only available 
 
 | Endpoint                                                            | `$expand` options                             |
 | ------------------------------------------------------------------- | --------------------------------------------- |
-| `GET /v3/Contacts/{key}`                                            | `BusinessCards`, `ClientTeam`, `ClientAccess` |
-| `GET /v3/Contacts/GetContactByUserDefinedIdentifier(...)`           | `BusinessCards`                               |
+| `GET /v3/Contacts/{key}`                                            | `BusinessCards`, `ClientTeam`, `ClientAccess`, `ServiceTypes` |
+| `GET /v3/Contacts/GetContactByUserDefinedIdentifier(...)`           | `BusinessCards`, `ServiceTypes`               |
 | `GET /v3/ClientGroups/GetClientGroupByUserDefinedIdentifier(...)`   | `BusinessCard`                                |
-| `GET /v3/Organizations/{key}`                                       | `BusinessCards`                               |
-| `GET /v3/Organizations/GetOrganizationByUserDefinedIdentifier(...)` | `BusinessCards`                               |
+| `GET /v3/Organizations/{key}`                                       | `BusinessCards`,`ClientTeam`,`Contacts`,`ServiceTypes` |
+| `GET /v3/Organizations/GetOrganizationByUserDefinedIdentifier(...)` | `BusinessCards`, `ServiceTypes`               |
 | `GET /v3/Timesheets`                                                | `TimeEntries`                                 |
 | `GET /v3/Timesheets/{key}`                                          | `TimeEntries`                                 |
 
@@ -133,6 +143,22 @@ Pass a comma-separated list where multiple values are supported. Only available 
 
 - **HTTP 429:** `{ "statusCode": "429", "message": "Rate limit is exceeded. Try again in 10 seconds." }`
 - Retry after the indicated delay.
+
+---
+
+### Concurrent Update Conflicts
+
+- **HTTP 409:** Any `PUT` or `PATCH` that loses an optimistic-concurrency race against another writer.
+- Body: `{ "error": { "code": "4020", "message": "The resource was modified by another request. Refetch the latest version and retry." } }`
+- Treat as retryable: re-fetch the resource, reapply the change, resubmit.
+
+---
+
+### RestrictionLevel Permission Errors
+
+- **HTTP 403:** Setting `RestrictionLevel` to `Private` or `Hidden` on Contacts/Organizations without the matching `IncludePrivate`/`IncludeHidden` app permission.
+- Body: `{ "error": { "code": "4021", "message": "This API application does not have permission to set RestrictionLevel to Hidden." } }`
+- `Public` is always settable; an unrecognized `RestrictionLevel` value returns `400` instead.
 
 ---
 
@@ -156,21 +182,25 @@ GET /v3/ClientGroups/GetClientGroupByUserDefinedIdentifier(UserDefinedIdentifier
 | **Business Cards**          | `GET /v3/BusinessCards/{key}`, `PUT /v3/BusinessCards/{key}`                                                                                                    | Attached to Contact or Organization. Set `OrganizationKey` on a Contact's BusinessCard to associate the Contact with an Organization. Always `null` on Organization-side cards.                                                                |
 | **Client Groups**           | `GET`, `POST /v3/ClientGroups`, `GET/PUT/PATCH /v3/ClientGroups/{key}`                                                                                          | Check `CreateClientGroup` schema for required fields                                                                                                                                                                                           |
 | **Comments**                | `GET /v3/Comments('{key}')`                                                                                                                                     | Read-only; OData-style key syntax                                                                                                                                                                                                              |
-| **Contacts**                | `GET`, `POST /v3/Contacts`, `GET/PUT/PATCH /v3/Contacts/{key}`                                                                                                  | Required: `FirstName`, `LastName`. Associate with an Organization via `OrganizationKey` on a BusinessCard (see Business Cards).                                                                                                                |
+| **Contacts**                | `GET`, `POST /v3/Contacts`, `GET/PUT/PATCH /v3/Contacts/{key}`                                                                                                  | Required: `FirstName`, `LastName`. Associate with an Organization via `OrganizationKey` on a BusinessCard (see Business Cards). `RestrictionLevel` (`Public`/`Private`/`Hidden`) is writable on POST/PUT/PATCH — Private/Hidden require the app's `IncludePrivate`/`IncludeHidden` permission, otherwise `403`. `PATCH` supports `FirstName`, `MiddleName`, `LastName`, `PreferredName`, `Salutation`, `Suffix`, `RestrictionLevel`.                                                                                                                |
 | **Custom Fields**           | `GET/PUT /v3/CustomFieldValues/{EntityKey}`, `GET/POST /v3/CustomFields`, `DELETE /v3/CustomFields/{key}`                                                       | EntityKey is the key of the Contact/Org. Field types: `Text`, `Number`, `Date`, `Boolean`, `Colleague`, `ListSingleSelect`, `ListMultipleSelect`. `Colleague` fields store/return a UserKey (also referred to as UserID elsewhere in the API). |
-| **Estimate Summaries**      | `GET /v3/EstimateSummaries/{WorkItemKey}`                                                                                                                       | Read-only. Returns per-user `HourlyRate`, `EstimateMinutes`, `ActualMinutes`. Not writable via API.                                                                                                                                            |
-| **Files**                   | `GET /v3/FileList/{EntityType}`, `GET /v3/Files`, `POST /v3/Files`                                                                                              | EntityType in path for listing                                                                                                                                                                                                                 |
+| **Estimate Summaries** (aka Budgets) | `GET /v3/EstimateSummaries/{WorkItemKey}`, `GET/PATCH /v3/WorkItems/{WorkItemKey}/EstimateSummaries/{EstimateSummaryKey}`                                       | This IS the "budget" endpoint — there is no `/v3/Budget*` path. List is read-only. Single-summary GET/PATCH work per-user: `HourlyRate`, `EstimateMinutes`, `ActualMinutes`, `EstimateAmount` (estimated cost). `EstimateSummaryKey` starting with `0-` is time with no estimate assigned, not a real estimate — GET-only, assign an estimate in-app before it's patchable. `PATCH` supports `EstimateMinutes`, `EstimateAmount`, `HourlyRate` — only one of `EstimateMinutes`/`EstimateAmount` per firm's Time and Budget setting (time vs. amount), not settable via API. Changing `HourlyRate` can reissue `EstimateSummaryKey`; always follow the `OData-EntityId` response header. |
+| **Expenses**                | `POST /v3/Expenses`                                                                                                                                             | Create-only — no list, update or delete. All fields required: `Timeline` (`EntityType` one of `WorkItem`/`Contact`/`Organization`, plus `EntityKey`), `ExpenseDate`, `Value`, `BillableValue` (both `>= 0`), `Description` (max 250 chars). No expense type on create.                                                              |
+| **Files**                   | `GET /v3/FileList/{EntityType}`, `GET /v3/Files`, `POST /v3/Files`, `GET /v3/FileDetails/{key}`, `GET /v3/FileDetails/{key}/Download`                          | EntityType in path for listing. `FileList` supports `$filter` (`IsArchived`, `IsShared`, `Source`, `MimeType` — `eq`/`and`), `$orderby` on `DateCreated`, `$skip`/`$top` (max 500, omit for all), and returns `TotalCount`; each file has `IsShared` (read-only, true when the client can see it). `FileDetails` looks up a single file by the `FileContextKey` from `FileList`; `Download` redirects (302) to a freshly-tokened download URL.                                                                   |
 | **Integrated Workflows**    | `GET /v3/IntegrationTaskDefinitions`, `GET/PUT /v3/IntegrationTasks/{key}`                                                                                      | Restricted to approved integration partners                                                                                                                                                                                                    |
 | **Notes**                   | `POST /v3/Notes`, `GET /v3/Notes/{id}`                                                                                                                          | Required: `Subject`, `Body` (HTML supported), `AuthorEmailAddress`                                                                                                                                                                             |
-| **Organizations**           | `GET`, `POST /v3/Organizations`, `GET/PUT/PATCH /v3/Organizations/{key}`                                                                                        | Required: `FullName`                                                                                                                                                                                                                           |
+| **Organizations**           | `GET`, `POST /v3/Organizations`, `GET/PUT/PATCH /v3/Organizations/{key}`                                                                                        | Required: `FullName`. `RestrictionLevel` (`Public`/`Private`/`Hidden`) is writable on POST/PUT/PATCH — Private/Hidden require the app's `IncludePrivate`/`IncludeHidden` permission, otherwise `403`. `PATCH` supports `FullName`, `RestrictionLevel`.                                                                                                                                           |
+| **Roles**                   | `GET /v3/Roles`                                                                                                                                                  | Read-only. Active, non-default Roles only, sorted by `Name` then `Key`. Max 200 per page.                                                                                                                                                      |
+| **Segments** (preview)      | `GET /v3/Segments`, `GET /v3/Segments/{key}`, `GET /v3/Segments/{key}/Members`                                                                                  | **Preview, available on request.** Shared Contact Segments only. List takes no query options. `Members` returns `EntityKey` + `EntityType` (`Contact`/`Organization`) only, ordered by name, `$top` max 100 with `$skip`; Private/Hidden clients need the app's `IncludePrivate`/`IncludeHidden` permission. |
 | **Tags**                    | _(no paths in spec — beta, not enabled for all users)_                                                                                                          | —                                                                                                                                                                                                                                              |
-| **Tenant Settings**         | `GET /v3/TenantSettings`                                                                                                                                        | Returns valid `ContactTypes`, `WorkTypes`, `WorkStatuses`, `TenantKey`, `ClientAccessActivated`                                                                                                                                                |
-| **Individual Time Entries** | `GET /v3/IndividualTimeEntries`, `GET /v3/IndividualTimeEntries/{IndividualTimeEntryKey}`                                                                       | Non-aggregated time entries                                                                                                                                                                                                                    |
-| **Timesheets**              | `GET /v3/Timesheets`, `GET /v3/Timesheets/{key}`                                                                                                                | Expand `TimeEntries` for detail                                                                                                                                                                                                                |
+| **Teams**                   | `GET /v3/Teams`, `GET /v3/Teams/{TeamKey}`, `POST /v3/Teams/{TeamKey}/AddMembers`, `POST /v3/Teams/{TeamKey}/RemoveMember`                                      | Single-team response includes `Members` (users and sub-teams). `AddMembers`/`RemoveMember` are bound OData actions (always `POST`), idempotent, and users-only — adding/removing a sub-team, or creating/editing a Team itself, is still Karbon-app-only.                          |
+| **Tenant Settings**         | `GET /v3/TenantSettings`                                                                                                                                        | Returns valid `ContactTypes`, `WorkTypes`, `WorkStatuses`, `ServiceTypes`, `FilingDeadlines`, `TenantKey`, `ClientAccessActivated`. Each `ServiceTypes` entry (`Name`, `ServiceTypeKey`, `WorkTypeKeys[]`) groups work types — `WorkTypeKeys` cross-references `WorkTypes[].WorkTypeKey`. `FilingDeadlines[].FilingDeadlineKey` feeds the Work Schedule `OnFilingDate` methods                                                                                                                                                |
+| **Individual Time Entries** | `GET /v3/IndividualTimeEntries`, `GET /v3/IndividualTimeEntries/{IndividualTimeEntryKey}`                                                                       | This is the "logged time" / "hours worked" endpoint — non-aggregated, one record per user/day/task. Prefer this over Timesheets below.                                                                                                                                                                                                                    |
+| **Timesheets**              | `GET /v3/Timesheets`, `GET /v3/Timesheets/{key}`                                                                                                                | **Deprecated** — both operations. Returns time aggregated to the tenant's timesheet period (weekly by default), not per-day. Use Individual Time Entries instead. Expand `TimeEntries` for detail if you must use this.                                                                                                                                                                                                                |
 | **Users**                   | `GET /v3/Users`, `POST /v3/Users`, `GET /v3/Users/{id}`                                                                                                         | —                                                                                                                                                                                                                                              |
-| **Webhook Subscriptions**   | `POST/DELETE /v3/WebhookSubscriptions`, `GET/DELETE /v3/WebhookSubscriptions/{type}`                                                                            | One subscription per entity type; 10 retries then auto-cancelled                                                                                                                                                                               |
-| **Work Items**              | `GET`, `POST /v3/WorkItems`, `GET/PUT/PATCH /v3/WorkItems/{key}`                                                                                                | Most filterable resource                                                                                                                                                                                                                       |
-| **Work Schedules**          | `POST /v3/WorkSchedules`, `GET/PUT /v3/WorkSchedules/{key}`                                                                                                     | For repeating work                                                                                                                                                                                                                             |
+| **Webhook Subscriptions**   | `POST/DELETE /v3/WebhookSubscriptions`, `GET/PATCH/DELETE /v3/WebhookSubscriptions/{type}`                                                                      | One subscription per entity type; 10 retries then auto-cancelled. Check with `GET` at most every 3-4 hours and only `POST` when it 404s — don't re-`POST` on every request. `WebhookTypes` (instead of `WebhookType`) creates a multi-type subscription at `/v3/WebhookSubscriptions/Multi` — `PATCH` there replaces the full type list. `BatchSize`/`BatchMaxDelaySeconds` on any subscription batch deliveries into one `POST` |
+| **Work Items**              | `GET`, `POST /v3/WorkItems`, `GET/PUT/PATCH /v3/WorkItems/{key}`                                                                                                | Most filterable resource. `LastModifiedDateTime` is read-only and can't be used in `$filter` or `$orderby`                                                                                                                                      |
+| **Work Schedules**          | `POST /v3/WorkSchedules`, `GET/PUT/PATCH /v3/WorkSchedules/{key}`                                                                                               | For repeating work. `PATCH` supports `ScheduleEndDate` and `AssigneeUserKey` only. `ScheduleDeadlineDateMethod`/`Days`/`MonthMultiple` (GET/POST/PUT only) set a deadline date alongside the existing `ScheduleDueDate*` fields. `OnFilingDate` (due or deadline) needs `Schedule{Due\|Deadline}DateFilingDeadlineKey` (from `TenantSettings.FilingDeadlines`) plus `Schedule{Due\|Deadline}DateResolveType` (`FilingDeadline`/`FilingDeadlineExtension`); on `PUT`, omitting the key keeps the existing one                                                                                                                                                                                    |
 | **Work Templates**          | `GET /v3/WorkTemplates`, `GET /v3/WorkTemplates/{key}`                                                                                                          | Read-only                                                                                                                                                                                                                                      |
 
 ---
@@ -189,7 +219,7 @@ Used when creating or referencing Work Items:
 
 `AssigneeEmailAddress`, `Title`, `ClientKey`, `ClientType`, `StartDate`
 
-PATCH only supports `Description` and `DeadlineDate`.
+PATCH supports `Title`, `Description`, `StartDate`, `DueDate`, `DeadlineDate`, `AssigneeEmailAddress`, `WorkType`, `UserRoleAssignments`, `PrimaryStatus`, and `SecondaryStatus`. Any other property in the request body returns a `400`. `UserRoleAssignments` (`[{ RoleKey, UserProfileKey }]`) replaces the full set of role assignments; reassigning a role moves its time estimates to the new user. `SecondaryStatus` requires `PrimaryStatus` in the same request; `PrimaryStatus` alone clears the secondary status.
 
 ### WorkItem fee settings
 
@@ -201,7 +231,7 @@ Set billing behaviour via `FeeSettings` in POST/PUT body:
 | `TimeAndMaterials` | Must be `null`           |
 | `NonBillable`      | Must be `null`           |
 
-Hourly rates and time estimates (from `EstimateSummaries`) are **read-only** — not writable via the API.
+Hourly rates and time estimates (from `EstimateSummaries`) are read-only at Work Item creation, but a single estimate summary can be updated afterwards via `PATCH /v3/WorkItems/{WorkItemKey}/EstimateSummaries/{EstimateSummaryKey}` — see Estimate Summaries above.
 
 ---
 
@@ -209,9 +239,9 @@ Hourly rates and time estimates (from `EstimateSummaries`) are **read-only** —
 
 Both exist on WorkItems. **Prefer `PrimaryStatus` and `SecondaryStatus`** — these are the recommended fields for tracking work progress. `WorkStatus` is a legacy field.
 
-**PrimaryStatus** values are fixed (not tenant-specific). Use the display format (with spaces) in both `$filter` and request bodies — the camelCase forms shown in the spec schema are not accepted by the API:
+**PrimaryStatus** values are fixed (not tenant-specific):
 
-| Value (use this) | Meaning                  |
+| Value            | Meaning                  |
 | ---------------- | ------------------------ |
 | `Planned`        | Not yet started          |
 | `Ready To Start` | Ready to begin           |
@@ -219,7 +249,13 @@ Both exist on WorkItems. **Prefer `PrimaryStatus` and `SecondaryStatus`** — th
 | `Waiting`        | Blocked or waiting       |
 | `Completed`      | Done                     |
 
-**SecondaryStatus** values are tenant-customizable. Valid values come from `GET /v3/TenantSettings`.
+Accepted format differs by where the value is used:
+
+- **Request bodies (POST/PUT):** either form works — `"In Progress"` and `"InProgress"` are both accepted.
+- **`$filter`:** only the spaced form (`In Progress`, `Ready To Start`) matches. The no-space form isn't rejected — it silently returns zero rows.
+- **Responses:** format is inconsistent by endpoint. `GET /v3/WorkItems` (list) returns the spaced form (`"In Progress"`); `GET /v3/WorkItems/{key}`, and POST/PUT response bodies, return the no-space form (`"InProgress"`). Don't assume one canonical format when parsing responses — check which endpoint produced the value.
+
+**SecondaryStatus** values are tenant-customizable. Valid values come from `GET /v3/TenantSettings`, scoped to a `PrimaryStatus` **and** to a specific `WorkType` — on `PUT`, a value valid for the same `PrimaryStatus` under a different `WorkType` will be accepted by the API but silently dropped (comes back `null`), not rejected. `PATCH` is stricter and returns a `400` instead. Always check the value is listed for the WorkItem's actual `WorkType`, not just its `PrimaryStatus`.
 
 ---
 
@@ -236,6 +272,33 @@ Both exist on WorkItems. **Prefer `PrimaryStatus` and `SecondaryStatus`** — th
 
 Webhook entity types: `Contact` (also covers ClientGroups, Organizations), `Work`, `Note`, `User`, `IntegrationTask`, `Invoice`, `EstimateSummary`, `CustomField`
 
+### Polling cadence — don't re-create subscriptions on every request
+
+A subscription persists until it's deleted or auto-cancelled (10 failed deliveries). It does not need to be checked or recreated often:
+
+- `GET /v3/WebhookSubscriptions/{type}` to check a subscription still exists — **at most every 3-4 hours**.
+- `POST /v3/WebhookSubscriptions` only when that `GET` returns `404`.
+
+Calling `POST` on every request (hundreds/thousands of times a day) just creates and immediately replaces the same subscription — it doesn't improve delivery and adds needless load.
+
+### Multi-type and batched webhook subscriptions
+
+Pass `WebhookTypes` (array) instead of `WebhookType` on `POST /v3/WebhookSubscriptions` to subscribe to a set of types under one subscription — mutually exclusive with `WebhookType` (400 if both given). Addressed afterwards at `/v3/WebhookSubscriptions/Multi` for `GET`/`PATCH`/`DELETE`; `PATCH` there does a whole-list replace of `WebhookTypes` and returns `404` if no multi-type subscription exists yet.
+
+`BatchSize` (max `100`) and `BatchMaxDelaySeconds` work on single-type or multi-type subscriptions. With `BatchSize > 1`, delivery wraps events in a batch envelope instead of the single-notification payload above:
+
+```json
+{
+  "BatchId": "70575b82-9a31-4576-a4e7-61e20c42189d",
+  "Count": 3,
+  "Events": [
+    { "ResourcePermaKey": "3GBF6TnYRc7C", "ResourceType": "WorkItem", "ActionType": "Inserted", "Timestamp": "2026-09-02T03:49:42Z" }
+  ]
+}
+```
+
+`BatchSize` is a hard cap. `BatchMaxDelaySeconds` adds extra delay on top of the standard 60-second dispatch window (`0` = no extra delay). Note `ResourceType` for a Work event in a batch is `WorkItem`, not `Work`.
+
 ---
 
 ### ClientAccessActivated
@@ -246,6 +309,10 @@ Flag in TenantSettings indicating if Karbon for Clients (K4C) is enabled. The `C
 
 ## 6. Tips for Agents
 
+- **Don't derive endpoint paths from `/v3/$metadata`.** It's a dense OData CSDL/EDMX document intended for OData client codegen, not for discovering endpoints from — parsing it directly is a common source of hallucinated, non-existent endpoints. `KarbonAPI.json` (this repo's OpenAPI specification) is the **canonical source of available endpoints** — use the Resource Quick Reference table above for a summary, or the `paths` object in `KarbonAPI.json` for the full, authoritative list.
+- **Map everyday terms to their actual resource before searching for an endpoint** — the plain-English word rarely matches the resource name:
+  - "budget" / "estimate" → `EstimateSummaries` (there is no `/v3/Budget*` path)
+  - "time tracking" / "hours worked" / "logged time" → `IndividualTimeEntries` (not the deprecated `Timesheets`)
 - **Always fetch TenantSettings first** if you need WorkTypes, ContactTypes, or SecondaryStatus values — these are tenant-specific. PrimaryStatus values are fixed.
 - **Use `UserDefinedIdentifier`** if you control entity creation; it enables reliable lookups without storing Karbon-generated keys.
 - **Page with `@odata.nextLink`** — use the URL from the response directly, don't manually increment `$skip`.
@@ -440,7 +507,48 @@ PUT /v3/WorkItems/{WorkItemKey}
 
 ---
 
-### Workflow 6 — Subscribe to Invoice webhook
+### Workflow 6 — Update a Work Item's Primary and Secondary status
+
+Prefer `PATCH`: it takes just the status fields, and rejects an invalid `SecondaryStatus` with a `400` instead of silently dropping it. `PUT` replaces the whole Work Item, so the [required fields](#workitem-required-fields-post-and-put) must be sent alongside the status change.
+
+**1. Look up valid SecondaryStatus values for the WorkType**
+
+```
+GET /v3/TenantSettings
+```
+
+Find the entry for the Work Item's `WorkType` (e.g. `"Payroll"`) and note the SecondaryStatus values listed under the target `PrimaryStatus`.
+
+**2. Send the update**
+
+```
+PATCH /v3/WorkItems/{WorkItemKey}
+{
+  "PrimaryStatus": "InProgress",
+  "SecondaryStatus": "Send client requests"
+}
+```
+
+Or, with `PUT`:
+
+```
+PUT /v3/WorkItems/{WorkItemKey}
+{
+  "AssigneeEmailAddress": "advisor@firm.com",
+  "Title": "Payroll 31 Aug - 15 Sep 2025",
+  "ClientKey": "{ContactKey}",
+  "ClientType": "Contact",
+  "StartDate": "2025-08-31T00:00:00Z",
+  "PrimaryStatus": "InProgress",
+  "SecondaryStatus": "Send client requests"
+}
+```
+
+`PrimaryStatus` accepts either `"InProgress"` or `"In Progress"` in the request body — see [PrimaryStatus vs WorkStatus](#primarystatus-vs-workstatus). `SecondaryStatus` must be one of the values TenantSettings lists for **both** this `PrimaryStatus` and this Work Item's `WorkType` — `PATCH` returns a `400` otherwise, while `PUT` accepts a value valid under a different WorkType but silently drops it (`null` in the response).
+
+---
+
+### Workflow 7 — Subscribe to Invoice webhook
 
 **1. Create the subscription**
 
@@ -477,11 +585,11 @@ DELETE /v3/WebhookSubscriptions/Invoice
 
 **4. Re-subscribe if auto-cancelled**
 
-Poll `GET /v3/WebhookSubscriptions/Invoice` — a 404 means the subscription was cancelled. Re-POST to reinstate.
+Check `GET /v3/WebhookSubscriptions/Invoice` **at most every 3-4 hours** — a 404 means the subscription was cancelled. Re-POST only then to reinstate; don't POST on every check.
 
 ---
 
-### Workflow 7 — Update contact information (email, phone, address)
+### Workflow 8 — Update contact information (email, phone, address)
 
 Contact details (email, phone, address) are stored on the Contact's **BusinessCard**, not directly on the Contact record.
 
@@ -520,3 +628,5 @@ PUT /v3/BusinessCards/{BusinessCardKey}
 ```
 
 > PUT replaces the entire BusinessCard — include all existing fields you want to keep, not just the changed ones. Valid `PhoneNumbers.Label` values: `Work`, `Mobile`, `Office`, `Fax`, `Home`, `Other`. Valid `Addresses.Label` values: `Physical`, `Mailing`, `Legal`, `Home`. Country codes are ISO 3166-1 alpha-2 (e.g. `US`, `AU`, `GB`).
+
+> When `PUT`-ing to `/v3/Contacts/{ContactKey}` or `/v3/Organizations/{OrganizationKey}` to update other fields, the `BusinessCards` array is optional — omit it to leave the existing Business Cards untouched.

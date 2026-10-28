@@ -7,7 +7,7 @@
     }
   ],
   "info": {
-    "description": "> 📖 **Agent/developer quick-reference:** See [KARBON_API.md](./KARBON_API.md) in this repository.\n\nThis document covers Karbon API endpoints and data formats. You can find additional developer resources at [Karbon Developer Center](https://developers.karbonhq.com).\n\n**Please note the following:**\n\n- Karbon's APIs use the OData standard to help with resource searching. Use [OData's reference guide](https://www.odata.org/documentation/odata-version-2-0/uri-conventions/) to learn more about OData URI conventions.\n- OData's `$expand` option is only available where explicitly mentioned.\n- If an endpoint allows you to use multiple properties with the `$expand` option, you can assign a comma-separated list of the properties to the `$expand` option.\n- Wherever `$orderby` option is explicitly mentioned, you can also use allowed property name followed by space then `desc` keyword to receive the response in descending order.\n\n> ⚠️ The examples shown below are for **illustrative purposes only**. Attempting to call an API using the examples for request payload might result in unusual behaviour because the Karbon generated values for various entities' keys may differ from the values in your tenant.\n\n## Credentials for accessing Karbon APIs\n\nYou will need two credentials - an Authorization token and an AccessKey - to access Karbon APIs. If you don't already have these credentials, follow the steps below to receive them and access Karbon APIs:\n\n1. Karbon Customers can [Register for API Access](https://developers.karbonhq.com/register) to receive the Authorization (`Bearer`) token via an email.\n1. [Find your API Access Key](https://help.karbonhq.com/en/s/articles/4580888-accessing-the-karbon-api-using-postman#h_03a24631ea) under **Settings -> Connected Apps -> `{Your API Application}`** in Karbon.\n1. Assign the Authorization token to `Authorization` header and Karbon Tenant AccessKey to `AccessKey` header to send requests to Karbon APIs.\n",
+    "description": "> 📖 **Agent/developer quick-reference:** See [KARBON_API.md](./KARBON_API.md) in this repository.\n\nThis document covers Karbon API endpoints and data formats. You can find additional developer resources at [Karbon Developer Center](https://developers.karbonhq.com).\n\n**Please note the following:**\n\n- Karbon's APIs use the OData standard to help with resource searching. Use [OData's reference guide](https://www.odata.org/documentation/odata-version-2-0/uri-conventions/) to learn more about OData URI conventions.\n- OData's `$expand` option is only available where explicitly mentioned.\n- If an endpoint allows you to use multiple properties with the `$expand` option, you can assign a comma-separated list of the properties to the `$expand` option.\n- Wherever `$orderby` option is explicitly mentioned, you can also use allowed property name followed by space then `desc` keyword to receive the response in descending order.\n\n> ⚠️ The examples shown below are for **illustrative purposes only**. Attempting to call an API using the examples for request payload might result in unusual behaviour because the Karbon generated values for various entities' keys may differ from the values in your tenant.\n\n## Credentials for accessing Karbon APIs\n\nYou will need two credentials - an Authorization token and an AccessKey - to access Karbon APIs. If you don't already have these credentials, follow the steps below to receive them and access Karbon APIs:\n\n1. Karbon Customers can enable API access and obtain the Authorization (`Bearer`) token and Access Key under **Settings -> Connected Apps -> API Applications -> `{Your API Application}`** in Karbon.\n1. Assign the Authorization token to `Authorization` header and Karbon Tenant AccessKey to `AccessKey` header to send requests to Karbon APIs.\n",
     "version": "v3",
     "title": "Karbon API",
     "termsOfService": "https://karbonhq.com/terms-of-use/",
@@ -239,6 +239,27 @@
         }
       }
     },
+    "note-comment": {
+      "post": {
+        "tags": ["Webhook Payloads"],
+        "description": "Note Comment created or updated",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/WebhookRequestHeader"
+          }
+        ],
+        "requestBody": {
+          "description": "Information about the created or updated Note Comment",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/note-comment-webhook"
+              }
+            }
+          }
+        }
+      }
+    },
     "user": {
       "post": {
         "tags": ["Webhook Payloads"],
@@ -275,6 +296,27 @@
             "application/json": {
               "schema": {
                 "$ref": "#/components/schemas/work-webhook"
+              }
+            }
+          }
+        }
+      }
+    },
+    "batch": {
+      "post": {
+        "tags": ["Webhook Payloads"],
+        "description": "Batch of resource changes",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/WebhookRequestHeader"
+          }
+        ],
+        "requestBody": {
+          "description": "A batch of resource-change events",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/webhook-batch"
               }
             }
           }
@@ -389,6 +431,21 @@
                 }
               }
             }
+          },
+          "409": {
+            "description": "Conflict — the resource was modified by another request. Refetch the latest version and retry.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorMessages"
+                },
+                "examples": {
+                  "Stale Object State": {
+                    "$ref": "#/components/examples/Conflict_StaleObjectState"
+                  }
+                }
+              }
+            }
           }
         },
         "requestBody": {
@@ -415,6 +472,36 @@
           },
           {
             "$ref": "#/components/parameters/TopRecords"
+          },
+          {
+            "in": "query",
+            "name": "$filter",
+            "schema": {
+              "type": "string"
+            },
+            "examples": {
+              "invoiceStatusApproved": {
+                "value": "InvoiceStatus eq 'Approved'",
+                "summary": "Invoices with the status 'Approved'"
+              },
+              "invoiceStatusAwaitingPayment": {
+                "value": "InvoiceStatus eq 'AwaitingPayment'",
+                "summary": "Invoices with the status 'AwaitingPayment'"
+              },
+              "invoiceStatusPaid": {
+                "value": "InvoiceStatus eq 'Paid'",
+                "summary": "Invoices with the status 'Paid'"
+              },
+              "invoiceStatusExported": {
+                "value": "InvoiceStatus eq 'Exported'",
+                "summary": "Invoices with the status 'Exported'"
+              },
+              "invoiceStatusVoided": {
+                "value": "InvoiceStatus eq 'Voided'",
+                "summary": "Invoices with the status 'Voided'"
+              }
+            },
+            "description": "When this parameter is combined with the URI, this endpoint will return a subset of the Invoices that satisfy the `$filter` expression. The `InvoiceStatus` property supports the `eq` operator."
           },
           {
             "in": "query",
@@ -573,7 +660,7 @@
             "$ref": "#/components/parameters/InvoiceExpandParams"
           }
         ],
-        "description": "Use the `GET` method on this endpoint to receive the details of an Invoice specified using the InvoiceKey.",
+        "description": "Use the `GET` method on this endpoint to receive the details of an Invoice specified using the InvoiceKey. The response includes `InvoiceMagicLink`, a link for the client to pay the invoice through Karbon Payments, and `InvoicePdfUrl`, a link to the rendered invoice PDF. Both are returned once the invoice has been posted or sent.",
         "responses": {
           "200": {
             "description": "Successful Invoice GET operation",
@@ -610,6 +697,8 @@
                   "CurrencyCode": "AUD",
                   "PaymentInstructions": "Payment due 7 days from invoice date",
                   "InvoiceStatus": "AwaitingPayment",
+                  "InvoiceMagicLink": "https://clientportal.karbonhq.com/invoice-link?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9...",
+                  "InvoicePdfUrl": "/v3/Files?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9...",
                   "Client": {
                     "ClientKey": "2xxnBLyCP4Ts",
                     "ClientType": "Organization",
@@ -745,17 +834,9 @@
                       "PaymentType": "ManualPayment",
                       "PaymentDate": "2023-07-28",
                       "GrossAmount": 1550.5,
+                      "CreditAmount": 0,
                       "PaymentMethod": "Check",
-                      "KarbonPayment": {
-                        "CardType": "",
-                        "CardCountry": null,
-                        "CardFunding": "",
-                        "PayoutStatus": "",
-                        "SurchargeAmount": 0,
-                        "KarbonFeeAmount": 0,
-                        "KarbonFeeTaxAmount": 0,
-                        "NetAmount": 0
-                      },
+                      "KarbonPayment": null,
                       "Client": null
                     }
                   ]
@@ -1214,7 +1295,7 @@
                         "EntityType": {
                           "type": "string",
                           "example": "Organization",
-                          "enum": ["Contact", "Organization"],
+                          "enum": ["Contact", "Organization", "ClientGroup"],
                           "description": "The type of entity that this business card is connected to."
                         },
                         "EntityKey": {
@@ -1405,6 +1486,21 @@
                 }
               }
             }
+          },
+          "409": {
+            "description": "Conflict — the resource was modified by another request. Refetch the latest version and retry.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorMessages"
+                },
+                "examples": {
+                  "Stale Object State": {
+                    "$ref": "#/components/examples/Conflict_StaleObjectState"
+                  }
+                }
+              }
+            }
           }
         },
         "requestBody": {
@@ -1420,7 +1516,7 @@
                       "EntityType": {
                         "type": "string",
                         "example": "Organization",
-                        "enum": ["Contact", "Organization"],
+                        "enum": ["Contact", "Organization", "ClientGroup"],
                         "description": "The type of entity that this business card is connected to."
                       },
                       "EntityKey": {
@@ -1867,6 +1963,8 @@
                   "AccountingDetails": null,
                   "BusinessCard": {
                     "BusinessCardKey": "2tBHyXtJBxBy",
+                    "EntityType": "ClientGroup",
+                    "EntityKey": "38zlxNyJSr8y",
                     "IsPrimaryCard": true,
                     "WebSites": ["www.website.one", "www.website.two"],
                     "EmailAddresses": ["sample@example.com", "sample.two@example.com"],
@@ -2081,6 +2179,8 @@
                   "AccountingDetails": null,
                   "BusinessCard": {
                     "BusinessCardKey": "2tBHyXtJBxBy",
+                    "EntityType": "ClientGroup",
+                    "EntityKey": "38zlxNyJSr8y",
                     "IsPrimaryCard": true,
                     "WebSites": ["www.website.one", "www.website.two"],
                     "EmailAddresses": ["sample@example.com", "sample.two@example.com"],
@@ -2309,6 +2409,21 @@
                 }
               }
             }
+          },
+          "409": {
+            "description": "Conflict — the resource was modified by another request. Refetch the latest version and retry.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorMessages"
+                },
+                "examples": {
+                  "Stale Object State": {
+                    "$ref": "#/components/examples/Conflict_StaleObjectState"
+                  }
+                }
+              }
+            }
           }
         },
         "requestBody": {
@@ -2470,6 +2585,21 @@
                 }
               }
             }
+          },
+          "409": {
+            "description": "Conflict — the resource was modified by another request. Refetch the latest version and retry.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorMessages"
+                },
+                "examples": {
+                  "Stale Object State": {
+                    "$ref": "#/components/examples/Conflict_StaleObjectState"
+                  }
+                }
+              }
+            }
           }
         },
         "requestBody": {
@@ -2627,6 +2757,10 @@
               "ContactType": {
                 "value": "ContactType eq 'Client'",
                 "summary": "Return only the Contacts where the Contact Type matches 'Client'"
+              },
+              "externalKey": {
+                "value": "ExternalKey eq '123987456'",
+                "summary": "Return only the Contacts whose ExternalKey matches '123987456'. ExternalKey is the identifier from an integrated external system - XPM Client ID, Xero Contact ID, or QuickBooks Online Intuit Customer ID. Only the eq operator is supported."
               }
             },
             "description": "When this parameter is combined with the URI, this endpoint will return a subset of the Contacts that satisfy the `$filter` expression.\n"
@@ -2649,7 +2783,7 @@
             "$ref": "#/components/parameters/TopRecords"
           }
         ],
-        "description": "Use the `GET` method on this endpoint to receive a paginated list of Contacts from your tenant.   Using the query parameters available to this endpoint,  you can also filter the list of Contacts by their full name, email address, or phone number.\n\n**Notes**  <ul>  <li>This endpoint returns a maximum of 100 Contacts at once.</li>  <li>If the query results in more than 100 Contacts, a link to the next set of the results will be given in the `@odata.nextLink` field of the response.</li>  <li>The `$filter` query parameter supports 3 logical operators (`eq`, `contains`, and `and`) and 3 properties to help you form an expression. Usage examples below</li> <table> <thead> <tr>\n<th>Logical Operators</th>\n<th>Purpose</th>\n<th>FullName</th>\n<th>EmailAddress</th>\n<th>PhoneNumber</th>\n</tr> </thead> <tbody>\n<tr>\n<td>eq</td>\n<td>Full-text search</td>\n<td>/v3/Contacts?$filter=FullName eq 'Sample Management\nTeam'</td>\n<td>/v3/Contacts?$filter=EmailAddress eq\n'sample@company.com'</td>\n<td>/v3/Contacts?$filter=PhoneNumber eq\n'1234567890'</td>\n</tr>\n<tr>\n<td>contains</td>\n<td>Partial-text search</td>\n<td>/v3/Contacts?$filter=(contains(FullName, 'Management\nTeam'))</td>\n<td>/v3/Contacts?$filter=(contains(EmailAddress,\n'sample@'))</td>\n<td>/v3/Contacts?$filter=(contains(PhoneNumber,\n'45678'))</td>\n</tr>\n<tr>\n<td>and</td>\n<td>Combines properties</td>\n<td colspan = \"2\">/v3/Contacts?$filter=PhoneNumber eq\n'1234567890' and (contains(FullName, 'Management Team'))</td>\n</tr>\n</tbody> </table>\n",
+        "description": "Use the `GET` method on this endpoint to receive a paginated list of Contacts from your tenant.   Using the query parameters available to this endpoint,  you can also filter the list of Contacts by their full name, email address, or phone number.\n\n**Notes**  <ul>  <li>This endpoint returns a maximum of 100 Contacts at once.</li>  <li>If the query results in more than 100 Contacts, a link to the next set of the results will be given in the `@odata.nextLink` field of the response.</li>  <li>The `$filter` query parameter supports 3 logical operators (`eq`, `contains`, and `and`) and 3 properties to help you form an expression. Usage examples below</li> <table> <thead> <tr>\n<th>Logical Operators</th>\n<th>Purpose</th>\n<th>FullName</th>\n<th>EmailAddress</th>\n<th>PhoneNumber</th>\n</tr> </thead> <tbody>\n<tr>\n<td>eq</td>\n<td>Full-text search</td>\n<td>/v3/Contacts?$filter=FullName eq 'Sample Management\nTeam'</td>\n<td>/v3/Contacts?$filter=EmailAddress eq\n'sample@company.com'</td>\n<td>/v3/Contacts?$filter=PhoneNumber eq\n'1234567890'</td>\n</tr>\n<tr>\n<td>contains</td>\n<td>Partial-text search</td>\n<td>/v3/Contacts?$filter=(contains(FullName, 'Management\nTeam'))</td>\n<td>/v3/Contacts?$filter=(contains(EmailAddress,\n'sample@'))</td>\n<td>/v3/Contacts?$filter=(contains(PhoneNumber,\n'45678'))</td>\n</tr>\n<tr>\n<td>and</td>\n<td>Combines properties</td>\n<td colspan = \"2\">/v3/Contacts?$filter=PhoneNumber eq\n'1234567890' and contains(FullName, 'Management Team')</td>\n</tr>\n</tbody> </table>\n",
         "operationId": "getAllContacts",
         "responses": {
           "200": {
@@ -2808,6 +2942,8 @@
                   "BusinessCards": [
                     {
                       "BusinessCardKey": "2tBHyXtJBxBy",
+                      "EntityType": "Contact",
+                      "EntityKey": "67zlxNyJSr8e",
                       "IsPrimaryCard": true,
                       "WebSites": ["www.website.one", "www.website.two"],
                       "EmailAddresses": ["sample@example.com", "sample.two@example.com"],
@@ -2887,6 +3023,21 @@
               }
             }
           },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorMessages"
+                },
+                "examples": {
+                  "Permission Denied": {
+                    "$ref": "#/components/examples/RestrictionLevel_Permission_Denied"
+                  }
+                }
+              }
+            }
+          },
           "429": {
             "description": "Rate Limit Exceeded",
             "content": {
@@ -2949,10 +3100,10 @@
             "name": "$expand",
             "schema": {
               "type": "string",
-              "enum": ["BusinessCards"]
+              "enum": ["BusinessCards", "ServiceTypes"]
             },
             "example": "BusinessCards",
-            "description": "When this parameter is combined with the URI, this endpoint will also return the Business Cards of the Contact.\n"
+            "description": "When this parameter is combined with the URI, this endpoint will also return the Business Cards or Service Types of the Contact.\n"
           }
         ],
         "description": "Use the `GET` method on this endpoint to receive the details of a Contact specified using the UserDefinedIdentifier.\n\nUsing the query parameter available to this endpoint, you can also include Business Card details of the Contact in the response.\n",
@@ -3164,10 +3315,10 @@
             "name": "$expand",
             "schema": {
               "type": "string",
-              "enum": ["BusinessCards", "ClientTeam", "ClientAccess"]
+              "enum": ["BusinessCards", "ClientTeam", "ClientAccess", "ServiceTypes"]
             },
             "example": "BusinessCards",
-            "description": "When this parameter is combined with the URI, this endpoint will also return one or more of the following: Business Cards for the Contact, the Client Team assigned to the Contact, or a list of other Contacts that can access this Contact in Karbon for Clients."
+            "description": "When this parameter is combined with the URI, this endpoint will also return one or more of the following: Business Cards for the Contact, the Client Team assigned to the Contact, a list of other Contacts that can access this Contact in Karbon for Clients, or the Service Types assigned to the Contact."
           }
         ],
         "description": "Use the `GET` method on this endpoint to receive the details of a Contact specified using the `Contactkey`.\n\nUsing the query parameter available to this endpoint,  you can also include the Business Card details of the Contacts in the response.\n",
@@ -3407,7 +3558,7 @@
             "description": "The Karbon-generated Contact key"
           }
         ],
-        "description": "Use the `PUT` method on this endpoint to update full details of a Contact specified using the `Contactkey`.\n\nUsing the query parameter `$expand` with this endpoint, you can also update the Business Card details of the Contact.\n\n**Note:** When updating business cards, you must include `BusinessCardKey`, `EntityType` and `EntityKey` properties for existing Business Cards - or the existing card and any associated Client Requests may be removed.",
+        "description": "Use the `PUT` method on this endpoint to update full details of a Contact specified using the `Contactkey`.\n\nUsing the query parameter `$expand` with this endpoint, you can also update the Business Card details of the Contact.\n\n**Note:** When updating business cards, you must include `BusinessCardKey`, `EntityType` and `EntityKey` properties for existing Business Cards - or the existing card and any associated Client Requests may be removed.\n\n**BusinessCards is optional:** If the `BusinessCards` array is omitted from the request body, the existing Business Cards on the Contact are left untouched. Include the `BusinessCards` array only when you intend to update it.\n\n**RegistrationNumber null/empty values delete the entry:** If a `RegistrationNumbers` entry is included with a null, empty, or whitespace `RegistrationNumber` value, any existing registration number of that `Type` is deleted. If no entry exists for that `Type`, the request is a no-op. Non-blank values continue to upsert as before.",
         "operationId": "putContactByID",
         "responses": {
           "204": {
@@ -3441,6 +3592,21 @@
                 "examples": {
                   "Unauthorized Access": {
                     "$ref": "#/components/examples/UnauthorizedAccess"
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorMessages"
+                },
+                "examples": {
+                  "Permission Denied": {
+                    "$ref": "#/components/examples/RestrictionLevel_Permission_Denied"
                   }
                 }
               }
@@ -3488,6 +3654,21 @@
                 }
               }
             }
+          },
+          "409": {
+            "description": "Conflict — the resource was modified by another request. Refetch the latest version and retry.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorMessages"
+                },
+                "examples": {
+                  "Stale Object State": {
+                    "$ref": "#/components/examples/Conflict_StaleObjectState"
+                  }
+                }
+              }
+            }
           }
         },
         "requestBody": {
@@ -3517,7 +3698,7 @@
             "description": "The Karbon-generated Contact key"
           }
         ],
-        "description": "Use the `PATCH` method on this endpoint to update partial details of a Contact specified using the `Contactkey`.\n\nThis method **only supports** editing the `FirstName`, `MiddleName`, `LastName`, `PreferredName`, `Salutation` and `Suffix` properties.\n",
+        "description": "Use the `PATCH` method on this endpoint to update partial details of a Contact specified using the `Contactkey`.\n\nThis method **only supports** editing the `FirstName`, `MiddleName`, `LastName`, `PreferredName`, `Salutation`, `Suffix` and `RestrictionLevel` properties.\n",
         "operationId": "patchContactsByID",
         "responses": {
           "200": {
@@ -3672,6 +3853,21 @@
               }
             }
           },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorMessages"
+                },
+                "examples": {
+                  "Permission Denied": {
+                    "$ref": "#/components/examples/RestrictionLevel_Permission_Denied"
+                  }
+                }
+              }
+            }
+          },
           "404": {
             "description": "Resource Not Found",
             "content": {
@@ -3710,6 +3906,21 @@
                   },
                   "Undefined Error": {
                     "$ref": "#/components/examples/elongated_5001"
+                  }
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Conflict — the resource was modified by another request. Refetch the latest version and retry.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorMessages"
+                },
+                "examples": {
+                  "Stale Object State": {
+                    "$ref": "#/components/examples/Conflict_StaleObjectState"
                   }
                 }
               }
@@ -4005,6 +4216,21 @@
                 }
               }
             }
+          },
+          "409": {
+            "description": "Conflict — the resource was modified by another request. Refetch the latest version and retry.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorMessages"
+                },
+                "examples": {
+                  "Stale Object State": {
+                    "$ref": "#/components/examples/Conflict_StaleObjectState"
+                  }
+                }
+              }
+            }
           }
         },
         "requestBody": {
@@ -4233,6 +4459,12 @@
                             "type": "integer",
                             "description": "The actual time (in minutes) spent on the task",
                             "example": 14
+                          },
+                          "EstimateAmount": {
+                            "type": "number",
+                            "format": "decimal",
+                            "description": "The estimated cost of the task, calculated from the estimated time at the user's hourly rate",
+                            "example": 37.5
                           }
                         }
                       }
@@ -4309,6 +4541,449 @@
                     "$ref": "#/components/examples/elongated_5001"
                   }
                 }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v3/WorkItems/{WorkItemKey}/EstimateSummaries/{EstimateSummaryKey}": {
+      "get": {
+        "tags": ["Estimate Summaries"],
+        "summary": "Gets a single Estimate Summary using WorkItemKey and EstimateSummaryKey",
+        "parameters": [
+          {
+            "required": true,
+            "in": "path",
+            "name": "WorkItemKey",
+            "schema": {
+              "type": "string"
+            },
+            "example": "4jgPTtcXxwC2",
+            "description": "The Karbon-generated Work Item key"
+          },
+          {
+            "required": true,
+            "in": "path",
+            "name": "EstimateSummaryKey",
+            "schema": {
+              "type": "string"
+            },
+            "example": "160F79F6-E650-40C3-8BD9-F70C287B7476-0",
+            "description": "The Karbon-generated Estimate Summary key, as returned by GET /v3/EstimateSummaries/{WorkItemKey}"
+          }
+        ],
+        "description": "Use the `GET` method on this endpoint to receive a single estimate summary on a Work Item, specified using the `WorkItemKey` and `EstimateSummaryKey`.\n\nAn EstimateSummaryKey starting with `0-` represents time recorded against a task with no estimate assigned, rather than an actual estimate. It can be retrieved but not updated.\n",
+        "operationId": "getEstimateSummaryByKey",
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "EstimateSummaryKey": {
+                      "type": "string",
+                      "description": "A randomly generated GUID. Changing HourlyRate on a PATCH can reissue this key — use the OData-EntityId response header to get the current one.",
+                      "example": "160F79F6-E650-40C3-8BD9-F70C287B7476-0"
+                    },
+                    "UserKey": {
+                      "type": "string",
+                      "description": "A Karbon-generated unique identifier for the Karbon user",
+                      "example": "RXq4mB32PXg"
+                    },
+                    "RoleKey": {
+                      "type": "string",
+                      "description": "A Karbon-generated unique identifier for the user's role",
+                      "example": "qTLmJpG85Ng"
+                    },
+                    "RoleName": {
+                      "type": "string",
+                      "description": "The Role of the user",
+                      "example": "Accountant"
+                    },
+                    "TaskTypeKey": {
+                      "type": "string",
+                      "description": "A Karbon-generated unique identifier for the task",
+                      "example": "3h5Tbh9GgLs7"
+                    },
+                    "TaskTypeName": {
+                      "type": "string",
+                      "description": "The name of the task",
+                      "example": "Admin"
+                    },
+                    "EstimateMinutes": {
+                      "type": "integer",
+                      "description": "The total estimated time (in minutes) for the task to be completed",
+                      "example": 15
+                    },
+                    "HourlyRate": {
+                      "type": "number",
+                      "format": "decimal",
+                      "description": "The hourly rate of the user",
+                      "example": 150
+                    },
+                    "ActualMinutes": {
+                      "type": "integer",
+                      "description": "The actual time (in minutes) spent on the task",
+                      "example": 14
+                    },
+                    "EstimateAmount": {
+                      "type": "number",
+                      "format": "decimal",
+                      "description": "The estimated cost of the task, calculated from the estimated time at the user's hourly rate",
+                      "example": 37.5
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorMessages"
+                },
+                "examples": {
+                  "Unsupported Option": {
+                    "$ref": "#/components/examples/Unsupported_option"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResourceNotFound"
+                },
+                "examples": {
+                  "Unauthorized Access": {
+                    "$ref": "#/components/examples/UnauthorizedAccess"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorMessages"
+                },
+                "examples": {
+                  "Resource Not Found": {
+                    "$ref": "#/components/examples/HTTP_Resource_Not_Found"
+                  }
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Rate Limit Exceeded",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RateLimitErrorMessage"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorMessages"
+                },
+                "examples": {
+                  "Undefined Error": {
+                    "$ref": "#/components/examples/elongated_5001"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "patch": {
+        "tags": ["Estimate Summaries"],
+        "summary": "Updates a single Estimate Summary",
+        "parameters": [
+          {
+            "required": true,
+            "in": "path",
+            "name": "WorkItemKey",
+            "schema": {
+              "type": "string"
+            },
+            "example": "4jgPTtcXxwC2",
+            "description": "The Karbon-generated Work Item key"
+          },
+          {
+            "required": true,
+            "in": "path",
+            "name": "EstimateSummaryKey",
+            "schema": {
+              "type": "string"
+            },
+            "example": "160F79F6-E650-40C3-8BD9-F70C287B7476-0",
+            "description": "The Karbon-generated Estimate Summary key, as returned by GET /v3/EstimateSummaries/{WorkItemKey}"
+          }
+        ],
+        "description": "Use the `PATCH` method on this endpoint to update the estimated minutes or amount, and/or the hourly rate, for an estimate summary. Only `EstimateMinutes`, `EstimateAmount` and `HourlyRate` are accepted, and each is optional.\n\nAn EstimateSummaryKey starting with `0-` represents time recorded against a task with no estimate assigned, rather than an actual estimate, and cannot be updated through this endpoint — assign an estimate to the task in Karbon first.\n\nEach Karbon account's Time and Budget settings choose whether estimates are controlled by time or by amount, and this setting cannot be changed through the API. Only the field matching that setting can be set, and `EstimateMinutes` and `EstimateAmount` cannot be supplied together.\n\nA successful update returns `204 No Content`. Changing `HourlyRate` can reissue the `EstimateSummaryKey`, so the response always includes an `OData-EntityId` header with the estimate summary's location after the update — use that URL for subsequent requests rather than the key you sent.\n",
+        "operationId": "updateEstimateSummary",
+        "requestBody": {
+          "description": "The fields to update. Only EstimateMinutes, EstimateAmount and HourlyRate are accepted, and EstimateMinutes and EstimateAmount cannot be supplied together. Refer to the table below for more information on each field in the request body.",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "EstimateMinutes": {
+                    "type": "integer",
+                    "description": "The total estimated time (in minutes) for the task. Between 0 and 599,999,940. Cannot be supplied together with EstimateAmount.",
+                    "example": 90
+                  },
+                  "EstimateAmount": {
+                    "type": "number",
+                    "format": "decimal",
+                    "description": "The estimated cost of the task. Between 0 and 99,999,999. Cannot be supplied together with EstimateMinutes.",
+                    "example": 250.0
+                  },
+                  "HourlyRate": {
+                    "type": "number",
+                    "format": "decimal",
+                    "description": "The hourly rate to estimate the task at. Between 0 and 99,999,999.",
+                    "example": 150
+                  }
+                }
+              },
+              "example": {
+                "EstimateAmount": 250.0
+              }
+            }
+          }
+        },
+        "responses": {
+          "204": {
+            "description": "Estimate summary successfully updated",
+            "headers": {
+              "OData-EntityId": {
+                "description": "The estimate summary's location after the update, as a URL you can GET. Changing the hourly rate can reissue the EstimateSummaryKey, so use this location for subsequent requests.",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request. Returned for an invalid request body, an unsupported PATCH property, or when the EstimateSummaryKey does not belong to the WorkItem.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorMessages"
+                },
+                "examples": {
+                  "Unsupported Option": {
+                    "$ref": "#/components/examples/Unsupported_option"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResourceNotFound"
+                },
+                "examples": {
+                  "Unauthorized Access": {
+                    "$ref": "#/components/examples/UnauthorizedAccess"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorMessages"
+                },
+                "examples": {
+                  "Resource Not Found": {
+                    "$ref": "#/components/examples/HTTP_Resource_Not_Found"
+                  }
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Unprocessable Entity. Returned when the Work Item is completed, the rate change is blocked by the firm's WIP lock date, rate plans are not enabled for the firm, or the estimate cannot hold the field supplied (for example, setting HourlyRate on a non-billable estimate, or EstimateMinutes on an estimate budgeted by amount).",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorMessages"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Rate Limit Exceeded",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RateLimitErrorMessage"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorMessages"
+                },
+                "examples": {
+                  "Undefined Error": {
+                    "$ref": "#/components/examples/elongated_5001"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v3/Expenses": {
+      "post": {
+        "tags": ["Billing"],
+        "summary": "Creates a new Expense",
+        "description": "Use the `POST` method on this endpoint to create an Expense and associate it with a WorkItem, Contact or Organization in your tenant.\n\nExpenses cannot be listed, updated or deleted through the API.\n",
+        "operationId": "createExpense",
+        "responses": {
+          "201": {
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ExpenseResponse"
+                },
+                "example": {
+                  "@odata.context": "https://api.karbonhq.com/v3/$metadata#Expenses/$entity",
+                  "ExpenseKey": "3nB7kQvXLmT",
+                  "Timeline": {
+                    "EntityType": "WorkItem",
+                    "EntityKey": "2m6pSFxRzcF2"
+                  },
+                  "ExpenseDate": "2026-08-14T00:00:00Z",
+                  "Value": 240.5,
+                  "BillableValue": 240.5,
+                  "Description": "Courier fees for year-end documents"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorMessages"
+                },
+                "examples": {
+                  "Unsupported Option": {
+                    "$ref": "#/components/examples/Unsupported_option"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResourceNotFound"
+                },
+                "examples": {
+                  "Unauthorized Access": {
+                    "$ref": "#/components/examples/UnauthorizedAccess"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorMessages"
+                },
+                "examples": {
+                  "Resource Not Found": {
+                    "$ref": "#/components/examples/HTTP_Resource_Not_Found"
+                  }
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Rate Limit Exceeded",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RateLimitErrorMessage"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorMessages"
+                },
+                "examples": {
+                  "Undefined Error": {
+                    "$ref": "#/components/examples/elongated_5001"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "description": "Refer to the table below for more information on each field in the request body.",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ExpenseRequest"
+              },
+              "example": {
+                "Timeline": {
+                  "EntityType": "WorkItem",
+                  "EntityKey": "2m6pSFxRzcF2"
+                },
+                "ExpenseDate": "2026-08-14T00:00:00Z",
+                "Value": 240.5,
+                "BillableValue": 240.5,
+                "Description": "Courier fees for year-end documents"
               }
             }
           }
@@ -4449,19 +5124,9 @@
             "multipart/form-data": {
               "schema": {
                 "type": "object",
-                "required": ["file", "FileName", "MimeType"],
+                "required": ["file"],
                 "minProperties": 2,
                 "properties": {
-                  "FileName": {
-                    "type": "string",
-                    "description": "The name of the file",
-                    "example": "ProposalName.pdf"
-                  },
-                  "MimeType": {
-                    "type": "string",
-                    "description": "The MIME type of valid media file as per RFC 6838. See a list of common MIME types [here](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types/Common_types).",
-                    "example": "application/pdf"
-                  },
                   "contact_keys": {
                     "type": "string",
                     "description": "A Karbon-generated unique identifier for the Contact, which this file will be associated with",
@@ -4598,11 +5263,187 @@
         }
       }
     },
+    "/v3/FileDetails/{key}": {
+      "get": {
+        "tags": ["Files"],
+        "summary": "Get the details of a single File",
+        "description": "Use the `GET` method on this endpoint to retrieve the current details of a single file, using the `FileContextKey` returned by `GET /v3/FileList/{EntityType}`.",
+        "operationId": "getFileDetailsByKey",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "key",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "The FileContextKey of the file to retrieve.",
+            "example": "S8bsBjvCRJ3"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FileListItem"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResourceNotFound"
+                },
+                "examples": {
+                  "Unauthorized Access": {
+                    "$ref": "#/components/examples/UnauthorizedAccess"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorMessages"
+                },
+                "examples": {
+                  "Resource Not Found": {
+                    "$ref": "#/components/examples/HTTP_Resource_Not_Found"
+                  }
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Rate Limit Exceeded",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RateLimitErrorMessage"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorMessages"
+                },
+                "examples": {
+                  "Undefined Error": {
+                    "$ref": "#/components/examples/elongated_5001"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v3/FileDetails/{key}/Download": {
+      "get": {
+        "tags": ["Files"],
+        "summary": "Redirect to download a single File",
+        "description": "Use the `GET` method on this endpoint to be redirected to a freshly-tokened download URL for the file identified by `key` (the `FileContextKey` returned by `GET /v3/FileList/{EntityType}`). Runs the same tenant/existence check as `GET /v3/FileDetails/{key}`, so it can't be used to mint tokens for another tenant's keys.",
+        "operationId": "downloadFileDetailsByKey",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "key",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "The FileContextKey of the file to download.",
+            "example": "S8bsBjvCRJ3"
+          }
+        ],
+        "responses": {
+          "302": {
+            "description": "Found — redirects to a freshly-tokened download URL for the file.",
+            "headers": {
+              "Location": {
+                "description": "The download URL to fetch the file's bytes from, valid for 15 minutes.",
+                "schema": {
+                  "type": "string",
+                  "example": "https://api.karbonhq.com/v3/Files?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9..."
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResourceNotFound"
+                },
+                "examples": {
+                  "Unauthorized Access": {
+                    "$ref": "#/components/examples/UnauthorizedAccess"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorMessages"
+                },
+                "examples": {
+                  "Resource Not Found": {
+                    "$ref": "#/components/examples/HTTP_Resource_Not_Found"
+                  }
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Rate Limit Exceeded",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RateLimitErrorMessage"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorMessages"
+                },
+                "examples": {
+                  "Undefined Error": {
+                    "$ref": "#/components/examples/elongated_5001"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/v3/FileList/{EntityType}": {
       "get": {
         "tags": ["Files"],
         "summary": "Get a list of Files for a given entity",
-        "description": "Use the `GET` method on this endpoint to list files associated with a specific Entity Type and Entity Key",
+        "description": "Use the `GET` method on this endpoint to list files associated with a specific Entity Type and Entity Key.\n\nThe list supports `$filter` on `IsArchived`, `IsShared`, `Source` and `MimeType` (`eq` only, combined with `and`). Files are returned newest first when `$orderby` is omitted. `TotalCount` in the response is the number of files matching the filter before paging.\n\nFiltering or sorting on any other property, or using other operators such as `or` or `contains`, returns a `400`.",
         "operationId": "listFiles",
         "parameters": [
           {
@@ -4625,6 +5466,68 @@
               "type": "string"
             },
             "example": "3bXVhdMHgc9P"
+          },
+          {
+            "in": "query",
+            "name": "$filter",
+            "schema": {
+              "type": "string"
+            },
+            "examples": {
+              "isArchived": {
+                "value": "IsArchived eq false",
+                "summary": "Only files that have not been archived"
+              },
+              "isShared": {
+                "value": "IsShared eq true",
+                "summary": "Only files the client can see"
+              },
+              "source": {
+                "value": "Source eq 'WorkItem'",
+                "summary": "Only files uploaded against a Work Item"
+              },
+              "mimeType": {
+                "value": "MimeType eq 'application/pdf'",
+                "summary": "Only PDF files"
+              },
+              "combined": {
+                "value": "IsArchived eq false and IsShared eq true and MimeType eq 'application/pdf'",
+                "summary": "Conditions combined with `and`"
+              }
+            },
+            "description": "When this parameter is combined with the URI, this endpoint will return a subset of the files that satisfy the `$filter` expression. Supports `IsArchived`, `IsShared`, `Source` and `MimeType` with the `eq` operator, combined with `and`."
+          },
+          {
+            "in": "query",
+            "name": "$orderby",
+            "schema": {
+              "type": "string",
+              "enum": ["DateCreated", "DateCreated desc"],
+              "default": "DateCreated desc"
+            },
+            "example": "DateCreated",
+            "description": "Sort the files by upload date. Newest first when omitted."
+          },
+          {
+            "in": "query",
+            "name": "$skip",
+            "schema": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "example": 50,
+            "description": "Skip the first n files after filtering and sorting."
+          },
+          {
+            "in": "query",
+            "name": "$top",
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 100
+            },
+            "example": 50,
+            "description": "Limit the number of files returned, up to 100."
           }
         ],
         "responses": {
@@ -5025,6 +5928,10 @@
               "contactTypeContains": {
                 "value": "contains(ContactType, 'Client')",
                 "summary": "The ContactType of the organization contains 'Client', would return Organizations with the ContactType 'Client', 'Client - VIP' and 'Inactive Client'"
+              },
+              "externalKey": {
+                "value": "ExternalKey eq '123987456'",
+                "summary": "The ExternalKey of the organization equals '123987456'. ExternalKey is the identifier from an integrated external system - XPM Client ID, Xero Contact ID, or QuickBooks Online Intuit Customer ID."
               }
             },
             "description": "When this parameter is combined with the URI, this endpoint will return a subset of the Organizations that satisfy the `$filter` expression."
@@ -5047,7 +5954,7 @@
             "$ref": "#/components/parameters/TopRecords"
           }
         ],
-        "description": "Use the `GET` method on this endpoint to receive a paginated list of Organizations from your tenant.   Using the query parameters available to this endpoint,  you can also filter the list of Organizations by their full name, or email address.\n\n**Notes**\n\n* This endpoint returns a maximum of 100 Organizations at once.\n* If the query results in more than 100 Organizations, a link to the next set of the results will be given in the `@odata.nextLink` field of the response.\n* The `$filter` query parameter supports 2 logical operators - `eq` and `and` - and 2 properties to help you form an expression. Usage examples below<\n\n<table>\n<thead>\n<tr>\n<th>Logical Operators</th>\n<th>Purpose</th>\n<th>FullName</th>\n<th>EmailAddress</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td>eq</td>\n<td>Full-text search</td>\n<td>/v3/Organizations?$filter=FullName eq 'Sample Company'</td>\n<td>/v3/Organizations?$filter=EmailAddress eq 'info@samplecompany.com'</td>\n</tr>\n<tr>\n<td>and</td>\n<td>Combines properties</td>\n<td colspan = \"2\">/v3/Organizations?$filter=FullName eq 'Sample Company' and EmailAddress eq 'info@samplecompany.com'</td>\n</tr>\n</tbody>\n</table>\n",
+        "description": "Use the `GET` method on this endpoint to receive a paginated list of Organizations from your tenant.   Using the query parameters available to this endpoint,  you can also filter the list of Organizations by their full name, email address, or external key.\n\n**Notes**\n\n* This endpoint returns a maximum of 100 Organizations at once.\n* If the query results in more than 100 Organizations, a link to the next set of the results will be given in the `@odata.nextLink` field of the response.\n* The `$filter` query parameter supports 2 logical operators - `eq` and `and` - and 3 properties to help you form an expression. Usage examples below<\n\n<table>\n<thead>\n<tr>\n<th>Logical Operators</th>\n<th>Purpose</th>\n<th>FullName</th>\n<th>EmailAddress</th>\n<th>ExternalKey</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td>eq</td>\n<td>Full-text search</td>\n<td>/v3/Organizations?$filter=FullName eq 'Sample Company'</td>\n<td>/v3/Organizations?$filter=EmailAddress eq 'info@samplecompany.com'</td>\n<td>/v3/Organizations?$filter=ExternalKey eq '123987456'</td>\n</tr>\n<tr>\n<td>and</td>\n<td>Combines properties</td>\n<td colspan = \"3\">/v3/Organizations?$filter=FullName eq 'Sample Company' and EmailAddress eq 'info@samplecompany.com'</td>\n</tr>\n</tbody>\n</table>\n",
         "operationId": "getAllOrganizations",
         "responses": {
           "200": {
@@ -5244,6 +6151,21 @@
               }
             }
           },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorMessages"
+                },
+                "examples": {
+                  "Permission Denied": {
+                    "$ref": "#/components/examples/RestrictionLevel_Permission_Denied"
+                  }
+                }
+              }
+            }
+          },
           "429": {
             "description": "Rate Limit Exceeded",
             "content": {
@@ -5341,6 +6263,8 @@
                 "BusinessCards": [
                   {
                     "BusinessCardKey": "2tBHyXtJBxBy",
+                    "EntityType": "Organization",
+                    "EntityKey": "2Nw8tnxwQCVf",
                     "IsPrimaryCard": true,
                     "WebSites": ["www.website.one", "www.website.two"],
                     "EmailAddresses": ["sample@example.com", "sample.two@example.com"],
@@ -5404,10 +6328,10 @@
             "name": "$expand",
             "schema": {
               "type": "string",
-              "enum": ["BusinessCards"]
+              "enum": ["BusinessCards", "ServiceTypes"]
             },
             "example": "BusinessCards",
-            "description": "When this parameter is combined with the URI, this endpoint will also return the Business Cards of the Contact Organization.\n"
+            "description": "When this parameter is combined with the URI, this endpoint will also return the Business Cards or Service Types of the Contact Organization.\n"
           }
         ],
         "description": "Use the `GET` method on this endpoint to receive the details of an Organization specified using the UserDefinedIdentifier.\n\nUsing the query parameter available to this endpoint, you can also include Business Card details of the Organization in the response.\n",
@@ -5631,12 +6555,16 @@
                 "value": "Contacts",
                 "summary": "Include the Contacts related to the Organization in the API response"
               },
+              "ServiceTypes": {
+                "value": "ServiceTypes",
+                "summary": "Include the Service Types assigned to the Organization in the API response"
+              },
               "BusinessCardAndClientTeam": {
                 "value": "BusinessCard,ClientTeam",
                 "summary": "Include the Business Card and the Client Team assigned to the Organization in the API response"
               }
             },
-            "description": "When this parameter is combined with the URI, this endpoint will also return Business Cards, Client Team and/or Contacts associated with the Organization. Multiple properties can be returned by specifying a comma separated list.\n"
+            "description": "When this parameter is combined with the URI, this endpoint will also return Business Cards, Client Team, Contacts and/or Service Types associated with the Organization. Multiple properties can be returned by specifying a comma separated list.\n"
           }
         ],
         "description": "Use the `GET` method on this endpoint to receive the details of an Organization specified using the `Organizationkey`.\n\nUsing the query parameter available to this endpoint,  you can also include the Business Card details of the Organization in the response.\n",
@@ -5906,7 +6834,7 @@
             "description": "The Karbon-generated Organization key"
           }
         ],
-        "description": "Use the `PUT` method on this endpoint to update full details of an Organization specified using the `Organizationkey`.\n\n\nUsing the query parameter `$expand` with this endpoint, you can also update the Business Card details of the Organization.\n\n**Note:** When updating business cards, you must include `BusinessCardKey`, `EntityType` and `EntityKey` properties for existing Business Cards - or the existing card and any associated Client Requests may be removed.",
+        "description": "Use the `PUT` method on this endpoint to update full details of an Organization specified using the `Organizationkey`.\n\n\nUsing the query parameter `$expand` with this endpoint, you can also update the Business Card details of the Organization.\n\n**Note:** When updating business cards, you must include `BusinessCardKey`, `EntityType` and `EntityKey` properties for existing Business Cards - or the existing card and any associated Client Requests may be removed.\n\n**BusinessCards is optional:** If the `BusinessCards` array is omitted from the request body, the existing Business Cards on the Organization are left untouched. Include the `BusinessCards` array only when you intend to update it.\n\n**RegistrationNumber null/empty values delete the entry:** If a `RegistrationNumbers` entry is included with a null, empty, or whitespace `RegistrationNumber` value, any existing registration number of that `Type` is deleted. If no entry exists for that `Type`, the request is a no-op. Non-blank values continue to upsert as before.",
         "operationId": "putOrganizationByID",
         "responses": {
           "204": {
@@ -5940,6 +6868,21 @@
                 "examples": {
                   "Unauthorized Access": {
                     "$ref": "#/components/examples/UnauthorizedAccess"
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorMessages"
+                },
+                "examples": {
+                  "Permission Denied": {
+                    "$ref": "#/components/examples/RestrictionLevel_Permission_Denied"
                   }
                 }
               }
@@ -5983,6 +6926,21 @@
                   },
                   "Undefined Error": {
                     "$ref": "#/components/examples/elongated_5001"
+                  }
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Conflict — the resource was modified by another request. Refetch the latest version and retry.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorMessages"
+                },
+                "examples": {
+                  "Stale Object State": {
+                    "$ref": "#/components/examples/Conflict_StaleObjectState"
                   }
                 }
               }
@@ -6122,7 +7080,7 @@
             "description": "Return the record after it has been updated"
           }
         ],
-        "description": "Use the `PATCH` method on this endpoint to update partial details of an Organization specified using the `Organizationkey`.\n\nThis method **only supports** editing the `FullName` property.\n",
+        "description": "Use the `PATCH` method on this endpoint to update partial details of an Organization specified using the `Organizationkey`.\n\nThis method **only supports** editing the `FullName` and `RestrictionLevel` properties.\n",
         "operationId": "patchOrganizationByID",
         "responses": {
           "200": {
@@ -6247,6 +7205,21 @@
               }
             }
           },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorMessages"
+                },
+                "examples": {
+                  "Permission Denied": {
+                    "$ref": "#/components/examples/RestrictionLevel_Permission_Denied"
+                  }
+                }
+              }
+            }
+          },
           "404": {
             "description": "Resource Not Found",
             "content": {
@@ -6289,6 +7262,21 @@
                 }
               }
             }
+          },
+          "409": {
+            "description": "Conflict — the resource was modified by another request. Refetch the latest version and retry.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorMessages"
+                },
+                "examples": {
+                  "Stale Object State": {
+                    "$ref": "#/components/examples/Conflict_StaleObjectState"
+                  }
+                }
+              }
+            }
           }
         },
         "requestBody": {
@@ -6311,11 +7299,594 @@
         }
       }
     },
+    "/v3/Roles": {
+      "get": {
+        "tags": ["Users"],
+        "summary": "Gets a list of Roles",
+        "description": "Returns the active, non-default Roles configured for your tenant, sorted by `Name` ascending. Returns a maximum of 200 Roles per page.",
+        "operationId": "getAllRoles",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "$filter",
+            "schema": {
+              "type": "string"
+            },
+            "examples": {
+              "name": {
+                "value": "Name eq 'Manager'",
+                "summary": "Return only the Role whose Name matches 'Manager'."
+              }
+            },
+            "description": "When this parameter is combined with the URI, this endpoint will return a subset of the Roles that satisfy the `$filter` expression. Only `Name` with the `eq` operator is supported."
+          },
+          {
+            "$ref": "#/components/parameters/SkipRecords"
+          },
+          {
+            "$ref": "#/components/parameters/TopRecords"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetRoles"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorMessages"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResourceNotFound"
+                },
+                "examples": {
+                  "Unauthorized Access": {
+                    "$ref": "#/components/examples/UnauthorizedAccess"
+                  }
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Rate Limit Exceeded",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RateLimitErrorMessage"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorMessages"
+                },
+                "examples": {
+                  "Undefined Error": {
+                    "$ref": "#/components/examples/elongated_5001"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v3/Segments": {
+      "get": {
+        "tags": ["Contacts"],
+        "summary": "Gets a list of Segments",
+        "description": "**Preview:** Segments are available on request and may change based on feedback.\n\nReturns the shared Contact Segments on the account. Personal (unshared) Segments are not returned. Query options such as `$filter`, `$top` and `$skip` are not supported.",
+        "operationId": "listSegments",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetSegments"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorMessages"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResourceNotFound"
+                },
+                "examples": {
+                  "Unauthorized Access": {
+                    "$ref": "#/components/examples/UnauthorizedAccess"
+                  }
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Rate Limit Exceeded",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RateLimitErrorMessage"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorMessages"
+                },
+                "examples": {
+                  "Undefined Error": {
+                    "$ref": "#/components/examples/elongated_5001"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v3/Segments/{SegmentKey}": {
+      "get": {
+        "tags": ["Contacts"],
+        "summary": "Gets a single Segment",
+        "description": "**Preview:** Segments are available on request and may change based on feedback.\n\nReturns a single shared Contact Segment. Returns a `404` if the key doesn't match a shared Contact Segment on the account.",
+        "operationId": "getSegmentByKey",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "SegmentKey",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "The key of the Segment to retrieve."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Segment"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResourceNotFound"
+                },
+                "examples": {
+                  "Unauthorized Access": {
+                    "$ref": "#/components/examples/UnauthorizedAccess"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorMessages"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Rate Limit Exceeded",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RateLimitErrorMessage"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorMessages"
+                },
+                "examples": {
+                  "Undefined Error": {
+                    "$ref": "#/components/examples/elongated_5001"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v3/Segments/{SegmentKey}/Members": {
+      "get": {
+        "tags": ["Contacts"],
+        "summary": "Gets the members of a Segment",
+        "description": "**Preview:** Segments are available on request and may change based on feedback.\n\nReturns a paged list of the Contacts and Organizations in a shared Contact Segment, ordered by name. Each member is returned as a key and type; retrieve full details from `GET /v3/Contacts/{ContactKey}` or `GET /v3/Organizations/{OrganizationKey}`.\n\nPrivate and Hidden clients are only included when the app has the matching `IncludePrivate`/`IncludeHidden` permission. Follow `@odata.nextLink` to fetch the next page.",
+        "operationId": "listSegmentMembers",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "SegmentKey",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "The key of the Segment whose members to retrieve."
+          },
+          {
+            "in": "query",
+            "name": "$top",
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 100,
+              "default": 100
+            },
+            "example": 100,
+            "description": "The number of members to return. Maximum `100`."
+          },
+          {
+            "in": "query",
+            "name": "$skip",
+            "schema": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "example": 100,
+            "description": "Skip the first n members"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetSegmentMembers"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request — `$top` exceeds 100 or `$skip` is negative",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorMessages"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResourceNotFound"
+                },
+                "examples": {
+                  "Unauthorized Access": {
+                    "$ref": "#/components/examples/UnauthorizedAccess"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorMessages"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Rate Limit Exceeded",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RateLimitErrorMessage"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorMessages"
+                },
+                "examples": {
+                  "Undefined Error": {
+                    "$ref": "#/components/examples/elongated_5001"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v3/Teams": {
+      "get": {
+        "tags": ["Users"],
+        "summary": "Gets a list of Teams",
+        "operationId": "getAllTeams",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "$filter",
+            "schema": { "type": "string" },
+            "examples": {
+              "name": {
+                "value": "Name eq 'Audit'",
+                "summary": "Return only the Team whose Name matches 'Audit'."
+              }
+            },
+            "description": "When this parameter is combined with the URI, this endpoint will return a subset of the Teams that satisfy the `$filter` expression. Only `Name` with the `eq` operator is supported."
+          },
+          { "$ref": "#/components/parameters/SkipRecords" },
+          { "$ref": "#/components/parameters/TopRecords" }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": { "application/json": { "schema": { "$ref": "#/components/schemas/GetTeams" } } }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": { "application/json": { "schema": { "$ref": "#/components/schemas/ErrorMessages" } } }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ResourceNotFound" },
+                "examples": { "Unauthorized Access": { "$ref": "#/components/examples/UnauthorizedAccess" } }
+              }
+            }
+          },
+          "429": {
+            "description": "Rate Limit Exceeded",
+            "content": { "application/json": { "schema": { "$ref": "#/components/schemas/RateLimitErrorMessage" } } }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ErrorMessages" },
+                "examples": { "Undefined Error": { "$ref": "#/components/examples/elongated_5001" } }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v3/Teams/{TeamKey}": {
+      "get": {
+        "tags": ["Users"],
+        "summary": "Gets a single Team, including its members",
+        "operationId": "getTeamByKey",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "TeamKey",
+            "required": true,
+            "schema": { "type": "string" },
+            "description": "The key of the Team to retrieve."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": { "application/json": { "schema": { "$ref": "#/components/schemas/TeamProfile" } } }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ResourceNotFound" },
+                "examples": { "Unauthorized Access": { "$ref": "#/components/examples/UnauthorizedAccess" } }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": { "application/json": { "schema": { "$ref": "#/components/schemas/ErrorMessages" } } }
+          },
+          "429": {
+            "description": "Rate Limit Exceeded",
+            "content": { "application/json": { "schema": { "$ref": "#/components/schemas/RateLimitErrorMessage" } } }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ErrorMessages" },
+                "examples": { "Undefined Error": { "$ref": "#/components/examples/elongated_5001" } }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v3/Teams/{TeamKey}/AddMembers": {
+      "post": {
+        "tags": ["Users"],
+        "summary": "Adds one or more members to a Team",
+        "description": "Adds one or more existing, active users to a Team. Users who are already members are skipped, so this endpoint is safe to call again with the same `UserKeys`.\n\nOnly individual users can be added. A Team can contain another Team as a sub-team, but adding a sub-team is not supported here — that can only be done in the Karbon app.\n\nThis is invoked as a bound OData action; despite the URL shape, it is always a `POST`.",
+        "operationId": "addTeamMembers",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "TeamKey",
+            "required": true,
+            "schema": { "type": "string" },
+            "example": "2Nw8tnxwQCVf",
+            "description": "The key of the Team to add members to."
+          }
+        ],
+        "requestBody": {
+          "description": "The user profile keys to add as members of the Team.",
+          "required": true,
+          "content": {
+            "application/json": { "schema": { "$ref": "#/components/schemas/AddTeamMembers" } }
+          }
+        },
+        "responses": {
+          "204": { "description": "No Content" },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ErrorMessages" },
+                "examples": {
+                  "Inactive Or Unknown User": {
+                    "value": { "error": { "code": "4002", "message": "Cannot find an active user for 3VQ8Qrq944NW" } }
+                  },
+                  "Empty UserKeys": {
+                    "value": { "error": { "code": "4002", "message": "'User Keys' must not be empty." } }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ResourceNotFound" },
+                "examples": { "Unauthorized Access": { "$ref": "#/components/examples/UnauthorizedAccess" } }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": { "application/json": { "schema": { "$ref": "#/components/schemas/ErrorMessages" } } }
+          },
+          "429": {
+            "description": "Rate Limit Exceeded",
+            "content": { "application/json": { "schema": { "$ref": "#/components/schemas/RateLimitErrorMessage" } } }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ErrorMessages" },
+                "examples": { "Undefined Error": { "$ref": "#/components/examples/elongated_5001" } }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v3/Teams/{TeamKey}/RemoveMember": {
+      "post": {
+        "tags": ["Users"],
+        "summary": "Removes a member from a Team",
+        "description": "Removes a single user from a Team. Returns `204 No Content` whether or not the user was a member, so this endpoint is safe to retry.\n\nOnly individual users can be removed this way. Removing a sub-team from a Team is not supported here — that can only be done in the Karbon app.\n\nThis is invoked as a bound OData action; despite the URL shape, it is always a `POST`.",
+        "operationId": "removeTeamMember",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "TeamKey",
+            "required": true,
+            "schema": { "type": "string" },
+            "example": "2Nw8tnxwQCVf",
+            "description": "The key of the Team to remove a member from."
+          }
+        ],
+        "requestBody": {
+          "description": "The user profile key to remove from the Team.",
+          "required": true,
+          "content": {
+            "application/json": { "schema": { "$ref": "#/components/schemas/RemoveTeamMember" } }
+          }
+        },
+        "responses": {
+          "204": { "description": "No Content" },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ResourceNotFound" },
+                "examples": { "Unauthorized Access": { "$ref": "#/components/examples/UnauthorizedAccess" } }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": { "application/json": { "schema": { "$ref": "#/components/schemas/ErrorMessages" } } }
+          },
+          "429": {
+            "description": "Rate Limit Exceeded",
+            "content": { "application/json": { "schema": { "$ref": "#/components/schemas/RateLimitErrorMessage" } } }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ErrorMessages" },
+                "examples": { "Undefined Error": { "$ref": "#/components/examples/elongated_5001" } }
+              }
+            }
+          }
+        }
+      }
+    },
     "/v3/TenantSettings": {
       "get": {
         "tags": ["Tenant Settings"],
         "summary": "Gets lists of customer specific Contact and Work settings",
-        "description": "Get specific settings for a tenant, including the valid work statuses, work types and client types",
+        "description": "Get specific settings for a tenant, including the valid work statuses, work types, service types and client types",
         "operationId": "getTenantSettings",
         "responses": {
           "200": {
@@ -6433,6 +8004,18 @@
                     {
                       "Name": "Other",
                       "ContactTypeKey": "478pf88jbnQr"
+                    }
+                  ],
+                  "ServiceTypes": [
+                    {
+                      "Name": "Tax Compliance",
+                      "ServiceTypeKey": "5kQr8VtLm2xP",
+                      "WorkTypeKeys": ["nTlQkTQnNz7", "3RJgJSgq5xz"]
+                    },
+                    {
+                      "Name": "Advisory",
+                      "ServiceTypeKey": "7hMn3WdKp9zR",
+                      "WorkTypeKeys": ["3RJgJSgq5xz"]
                     }
                   ]
                 }
@@ -6895,10 +8478,10 @@
             "name": "IndividualTimeEntryKey",
             "schema": {
               "type": "string",
-              "format": "uuid"
+              "maxLength": 32
             },
-            "example": "a1b2c3d4-e5f6-7890-abcd-ef1234567890",
-            "description": "The Karbon-generated GUID key for the individual time entry"
+            "example": "a1b2c3d4e5f67890abcdef1234567890",
+            "description": "The Karbon-generated GUID key for the individual time entry (32-character hex string, no hyphens)"
           }
         ],
         "description": "Use the `GET` method on this endpoint to receive the details of a single individual time entry specified using the `IndividualTimeEntryKey`.",
@@ -6936,6 +8519,9 @@
                   "$ref": "#/components/schemas/ErrorMessages"
                 },
                 "examples": {
+                  "Invalid Key": {
+                    "$ref": "#/components/examples/IndividualTimeEntry_Invalid_Key_400"
+                  },
                   "Unsupported Option": {
                     "$ref": "#/components/examples/Unsupported_option"
                   }
@@ -7031,7 +8617,7 @@
             "$ref": "#/components/parameters/TopRecords"
           }
         ],
-        "description": "Use the `GET` method on this endpoint to receive a paginated list of Users from your tenant.   Using the query parameters available to this endpoint, you can also filter the list of Users by their Name, and EmailAddress.\n\n**Notes**\n\n* This endpoint returns a maximum of 100 Users at once.\n* If the query results in more than 100 Users, a link to the next set of the results will be given in the `@odata.nextLink` field of the response.\n* The `$filter` query parameter supports 3 logical operators (`eq`, `contains`, and `and`), and 2 properties to help you  form an expression. They are listed below with examples of usage.\n\n<table>\n<thead>\n<tr>\n<th>Logical Operators</th>\n<th>Purpose</th>\n<th>Name</th>\n<th>EmailAddress</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td>eq</td>\n<td>Full-text search</td>\n<td>/v3/Users?$filter=Name eq 'Joe Min'</td>\n<td>/v3/Users?$filter=EmailAddress eq 'joe@samplecompany.com'</td>\n</tr>\n<tr>\n<td>contains</td>\n<td>Partial-text search</td>\n<td>/v3/Users?$filter=(contains(Name, 'Min'))</td>\n<td>/v3/Users?$filter=(contains(EmailAddress, 'joe'))</td>\n</tr>\n<tr>\n<td>and</td>\n<td>Combines properties</td>\n<td colspan = \"2\">/v3/Users?$filter=Name eq 'Joe Min' and (contains(EmailAddress, 'joe'))</td>\n</tr>\n</tbody>\n</table>\n",
+        "description": "Use the `GET` method on this endpoint to receive a paginated list of Users from your tenant.   Using the query parameters available to this endpoint, you can also filter the list of Users by their Name, and EmailAddress.\n\n**Notes**\n\n* This endpoint returns a maximum of 100 Users at once.\n* If the query results in more than 100 Users, a link to the next set of the results will be given in the `@odata.nextLink` field of the response.\n* The `$filter` query parameter supports 3 logical operators (`eq`, `contains`, and `and`), and 2 properties to help you  form an expression. They are listed below with examples of usage.\n\n<table>\n<thead>\n<tr>\n<th>Logical Operators</th>\n<th>Purpose</th>\n<th>Name</th>\n<th>EmailAddress</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td>eq</td>\n<td>Full-text search</td>\n<td>/v3/Users?$filter=Name eq 'Joe Min'</td>\n<td>/v3/Users?$filter=EmailAddress eq 'joe@samplecompany.com'</td>\n</tr>\n<tr>\n<td>contains</td>\n<td>Partial-text search</td>\n<td>/v3/Users?$filter=(contains(Name, 'Min'))</td>\n<td>/v3/Users?$filter=(contains(EmailAddress, 'joe'))</td>\n</tr>\n<tr>\n<td>and</td>\n<td>Combines properties</td>\n<td colspan = \"2\">/v3/Users?$filter=Name eq 'Joe Min' and contains(EmailAddress, 'joe')</td>\n</tr>\n</tbody>\n</table>\n",
         "operationId": "getAllUsers",
         "responses": {
           "200": {
@@ -7335,14 +8921,15 @@
                 "User",
                 "IntegrationTask",
                 "Invoice",
-                "EstimateSummary"
+                "EstimateSummary",
+                "Multi"
               ]
             },
             "example": "Contact",
-            "description": "The type of Karbon entity, which the Webhook Subscription must be associated with"
+            "description": "The type of Karbon entity, which the Webhook Subscription must be associated with. Use `Multi` to retrieve the multi-type subscription created via `WebhookTypes`."
           }
         ],
-        "description": "Use the `GET` method on this endpoint to receive the details of a Webhook Subscriptions associated with the Karbon entity specified using the `WebhookType`.\n\n**Only one** Webhook Subscription can exist per entity.\n",
+        "description": "Use the `GET` method on this endpoint to receive the details of a Webhook Subscriptions associated with the Karbon entity specified using the `WebhookType`.\n\n**Only one** Webhook Subscription can exist per entity.\n\n**Polling cadence:** a subscription is not expected to be recreated regularly. Check it exists with `GET` at most every 3-4 hours, and only `POST` a replacement if that check returns `404`.\n",
         "operationId": "getWebhookSubscriptionsByWebhookType",
         "responses": {
           "200": {
@@ -7436,11 +9023,12 @@
                 "User",
                 "IntegrationTask",
                 "Invoice",
-                "EstimateSummary"
+                "EstimateSummary",
+                "Multi"
               ]
             },
             "example": "Contact",
-            "description": "The type of Karbon entity, which the Webhook Subscription must be associated with"
+            "description": "The type of Karbon entity, which the Webhook Subscription must be associated with. Use `Multi` to delete the multi-type subscription created via `WebhookTypes`."
           }
         ],
         "description": "Use the `DELETE` method on this endpoint to delete a Webhook Subscription associated with the Karbon entity specified using the `WebhookType`.\n\n\n",
@@ -7505,13 +9093,123 @@
             }
           }
         }
+      },
+      "patch": {
+        "tags": ["Webhook Subscriptions"],
+        "summary": "Updates the multi-type Webhook Subscription's subscribed types",
+        "description": "Use the `PATCH` method on this endpoint to replace the full set of `WebhookTypes` on the multi-type Webhook Subscription. This is a whole-list replace, not a merge. Only applies to the multi-type subscription addressed at `/v3/WebhookSubscriptions/Multi`.",
+        "operationId": "patchWebhookSubscription",
+        "parameters": [
+          {
+            "required": true,
+            "in": "path",
+            "name": "WebhookType",
+            "schema": {
+              "type": "string",
+              "enum": ["Multi"]
+            },
+            "example": "Multi",
+            "description": "Must be `Multi` — this action only applies to the multi-type Webhook Subscription."
+          }
+        ],
+        "requestBody": {
+          "description": "The full replacement set of subscribed resource types.",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "WebhookTypes": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "enum": [
+                        "Contact",
+                        "CustomField",
+                        "Work",
+                        "Note",
+                        "User",
+                        "IntegrationTask",
+                        "Invoice",
+                        "EstimateSummary"
+                      ]
+                    },
+                    "description": "The full replacement set of resource types this subscription receives notifications for.",
+                    "example": ["Contact", "Work", "Note"]
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResourceNotFound"
+                },
+                "examples": {
+                  "Unauthorized Access": {
+                    "$ref": "#/components/examples/UnauthorizedAccess"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorMessages"
+                },
+                "examples": {
+                  "No existing multi-type subscription": {
+                    "value": {
+                      "error": {
+                        "code": "4004",
+                        "message": "No existing multi-type webhook subscription. Create one via WebhookTypes first."
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Rate Limit Exceeded",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RateLimitErrorMessage"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorMessages"
+                }
+              }
+            }
+          }
+        }
       }
     },
     "/v3/WebhookSubscriptions": {
       "post": {
         "tags": ["Webhook Subscriptions"],
         "summary": "Creates a new Webhook Subscription",
-        "description": "\n\nUse the `POST` method on create and associate a Webhook Subscriptions with a Karbon entity.\n\nYou can create **only one** Webhook Subcription per entity.\n\nPayload delivery for a webhook subscription will be retried 10 times, with increasing delays. If unsuccessful after 10 tries (no 2xx HTTP response), the subscription ends and needs to be recreated to receive further updates.\n",
+        "description": "\n\nUse the `POST` method on create and associate a Webhook Subscriptions with a Karbon entity.\n\nYou can create **only one** Webhook Subcription per entity.\n\nPayload delivery for a webhook subscription will be retried 10 times, with increasing delays. If unsuccessful after 10 tries (no 2xx HTTP response), the subscription ends and needs to be recreated to receive further updates.\n\n**Do not call this on every poll.** A subscription lasts until it's deleted or auto-cancelled after 10 failed deliveries — check with `GET /v3/WebhookSubscriptions/{WebhookType}` at most every 3-4 hours and only `POST` here when that check returns `404`. Repeatedly recreating an already-active subscription is unnecessary load on both sides.\n",
         "operationId": "createWebhookSubscription",
         "responses": {
           "201": {
@@ -7552,6 +9250,14 @@
                   },
                   "Invalid Subscription Type": {
                     "$ref": "#/components/examples/Webhook_Subscription_Type_Not_Found_404"
+                  },
+                  "WebhookType and WebhookTypes both provided": {
+                    "value": {
+                      "error": {
+                        "code": "4002",
+                        "message": "Provide either WebhookType or WebhookTypes, not both"
+                      }
+                    }
                   }
                 }
               }
@@ -7599,7 +9305,7 @@
           }
         },
         "requestBody": {
-          "description": "Refer to the table below for more information on each field in the request body.",
+          "description": "Refer to the table below for more information on each field in the request body. Provide either `WebhookType` (single-type subscription) or `WebhookTypes` (multi-type subscription) — not both.",
           "required": true,
           "content": {
             "application/json": {
@@ -7616,10 +9322,36 @@
                   },
                   "WebhookType": {
                     "type": "string",
-                    "enum": ["Contact", "Work", "Note", "User", "IntegrationTask", "Invoice", "EstimateSummary"],
-                    "description": "The type of Karbon entity which the Webhook Subscription is associated with. To receive ClientGroup, Contact and Organization updates, pass WebhookType as `Contact`. To receive Custom Field value updates, pass WebhookType as `CustomField`. To receive WorkItem updates, pass WebhookType as `Work`. To receive Note and NoteComment updates, pass WebhookType as `Note`. To receive an update when a User has accepted an invite to Karbon, pass WebhookType as `User`. To receive an update when an Invoice changes status, pass WebhookType as `Invoice`. To receive an update when an EstimateSummary is updated, pass WebhookType as `EstimateSummary`. Integration partners using the Integration Task feature can use `IntegrationTask` as the webhook subscription type to receive a notification when an integration task is added to a Work Item or a new Work Item is created from a Work Template that contains one or more Integraition Tasks.",
-                    "example": "Contact",
-                    "required": true
+                    "enum": [
+                      "Contact",
+                      "CustomField",
+                      "Work",
+                      "Note",
+                      "User",
+                      "IntegrationTask",
+                      "Invoice",
+                      "EstimateSummary"
+                    ],
+                    "description": "The type of Karbon entity which the Webhook Subscription is associated with. To receive ClientGroup, Contact and Organization updates, pass WebhookType as `Contact`. To receive Custom Field value updates, pass WebhookType as `CustomField`. To receive WorkItem updates, pass WebhookType as `Work`. To receive Note and NoteComment updates, pass WebhookType as `Note`. To receive an update when a User has accepted an invite to Karbon, pass WebhookType as `User`. To receive an update when an Invoice changes status, pass WebhookType as `Invoice`. To receive an update when an EstimateSummary is updated, pass WebhookType as `EstimateSummary`. Integration partners using the Integration Task feature can use `IntegrationTask` as the webhook subscription type to receive a notification when an integration task is added to a Work Item or a new Work Item is created from a Work Template that contains one or more Integraition Tasks. Mutually exclusive with `WebhookTypes`.",
+                    "example": "Contact"
+                  },
+                  "WebhookTypes": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "enum": [
+                        "Contact",
+                        "CustomField",
+                        "Work",
+                        "Note",
+                        "User",
+                        "IntegrationTask",
+                        "Invoice",
+                        "EstimateSummary"
+                      ]
+                    },
+                    "description": "Creates a multi-type subscription covering this set of resource types under one subscription with one `TargetUrl`, addressed afterwards at `/v3/WebhookSubscriptions/Multi`. Mutually exclusive with `WebhookType` — providing both returns a 400. There can only be one multi-type subscription per API application.",
+                    "example": ["Contact", "Work"]
                   },
                   "SigningKey": {
                     "oneOf": [
@@ -7634,6 +9366,18 @@
                       }
                     ],
                     "description": "An optional key that will be used to sign webhook payloads, may contain letters, numbers, dashes or underscores"
+                  },
+                  "BatchSize": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "maximum": 100,
+                    "description": "The number of notifications to accumulate before delivering them together as a JSON array in a single `POST`. A hard cap — once a batch reaches this size, further events start a new batch. Omit, or set to `1`, to keep the existing payload format of one notification object per `POST`. Applies to both single-type and multi-type subscriptions.",
+                    "example": 10
+                  },
+                  "BatchMaxDelaySeconds": {
+                    "type": "integer",
+                    "description": "An additional delay, in seconds, added on top of the standard 60-second dispatch window before a batch is sent. `0` means no extra delay beyond that window. Only applies when `BatchSize` is set to more than `1`.",
+                    "example": 0
                   }
                 }
               }
@@ -7729,6 +9473,10 @@
                 "value": "WorkScheduleKey eq 'FXcWYY9xZfd'",
                 "summary": "Return only the Work Items that are part of the Work Schedule with the unique key 'FXcWYY9xZfd'"
               },
+              "WorkTemplateKey": {
+                "value": "WorkTemplateKey eq '2vBsCfGk9hJD'",
+                "summary": "Return only the Work Items that were created from the Work Template with the unique key '2vBsCfGk9hJD'"
+              },
               "WorkStatus": {
                 "value": "WorkStatus eq 'InProgress'",
                 "summary": "Return only the Work Items with the Work Status 'In progress'"
@@ -7758,7 +9506,7 @@
             "$ref": "#/components/parameters/TopRecords"
           }
         ],
-        "description": "Use the `GET` method on this endpoint to receive a paginated list of Work Items from your tenant. Using the query parameters available to this endpoint, you can also filter the list of Work Items by their AssigneeEmailAddress, ClientKey, PrimaryStatus StartDate, Title, WorkStatus, and WorkType.\n\n**Notes**\n\n* This endpoint returns a maximum of 100 Work Items at once.\n* If the query results in more than 100 Work Items, a link to the next set of the results will be given in the `@odata.nextLink` field of the response.\n* The `$filter` query parameter supports multiple logical operators and 7 properties to help you form an expression. They are listed below with examples of usage.\n\n### $filter operators for StartDate property\n<table><thead><tr><th>Operators</th><th>Purpose</th><th>StartDate</th></tr></thead><tbody><tr><td>ge</td><td>Greater than and equals</td><td>/v3/WorkItems?$filter=StartDate ge 2021-04-27T00:00:00Z</td></tr><tr><td>le</td><td>Lesser than and equals</td><td>/v3/WorkItems?$filter=StartDate le 2021-04-27T00:00:00Z</td></tr><tr><td>and</td><td>Combines properties</td><td>/v3/WorkItems?$filter=StartDate ge 2021-04-27T00:00:00Z and PrimaryStatus eq 'Planned'</td></tr></tbody></table>### $filter operators for rest of the properties<table><thead><tr><th>Property</th><th>eq [For full-text search]</th><th>and [For combined-property search]</th><th>contains [For partial-text search]</th></tr></thead><tbody><tr><td>AssigneeEmailAddress</td><td>/v3/WorkItems?$filter=AssigneeEmailAddress eq 'joe@samplecompany.com'</td><td>/v3/WorkItems?$filter=AssigneeEmailAddress eq 'joe@samplecompany.com' and PrimaryStatus eq 'Planned'</td><td>/v3/WorkItems?$filter=(contains(AssigneeEmailAddress , 'joe'))</td></tr><tr><td>ClientKey</td><td>/v3/WorkItems?$filter=ClientKey eq '2nvhdM1TmZk3'</td><td>/v3/WorkItems?$filter=ClientKey eq '2nvhdM1TmZk3' and (contains(AssigneeEmailAddress , 'joe'))</td><td>N/A</td></tr><tr><td>PrimaryStatus</td><td>/v3/WorkItems?$filter=PrimaryStatus eq 'Planned'</td><td>/v3/WorkItems?$filter=AssigneeEmailAddress eq 'joe@samplecompany.com' and PrimaryStatus eq 'Planned'</td><td>N/A</td></tr><tr><td>Title</td><td>/v3/WorkItems?$filter=Title eq 'Payroll 31 Aug - 15 Sep 2022'</td><td>/v3/WorkItems?$filter=Title eq 'Payroll 31 Aug - 15 Sep 2022' and PrimaryStatus eq 'Planned'</td><td>/v3/WorkItems?$filter=(contains(Title, 'pay'))</td></tr><tr><td>WorkScheduleKey</td><td>/v3/WorkItems?$filter=WorkScheduleKey eq 'FXcWYY9xZfd'</td><td>/v3/WorkItems?$filter=WorkScheduleKey eq 'FXcWYY9xZfd' and PrimaryStatus eq 'Planned'</td><td>N/A</td></tr><tr><td>WorkStatus</td><td>/v3/WorkItems?$filter=WorkStatus eq 'Ready To Start'</td><td>/v3/WorkItems?$filter=WorkStatus eq 'Ready To Start' and $filter=(contains(Title, 'Pay'))</td><td>/v3/WorkItems?$filter=(contains(WorkStatus , 'joe'))</td></tr><tr><td>WorkType</td><td>/v3/WorkItems?$filter=WorkType eq 'Payroll'</td><td>/v3/WorkItems?$filter=WorkType eq 'Payroll' and PrimaryStatus eq 'Planned'</td><td>/v3/WorkItems?$filter=(contains(WorkType , 'pay'))</td></tr></tbody></table>",
+        "description": "Use the `GET` method on this endpoint to receive a paginated list of Work Items from your tenant. Using the query parameters available to this endpoint, you can also filter the list of Work Items by their AssigneeEmailAddress, ClientKey, PrimaryStatus, StartDate, Title, WorkScheduleKey, WorkStatus, WorkTemplateKey, and WorkType.\n\n**Notes**\n\n* This endpoint returns a maximum of 100 Work Items at once.\n* If the query results in more than 100 Work Items, a link to the next set of the results will be given in the `@odata.nextLink` field of the response.\n* The `$filter` query parameter supports multiple logical operators and 7 properties to help you form an expression. They are listed below with examples of usage.\n\n### $filter operators for StartDate property\n<table><thead><tr><th>Operators</th><th>Purpose</th><th>StartDate</th></tr></thead><tbody><tr><td>ge</td><td>Greater than and equals</td><td>/v3/WorkItems?$filter=StartDate ge 2021-04-27T00:00:00Z</td></tr><tr><td>le</td><td>Lesser than and equals</td><td>/v3/WorkItems?$filter=StartDate le 2021-04-27T00:00:00Z</td></tr><tr><td>and</td><td>Combines properties</td><td>/v3/WorkItems?$filter=StartDate ge 2021-04-27T00:00:00Z and PrimaryStatus eq 'Planned'</td></tr></tbody></table>### $filter operators for rest of the properties<table><thead><tr><th>Property</th><th>eq [For full-text search]</th><th>and [For combined-property search]</th><th>contains [For partial-text search]</th></tr></thead><tbody><tr><td>AssigneeEmailAddress</td><td>/v3/WorkItems?$filter=AssigneeEmailAddress eq 'joe@samplecompany.com'</td><td>/v3/WorkItems?$filter=AssigneeEmailAddress eq 'joe@samplecompany.com' and PrimaryStatus eq 'Planned'</td><td>/v3/WorkItems?$filter=(contains(AssigneeEmailAddress , 'joe'))</td></tr><tr><td>ClientKey</td><td>/v3/WorkItems?$filter=ClientKey eq '2nvhdM1TmZk3'</td><td>/v3/WorkItems?$filter=ClientKey eq '2nvhdM1TmZk3' and contains(AssigneeEmailAddress , 'joe')</td><td>N/A</td></tr><tr><td>PrimaryStatus</td><td>/v3/WorkItems?$filter=PrimaryStatus eq 'Planned'</td><td>/v3/WorkItems?$filter=AssigneeEmailAddress eq 'joe@samplecompany.com' and PrimaryStatus eq 'Planned'</td><td>N/A</td></tr><tr><td>Title</td><td>/v3/WorkItems?$filter=Title eq 'Payroll 31 Aug - 15 Sep 2022'</td><td>/v3/WorkItems?$filter=Title eq 'Payroll 31 Aug - 15 Sep 2022' and PrimaryStatus eq 'Planned'</td><td>/v3/WorkItems?$filter=(contains(Title, 'pay'))</td></tr><tr><td>WorkScheduleKey</td><td>/v3/WorkItems?$filter=WorkScheduleKey eq 'FXcWYY9xZfd'</td><td>/v3/WorkItems?$filter=WorkScheduleKey eq 'FXcWYY9xZfd' and PrimaryStatus eq 'Planned'</td><td>N/A</td></tr><tr><td>WorkStatus</td><td>/v3/WorkItems?$filter=WorkStatus eq 'Ready To Start'</td><td>/v3/WorkItems?$filter=WorkStatus eq 'Ready To Start' and (contains(Title, 'Pay'))</td><td>/v3/WorkItems?$filter=(contains(WorkStatus , 'joe'))</td></tr><tr><td>WorkType</td><td>/v3/WorkItems?$filter=WorkType eq 'Payroll'</td><td>/v3/WorkItems?$filter=WorkType eq 'Payroll' and PrimaryStatus eq 'Planned'</td><td>/v3/WorkItems?$filter=(contains(WorkType , 'pay'))</td></tr></tbody></table>",
         "operationId": "getAllWorkItems",
         "responses": {
           "200": {
@@ -8252,6 +10000,21 @@
                 }
               }
             }
+          },
+          "409": {
+            "description": "Conflict — the resource was modified by another request. Refetch the latest version and retry.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorMessages"
+                },
+                "examples": {
+                  "Stale Object State": {
+                    "$ref": "#/components/examples/Conflict_StaleObjectState"
+                  }
+                }
+              }
+            }
           }
         },
         "requestBody": {
@@ -8281,7 +10044,7 @@
             "description": "The Karbon-generated Work Item key"
           }
         ],
-        "description": "Use the `PATCH` method on this endpoint to update partial details of a Work Item (specified using the WorkItemKey).\n\nThis method **only supports** editing the `Description` and `DeadlineDate` properties.",
+        "description": "Use the `PATCH` method on this endpoint to update partial details of a Work Item (specified using the WorkItemKey).\n\nThis method supports editing the `Title`, `Description`, `StartDate`, `DueDate`, `DeadlineDate`, `AssigneeEmailAddress`, `WorkType`, `UserRoleAssignments`, `PrimaryStatus`, and `SecondaryStatus` properties. Sending any other property in the request body returns a `400`.\n\n`UserRoleAssignments` replaces the full set of role assignments on the Work Item. Reassigning a role also moves any time estimates on that role to the new user.\n\n`PrimaryStatus` is required when `SecondaryStatus` is sent. Sending `PrimaryStatus` on its own clears the existing `SecondaryStatus`. `SecondaryStatus` must belong to the `PrimaryStatus` and be enabled for the Work Item's `WorkType`; otherwise the request returns a `400`.",
         "operationId": "patchWorkItemByID",
         "responses": {
           "204": {
@@ -8359,6 +10122,21 @@
                 "examples": {
                   "Undefined Error": {
                     "$ref": "#/components/examples/elongated_5001"
+                  }
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Conflict — the resource was modified by another request. Refetch the latest version and retry.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorMessages"
+                },
+                "examples": {
+                  "Stale Object State": {
+                    "$ref": "#/components/examples/Conflict_StaleObjectState"
                   }
                 }
               }
@@ -8670,6 +10448,21 @@
                 }
               }
             }
+          },
+          "409": {
+            "description": "Conflict — the resource was modified by another request. Refetch the latest version and retry.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorMessages"
+                },
+                "examples": {
+                  "Stale Object State": {
+                    "$ref": "#/components/examples/Conflict_StaleObjectState"
+                  }
+                }
+              }
+            }
           }
         },
         "requestBody": {
@@ -8679,6 +10472,131 @@
             "application/json": {
               "schema": {
                 "$ref": "#/components/schemas/WorkSchedulePUTRequest"
+              }
+            }
+          }
+        }
+      },
+      "patch": {
+        "tags": ["Work Schedules"],
+        "summary": "Updates a Work Schedule (Partial)",
+        "parameters": [
+          {
+            "required": true,
+            "in": "path",
+            "name": "WorkSchedulekey",
+            "schema": {
+              "type": "string"
+            },
+            "example": "Bm6CGxrWp8W",
+            "description": "The Karbon-generated Work Schedule key"
+          }
+        ],
+        "description": "Use the `PATCH` method on this endpoint to update partial details of a Work Schedule specified using the WorkSchedulekey.\n\nThis method **only supports** editing the `ScheduleEndDate` property. Pass `null` to clear an existing end date.",
+        "operationId": "patchWorkScheduleByID",
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorMessages"
+                },
+                "examples": {
+                  "Incorrect or Missing Data": {
+                    "$ref": "#/components/examples/Missing_Update_Data"
+                  },
+                  "Unsupported Option": {
+                    "$ref": "#/components/examples/Unsupported_option"
+                  },
+                  "Invalid Property": {
+                    "$ref": "#/components/examples/Invalid_Property"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResourceNotFound"
+                },
+                "examples": {
+                  "Unauthorized Access": {
+                    "$ref": "#/components/examples/UnauthorizedAccess"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Resource Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorMessages"
+                },
+                "examples": {
+                  "Key Not Found": {
+                    "$ref": "#/components/examples/WorkSchedule_Key_Not_Found_404"
+                  }
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Rate Limit Exceeded",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RateLimitErrorMessage"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorMessages"
+                },
+                "examples": {
+                  "Undefined Error": {
+                    "$ref": "#/components/examples/elongated_5001"
+                  }
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Conflict — the resource was modified by another request. Refetch the latest version and retry.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorMessages"
+                },
+                "examples": {
+                  "Stale Object State": {
+                    "$ref": "#/components/examples/Conflict_StaleObjectState"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "description": "Refer to the table below for more information on each field in the request body.",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateWorkSchedule"
               }
             }
           }
@@ -9398,7 +11316,19 @@
           {
             "$ref": "#/components/schemas/BillingInvoiceData"
           }
-        ]
+        ],
+        "properties": {
+          "InvoiceMagicLink": {
+            "type": ["string", "null"],
+            "description": "A link firms can send to clients to pay the invoice through Karbon Payments. Only returned once the invoice has been posted; otherwise `null`.",
+            "example": "https://clientportal.karbonhq.com/invoice-link?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9..."
+          },
+          "InvoicePdfUrl": {
+            "type": ["string", "null"],
+            "description": "A link to the rendered invoice PDF, which firms can use to preview the invoice, download it, or send it to their clients. The token in the URL is valid for 15 minutes. Only returned once the invoice has been posted or sent; otherwise `null`.",
+            "example": "/v3/Files?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9..."
+          }
+        }
       },
       "BillingInvoiceData": {
         "type": "object",
@@ -9655,6 +11585,12 @@
                 "description": "The valeu of the payment, excluding fees and taxes",
                 "example": 2200
               },
+              "CreditAmount": {
+                "type": "number",
+                "format": "double",
+                "description": "The credit still available on the payment: the payment amount before surcharges (`KarbonPayment.BasePaymentAmount`, or `GrossAmount` for manual payments) less any amounts applied to invoices. Always `0` for reversed or deleted payments",
+                "example": 100
+              },
               "PaymentMethod": {
                 "type": "string",
                 "description": "The method by which the payment was made",
@@ -9859,6 +11795,23 @@
         "description": "A business card associated with a contact or organization",
         "type": "object",
         "properties": {
+          "BusinessCardKey": {
+            "type": "string",
+            "description": "A Karbon-generated unique identifier for the Business Card",
+            "example": "",
+            "required": true
+          },
+          "EntityType": {
+            "type": "string",
+            "description": "The type of entity this Business Card belongs to.",
+            "example": "Contact",
+            "enum": ["Contact", "Organization", "ClientGroup"]
+          },
+          "EntityKey": {
+            "type": "string",
+            "description": "A Karbon-generated key to indicate the entity (Contact, Organization, or ClientGroup) this Business Card belongs to.",
+            "example": "67zlxNyJSr8e"
+          },
           "IsPrimaryCard": {
             "type": "boolean",
             "description": "Set to true, if this business card is also the primary business card for this entity.",
@@ -9989,6 +11942,17 @@
             "type": "string",
             "description": "A Karbon-generated unique identifier for the Business Card",
             "example": "2tBHyXtJBxBy"
+          },
+          "EntityType": {
+            "type": "string",
+            "description": "The type of entity this Business Card belongs to.",
+            "example": "Contact",
+            "enum": ["Contact", "Organization", "ClientGroup"]
+          },
+          "EntityKey": {
+            "type": "string",
+            "description": "A Karbon-generated key to indicate the entity (Contact, Organization, or ClientGroup) this Business Card belongs to.",
+            "example": "67zlxNyJSr8e"
           },
           "IsPrimaryCard": {
             "type": "boolean",
@@ -10896,6 +12860,31 @@
             "items": {
               "$ref": "#/components/schemas/SettingWorkType"
             }
+          },
+          "ServiceTypes": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SettingServiceType"
+            }
+          },
+          "FilingDeadlines": {
+            "type": "array",
+            "description": "The filing deadlines configured on the account. Use `FilingDeadlineKey` with the `OnFilingDate` due and deadline date methods on Work Schedules.",
+            "items": {
+              "type": "object",
+              "properties": {
+                "Name": {
+                  "type": "string",
+                  "description": "The name of the filing deadline",
+                  "example": "Form 1040"
+                },
+                "FilingDeadlineKey": {
+                  "type": "string",
+                  "description": "A Karbon-generated value used to identify the filing deadline",
+                  "example": "2kTn7wQpXc4R"
+                }
+              }
+            }
           }
         }
       },
@@ -10961,6 +12950,11 @@
                   "format": "date-time",
                   "description": "The date and time at which the Organization was most recently modified.",
                   "example": "2021-12-29T07:01:53Z"
+                },
+                "UserDefinedIdentifier": {
+                  "type": ["string", "null"],
+                  "example": "ACME-001",
+                  "description": "Your own identifier for the Organization, if one has been set. This matches the behaviour already available on /v3/Contacts."
                 }
               }
             }
@@ -10999,6 +12993,12 @@
                 "type": "string",
                 "example": "",
                 "description": "A status indicating whether the payment has been payed out"
+              },
+              "BasePaymentAmount": {
+                "type": ["number", "null"],
+                "format": "double",
+                "example": 2200,
+                "description": "The payment amount before surcharges: `GrossAmount` less `SurchargeAmount` and `SurchargeTaxAmount`"
               },
               "SurchargeAmount": {
                 "type": "number",
@@ -11122,6 +13122,13 @@
             "type": "string",
             "format": "date-time",
             "description": "The date and time at which the Work Item was completed",
+            "example": "2022-02-01T00:00:00Z"
+          },
+          "LastModifiedDateTime": {
+            "type": "string",
+            "format": "date-time",
+            "readOnly": true,
+            "description": "The date and time at which this Work Item was last modified.",
             "example": "2022-02-01T00:00:00Z"
           },
           "ToDoPeriod": {
@@ -11413,10 +13420,58 @@
         "anyOf": [
           {
             "properties": {
+              "Title": {
+                "type": "string",
+                "maxLength": 200,
+                "description": "The title of the Work Item. Must be non-empty and no longer than 200 characters when included.",
+                "example": "Q2 review prep"
+              }
+            }
+          },
+          {
+            "properties": {
               "Description": {
                 "type": "string",
                 "description": "A free form text field to add more information about the Work Item",
                 "example": "Reviewed and approved by Jo."
+              }
+            }
+          },
+          {
+            "properties": {
+              "StartDate": {
+                "oneOf": [
+                  {
+                    "type": "string",
+                    "example": "2024-02-01T00:00:00Z",
+                    "format": "date-time"
+                  },
+                  {
+                    "type": "string",
+                    "example": "2024-02-01",
+                    "format": "date"
+                  }
+                ],
+                "description": "The start date of the Work Item as an ISO 8601 date or date-time. Must be non-null when included."
+              }
+            }
+          },
+          {
+            "properties": {
+              "DueDate": {
+                "oneOf": [
+                  {
+                    "type": ["string", "null"],
+                    "example": "2024-02-01T00:00:00Z",
+                    "format": "date-time"
+                  },
+                  {
+                    "type": ["string", "null"],
+                    "example": "2024-02-01",
+                    "format": "date"
+                  }
+                ],
+                "description": "The due date of the Work Item as an ISO 8601 date or date-time. Pass `null` to clear the existing due date."
               }
             }
           },
@@ -11436,6 +13491,68 @@
                   }
                 ],
                 "description": "The deadline of the workitem as ISO8601 formated datestamp or timestamp"
+              }
+            }
+          },
+          {
+            "properties": {
+              "AssigneeEmailAddress": {
+                "type": "string",
+                "format": "email",
+                "description": "The email address of the Karbon user the Work Item should be assigned to. Validated against existing users; unknown values return a `400`.",
+                "example": "alex@example.com"
+              }
+            }
+          },
+          {
+            "properties": {
+              "WorkType": {
+                "type": "string",
+                "description": "The work type label, validated against work types configured on the account. Unknown values return a `400`.",
+                "example": "Tax Return"
+              }
+            }
+          },
+          {
+            "properties": {
+              "UserRoleAssignments": {
+                "type": "array",
+                "description": "The full set of user role assignments for the Work Item. Replaces the existing assignments. Reassigning a role also moves any time estimates on that role to the new user.",
+                "items": {
+                  "type": "object",
+                  "required": ["RoleKey", "UserProfileKey"],
+                  "properties": {
+                    "RoleKey": {
+                      "type": "string",
+                      "description": "A Karbon-generated value used to identify the role of the user",
+                      "example": "2mYzTtly89Lq"
+                    },
+                    "UserProfileKey": {
+                      "type": "string",
+                      "description": "A Karbon-generated value used to identify the user",
+                      "example": "2Qy48WVCRBcP"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          {
+            "properties": {
+              "PrimaryStatus": {
+                "type": "string",
+                "enum": ["Planned", "ReadyToStart", "InProgress", "Waiting", "Completed"],
+                "description": "The parent-level Status of the Work Item. Case-insensitive, and spaces are ignored, so `In Progress` is also accepted. Required when `SecondaryStatus` is included. Sending `PrimaryStatus` without `SecondaryStatus` clears the existing `SecondaryStatus`.",
+                "example": "InProgress"
+              }
+            }
+          },
+          {
+            "properties": {
+              "SecondaryStatus": {
+                "type": "string",
+                "description": "The name of the child-level Status of the Work Item. Must belong to the `PrimaryStatus` sent in the same request and be enabled for the Work Item's `WorkType`; otherwise returns a `400`. Valid values are listed under `WorkStatuses` in `GET /v3/TenantSettings`.",
+                "example": "Send client requests"
               }
             }
           }
@@ -11858,7 +13975,7 @@
           },
           "RestrictionLevel": {
             "type": "string",
-            "description": "The privacy level for this Contact.\n\n<ul><li>Public Contacts can be managed by anyone in the firm</li> <li>Private Contacts can only be managed by the [Client Team](https://help.karbonhq.com/en/articles/1524707-create-a-client-team). Basic details (name of the Contacts and the Work Items) related to such Contacts are visible to anyone in the firm.</li> <li>Hidden Contacts are only be visible to and managed by the [Client Team](https://help.karbonhq.com/en/articles/1524707-create-a-client-team).</li>\n",
+            "description": "The privacy level for this Contact.\n\n<ul><li>Public Contacts can be managed by anyone in the firm</li> <li>Private Contacts can only be managed by the [Client Team](https://help.karbonhq.com/en/articles/1524707-create-a-client-team). Basic details (name of the Contacts and the Work Items) related to such Contacts are visible to anyone in the firm.</li> <li>Hidden Contacts are only be visible to and managed by the [Client Team](https://help.karbonhq.com/en/articles/1524707-create-a-client-team).</li>\nSetting `Private` requires the calling API application to have the `IncludePrivate` permission; setting `Hidden` requires `IncludeHidden`. `Public` is always allowed. Omitting this field on a PUT leaves the existing value unchanged.\n",
             "example": "Public",
             "default": "Public",
             "enum": ["Public", "Private", "Hidden"]
@@ -11906,6 +14023,71 @@
             "$ref": "#/components/schemas/ClientTeam"
           }
         }
+      },
+      "ExpenseRequest": {
+        "description": "A single Expense",
+        "required": ["Timeline", "ExpenseDate", "Value", "BillableValue", "Description"],
+        "type": "object",
+        "properties": {
+          "Timeline": {
+            "type": "object",
+            "description": "The entity the Expense is recorded against",
+            "properties": {
+              "EntityType": {
+                "type": "string",
+                "description": "The type of entity this Expense will be linked to",
+                "enum": ["WorkItem", "Contact", "Organization"]
+              },
+              "EntityKey": {
+                "type": "string",
+                "example": "2m6pSFxRzcF2",
+                "description": "A Karbon-generated value to indicate the entity"
+              }
+            }
+          },
+          "ExpenseDate": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2026-08-14T00:00:00Z",
+            "description": "The date the Expense was incurred"
+          },
+          "Value": {
+            "type": "number",
+            "format": "double",
+            "example": 240.5,
+            "description": "The cost of the Expense. Cannot be negative."
+          },
+          "BillableValue": {
+            "type": "number",
+            "format": "double",
+            "example": 240.5,
+            "description": "The portion of the Expense that is billable to the client. Cannot be negative. Use 0 for an Expense that will not be billed on."
+          },
+          "Description": {
+            "type": "string",
+            "example": "Courier fees for year-end documents",
+            "description": "A description of the Expense. Limited to 250 characters."
+          }
+        }
+      },
+      "ExpenseResponse": {
+        "description": "A single Expense",
+        "type": "object",
+        "allOf": [
+          {
+            "type": "object",
+            "properties": {
+              "ExpenseKey": {
+                "type": "string",
+                "example": "3nB7kQvXLmT",
+                "description": "The unique identifier of the Expense"
+              }
+            }
+          },
+          {
+            "$ref": "#/components/schemas/ExpenseRequest"
+          }
+        ]
       },
       "NoteRequest": {
         "description": "A single Note",
@@ -12171,7 +14353,7 @@
           },
           "RestrictionLevel": {
             "type": "string",
-            "description": "The privacy level for this Organization.\n\n<ul><li>Public Organization can be managed by anyone in the firm</li> <li>Private Organization can only be managed by the [Client Team](https://help.karbonhq.com/en/articles/1524707-create-a-client-team). Basic details (name of the Organization and the Work Items) related to such Organization are visible to anyone in the firm.</li> <li>Hidden Organization are only be visible to and managed by the [Client Team](https://help.karbonhq.com/en/articles/1524707-create-a-client-team).</li>\n",
+            "description": "The privacy level for this Organization.\n\n<ul><li>Public Organization can be managed by anyone in the firm</li> <li>Private Organization can only be managed by the [Client Team](https://help.karbonhq.com/en/articles/1524707-create-a-client-team). Basic details (name of the Organization and the Work Items) related to such Organization are visible to anyone in the firm.</li> <li>Hidden Organization are only be visible to and managed by the [Client Team](https://help.karbonhq.com/en/articles/1524707-create-a-client-team).</li>\nSetting `Private` requires the calling API application to have the `IncludePrivate` permission; setting `Hidden` requires `IncludeHidden`. `Public` is always allowed. Omitting this field on a PUT leaves the existing value unchanged.\n",
             "default": "Public",
             "enum": ["Public", "Private", "Hidden"],
             "example": "Public"
@@ -12227,7 +14409,7 @@
           },
           "RestrictionLevel": {
             "type": "string",
-            "description": "The privacy level for this Organization.\n\n<ul><li>Public Organization can be managed by anyone in the firm</li> <li>Private Organization can only be managed by the [Client Team](https://help.karbonhq.com/en/articles/1524707-create-a-client-team). Basic details (name of the Organization and the Work Items) related to such Organization are visible to anyone in the firm.</li> <li>Hidden Organization are only be visible to and managed by the [Client Team](https://help.karbonhq.com/en/articles/1524707-create-a-client-team).</li>\n",
+            "description": "The privacy level for this Organization.\n\n<ul><li>Public Organization can be managed by anyone in the firm</li> <li>Private Organization can only be managed by the [Client Team](https://help.karbonhq.com/en/articles/1524707-create-a-client-team). Basic details (name of the Organization and the Work Items) related to such Organization are visible to anyone in the firm.</li> <li>Hidden Organization are only be visible to and managed by the [Client Team](https://help.karbonhq.com/en/articles/1524707-create-a-client-team).</li>\nSetting `Private` requires the calling API application to have the `IncludePrivate` permission; setting `Hidden` requires `IncludeHidden`. `Public` is always allowed. Omitting this field leaves the existing value unchanged.\n",
             "default": "Public",
             "enum": ["Public", "Private", "Hidden"]
           },
@@ -12285,6 +14467,11 @@
             "enum": ["WorkItem", "Contact", "Organization"],
             "description": "The type of entity the file list is associated with"
           },
+          "TotalCount": {
+            "type": "integer",
+            "example": 128,
+            "description": "The number of files matching the `$filter` expression, before `$skip` and `$top` are applied"
+          },
           "Attachments": {
             "type": "array",
             "description": "An array of Files including a name, mimetype, size, creation timestamp and download url",
@@ -12302,6 +14489,12 @@
             "type": "string",
             "example": "S8bsBjvCRJ3",
             "description": "The unique key of the file"
+          },
+          "Source": {
+            "type": "string",
+            "example": "Organization",
+            "enum": ["WorkItem", "Contact", "Organization"],
+            "description": "The type of entity the file was uploaded against"
           },
           "FileName": {
             "type": "string",
@@ -12328,6 +14521,16 @@
             "format": "date-time",
             "example": "2024-07-18T23:44:26Z",
             "description": "The timestamp of when the file was created"
+          },
+          "IsArchived": {
+            "type": "boolean",
+            "example": false,
+            "description": "Whether the file has been archived"
+          },
+          "IsShared": {
+            "type": "boolean",
+            "example": true,
+            "description": "Whether the client can see the file. Files uploaded by a client, or attached to a Client Task, External Comment, Approval or eSignature, are always shared. Read-only."
           }
         }
       },
@@ -12480,9 +14683,9 @@
         "properties": {
           "IndividualTimeEntryKey": {
             "type": "string",
-            "format": "uuid",
-            "example": "a1b2c3d4-e5f6-7890-abcd-ef1234567890",
-            "description": "A Karbon-generated GUID key used to uniquely identify the individual time entry"
+            "maxLength": 32,
+            "example": "a1b2c3d4e5f67890abcdef1234567890",
+            "description": "A Karbon-generated GUID key used to uniquely identify the individual time entry (32-character hex string, no hyphens)"
           },
           "TimesheetKey": {
             "type": "string",
@@ -12524,6 +14727,11 @@
             "type": "string",
             "example": "Tax Return",
             "description": "The type of task performed by the user"
+          },
+          "TaskTypeIsBillable": {
+            "type": "boolean",
+            "example": true,
+            "description": "Indicates whether the task type is configured as billable. A value of false means the time entry will not be billed regardless of the entity's billing type or the entry's BilledStatus."
           },
           "Date": {
             "type": "string",
@@ -12766,10 +14974,37 @@
             "maxLength": 2000
           },
           "WebhookType": {
-            "type": "string",
-            "description": "The type of Karbon entity, which the Webhook Subscription is associated with",
+            "type": ["string", "null"],
+            "description": "The type of Karbon entity, which the Webhook Subscription is associated with. `Multi` on the response to the `POST` that created a multi-type subscription; `null` when that same subscription is retrieved afterwards via `GET` — use `WebhookTypes` instead.",
             "example": "Contact",
-            "enum": ["Contact", "CustomField", "Work", "Note", "User", "IntegrationTask", "Invoice", "EstimateSummary"]
+            "enum": [
+              "Contact",
+              "CustomField",
+              "Work",
+              "Note",
+              "User",
+              "IntegrationTask",
+              "Invoice",
+              "EstimateSummary",
+              "Multi",
+              null
+            ]
+          },
+          "WebhookTypes": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Present on a multi-type subscription. The set of resource types this subscription receives notifications for.",
+            "example": ["Contact", "Work"]
+          },
+          "BatchSize": {
+            "type": "integer",
+            "description": "The number of notifications accumulated before delivery as a single batch."
+          },
+          "BatchMaxDelaySeconds": {
+            "type": "integer",
+            "description": "The additional delay, in seconds, applied on top of the standard 60-second dispatch window before a batch is sent."
           }
         }
       },
@@ -12792,6 +15027,32 @@
           }
         ]
       },
+      "UpdateWorkSchedule": {
+        "description": "The properties that can be updated on a Work Schedule with the PATCH method",
+        "type": "object",
+        "properties": {
+          "ScheduleEndDate": {
+            "oneOf": [
+              {
+                "type": ["string", "null"],
+                "example": "2026-12-31T00:00:00Z",
+                "format": "date-time"
+              },
+              {
+                "type": ["string", "null"],
+                "example": "2026-12-31",
+                "format": "date"
+              }
+            ],
+            "description": "The date the Work Schedule should stop producing new Work Items, as an ISO8601 formatted datestamp or timestamp. Pass `null` to clear an existing end date."
+          },
+          "AssigneeUserKey": {
+            "type": ["string", "null"],
+            "example": "3VQ8Qrq944NW",
+            "description": "The key of an existing Karbon user to assign the Work Schedule's generated Work Items to. Changing this reassigns every incomplete Work Item in the series; completed Work Items are unchanged. Once set, assignee cannot be cleared."
+          }
+        }
+      },
       "WorkScheduleRequest": {
         "description": "A single Work Schedule",
         "required": [
@@ -12807,6 +15068,11 @@
         ],
         "type": "object",
         "properties": {
+          "AssigneeUserKey": {
+            "type": ["string", "null"],
+            "example": "3VQ8Qrq944NW",
+            "description": "The key of an existing Karbon user to assign the Work Schedule's generated Work Items to. On PUT, a null or omitted value leaves the current assignee unchanged. Once set, assignee cannot be cleared. Changing the assignee reassigns every incomplete Work Item in the series; completed Work Items are unchanged."
+          },
           "CreatedFromWorkItemKey": {
             "type": "string",
             "description": "The key of the Work Item, which the Work Schedule will be assigned to. This value will be `null`.",
@@ -12845,13 +15111,14 @@
           },
           "ScheduleDueDateMethod": {
             "type": "string",
-            "description": "The method that should be used to count the Due Date for the Work Item",
+            "description": "The method that should be used to count the Due Date for the Work Item.\n\n`OnFilingDate` sets the Due Date from a filing deadline, and requires `ScheduleDueDateFilingDeadlineKey` and `ScheduleDueDateResolveType`.\n",
             "enum": [
               "DaysFromStartDate",
               "DayOfMonth",
               "LastDayOfMonth",
               "DayOfNextMonth",
               "DayOfSubsequentMonth",
+              "OnFilingDate",
               "NoDueDate"
             ],
             "example": "DaysFromStartDate"
@@ -12867,6 +15134,54 @@
             "format": "int32",
             "description": "The value to denote the number of the months, if the due date is after 2 months.\n\nThis property is only applicable if `ScheduleDueDateMethod` is set to `DayOfSubsequentMonth`.\n\nExample of usage: <table> <thead>\n<th>ScheduleDueDateMethod</th>\n<th>ScheduleDueDateDays</th>\n<th>ScheduleDueDateMonthMultiple</th>\n<th>Read Due Date as</th>\n</thead> <tbody>\n<tr>\n<td>DaysFromStartDate</td>\n<td>7</td>\n<td>3</td>\n<td>7th day of the 3rd month after start date</td>\n</tr>\n</tbody> </table>\n",
             "example": 3
+          },
+          "ScheduleDeadlineDateMethod": {
+            "type": "string",
+            "description": "The method that should be used to count the Deadline Date for the Work Item.\n\n`OnFilingDate` sets the Deadline Date from a filing deadline, and requires `ScheduleDeadlineDateFilingDeadlineKey` and `ScheduleDeadlineDateResolveType`.\n\nCompanies House-driven deadline methods are not available through the API; setting `ScheduleDeadlineDateMethod` to `CompaniesHouseAccountsDueDate` or `CompaniesHouseConfirmationStatementDueDate` returns a `400`.\n\nOn `PUT`, omitting this property leaves the existing deadline date configuration unchanged. To remove a deadline date, set this to `NoDeadlineDate` explicitly.\n",
+            "enum": [
+              "DaysFromStartDate",
+              "DayOfMonth",
+              "LastDayOfMonth",
+              "DayOfNextMonth",
+              "DayOfSubsequentMonth",
+              "OnFilingDate",
+              "NoDeadlineDate"
+            ],
+            "example": "DaysFromStartDate"
+          },
+          "ScheduleDeadlineDateDays": {
+            "type": "integer",
+            "format": "int32",
+            "description": "The value of the count for the Deadline Date\n\nThis property is not applicable if `ScheduleDeadlineDateMethod` is set to `LastDayOfMonth` or `NoDeadlineDate`.\n\nExample of usage: <table> <thead>\n<th>ScheduleDeadlineDateMethod</th>\n<th>ScheduleDeadlineDateDays</th>\n<th>Read Deadline Date as</th>\n</thead> <tbody>\n<tr>\n<td>DaysFromStartDate</td>\n<td>7</td>\n<td>7 days after start date</td>\n</tr>\n<tr>\n<td>DayOfMonth</td>\n<td>7</td>\n<td>7th day of the current month</td>\n</tr>\n<tr>\n<td>LastDayOfMonth</td>\n<td>N/A</td>\n<td>Last day of the current month</td>\n</tr>\n<tr>\n<td>DayOfNextMonth</td>\n<td>7</td>\n<td>7th day of the next month</td>\n</tr>\n<tr>\n<td>NoDeadlineDate</td>\n<td>N/A</td>\n<td>Work has no deadline date</td>\n</tr>\n</tbody> </table>\n",
+            "example": 7
+          },
+          "ScheduleDeadlineDateMonthMultiple": {
+            "type": "integer",
+            "format": "int32",
+            "description": "The value to denote the number of the months, if the deadline date is after 2 months.\n\nThis property is only applicable if `ScheduleDeadlineDateMethod` is set to `DayOfSubsequentMonth`.\n\nExample of usage: <table> <thead>\n<th>ScheduleDeadlineDateMethod</th>\n<th>ScheduleDeadlineDateDays</th>\n<th>ScheduleDeadlineDateMonthMultiple</th>\n<th>Read Deadline Date as</th>\n</thead> <tbody>\n<tr>\n<td>DaysFromStartDate</td>\n<td>7</td>\n<td>3</td>\n<td>7th day of the 3rd month after start date</td>\n</tr>\n</tbody> </table>\n",
+            "example": 3
+          },
+          "ScheduleDueDateFilingDeadlineKey": {
+            "type": "string",
+            "description": "The key of the filing deadline the Due Date is based on. Valid keys are listed under `FilingDeadlines` in `GET /v3/TenantSettings`.\n\nRequired when `ScheduleDueDateMethod` is `OnFilingDate`, and can only be set with that method. On `PUT`, omitting this property keeps the schedule's existing filing deadline.\n",
+            "example": "2kTn7wQpXc4R"
+          },
+          "ScheduleDueDateResolveType": {
+            "type": "string",
+            "description": "Whether the Due Date uses the filing deadline's date (`FilingDeadline`) or its extension date (`FilingDeadlineExtension`). Required when `ScheduleDueDateFilingDeadlineKey` is set.",
+            "enum": ["FilingDeadline", "FilingDeadlineExtension"],
+            "example": "FilingDeadline"
+          },
+          "ScheduleDeadlineDateFilingDeadlineKey": {
+            "type": "string",
+            "description": "The key of the filing deadline the Deadline Date is based on. Valid keys are listed under `FilingDeadlines` in `GET /v3/TenantSettings`.\n\nRequired when `ScheduleDeadlineDateMethod` is `OnFilingDate`, and can only be set with that method. On `PUT`, omitting this property keeps the schedule's existing filing deadline.\n",
+            "example": "2kTn7wQpXc4R"
+          },
+          "ScheduleDeadlineDateResolveType": {
+            "type": "string",
+            "description": "Whether the Deadline Date uses the filing deadline's date (`FilingDeadline`) or its extension date (`FilingDeadlineExtension`). Required when `ScheduleDeadlineDateFilingDeadlineKey` is set.",
+            "enum": ["FilingDeadline", "FilingDeadlineExtension"],
+            "example": "FilingDeadlineExtension"
           },
           "PreventStartEndOnWeekend": {
             "type": "boolean",
@@ -12901,6 +15216,210 @@
             "type": "string",
             "description": "Use this property to define the format of the Work Item title. Karbon offers a series of object that you can use to construct Work Item Title. For more information, see Technical Guide to Work Item Title Definition.\n",
             "example": "[{\"Text\":\"Payroll\",\"Variable\":null,\"Format\":null,\"Offset\":0},{\"Text\":null,\"Variable\":\"RepeatPeriod\",\"Format\":\"DD MMM, YYYY - DD MMM, YYYY\",\"Offset\":0}]"
+          }
+        }
+      },
+      "Team": {
+        "type": "object",
+        "description": "A Karbon team containing a list of member Users and Teams.",
+        "required": ["TeamKey", "Name"],
+        "properties": {
+          "TeamKey": {
+            "type": "string",
+            "example": "2Nw8tnxwQCVf",
+            "description": "A Karbon-generated unique identifier for the Team."
+          },
+          "Name": { "type": "string", "example": "Audit", "description": "The name of the Team." },
+          "Description": {
+            "type": ["string", "null"],
+            "example": "Audit and assurance team",
+            "description": "An optional description of the Team."
+          },
+          "ParentTeamKey": {
+            "type": ["string", "null"],
+            "example": null,
+            "description": "The key of the parent Team when this Team is a sub-team; otherwise null."
+          }
+        }
+      },
+      "Role": {
+        "type": "object",
+        "description": "A Karbon Role (internally an Actor in the Tenant pillar).",
+        "required": ["Key", "Name"],
+        "properties": {
+          "Key": {
+            "type": "string",
+            "example": "abc123",
+            "description": "A Karbon-generated unique identifier for the Role."
+          },
+          "Name": { "type": "string", "example": "Manager", "description": "The name of the Role." }
+        }
+      },
+      "TeamMember": {
+        "type": "object",
+        "description": "A Karbon team member details, either a User or another Team.",
+        "properties": {
+          "Key": {
+            "type": "string",
+            "example": "3VQ8Qrq944NW",
+            "description": "The key of the member — a UserKey when Type is 'User', or a TeamKey when Type is 'Team'."
+          },
+          "Type": {
+            "type": "string",
+            "enum": ["User", "Team"],
+            "example": "User",
+            "description": "The kind of member: an individual user, or a sub-team."
+          },
+          "Name": { "type": "string", "example": "Alex Smith", "description": "The display name of the member." }
+        }
+      },
+      "TeamProfile": {
+        "description": "A single Team including its members.",
+        "allOf": [
+          { "$ref": "#/components/schemas/Team" },
+          {
+            "type": "object",
+            "properties": {
+              "Members": {
+                "type": "array",
+                "description": "The Team's members. Active users and sub-teams only; archived users are excluded.",
+                "items": { "$ref": "#/components/schemas/TeamMember" }
+              }
+            }
+          }
+        ]
+      },
+      "Segment": {
+        "type": "object",
+        "description": "A shared Contact Segment",
+        "properties": {
+          "SegmentKey": {
+            "type": "string",
+            "description": "A Karbon-generated value used to identify the Segment",
+            "example": "4fGh7JkL2mNp"
+          },
+          "Name": {
+            "type": "string",
+            "description": "The name of the Segment",
+            "example": "Monthly bookkeeping clients"
+          },
+          "SegmentType": {
+            "type": "string",
+            "description": "The type of the Segment. Only Contact Segments are returned.",
+            "enum": ["Contacts"],
+            "example": "Contacts"
+          },
+          "ModifiedDate": {
+            "type": ["string", "null"],
+            "format": "date-time",
+            "description": "The date and time at which the Segment was last modified",
+            "example": "2026-09-14T03:21:00Z"
+          }
+        }
+      },
+      "GetSegments": {
+        "type": "object",
+        "description": "The API response containing the shared Contact Segments on the account.",
+        "properties": {
+          "@odata.context": {
+            "type": "string",
+            "example": "https://api.karbonhq.com/v3/$metadata#Segments"
+          },
+          "value": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Segment"
+            }
+          }
+        }
+      },
+      "GetSegmentMembers": {
+        "type": "object",
+        "description": "A page of the Contacts and Organizations in a Segment.",
+        "properties": {
+          "@odata.context": {
+            "type": "string",
+            "example": "https://api.karbonhq.com/v3/$metadata#Segments('4fGh7JkL2mNp')/Members"
+          },
+          "@odata.count": {
+            "type": "integer",
+            "description": "The total number of members in the Segment",
+            "example": 248
+          },
+          "@odata.nextLink": {
+            "type": "string",
+            "description": "The URL of the next page. Omitted on the last page.",
+            "example": "https://api.karbonhq.com/v3/Segments/4fGh7JkL2mNp/Members?$skip=100"
+          },
+          "value": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "EntityKey": {
+                  "type": "string",
+                  "description": "The key of the Contact or Organization",
+                  "example": "7wPqXnT4mBjK"
+                },
+                "EntityType": {
+                  "type": "string",
+                  "description": "Whether the member is a Contact or an Organization",
+                  "enum": ["Contact", "Organization"],
+                  "example": "Organization"
+                }
+              }
+            }
+          }
+        }
+      },
+      "GetTeams": {
+        "type": "object",
+        "description": "The API response containing a list of Teams in Karbon.",
+        "properties": {
+          "@odata.context": { "type": "string", "example": "https://api.karbonhq.com/v3/$metadata#Teams" },
+          "@odata.count": { "type": "integer", "example": 1 },
+          "@odata.nextLink": { "type": "string", "example": "https://api.karbonhq.com/v3/Teams?$skip=200&$top=200" },
+          "value": {
+            "type": "array",
+            "items": { "$ref": "#/components/schemas/Team" }
+          }
+        }
+      },
+      "GetRoles": {
+        "type": "object",
+        "description": "The API response containing a list of Roles in Karbon.",
+        "properties": {
+          "@odata.context": { "type": "string", "example": "https://api.karbonhq.com/v3/$metadata#Roles" },
+          "@odata.count": { "type": "integer", "example": 1 },
+          "@odata.nextLink": { "type": "string", "example": "https://api.karbonhq.com/v3/Roles?$skip=200&$top=200" },
+          "value": {
+            "type": "array",
+            "items": { "$ref": "#/components/schemas/Role" }
+          }
+        }
+      },
+      "AddTeamMembers": {
+        "type": "object",
+        "description": "The user profile keys to add as members of a Team.",
+        "required": ["UserKeys"],
+        "properties": {
+          "UserKeys": {
+            "type": "array",
+            "items": { "type": "string" },
+            "example": ["3VQ8Qrq944NW", "4WR9Srq055PX"],
+            "description": "The keys of the users to add. Must be non-empty. Users already on the Team are skipped."
+          }
+        }
+      },
+      "RemoveTeamMember": {
+        "type": "object",
+        "description": "The user profile key to remove from a Team.",
+        "required": ["UserKey"],
+        "properties": {
+          "UserKey": {
+            "type": "string",
+            "example": "3VQ8Qrq944NW",
+            "description": "The key of the user to remove."
           }
         }
       },
@@ -12995,6 +15514,7 @@
               "LastDayOfMonth",
               "DayOfNextMonth",
               "DayOfSubsequentMonth",
+              "OnFilingDate",
               "NoDueDate"
             ],
             "example": "DaysFromStartDate"
@@ -13010,6 +15530,54 @@
             "format": "int32",
             "description": "The value to denote the number of the months, if the due date is after 2 months.\n\nThis property is only applicable if `ScheduleDueDateMethod` is set to `DayOfSubsequentMonth`.\n\nExample of usage: <table> <thead>\n<th>ScheduleDueDateMethod</th>\n<th>ScheduleDueDateDays</th>\n<th>ScheduleDueDateMonthMultiple</th>\n<th>Read Due Date as</th>\n</thead> <tbody>\n<tr>\n<td>DaysFromStartDate</td>\n<td>7</td>\n<td>3</td>\n<td>7th day of the 3rd month after start\ndate</td>\n</tr>\n</tbody> </table>\n",
             "example": 3
+          },
+          "ScheduleDeadlineDateMethod": {
+            "type": "string",
+            "description": "The method that should be used to count the Deadline Date for the Work Item.\n\nCompanies House-driven deadline methods are not available through the API; setting `ScheduleDeadlineDateMethod` to `CompaniesHouseAccountsDueDate` or `CompaniesHouseConfirmationStatementDueDate` returns a `400`.\n",
+            "enum": [
+              "DaysFromStartDate",
+              "DayOfMonth",
+              "LastDayOfMonth",
+              "DayOfNextMonth",
+              "DayOfSubsequentMonth",
+              "OnFilingDate",
+              "NoDeadlineDate"
+            ],
+            "example": "DaysFromStartDate"
+          },
+          "ScheduleDeadlineDateDays": {
+            "type": "integer",
+            "format": "int32",
+            "description": "The value of the count for the Deadline Date\n\nThis property is not applicable if `ScheduleDeadlineDateMethod` is set to `LastDayOfMonth` or `NoDeadlineDate`.\n\nExample of usage:  <table>\n<th>ScheduleDeadlineDateMethod</th>\n<th>ScheduleDeadlineDateDays</th>\n<th>Read Deadline Date as</th>\n<tr>\n<td>DaysFromStartDate</td>\n<td>7</td>\n<td>7 days after start date</td>\n</tr>\n<tr>\n<td>DayOfMonth</td>\n<td>7</td>\n<td>7th day of the current month</td>\n</tr>\n<tr>\n<td>LastDayOfMonth</td>\n<td>N/A</td>\n<td>Last day of the current month</td>\n</tr>\n<tr>\n<td>DayOfNextMonth</td>\n<td>7</td>\n<td>7th day of the next month</td>\n</tr>\n<tr>\n<td>NoDeadlineDate</td>\n<td>N/A</td>\n<td>Work has no deadline date</td>\n</tr>\n</table>\n",
+            "example": 7
+          },
+          "ScheduleDeadlineDateMonthMultiple": {
+            "type": "integer",
+            "format": "int32",
+            "description": "The value to denote the number of the months, if the deadline date is after 2 months.\n\nThis property is only applicable if `ScheduleDeadlineDateMethod` is set to `DayOfSubsequentMonth`.\n\nExample of usage: <table> <thead>\n<th>ScheduleDeadlineDateMethod</th>\n<th>ScheduleDeadlineDateDays</th>\n<th>ScheduleDeadlineDateMonthMultiple</th>\n<th>Read Deadline Date as</th>\n</thead> <tbody>\n<tr>\n<td>DaysFromStartDate</td>\n<td>7</td>\n<td>3</td>\n<td>7th day of the 3rd month after start\ndate</td>\n</tr>\n</tbody> </table>\n",
+            "example": 3
+          },
+          "ScheduleDueDateFilingDeadlineKey": {
+            "type": ["string", "null"],
+            "description": "The key of the filing deadline the Due Date is based on. `null` unless `ScheduleDueDateMethod` is `OnFilingDate`.",
+            "example": "2kTn7wQpXc4R"
+          },
+          "ScheduleDueDateResolveType": {
+            "type": ["string", "null"],
+            "description": "Whether the Due Date uses the filing deadline's date (`FilingDeadline`) or its extension date (`FilingDeadlineExtension`). `null` unless `ScheduleDueDateMethod` is `OnFilingDate`.",
+            "enum": ["FilingDeadline", "FilingDeadlineExtension", null],
+            "example": "FilingDeadline"
+          },
+          "ScheduleDeadlineDateFilingDeadlineKey": {
+            "type": ["string", "null"],
+            "description": "The key of the filing deadline the Deadline Date is based on. `null` unless `ScheduleDeadlineDateMethod` is `OnFilingDate`.",
+            "example": null
+          },
+          "ScheduleDeadlineDateResolveType": {
+            "type": ["string", "null"],
+            "description": "Whether the Deadline Date uses the filing deadline's date (`FilingDeadline`) or its extension date (`FilingDeadlineExtension`). `null` unless `ScheduleDeadlineDateMethod` is `OnFilingDate`.",
+            "enum": ["FilingDeadline", "FilingDeadlineExtension", null],
+            "example": null
           },
           "AssigneeUserKey": {
             "type": "string",
@@ -13403,6 +15971,30 @@
           }
         }
       },
+      "SettingServiceType": {
+        "description": "The schema for a single Service Type entry",
+        "type": "object",
+        "properties": {
+          "Name": {
+            "type": "string",
+            "description": "The name assigned to the Service Type",
+            "example": "Tax Compliance"
+          },
+          "ServiceTypeKey": {
+            "type": "string",
+            "description": "The unique key assigned to the Service Type",
+            "example": "5kQr8VtLm2xP"
+          },
+          "WorkTypeKeys": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "description": "The unique key of a Work Type belonging to this Service Type, matching a WorkTypeKey in the WorkTypes array",
+              "example": "nTlQkTQnNz7"
+            }
+          }
+        }
+      },
       "IntegrationTaskDefinitions": {
         "description": "A list of Integration Task Definitions",
         "type": "object",
@@ -13582,6 +16174,7 @@
         "properties": {
           "TaskName": {
             "type": "string",
+            "maxLength": 200,
             "example": "Example Integration Task",
             "description": "The name of the specific Integration Task Definition"
           },
@@ -13641,6 +16234,7 @@
           },
           "TaskStatus": {
             "type": "string",
+            "maxLength": 50,
             "example": "Viewed by Client"
           },
           "PrimaryStatus": {
@@ -13654,6 +16248,7 @@
           },
           "TaskData": {
             "type": "array",
+            "description": "Key/value metadata for the task. The combined serialized content must not exceed 4000 characters.",
             "example": [
               {
                 "Key": "Progress",
@@ -13910,6 +16505,52 @@
           }
         }
       },
+      "note-comment-webhook": {
+        "description": "The schema for Note webhook payloads",
+        "type": "object",
+        "properties": {
+          "ResourcePermaKey": {
+            "type": "string",
+            "description": "The key for the resource that has been created or updated",
+            "example": "kCsVf7svWQw",
+            "readOnly": true
+          },
+          "ResourceType": {
+            "type": "string",
+            "enum": ["NoteComment"],
+            "description": "The type of resource that has been created or updated",
+            "example": "NoteComment",
+            "readOnly": true
+          },
+          "ActionType": {
+            "type": "string",
+            "description": "The action that triggered the webhook notification to be sent",
+            "enum": ["Inserted", "Updated", "Deleted"],
+            "example": "Updated",
+            "readOnly": true
+          },
+          "TimeStamp": {
+            "type": "string",
+            "format": "date-time",
+            "description": "The timestamp the associated resource was last altered",
+            "example": "2024-08-01T21:54:36Z",
+            "readOnly": true
+          },
+          "ParentEntityType": {
+            "type": "string",
+            "enum": ["Note"],
+            "description": "The resource type of the parent entity the note comment was created on",
+            "example": "Note",
+            "readOnly": true
+          },
+          "ParentEntityKey": {
+            "type": "string",
+            "description": "The key for the parent of the resource that has been created or updated",
+            "example": "2TTFWz8L5SSt",
+            "readOnly": true
+          }
+        }
+      },
       "user-webhook": {
         "description": "The schema for User webhook payloads",
         "type": "object",
@@ -13973,6 +16614,64 @@
             "description": "The timestamp the associated resource was last altered",
             "example": "2024-08-01T21:54:36Z",
             "readOnly": true
+          }
+        }
+      },
+      "webhook-batch-event": {
+        "description": "A single resource-change event within a batched webhook delivery",
+        "type": "object",
+        "properties": {
+          "ResourcePermaKey": {
+            "type": "string",
+            "description": "The key for the resource that has been created or updated",
+            "example": "3GBF6TnYRc7C",
+            "readOnly": true
+          },
+          "ResourceType": {
+            "type": "string",
+            "description": "The type of resource that has been created or updated. Note this uses `WorkItem`, not `Work` as used elsewhere for this resource type.",
+            "example": "WorkItem",
+            "readOnly": true
+          },
+          "ActionType": {
+            "type": "string",
+            "description": "The action that triggered the event",
+            "enum": ["Inserted", "Updated", "Deleted"],
+            "example": "Inserted",
+            "readOnly": true
+          },
+          "Timestamp": {
+            "type": "string",
+            "format": "date-time",
+            "description": "The timestamp the associated resource was altered. Note the casing differs from `TimeStamp` on the single-event payloads above.",
+            "example": "2026-09-02T03:49:42Z",
+            "readOnly": true
+          }
+        }
+      },
+      "webhook-batch": {
+        "description": "The schema for a batched webhook delivery, sent instead of a single-event payload when a Webhook Subscription has `BatchSize` set to more than 1",
+        "type": "object",
+        "properties": {
+          "BatchId": {
+            "type": "string",
+            "format": "uuid",
+            "description": "A unique identifier for this batch",
+            "example": "70575b82-9a31-4576-a4e7-61e20c42189d",
+            "readOnly": true
+          },
+          "Count": {
+            "type": "integer",
+            "description": "The number of events in this batch",
+            "example": 3,
+            "readOnly": true
+          },
+          "Events": {
+            "type": "array",
+            "description": "The events in this batch, in the order they occurred",
+            "items": {
+              "$ref": "#/components/schemas/webhook-batch-event"
+            }
           }
         }
       }
@@ -14227,6 +16926,15 @@
           }
         }
       },
+      "IndividualTimeEntry_Invalid_Key_400": {
+        "description": "The error returned when the provided IndividualTimeEntryKey is not a valid GUID",
+        "value": {
+          "error": {
+            "code": "4002",
+            "message": "Provided key must be a valid GUID."
+          }
+        }
+      },
       "IndividualTimeEntry_Key_Not_Found_404": {
         "description": "The error returned when an individual time entry cannot be found for the provided key",
         "value": {
@@ -14341,6 +17049,15 @@
           "error": {
             "code": "4002",
             "message": "Invalid property to update. Only FullName can be patched"
+          }
+        }
+      },
+      "RestrictionLevel_Permission_Denied": {
+        "description": "The error returned when a request sets RestrictionLevel to a value the calling API application does not have permission to use",
+        "value": {
+          "error": {
+            "code": "4021",
+            "message": "This API application does not have permission to set RestrictionLevel to Hidden."
           }
         }
       },
@@ -14494,6 +17211,15 @@
           "error": {
             "code": "5001",
             "message": "Name and Email Address can not be null or empty"
+          }
+        }
+      },
+      "Conflict_StaleObjectState": {
+        "description": "The error returned when two requests race to update the same resource and the later commit is rejected by optimistic concurrency control.",
+        "value": {
+          "error": {
+            "code": "4020",
+            "message": "The resource was modified by another request. Refetch the latest version and retry."
           }
         }
       }
