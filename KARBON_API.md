@@ -220,11 +220,11 @@ Used when creating or referencing Work Items:
 
 `AssigneeEmailAddress`, `Title`, `ClientKey`, `ClientType`, `StartDate`
 
-PATCH supports `Title`, `Description`, `StartDate`, `DueDate`, `DeadlineDate`, `AssigneeEmailAddress`, `WorkType`, `UserRoleAssignments`, `PrimaryStatus`, and `SecondaryStatus`. Any other property in the request body returns a `400`. `UserRoleAssignments` (`[{ RoleKey, UserProfileKey }]`) replaces the full set of role assignments; reassigning a role moves its time estimates to the new user. `SecondaryStatus` requires `PrimaryStatus` in the same request; `PrimaryStatus` alone clears the secondary status.
+PATCH supports `Title`, `Description`, `StartDate`, `DueDate`, `DeadlineDate`, `AssigneeEmailAddress`, `WorkType`, `UserRoleAssignments`, `PrimaryStatus`, `SecondaryStatus`, and `FeeSettings`. Any other property in the request body returns a `400`. `UserRoleAssignments` (`[{ RoleKey, UserProfileKey }]`) replaces the full set of role assignments; reassigning a role moves its time estimates to the new user. `SecondaryStatus` requires `PrimaryStatus` in the same request; `PrimaryStatus` alone clears the secondary status.
 
 ### WorkItem fee settings
 
-Set billing behaviour via `FeeSettings` in POST/PUT body:
+Set billing behaviour via `FeeSettings` in POST/PUT/PATCH body. On PATCH it replaces the whole object, and returns `422` when an engagement or approved recurring invoice manages the fee settings (other patched properties are still applied):
 
 | `FeeType`          | `FeeValue`               |
 | ------------------ | ------------------------ |

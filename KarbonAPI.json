@@ -10437,7 +10437,7 @@
             "description": "The Karbon-generated Work Item key"
           }
         ],
-        "description": "Use the `PATCH` method on this endpoint to update partial details of a Work Item (specified using the WorkItemKey).\n\nThis method supports editing the `Title`, `Description`, `StartDate`, `DueDate`, `DeadlineDate`, `AssigneeEmailAddress`, `WorkType`, `UserRoleAssignments`, `PrimaryStatus`, and `SecondaryStatus` properties. Sending any other property in the request body returns a `400`.\n\n`UserRoleAssignments` replaces the full set of role assignments on the Work Item. Reassigning a role also moves any time estimates on that role to the new user.\n\n`PrimaryStatus` is required when `SecondaryStatus` is sent. Sending `PrimaryStatus` on its own clears the existing `SecondaryStatus`. `SecondaryStatus` must belong to the `PrimaryStatus` and be enabled for the Work Item's `WorkType`; otherwise the request returns a `400`.",
+        "description": "Use the `PATCH` method on this endpoint to update partial details of a Work Item (specified using the WorkItemKey).\n\nThis method supports editing the `Title`, `Description`, `StartDate`, `DueDate`, `DeadlineDate`, `AssigneeEmailAddress`, `WorkType`, `UserRoleAssignments`, `PrimaryStatus`, `SecondaryStatus`, and `FeeSettings` properties. Sending any other property in the request body returns a `400`.\n\n`UserRoleAssignments` replaces the full set of role assignments on the Work Item. Reassigning a role also moves any time estimates on that role to the new user.\n\n`PrimaryStatus` is required when `SecondaryStatus` is sent. Sending `PrimaryStatus` on its own clears the existing `SecondaryStatus`. `SecondaryStatus` must belong to the `PrimaryStatus` and be enabled for the Work Item's `WorkType`; otherwise the request returns a `400`.\n\n`FeeSettings` replaces the Work Item's fee settings as a whole. `FeeType` is required, and `FeeValue` is required for `FixedFee` and must be `null` for any other `FeeType`; otherwise the request returns a `400`. Fee settings managed by an engagement or an approved recurring invoice can't be changed: the request returns a `422`, but any other properties in the same request are still applied.",
         "operationId": "patchWorkItemByID",
         "responses": {
           "204": {
@@ -10531,6 +10531,16 @@
                   "Stale Object State": {
                     "$ref": "#/components/examples/Conflict_StaleObjectState"
                   }
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Unprocessable Entity. Returned when `FeeSettings` is sent but the Work Item's fee settings are managed by an engagement or an approved recurring invoice. Any other properties in the request are still applied.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorMessages"
                 }
               }
             }
@@ -13922,6 +13932,28 @@
                 "type": "string",
                 "description": "The name of the child-level Status of the Work Item. Must belong to the `PrimaryStatus` sent in the same request and be enabled for the Work Item's `WorkType`; otherwise returns a `400`. Valid values are listed under `WorkStatuses` in `GET /v3/TenantSettings`.",
                 "example": "Send client requests"
+              }
+            }
+          },
+          {
+            "properties": {
+              "FeeSettings": {
+                "type": "object",
+                "description": "How the Work Item will be billed. Replaces the existing fee settings as a whole. Returns a `422` when the fee settings are managed by an engagement or an approved recurring invoice.",
+                "required": ["FeeType"],
+                "properties": {
+                  "FeeType": {
+                    "type": "string",
+                    "description": "The way the fee is calculated for the Work Item",
+                    "enum": ["FixedFee", "TimeAndMaterials", "NonBillable"],
+                    "example": "FixedFee"
+                  },
+                  "FeeValue": {
+                    "type": ["number", "null"],
+                    "description": "The value of the fee in the currency of the Karbon account. Required when `FeeType` is `FixedFee`; must be `null` otherwise.",
+                    "example": 1500
+                  }
+                }
               }
             }
           }
