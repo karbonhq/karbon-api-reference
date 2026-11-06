@@ -1062,6 +1062,23 @@
           },
           {
             "$ref": "#/components/parameters/TopRecords"
+          },
+          {
+            "in": "query",
+            "name": "$orderby",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "PaymentDate",
+                "PaymentDate desc",
+                "PaymentReference",
+                "PaymentReference desc",
+                "GrossAmount",
+                "GrossAmount desc"
+              ]
+            },
+            "example": "PaymentDate desc",
+            "description": "Sort on one of `PaymentDate`, `PaymentReference` or `GrossAmount`, ascending or descending. Sort on one property at a time; any other property, or more than one, returns a `400`. `PaymentReference` sorts as text, so `KPY-10000` comes before `KPY-9999`."
           }
         ],
         "description": "Use the `GET` method on this endpoint to receive a list of Payments",
@@ -1205,6 +1222,21 @@
                       }
                     }
                   ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request: `$orderby` uses an unsupported property or more than one property.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorMessages"
+                },
+                "examples": {
+                  "Unsupported Sort Property": {
+                    "$ref": "#/components/examples/Orderby_Unsupported_Property"
+                  }
                 }
               }
             }
@@ -6317,7 +6349,7 @@
       "post": {
         "tags": ["Files"],
         "summary": "Uploads and links a file",
-        "description": "Use the `POST` method on this endpoint to upload and link a file to an entity in your tenant.\n\nNote that this endpoint **only supports uploading files from the local network** but not from the web.\n",
+        "description": "Use the `POST` method on this endpoint to upload and link a file to an entity in your tenant.\n\nNote that this endpoint **only supports uploading files from the local network** but not from the web.\n\nTo upload into a Work Item folder, send `folder_path` with exactly one `workitem_keys` value. The `201` response includes the file's `FolderPath`.",
         "operationId": "createFile",
         "responses": {
           "201": {
@@ -6390,6 +6422,38 @@
                 "examples": {
                   "Unsupported Option": {
                     "$ref": "#/components/examples/Unsupported_option"
+                  },
+                  "Folder Not Found": {
+                    "value": {
+                      "error": {
+                        "code": "4002",
+                        "message": "This work item has no folder with the path 'Received/API Uploads'."
+                      }
+                    }
+                  },
+                  "Client Portal Folder": {
+                    "value": {
+                      "error": {
+                        "code": "4002",
+                        "message": "Files can't be put in a client portal folder."
+                      }
+                    }
+                  },
+                  "Folders Not Turned On": {
+                    "value": {
+                      "error": {
+                        "code": "4002",
+                        "message": "Work item folders aren't turned on for this account."
+                      }
+                    }
+                  },
+                  "Folder Path Needs One Work Item": {
+                    "value": {
+                      "error": {
+                        "code": "4002",
+                        "message": "folder_path can only be used with exactly one workitem_keys value and no other entity keys."
+                      }
+                    }
                   }
                 }
               }
@@ -6420,6 +6484,26 @@
                 "examples": {
                   "Resource Not Found": {
                     "$ref": "#/components/examples/HTTP_Resource_Not_Found"
+                  }
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Conflict: the folder changed while the file was uploading (for example, it was deleted), so the upload was removed.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorMessages"
+                },
+                "examples": {
+                  "Folder Changed": {
+                    "value": {
+                      "error": {
+                        "code": "4020",
+                        "message": "The file couldn't be put in the folder 'Received/API Uploads'. The folder couldn't be found on this work item."
+                      }
+                    }
                   }
                 }
               }
@@ -6488,6 +6572,11 @@
                     "type": "string",
                     "description": "A Karbon-generated unique identifier for the Work Item, which this file will be associated with",
                     "example": "RXq4mD62PXg"
+                  },
+                  "folder_path": {
+                    "type": "string",
+                    "description": "The `Path` of the Work Item folder to put the file in, as returned by `GET /v3/WorkItems/{WorkItemKey}/Folders`. Matches ignoring case. Send it with exactly one `workitem_keys` value and no other keys. Leave it out, or send it blank, to upload to the Work Item's root.",
+                    "example": "Received/API Uploads"
                   },
                   "integration_task_key": {
                     "type": "string",
@@ -6683,6 +6772,201 @@
                 "examples": {
                   "Resource Not Found": {
                     "$ref": "#/components/examples/HTTP_Resource_Not_Found"
+                  }
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Rate Limit Exceeded",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RateLimitErrorMessage"
+                },
+                "examples": {
+                  "Rate Limit Exceeded": {
+                    "$ref": "#/components/examples/Rate_Limit_Exceeded"
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorMessages"
+                },
+                "examples": {
+                  "Undefined Error": {
+                    "$ref": "#/components/examples/elongated_5001"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "patch": {
+        "tags": ["Files"],
+        "operationId": "updateFileDetails",
+        "summary": "Moves a File between Work Item folders",
+        "description": "Use the `PATCH` method on this endpoint to move a Work Item file into one of its Work Item's folders. `FolderPath` is the only property that can be patched, and it must be sent. Send `\"FolderPath\": null` to move the file back to the Work Item's root.\n\nFiles can be moved out of a client portal folder, but not into one. Returns `204`, or `200` with the file's details when `Prefer: return=representation` is sent.",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "key",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "The FileContextKey of the file to move.",
+            "example": "2S3RNjkR66Ln"
+          },
+          {
+            "in": "header",
+            "name": "Prefer",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "enum": ["return=representation", "return=minimal"]
+            },
+            "description": "Send `return=representation` to receive the moved file's details in a `200` response.",
+            "example": "return=representation"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["FolderPath"],
+                "properties": {
+                  "FolderPath": {
+                    "type": ["string", "null"],
+                    "description": "The `Path` of the folder to move the file into, as returned by `GET /v3/WorkItems/{WorkItemKey}/Folders`. Matches ignoring case. `null` or blank moves the file to the Work Item's root.",
+                    "example": "Received"
+                  }
+                }
+              },
+              "example": {
+                "FolderPath": "Received"
+              }
+            }
+          },
+          "description": "The folder to move the file into"
+        },
+        "responses": {
+          "200": {
+            "description": "File moved; returned when `Prefer: return=representation` is sent",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FileListItem"
+                },
+                "example": {
+                  "FileContextKey": "2S3RNjkR66Ln",
+                  "Source": "WorkItem",
+                  "FileName": "Bank statement - March 2026.pdf",
+                  "FileSize": 248312,
+                  "MimeType": "application/pdf",
+                  "DownloadUrl": "/V3/Files?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJGaWxlQ29udGV4dFBlcm1hS2V5IjoiMlMzUk5qa1I2NkxuIiwiaWF0IjoxNzc1Njk4MjAwLjAsImV4cCI6MTc3NTY5OTEwMC4wfQ.Qm7xR2vKpL9sTn4wZ8cYhJ3dF6gA1eB5uN0iO-tMrXk",
+                  "DateCreated": "2026-04-08T22:47:10Z",
+                  "IsArchived": false,
+                  "IsShared": false,
+                  "FolderPath": "Received"
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "File moved"
+          },
+          "400": {
+            "description": "Bad Request: `FolderPath` is missing or names no single folder on the file's Work Item, the folder is a client portal folder, another property was sent, the file isn't on a Work Item, or work item folders aren't turned on for the account.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorMessages"
+                },
+                "examples": {
+                  "FolderPath Missing": {
+                    "value": {
+                      "error": {
+                        "code": "4002",
+                        "message": "FolderPath is required. Send null to move the file to the work item's root."
+                      }
+                    }
+                  },
+                  "Invalid Property": {
+                    "value": {
+                      "error": {
+                        "code": "4002",
+                        "message": "Invalid property to update. Only FolderPath can be patched."
+                      }
+                    }
+                  },
+                  "Folder Not Found": {
+                    "value": {
+                      "error": {
+                        "code": "4002",
+                        "message": "This work item has no folder with the path 'Received/Bank Statements'."
+                      }
+                    }
+                  },
+                  "Client Portal Folder": {
+                    "value": {
+                      "error": {
+                        "code": "4002",
+                        "message": "Files can't be put in a client portal folder."
+                      }
+                    }
+                  },
+                  "Folders Not Turned On": {
+                    "value": {
+                      "error": {
+                        "code": "4002",
+                        "message": "Work item folders aren't turned on for this account."
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResourceNotFound"
+                },
+                "examples": {
+                  "Unauthorized Access": {
+                    "$ref": "#/components/examples/UnauthorizedAccess"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found: no file exists for the key provided.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorMessages"
+                },
+                "examples": {
+                  "File Not Found": {
+                    "value": {
+                      "error": {
+                        "code": "4004",
+                        "message": "No file found for the provided key"
+                      }
+                    }
                   }
                 }
               }
@@ -7019,6 +7303,379 @@
                   "Unsupported File Type": {
                     "$ref": "#/components/examples/Unsupported_File_Type"
                   },
+                  "Undefined Error": {
+                    "$ref": "#/components/examples/elongated_5001"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v3/WorkItems/{WorkItemKey}/Folders": {
+      "get": {
+        "tags": ["Files"],
+        "operationId": "listWorkItemFolders",
+        "summary": "Lists the Folders on a Work Item",
+        "description": "Use the `GET` method on this endpoint to list a Work Item's folders. A folder is identified by its `Path`: the folder names from the top-level folder down, joined with `/`, such as `Final/Monthly Reports`. Use the `Path` to upload into a folder (`folder_path` on `POST /v3/Files`), to move a file (`PATCH /v3/FileDetails/{key}`) or to list a folder's files (`GET /v3/WorkItems/{WorkItemKey}/Files`).\n\nThis endpoint doesn't support query options. It returns an empty list when work item folders aren't turned on for the account.",
+        "parameters": [
+          {
+            "required": true,
+            "in": "path",
+            "name": "WorkItemKey",
+            "schema": {
+              "type": "string"
+            },
+            "example": "3lHtWNMVcTVQ",
+            "description": "The Karbon-generated Work Item key"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "value": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/WorkItemFolder"
+                      },
+                      "description": "The Work Item's folders",
+                      "example": [
+                        {
+                          "Name": "Received",
+                          "Parent": null,
+                          "Path": "Received"
+                        },
+                        {
+                          "Name": "API Uploads",
+                          "Parent": "Received",
+                          "Path": "Received/API Uploads"
+                        }
+                      ]
+                    }
+                  }
+                },
+                "example": {
+                  "value": [
+                    {
+                      "Name": "Received",
+                      "Parent": null,
+                      "Path": "Received"
+                    },
+                    {
+                      "Name": "API Uploads",
+                      "Parent": "Received",
+                      "Path": "Received/API Uploads"
+                    },
+                    {
+                      "Name": "Working Papers",
+                      "Parent": null,
+                      "Path": "Working Papers"
+                    },
+                    {
+                      "Name": "Final",
+                      "Parent": null,
+                      "Path": "Final"
+                    },
+                    {
+                      "Name": "Monthly Reports",
+                      "Parent": "Final",
+                      "Path": "Final/Monthly Reports"
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResourceNotFound"
+                },
+                "examples": {
+                  "Unauthorized Access": {
+                    "$ref": "#/components/examples/UnauthorizedAccess"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found: no Work Item exists for the key provided.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorMessages"
+                },
+                "examples": {
+                  "Work Item Key Not Found": {
+                    "$ref": "#/components/examples/WorkItem_Key_Not_Found_404"
+                  }
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Rate Limit Exceeded",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RateLimitErrorMessage"
+                },
+                "examples": {
+                  "Rate Limit Exceeded": {
+                    "$ref": "#/components/examples/Rate_Limit_Exceeded"
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorMessages"
+                },
+                "examples": {
+                  "Undefined Error": {
+                    "$ref": "#/components/examples/elongated_5001"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v3/WorkItems/{WorkItemKey}/Files": {
+      "get": {
+        "tags": ["Files"],
+        "operationId": "listWorkItemFiles",
+        "summary": "Lists the Files on a Work Item",
+        "description": "Use the `GET` method on this endpoint to list every file on a Work Item, newest first. Each file includes its `DownloadUrl`, so it can be downloaded without looking it up first. `FolderPath` is `null` for files that aren't in a folder.\n\nTo list the files in one folder, filter on `FolderPath`, e.g. `$filter=FolderPath eq 'Final/Monthly Reports'`. Follow `@odata.nextLink` for the next page.",
+        "parameters": [
+          {
+            "required": true,
+            "in": "path",
+            "name": "WorkItemKey",
+            "schema": {
+              "type": "string"
+            },
+            "example": "3lHtWNMVcTVQ",
+            "description": "The Karbon-generated Work Item key"
+          },
+          {
+            "in": "query",
+            "name": "$filter",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Filter with `eq` on `IsArchived`, `IsShared`, `Source`, `MimeType` and `FolderPath`, combined with `and`. `FolderPath` matches ignoring case.",
+            "examples": {
+              "notArchived": {
+                "value": "IsArchived eq false",
+                "summary": "Only files that have not been archived"
+              },
+              "folder": {
+                "value": "FolderPath eq 'Final/Monthly Reports'",
+                "summary": "Only files in the Final/Monthly Reports folder"
+              },
+              "pdfs": {
+                "value": "MimeType eq 'application/pdf' and IsShared eq true",
+                "summary": "Only PDFs shared with the client"
+              }
+            }
+          },
+          {
+            "in": "query",
+            "name": "$orderby",
+            "schema": {
+              "type": "string",
+              "enum": ["DateCreated", "DateCreated desc"],
+              "default": "DateCreated desc"
+            },
+            "example": "DateCreated",
+            "description": "Sort the files by upload date. Newest first when omitted."
+          },
+          {
+            "in": "query",
+            "name": "$skip",
+            "schema": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "example": 100,
+            "description": "Skip the first n files after filtering and sorting."
+          },
+          {
+            "in": "query",
+            "name": "$top",
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 500
+            },
+            "example": 100,
+            "description": "Limit the number of files returned, up to 500."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "@odata.count": {
+                      "type": "integer",
+                      "description": "The total number of files that match the filter",
+                      "example": 2
+                    },
+                    "@odata.nextLink": {
+                      "type": "string",
+                      "description": "The URL of the next page. Only present when there are more files.",
+                      "example": "https://api.karbonhq.com/v3/WorkItems/3lHtWNMVcTVQ/Files?$filter=IsArchived eq false&$top=100&$skip=100"
+                    },
+                    "value": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/FileListItem"
+                      },
+                      "description": "The files on the Work Item",
+                      "example": [
+                        {
+                          "FileContextKey": "7hNbQ4xWzK2e",
+                          "Source": "WorkItem",
+                          "FileName": "BAS workpapers - March 2026.xlsx",
+                          "FileSize": 58944,
+                          "MimeType": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+                          "DownloadUrl": "/V3/Files?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJGaWxlQ29udGV4dFBlcm1hS2V5IjoiN2hOYlE0eFd6SzJlIiwiaWF0IjoxNzc1NzAwMzAwLjAsImV4cCI6MTc3NTcwMTIwMC4wfQ.Vb3kT8nQ1sWm6rYx0LpZ4cHd9JfA2gE7uK5oR-iNtXw",
+                          "DateCreated": "2026-04-09T01:12:35Z",
+                          "IsArchived": false,
+                          "IsShared": true,
+                          "FolderPath": "Working Papers"
+                        }
+                      ]
+                    }
+                  }
+                },
+                "example": {
+                  "@odata.count": 2,
+                  "value": [
+                    {
+                      "FileContextKey": "7hNbQ4xWzK2e",
+                      "Source": "WorkItem",
+                      "FileName": "BAS workpapers - March 2026.xlsx",
+                      "FileSize": 58944,
+                      "MimeType": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+                      "DownloadUrl": "/V3/Files?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJGaWxlQ29udGV4dFBlcm1hS2V5IjoiN2hOYlE0eFd6SzJlIiwiaWF0IjoxNzc1NzAwMzAwLjAsImV4cCI6MTc3NTcwMTIwMC4wfQ.Vb3kT8nQ1sWm6rYx0LpZ4cHd9JfA2gE7uK5oR-iNtXw",
+                      "DateCreated": "2026-04-09T01:12:35Z",
+                      "IsArchived": false,
+                      "IsShared": true,
+                      "FolderPath": "Working Papers"
+                    },
+                    {
+                      "FileContextKey": "2S3RNjkR66Ln",
+                      "Source": "WorkItem",
+                      "FileName": "Bank statement - March 2026.pdf",
+                      "FileSize": 248312,
+                      "MimeType": "application/pdf",
+                      "DownloadUrl": "/V3/Files?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJGaWxlQ29udGV4dFBlcm1hS2V5IjoiMlMzUk5qa1I2NkxuIiwiaWF0IjoxNzc1Njk4MjAwLjAsImV4cCI6MTc3NTY5OTEwMC4wfQ.Qm7xR2vKpL9sTn4wZ8cYhJ3dF6gA1eB5uN0iO-tMrXk",
+                      "DateCreated": "2026-04-08T22:47:10Z",
+                      "IsArchived": false,
+                      "IsShared": false,
+                      "FolderPath": null
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request: an unsupported query option, filter or sort was used.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorMessages"
+                },
+                "examples": {
+                  "Unsupported Sort": {
+                    "value": {
+                      "error": {
+                        "code": "4002",
+                        "message": "Sorting on FileName is not supported. Only DateCreated can be sorted."
+                      }
+                    }
+                  },
+                  "Unsupported Filter Property": {
+                    "$ref": "#/components/examples/Unsupported_Property_Filter"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResourceNotFound"
+                },
+                "examples": {
+                  "Unauthorized Access": {
+                    "$ref": "#/components/examples/UnauthorizedAccess"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found: no Work Item exists for the key provided.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorMessages"
+                },
+                "examples": {
+                  "Work Item Key Not Found": {
+                    "$ref": "#/components/examples/WorkItem_Key_Not_Found_404"
+                  }
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Rate Limit Exceeded",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RateLimitErrorMessage"
+                },
+                "examples": {
+                  "Rate Limit Exceeded": {
+                    "$ref": "#/components/examples/Rate_Limit_Exceeded"
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorMessages"
+                },
+                "examples": {
                   "Undefined Error": {
                     "$ref": "#/components/examples/elongated_5001"
                   }
@@ -20399,6 +21056,35 @@
               }
             ]
           }
+        }
+      },
+      "WorkItemFolder": {
+        "description": "A folder on a Work Item",
+        "type": "object",
+        "properties": {
+          "Name": {
+            "type": "string",
+            "description": "The folder's name",
+            "example": "Monthly Reports",
+            "readOnly": true
+          },
+          "Parent": {
+            "type": ["string", "null"],
+            "description": "The `Path` of the parent folder, or `null` for a top-level folder",
+            "example": "Final",
+            "readOnly": true
+          },
+          "Path": {
+            "type": "string",
+            "description": "Identifies the folder: the folder names from the top-level folder down, joined with `/`",
+            "example": "Final/Monthly Reports",
+            "readOnly": true
+          }
+        },
+        "example": {
+          "Name": "Monthly Reports",
+          "Parent": "Final",
+          "Path": "Final/Monthly Reports"
         }
       }
     },
