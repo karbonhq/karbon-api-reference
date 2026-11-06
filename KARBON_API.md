@@ -267,7 +267,7 @@ Accepted format differs by where the value is used:
   "ResourcePermaKey": "{EntityKey}",
   "ResourceType": "{EntityType}",
   "ActionType": "{ActionType}",
-  "TimeStamp": "YYYY-MM-DDTHH:mm:ssZ"
+  "Timestamp": "YYYY-MM-DDTHH:mm:ssZ"
 }
 ```
 
@@ -571,7 +571,7 @@ Only one subscription per `WebhookType` is allowed. If one already exists, delet
   "ResourcePermaKey": "{InvoiceKey}",
   "ResourceType": "Invoice",
   "ActionType": "Updated",
-  "TimeStamp": "2025-07-01T10:00:00Z"
+  "Timestamp": "2025-07-01T10:00:00Z"
 }
 ```
 
