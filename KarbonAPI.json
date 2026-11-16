@@ -3198,6 +3198,219 @@
         }
       }
     },
+    "/v3/ClientGroups/{ClientGroupkey}/Files": {
+      "get": {
+        "tags": ["Files"],
+        "operationId": "listClientGroupFiles",
+        "summary": "Lists the Files on a Client Group",
+        "description": "Use the `GET` method on this endpoint to list the files on a Client Group, newest first. Each file includes its `DownloadUrl`, so it can be downloaded without looking it up first. `FolderPath` is always `null`, because only Work Item files are kept in folders. Follow `@odata.nextLink` for the next page.",
+        "parameters": [
+          {
+            "required": true,
+            "in": "path",
+            "name": "ClientGroupkey",
+            "schema": {
+              "type": "string"
+            },
+            "example": "4t8LbR1QcbGS",
+            "description": "The Karbon-generated Client Group key"
+          },
+          {
+            "in": "query",
+            "name": "$filter",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Filter with `eq` on `IsArchived`, `IsShared`, `Source` and `MimeType`, combined with `and`.",
+            "examples": {
+              "notArchived": {
+                "value": "IsArchived eq false",
+                "summary": "Only files that have not been archived"
+              },
+              "pdfs": {
+                "value": "MimeType eq 'application/pdf' and IsShared eq true",
+                "summary": "Only PDFs shared with the client"
+              }
+            }
+          },
+          {
+            "in": "query",
+            "name": "$orderby",
+            "schema": {
+              "type": "string",
+              "enum": ["DateCreated", "DateCreated desc"],
+              "default": "DateCreated desc"
+            },
+            "example": "DateCreated",
+            "description": "Sort the files by upload date. Newest first when omitted."
+          },
+          {
+            "in": "query",
+            "name": "$skip",
+            "schema": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "example": 100,
+            "description": "Skip the first n files after filtering and sorting."
+          },
+          {
+            "in": "query",
+            "name": "$top",
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 500
+            },
+            "example": 100,
+            "description": "Limit the number of files returned, up to 500."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "@odata.count": {
+                      "type": "integer",
+                      "description": "The total number of files that match the filter",
+                      "example": 2
+                    },
+                    "@odata.nextLink": {
+                      "type": "string",
+                      "description": "The URL of the next page. Only present when there are more files.",
+                      "example": "https://api.karbonhq.com/v3/ClientGroups/4t8LbR1QcbGS/Files?$filter=IsArchived eq false&$top=100&$skip=100"
+                    },
+                    "value": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/FileListItem"
+                      },
+                      "description": "The files on the Client Group",
+                      "example": [
+                        {
+                          "FileContextKey": "3vKdY7pRz4Jm",
+                          "FileName": "Engagement letter 2026.pdf",
+                          "FileSize": 184320,
+                          "MimeType": "application/pdf",
+                          "DownloadUrl": "/V3/Files?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJGaWxlQ29udGV4dFBlcm1hS2V5IjoiN2hOYlE0eFd6SzJlIiwiaWF0IjoxNzc1NzAwMzAwLjAsImV4cCI6MTc3NTcwMTIwMC4wfQ.Vb3kT8nQ1sWm6rYx0LpZ4cHd9JfA2gE7uK5oR-iNtXw",
+                          "DateCreated": "2026-04-09T01:12:35Z",
+                          "IsArchived": false,
+                          "IsShared": true,
+                          "FolderPath": null
+                        }
+                      ]
+                    }
+                  }
+                },
+                "example": {
+                  "@odata.count": 1,
+                  "value": [
+                    {
+                      "FileContextKey": "3vKdY7pRz4Jm",
+                      "FileName": "Engagement letter 2026.pdf",
+                      "FileSize": 184320,
+                      "MimeType": "application/pdf",
+                      "DownloadUrl": "/V3/Files?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJGaWxlQ29udGV4dFBlcm1hS2V5IjoiN2hOYlE0eFd6SzJlIiwiaWF0IjoxNzc1NzAwMzAwLjAsImV4cCI6MTc3NTcwMTIwMC4wfQ.Vb3kT8nQ1sWm6rYx0LpZ4cHd9JfA2gE7uK5oR-iNtXw",
+                      "DateCreated": "2026-04-09T01:12:35Z",
+                      "IsArchived": false,
+                      "IsShared": true,
+                      "FolderPath": null
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request: an unsupported query option, filter or sort was used.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorMessages"
+                },
+                "examples": {
+                  "Unsupported Sort": {
+                    "value": {
+                      "error": {
+                        "code": "4002",
+                        "message": "Sorting on FileName is not supported. Only DateCreated can be sorted."
+                      }
+                    }
+                  },
+                  "Unsupported Filter Property": {
+                    "$ref": "#/components/examples/Unsupported_Property_Filter"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResourceNotFound"
+                },
+                "examples": {
+                  "Unauthorized Access": {
+                    "$ref": "#/components/examples/UnauthorizedAccess"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found: no Client Group exists for the key provided, or it is Private or Hidden from your application.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorMessages"
+                },
+                "examples": {
+                  "Key Not Found": {
+                    "$ref": "#/components/examples/Key_Not_Found"
+                  }
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Rate Limit Exceeded",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RateLimitErrorMessage"
+                },
+                "examples": {
+                  "Rate Limit Exceeded": {
+                    "$ref": "#/components/examples/Rate_Limit_Exceeded"
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorMessages"
+                },
+                "examples": {
+                  "Undefined Error": {
+                    "$ref": "#/components/examples/elongated_5001"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/v3/Comments('{Commentkey}')": {
       "get": {
         "tags": ["Comments"],
@@ -4808,6 +5021,221 @@
                 "PreferredName": "Danny",
                 "Salutation": "Dr",
                 "Suffix": "Jr."
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v3/Contacts/{Contactkey}/Files": {
+      "get": {
+        "tags": ["Files"],
+        "operationId": "listContactFiles",
+        "summary": "Lists the Files on a Contact",
+        "description": "Use the `GET` method on this endpoint to list the files on a Contact, newest first. Each file includes its `DownloadUrl`, so it can be downloaded without looking it up first. `FolderPath` is always `null`, because only Work Item files are kept in folders. Follow `@odata.nextLink` for the next page.",
+        "parameters": [
+          {
+            "required": true,
+            "in": "path",
+            "name": "Contactkey",
+            "schema": {
+              "type": "string"
+            },
+            "example": "4jgPTtcXxwC2",
+            "description": "The Karbon-generated Contact key"
+          },
+          {
+            "in": "query",
+            "name": "$filter",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Filter with `eq` on `IsArchived`, `IsShared`, `Source` and `MimeType`, combined with `and`.",
+            "examples": {
+              "notArchived": {
+                "value": "IsArchived eq false",
+                "summary": "Only files that have not been archived"
+              },
+              "pdfs": {
+                "value": "MimeType eq 'application/pdf' and IsShared eq true",
+                "summary": "Only PDFs shared with the client"
+              }
+            }
+          },
+          {
+            "in": "query",
+            "name": "$orderby",
+            "schema": {
+              "type": "string",
+              "enum": ["DateCreated", "DateCreated desc"],
+              "default": "DateCreated desc"
+            },
+            "example": "DateCreated",
+            "description": "Sort the files by upload date. Newest first when omitted."
+          },
+          {
+            "in": "query",
+            "name": "$skip",
+            "schema": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "example": 100,
+            "description": "Skip the first n files after filtering and sorting."
+          },
+          {
+            "in": "query",
+            "name": "$top",
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 500
+            },
+            "example": 100,
+            "description": "Limit the number of files returned, up to 500."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "@odata.count": {
+                      "type": "integer",
+                      "description": "The total number of files that match the filter",
+                      "example": 2
+                    },
+                    "@odata.nextLink": {
+                      "type": "string",
+                      "description": "The URL of the next page. Only present when there are more files.",
+                      "example": "https://api.karbonhq.com/v3/Contacts/4jgPTtcXxwC2/Files?$filter=IsArchived eq false&$top=100&$skip=100"
+                    },
+                    "value": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/FileListItem"
+                      },
+                      "description": "The files on the Contact",
+                      "example": [
+                        {
+                          "FileContextKey": "9pLwR3nVt6Ks",
+                          "Source": "Contact",
+                          "FileName": "Engagement letter 2026.pdf",
+                          "FileSize": 184320,
+                          "MimeType": "application/pdf",
+                          "DownloadUrl": "/V3/Files?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJGaWxlQ29udGV4dFBlcm1hS2V5IjoiN2hOYlE0eFd6SzJlIiwiaWF0IjoxNzc1NzAwMzAwLjAsImV4cCI6MTc3NTcwMTIwMC4wfQ.Vb3kT8nQ1sWm6rYx0LpZ4cHd9JfA2gE7uK5oR-iNtXw",
+                          "DateCreated": "2026-04-09T01:12:35Z",
+                          "IsArchived": false,
+                          "IsShared": true,
+                          "FolderPath": null
+                        }
+                      ]
+                    }
+                  }
+                },
+                "example": {
+                  "@odata.count": 1,
+                  "value": [
+                    {
+                      "FileContextKey": "9pLwR3nVt6Ks",
+                      "Source": "Contact",
+                      "FileName": "Engagement letter 2026.pdf",
+                      "FileSize": 184320,
+                      "MimeType": "application/pdf",
+                      "DownloadUrl": "/V3/Files?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJGaWxlQ29udGV4dFBlcm1hS2V5IjoiN2hOYlE0eFd6SzJlIiwiaWF0IjoxNzc1NzAwMzAwLjAsImV4cCI6MTc3NTcwMTIwMC4wfQ.Vb3kT8nQ1sWm6rYx0LpZ4cHd9JfA2gE7uK5oR-iNtXw",
+                      "DateCreated": "2026-04-09T01:12:35Z",
+                      "IsArchived": false,
+                      "IsShared": true,
+                      "FolderPath": null
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request: an unsupported query option, filter or sort was used.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorMessages"
+                },
+                "examples": {
+                  "Unsupported Sort": {
+                    "value": {
+                      "error": {
+                        "code": "4002",
+                        "message": "Sorting on FileName is not supported. Only DateCreated can be sorted."
+                      }
+                    }
+                  },
+                  "Unsupported Filter Property": {
+                    "$ref": "#/components/examples/Unsupported_Property_Filter"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResourceNotFound"
+                },
+                "examples": {
+                  "Unauthorized Access": {
+                    "$ref": "#/components/examples/UnauthorizedAccess"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found: no Contact exists for the key provided, or it is Private or Hidden from your application.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorMessages"
+                },
+                "examples": {
+                  "Key Not Found": {
+                    "$ref": "#/components/examples/ContactKey_Not_Found"
+                  }
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Rate Limit Exceeded",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RateLimitErrorMessage"
+                },
+                "examples": {
+                  "Rate Limit Exceeded": {
+                    "$ref": "#/components/examples/Rate_Limit_Exceeded"
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorMessages"
+                },
+                "examples": {
+                  "Undefined Error": {
+                    "$ref": "#/components/examples/elongated_5001"
+                  }
+                }
               }
             }
           }
@@ -9479,6 +9907,221 @@
         }
       }
     },
+    "/v3/Organizations/{Organizationkey}/Files": {
+      "get": {
+        "tags": ["Files"],
+        "operationId": "listOrganizationFiles",
+        "summary": "Lists the Files on a Organization",
+        "description": "Use the `GET` method on this endpoint to list the files on an Organization, newest first. Each file includes its `DownloadUrl`, so it can be downloaded without looking it up first. `FolderPath` is always `null`, because only Work Item files are kept in folders. Follow `@odata.nextLink` for the next page.",
+        "parameters": [
+          {
+            "name": "Organizationkey",
+            "in": "path",
+            "required": true,
+            "description": "The Karbon-generated Organization key",
+            "schema": {
+              "type": "string"
+            },
+            "example": "2Nw8tnxwQCVf"
+          },
+          {
+            "in": "query",
+            "name": "$filter",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Filter with `eq` on `IsArchived`, `IsShared`, `Source` and `MimeType`, combined with `and`.",
+            "examples": {
+              "notArchived": {
+                "value": "IsArchived eq false",
+                "summary": "Only files that have not been archived"
+              },
+              "pdfs": {
+                "value": "MimeType eq 'application/pdf' and IsShared eq true",
+                "summary": "Only PDFs shared with the client"
+              }
+            }
+          },
+          {
+            "in": "query",
+            "name": "$orderby",
+            "schema": {
+              "type": "string",
+              "enum": ["DateCreated", "DateCreated desc"],
+              "default": "DateCreated desc"
+            },
+            "example": "DateCreated",
+            "description": "Sort the files by upload date. Newest first when omitted."
+          },
+          {
+            "in": "query",
+            "name": "$skip",
+            "schema": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "example": 100,
+            "description": "Skip the first n files after filtering and sorting."
+          },
+          {
+            "in": "query",
+            "name": "$top",
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 500
+            },
+            "example": 100,
+            "description": "Limit the number of files returned, up to 500."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "@odata.count": {
+                      "type": "integer",
+                      "description": "The total number of files that match the filter",
+                      "example": 2
+                    },
+                    "@odata.nextLink": {
+                      "type": "string",
+                      "description": "The URL of the next page. Only present when there are more files.",
+                      "example": "https://api.karbonhq.com/v3/Organizations/2Nw8tnxwQCVf/Files?$filter=IsArchived eq false&$top=100&$skip=100"
+                    },
+                    "value": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/FileListItem"
+                      },
+                      "description": "The files on the Organization",
+                      "example": [
+                        {
+                          "FileContextKey": "5mQxT8bWc2Hn",
+                          "Source": "Organization",
+                          "FileName": "Engagement letter 2026.pdf",
+                          "FileSize": 184320,
+                          "MimeType": "application/pdf",
+                          "DownloadUrl": "/V3/Files?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJGaWxlQ29udGV4dFBlcm1hS2V5IjoiN2hOYlE0eFd6SzJlIiwiaWF0IjoxNzc1NzAwMzAwLjAsImV4cCI6MTc3NTcwMTIwMC4wfQ.Vb3kT8nQ1sWm6rYx0LpZ4cHd9JfA2gE7uK5oR-iNtXw",
+                          "DateCreated": "2026-04-09T01:12:35Z",
+                          "IsArchived": false,
+                          "IsShared": true,
+                          "FolderPath": null
+                        }
+                      ]
+                    }
+                  }
+                },
+                "example": {
+                  "@odata.count": 1,
+                  "value": [
+                    {
+                      "FileContextKey": "5mQxT8bWc2Hn",
+                      "Source": "Organization",
+                      "FileName": "Engagement letter 2026.pdf",
+                      "FileSize": 184320,
+                      "MimeType": "application/pdf",
+                      "DownloadUrl": "/V3/Files?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJGaWxlQ29udGV4dFBlcm1hS2V5IjoiN2hOYlE0eFd6SzJlIiwiaWF0IjoxNzc1NzAwMzAwLjAsImV4cCI6MTc3NTcwMTIwMC4wfQ.Vb3kT8nQ1sWm6rYx0LpZ4cHd9JfA2gE7uK5oR-iNtXw",
+                      "DateCreated": "2026-04-09T01:12:35Z",
+                      "IsArchived": false,
+                      "IsShared": true,
+                      "FolderPath": null
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request: an unsupported query option, filter or sort was used.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorMessages"
+                },
+                "examples": {
+                  "Unsupported Sort": {
+                    "value": {
+                      "error": {
+                        "code": "4002",
+                        "message": "Sorting on FileName is not supported. Only DateCreated can be sorted."
+                      }
+                    }
+                  },
+                  "Unsupported Filter Property": {
+                    "$ref": "#/components/examples/Unsupported_Property_Filter"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResourceNotFound"
+                },
+                "examples": {
+                  "Unauthorized Access": {
+                    "$ref": "#/components/examples/UnauthorizedAccess"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found: no Organization exists for the key provided, or it is Private or Hidden from your application.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorMessages"
+                },
+                "examples": {
+                  "Key Not Found": {
+                    "$ref": "#/components/examples/Organization_Key_Not_Found_404"
+                  }
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Rate Limit Exceeded",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RateLimitErrorMessage"
+                },
+                "examples": {
+                  "Rate Limit Exceeded": {
+                    "$ref": "#/components/examples/Rate_Limit_Exceeded"
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorMessages"
+                },
+                "examples": {
+                  "Undefined Error": {
+                    "$ref": "#/components/examples/elongated_5001"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/v3/Roles": {
       "get": {
         "tags": ["Users"],
@@ -11473,6 +12116,7 @@
                   "Id": "7mKdP2xWqR5n",
                   "Name": "Jessica Tse",
                   "EmailAddress": "jessica.tse@samplecompany.com",
+                  "Title": "Senior Accountant",
                   "BillableRate": 220.0,
                   "CapacityMinutesPerWeek": 2400,
                   "Permissions": ["User", "Invoicing"],
@@ -18978,6 +19622,11 @@
             "type": "string",
             "description": "The email address of the User",
             "example": "janet@example.com"
+          },
+          "Title": {
+            "type": "string",
+            "description": "The User's title, as set on their Karbon profile. An empty string when the User hasn't set one.",
+            "example": "Senior Accountant"
           },
           "BillableRate": {
             "format": "double",
