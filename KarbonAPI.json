@@ -2891,7 +2891,7 @@
             "description": "The Karbon-generated Client Group key"
           }
         ],
-        "description": "Use the `PUT` method on this endpoint to update full details of a Client Group specified using the `ClientGroupkey`.\n\nUsing the query parameter available to this endpoint, you can also update the Business Card details of the Client Group.\n",
+        "description": "Use the `PUT` method on this endpoint to update full details of a Client Group specified using the `ClientGroupkey`.\n\nUsing the query parameter available to this endpoint, you can also update the Business Card details of the Client Group.\n\n`PrimaryContact` must be one of the Client Group's members. When the request includes `Members` and leaves out the primary contact, the contact is removed from the Client Group and `PrimaryContact` is cleared.\n",
         "operationId": "putClientGroupByID",
         "responses": {
           "204": {
@@ -14203,7 +14203,7 @@
             "description": "The Karbon-generated Work Schedule key"
           }
         ],
-        "description": "Use the `PUT` method on this endpoint to update full details of a Work Schedule specified using the WorkSchedulekey.\n\n`RecurrenceFrequency`, `ScheduleStartDate`, `CreatedFromWorkItemKey`, `InitializeBeforeStartDateUnits` and `InitializeBeforeStartDateMultiple` cannot be changed after the Work Schedule is created: send their current values; any other values are ignored.\n\nReturns a `422` when the update would remove Work Items that have already been invoiced.",
+        "description": "Use the `PUT` method on this endpoint to update full details of a Work Schedule specified using the WorkSchedulekey.\n\n`RecurrenceFrequency`, `ScheduleStartDate`, `CreatedFromWorkItemKey`, `CustomFrequencyUnits` and `CustomFrequencyMultiple` cannot be changed after the Work Schedule is created: send their current values; any other values are ignored.\n\nLeaving out `InitializeBeforeStartDateUnits`, `InitializeBeforeStartDateMultiple`, `InitializeTasksBeforeStartDateUnits` or `InitializeTasksBeforeStartDateMultiple` keeps the Work Schedule's current value.\n\nReturns a `422` when the update would remove Work Items that have already been invoiced.",
         "operationId": "putWorkScheduleByID",
         "responses": {
           "204": {
